@@ -78,6 +78,17 @@
       background: var(--panel); border: 1px solid var(--border);
       border-radius: 10px; padding: 20px; transition: border-color .15s;
       display: flex; flex-direction: column; gap: 8px;
+      overflow: hidden;
+    }
+    .tool-thumb {
+      display: block; margin: -20px -20px 12px; height: 160px;
+      background: #050810 no-repeat center / cover;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .tool-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(10,14,26,0.75) 100%);
     }
     .tool:hover { border-color: var(--border-accent); }
     .tool.live { border-color: rgba(138,224,163,0.25); }
@@ -167,6 +178,7 @@
       <div class="tools">
 
         <div class="tool live">
+          <a class="tool-thumb" href="https://bullochman.github.io/lws-landing-planner-static/" target="_blank" rel="noopener" style="background-image:url('screenshots/landing-planner.png')" aria-label="Landing Planner screenshot"></a>
           <div class="tool-head">
             <span><span class="tool-name">Landing Planner</span><span class="tool-name-kr">랜딩 플래너</span></span>
             <span class="tool-status live">LIVE (client-only)</span>
@@ -176,6 +188,7 @@
         </div>
 
         <div class="tool live">
+          <a class="tool-thumb" href="https://bullochman.github.io/lws-heat-simulator-static/" target="_blank" rel="noopener" style="background-image:url('screenshots/heat-simulator.png')" aria-label="Heat Simulator screenshot"></a>
           <div class="tool-head">
             <span><span class="tool-name">Heat Simulator</span><span class="tool-name-kr">히트 시뮬레이터</span></span>
             <span class="tool-status live">LIVE (client-only)</span>
@@ -185,6 +198,7 @@
         </div>
 
         <div class="tool live">
+          <a class="tool-thumb" href="https://bullochman.github.io/lws-freeze-risk-static/" target="_blank" rel="noopener" style="background-image:url('screenshots/freeze-risk.png')" aria-label="Freeze Risk Dashboard screenshot"></a>
           <div class="tool-head">
             <span><span class="tool-name">Freeze-Risk Dashboard</span><span class="tool-name-kr">동결 위험 대시보드</span></span>
             <span class="tool-status live">LIVE (client-only)</span>
@@ -194,6 +208,7 @@
         </div>
 
         <div class="tool live">
+          <a class="tool-thumb" href="https://bullochman.github.io/lws-coal-burn-static/" target="_blank" rel="noopener" style="background-image:url('screenshots/coal-burn.png')" aria-label="Coal Burn Calculator screenshot"></a>
           <div class="tool-head">
             <span><span class="tool-name">Coal Burn Calculator</span><span class="tool-name-kr">석탄 소모 계산기</span></span>
             <span class="tool-status live">LIVE (client-only)</span>
@@ -203,6 +218,7 @@
         </div>
 
         <div class="tool live">
+          <a class="tool-thumb" href="https://bullochman.github.io/lws-city-capture-static/" target="_blank" rel="noopener" style="background-image:url('screenshots/city-capture.png')" aria-label="City Capture Planner screenshot"></a>
           <div class="tool-head">
             <span><span class="tool-name">City / Dig-Site Capture Planner</span><span class="tool-name-kr">도시/발굴지 점령</span></span>
             <span class="tool-status live">LIVE (client-only)</span>
@@ -212,6 +228,7 @@
         </div>
 
         <div class="tool live">
+          <a class="tool-thumb" href="https://bullochman.github.io/lws-season-timeline-static/" target="_blank" rel="noopener" style="background-image:url('screenshots/season-timeline.png')" aria-label="Season Timeline screenshot"></a>
           <div class="tool-head">
             <span><span class="tool-name">Season Timeline</span><span class="tool-name-kr">시즌 타임라인</span></span>
             <span class="tool-status live">LIVE (client-only)</span>
