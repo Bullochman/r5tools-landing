@@ -43,11 +43,20 @@
       font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600;
     }
     .lang-toggle {
-      background: transparent; border: 1px solid var(--border);
-      color: var(--text-dim); padding: 6px 14px; border-radius: 16px;
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 28px 6px 14px; border-radius: 16px;
       cursor: pointer; font-size: 12px;
+      font-family: inherit;
+      appearance: none; -webkit-appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--text-dim) 50%),
+                        linear-gradient(135deg, var(--text-dim) 50%, transparent 50%);
+      background-position: right 12px top 12px, right 8px top 12px;
+      background-size: 4px 4px, 4px 4px;
+      background-repeat: no-repeat;
     }
     .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-toggle:focus { outline: none; border-color: var(--accent); }
+    .lang-toggle option { background: var(--panel); color: var(--text); }
 
     .hero {
       text-align: center; padding: 48px 0 64px;
@@ -178,7 +187,15 @@
 
     <header class="top">
       <div class="brand" data-i18n="brand">R5TOOLS.IO — LWS SUITE</div>
-      <button class="lang-toggle" id="langToggle">한국어</button>
+      <select class="lang-toggle" id="langToggle" aria-label="Language">
+        <option value="en">EN — English</option>
+        <option value="ko">KO — 한국어</option>
+        <option value="es">ES — Español</option>
+        <option value="pt">PT — Português (BR)</option>
+        <option value="ja">JA — 日本語</option>
+        <option value="de">DE — Deutsch</option>
+        <option value="fr">FR — Français</option>
+      </select>
     </header>
 
     <div class="hero">
@@ -187,6 +204,7 @@
         A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. English and Korean from day one.
       </p>
       <span class="kr-note" data-i18n="krNote">🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.</span>
+      <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
     </div>
 
     <section>
@@ -535,6 +553,25 @@
     </section>
 
     <section>
+      <h2 data-i18n="secComingSoon">FLAGSHIP · COMING SOON</h2>
+      <div class="tools">
+        <div class="tool" style="border-color:rgba(201,169,97,0.35)">
+          <div class="tool-head">
+            <span><span class="tool-name">Roster Extractor</span><span class="tool-name-kr">로스터 추출기</span></span>
+            <span class="tool-status soon">SOON</span>
+          </div>
+          <p data-i18n="extractorBody">Upload your alliance member-list screen recording (iPhone .mov / Android .mp4) — Claude vision reads every player row automatically. Get a ready-to-use CSV + JSON in ~2 minutes. Plug into every other LWS tool without retyping 100 names.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11px;color:var(--text-mute);margin-top:4px">
+            <span style="padding:2px 8px;background:rgba(201,169,97,0.10);border:1px solid var(--border-accent);border-radius:10px">~$0.45 per 3-min video</span>
+            <span style="padding:2px 8px;background:rgba(201,169,97,0.10);border:1px solid var(--border-accent);border-radius:10px">Claude Sonnet 4.6 vision</span>
+            <span style="padding:2px 8px;background:rgba(201,169,97,0.10);border:1px solid var(--border-accent);border-radius:10px">Editable review step</span>
+          </div>
+          <a class="tool-cta disabled" data-i18n="ctaSoon">Coming soon</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <h2 data-i18n="secPhilosophy">HOW THIS SUITE IS DIFFERENT</h2>
       <div class="bullets">
         <div class="bullet" data-i18n="phil1"><strong>KB-driven.</strong> Every mechanic, temperature, formula, and timing comes from an internal Last War: Survival knowledge base with cited sources. Nothing invented.</div>
@@ -558,7 +595,7 @@
       en: {
         brand: 'R5TOOLS.IO — LWS SUITE',
         heroTitle: 'The <span class="accent">Last War</span> alliance toolkit for R5s who plan ahead.',
-        heroBody: 'A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. English and Korean from day one.',
+        heroBody: 'A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. Available in 7 languages.',
         krNote: '🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.',
         secLive: 'LIVE',
         secS2: 'SEASON 2 TOOLS · LIVE (client-only)',
@@ -571,7 +608,7 @@
         cityBody: 'Which of the 6 cities + 4 dig-sites to prioritize, factoring the +5 → +60 °C temperature bonus curve and the 36-hour post-capture protection window. Two captures per day; plan them.',
         timelineBody: 'T-minus countdown to Season 2 launch + alliance-wide prep checklist. Ticks per-member, exports to Discord as PNG, dumps to iCal for personal calendars.',
         phil1: '<strong>KB-driven.</strong> Every mechanic, temperature, formula, and timing comes from an internal Last War: Survival knowledge base with cited sources. Nothing invented.',
-        phil2: '<strong>Korean-first.</strong> Every tool ships with a 한국어 toggle from day one. The KR alliance market is the primary audience.',
+        phil2: '<strong>Speaks your language.</strong> EN · KO · ES · PT · JA · DE · FR. Every tool ships with all 7 toggles from day one.',
         phil3: '<strong>Discord-shareable.</strong> Every tool exports its state as a dark-theme PNG sized for Discord — drop into #alliance-general, everyone sees it.',
         phil4: '<strong>One unlock, whole suite.</strong> A single Alliance Access Code unlocks every tool for 90 days on your device. No accounts. No emails. Warzone 2007 is free.',
         phil5: '<strong>Runs anywhere.</strong> Vanilla HTML + Python stdlib backends. Self-host on Railway, run locally, no build step.',
@@ -579,7 +616,6 @@
         footerNote: 'Last War: Survival is a First Fun / Century Games product. This site is fan-made and unaffiliated.',
         footerContact: 'Contact',
         ctaSoon: 'Coming soon',
-        langToggle: '한국어',
         secS2Viz: 'SEASON 2 AT A GLANCE · POLAR STORM',
         s2VizBlurb: 'The four diagrams every R5 needs on Day 1 of Season 2 — memorize these and you\'re ahead of most warzones.',
         vizThermalTitle: 'Thermal Map — 7 concentric bands',
@@ -598,7 +634,7 @@
       ko: {
         brand: 'R5TOOLS.IO — LWS 스위트',
         heroTitle: '미리 준비하는 R5를 위한 <span class="accent">라스트워</span> 얼라이언스 툴킷.',
-        heroBody: '<em>라스트워: 서바이벌</em> 연맹을 위한 작고 집중된 계획 도구 모음. 시즌 2 시작 전 착륙 좌표 조정, 동결 위험 모델링, 4주차 블리자드용 석탄 예산 계획, 하이브 대형 설계, 도시 점령 우선순위 결정. R5가 R5를 위해 만든 도구. 첫날부터 영어와 한국어 지원.',
+        heroBody: '<em>라스트워: 서바이벌</em> 연맹을 위한 작고 집중된 계획 도구 모음. 시즌 2 시작 전 착륙 좌표 조정, 동결 위험 모델링, 4주차 블리자드용 석탄 예산 계획, 하이브 대형 설계, 도시 점령 우선순위 결정. R5가 R5를 위해 만든 도구. 7개 언어 지원.',
         krNote: '🇰🇷 워존 2007 멤버는 무료 잠금 해제 코드를 받을 수 있습니다. R5에게 문의하세요.',
         secLive: '라이브',
         secS2: '시즌 2 도구 · 스캐폴드 라이브',
@@ -611,7 +647,7 @@
         cityBody: '6개 도시 + 4개 발굴지 중 어느 것을 우선순위로 할지, +5 → +60 °C 온도 보너스 곡선과 36시간 점령 후 보호 기간을 고려. 하루 2회 점령; 계획을 세우세요.',
         timelineBody: '시즌 2 시작까지의 카운트다운 + 연맹 전체 준비 체크리스트. 멤버별 체크, 디스코드로 PNG 익스포트, 개인 캘린더용 iCal 덤프.',
         phil1: '<strong>지식 베이스 기반.</strong> 모든 메커니즘, 온도, 공식, 타이밍이 인용된 소스가 있는 내부 라스트워: 서바이벌 지식 베이스에서 나옵니다. 어떤 것도 발명하지 않았습니다.',
-        phil2: '<strong>한국어 우선.</strong> 모든 도구가 첫날부터 한국어 토글로 출시됩니다. 한국 연맹 시장이 주요 대상입니다.',
+        phil2: '<strong>당신의 언어로.</strong> EN · KO · ES · PT · JA · DE · FR. 모든 도구가 첫날부터 7개 언어 토글로 출시됩니다.',
         phil3: '<strong>디스코드 공유 가능.</strong> 모든 도구가 상태를 디스코드 크기의 다크 테마 PNG로 익스포트 — #alliance-general에 드롭하면 모두가 볼 수 있습니다.',
         phil4: '<strong>하나의 잠금 해제, 전체 스위트.</strong> 단일 얼라이언스 액세스 코드로 기기에서 90일 동안 모든 도구를 잠금 해제. 계정 없음. 이메일 없음. 워존 2007은 무료.',
         phil5: '<strong>어디서나 실행.</strong> 바닐라 HTML + Python 표준 라이브러리 백엔드. Railway에서 셀프 호스팅, 로컬에서 실행, 빌드 단계 없음.',
@@ -619,7 +655,6 @@
         footerNote: '라스트워: 서바이벌은 First Fun / Century Games 제품입니다. 이 사이트는 팬 제작이며 비공식입니다.',
         footerContact: '연락처',
         ctaSoon: '곧 출시',
-        langToggle: 'EN',
         secS2Viz: '한눈에 보는 시즌 2 · 극지 폭풍',
         s2VizBlurb: '시즌 2 첫날 모든 R5가 알아야 할 4개의 다이어그램 — 이것을 외우면 대부분의 워존보다 앞서갑니다.',
         vizThermalTitle: '열지도 — 7개 동심 온도대',
@@ -635,22 +670,239 @@
         vizTimelineKr: '',
         vizTimelineCap: '<strong>4주차</strong>가 전환점입니다 — -70°C 블리자드가 첫 희귀 흙 전쟁 라운드와 동시에 시작됩니다. 그때까지 연맹이 석탄을 비축하고 20 스쿼드 퍼니스 보강 로스터를 조립하지 않았다면 수도를 잃게 됩니다. 7-8주차는 글래시라돈 보스 추격과 캐피톨의 뉴클리어 퍼니스 공성으로 격화됩니다.',
       },
+      es: {
+        brand: 'R5TOOLS.IO — SUITE LWS',
+        heroTitle: 'El kit de herramientas de alianza de <span class="accent">Last War</span> para R5s que planifican con anticipación.',
+        heroBody: 'Un conjunto de herramientas de planificación pequeñas y enfocadas para alianzas de <em>Last War: Survival</em>. Coordina aterrizajes antes de que abra Temporada 2, modela riesgo de congelación, presupuesta carbón para la ventisca de la Semana 4, planifica formaciones de colmena, prioriza capturas de ciudades. Hecho por un R5, para R5s. Disponible en 7 idiomas.',
+        krNote: '🇰🇷 Los miembros de Warzone 2007 reciben un código de desbloqueo gratis. Pregunta a tu R5.',
+        secLive: 'EN VIVO',
+        secS2: 'HERRAMIENTAS DE TEMPORADA 2 · EN VIVO (solo cliente)',
+        secPhilosophy: 'POR QUÉ ESTA SUITE ES DIFERENTE',
+        hivePlannerBody: 'Planificador de formaciones Guardia del Mariscal 3×3 y Fortaleza Militar 21×21. Arrastrar y soltar, algoritmo de anillos con anclaje en esquinas, importación CSV, exportación PNG para Discord.',
+        landingBody: 'El R5 elige una coordenada ancla del Día 1; la herramienta asigna a cada miembro una casilla de aterrizaje considerando nivel de CG, ubicación de líder de rally y cobertura de la zona cálida del Horno de Alianza. La herramienta que nadie quiere abrir, hasta el Día 1.',
+        heatBody: 'Superpone las 7 bandas concéntricas de temperatura (-15 → -80 °C) sobre el territorio de tu alianza. Traza las zonas cálidas del Horno de Alianza. Marca bases en riesgo de un vistazo. Modo ventisca para planificar Semanas 3/4.',
+        freezeBody: 'Panel de riesgo en vivo por miembro — "Congelado en 3 min", "Desplegar horno necesario", "Carbón bajo 12h". El driver diario del R5 en Temporada 2.',
+        coalBody: 'Cuánto Carbón necesita cada miembro para mantener su Horno de Alto Calor en Sobremarcha durante la ventisca de -70 °C de la Semana 4. Pega el roster, obtén una cuadrícula verde/amarillo/rojo, comparte las solicitudes de ayuda de alianza como bloque formateado.',
+        cityBody: 'Cuál de las 6 ciudades + 4 sitios de excavación priorizar, considerando la curva de bonificación de temperatura +5 → +60 °C y la ventana de protección post-captura de 36 horas. Dos capturas por día; planifícalas.',
+        timelineBody: 'Cuenta regresiva al lanzamiento de Temporada 2 + checklist de preparación de toda la alianza. Marcas por miembro, exporta a Discord como PNG, vuelca a iCal para calendarios personales.',
+        phil1: '<strong>Basado en KB.</strong> Cada mecánica, temperatura, fórmula y timing viene de una base de conocimiento interna de Last War: Survival con fuentes citadas. Nada inventado.',
+        phil2: '<strong>Habla tu idioma.</strong> EN · KO · ES · PT · JA · DE · FR. Cada herramienta se lanza con los 7 selectores desde el día uno.',
+        phil3: '<strong>Compartible en Discord.</strong> Cada herramienta exporta su estado como PNG tema oscuro dimensionado para Discord — arrastra a #alliance-general, todos lo ven.',
+        phil4: '<strong>Un desbloqueo, toda la suite.</strong> Un único Código de Acceso de Alianza desbloquea cada herramienta por 90 días en tu dispositivo. Sin cuentas. Sin correos. Warzone 2007 es gratis.',
+        phil5: '<strong>Corre en cualquier lado.</strong> HTML puro + backends Python stdlib. Auto-hospeda en Railway, corre local, sin paso de compilación.',
+        phil6: '<strong>Hecho por un R5.</strong> Estas son las herramientas que hubiera querido tener mientras planificaba mi propia warzone.',
+        footerNote: 'Last War: Survival es un producto de First Fun / Century Games. Este sitio es hecho por fans y no está afiliado.',
+        footerContact: 'Contacto',
+        ctaSoon: 'Próximamente',
+        secS2Viz: 'TEMPORADA 2 DE UN VISTAZO · TORMENTA POLAR',
+        s2VizBlurb: 'Los cuatro diagramas que todo R5 necesita el Día 1 de Temporada 2 — memorízalos y estarás adelante de la mayoría de warzones.',
+        vizThermalTitle: 'Mapa Térmico — 7 bandas concéntricas',
+        vizThermalKr: '',
+        vizThermalCap: 'La temperatura de la base baja de <strong>-15°C</strong> en las esquinas a <strong>-80°C</strong> en el Capitolio. Cruza la línea de <strong>-20°C</strong> por 5 minutos y tu base se <strong>Congela</strong> — sin rally, sin teletransporte, sin reubicación. Los Hornos revierten la caída, apilándose aditivamente.',
+        vizMissileTitle: 'Misil del Señor de la Guerra · explosión 25×25 + dispersión',
+        vizMissileKr: '',
+        vizMissileCap: 'Al impacto, <strong>cada base dentro de la zona 25×25</strong> (excepto Señores de la Guerra) es teletransportada al azar — los defensores del horno se dispersan y deben reforzar bajo fuego. Intercepta durante la <strong>ventana de preparación de 3 minutos</strong> haciendo rally a la base revelada del Señor de la Guerra = enfriamiento de misil de 72h.',
+        vizMegahiveTitle: 'Megacolmena vs Colmena compacta · tiempo de regreso',
+        vizMegahiveKr: '',
+        vizMegahiveCap: 'El patrón <strong>megacolmena</strong> intercambia densidad defensiva por mayor <strong>tiempo de regreso</strong> — atacantes que pierden la pelea del horno tienen que marchar 3× más lejos para defender su propia base. Debilidades: enemigos se cuelan por huecos internos hacia mejores spawns.',
+        vizTimelineTitle: 'Temporada 2 · Cronología de 8 Semanas (Tormenta Polar)',
+        vizTimelineKr: '',
+        vizTimelineCap: 'La <strong>Semana 4</strong> es el pivote — la ventisca de -70°C abre al mismo tiempo que la primera ronda de Guerra de Suelo Raro. Si tu alianza no ha acumulado carbón Y ensamblado un roster de 20 escuadrones de refuerzo de horno para entonces, pierdes tu capital. Semanas 7-8 escalan a persecuciones de jefes Glacieradon y el asedio del Horno Nuclear en el Capitolio.',
+      },
+      pt: {
+        brand: 'R5TOOLS.IO — SUITE LWS',
+        heroTitle: 'O kit de aliança de <span class="accent">Last War</span> para R5s que planejam com antecedência.',
+        heroBody: 'Um conjunto de ferramentas de planejamento pequenas e focadas para alianças de <em>Last War: Survival</em>. Coordene pousos antes da Temporada 2 abrir, modele risco de congelamento, orce carvão para a nevasca da Semana 4, planeje formações de colmeia, priorize capturas de cidades. Feito por um R5, para R5s. Disponível em 7 idiomas.',
+        krNote: '🇰🇷 Membros da Warzone 2007 recebem um código de desbloqueio grátis. Pergunte ao seu R5.',
+        secLive: 'AO VIVO',
+        secS2: 'FERRAMENTAS DA TEMPORADA 2 · AO VIVO (só cliente)',
+        secPhilosophy: 'POR QUE ESTA SUITE É DIFERENTE',
+        hivePlannerBody: 'Planejador de formações Guarda do Marechal 3×3 e Fortaleza Militar 21×21. Arrastar e soltar, algoritmo de anéis ancorado nos cantos, importação CSV, exportação PNG para Discord.',
+        landingBody: 'R5 escolhe uma coordenada âncora do Dia 1; a ferramenta atribui a cada membro um tile de pouso considerando nível do QG, posicionamento de líder de rally e cobertura da zona quente da Fornalha da Aliança. A ferramenta que ninguém quer abrir, até o Dia 1.',
+        heatBody: 'Sobrepõe as 7 faixas concêntricas de temperatura (-15 → -80 °C) no território da sua aliança. Plota as zonas quentes da Fornalha da Aliança. Marca bases em risco à primeira vista. Modo nevasca para pré-planejamento das Semanas 3/4.',
+        freezeBody: 'Painel de risco ao vivo por membro — "Congelado em 3 min", "Fornalha precisa ser posicionada", "Carvão abaixo de 12h". O daily driver do R5 na Temporada 2.',
+        coalBody: 'Quanto Carvão cada membro precisa para manter sua Fornalha de Alta Temperatura em Sobrecarga durante a nevasca de -70 °C da Semana 4. Cole o roster, obtenha uma grade verde/amarelo/vermelho, compartilhe os pedidos de ajuda de aliança como bloco formatado.',
+        cityBody: 'Qual das 6 cidades + 4 sítios de escavação priorizar, considerando a curva de bônus de temperatura +5 → +60 °C e a janela de proteção pós-captura de 36 horas. Duas capturas por dia; planeje-as.',
+        timelineBody: 'Contagem regressiva para o lançamento da Temporada 2 + checklist de preparação de toda a aliança. Marca por membro, exporta para Discord como PNG, despeja para iCal em calendários pessoais.',
+        phil1: '<strong>Baseado em KB.</strong> Toda mecânica, temperatura, fórmula e timing vem de uma base de conhecimento interna de Last War: Survival com fontes citadas. Nada inventado.',
+        phil2: '<strong>Fala seu idioma.</strong> EN · KO · ES · PT · JA · DE · FR. Cada ferramenta é lançada com os 7 seletores desde o primeiro dia.',
+        phil3: '<strong>Compartilhável no Discord.</strong> Cada ferramenta exporta seu estado como PNG tema escuro dimensionado para Discord — solte no #alliance-general, todos veem.',
+        phil4: '<strong>Um desbloqueio, suite inteira.</strong> Um único Código de Acesso de Aliança desbloqueia cada ferramenta por 90 dias no seu dispositivo. Sem contas. Sem emails. Warzone 2007 é grátis.',
+        phil5: '<strong>Roda em qualquer lugar.</strong> HTML puro + backends Python stdlib. Auto-hospede no Railway, rode local, sem passo de build.',
+        phil6: '<strong>Feito por um R5.</strong> Essas são as ferramentas que eu queria ter ao planejar minha própria warzone.',
+        footerNote: 'Last War: Survival é um produto da First Fun / Century Games. Este site é feito por fãs e não é oficial.',
+        footerContact: 'Contato',
+        ctaSoon: 'Em breve',
+        secS2Viz: 'TEMPORADA 2 DE RELANCE · TEMPESTADE POLAR',
+        s2VizBlurb: 'Os quatro diagramas que todo R5 precisa no Dia 1 da Temporada 2 — memorize e estará à frente da maioria das warzones.',
+        vizThermalTitle: 'Mapa Térmico — 7 faixas concêntricas',
+        vizThermalKr: '',
+        vizThermalCap: 'A temperatura da base cai de <strong>-15°C</strong> nos cantos para <strong>-80°C</strong> no Capitólio. Cruze a linha de <strong>-20°C</strong> por 5 minutos e sua base <strong>Congela</strong> — sem rally, sem teletransporte, sem realocação. Fornalhas revertem a queda, empilhando aditivamente.',
+        vizMissileTitle: 'Míssil do Senhor da Guerra · explosão 25×25 + dispersão',
+        vizMissileKr: '',
+        vizMissileCap: 'No impacto, <strong>toda base dentro da zona 25×25</strong> (exceto Senhores da Guerra) é teletransportada aleatoriamente — defensores da fornalha se dispersam e devem reforçar sob fogo. Intercepte durante a <strong>janela de preparação de 3 minutos</strong> fazendo rally na base revelada do Senhor da Guerra = cooldown de míssil de 72h.',
+        vizMegahiveTitle: 'Megacolmeia vs Colmeia compacta · tempo de volta',
+        vizMegahiveKr: '',
+        vizMegahiveCap: 'O padrão <strong>megacolmeia</strong> troca densidade defensiva por maior <strong>tempo de volta</strong> — atacantes que perdem a luta pela fornalha têm que marchar 3× mais longe para defender sua própria base. Fraquezas: inimigos se infiltram nas lacunas internas para spawns premium.',
+        vizTimelineTitle: 'Temporada 2 · Cronograma de 8 Semanas (Tempestade Polar)',
+        vizTimelineKr: '',
+        vizTimelineCap: 'A <strong>Semana 4</strong> é o ponto de virada — a nevasca de -70°C abre junto com a primeira rodada da Guerra de Solo Raro. Se sua aliança não estocou carvão E montou um roster de 20 esquadrões de reforço de fornalha até lá, você perde sua capital. Semanas 7-8 escalam para caçadas ao chefe Glacieradon e o cerco da Fornalha Nuclear no Capitólio.',
+      },
+      ja: {
+        brand: 'R5TOOLS.IO — LWS スイート',
+        heroTitle: '先を読むR5のための<span class="accent">ラストウォー</span>同盟ツールキット。',
+        heroBody: '<em>ラストウォー・サバイバル</em>同盟のための小さく特化した計画ツール群。シーズン2開始前の着陸調整、凍結リスクのモデリング、第4週ブリザードの石炭予算、ハイブ陣形の計画、都市占領の優先度決定。R5がR5のために作成。7言語対応。',
+        krNote: '🇰🇷 ウォーゾーン2007のメンバーは無料アンロックコードを取得できます。R5に問い合わせてください。',
+        secLive: 'ライブ',
+        secS2: 'シーズン2ツール · ライブ (クライアントのみ)',
+        secPhilosophy: 'このスイートが違う理由',
+        hivePlannerBody: 'マーシャルガード3×3およびミリタリーストロングホールド21×21陣形プランナー。ドラッグ&ドロップ、コーナー基点リングアルゴリズム、CSVインポート、Discord用PNGエクスポート。',
+        landingBody: 'R5がDay-1のアンカー座標を選択すると、ツールがHQレベル、集結リーダー配置、同盟溶鉱炉の暖房ゾーンカバレッジを考慮して全メンバーに着陸タイルを割り当てます。Day 1までは誰も開きたくないツール。',
+        heatBody: '7つの同心温度帯（-15 → -80 °C）を同盟領土にオーバーレイ。同盟溶鉱炉の暖房ゾーンをプロット。危険な基地を一目でフラグ表示。第3週/第4週の事前計画用ブリザードモード。',
+        freezeBody: 'メンバーごとのライブリスクボード — 「3分で凍結」「溶鉱炉配置が必要」「石炭12時間以下」。R5のシーズン2デイリードライバー。',
+        coalBody: '第4週の-70 °Cブリザードを通して各メンバーがハイヒート溶鉱炉をオーバードライブに保つのに必要な石炭量。ロースターを貼り付け、緑/黄/赤のグリッドを取得、同盟支援リクエストをフォーマット済みブロックで共有。',
+        cityBody: '6都市 + 4発掘サイトのうちどれを優先するか、+5 → +60 °Cの温度ボーナスカーブと36時間の占領後保護ウィンドウを考慮。1日2回の占領を計画しましょう。',
+        timelineBody: 'シーズン2ローンチまでのカウントダウン + 同盟全体の準備チェックリスト。メンバーごとにチェック、DiscordにPNGでエクスポート、個人カレンダー用にiCalへダンプ。',
+        phil1: '<strong>KBベース。</strong> すべてのメカニクス、温度、公式、タイミングは、引用元付きの内部ラストウォー・サバイバルナレッジベースから来ています。何も発明していません。',
+        phil2: '<strong>あなたの言語で。</strong> EN · KO · ES · PT · JA · DE · FR。すべてのツールが初日から7言語トグル付きでリリースされます。',
+        phil3: '<strong>Discord共有可能。</strong> すべてのツールが状態をDiscordサイズのダークテーマPNGとしてエクスポート — #alliance-generalにドロップすれば全員が見えます。',
+        phil4: '<strong>1つのアンロック、スイート全体。</strong> 1つの同盟アクセスコードで、デバイス上で90日間すべてのツールをアンロック。アカウント不要。メール不要。ウォーゾーン2007は無料。',
+        phil5: '<strong>どこでも動作。</strong> バニラHTML + Python stdlibバックエンド。Railwayでセルフホスト、ローカルで実行、ビルドステップなし。',
+        phil6: '<strong>R5が作成。</strong> 自分自身のウォーゾーンを事前計画する際に欲しかったツールです。',
+        footerNote: 'ラストウォー・サバイバルはFirst Fun / Century Games製品です。このサイトはファンメイドで非公式です。',
+        footerContact: 'お問い合わせ',
+        ctaSoon: '近日公開',
+        secS2Viz: '一目でわかるシーズン2 · 極地嵐',
+        s2VizBlurb: 'シーズン2のDay 1にすべてのR5が必要とする4つの図表 — 覚えれば大半のウォーゾーンより先行できます。',
+        vizThermalTitle: '温度マップ — 7つの同心バンド',
+        vizThermalKr: '',
+        vizThermalCap: '基地温度は角の<strong>-15°C</strong>からキャピトルの<strong>-80°C</strong>まで下がります。<strong>-20°C</strong>ラインを5分間超えると基地は<strong>凍結</strong>します — 集結、テレポート、移転すべて不可。溶鉱炉は温度低下を反転させ、加算的に積み重なります。',
+        vizMissileTitle: 'ウォーロードミサイル · 25×25爆発 + 弾き飛ばし',
+        vizMissileKr: '',
+        vizMissileCap: '着弾時、<strong>25×25ゾーン内のすべての基地</strong>（ウォーロード除く）がランダムにテレポートされます — 溶鉱炉守備隊が散らばり、砲火下で再増援する必要があります。<strong>3分間の準備ウィンドウ</strong>中にウォーロードの露出した基地に集結して迎撃 = 72時間ミサイルクールダウン。',
+        vizMegahiveTitle: 'メガハイブ vs タイトハイブ · 帰還時間',
+        vizMegahiveKr: '',
+        vizMegahiveCap: '<strong>メガハイブ</strong>パターンは防御密度を犠牲にして<strong>帰還時間</strong>を延長します — 溶鉱炉戦に負けた攻撃側は自分の基地を守るために3倍遠くまで行軍しなければなりません。弱点：敵が内部の隙間に忍び込み、優良スポーンを奪います。',
+        vizTimelineTitle: 'シーズン2 · 8週間タイムライン（極地嵐）',
+        vizTimelineKr: '',
+        vizTimelineCap: '<strong>第4週</strong>が転換点です — -70°Cブリザードが第1回レアソイル戦争ラウンドと同時に開始されます。それまでに同盟が石炭を備蓄し、20部隊の溶鉱炉増援ロースターを組んでいなければ首都を失います。第7-8週はグレイシャドンボス追撃と首都でのニュークリア溶鉱炉包囲戦へと激化します。',
+      },
+      de: {
+        brand: 'R5TOOLS.IO — LWS-SUITE',
+        heroTitle: 'Das <span class="accent">Last War</span> Allianz-Toolkit für R5s, die vorausplanen.',
+        heroBody: 'Eine Sammlung kleiner, fokussierter Planungstools für <em>Last War: Survival</em>-Allianzen. Koordiniere Landungen vor Season 2, modelliere Einfrier-Risiken, budgetiere Kohle für den Woche-4-Blizzard, plane Bienenstock-Formationen, priorisiere Städte-Eroberungen. Von einem R5, für R5s. In 7 Sprachen verfügbar.',
+        krNote: '🇰🇷 Warzone-2007-Mitglieder erhalten einen kostenlosen Freischalt-Code. Frag deinen R5.',
+        secLive: 'LIVE',
+        secS2: 'SEASON-2-TOOLS · LIVE (nur Client)',
+        secPhilosophy: 'WAS DIESE SUITE ANDERS MACHT',
+        hivePlannerBody: 'Marshall\'s Guard 3×3 und Militärische Festung 21×21 Formationsplaner. Drag-and-Drop, eckenverankerter Ring-Algorithmus, CSV-Import, PNG-Export für Discord.',
+        landingBody: 'R5 wählt eine Tag-1-Ankerkoordinate; das Tool weist jedem Mitglied eine Landefläche zu, basierend auf HQ-Level, Rally-Leader-Platzierung und Warmzonen-Abdeckung des Allianz-Ofens. Das Tool, das niemand öffnen will, bis Tag 1.',
+        heatBody: 'Legt die 7 konzentrischen Temperaturbänder (-15 → -80 °C) über das Allianz-Territorium. Zeichnet die Warmzonen der Allianz-Öfen ein. Markiert gefährdete Basen auf einen Blick. Blizzard-Modus für die Vorplanung von Woche 3 / Woche 4.',
+        freezeBody: 'Live-Risikoboard pro Mitglied — "In 3 Min. eingefroren", "Ofen muss ausgebracht werden", "Kohle unter 12h". Der tägliche Begleiter des R5 in Season 2.',
+        coalBody: 'Wie viel Kohle jedes Mitglied braucht, um seinen Hochhitze-Ofen während des -70 °C-Blizzards in Woche 4 im Overdrive zu halten. Kader einfügen, Grün/Gelb/Rot-Grid erhalten, Allianz-Hilfe-Anfragen als formatierten Block teilen.',
+        cityBody: 'Welche der 6 Städte + 4 Grabungsstätten priorisiert werden sollen, unter Berücksichtigung der +5 → +60 °C-Temperaturbonuskurve und des 36-Stunden-Schutzfensters nach Eroberung. Zwei Eroberungen pro Tag; plane sie.',
+        timelineBody: 'T-minus-Countdown bis zum Season-2-Start + allianzweite Vorbereitungs-Checkliste. Häkchen pro Mitglied, Discord-Export als PNG, iCal-Dump für persönliche Kalender.',
+        phil1: '<strong>KB-basiert.</strong> Jede Mechanik, Temperatur, Formel und jedes Timing stammt aus einer internen Last War: Survival-Wissensdatenbank mit zitierten Quellen. Nichts erfunden.',
+        phil2: '<strong>Spricht deine Sprache.</strong> EN · KO · ES · PT · JA · DE · FR. Jedes Tool erscheint von Tag eins an mit allen 7 Umschaltern.',
+        phil3: '<strong>Discord-teilbar.</strong> Jedes Tool exportiert seinen Zustand als Discord-formatiertes Dark-Theme-PNG — ab in #alliance-general, jeder sieht es.',
+        phil4: '<strong>Ein Freischalt-Code, ganze Suite.</strong> Ein einziger Allianz-Zugangscode schaltet alle Tools für 90 Tage auf deinem Gerät frei. Keine Accounts. Keine E-Mails. Warzone 2007 ist kostenlos.',
+        phil5: '<strong>Läuft überall.</strong> Reines HTML + Python-stdlib-Backends. Self-Hosting auf Railway, lokaler Betrieb, kein Build-Schritt.',
+        phil6: '<strong>Von einem R5 gebaut.</strong> Das sind die Tools, die ich mir bei der Vorplanung meiner eigenen Warzone gewünscht hätte.',
+        footerNote: 'Last War: Survival ist ein Produkt von First Fun / Century Games. Diese Seite ist von Fans gemacht und nicht offiziell.',
+        footerContact: 'Kontakt',
+        ctaSoon: 'Demnächst',
+        secS2Viz: 'SEASON 2 AUF EINEN BLICK · POLARSTURM',
+        s2VizBlurb: 'Die vier Diagramme, die jeder R5 an Tag 1 von Season 2 braucht — merk dir diese, und du bist den meisten Warzones voraus.',
+        vizThermalTitle: 'Thermokarte — 7 konzentrische Bänder',
+        vizThermalKr: '',
+        vizThermalCap: 'Die Basistemperatur fällt von <strong>-15°C</strong> an den Ecken auf <strong>-80°C</strong> am Kapitol. Überschreite die <strong>-20°C</strong>-Linie für 5 Minuten und deine Basis <strong>friert ein</strong> — keine Rallys, keine Teleports, keine Umsiedlungen. Öfen kehren den Abfall um und stapeln sich additiv.',
+        vizMissileTitle: 'Warlord-Rakete · 25×25-Detonation + Wegschleuderung',
+        vizMissileKr: '',
+        vizMissileCap: 'Beim Einschlag wird <strong>jede Basis innerhalb der 25×25-Zone</strong> (außer Warlords) zufällig wegteleportiert — Ofenverteidiger werden zerstreut und müssen unter Beschuss neu verstärken. Fange den Angriff im <strong>3-Minuten-Vorbereitungsfenster</strong> ab, indem du die enthüllte Warlord-Basis mit einer Rally angreifst = 72h Raketen-Cooldown.',
+        vizMegahiveTitle: 'Mega-Hive vs Enger Hive · Rückweg-Zeit',
+        vizMegahiveKr: '',
+        vizMegahiveCap: 'Das <strong>Mega-Hive</strong>-Muster tauscht Verteidigungsdichte gegen längere <strong>Rückweg-Zeit</strong> — Angreifer, die den Ofenkampf verlieren, müssen 3× weiter marschieren, um ihre eigene Basis zu verteidigen. Schwächen: Feinde schleichen sich durch innere Lücken zu Premium-Spawnplätzen.',
+        vizTimelineTitle: 'Season 2 · 8-Wochen-Timeline (Polarsturm)',
+        vizTimelineKr: '',
+        vizTimelineCap: 'Die <strong>Woche 4</strong> ist der Wendepunkt — der -70°C-Blizzard startet zeitgleich mit der ersten Rare-Soil-War-Runde. Wenn deine Allianz bis dahin keine Kohle gebunkert und keine 20-Squad-Ofenverstärkungsliste zusammengestellt hat, verlierst du deine Hauptstadt. Wochen 7-8 eskalieren zu Glacieradon-Bossjagden und der Nuklearofen-Belagerung am Kapitol.',
+      },
+      fr: {
+        brand: 'R5TOOLS.IO — SUITE LWS',
+        heroTitle: 'La boîte à outils d\'alliance <span class="accent">Last War</span> pour les R5 qui planifient à l\'avance.',
+        heroBody: 'Une suite d\'outils de planification petits et ciblés pour les alliances de <em>Last War: Survival</em>. Coordonnez les atterrissages avant l\'ouverture de la Saison 2, modélisez le risque de gel, budgétisez le charbon pour le blizzard de la Semaine 4, planifiez les formations de ruche, priorisez les captures de villes. Fait par un R5, pour les R5. Disponible en 7 langues.',
+        krNote: '🇰🇷 Les membres de Warzone 2007 obtiennent un code de déverrouillage gratuit. Demandez à votre R5.',
+        secLive: 'EN LIGNE',
+        secS2: 'OUTILS SAISON 2 · EN LIGNE (client uniquement)',
+        secPhilosophy: 'POURQUOI CETTE SUITE EST DIFFÉRENTE',
+        hivePlannerBody: 'Planificateur de formations Garde du Maréchal 3×3 et Forteresse Militaire 21×21. Glisser-déposer, algorithme d\'anneau ancré aux coins, importation CSV, exportation PNG pour Discord.',
+        landingBody: 'Le R5 choisit une coordonnée ancre du Jour 1 ; l\'outil attribue à chaque membre une tuile d\'atterrissage en tenant compte du niveau du QG, du placement des chefs de ralliement et de la couverture de la zone chaude du Fourneau d\'Alliance. L\'outil que personne ne veut ouvrir, jusqu\'au Jour 1.',
+        heatBody: 'Superpose les 7 bandes de température concentriques (-15 → -80 °C) sur le territoire de votre alliance. Trace les zones chaudes du Fourneau d\'Alliance. Signale les bases à risque en un coup d\'œil. Mode blizzard pour la pré-planification des Semaines 3/4.',
+        freezeBody: 'Tableau de risque en direct par membre — « Gelé dans 3 min », « Fourneau à déployer », « Charbon sous 12h ». L\'outil quotidien du R5 en Saison 2.',
+        coalBody: 'Combien de Charbon chaque membre a besoin pour maintenir son Fourneau Haute Chaleur en Surrégime pendant le blizzard -70 °C de la Semaine 4. Collez le roster, obtenez une grille vert/jaune/rouge, partagez les demandes d\'aide d\'alliance comme bloc formaté.',
+        cityBody: 'Laquelle des 6 villes + 4 sites de fouille prioriser, en tenant compte de la courbe de bonus de température +5 → +60 °C et de la fenêtre de protection post-capture de 36 heures. Deux captures par jour ; planifiez-les.',
+        timelineBody: 'Compte à rebours jusqu\'au lancement de la Saison 2 + checklist de préparation à l\'échelle de l\'alliance. Cases à cocher par membre, exportation Discord en PNG, extraction iCal pour calendriers personnels.',
+        phil1: '<strong>Basé sur KB.</strong> Chaque mécanique, température, formule et timing provient d\'une base de connaissances interne Last War: Survival avec sources citées. Rien d\'inventé.',
+        phil2: '<strong>Parle votre langue.</strong> EN · KO · ES · PT · JA · DE · FR. Chaque outil est livré avec les 7 sélecteurs dès le premier jour.',
+        phil3: '<strong>Partageable sur Discord.</strong> Chaque outil exporte son état en PNG thème sombre dimensionné pour Discord — déposez dans #alliance-general, tout le monde le voit.',
+        phil4: '<strong>Un déverrouillage, toute la suite.</strong> Un unique Code d\'Accès d\'Alliance déverrouille chaque outil pour 90 jours sur votre appareil. Pas de comptes. Pas d\'emails. Warzone 2007 est gratuit.',
+        phil5: '<strong>Fonctionne partout.</strong> HTML vanilla + backends Python stdlib. Auto-hébergement sur Railway, exécution locale, sans étape de build.',
+        phil6: '<strong>Fait par un R5.</strong> Ce sont les outils que j\'aurais aimé avoir en pré-planifiant ma propre warzone.',
+        footerNote: 'Last War: Survival est un produit First Fun / Century Games. Ce site est réalisé par des fans et n\'est pas affilié.',
+        footerContact: 'Contact',
+        ctaSoon: 'Bientôt',
+        secS2Viz: 'SAISON 2 EN UN CLIN D\'ŒIL · TEMPÊTE POLAIRE',
+        s2VizBlurb: 'Les quatre diagrammes dont chaque R5 a besoin au Jour 1 de la Saison 2 — mémorisez-les et vous serez en avance sur la plupart des warzones.',
+        vizThermalTitle: 'Carte Thermique — 7 bandes concentriques',
+        vizThermalKr: '',
+        vizThermalCap: 'La température de base chute de <strong>-15°C</strong> aux coins à <strong>-80°C</strong> au Capitole. Franchissez la ligne <strong>-20°C</strong> pendant 5 minutes et votre base <strong>Gèle</strong> — pas de ralliement, pas de téléportation, pas de relocalisation. Les Fourneaux inversent la chute, s\'empilant additivement.',
+        vizMissileTitle: 'Missile du Seigneur de Guerre · explosion 25×25 + dispersion',
+        vizMissileKr: '',
+        vizMissileCap: 'À l\'impact, <strong>chaque base dans la zone 25×25</strong> (sauf les Seigneurs de Guerre) est téléportée aléatoirement — les défenseurs du fourneau se dispersent et doivent renforcer sous le feu. Interceptez pendant la <strong>fenêtre de préparation de 3 minutes</strong> en ralliant la base révélée du Seigneur de Guerre = cooldown de missile de 72h.',
+        vizMegahiveTitle: 'Méga-ruche vs Ruche serrée · temps de retour',
+        vizMegahiveKr: '',
+        vizMegahiveCap: 'Le pattern <strong>méga-ruche</strong> échange la densité défensive contre un <strong>temps de retour</strong> plus long — les attaquants qui perdent le combat du fourneau doivent marcher 3× plus loin pour défendre leur propre base. Faiblesses : les ennemis se glissent dans les brèches intérieures vers les meilleurs spawns.',
+        vizTimelineTitle: 'Saison 2 · Chronologie 8 Semaines (Tempête Polaire)',
+        vizTimelineKr: '',
+        vizTimelineCap: 'La <strong>Semaine 4</strong> est le pivot — le blizzard -70°C s\'ouvre en même temps que la première manche de Guerre du Sol Rare. Si votre alliance n\'a pas stocké de charbon ET assemblé un roster de 20 escouades de renfort de fourneau d\'ici là, vous perdez votre capitale. Les Semaines 7-8 dégénèrent en chasses aux boss Glacieradon et au siège du Fourneau Nucléaire au Capitole.',
+      },
     };
 
-    var lang = (navigator.language || 'en').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+    var SUPPORTED = ['en','ko','es','pt','ja','de','fr'];
+    function detectLang() {
+      // ?lang=xx URL override (useful for direct shareable links)
+      var urlMatch = /[?&]lang=([a-z]{2})\b/i.exec(location.search);
+      if (urlMatch && SUPPORTED.indexOf(urlMatch[1].toLowerCase()) !== -1) return urlMatch[1].toLowerCase();
+      var raw = (navigator.language || 'en').toLowerCase();
+      // strip region: en-US → en, pt-BR → pt, zh-Hant → zh
+      var base = raw.split('-')[0];
+      if (SUPPORTED.indexOf(base) !== -1) return base;
+      // also check navigator.languages array for a supported fallback
+      if (navigator.languages && navigator.languages.length) {
+        for (var i = 0; i < navigator.languages.length; i++) {
+          var b = navigator.languages[i].toLowerCase().split('-')[0];
+          if (SUPPORTED.indexOf(b) !== -1) return b;
+        }
+      }
+      return 'en';
+    }
+    var lang = detectLang();
     function apply() {
       document.documentElement.lang = lang;
+      var dict = I18N[lang] || I18N.en;
       document.querySelectorAll('[data-i18n]').forEach(function (el) {
         var key = el.getAttribute('data-i18n');
-        if (I18N[lang][key]) el.innerHTML = I18N[lang][key];
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
       });
-      document.getElementById('langToggle').textContent = I18N[lang].langToggle;
+      var sel = document.getElementById('langToggle');
+      if (sel) sel.value = lang;
     }
-    document.getElementById('langToggle').addEventListener('click', function () {
-      lang = (lang === 'en') ? 'ko' : 'en';
+    document.getElementById('langToggle').addEventListener('change', function (e) {
+      lang = e.target.value;
       apply();
     });
     apply();
   </script>
+
+  <!-- LWS_Seasons warzone selector — reads local data/*.json, later CDN --><script src="seasons-lib.js" defer></script>
 </body>
 </html>

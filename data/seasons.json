@@ -1,0 +1,90 @@
+{
+  "$schema": "https://r5tools.io/schemas/seasons-v1.json",
+  "generated_at": "2026-07-15",
+  "notes": "Canonical season definitions for Last War: Survival. Each warzone runs its own timeline — see warzones.json for warzone→season lookup. Tools should read the WARZONE first, then look up the season config here.",
+
+  "seasons": {
+    "s1-crimson-plague": {
+      "id": "s1-crimson-plague",
+      "number": 1,
+      "name": {
+        "en": "Season 1: Crimson Plague",
+        "kr": "시즌 1: 크림슨 플레이그",
+        "es": "Temporada 1: Plaga Carmesí",
+        "pt": "Temporada 1: Praga Carmesim",
+        "ja": "シーズン1: クリムゾンプレイグ",
+        "de": "Staffel 1: Karmesin-Seuche",
+        "fr": "Saison 1: Peste Cramoisie"
+      },
+      "core_mechanic": "virus_stack",
+      "core_mechanic_summary_en": "Virus tokens stack across bases; higher stack = higher rewards but also higher siege target priority. Weekly Doomsday cycles reset the map.",
+      "duration_weeks": 8,
+      "map_type": "concentric_capitol",
+      "tools_that_apply": ["hive_planner", "roster_extractor", "season_timeline"],
+      "kb_article": "05-season-1-crimson-plague.md",
+      "status": "past_default",
+      "notes": "Legacy season. Most warzones have progressed past it — but late-merge warzones may still be running S1 for a few more cycles."
+    },
+
+    "s2-polar-storm": {
+      "id": "s2-polar-storm",
+      "number": 2,
+      "name": {
+        "en": "Season 2: Polar Storm",
+        "kr": "시즌 2: 극지 폭풍",
+        "es": "Temporada 2: Tormenta Polar",
+        "pt": "Temporada 2: Tempestade Polar",
+        "ja": "シーズン2: ポーラーストーム",
+        "de": "Staffel 2: Polarsturm",
+        "fr": "Saison 2: Tempête Polaire"
+      },
+      "core_mechanic": "thermal_freeze",
+      "core_mechanic_summary_en": "Concentric temperature bands (-15°C outer → -80°C Capitol). Base temp below -20°C for 5 min triggers Frozen state (disables rally/teleport/relocation). Furnaces reverse the drop and stack additively.",
+      "duration_weeks": 8,
+      "map_type": "concentric_thermal",
+      "temperature_bands_c": [-15, -30, -45, -50, -60, -70, -80],
+      "freeze_threshold_c": -20,
+      "freeze_duration_min": 5,
+      "tools_that_apply": ["hive_planner", "roster_extractor", "landing_planner", "heat_simulator", "freeze_risk", "coal_burn", "city_capture", "season_timeline"],
+      "kb_article": "06-season-2-frozen.md",
+      "status": "current_default",
+      "milestones": [
+        { "week": 1, "day": 1, "event": "landing", "label_en": "Landing", "label_kr": "착륙" },
+        { "week": 1, "day": 1, "event": "furnace_deploy", "label_en": "Alliance Furnace L1 deploy" },
+        { "week": 2, "day": 1, "event": "blizzard_w1_2", "label_en": "Blizzard -30°C", "severity": "warning" },
+        { "week": 3, "day": 1, "event": "blizzard_w3", "label_en": "Blizzard -50°C", "severity": "danger" },
+        { "week": 3, "day": 3, "event": "faction_awards", "label_en": "Faction Awards (Rebels vs Gendarmerie)" },
+        { "week": 3, "day": 5, "event": "grouping_teleport_unlocks", "label_en": "Free Grouping Teleport unlocks" },
+        { "week": 4, "day": 1, "event": "blizzard_w4", "label_en": "Blizzard -70°C (concurrent with RSW)", "severity": "critical" },
+        { "week": 4, "day": 1, "event": "rare_soil_war_opens", "label_en": "Rare Soil War opens (20% plunder)", "severity": "critical" },
+        { "week": 5, "day": 1, "event": "rsw_round", "label_en": "RSW round (Wed + Sat)" },
+        { "week": 6, "day": 1, "event": "rsw_round", "label_en": "RSW round (Wed + Sat)" },
+        { "week": 7, "day": 1, "event": "glacieradon_spawn", "label_en": "4 Glacieradon bosses spawn, march to Capitol" },
+        { "week": 8, "day": 1, "event": "nuclear_furnace_siege", "label_en": "Nuclear Furnace siege at Capitol", "severity": "critical" }
+      ]
+    },
+
+    "s3-tbd": {
+      "id": "s3-tbd",
+      "number": 3,
+      "name": {
+        "en": "Season 3: (TBD)",
+        "kr": "시즌 3: (미정)",
+        "es": "Temporada 3: (Por Determinar)",
+        "pt": "Temporada 3: (A definir)",
+        "ja": "シーズン3: (未定)",
+        "de": "Staffel 3: (TBD)",
+        "fr": "Saison 3: (À déterminer)"
+      },
+      "core_mechanic": "unknown",
+      "core_mechanic_summary_en": "Not yet publicly detailed as of 2026-07-15. Research workflow in flight to populate.",
+      "duration_weeks": null,
+      "map_type": "unknown",
+      "tools_that_apply": ["hive_planner", "roster_extractor", "season_timeline"],
+      "kb_article": "07-future-seasons.md",
+      "status": "upcoming",
+      "confidence": "no-data",
+      "milestones": []
+    }
+  }
+}
