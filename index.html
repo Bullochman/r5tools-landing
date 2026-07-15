@@ -117,6 +117,36 @@
     .tool-cta:hover { background: var(--accent-hover); }
     .tool-cta.disabled { background: transparent; color: var(--text-mute); border: 1px solid var(--border); cursor: default; }
 
+    /* --- Season 2 visualization diagrams --- */
+    .s2-viz {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin: 24px 0 8px;
+    }
+    .s2-diagram {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 16px 20px;
+      display: flex; flex-direction: column;
+    }
+    .s2-diagram h3 {
+      margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--text);
+      letter-spacing: -0.005em;
+    }
+    .s2-diagram .s2-kr { font-size: 11px; color: var(--text-mute); margin-bottom: 12px; }
+    .s2-diagram svg { width: 100%; height: auto; display: block; margin: 4px 0 12px; }
+    .s2-diagram .s2-caption {
+      font-size: 12px; color: var(--text-dim); line-height: 1.5;
+      border-top: 1px solid var(--border); padding-top: 10px; margin-top: auto;
+    }
+    .s2-diagram .s2-caption strong { color: var(--text); }
+    .s2-viz-full {
+      grid-column: 1 / -1;
+    }
+    .s2-viz-full svg { max-height: 240px; }
+
     .bullets {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 16px; margin: 24px 0 0;
@@ -158,6 +188,270 @@
       </p>
       <span class="kr-note" data-i18n="krNote">🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.</span>
     </div>
+
+    <section>
+      <h2 data-i18n="secS2Viz">SEASON 2 AT A GLANCE · POLAR STORM</h2>
+      <p style="color:var(--text-dim);font-size:14px;margin:-8px 0 8px;max-width:720px" data-i18n="s2VizBlurb">
+        The four diagrams every R5 needs on Day 1 of Season 2 — memorize these and you're ahead of most warzones.
+      </p>
+      <div class="s2-viz">
+
+        <!-- 1. Thermal Map ------------------------------------------------ -->
+        <div class="s2-diagram">
+          <h3 data-i18n="vizThermalTitle">Thermal Map — 7 concentric bands</h3>
+          <div class="s2-kr" data-i18n="vizThermalKr">열지도 · 7개 동심 온도대</div>
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vizThermalTitle">
+            <defs>
+              <radialGradient id="thermal" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#1a0522" />
+                <stop offset="15%" stop-color="#2a0a3a" />
+                <stop offset="30%" stop-color="#3b1160" />
+                <stop offset="45%" stop-color="#26235f" />
+                <stop offset="60%" stop-color="#1e3d6f" />
+                <stop offset="78%" stop-color="#2e6a8f" />
+                <stop offset="100%" stop-color="#4a9cbf" />
+              </radialGradient>
+            </defs>
+            <rect x="0" y="0" width="260" height="260" fill="url(#thermal)" rx="6"/>
+            <!-- Band rings (approximate) -->
+            <g fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="1" stroke-dasharray="2 3">
+              <circle cx="130" cy="130" r="20"/>
+              <circle cx="130" cy="130" r="42"/>
+              <circle cx="130" cy="130" r="64"/>
+              <circle cx="130" cy="130" r="86"/>
+              <circle cx="130" cy="130" r="108"/>
+              <circle cx="130" cy="130" r="126"/>
+            </g>
+            <!-- Capitol marker -->
+            <circle cx="130" cy="130" r="4" fill="#c9a961"/>
+            <text x="130" y="126" text-anchor="middle" fill="#f6e8b8" font-size="7" font-family="ui-monospace,monospace">CAPITOL</text>
+            <!-- Temperature labels along east ray -->
+            <g fill="#e6e8ee" font-size="9" font-family="ui-monospace,monospace">
+              <text x="152" y="133">-80°</text>
+              <text x="174" y="133">-65°</text>
+              <text x="196" y="133">-50°</text>
+              <text x="218" y="133">-35°</text>
+              <text x="238" y="133">-20°</text>
+            </g>
+            <!-- Freeze threshold ring -->
+            <circle cx="130" cy="130" r="108" fill="none" stroke="#e6cf7a" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.7"/>
+            <text x="130" y="26" text-anchor="middle" fill="#e6cf7a" font-size="9" font-family="ui-monospace,monospace">FREEZE ZONE · -20°C for 5 min</text>
+            <!-- Sample bases -->
+            <g fill="#8ae0a3">
+              <circle cx="70" cy="90" r="2"/>
+              <circle cx="60" cy="180" r="2"/>
+              <circle cx="200" cy="200" r="2"/>
+              <circle cx="190" cy="60" r="2"/>
+            </g>
+          </svg>
+          <div class="s2-caption" data-i18n="vizThermalCap">
+            Base temperature drops from <strong>-15°C</strong> at the corners to <strong>-80°C</strong> at the Capitol. Cross the <strong>-20°C</strong> line for 5 minutes and your base <strong>Freezes</strong> — no rally, no teleport, no relocation. Furnaces reverse the drop, additively stacking.
+          </div>
+        </div>
+
+        <!-- 2. Warlord Missile blast ------------------------------------- -->
+        <div class="s2-diagram">
+          <h3 data-i18n="vizMissileTitle">Warlord Missile · 25×25 blast + ping-away</h3>
+          <div class="s2-kr" data-i18n="vizMissileKr">군주 미사일 · 25×25 폭발 + 튕겨내기</div>
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vizMissileTitle">
+            <rect x="0" y="0" width="260" height="260" fill="#0a0e1a" rx="6"/>
+            <!-- 25x25 grid box -->
+            <rect x="60" y="60" width="140" height="140" fill="rgba(255,80,80,0.08)" stroke="#ff5050" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="130" y="52" text-anchor="middle" fill="#ff8080" font-size="9" font-family="ui-monospace,monospace">CONTAMINATED LAND · 25×25 · 1hr</text>
+            <!-- Alliance furnace -->
+            <rect x="122" y="122" width="16" height="16" fill="#c9a961" stroke="#f6e8b8" stroke-width="1"/>
+            <text x="130" y="146" text-anchor="middle" fill="#c9a961" font-size="7" font-family="ui-monospace,monospace">FURNACE</text>
+            <!-- 5-tile safe distance ring -->
+            <rect x="102" y="102" width="56" height="56" fill="none" stroke="#8ae0a3" stroke-width="1" stroke-dasharray="2 2"/>
+            <text x="130" y="98" text-anchor="middle" fill="#8ae0a3" font-size="7" font-family="ui-monospace,monospace">safe: 5 tiles</text>
+            <!-- Defender squads (pre-ping) -->
+            <g fill="#7aa8e0" stroke="#0a0e1a" stroke-width="0.5">
+              <circle cx="115" cy="115" r="3"/>
+              <circle cx="145" cy="115" r="3"/>
+              <circle cx="115" cy="145" r="3"/>
+              <circle cx="145" cy="145" r="3"/>
+              <circle cx="130" cy="108" r="3"/>
+              <circle cx="130" cy="152" r="3"/>
+            </g>
+            <!-- Ping-away arrows -->
+            <g stroke="#ff8080" stroke-width="1.2" fill="none" marker-end="url(#arr)">
+              <line x1="115" y1="115" x2="35" y2="45"/>
+              <line x1="145" y1="115" x2="225" y2="35"/>
+              <line x1="115" y1="145" x2="35" y2="220"/>
+              <line x1="145" y1="145" x2="230" y2="215"/>
+            </g>
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#ff8080"/>
+              </marker>
+            </defs>
+            <!-- Intercept window callout -->
+            <rect x="6" y="230" width="248" height="24" fill="rgba(201,169,97,0.14)" stroke="#c9a961" stroke-width="0.8" rx="3"/>
+            <text x="130" y="246" text-anchor="middle" fill="#f6e8b8" font-size="9" font-family="ui-monospace,monospace">3-min prep window · Warlord's base revealed · rally to cancel</text>
+          </svg>
+          <div class="s2-caption" data-i18n="vizMissileCap">
+            On impact, <strong>every base inside the 25×25 zone</strong> (except Warlords) is randomly teleported away — furnace defenders scatter and must re-reinforce under fire. Intercept during the <strong>3-minute prep window</strong> by rallying the Warlord's revealed base = 72h missile cooldown.
+          </div>
+        </div>
+
+        <!-- 3. Megahive layouts ----------------------------------------- -->
+        <div class="s2-diagram">
+          <h3 data-i18n="vizMegahiveTitle">Megahive vs Tight-hive · walk-back time</h3>
+          <div class="s2-kr" data-i18n="vizMegahiveKr">메가하이브 vs 밀집형</div>
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vizMegahiveTitle">
+            <rect x="0" y="0" width="260" height="260" fill="#0a0e1a" rx="6"/>
+            <!-- TIGHT HIVE (left half) -->
+            <g>
+              <text x="65" y="16" text-anchor="middle" fill="#7aa8e0" font-size="10" font-weight="600">TIGHT</text>
+              <text x="65" y="28" text-anchor="middle" fill="#7a8290" font-size="8">easy defense, easy walk-back</text>
+              <rect x="20" y="36" width="90" height="90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2 2"/>
+              <!-- clustered dots -->
+              <g fill="#8ae0a3">
+                <circle cx="45" cy="60" r="2"/><circle cx="55" cy="65" r="2"/><circle cx="65" cy="60" r="2"/>
+                <circle cx="75" cy="65" r="2"/><circle cx="85" cy="60" r="2"/>
+                <circle cx="45" cy="75" r="2"/><circle cx="55" cy="80" r="2"/><circle cx="65" cy="75" r="2"/>
+                <circle cx="75" cy="80" r="2"/><circle cx="85" cy="75" r="2"/>
+                <circle cx="55" cy="95" r="2"/><circle cx="65" cy="90" r="2"/><circle cx="75" cy="95" r="2"/>
+              </g>
+              <!-- furnace -->
+              <rect x="61" y="76" width="8" height="8" fill="#c9a961"/>
+              <!-- walk-back arrow (short) -->
+              <line x1="18" y1="112" x2="110" y2="112" stroke="#e6cf7a" stroke-width="1.2" marker-end="url(#arr2)"/>
+              <text x="65" y="122" text-anchor="middle" fill="#e6cf7a" font-size="8">~5 min walk</text>
+            </g>
+            <!-- MEGAHIVE (right half) -->
+            <g>
+              <text x="185" y="16" text-anchor="middle" fill="#c9a961" font-size="10" font-weight="600">MEGA</text>
+              <text x="185" y="28" text-anchor="middle" fill="#7a8290" font-size="8">spread wide, long walk-back</text>
+              <rect x="140" y="36" width="110" height="90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2 2"/>
+              <!-- spread dots -->
+              <g fill="#8ae0a3">
+                <circle cx="148" cy="45" r="2"/><circle cx="168" cy="50" r="2"/><circle cx="188" cy="42" r="2"/>
+                <circle cx="208" cy="52" r="2"/><circle cx="228" cy="45" r="2"/><circle cx="245" cy="55" r="2"/>
+                <circle cx="150" cy="70" r="2"/><circle cx="175" cy="72" r="2"/><circle cx="200" cy="68" r="2"/>
+                <circle cx="225" cy="75" r="2"/><circle cx="245" cy="72" r="2"/>
+                <circle cx="148" cy="98" r="2"/><circle cx="170" cy="102" r="2"/><circle cx="195" cy="97" r="2"/>
+                <circle cx="220" cy="100" r="2"/><circle cx="245" cy="95" r="2"/><circle cx="230" cy="118" r="2"/>
+              </g>
+              <!-- furnace center -->
+              <rect x="185" y="80" width="8" height="8" fill="#c9a961"/>
+              <!-- walk-back arrow (long) -->
+              <line x1="138" y1="140" x2="252" y2="140" stroke="#e6cf7a" stroke-width="1.2" marker-end="url(#arr2)"/>
+              <text x="195" y="150" text-anchor="middle" fill="#e6cf7a" font-size="8">~14 min walk (harder counter)</text>
+            </g>
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#e6cf7a"/>
+              </marker>
+            </defs>
+            <!-- Bottom rows: pros/cons -->
+            <line x1="0" y1="170" x2="260" y2="170" stroke="rgba(255,255,255,0.08)"/>
+            <g font-size="8" font-family="ui-monospace,monospace">
+              <text x="10" y="188" fill="#8ae0a3">✓ tight furnace radius reinforcements</text>
+              <text x="10" y="200" fill="#ff8080">✗ one missile catches whole hive</text>
+              <text x="10" y="212" fill="#8ae0a3">✓ simple to coordinate</text>
+              <text x="10" y="224" fill="#ff8080">✗ shorter walk = easy counter</text>
+              <text x="10" y="238" fill="#7a8290">Best for &lt;60 members</text>
+            </g>
+            <g font-size="8" font-family="ui-monospace,monospace">
+              <text x="138" y="188" fill="#8ae0a3">✓ long walk-back defends furnace</text>
+              <text x="138" y="200" fill="#8ae0a3">✓ missile hits fewer bases</text>
+              <text x="138" y="212" fill="#ff8080">✗ gaps invite sneaks</text>
+              <text x="138" y="224" fill="#ff8080">✗ needs disciplined 100+ alliance</text>
+              <text x="138" y="238" fill="#7a8290">Best for 90-100 members</text>
+            </g>
+          </svg>
+          <div class="s2-caption" data-i18n="vizMegahiveCap">
+            The <strong>megahive</strong> pattern trades defensive density for longer <strong>walk-back time</strong> — attackers who lose the furnace fight have to march 3× farther to defend their own home base. Weaknesses: enemies sneak into interior gaps for premium spawn spots.
+          </div>
+        </div>
+
+        <!-- 4. Season 2 Timeline ---------------------------------------- -->
+        <div class="s2-diagram s2-viz-full">
+          <h3 data-i18n="vizTimelineTitle">Season 2 · 8-Week Timeline (Polar Storm)</h3>
+          <div class="s2-kr" data-i18n="vizTimelineKr">시즌 2 · 8주 타임라인 (극지 폭풍)</div>
+          <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vizTimelineTitle">
+            <rect x="0" y="0" width="900" height="200" fill="#0a0e1a" rx="6"/>
+            <!-- Timeline axis -->
+            <line x1="40" y1="120" x2="860" y2="120" stroke="#c9a961" stroke-width="1.5"/>
+            <!-- Week tick marks (8 weeks) -->
+            <g stroke="#c9a961" stroke-width="1" fill="#c9a961" font-family="ui-monospace,monospace" font-size="10">
+              <g><line x1="40" y1="115" x2="40" y2="125"/><text x="40" y="140" text-anchor="middle">Wk 1</text></g>
+              <g><line x1="145" y1="115" x2="145" y2="125"/><text x="145" y="140" text-anchor="middle">Wk 2</text></g>
+              <g><line x1="248" y1="115" x2="248" y2="125"/><text x="248" y="140" text-anchor="middle">Wk 3</text></g>
+              <g><line x1="352" y1="115" x2="352" y2="125"/><text x="352" y="140" text-anchor="middle">Wk 4</text></g>
+              <g><line x1="455" y1="115" x2="455" y2="125"/><text x="455" y="140" text-anchor="middle">Wk 5</text></g>
+              <g><line x1="558" y1="115" x2="558" y2="125"/><text x="558" y="140" text-anchor="middle">Wk 6</text></g>
+              <g><line x1="662" y1="115" x2="662" y2="125"/><text x="662" y="140" text-anchor="middle">Wk 7</text></g>
+              <g><line x1="765" y1="115" x2="765" y2="125"/><text x="765" y="140" text-anchor="middle">Wk 8</text></g>
+              <g><line x1="860" y1="115" x2="860" y2="125"/><text x="860" y="140" text-anchor="middle">End</text></g>
+            </g>
+            <!-- Temperature severity band on top -->
+            <defs>
+              <linearGradient id="tempGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#4a9cbf"/>
+                <stop offset="25%" stop-color="#2e6a8f"/>
+                <stop offset="45%" stop-color="#3b1160"/>
+                <stop offset="55%" stop-color="#1a0522"/>
+                <stop offset="100%" stop-color="#000000"/>
+              </linearGradient>
+            </defs>
+            <rect x="40" y="70" width="820" height="14" fill="url(#tempGrad)" rx="2"/>
+            <text x="45" y="65" fill="#4a9cbf" font-size="9" font-family="ui-monospace,monospace">-30°C (Wk 1-2)</text>
+            <text x="240" y="65" fill="#3b1160" font-size="9" font-family="ui-monospace,monospace">-50°C (Wk 3)</text>
+            <text x="360" y="65" fill="#e6cf7a" font-size="9" font-family="ui-monospace,monospace">-70°C (Wk 4+ blizzard)</text>
+            <!-- Milestone bubbles above axis -->
+            <g font-family="ui-monospace,monospace" font-size="9">
+              <!-- Wk 1: Landing -->
+              <circle cx="60" cy="120" r="6" fill="#8ae0a3"/>
+              <line x1="60" y1="114" x2="60" y2="95" stroke="#8ae0a3"/>
+              <text x="60" y="90" text-anchor="middle" fill="#8ae0a3">LANDING</text>
+              <text x="60" y="102" text-anchor="middle" fill="#7a8290" font-size="7">Alliance Furnace L1</text>
+              <!-- Wk 3: Faction Awards + Group TP -->
+              <circle cx="248" cy="120" r="6" fill="#c9a961"/>
+              <line x1="248" y1="114" x2="248" y2="95" stroke="#c9a961"/>
+              <text x="248" y="90" text-anchor="middle" fill="#c9a961">FACTION AWARDS</text>
+              <text x="248" y="102" text-anchor="middle" fill="#7a8290" font-size="7">Rebels vs Gendarmerie · Group TP</text>
+              <!-- Wk 4: RSW opens + -70 blizzard -->
+              <circle cx="352" cy="120" r="7" fill="#ff8080"/>
+              <line x1="352" y1="113" x2="352" y2="90" stroke="#ff8080"/>
+              <text x="352" y="85" text-anchor="middle" fill="#ff8080" font-weight="600">RARE SOIL WAR OPENS</text>
+              <text x="352" y="97" text-anchor="middle" fill="#7a8290" font-size="7">-70° blizzard · 20% plunder</text>
+              <!-- Wk 5-6: RSW rounds -->
+              <line x1="455" y1="120" x2="662" y2="120" stroke="#ff8080" stroke-width="4" stroke-dasharray="4 2" opacity="0.6"/>
+              <text x="558" y="112" text-anchor="middle" fill="#ff8080" font-size="9">RSW rounds ×2/wk</text>
+              <!-- Wk 7: Glacieradon spawn -->
+              <circle cx="662" cy="120" r="6" fill="#e6cf7a"/>
+              <line x1="662" y1="114" x2="662" y2="95" stroke="#e6cf7a"/>
+              <text x="662" y="90" text-anchor="middle" fill="#e6cf7a">GLACIERADON</text>
+              <text x="662" y="102" text-anchor="middle" fill="#7a8290" font-size="7">4 bosses march to Capitol</text>
+              <!-- Wk 8: Nuclear Furnace -->
+              <circle cx="820" cy="120" r="7" fill="#ff5050"/>
+              <line x1="820" y1="113" x2="820" y2="90" stroke="#ff5050"/>
+              <text x="820" y="85" text-anchor="middle" fill="#ff5050" font-weight="600">NUCLEAR FURNACE</text>
+              <text x="820" y="97" text-anchor="middle" fill="#7a8290" font-size="7">Capitol siege · season end</text>
+            </g>
+            <!-- Bottom labels: what to do -->
+            <g font-family="ui-monospace,monospace" font-size="8" fill="#a8b0c0">
+              <text x="60" y="165" text-anchor="middle">Land · deploy furnace</text>
+              <text x="60" y="176" text-anchor="middle">Build coal stock</text>
+              <text x="248" y="165" text-anchor="middle">Vote faction</text>
+              <text x="248" y="176" text-anchor="middle">Free Group TP unlocks</text>
+              <text x="455" y="165" text-anchor="middle">Rally-lead RSW</text>
+              <text x="455" y="176" text-anchor="middle">Reinforce furnace ≥20 sq</text>
+              <text x="662" y="165" text-anchor="middle">Intercept bosses</text>
+              <text x="662" y="176" text-anchor="middle">City daily attempts</text>
+              <text x="820" y="165" text-anchor="middle">All-in on Capitol</text>
+              <text x="820" y="176" text-anchor="middle">Nuclear Furnace race</text>
+            </g>
+          </svg>
+          <div class="s2-caption" data-i18n="vizTimelineCap">
+            <strong>Week 4</strong> is the pivot — the -70°C blizzard opens concurrently with the first Rare Soil War round. If your alliance hasn't stockpiled coal AND assembled a 20-squad furnace reinforcement roster by then, you lose your capital. Weeks 7-8 escalate to Glacieradon boss chases and the Nuclear Furnace siege at the Capitol.
+          </div>
+        </div>
+
+      </div>
+    </section>
 
     <section>
       <h2 data-i18n="secLive">LIVE</h2>
