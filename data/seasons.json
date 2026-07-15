@@ -2,11 +2,14 @@
   "$schema": "https://r5tools.io/schemas/seasons-v1.json",
   "generated_at": "2026-07-15",
   "notes": "Canonical season definitions for Last War: Survival. Each warzone runs its own timeline — see warzones.json for warzone→season lookup. Tools should read the WARZONE first, then look up the season config here.",
+  "current": "s2-polar-storm",
+  "next": "s3-tbd",
 
   "seasons": {
     "s1-crimson-plague": {
       "id": "s1-crimson-plague",
       "number": 1,
+      "slug": "crimson-plague",
       "name": {
         "en": "Season 1: Crimson Plague",
         "kr": "시즌 1: 크림슨 플레이그",
@@ -17,18 +20,36 @@
         "fr": "Saison 1: Peste Cramoisie"
       },
       "core_mechanic": "virus_stack",
-      "core_mechanic_summary_en": "Virus tokens stack across bases; higher stack = higher rewards but also higher siege target priority. Weekly Doomsday cycles reset the map.",
+      "core_mechanic_summary": {
+        "en": "Virus tokens stack across bases; higher stack = higher rewards but also higher siege target priority. Weekly Doomsday cycles reset the map.",
+        "kr": "바이러스 토큰이 기지 전역에 쌓임. 스택이 높을수록 보상↑ 그러나 공성 우선순위도↑. 주간 둠스데이 사이클로 지도가 리셋됨."
+      },
       "duration_weeks": 8,
       "map_type": "concentric_capitol",
+      "start_date": null,
+      "end_date": null,
+      "status": "past",
+      "mechanics_config": {
+        "virus_stack_max": 10,
+        "doomsday_cycle_days": 7,
+        "cities_per_alliance": null,
+        "captures_per_day": null,
+        "protection_hours": null
+      },
       "tools_that_apply": ["hive_planner", "roster_extractor", "season_timeline"],
+      "milestones": [
+        { "week": 1, "day": 1, "event": "landing", "label": { "en": "Landing", "kr": "착륙" } },
+        { "week": 4, "day": 7, "event": "tesla_awakening", "label": { "en": "Tesla Awakening event", "kr": "테슬라 각성 이벤트" } },
+        { "week": 8, "day": 7, "event": "season_end", "label": { "en": "Doomsday final cycle", "kr": "둠스데이 최종 사이클" } }
+      ],
       "kb_article": "05-season-1-crimson-plague.md",
-      "status": "past_default",
       "notes": "Legacy season. Most warzones have progressed past it — but late-merge warzones may still be running S1 for a few more cycles."
     },
 
     "s2-polar-storm": {
       "id": "s2-polar-storm",
       "number": 2,
+      "slug": "polar-storm",
       "name": {
         "en": "Season 2: Polar Storm",
         "kr": "시즌 2: 극지 폭풍",
@@ -39,34 +60,83 @@
         "fr": "Saison 2: Tempête Polaire"
       },
       "core_mechanic": "thermal_freeze",
-      "core_mechanic_summary_en": "Concentric temperature bands (-15°C outer → -80°C Capitol). Base temp below -20°C for 5 min triggers Frozen state (disables rally/teleport/relocation). Furnaces reverse the drop and stack additively.",
+      "core_mechanic_summary": {
+        "en": "Concentric temperature bands (-15°C outer → -80°C Capitol). Base temp below -20°C for 5 min triggers Frozen state (disables rally/teleport/relocation). Furnaces reverse the drop and stack additively.",
+        "kr": "동심원 온도대 (외곽 -15°C → 중심부 -80°C). 5분간 -20°C 이하 시 동결 상태 (집회/순간이동/재배치 불가). 화로가 온도 하락을 역전시키며 누적됨."
+      },
       "duration_weeks": 8,
       "map_type": "concentric_thermal",
-      "temperature_bands_c": [-15, -30, -45, -50, -60, -70, -80],
-      "freeze_threshold_c": -20,
-      "freeze_duration_min": 5,
-      "tools_that_apply": ["hive_planner", "roster_extractor", "landing_planner", "heat_simulator", "freeze_risk", "coal_burn", "city_capture", "season_timeline"],
-      "kb_article": "06-season-2-frozen.md",
-      "status": "current_default",
+      "start_date": "2026-06-24",
+      "end_date_estimate": "2026-08-19",
+      "status": "current",
+      "mechanics_config": {
+        "ambient_bands_c": [-15, -30, -40, -50, -60, -70, -80],
+        "temperature_bands_c": [-15, -30, -45, -50, -60, -70, -80],
+        "freeze_threshold_c": -20,
+        "freeze_duration_min": 5,
+        "blizzard_drop_c": {
+          "none": 0,
+          "w1_2": -15,
+          "w3": -30,
+          "w4_plus": -50
+        },
+        "blizzard_schedule": [
+          { "from_week": 1, "to_week": 2, "drop_c": -15, "severity": "warning" },
+          { "from_week": 3, "to_week": 3, "drop_c": -30, "severity": "danger" },
+          { "from_week": 4, "to_week": 8, "drop_c": -50, "severity": "critical" }
+        ],
+        "furnace_radius_l1_tiles": 4,
+        "furnace_radius_l20_tiles": 12,
+        "af_coal_per_min_l20": { "normal": 1440, "overdrive": 5760 },
+        "hhf_coal_per_min_l30_approx": { "normal": 240, "overdrive": 960 },
+        "cities_per_alliance": 6,
+        "dig_sites_per_alliance": 4,
+        "captures_per_day": 2,
+        "protection_hours": 36,
+        "city_heat_bonus_c_by_level": { "1": 5, "2": 16, "3": 27, "4": 38, "5": 49, "6": 60 },
+        "city_rare_soil_per_hr_by_level": { "1": 350, "2": 480, "3": 620, "4": 760, "5": 880, "6": 1000 },
+        "city_unlock_schedule": [
+          { "level": 1, "week": 1, "day": 3, "hour": 12 },
+          { "level": 2, "week": 1, "day": 6 },
+          { "level": 3, "week": 2, "day": 3 },
+          { "level": 4, "week": 2, "day": 6 },
+          { "level": 5, "week": 3, "day": 3 },
+          { "level": 6, "week": 3, "day": 6 }
+        ],
+        "wanderer_coal_reward_l180": 200000
+      },
+      "tools_that_apply": [
+        "hive_planner",
+        "roster_extractor",
+        "landing_planner",
+        "heat_simulator",
+        "freeze_risk",
+        "coal_burn",
+        "city_capture",
+        "season_timeline"
+      ],
       "milestones": [
-        { "week": 1, "day": 1, "event": "landing", "label_en": "Landing", "label_kr": "착륙" },
-        { "week": 1, "day": 1, "event": "furnace_deploy", "label_en": "Alliance Furnace L1 deploy" },
-        { "week": 2, "day": 1, "event": "blizzard_w1_2", "label_en": "Blizzard -30°C", "severity": "warning" },
-        { "week": 3, "day": 1, "event": "blizzard_w3", "label_en": "Blizzard -50°C", "severity": "danger" },
-        { "week": 3, "day": 3, "event": "faction_awards", "label_en": "Faction Awards (Rebels vs Gendarmerie)" },
-        { "week": 3, "day": 5, "event": "grouping_teleport_unlocks", "label_en": "Free Grouping Teleport unlocks" },
-        { "week": 4, "day": 1, "event": "blizzard_w4", "label_en": "Blizzard -70°C (concurrent with RSW)", "severity": "critical" },
-        { "week": 4, "day": 1, "event": "rare_soil_war_opens", "label_en": "Rare Soil War opens (20% plunder)", "severity": "critical" },
-        { "week": 5, "day": 1, "event": "rsw_round", "label_en": "RSW round (Wed + Sat)" },
-        { "week": 6, "day": 1, "event": "rsw_round", "label_en": "RSW round (Wed + Sat)" },
-        { "week": 7, "day": 1, "event": "glacieradon_spawn", "label_en": "4 Glacieradon bosses spawn, march to Capitol" },
-        { "week": 8, "day": 1, "event": "nuclear_furnace_siege", "label_en": "Nuclear Furnace siege at Capitol", "severity": "critical" }
-      ]
+        { "week": 1, "day": 1, "event": "landing", "label": { "en": "Landing", "kr": "착륙" } },
+        { "week": 1, "day": 1, "event": "furnace_deploy", "label": { "en": "Alliance Furnace L1 deploy", "kr": "동맹 화로 L1 배치" } },
+        { "week": 1, "day": 3, "event": "city_l1_unlock", "label": { "en": "L1 City (Village) unlocks (+12h)", "kr": "L1 도시(마을) 개방" }, "tools": ["city_capture", "season_timeline"] },
+        { "week": 2, "day": 1, "event": "blizzard_w1_2", "label": { "en": "Blizzard -30°C", "kr": "블리자드 -30°C" }, "severity": "warning", "tools": ["freeze_risk", "coal_burn", "heat_simulator", "season_timeline"] },
+        { "week": 3, "day": 1, "event": "blizzard_w3", "label": { "en": "Blizzard -50°C", "kr": "블리자드 -50°C" }, "severity": "danger", "tools": ["freeze_risk", "coal_burn", "heat_simulator", "season_timeline"] },
+        { "week": 3, "day": 3, "event": "faction_awards", "label": { "en": "Faction Awards (Rebels vs Gendarmerie)", "kr": "팩션 어워드 (반란군 vs 헌병대)" }, "tools": ["season_timeline"] },
+        { "week": 3, "day": 5, "event": "grouping_teleport_unlocks", "label": { "en": "Free Grouping Teleport unlocks", "kr": "무료 그룹 순간이동 개방" }, "tools": ["landing_planner", "season_timeline"] },
+        { "week": 4, "day": 1, "event": "blizzard_w4", "label": { "en": "Blizzard -70°C (concurrent with RSW)", "kr": "블리자드 -70°C (RSW 동시)" }, "severity": "critical", "tools": ["freeze_risk", "coal_burn", "heat_simulator", "season_timeline"] },
+        { "week": 4, "day": 1, "event": "rare_soil_war_opens", "label": { "en": "Rare Soil War opens (20% plunder)", "kr": "희귀토양 전쟁 개시 (20% 약탈)" }, "severity": "critical", "tools": ["city_capture", "season_timeline"] },
+        { "week": 5, "day": 3, "event": "rsw_round", "label": { "en": "RSW round (Wed + Sat)", "kr": "RSW 라운드 (수+토)" }, "tools": ["city_capture", "season_timeline"] },
+        { "week": 6, "day": 1, "event": "glacieradon_spawn", "label": { "en": "4 Glacieradon bosses spawn, march to Capitol", "kr": "빙하돈 4마리 스폰, 수도 진격" }, "tools": ["season_timeline"] },
+        { "week": 7, "day": 3, "event": "nuclear_furnace_siege_prep", "label": { "en": "Nuclear Furnace siege prep", "kr": "핵화로 공성 준비" }, "tools": ["season_timeline"] },
+        { "week": 8, "day": 6, "event": "nuclear_furnace_siege", "label": { "en": "Nuclear Furnace siege at Capitol", "kr": "수도 핵화로 공성" }, "severity": "critical", "tools": ["season_timeline"] }
+      ],
+      "kb_article": "06-season-2-frozen.md"
     },
 
     "s3-tbd": {
       "id": "s3-tbd",
       "number": 3,
+      "slug": "tbd",
       "name": {
         "en": "Season 3: (TBD)",
         "kr": "시즌 3: (미정)",
@@ -77,14 +147,65 @@
         "fr": "Saison 3: (À déterminer)"
       },
       "core_mechanic": "unknown",
-      "core_mechanic_summary_en": "Not yet publicly detailed as of 2026-07-15. Research workflow in flight to populate.",
+      "core_mechanic_summary": {
+        "en": "Not yet publicly detailed as of 2026-07-15. Research workflow in flight to populate.",
+        "kr": "2026-07-15 기준 공개 정보 없음. 리서치 워크플로 진행 중."
+      },
       "duration_weeks": null,
       "map_type": "unknown",
-      "tools_that_apply": ["hive_planner", "roster_extractor", "season_timeline"],
-      "kb_article": "07-future-seasons.md",
+      "start_date": null,
+      "end_date_estimate": null,
       "status": "upcoming",
       "confidence": "no-data",
-      "milestones": []
+      "mechanics_config": {},
+      "tools_that_apply": ["hive_planner", "roster_extractor", "season_timeline"],
+      "milestones": [],
+      "kb_article": "07-future-seasons.md",
+      "notes": "Placeholder — populate as KB research surfaces mechanics. Tools should gracefully fall back to the 'no-data' UI when this season is selected."
+    },
+
+    "pre-season": {
+      "id": "pre-season",
+      "number": 0,
+      "slug": "pre-season",
+      "name": {
+        "en": "Pre-Season (post-map-reset, pre-launch)",
+        "kr": "시즌 시작 전"
+      },
+      "core_mechanic": "prep",
+      "core_mechanic_summary": {
+        "en": "Map resets, alliance regathers, research and speedups stockpile before the next season starts.",
+        "kr": "지도 리셋, 동맹 재편성, 다음 시즌 개시 전 연구 및 가속 비축."
+      },
+      "duration_weeks": null,
+      "map_type": "reset",
+      "status": "transitional",
+      "mechanics_config": {},
+      "tools_that_apply": ["roster_extractor", "season_timeline"],
+      "milestones": [],
+      "kb_article": null
+    },
+
+    "off-season": {
+      "id": "off-season",
+      "number": -1,
+      "slug": "off-season",
+      "name": {
+        "en": "Off-Season (no active season)",
+        "kr": "오프시즌"
+      },
+      "core_mechanic": "none",
+      "core_mechanic_summary": {
+        "en": "No active season on this warzone. Tools show configuration UI only.",
+        "kr": "활성 시즌 없음. 도구는 설정 UI만 표시."
+      },
+      "duration_weeks": null,
+      "map_type": null,
+      "status": "transitional",
+      "mechanics_config": {},
+      "tools_that_apply": ["roster_extractor"],
+      "milestones": [],
+      "kb_article": null
     }
   }
 }
