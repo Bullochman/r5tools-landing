@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>R5TOOLS.IO — Last War: Survival alliance toolkit</title>
+  <meta name="description" content="A suite of planning tools for Last War: Survival alliance leaders (R5s/R4s). Season 2 landing coordination, temperature/freeze risk, coal budgets, hive formations, city capture priorities, and more. English + Korean." />
+  <meta property="og:title" content="R5TOOLS.IO — LWS alliance toolkit" />
+  <meta property="og:description" content="Season 2 planning tools for Last War: Survival alliances. Landing coordination, freeze-risk dashboards, hive formations, and more. EN + KR." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⧫%3C/text%3E%3C/svg%3E" />
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --live: #8ae0a3;
+      --soon: #e6cf7a;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 48px;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600;
+    }
+    .lang-toggle {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero {
+      text-align: center; padding: 48px 0 64px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: 44px; margin: 0 0 20px; font-weight: 600;
+      letter-spacing: -0.02em; line-height: 1.15;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero p {
+      font-size: 18px; color: var(--text-dim); max-width: 680px;
+      margin: 0 auto 32px;
+    }
+    .hero .kr-note {
+      display: inline-block; margin-top: 4px; padding: 4px 12px;
+      background: var(--panel); border: 1px solid var(--border-accent);
+      border-radius: 14px; font-size: 12px; color: var(--accent);
+    }
+
+    section h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase; margin: 48px 0 24px;
+    }
+
+    .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .tool {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px; transition: border-color .15s;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .tool:hover { border-color: var(--border-accent); }
+    .tool.live { border-color: rgba(138,224,163,0.25); }
+    .tool.live:hover { border-color: rgba(138,224,163,0.5); }
+    .tool.locked { opacity: 0.72; }
+
+    .tool-head { display: flex; justify-content: space-between; align-items: baseline; }
+    .tool-name { font-size: 15px; font-weight: 600; }
+    .tool-name-kr { font-size: 11px; color: var(--text-mute); font-weight: 400; margin-left: 8px; }
+    .tool-status {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+      padding: 2px 8px; border-radius: 10px; font-weight: 600;
+    }
+    .tool-status.live { color: var(--live); background: rgba(138,224,163,0.1); border: 1px solid rgba(138,224,163,0.3); }
+    .tool-status.soon { color: var(--soon); background: rgba(230,207,122,0.08); border: 1px solid rgba(230,207,122,0.25); }
+    .tool-status.planned { color: var(--text-mute); background: transparent; border: 1px solid var(--border); }
+
+    .tool p { margin: 4px 0 0; color: var(--text-dim); font-size: 13px; }
+
+    .tool-cta {
+      display: inline-block; margin-top: auto; padding: 8px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12px; font-weight: 600;
+      align-self: flex-start; margin-top: 12px;
+    }
+    .tool-cta:hover { background: var(--accent-hover); }
+    .tool-cta.disabled { background: transparent; color: var(--text-mute); border: 1px solid var(--border); cursor: default; }
+
+    .bullets {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px; margin: 24px 0 0;
+    }
+    .bullet {
+      padding: 16px 20px; background: var(--panel-2);
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: 13px; color: var(--text-dim); line-height: 1.55;
+    }
+    .bullet strong { color: var(--text); }
+
+    footer {
+      margin-top: 64px; padding: 24px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-mute); font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 15px; }
+      section h2 { margin-top: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <div class="brand" data-i18n="brand">R5TOOLS.IO — LWS SUITE</div>
+      <button class="lang-toggle" id="langToggle">한국어</button>
+    </header>
+
+    <div class="hero">
+      <h1 data-i18n="heroTitle">The <span class="accent">Last War</span> alliance toolkit for R5s who plan ahead.</h1>
+      <p data-i18n="heroBody">
+        A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. English and Korean from day one.
+      </p>
+      <span class="kr-note" data-i18n="krNote">🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.</span>
+    </div>
+
+    <section>
+      <h2 data-i18n="secLive">LIVE</h2>
+      <div class="tools">
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Alliance Hive Grid Manager</span><span class="tool-name-kr">얼라이언스 하이브 그리드</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p data-i18n="hivePlannerBody">Marshall's Guard 3×3 and Military Stronghold 21×21 formation planner. Drag-and-drop, corner-anchored ring algorithm, CSV import, PNG export for Discord.</p>
+          <a class="tool-cta" href="https://hivegrid.io" target="_blank" rel="noopener">Open →</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="secS2">SEASON 2 TOOLS · SCAFFOLD-LIVE</h2>
+      <div class="tools">
+
+        <div class="tool locked">
+          <div class="tool-head">
+            <span><span class="tool-name">Landing Planner</span><span class="tool-name-kr">랜딩 플래너</span></span>
+            <span class="tool-status soon">SOON</span>
+          </div>
+          <p data-i18n="landingBody">R5 picks a Day-1 anchor coordinate; the tool assigns every member a landing tile, factoring HQ level, rally-leader placement, and Alliance Furnace warm-zone coverage. The tool nobody wants to open, until Day 1.</p>
+          <a class="tool-cta disabled" data-i18n="ctaSoon">Coming soon</a>
+        </div>
+
+        <div class="tool locked">
+          <div class="tool-head">
+            <span><span class="tool-name">Heat Simulator</span><span class="tool-name-kr">히트 시뮬레이터</span></span>
+            <span class="tool-status soon">SOON</span>
+          </div>
+          <p data-i18n="heatBody">Overlays the 7 concentric temperature bands (-15 → -80 °C) on your alliance's territory. Plots Alliance Furnace warm-zones. Flags at-risk bases at a glance. Blizzard mode for Wk 3 / Wk 4 pre-planning.</p>
+          <a class="tool-cta disabled" data-i18n="ctaSoon">Coming soon</a>
+        </div>
+
+        <div class="tool locked">
+          <div class="tool-head">
+            <span><span class="tool-name">Freeze-Risk Dashboard</span><span class="tool-name-kr">동결 위험 대시보드</span></span>
+            <span class="tool-status soon">SOON</span>
+          </div>
+          <p data-i18n="freezeBody">Live per-member risk board — "Frozen in 3 min", "Furnace deploy needed", "Coal below 12h". The R5's Season 2 daily driver.</p>
+          <a class="tool-cta disabled" data-i18n="ctaSoon">Coming soon</a>
+        </div>
+
+        <div class="tool locked">
+          <div class="tool-head">
+            <span><span class="tool-name">Coal Burn Calculator</span><span class="tool-name-kr">석탄 소모 계산기</span></span>
+            <span class="tool-status soon">SOON</span>
+          </div>
+          <p data-i18n="coalBody">How much Coal each member needs to keep their High-Heat Furnace in Overdrive through a Week-4 -70 °C blizzard. Paste roster, get a green/yellow/red grid, share the alliance-help requests as a formatted block.</p>
+          <a class="tool-cta disabled" data-i18n="ctaSoon">Coming soon</a>
+        </div>
+
+        <div class="tool locked">
+          <div class="tool-head">
+            <span><span class="tool-name">City / Dig-Site Capture Planner</span><span class="tool-name-kr">도시/발굴지 점령</span></span>
+            <span class="tool-status soon">SOON</span>
+          </div>
+          <p data-i18n="cityBody">Which of the 6 cities + 4 dig-sites to prioritize, factoring the +5 → +60 °C temperature bonus curve and the 36-hour post-capture protection window. Two captures per day; plan them.</p>
+          <a class="tool-cta disabled" data-i18n="ctaSoon">Coming soon</a>
+        </div>
+
+        <div class="tool locked">
+          <div class="tool-head">
+            <span><span class="tool-name">Season Timeline</span><span class="tool-name-kr">시즌 타임라인</span></span>
+            <span class="tool-status soon">SOON</span>
+          </div>
+          <p data-i18n="timelineBody">T-minus countdown to Season 2 launch + alliance-wide prep checklist. Ticks per-member, exports to Discord as PNG, dumps to iCal for personal calendars.</p>
+          <a class="tool-cta disabled" data-i18n="ctaSoon">Coming soon</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="secPhilosophy">HOW THIS SUITE IS DIFFERENT</h2>
+      <div class="bullets">
+        <div class="bullet" data-i18n="phil1"><strong>KB-driven.</strong> Every mechanic, temperature, formula, and timing comes from an internal Last War: Survival knowledge base with cited sources. Nothing invented.</div>
+        <div class="bullet" data-i18n="phil2"><strong>Korean-first.</strong> Every tool ships with a 한국어 toggle from day one. The KR alliance market is the primary audience.</div>
+        <div class="bullet" data-i18n="phil3"><strong>Discord-shareable.</strong> Every tool exports its state as a dark-theme PNG sized for Discord — drop into #alliance-general, everyone sees it.</div>
+        <div class="bullet" data-i18n="phil4"><strong>One unlock, whole suite.</strong> A single Alliance Access Code unlocks every tool for 90 days on your device. No accounts. No emails. Warzone 2007 is free.</div>
+        <div class="bullet" data-i18n="phil5"><strong>Runs anywhere.</strong> Vanilla HTML + Python stdlib backends. Self-host on Railway, run locally, no build step.</div>
+        <div class="bullet" data-i18n="phil6"><strong>Built by an R5.</strong> These are the tools I wish I had while pre-planning my own warzone.</div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · <span data-i18n="footerNote">Last War: Survival is a First Fun / Century Games product. This site is fan-made and unaffiliated.</span></div>
+      <div><a href="https://hivegrid.io" target="_blank">hivegrid.io</a> · <a href="mailto:hello@r5tools.io" data-i18n="footerContact">Contact</a></div>
+    </footer>
+
+  </div>
+
+  <script>
+    var I18N = {
+      en: {
+        brand: 'R5TOOLS.IO — LWS SUITE',
+        heroTitle: 'The <span class="accent">Last War</span> alliance toolkit for R5s who plan ahead.',
+        heroBody: 'A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. English and Korean from day one.',
+        krNote: '🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.',
+        secLive: 'LIVE',
+        secS2: 'SEASON 2 TOOLS · SCAFFOLD-LIVE',
+        secPhilosophy: 'HOW THIS SUITE IS DIFFERENT',
+        hivePlannerBody: "Marshall's Guard 3×3 and Military Stronghold 21×21 formation planner. Drag-and-drop, corner-anchored ring algorithm, CSV import, PNG export for Discord.",
+        landingBody: 'R5 picks a Day-1 anchor coordinate; the tool assigns every member a landing tile, factoring HQ level, rally-leader placement, and Alliance Furnace warm-zone coverage. The tool nobody wants to open, until Day 1.',
+        heatBody: "Overlays the 7 concentric temperature bands (-15 → -80 °C) on your alliance's territory. Plots Alliance Furnace warm-zones. Flags at-risk bases at a glance. Blizzard mode for Wk 3 / Wk 4 pre-planning.",
+        freezeBody: "Live per-member risk board — \"Frozen in 3 min\", \"Furnace deploy needed\", \"Coal below 12h\". The R5's Season 2 daily driver.",
+        coalBody: 'How much Coal each member needs to keep their High-Heat Furnace in Overdrive through a Week-4 -70 °C blizzard. Paste roster, get a green/yellow/red grid, share the alliance-help requests as a formatted block.',
+        cityBody: 'Which of the 6 cities + 4 dig-sites to prioritize, factoring the +5 → +60 °C temperature bonus curve and the 36-hour post-capture protection window. Two captures per day; plan them.',
+        timelineBody: 'T-minus countdown to Season 2 launch + alliance-wide prep checklist. Ticks per-member, exports to Discord as PNG, dumps to iCal for personal calendars.',
+        phil1: '<strong>KB-driven.</strong> Every mechanic, temperature, formula, and timing comes from an internal Last War: Survival knowledge base with cited sources. Nothing invented.',
+        phil2: '<strong>Korean-first.</strong> Every tool ships with a 한국어 toggle from day one. The KR alliance market is the primary audience.',
+        phil3: '<strong>Discord-shareable.</strong> Every tool exports its state as a dark-theme PNG sized for Discord — drop into #alliance-general, everyone sees it.',
+        phil4: '<strong>One unlock, whole suite.</strong> A single Alliance Access Code unlocks every tool for 90 days on your device. No accounts. No emails. Warzone 2007 is free.',
+        phil5: '<strong>Runs anywhere.</strong> Vanilla HTML + Python stdlib backends. Self-host on Railway, run locally, no build step.',
+        phil6: '<strong>Built by an R5.</strong> These are the tools I wish I had while pre-planning my own warzone.',
+        footerNote: 'Last War: Survival is a First Fun / Century Games product. This site is fan-made and unaffiliated.',
+        footerContact: 'Contact',
+        ctaSoon: 'Coming soon',
+        langToggle: '한국어',
+      },
+      ko: {
+        brand: 'R5TOOLS.IO — LWS 스위트',
+        heroTitle: '미리 준비하는 R5를 위한 <span class="accent">라스트워</span> 얼라이언스 툴킷.',
+        heroBody: '<em>라스트워: 서바이벌</em> 연맹을 위한 작고 집중된 계획 도구 모음. 시즌 2 시작 전 착륙 좌표 조정, 동결 위험 모델링, 4주차 블리자드용 석탄 예산 계획, 하이브 대형 설계, 도시 점령 우선순위 결정. R5가 R5를 위해 만든 도구. 첫날부터 영어와 한국어 지원.',
+        krNote: '🇰🇷 워존 2007 멤버는 무료 잠금 해제 코드를 받을 수 있습니다. R5에게 문의하세요.',
+        secLive: '라이브',
+        secS2: '시즌 2 도구 · 스캐폴드 라이브',
+        secPhilosophy: '이 스위트의 차별점',
+        hivePlannerBody: '마샬 가드 3×3 및 밀리터리 스트롱홀드 21×21 대형 플래너. 드래그 앤 드롭, 코너 앵커 링 알고리즘, CSV 임포트, 디스코드용 PNG 익스포트.',
+        landingBody: 'R5가 Day-1 앵커 좌표를 선택하면, 도구가 HQ 레벨, 랠리 리더 배치, 얼라이언스 퍼니스 온난 지대 커버리지를 고려하여 모든 멤버에게 착륙 타일을 할당합니다. Day 1까지는 아무도 열지 않는 도구.',
+        heatBody: '7개의 동심원 온도 밴드(-15 → -80 °C)를 연맹 영토에 오버레이. 얼라이언스 퍼니스 온난 지대 표시. 위험한 기지를 한눈에 표시. 3주차/4주차 사전 계획을 위한 블리자드 모드.',
+        freezeBody: '실시간 멤버별 위험 보드 — "3분 후 동결", "퍼니스 배치 필요", "석탄 12시간 미만". R5의 시즌 2 매일 도구.',
+        coalBody: '4주차 -70 °C 블리자드 동안 각 멤버가 High-Heat Furnace를 오버드라이브 상태로 유지하는 데 필요한 석탄. 로스터 붙여넣기, 녹색/노란색/빨간색 그리드 확인, 연맹 지원 요청을 포맷된 블록으로 공유.',
+        cityBody: '6개 도시 + 4개 발굴지 중 어느 것을 우선순위로 할지, +5 → +60 °C 온도 보너스 곡선과 36시간 점령 후 보호 기간을 고려. 하루 2회 점령; 계획을 세우세요.',
+        timelineBody: '시즌 2 시작까지의 카운트다운 + 연맹 전체 준비 체크리스트. 멤버별 체크, 디스코드로 PNG 익스포트, 개인 캘린더용 iCal 덤프.',
+        phil1: '<strong>지식 베이스 기반.</strong> 모든 메커니즘, 온도, 공식, 타이밍이 인용된 소스가 있는 내부 라스트워: 서바이벌 지식 베이스에서 나옵니다. 어떤 것도 발명하지 않았습니다.',
+        phil2: '<strong>한국어 우선.</strong> 모든 도구가 첫날부터 한국어 토글로 출시됩니다. 한국 연맹 시장이 주요 대상입니다.',
+        phil3: '<strong>디스코드 공유 가능.</strong> 모든 도구가 상태를 디스코드 크기의 다크 테마 PNG로 익스포트 — #alliance-general에 드롭하면 모두가 볼 수 있습니다.',
+        phil4: '<strong>하나의 잠금 해제, 전체 스위트.</strong> 단일 얼라이언스 액세스 코드로 기기에서 90일 동안 모든 도구를 잠금 해제. 계정 없음. 이메일 없음. 워존 2007은 무료.',
+        phil5: '<strong>어디서나 실행.</strong> 바닐라 HTML + Python 표준 라이브러리 백엔드. Railway에서 셀프 호스팅, 로컬에서 실행, 빌드 단계 없음.',
+        phil6: '<strong>R5가 만들었습니다.</strong> 제 워존을 사전 계획하면서 갖고 싶었던 도구들입니다.',
+        footerNote: '라스트워: 서바이벌은 First Fun / Century Games 제품입니다. 이 사이트는 팬 제작이며 비공식입니다.',
+        footerContact: '연락처',
+        ctaSoon: '곧 출시',
+        langToggle: 'EN',
+      },
+    };
+
+    var lang = (navigator.language || 'en').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+    function apply() {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        if (I18N[lang][key]) el.innerHTML = I18N[lang][key];
+      });
+      document.getElementById('langToggle').textContent = I18N[lang].langToggle;
+    }
+    document.getElementById('langToggle').addEventListener('click', function () {
+      lang = (lang === 'en') ? 'ko' : 'en';
+      apply();
+    });
+    apply();
+  </script>
+</body>
+</html>
