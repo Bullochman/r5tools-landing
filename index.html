@@ -170,6 +170,120 @@
     }
     .bullet strong { color: var(--text); }
 
+    /* --- Sharp "why this suite" bullets under the hero --- */
+    .why-suite {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px; margin: 32px 0 8px;
+    }
+    .why-cell {
+      padding: 18px 18px 16px; background: var(--panel);
+      border: 1px solid var(--border-accent); border-radius: 10px;
+      font-size: 13px; color: var(--text-dim); line-height: 1.55;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .why-cell .why-headline {
+      font-size: 15px; font-weight: 600; color: var(--text);
+      letter-spacing: -0.005em; line-height: 1.3;
+    }
+    .why-cell .why-headline .accent { color: var(--accent); }
+
+    /* --- How it works: 3-step Roster Extractor walkthrough --- */
+    .how-steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px; margin: 24px 0 8px;
+    }
+    .how-step {
+      position: relative;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px 20px 18px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .how-step-num {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      color: var(--accent); font-weight: 600;
+    }
+    .how-step-icon {
+      width: 100%; height: 88px; display: block;
+      background: #050810; border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px;
+    }
+    .how-step h3 {
+      margin: 0; font-size: 15px; font-weight: 600; color: var(--text);
+      letter-spacing: -0.005em;
+    }
+    .how-step p {
+      margin: 0; font-size: 13px; color: var(--text-dim); line-height: 1.55;
+    }
+    .how-step p strong { color: var(--text); }
+    .how-cta-row {
+      margin-top: 18px; display: flex; justify-content: center;
+    }
+    .how-cta-row .tool-cta { margin-top: 0; }
+
+    /* --- Pricing: 3 tiers + premium row --- */
+    .pricing {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px; margin: 24px 0 8px;
+    }
+    .price {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 20px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .price.featured { border-color: var(--border-accent); background: var(--panel-2); }
+    .price-tier {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      color: var(--accent); font-weight: 600; text-transform: uppercase;
+    }
+    .price-amount {
+      font-size: 40px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1; margin: 4px 0 2px;
+    }
+    .price-amount .price-unit {
+      font-size: 13px; font-weight: 500; color: var(--text-mute);
+      margin-left: 6px; letter-spacing: 0;
+    }
+    .price-tagline {
+      font-size: 13px; color: var(--text-dim); line-height: 1.5;
+      min-height: 40px;
+    }
+    .price-features {
+      list-style: none; padding: 0; margin: 8px 0 0;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 12.5px; color: var(--text-dim);
+    }
+    .price-features li {
+      padding-left: 18px; position: relative; line-height: 1.5;
+    }
+    .price-features li::before {
+      content: '✓'; position: absolute; left: 0; top: 0;
+      color: var(--live); font-weight: 700;
+    }
+    .price-cta {
+      margin-top: 14px; padding: 10px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12px; font-weight: 600;
+      text-align: center; letter-spacing: 0.02em;
+    }
+    .price-cta:hover { background: var(--accent-hover); }
+    .price-cta.ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .price-cta.ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .price-premium {
+      grid-column: 1 / -1;
+      background: var(--panel); border: 1px dashed var(--border-accent);
+      border-radius: 10px; padding: 16px 20px;
+      display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center;
+      font-size: 13px; color: var(--text-dim);
+    }
+    .price-premium strong { color: var(--text); }
+    .price-premium .price-premium-amount {
+      font-size: 22px; font-weight: 700; color: var(--accent);
+      font-family: var(--mono);
+    }
+
     footer {
       margin-top: 64px; padding: 24px 0; border-top: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
@@ -209,6 +323,28 @@
       <span class="kr-note" data-i18n="krNote">🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.</span>
       <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
     </div>
+
+    <section>
+      <h2 data-i18n="secWhy">WHY R5s USE THIS SUITE</h2>
+      <div class="why-suite">
+        <div class="why-cell">
+          <div class="why-headline" data-i18n="whyHead1">Video → roster in <span class="accent">2 minutes</span>.</div>
+          <div data-i18n="whyBody1">Screen-record your alliance member list. Upload. Claude vision reads every row. No retyping 100 names into a spreadsheet ever again.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline" data-i18n="whyHead2">Every tool speaks <span class="accent">7 languages</span>.</div>
+          <div data-i18n="whyBody2">EN · KO · ES · PT · JA · DE · FR from day one. Your KR co-R5 opens the same tool, sees the same PNG, in Hangul.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline" data-i18n="whyHead3">Discord-ready <span class="accent">PNG exports</span> on every tool.</div>
+          <div data-i18n="whyBody3">Every tool exports its state as a dark-theme PNG sized for Discord. Drop into #alliance-general, everyone sees it, nobody needs the tool open.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline" data-i18n="whyHead4">Built by an <span class="accent">R5</span> for R5s who plan ahead.</div>
+          <div data-i18n="whyBody4">Not a spreadsheet. Not a Discord bot. A briefing room for the R5 who opens the tools the night before a season starts.</div>
+        </div>
+      </div>
+    </section>
 
     <section>
       <h2 data-i18n="secS2Viz">SEASON 2 AT A GLANCE · POLAR STORM</h2>
@@ -556,6 +692,124 @@
     </section>
 
     <section>
+      <h2 data-i18n="secHow">HOW IT WORKS · ROSTER → SUITE IN 2 MINUTES</h2>
+      <p style="color:var(--text-dim);font-size:14px;margin:-8px 0 8px;max-width:720px" data-i18n="howBlurb">
+        The flagship Roster Extractor is the front door. Once your roster is CSV, every other tool in the suite eats the same file — no re-uploading, no re-typing.
+      </p>
+      <div class="how-steps">
+
+        <!-- Step 1: Record -->
+        <div class="how-step">
+          <div class="how-step-num" data-i18n="howStep1Num">STEP 1</div>
+          <svg class="how-step-icon" viewBox="0 0 260 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phone recording alliance list">
+            <rect x="0" y="0" width="260" height="88" fill="#050810" rx="4"/>
+            <!-- Phone frame -->
+            <rect x="98" y="8" width="64" height="72" rx="8" fill="#12192c" stroke="#c9a961" stroke-width="1.2"/>
+            <!-- Screen content: alliance list rows -->
+            <g fill="#8ae0a3">
+              <rect x="104" y="18" width="52" height="6" rx="1" opacity="0.9"/>
+              <rect x="104" y="28" width="52" height="6" rx="1" opacity="0.7"/>
+              <rect x="104" y="38" width="52" height="6" rx="1" opacity="0.9"/>
+              <rect x="104" y="48" width="52" height="6" rx="1" opacity="0.7"/>
+              <rect x="104" y="58" width="52" height="6" rx="1" opacity="0.9"/>
+              <rect x="104" y="68" width="52" height="6" rx="1" opacity="0.5"/>
+            </g>
+            <!-- Recording indicator -->
+            <circle cx="130" cy="14" r="2" fill="#ff5050"/>
+            <text x="136" y="16" fill="#ff5050" font-size="6" font-family="ui-monospace,monospace">REC</text>
+            <!-- Scroll arrow -->
+            <path d="M 200 44 L 220 44 L 216 40 M 220 44 L 216 48" stroke="#c9a961" stroke-width="1.5" fill="none"/>
+            <text x="210" y="60" text-anchor="middle" fill="#c9a961" font-size="7" font-family="ui-monospace,monospace">scroll</text>
+            <!-- Duration label -->
+            <text x="130" y="82" text-anchor="middle" fill="#7a8290" font-size="8" font-family="ui-monospace,monospace">~90s screen recording</text>
+          </svg>
+          <h3 data-i18n="howStep1Title">Record 90 seconds.</h3>
+          <p data-i18n="howStep1Body">Open your alliance member list in-game. Start iOS/Android screen recording. Slowly scroll from R5 down to R1. Stop. You now have a <strong>.mov / .mp4</strong> with every row visible.</p>
+        </div>
+
+        <!-- Step 2: Upload + review -->
+        <div class="how-step">
+          <div class="how-step-num" data-i18n="howStep2Num">STEP 2</div>
+          <svg class="how-step-icon" viewBox="0 0 260 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude reads frames, editable review table">
+            <rect x="0" y="0" width="260" height="88" fill="#050810" rx="4"/>
+            <!-- Left: uploaded video frame -->
+            <rect x="10" y="14" width="60" height="60" rx="3" fill="#12192c" stroke="#c9a961" stroke-width="1"/>
+            <text x="40" y="30" text-anchor="middle" fill="#c9a961" font-size="7" font-family="ui-monospace,monospace">.mp4</text>
+            <g fill="#8ae0a3" opacity="0.7">
+              <rect x="14" y="38" width="52" height="4"/>
+              <rect x="14" y="46" width="52" height="4"/>
+              <rect x="14" y="54" width="52" height="4"/>
+              <rect x="14" y="62" width="52" height="4"/>
+            </g>
+            <!-- Arrow: ffmpeg + vision -->
+            <path d="M 76 44 L 106 44 L 102 40 M 106 44 L 102 48" stroke="#c9a961" stroke-width="1.5" fill="none"/>
+            <text x="91" y="34" text-anchor="middle" fill="#c9a961" font-size="6" font-family="ui-monospace,monospace">ffmpeg</text>
+            <text x="91" y="58" text-anchor="middle" fill="#c9a961" font-size="6" font-family="ui-monospace,monospace">+ vision</text>
+            <!-- Right: review table -->
+            <rect x="110" y="14" width="140" height="60" rx="3" fill="#12192c" stroke="#c9a961" stroke-width="1"/>
+            <!-- Table header -->
+            <rect x="110" y="14" width="140" height="10" fill="rgba(201,169,97,0.15)"/>
+            <text x="116" y="21" fill="#c9a961" font-size="6" font-family="ui-monospace,monospace">NAME</text>
+            <text x="176" y="21" fill="#c9a961" font-size="6" font-family="ui-monospace,monospace">RANK</text>
+            <text x="210" y="21" fill="#c9a961" font-size="6" font-family="ui-monospace,monospace">POWER</text>
+            <!-- Rows -->
+            <g font-family="ui-monospace,monospace" font-size="6" fill="#e6e8ee">
+              <text x="116" y="32">TINO_R5</text>   <text x="176" y="32" fill="#c9a961">R5</text> <text x="210" y="32">62.4M</text>
+              <text x="116" y="42">RONY.777</text>  <text x="176" y="42" fill="#c9a961">R4</text> <text x="210" y="42">48.1M</text>
+              <text x="116" y="52">ForestSpectre</text><text x="176" y="52" fill="#8ae0a3">R3</text><text x="210" y="52">31.9M</text>
+              <text x="116" y="62">BladeMaiden</text><text x="176" y="62" fill="#8ae0a3">R2</text><text x="210" y="62">22.4M</text>
+            </g>
+            <!-- Edit pencil hint on a row -->
+            <path d="M 244 40 l 3 -3 l 2 2 l -3 3 z" fill="#c9a961"/>
+          </svg>
+          <h3 data-i18n="howStep2Title">Upload &amp; review.</h3>
+          <p data-i18n="howStep2Body">Drop the file into <strong>roster.r5tools.io</strong>. ffmpeg extracts frames; Claude Sonnet 4.6 vision reads every row; dedup + rank-sort auto. You get an <strong>editable table</strong> to fix any OCR misreads before export.</p>
+        </div>
+
+        <!-- Step 3: Download + track -->
+        <div class="how-step">
+          <div class="how-step-num" data-i18n="howStep3Num">STEP 3</div>
+          <svg class="how-step-icon" viewBox="0 0 260 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CSV + JSON download, plug into other tools">
+            <rect x="0" y="0" width="260" height="88" fill="#050810" rx="4"/>
+            <!-- Center CSV file -->
+            <rect x="106" y="16" width="48" height="56" rx="3" fill="#12192c" stroke="#c9a961" stroke-width="1.2"/>
+            <text x="130" y="34" text-anchor="middle" fill="#c9a961" font-size="9" font-family="ui-monospace,monospace" font-weight="600">roster</text>
+            <text x="130" y="46" text-anchor="middle" fill="#e6e8ee" font-size="7" font-family="ui-monospace,monospace">.csv</text>
+            <text x="130" y="58" text-anchor="middle" fill="#7a8290" font-size="7" font-family="ui-monospace,monospace">.json</text>
+            <!-- Radial fan-out to tool icons -->
+            <g stroke="#c9a961" stroke-width="1" fill="none" opacity="0.7">
+              <line x1="106" y1="30" x2="60" y2="20"/>
+              <line x1="106" y1="55" x2="60" y2="68"/>
+              <line x1="154" y1="30" x2="200" y2="20"/>
+              <line x1="154" y1="55" x2="200" y2="68"/>
+            </g>
+            <!-- 4 tool boxes -->
+            <g fill="#8ae0a3" opacity="0.85">
+              <rect x="34" y="12" width="26" height="12" rx="2"/>
+              <rect x="34" y="62" width="26" height="12" rx="2"/>
+              <rect x="200" y="12" width="26" height="12" rx="2"/>
+              <rect x="200" y="62" width="26" height="12" rx="2"/>
+            </g>
+            <g font-family="ui-monospace,monospace" font-size="5" fill="#0a0e1a" font-weight="700">
+              <text x="47" y="20" text-anchor="middle">LANDING</text>
+              <text x="47" y="70" text-anchor="middle">HEAT</text>
+              <text x="213" y="20" text-anchor="middle">COAL</text>
+              <text x="213" y="70" text-anchor="middle">FREEZE</text>
+            </g>
+            <!-- Trend arrow bottom -->
+            <text x="130" y="82" text-anchor="middle" fill="#7a8290" font-size="7" font-family="ui-monospace,monospace">+ alliance-signature history</text>
+          </svg>
+          <h3 data-i18n="howStep3Title">Download &amp; feed the suite.</h3>
+          <p data-i18n="howStep3Body">Same CSV plugs into <strong>Landing Planner</strong>, <strong>Heat Simulator</strong>, <strong>Coal Burn</strong>, <strong>Freeze-Risk</strong>, and every other tool. Each extraction is fingerprinted (SHA-256 of R5 + top-8) so you can <strong>track alliance growth</strong> across seasons.</p>
+        </div>
+
+      </div>
+      <div class="how-cta-row">
+        <a class="tool-cta" href="https://roster.r5tools.io/" target="_blank" rel="noopener" data-i18n="howCta">Try Roster Extractor →</a>
+      </div>
+    </section>
+
+    <section>
       <h2 data-i18n="secFlagship">FLAGSHIP · LIVE</h2>
       <div class="tools">
         <div class="tool" style="border-color:rgba(201,169,97,0.35)">
@@ -571,6 +825,68 @@
           </div>
           <a class="tool-cta" href="https://roster.r5tools.io/" target="_blank" rel="noopener" data-i18n="ctaOpen">Open tool →</a>
         </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="secPricing">PRICING · ONE UNLOCK COVERS EVERY TOOL</h2>
+      <p style="color:var(--text-dim);font-size:14px;margin:-8px 0 8px;max-width:720px" data-i18n="pricingBlurb">
+        One Alliance Access Code unlocks every tool in the suite for 90 days on your device. No accounts, no emails. Warzone 2007 is free — my own warzone gets first-class treatment.
+      </p>
+      <div class="pricing">
+
+        <!-- Free tier -->
+        <div class="price">
+          <div class="price-tier" data-i18n="priceFreeTier">FREE · WARZONE 2007</div>
+          <div class="price-amount"><span data-i18n="priceFreeAmount">$0</span></div>
+          <div class="price-tagline" data-i18n="priceFreeTagline">My warzone. If you're on 2007, you get the whole suite. Ask your R5 for the code.</div>
+          <ul class="price-features">
+            <li data-i18n="priceFreeF1">Every tool in the suite, unlocked</li>
+            <li data-i18n="priceFreeF2">90-day cookie on your device</li>
+            <li data-i18n="priceFreeF3">All 7 language toggles</li>
+            <li data-i18n="priceFreeF4">Discord PNG export on every tool</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=Warzone%202007%20access%20code" data-i18n="priceFreeCta">Request warzone code</a>
+        </div>
+
+        <!-- Personal tier - featured -->
+        <div class="price featured">
+          <div class="price-tier" data-i18n="pricePersonalTier">PERSONAL</div>
+          <div class="price-amount">$10<span class="price-unit" data-i18n="priceUnitOnce">one-time</span></div>
+          <div class="price-tagline" data-i18n="pricePersonalTagline">Any alliance, any warzone. Buy once, use for a full season.</div>
+          <ul class="price-features">
+            <li data-i18n="pricePersonalF1">Every tool in the suite, unlocked</li>
+            <li data-i18n="pricePersonalF2">90 days on your device</li>
+            <li data-i18n="pricePersonalF3">Includes Roster Extractor (standard)</li>
+            <li data-i18n="pricePersonalF4">All 7 languages · Discord PNG on every tool</li>
+          </ul>
+          <a class="price-cta" href="mailto:hello@r5tools.io?subject=Personal%20unlock%20($10)" data-i18n="pricePersonalCta">Get personal unlock →</a>
+        </div>
+
+        <!-- Alliance tier -->
+        <div class="price">
+          <div class="price-tier" data-i18n="priceAllianceTier">ALLIANCE BUNDLE</div>
+          <div class="price-amount">$50<span class="price-unit" data-i18n="priceUnitOnce">one-time</span></div>
+          <div class="price-tagline" data-i18n="priceAllianceTagline">R5 buys once, hands the code to the whole alliance. Each member gets 90 days on their device.</div>
+          <ul class="price-features">
+            <li data-i18n="priceAllianceF1">Every tool, every member</li>
+            <li data-i18n="priceAllianceF2">90 days per device (share the code)</li>
+            <li data-i18n="priceAllianceF3">Cheaper than 5× personal codes</li>
+            <li data-i18n="priceAllianceF4">All 7 languages · Discord PNG on every tool</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=Alliance%20bundle%20($50)" data-i18n="priceAllianceCta">Get alliance bundle →</a>
+        </div>
+
+        <!-- Roster Extractor Premium (secondary) -->
+        <div class="price-premium">
+          <div class="price-premium-amount">+$5</div>
+          <div style="flex:1;min-width:220px">
+            <strong data-i18n="pricePremiumTitle">Roster Extractor Premium — guaranteed 94/94 accuracy.</strong>
+            <div style="margin-top:2px" data-i18n="pricePremiumBody">Adds a second-pass Claude audit that verifies power/HQ/rank on every row and repairs OCR errors on similar names. For rosters where you can't afford a single missed member.</div>
+          </div>
+          <a class="price-cta" style="align-self:flex-start" href="https://roster.r5tools.io/" target="_blank" rel="noopener" data-i18n="pricePremiumCta">Add Premium →</a>
+        </div>
+
       </div>
     </section>
 
@@ -635,6 +951,58 @@
         vizTimelineTitle: 'Season 2 · 8-Week Timeline (Polar Storm)',
         vizTimelineKr: '',
         vizTimelineCap: '<strong>Week 4</strong> is the pivot — the -70°C blizzard opens concurrently with the first Rare Soil War round. If your alliance hasn\'t stockpiled coal AND assembled a 20-squad furnace reinforcement roster by then, you lose your capital. Weeks 7-8 escalate to Glacieradon boss chases and the Nuclear Furnace siege at the Capitol.',
+        // Why-this-suite (post-hero)
+        secWhy: 'WHY R5s USE THIS SUITE',
+        whyHead1: 'Video → roster in <span class="accent">2 minutes</span>.',
+        whyBody1: 'Screen-record your alliance member list. Upload. Claude vision reads every row. No retyping 100 names into a spreadsheet ever again.',
+        whyHead2: 'Every tool speaks <span class="accent">7 languages</span>.',
+        whyBody2: 'EN · KO · ES · PT · JA · DE · FR from day one. Your KR co-R5 opens the same tool, sees the same PNG, in Hangul.',
+        whyHead3: 'Discord-ready <span class="accent">PNG exports</span> on every tool.',
+        whyBody3: 'Every tool exports its state as a dark-theme PNG sized for Discord. Drop into #alliance-general, everyone sees it, nobody needs the tool open.',
+        whyHead4: 'Built by an <span class="accent">R5</span> for R5s who plan ahead.',
+        whyBody4: 'Not a spreadsheet. Not a Discord bot. A briefing room for the R5 who opens the tools the night before a season starts.',
+        // How it works
+        secHow: 'HOW IT WORKS · ROSTER → SUITE IN 2 MINUTES',
+        howBlurb: 'The flagship Roster Extractor is the front door. Once your roster is CSV, every other tool in the suite eats the same file — no re-uploading, no re-typing.',
+        howStep1Num: 'STEP 1',
+        howStep1Title: 'Record 90 seconds.',
+        howStep1Body: 'Open your alliance member list in-game. Start iOS/Android screen recording. Slowly scroll from R5 down to R1. Stop. You now have a <strong>.mov / .mp4</strong> with every row visible.',
+        howStep2Num: 'STEP 2',
+        howStep2Title: 'Upload &amp; review.',
+        howStep2Body: 'Drop the file into <strong>roster.r5tools.io</strong>. ffmpeg extracts frames; Claude Sonnet 4.6 vision reads every row; dedup + rank-sort auto. You get an <strong>editable table</strong> to fix any OCR misreads before export.',
+        howStep3Num: 'STEP 3',
+        howStep3Title: 'Download &amp; feed the suite.',
+        howStep3Body: 'Same CSV plugs into <strong>Landing Planner</strong>, <strong>Heat Simulator</strong>, <strong>Coal Burn</strong>, <strong>Freeze-Risk</strong>, and every other tool. Each extraction is fingerprinted (SHA-256 of R5 + top-8) so you can <strong>track alliance growth</strong> across seasons.',
+        howCta: 'Try Roster Extractor →',
+        // Pricing
+        secPricing: 'PRICING · ONE UNLOCK COVERS EVERY TOOL',
+        pricingBlurb: 'One Alliance Access Code unlocks every tool in the suite for 90 days on your device. No accounts, no emails. Warzone 2007 is free — my own warzone gets first-class treatment.',
+        priceUnitOnce: 'one-time',
+        priceFreeTier: 'FREE · WARZONE 2007',
+        priceFreeAmount: '$0',
+        priceFreeTagline: "My warzone. If you're on 2007, you get the whole suite. Ask your R5 for the code.",
+        priceFreeF1: 'Every tool in the suite, unlocked',
+        priceFreeF2: '90-day cookie on your device',
+        priceFreeF3: 'All 7 language toggles',
+        priceFreeF4: 'Discord PNG export on every tool',
+        priceFreeCta: 'Request warzone code',
+        pricePersonalTier: 'PERSONAL',
+        pricePersonalTagline: 'Any alliance, any warzone. Buy once, use for a full season.',
+        pricePersonalF1: 'Every tool in the suite, unlocked',
+        pricePersonalF2: '90 days on your device',
+        pricePersonalF3: 'Includes Roster Extractor (standard)',
+        pricePersonalF4: 'All 7 languages · Discord PNG on every tool',
+        pricePersonalCta: 'Get personal unlock →',
+        priceAllianceTier: 'ALLIANCE BUNDLE',
+        priceAllianceTagline: 'R5 buys once, hands the code to the whole alliance. Each member gets 90 days on their device.',
+        priceAllianceF1: 'Every tool, every member',
+        priceAllianceF2: '90 days per device (share the code)',
+        priceAllianceF3: 'Cheaper than 5× personal codes',
+        priceAllianceF4: 'All 7 languages · Discord PNG on every tool',
+        priceAllianceCta: 'Get alliance bundle →',
+        pricePremiumTitle: 'Roster Extractor Premium — guaranteed 94/94 accuracy.',
+        pricePremiumBody: "Adds a second-pass Claude audit that verifies power/HQ/rank on every row and repairs OCR errors on similar names. For rosters where you can't afford a single missed member.",
+        pricePremiumCta: 'Add Premium →',
       },
       ko: {
         brand: 'R5TOOLS.IO — LWS 스위트',
@@ -676,6 +1044,58 @@
         vizTimelineTitle: '시즌 2 · 8주 타임라인 (극지 폭풍)',
         vizTimelineKr: '',
         vizTimelineCap: '<strong>4주차</strong>가 전환점입니다 — -70°C 블리자드가 첫 희귀 흙 전쟁 라운드와 동시에 시작됩니다. 그때까지 연맹이 석탄을 비축하고 20 스쿼드 퍼니스 보강 로스터를 조립하지 않았다면 수도를 잃게 됩니다. 7-8주차는 글래시라돈 보스 추격과 캐피톨의 뉴클리어 퍼니스 공성으로 격화됩니다.',
+        // Why-this-suite
+        secWhy: 'R5가 이 스위트를 사용하는 이유',
+        whyHead1: '영상 → 로스터가 <span class="accent">2분 만에</span>.',
+        whyBody1: '연맹 멤버 목록을 화면 녹화하세요. 업로드하면 Claude 비전이 모든 행을 읽습니다. 100명의 이름을 스프레드시트에 다시 타이핑할 일이 없습니다.',
+        whyHead2: '모든 도구가 <span class="accent">7개 언어</span>를 지원합니다.',
+        whyBody2: 'EN · KO · ES · PT · JA · DE · FR 첫날부터. 한국어 co-R5가 같은 도구를 열면 같은 PNG를 한글로 봅니다.',
+        whyHead3: '모든 도구에 <span class="accent">디스코드용 PNG 익스포트</span>.',
+        whyBody3: '모든 도구가 상태를 디스코드 크기의 다크 테마 PNG로 익스포트합니다. #alliance-general에 드롭하면 모두가 볼 수 있고, 도구를 열지 않아도 됩니다.',
+        whyHead4: '<span class="accent">R5</span>가 미리 준비하는 R5를 위해 만들었습니다.',
+        whyBody4: '스프레드시트가 아닙니다. 디스코드 봇이 아닙니다. 시즌이 시작되기 전날 밤에 R5가 여는 브리핑 룸입니다.',
+        // How it works
+        secHow: '작동 방식 · 로스터 → 스위트가 2분 안에',
+        howBlurb: '플래그십 로스터 추출기가 정문입니다. 로스터가 CSV로 변환되면, 스위트의 모든 다른 도구가 같은 파일을 사용합니다 — 재업로드도, 재입력도 없습니다.',
+        howStep1Num: '1단계',
+        howStep1Title: '90초 녹화하세요.',
+        howStep1Body: '게임에서 연맹 멤버 목록을 여세요. iOS/Android 화면 녹화를 시작하세요. R5부터 R1까지 천천히 스크롤하세요. 정지. 이제 모든 행이 보이는 <strong>.mov / .mp4</strong>가 있습니다.',
+        howStep2Num: '2단계',
+        howStep2Title: '업로드 후 검토.',
+        howStep2Body: '파일을 <strong>roster.r5tools.io</strong>에 드롭하세요. ffmpeg가 프레임을 추출하고, Claude Sonnet 4.6 비전이 모든 행을 읽고, 중복 제거 + 랭크 정렬이 자동으로 됩니다. 익스포트 전에 OCR 오류를 수정할 수 있는 <strong>편집 가능한 테이블</strong>이 제공됩니다.',
+        howStep3Num: '3단계',
+        howStep3Title: '다운로드 후 스위트에 공급.',
+        howStep3Body: '같은 CSV가 <strong>랜딩 플래너</strong>, <strong>히트 시뮬레이터</strong>, <strong>석탄 소모</strong>, <strong>동결 위험</strong> 및 모든 도구에 연결됩니다. 각 추출은 지문(R5 + 상위 8명의 SHA-256)으로 표시되므로 시즌 전반에 걸쳐 <strong>연맹 성장을 추적</strong>할 수 있습니다.',
+        howCta: '로스터 추출기 시도하기 →',
+        // Pricing
+        secPricing: '가격 · 하나의 잠금 해제로 모든 도구',
+        pricingBlurb: '하나의 얼라이언스 액세스 코드로 스위트의 모든 도구를 기기에서 90일 동안 잠금 해제합니다. 계정 없음, 이메일 없음. 워존 2007은 무료 — 제 워존은 최우선 대우.',
+        priceUnitOnce: '일회성',
+        priceFreeTier: '무료 · 워존 2007',
+        priceFreeAmount: '$0',
+        priceFreeTagline: '제 워존입니다. 2007에 있다면 전체 스위트를 받습니다. R5에게 코드를 요청하세요.',
+        priceFreeF1: '스위트의 모든 도구 잠금 해제',
+        priceFreeF2: '기기에 90일 쿠키',
+        priceFreeF3: '7개 언어 토글 전부',
+        priceFreeF4: '모든 도구에 디스코드 PNG 익스포트',
+        priceFreeCta: '워존 코드 요청',
+        pricePersonalTier: '개인',
+        pricePersonalTagline: '어떤 연맹, 어떤 워존이든. 한 번 구매, 전체 시즌 사용.',
+        pricePersonalF1: '스위트의 모든 도구 잠금 해제',
+        pricePersonalF2: '기기에 90일',
+        pricePersonalF3: '로스터 추출기 (스탠다드) 포함',
+        pricePersonalF4: '7개 언어 · 모든 도구에 디스코드 PNG',
+        pricePersonalCta: '개인 잠금 해제 →',
+        priceAllianceTier: '얼라이언스 번들',
+        priceAllianceTagline: 'R5가 한 번 구매하고 전체 연맹에 코드를 전달. 각 멤버가 기기에서 90일을 받습니다.',
+        priceAllianceF1: '모든 도구, 모든 멤버',
+        priceAllianceF2: '기기당 90일 (코드 공유)',
+        priceAllianceF3: '개인 코드 5개보다 저렴',
+        priceAllianceF4: '7개 언어 · 모든 도구에 디스코드 PNG',
+        priceAllianceCta: '얼라이언스 번들 →',
+        pricePremiumTitle: '로스터 추출기 프리미엄 — 94/94 정확도 보장.',
+        pricePremiumBody: '모든 행의 파워/HQ/랭크를 검증하고 유사한 이름의 OCR 오류를 수정하는 두 번째 Claude 감사 패스를 추가합니다. 단 한 명도 놓칠 수 없는 로스터를 위한 것입니다.',
+        pricePremiumCta: '프리미엄 추가 →',
       },
       es: {
         brand: 'R5TOOLS.IO — SUITE LWS',
@@ -717,6 +1137,58 @@
         vizTimelineTitle: 'Temporada 2 · Cronología de 8 Semanas (Tormenta Polar)',
         vizTimelineKr: '',
         vizTimelineCap: 'La <strong>Semana 4</strong> es el pivote — la ventisca de -70°C abre al mismo tiempo que la primera ronda de Guerra de Suelo Raro. Si tu alianza no ha acumulado carbón Y ensamblado un roster de 20 escuadrones de refuerzo de horno para entonces, pierdes tu capital. Semanas 7-8 escalan a persecuciones de jefes Glacieradon y el asedio del Horno Nuclear en el Capitolio.',
+        // Why-this-suite
+        secWhy: 'POR QUÉ LOS R5s USAN ESTA SUITE',
+        whyHead1: 'Video → roster en <span class="accent">2 minutos</span>.',
+        whyBody1: 'Graba en pantalla la lista de miembros de tu alianza. Sube. Claude vision lee cada fila. Nunca más retiped 100 nombres en una hoja de cálculo.',
+        whyHead2: 'Cada herramienta habla <span class="accent">7 idiomas</span>.',
+        whyBody2: 'EN · KO · ES · PT · JA · DE · FR desde el día uno. Tu co-R5 coreano abre la misma herramienta, ve el mismo PNG, en Hangul.',
+        whyHead3: '<span class="accent">Exportaciones PNG</span> listas para Discord en cada herramienta.',
+        whyBody3: 'Cada herramienta exporta su estado como PNG tema oscuro dimensionado para Discord. Suelta en #alliance-general, todos lo ven, nadie necesita la herramienta abierta.',
+        whyHead4: 'Hecho por un <span class="accent">R5</span> para R5s que planifican con anticipación.',
+        whyBody4: 'No es una hoja de cálculo. No es un bot de Discord. Una sala de mando para el R5 que abre las herramientas la noche antes de que empiece una temporada.',
+        // How it works
+        secHow: 'CÓMO FUNCIONA · ROSTER → SUITE EN 2 MINUTOS',
+        howBlurb: 'El Roster Extractor insignia es la puerta de entrada. Una vez que tu roster es CSV, cada otra herramienta de la suite come el mismo archivo — sin re-subir, sin re-tipear.',
+        howStep1Num: 'PASO 1',
+        howStep1Title: 'Graba 90 segundos.',
+        howStep1Body: 'Abre tu lista de miembros de alianza en el juego. Inicia grabación de pantalla iOS/Android. Desplázate lentamente de R5 a R1. Detén. Ahora tienes un <strong>.mov / .mp4</strong> con cada fila visible.',
+        howStep2Num: 'PASO 2',
+        howStep2Title: 'Sube y revisa.',
+        howStep2Body: 'Suelta el archivo en <strong>roster.r5tools.io</strong>. ffmpeg extrae frames; Claude Sonnet 4.6 vision lee cada fila; dedup + orden por rango automático. Obtienes una <strong>tabla editable</strong> para corregir errores de OCR antes de exportar.',
+        howStep3Num: 'PASO 3',
+        howStep3Title: 'Descarga y alimenta la suite.',
+        howStep3Body: 'El mismo CSV se conecta a <strong>Landing Planner</strong>, <strong>Heat Simulator</strong>, <strong>Coal Burn</strong>, <strong>Freeze-Risk</strong>, y cada otra herramienta. Cada extracción tiene huella digital (SHA-256 de R5 + top-8) para <strong>rastrear crecimiento</strong> de la alianza entre temporadas.',
+        howCta: 'Probar Roster Extractor →',
+        // Pricing
+        secPricing: 'PRECIOS · UN DESBLOQUEO CUBRE TODAS LAS HERRAMIENTAS',
+        pricingBlurb: 'Un Código de Acceso de Alianza desbloquea cada herramienta de la suite por 90 días en tu dispositivo. Sin cuentas, sin correos. Warzone 2007 es gratis — mi warzone recibe trato de primera.',
+        priceUnitOnce: 'pago único',
+        priceFreeTier: 'GRATIS · WARZONE 2007',
+        priceFreeAmount: '$0',
+        priceFreeTagline: 'Mi warzone. Si estás en 2007, obtienes toda la suite. Pide el código a tu R5.',
+        priceFreeF1: 'Cada herramienta de la suite, desbloqueada',
+        priceFreeF2: 'Cookie de 90 días en tu dispositivo',
+        priceFreeF3: 'Los 7 selectores de idioma',
+        priceFreeF4: 'Exportación PNG a Discord en cada herramienta',
+        priceFreeCta: 'Solicitar código de warzone',
+        pricePersonalTier: 'PERSONAL',
+        pricePersonalTagline: 'Cualquier alianza, cualquier warzone. Compra una vez, usa toda la temporada.',
+        pricePersonalF1: 'Cada herramienta de la suite, desbloqueada',
+        pricePersonalF2: '90 días en tu dispositivo',
+        pricePersonalF3: 'Incluye Roster Extractor (estándar)',
+        pricePersonalF4: '7 idiomas · PNG a Discord en cada herramienta',
+        pricePersonalCta: 'Obtener desbloqueo personal →',
+        priceAllianceTier: 'PAQUETE ALIANZA',
+        priceAllianceTagline: 'El R5 compra una vez y entrega el código a toda la alianza. Cada miembro obtiene 90 días en su dispositivo.',
+        priceAllianceF1: 'Cada herramienta, cada miembro',
+        priceAllianceF2: '90 días por dispositivo (comparte el código)',
+        priceAllianceF3: 'Más barato que 5× códigos personales',
+        priceAllianceF4: '7 idiomas · PNG a Discord en cada herramienta',
+        priceAllianceCta: 'Obtener paquete alianza →',
+        pricePremiumTitle: 'Roster Extractor Premium — precisión 94/94 garantizada.',
+        pricePremiumBody: 'Añade una segunda pasada de auditoría de Claude que verifica poder/CG/rango en cada fila y repara errores de OCR en nombres similares. Para rosters donde no puedes permitirte perder un solo miembro.',
+        pricePremiumCta: 'Añadir Premium →',
       },
       pt: {
         brand: 'R5TOOLS.IO — SUITE LWS',
@@ -758,6 +1230,58 @@
         vizTimelineTitle: 'Temporada 2 · Cronograma de 8 Semanas (Tempestade Polar)',
         vizTimelineKr: '',
         vizTimelineCap: 'A <strong>Semana 4</strong> é o ponto de virada — a nevasca de -70°C abre junto com a primeira rodada da Guerra de Solo Raro. Se sua aliança não estocou carvão E montou um roster de 20 esquadrões de reforço de fornalha até lá, você perde sua capital. Semanas 7-8 escalam para caçadas ao chefe Glacieradon e o cerco da Fornalha Nuclear no Capitólio.',
+        // Why-this-suite
+        secWhy: 'POR QUE OS R5s USAM ESTA SUITE',
+        whyHead1: 'Vídeo → roster em <span class="accent">2 minutos</span>.',
+        whyBody1: 'Grave a tela da lista de membros da sua aliança. Envie. Claude vision lê cada linha. Nunca mais digite 100 nomes em uma planilha.',
+        whyHead2: 'Cada ferramenta fala <span class="accent">7 idiomas</span>.',
+        whyBody2: 'EN · KO · ES · PT · JA · DE · FR desde o primeiro dia. Seu co-R5 coreano abre a mesma ferramenta, vê o mesmo PNG, em Hangul.',
+        whyHead3: '<span class="accent">Exportações PNG</span> prontas para Discord em cada ferramenta.',
+        whyBody3: 'Cada ferramenta exporta seu estado como PNG tema escuro dimensionado para Discord. Solte em #alliance-general, todos veem, ninguém precisa da ferramenta aberta.',
+        whyHead4: 'Feito por um <span class="accent">R5</span> para R5s que planejam com antecedência.',
+        whyBody4: 'Não é uma planilha. Não é um bot do Discord. Uma sala de briefing para o R5 que abre as ferramentas na noite antes de uma temporada começar.',
+        // How it works
+        secHow: 'COMO FUNCIONA · ROSTER → SUITE EM 2 MINUTOS',
+        howBlurb: 'O Roster Extractor carro-chefe é a porta da frente. Uma vez que seu roster é CSV, cada outra ferramenta da suite come o mesmo arquivo — sem re-upload, sem re-digitação.',
+        howStep1Num: 'PASSO 1',
+        howStep1Title: 'Grave 90 segundos.',
+        howStep1Body: 'Abra sua lista de membros da aliança no jogo. Inicie a gravação de tela iOS/Android. Role lentamente de R5 até R1. Pare. Agora você tem um <strong>.mov / .mp4</strong> com cada linha visível.',
+        howStep2Num: 'PASSO 2',
+        howStep2Title: 'Envie e revise.',
+        howStep2Body: 'Solte o arquivo em <strong>roster.r5tools.io</strong>. ffmpeg extrai frames; Claude Sonnet 4.6 vision lê cada linha; dedup + ordenação por rank automático. Você recebe uma <strong>tabela editável</strong> para corrigir erros de OCR antes de exportar.',
+        howStep3Num: 'PASSO 3',
+        howStep3Title: 'Baixe e alimente a suite.',
+        howStep3Body: 'O mesmo CSV se conecta a <strong>Landing Planner</strong>, <strong>Heat Simulator</strong>, <strong>Coal Burn</strong>, <strong>Freeze-Risk</strong>, e cada outra ferramenta. Cada extração tem impressão digital (SHA-256 de R5 + top-8) para <strong>rastrear crescimento</strong> da aliança entre temporadas.',
+        howCta: 'Testar Roster Extractor →',
+        // Pricing
+        secPricing: 'PREÇOS · UM DESBLOQUEIO COBRE TODAS AS FERRAMENTAS',
+        pricingBlurb: 'Um Código de Acesso de Aliança desbloqueia cada ferramenta da suite por 90 dias no seu dispositivo. Sem contas, sem emails. Warzone 2007 é grátis — minha warzone recebe tratamento de primeira classe.',
+        priceUnitOnce: 'pagamento único',
+        priceFreeTier: 'GRÁTIS · WARZONE 2007',
+        priceFreeAmount: '$0',
+        priceFreeTagline: 'Minha warzone. Se você está na 2007, ganha a suite inteira. Peça o código ao seu R5.',
+        priceFreeF1: 'Cada ferramenta da suite, desbloqueada',
+        priceFreeF2: 'Cookie de 90 dias no seu dispositivo',
+        priceFreeF3: 'Os 7 seletores de idioma',
+        priceFreeF4: 'Exportação PNG para Discord em cada ferramenta',
+        priceFreeCta: 'Solicitar código da warzone',
+        pricePersonalTier: 'PESSOAL',
+        pricePersonalTagline: 'Qualquer aliança, qualquer warzone. Compre uma vez, use a temporada inteira.',
+        pricePersonalF1: 'Cada ferramenta da suite, desbloqueada',
+        pricePersonalF2: '90 dias no seu dispositivo',
+        pricePersonalF3: 'Inclui Roster Extractor (padrão)',
+        pricePersonalF4: '7 idiomas · PNG para Discord em cada ferramenta',
+        pricePersonalCta: 'Obter desbloqueio pessoal →',
+        priceAllianceTier: 'PACOTE ALIANÇA',
+        priceAllianceTagline: 'O R5 compra uma vez e entrega o código para a aliança toda. Cada membro ganha 90 dias no dispositivo.',
+        priceAllianceF1: 'Cada ferramenta, cada membro',
+        priceAllianceF2: '90 dias por dispositivo (compartilhe o código)',
+        priceAllianceF3: 'Mais barato que 5× códigos pessoais',
+        priceAllianceF4: '7 idiomas · PNG para Discord em cada ferramenta',
+        priceAllianceCta: 'Obter pacote aliança →',
+        pricePremiumTitle: 'Roster Extractor Premium — precisão 94/94 garantida.',
+        pricePremiumBody: 'Adiciona uma segunda passada de auditoria do Claude que verifica poder/QG/rank em cada linha e conserta erros de OCR em nomes similares. Para rosters onde você não pode perder um único membro.',
+        pricePremiumCta: 'Adicionar Premium →',
       },
       ja: {
         brand: 'R5TOOLS.IO — LWS スイート',
@@ -799,6 +1323,58 @@
         vizTimelineTitle: 'シーズン2 · 8週間タイムライン（極地嵐）',
         vizTimelineKr: '',
         vizTimelineCap: '<strong>第4週</strong>が転換点です — -70°Cブリザードが第1回レアソイル戦争ラウンドと同時に開始されます。それまでに同盟が石炭を備蓄し、20部隊の溶鉱炉増援ロースターを組んでいなければ首都を失います。第7-8週はグレイシャドンボス追撃と首都でのニュークリア溶鉱炉包囲戦へと激化します。',
+        // Why-this-suite
+        secWhy: 'R5がこのスイートを使う理由',
+        whyHead1: 'ビデオ → ロースターが<span class="accent">2分で</span>。',
+        whyBody1: '同盟メンバーリストを画面録画。アップロード。Claude visionが各行を読み取ります。100人の名前をスプレッドシートに再入力する必要はもうありません。',
+        whyHead2: 'すべてのツールが<span class="accent">7言語</span>で話します。',
+        whyBody2: 'EN · KO · ES · PT · JA · DE · FR 初日から。韓国のco-R5が同じツールを開き、同じPNGをハングルで見ます。',
+        whyHead3: 'すべてのツールに<span class="accent">Discord対応PNGエクスポート</span>。',
+        whyBody3: '各ツールが状態をDiscordサイズのダークテーマPNGとしてエクスポート。#alliance-generalに落とせば、全員が見えて、ツールを開く必要がありません。',
+        whyHead4: '先を読む<span class="accent">R5</span>のためにR5が作成。',
+        whyBody4: 'スプレッドシートではありません。Discordボットでもありません。シーズン開始の前夜にR5がツールを開くブリーフィングルームです。',
+        // How it works
+        secHow: '仕組み · ロースター → スイートが2分で',
+        howBlurb: 'フラッグシップのRoster Extractorが玄関口です。ロースターがCSVになれば、スイートの他のすべてのツールが同じファイルを使用します — 再アップロードなし、再入力なし。',
+        howStep1Num: 'ステップ1',
+        howStep1Title: '90秒録画。',
+        howStep1Body: 'ゲーム内で同盟メンバーリストを開きます。iOS/Android画面録画を開始。R5からR1までゆっくりスクロール。停止。これで各行が見える<strong>.mov / .mp4</strong>ができました。',
+        howStep2Num: 'ステップ2',
+        howStep2Title: 'アップロードとレビュー。',
+        howStep2Body: 'ファイルを<strong>roster.r5tools.io</strong>にドロップ。ffmpegがフレームを抽出し、Claude Sonnet 4.6 visionが各行を読み取り、重複排除 + ランクソートを自動で行います。エクスポート前にOCRの読み違いを修正できる<strong>編集可能なテーブル</strong>が提供されます。',
+        howStep3Num: 'ステップ3',
+        howStep3Title: 'ダウンロードしてスイートに供給。',
+        howStep3Body: '同じCSVが<strong>Landing Planner</strong>、<strong>Heat Simulator</strong>、<strong>Coal Burn</strong>、<strong>Freeze-Risk</strong>、そして他のすべてのツールに接続されます。各抽出はフィンガープリント(R5 + トップ8のSHA-256)されているので、シーズンにわたる<strong>同盟の成長を追跡</strong>できます。',
+        howCta: 'Roster Extractorを試す →',
+        // Pricing
+        secPricing: '価格 · 1つのアンロックですべてのツール',
+        pricingBlurb: '1つの同盟アクセスコードで、スイートの全ツールをデバイス上で90日間アンロック。アカウント不要、メール不要。ウォーゾーン2007は無料 — 自分のウォーゾーンには最上級の扱いを。',
+        priceUnitOnce: '一回払い',
+        priceFreeTier: '無料 · ウォーゾーン2007',
+        priceFreeAmount: '$0',
+        priceFreeTagline: '自分のウォーゾーンです。2007なら、スイート全体を手に入れられます。R5にコードを聞いてください。',
+        priceFreeF1: 'スイート全ツール、アンロック',
+        priceFreeF2: 'デバイスに90日クッキー',
+        priceFreeF3: '7言語トグル全部',
+        priceFreeF4: '全ツールにDiscord PNGエクスポート',
+        priceFreeCta: 'ウォーゾーンコードをリクエスト',
+        pricePersonalTier: 'パーソナル',
+        pricePersonalTagline: 'どの同盟でも、どのウォーゾーンでも。1回購入、シーズンまるごと使用。',
+        pricePersonalF1: 'スイート全ツール、アンロック',
+        pricePersonalF2: 'デバイスに90日',
+        pricePersonalF3: 'Roster Extractor (スタンダード) 含む',
+        pricePersonalF4: '7言語 · 全ツールにDiscord PNG',
+        pricePersonalCta: 'パーソナルアンロック →',
+        priceAllianceTier: '同盟バンドル',
+        priceAllianceTagline: 'R5が1回購入し、コードを同盟全体に渡します。各メンバーがデバイスで90日を得ます。',
+        priceAllianceF1: '全ツール、全メンバー',
+        priceAllianceF2: 'デバイスあたり90日(コード共有)',
+        priceAllianceF3: 'パーソナルコード5個より安い',
+        priceAllianceF4: '7言語 · 全ツールにDiscord PNG',
+        priceAllianceCta: '同盟バンドルを取得 →',
+        pricePremiumTitle: 'Roster Extractorプレミアム — 94/94の精度を保証。',
+        pricePremiumBody: '各行のパワー/HQ/ランクを検証し、類似名のOCRエラーを修復する2回目のClaude監査パスを追加。1人も見逃せないロースター向け。',
+        pricePremiumCta: 'プレミアムを追加 →',
       },
       de: {
         brand: 'R5TOOLS.IO — LWS-SUITE',
@@ -840,6 +1416,58 @@
         vizTimelineTitle: 'Season 2 · 8-Wochen-Timeline (Polarsturm)',
         vizTimelineKr: '',
         vizTimelineCap: 'Die <strong>Woche 4</strong> ist der Wendepunkt — der -70°C-Blizzard startet zeitgleich mit der ersten Rare-Soil-War-Runde. Wenn deine Allianz bis dahin keine Kohle gebunkert und keine 20-Squad-Ofenverstärkungsliste zusammengestellt hat, verlierst du deine Hauptstadt. Wochen 7-8 eskalieren zu Glacieradon-Bossjagden und der Nuklearofen-Belagerung am Kapitol.',
+        // Why-this-suite
+        secWhy: 'WARUM R5s DIESE SUITE VERWENDEN',
+        whyHead1: 'Video → Roster in <span class="accent">2 Minuten</span>.',
+        whyBody1: 'Bildschirmaufnahme deiner Allianz-Mitgliederliste. Hochladen. Claude Vision liest jede Zeile. Nie wieder 100 Namen in eine Tabelle abtippen.',
+        whyHead2: 'Jedes Tool spricht <span class="accent">7 Sprachen</span>.',
+        whyBody2: 'EN · KO · ES · PT · JA · DE · FR ab Tag eins. Dein koreanischer Co-R5 öffnet dasselbe Tool, sieht das gleiche PNG, in Hangul.',
+        whyHead3: '<span class="accent">Discord-fertige PNG-Exporte</span> in jedem Tool.',
+        whyBody3: 'Jedes Tool exportiert seinen Zustand als Discord-formatiertes Dark-Theme-PNG. Ab in #alliance-general, jeder sieht es, niemand muss das Tool geöffnet haben.',
+        whyHead4: 'Von einem <span class="accent">R5</span> für R5s, die vorausplanen.',
+        whyBody4: 'Keine Tabelle. Kein Discord-Bot. Ein Briefing-Raum für den R5, der die Tools am Vorabend einer Season öffnet.',
+        // How it works
+        secHow: 'SO FUNKTIONIERT ES · ROSTER → SUITE IN 2 MINUTEN',
+        howBlurb: 'Der Roster Extractor als Flaggschiff ist die Eingangstür. Sobald dein Roster als CSV vorliegt, verarbeitet jedes andere Suite-Tool dieselbe Datei — kein Neuhochladen, kein Neu-Tippen.',
+        howStep1Num: 'SCHRITT 1',
+        howStep1Title: '90 Sekunden aufnehmen.',
+        howStep1Body: 'Öffne im Spiel deine Allianz-Mitgliederliste. Starte iOS/Android-Bildschirmaufnahme. Scrolle langsam von R5 bis R1. Stopp. Du hast jetzt eine <strong>.mov / .mp4</strong> mit jeder sichtbaren Zeile.',
+        howStep2Num: 'SCHRITT 2',
+        howStep2Title: 'Hochladen &amp; prüfen.',
+        howStep2Body: 'Zieh die Datei nach <strong>roster.r5tools.io</strong>. ffmpeg extrahiert Frames; Claude Sonnet 4.6 Vision liest jede Zeile; Dedup + Rang-Sortierung automatisch. Du erhältst eine <strong>editierbare Tabelle</strong>, um OCR-Fehler vor dem Export zu korrigieren.',
+        howStep3Num: 'SCHRITT 3',
+        howStep3Title: 'Herunterladen &amp; die Suite füttern.',
+        howStep3Body: 'Dieselbe CSV verbindet sich mit <strong>Landing Planner</strong>, <strong>Heat Simulator</strong>, <strong>Coal Burn</strong>, <strong>Freeze-Risk</strong> und jedem anderen Tool. Jede Extraktion hat einen Fingerabdruck (SHA-256 von R5 + Top 8) — so kannst du das <strong>Allianz-Wachstum</strong> über Seasons hinweg verfolgen.',
+        howCta: 'Roster Extractor testen →',
+        // Pricing
+        secPricing: 'PREISE · EIN FREISCHALT-CODE FÜR ALLE TOOLS',
+        pricingBlurb: 'Ein Allianz-Zugangscode schaltet jedes Tool der Suite für 90 Tage auf deinem Gerät frei. Keine Accounts, keine E-Mails. Warzone 2007 ist kostenlos — meine eigene Warzone bekommt erstklassige Behandlung.',
+        priceUnitOnce: 'einmalig',
+        priceFreeTier: 'KOSTENLOS · WARZONE 2007',
+        priceFreeAmount: '$0',
+        priceFreeTagline: 'Meine Warzone. Wenn du auf 2007 bist, bekommst du die ganze Suite. Frag deinen R5 nach dem Code.',
+        priceFreeF1: 'Jedes Suite-Tool freigeschaltet',
+        priceFreeF2: '90-Tage-Cookie auf deinem Gerät',
+        priceFreeF3: 'Alle 7 Sprach-Umschalter',
+        priceFreeF4: 'Discord-PNG-Export in jedem Tool',
+        priceFreeCta: 'Warzone-Code anfragen',
+        pricePersonalTier: 'PERSÖNLICH',
+        pricePersonalTagline: 'Jede Allianz, jede Warzone. Einmal kaufen, eine ganze Season nutzen.',
+        pricePersonalF1: 'Jedes Suite-Tool freigeschaltet',
+        pricePersonalF2: '90 Tage auf deinem Gerät',
+        pricePersonalF3: 'Inklusive Roster Extractor (Standard)',
+        pricePersonalF4: '7 Sprachen · Discord-PNG in jedem Tool',
+        pricePersonalCta: 'Persönlichen Freischalt-Code holen →',
+        priceAllianceTier: 'ALLIANZ-BUNDLE',
+        priceAllianceTagline: 'R5 kauft einmal, gibt den Code an die ganze Allianz. Jedes Mitglied bekommt 90 Tage auf seinem Gerät.',
+        priceAllianceF1: 'Jedes Tool, jedes Mitglied',
+        priceAllianceF2: '90 Tage pro Gerät (Code teilen)',
+        priceAllianceF3: 'Günstiger als 5× persönliche Codes',
+        priceAllianceF4: '7 Sprachen · Discord-PNG in jedem Tool',
+        priceAllianceCta: 'Allianz-Bundle holen →',
+        pricePremiumTitle: 'Roster Extractor Premium — garantiert 94/94 Genauigkeit.',
+        pricePremiumBody: 'Fügt einen zweiten Claude-Audit-Durchlauf hinzu, der Power/HQ/Rang auf jeder Zeile prüft und OCR-Fehler bei ähnlichen Namen repariert. Für Roster, bei denen du dir kein einziges verpasstes Mitglied leisten kannst.',
+        pricePremiumCta: 'Premium hinzufügen →',
       },
       fr: {
         brand: 'R5TOOLS.IO — SUITE LWS',
@@ -881,6 +1509,58 @@
         vizTimelineTitle: 'Saison 2 · Chronologie 8 Semaines (Tempête Polaire)',
         vizTimelineKr: '',
         vizTimelineCap: 'La <strong>Semaine 4</strong> est le pivot — le blizzard -70°C s\'ouvre en même temps que la première manche de Guerre du Sol Rare. Si votre alliance n\'a pas stocké de charbon ET assemblé un roster de 20 escouades de renfort de fourneau d\'ici là, vous perdez votre capitale. Les Semaines 7-8 dégénèrent en chasses aux boss Glacieradon et au siège du Fourneau Nucléaire au Capitole.',
+        // Why-this-suite
+        secWhy: 'POURQUOI LES R5 UTILISENT CETTE SUITE',
+        whyHead1: 'Vidéo → roster en <span class="accent">2 minutes</span>.',
+        whyBody1: 'Enregistrez l\'écran de la liste des membres de votre alliance. Téléversez. Claude vision lit chaque ligne. Ne retapez plus jamais 100 noms dans un tableur.',
+        whyHead2: 'Chaque outil parle <span class="accent">7 langues</span>.',
+        whyBody2: 'EN · KO · ES · PT · JA · DE · FR dès le premier jour. Votre co-R5 coréen ouvre le même outil, voit le même PNG, en Hangul.',
+        whyHead3: '<span class="accent">Exports PNG</span> prêts pour Discord dans chaque outil.',
+        whyBody3: 'Chaque outil exporte son état en PNG thème sombre dimensionné pour Discord. Déposez dans #alliance-general, tout le monde le voit, personne n\'a besoin d\'ouvrir l\'outil.',
+        whyHead4: 'Fait par un <span class="accent">R5</span> pour les R5 qui planifient à l\'avance.',
+        whyBody4: 'Ce n\'est pas un tableur. Ce n\'est pas un bot Discord. Une salle de briefing pour le R5 qui ouvre les outils la veille du début d\'une saison.',
+        // How it works
+        secHow: 'COMMENT ÇA MARCHE · ROSTER → SUITE EN 2 MINUTES',
+        howBlurb: 'Le Roster Extractor phare est la porte d\'entrée. Une fois votre roster en CSV, chaque autre outil de la suite consomme le même fichier — sans re-téléversement, sans re-saisie.',
+        howStep1Num: 'ÉTAPE 1',
+        howStep1Title: 'Enregistrez 90 secondes.',
+        howStep1Body: 'Ouvrez votre liste des membres d\'alliance dans le jeu. Lancez l\'enregistrement d\'écran iOS/Android. Faites défiler lentement de R5 à R1. Arrêtez. Vous avez maintenant un <strong>.mov / .mp4</strong> avec chaque ligne visible.',
+        howStep2Num: 'ÉTAPE 2',
+        howStep2Title: 'Téléversez et vérifiez.',
+        howStep2Body: 'Déposez le fichier dans <strong>roster.r5tools.io</strong>. ffmpeg extrait les frames ; Claude Sonnet 4.6 vision lit chaque ligne ; dédup + tri par rang auto. Vous obtenez un <strong>tableau modifiable</strong> pour corriger les erreurs OCR avant l\'export.',
+        howStep3Num: 'ÉTAPE 3',
+        howStep3Title: 'Téléchargez et alimentez la suite.',
+        howStep3Body: 'Le même CSV se branche sur <strong>Landing Planner</strong>, <strong>Heat Simulator</strong>, <strong>Coal Burn</strong>, <strong>Freeze-Risk</strong>, et chaque autre outil. Chaque extraction a une empreinte (SHA-256 du R5 + top 8) pour <strong>suivre la croissance</strong> de l\'alliance entre les saisons.',
+        howCta: 'Essayer Roster Extractor →',
+        // Pricing
+        secPricing: 'TARIFS · UN DÉVERROUILLAGE COUVRE TOUS LES OUTILS',
+        pricingBlurb: 'Un Code d\'Accès d\'Alliance déverrouille chaque outil de la suite pour 90 jours sur votre appareil. Pas de comptes, pas d\'emails. Warzone 2007 est gratuite — ma propre warzone reçoit un traitement de première classe.',
+        priceUnitOnce: 'paiement unique',
+        priceFreeTier: 'GRATUIT · WARZONE 2007',
+        priceFreeAmount: '$0',
+        priceFreeTagline: 'Ma warzone. Si vous êtes sur 2007, vous obtenez la suite entière. Demandez le code à votre R5.',
+        priceFreeF1: 'Chaque outil de la suite, déverrouillé',
+        priceFreeF2: 'Cookie de 90 jours sur votre appareil',
+        priceFreeF3: 'Les 7 sélecteurs de langue',
+        priceFreeF4: 'Export PNG Discord dans chaque outil',
+        priceFreeCta: 'Demander le code de warzone',
+        pricePersonalTier: 'PERSONNEL',
+        pricePersonalTagline: 'Toute alliance, toute warzone. Achetez une fois, utilisez toute la saison.',
+        pricePersonalF1: 'Chaque outil de la suite, déverrouillé',
+        pricePersonalF2: '90 jours sur votre appareil',
+        pricePersonalF3: 'Inclut Roster Extractor (standard)',
+        pricePersonalF4: '7 langues · PNG Discord dans chaque outil',
+        pricePersonalCta: 'Obtenir le déverrouillage personnel →',
+        priceAllianceTier: 'PACK ALLIANCE',
+        priceAllianceTagline: 'Le R5 achète une fois, transmet le code à toute l\'alliance. Chaque membre obtient 90 jours sur son appareil.',
+        priceAllianceF1: 'Chaque outil, chaque membre',
+        priceAllianceF2: '90 jours par appareil (partagez le code)',
+        priceAllianceF3: 'Moins cher que 5× codes personnels',
+        priceAllianceF4: '7 langues · PNG Discord dans chaque outil',
+        priceAllianceCta: 'Obtenir le pack alliance →',
+        pricePremiumTitle: 'Roster Extractor Premium — précision 94/94 garantie.',
+        pricePremiumBody: 'Ajoute une deuxième passe d\'audit Claude qui vérifie puissance/QG/rang sur chaque ligne et répare les erreurs OCR sur les noms similaires. Pour les rosters où vous ne pouvez pas vous permettre de manquer un seul membre.',
+        pricePremiumCta: 'Ajouter Premium →',
       },
     };
 
