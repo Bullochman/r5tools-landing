@@ -328,11 +328,16 @@
     </div>
 
     <div class="hero">
-      <h1 data-i18n="heroTitle">The <span class="accent">Last War</span> alliance toolkit for R5s who plan ahead.</h1>
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;margin-bottom:18px;background:rgba(201,169,97,0.12);border:1px solid rgba(201,169,97,0.35);border-radius:100px;font-size:12px;color:var(--accent);letter-spacing:0.05em;font-weight:600" data-i18n="heroS2Badge">⚡ SEASON 2 · WEEK 3 · POLAR STORM · LIVE</div>
+      <h1 data-i18n="heroTitle">Your alliance is planning Season 2 in a <span class="accent">group chat.</span><br/>The winning alliances aren't.</h1>
       <p data-i18n="heroBody">
-        A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. English and Korean from day one.
+        <em>Last War: Survival</em> alliance tools that replace the Google Sheet: video-to-roster in 2 minutes, Season 2 landing plan by rank tier, freeze-risk dashboard, coal budget for the Week-4 blizzard, hive formations, city capture schedule. Built by an R5. English + Korean + 5 more languages. Discord PNG export on every tool.
       </p>
-      <span class="kr-note" data-i18n="krNote">🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.</span>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px">
+        <a class="price-cta" href="#pricing" style="text-decoration:none" data-i18n="heroCta1">See pricing →</a>
+        <a class="price-cta ghost" href="https://roster.r5tools.io/" target="_blank" rel="noopener" style="text-decoration:none" data-i18n="heroCta2">Try Roster Extractor (free demo)</a>
+      </div>
+      <span class="kr-note" style="margin-top:16px" data-i18n="krNote">🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요. · Warzone 2007 members get a free unlock code. Ask your R5.</span>
       <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
     </div>
 
@@ -840,11 +845,18 @@
       </div>
     </section>
 
-    <section>
+    <section id="pricing">
       <h2 data-i18n="secPricing">PRICING · ONE UNLOCK COVERS EVERY TOOL</h2>
       <p style="color:var(--text-dim);font-size:14px;margin:-8px 0 8px;max-width:720px" data-i18n="pricingBlurb">
-        One Alliance Access Code unlocks every tool in the suite for 90 days on your device. No accounts, no emails. Warzone 2007 is free — my own warzone gets first-class treatment.
+        One Alliance Access Code unlocks every tool in the suite for 90 days on your device. No accounts, no emails required. Warzone 2007 is free — my own warzone gets first-class treatment.
       </p>
+      <div style="display:flex;align-items:center;gap:12px;padding:14px 20px;margin:16px 0 20px;background:linear-gradient(90deg,rgba(255,120,80,0.14),rgba(255,120,80,0.03));border:1px solid rgba(255,120,80,0.35);border-radius:8px;max-width:820px">
+        <div style="font-size:22px;line-height:1">🔥</div>
+        <div style="flex:1">
+          <div style="color:#ff9970;font-weight:700;font-size:13px;letter-spacing:0.03em" data-i18n="foundingLine1">FOUNDING ALLIANCE · FIRST 10 ONLY</div>
+          <div style="color:var(--text-dim);font-size:13px;margin-top:2px" data-i18n="foundingLine2">Alliance Bundle at <strong style="color:#fff">$30</strong> instead of $50 while I onboard the first 10 alliances. Lifetime access to every new tool I ship. Email me — first come, first served.</div>
+        </div>
+      </div>
       <div class="pricing">
 
         <!-- Free tier -->
@@ -925,9 +937,14 @@
     var I18N = {
       en: {
         brand: 'R5TOOLS.IO — LWS SUITE',
-        heroTitle: 'The <span class="accent">Last War</span> alliance toolkit for R5s who plan ahead.',
-        heroBody: 'A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. Available in 7 languages.',
-        krNote: '🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.',
+        heroS2Badge: '⚡ SEASON 2 · WEEK 3 · POLAR STORM · LIVE',
+        heroTitle: 'Your alliance is planning Season 2 in a <span class="accent">group chat.</span><br/>The winning alliances aren\'t.',
+        heroBody: '<em>Last War: Survival</em> alliance tools that replace the Google Sheet: video-to-roster in 2 minutes, Season 2 landing plan by rank tier, freeze-risk dashboard, coal budget for the Week-4 blizzard, hive formations, city capture schedule. Built by an R5. English + Korean + 5 more languages. Discord PNG export on every tool.',
+        heroCta1: 'See pricing →',
+        heroCta2: 'Try Roster Extractor (free demo)',
+        krNote: '🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요. · Warzone 2007 members get a free unlock code. Ask your R5.',
+        foundingLine1: 'FOUNDING ALLIANCE · FIRST 10 ONLY',
+        foundingLine2: 'Alliance Bundle at <strong style="color:#fff">$30</strong> instead of $50 while I onboard the first 10 alliances. Lifetime access to every new tool I ship. Email me — first come, first served.',
         secLive: 'LIVE',
         signInBtn: 'Unlock the suite',
         unlockBannerTitle: '🔓 Free for Warzone 2007 members',
@@ -1022,9 +1039,14 @@
       },
       ko: {
         brand: 'R5TOOLS.IO — LWS 스위트',
-        heroTitle: '미리 준비하는 R5를 위한 <span class="accent">라스트워</span> 얼라이언스 툴킷.',
-        heroBody: '<em>라스트워: 서바이벌</em> 연맹을 위한 작고 집중된 계획 도구 모음. 시즌 2 시작 전 착륙 좌표 조정, 동결 위험 모델링, 4주차 블리자드용 석탄 예산 계획, 하이브 대형 설계, 도시 점령 우선순위 결정. R5가 R5를 위해 만든 도구. 7개 언어 지원.',
-        krNote: '🇰🇷 워존 2007 멤버는 무료 잠금 해제 코드를 받을 수 있습니다. R5에게 문의하세요.',
+        heroS2Badge: '⚡ 시즌 2 · 3주차 · 극지 폭풍 · 라이브',
+        heroTitle: '당신의 연맹은 시즌 2를 <span class="accent">단체 채팅</span>으로 준비하고 있습니다.<br/>이기는 연맹은 그렇게 하지 않습니다.',
+        heroBody: '구글 시트를 대체하는 <em>라스트워: 서바이벌</em> 연맹 도구: 영상에서 명단으로 2분, 등급별 시즌 2 착륙 계획, 냉동 위험 대시보드, 4주차 블리자드 석탄 예산, 하이브 대형, 도시 점령 스케줄. R5가 만듦. 한국어 + 영어 + 5개 언어 더. 모든 도구에서 디스코드 PNG 내보내기.',
+        heroCta1: '가격 보기 →',
+        heroCta2: '명단 추출기 체험 (무료 데모)',
+        krNote: '🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요.',
+        foundingLine1: '창립 얼라이언스 · 선착순 10팀',
+        foundingLine2: '첫 10개 얼라이언스를 온보딩하는 동안 얼라이언스 번들을 <strong style="color:#fff">$30</strong>에 (기존 $50). 앞으로 출시되는 모든 도구에 평생 접근. 이메일 주세요 — 선착순.',
         secLive: '라이브',
         signInBtn: '스위트 잠금 해제',
         unlockBannerTitle: '🔓 워존 2007 멤버 무료',
