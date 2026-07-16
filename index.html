@@ -304,16 +304,28 @@
 
     <header class="top">
       <div class="brand" data-i18n="brand">R5TOOLS.IO — LWS SUITE</div>
-      <select class="lang-toggle" id="langToggle" aria-label="Language">
-        <option value="en">EN — English</option>
-        <option value="ko">KO — 한국어</option>
-        <option value="es">ES — Español</option>
-        <option value="pt">PT — Português (BR)</option>
-        <option value="ja">JA — 日本語</option>
-        <option value="de">DE — Deutsch</option>
-        <option value="fr">FR — Français</option>
-      </select>
+      <div style="display: flex; gap: 10px; align-items: center">
+        <a href="https://access-codes.r5tools.io/" data-i18n="signInBtn" style="background: var(--accent); color: #0a0e1a; border: none; border-radius: 999px; padding: 8px 18px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.03em; text-decoration: none; transition: background 0.15s">Unlock the suite</a>
+        <select class="lang-toggle" id="langToggle" aria-label="Language">
+          <option value="en">EN — English</option>
+          <option value="ko">KO — 한국어</option>
+          <option value="es">ES — Español</option>
+          <option value="pt">PT — Português (BR)</option>
+          <option value="ja">JA — 日本語</option>
+          <option value="de">DE — Deutsch</option>
+          <option value="fr">FR — Français</option>
+        </select>
+      </div>
     </header>
+
+    <!-- Access code / Sign in banner -->
+    <div style="max-width: 1080px; margin: 0 auto 24px; padding: 14px 20px; background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04)); border: 1px solid rgba(201,169,97,0.35); border-radius: 12px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
+      <div style="flex: 1; min-width: 260px">
+        <div data-i18n="unlockBannerTitle" style="font-weight: 700; color: var(--accent); font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px">🔓 Free for Warzone 2007 members</div>
+        <div data-i18n="unlockBannerBody" style="color: var(--text-dim); font-size: 13.5px; line-height: 1.5">Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">WARZONE-2007-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.</div>
+      </div>
+      <a href="https://access-codes.r5tools.io/" data-i18n="unlockBannerCta" style="background: var(--accent); color: #0a0e1a; border-radius: 8px; padding: 10px 18px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap">Enter code →</a>
+    </div>
 
     <div class="hero">
       <h1 data-i18n="heroTitle">The <span class="accent">Last War</span> alliance toolkit for R5s who plan ahead.</h1>
@@ -917,6 +929,10 @@
         heroBody: 'A suite of small, focused planning tools for <em>Last War: Survival</em> alliances. Coordinate landings before Season 2 opens, model freeze risk, budget coal for the Week-4 blizzard, plan hive formations, prioritize city captures. Built by an R5, for R5s. Available in 7 languages.',
         krNote: '🇰🇷 Warzone 2007 members get a free unlock code. Ask your R5.',
         secLive: 'LIVE',
+        signInBtn: 'Unlock the suite',
+        unlockBannerTitle: '🔓 Free for Warzone 2007 members',
+        unlockBannerBody: 'Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">WARZONE-2007-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.',
+        unlockBannerCta: 'Enter code →',
         secS2: 'SEASON 2 TOOLS · LIVE (client-only)',
         secPhilosophy: 'HOW THIS SUITE IS DIFFERENT',
         hivePlannerBody: "Marshall's Guard 3×3 and Military Stronghold 21×21 formation planner. Drag-and-drop, corner-anchored ring algorithm, CSV import, PNG export for Discord.",
@@ -1010,6 +1026,10 @@
         heroBody: '<em>라스트워: 서바이벌</em> 연맹을 위한 작고 집중된 계획 도구 모음. 시즌 2 시작 전 착륙 좌표 조정, 동결 위험 모델링, 4주차 블리자드용 석탄 예산 계획, 하이브 대형 설계, 도시 점령 우선순위 결정. R5가 R5를 위해 만든 도구. 7개 언어 지원.',
         krNote: '🇰🇷 워존 2007 멤버는 무료 잠금 해제 코드를 받을 수 있습니다. R5에게 문의하세요.',
         secLive: '라이브',
+        signInBtn: '스위트 잠금 해제',
+        unlockBannerTitle: '🔓 워존 2007 멤버 무료',
+        unlockBannerBody: 'R5에게 연맹 코드를 요청하세요 (예: WARZONE-2007-FREE) 또는 $20 평생 잠금 해제. 로그인 페이지 하나로 모든 도구 이용 가능.',
+        unlockBannerCta: '코드 입력 →',
         secS2: '시즌 2 도구 · 스캐폴드 라이브',
         secPhilosophy: '이 스위트의 차별점',
         hivePlannerBody: '마샬 가드 3×3 및 밀리터리 스트롱홀드 21×21 대형 플래너. 드래그 앤 드롭, 코너 앵커 링 알고리즘, CSV 임포트, 디스코드용 PNG 익스포트.',
@@ -1103,6 +1123,10 @@
         heroBody: 'Un conjunto de herramientas de planificación pequeñas y enfocadas para alianzas de <em>Last War: Survival</em>. Coordina aterrizajes antes de que abra Temporada 2, modela riesgo de congelación, presupuesta carbón para la ventisca de la Semana 4, planifica formaciones de colmena, prioriza capturas de ciudades. Hecho por un R5, para R5s. Disponible en 7 idiomas.',
         krNote: '🇰🇷 Los miembros de Warzone 2007 reciben un código de desbloqueo gratis. Pregunta a tu R5.',
         secLive: 'EN VIVO',
+        signInBtn: 'Desbloquear suite',
+        unlockBannerTitle: '🔓 Gratis para miembros de Warzone 2007',
+        unlockBannerBody: 'Pide a tu R5 el código de alianza o compra el desbloqueo vitalicio de $20. Funciona en todas las herramientas.',
+        unlockBannerCta: 'Ingresar código →',
         secS2: 'HERRAMIENTAS DE TEMPORADA 2 · EN VIVO (solo cliente)',
         secPhilosophy: 'POR QUÉ ESTA SUITE ES DIFERENTE',
         hivePlannerBody: 'Planificador de formaciones Guardia del Mariscal 3×3 y Fortaleza Militar 21×21. Arrastrar y soltar, algoritmo de anillos con anclaje en esquinas, importación CSV, exportación PNG para Discord.',
@@ -1196,6 +1220,10 @@
         heroBody: 'Um conjunto de ferramentas de planejamento pequenas e focadas para alianças de <em>Last War: Survival</em>. Coordene pousos antes da Temporada 2 abrir, modele risco de congelamento, orce carvão para a nevasca da Semana 4, planeje formações de colmeia, priorize capturas de cidades. Feito por um R5, para R5s. Disponível em 7 idiomas.',
         krNote: '🇰🇷 Membros da Warzone 2007 recebem um código de desbloqueio grátis. Pergunte ao seu R5.',
         secLive: 'AO VIVO',
+        signInBtn: 'Desbloquear suite',
+        unlockBannerTitle: '🔓 Grátis para membros do Warzone 2007',
+        unlockBannerBody: 'Peça ao seu R5 o código da aliança ou compre o desbloqueio vitalício de $20. Funciona em todas as ferramentas.',
+        unlockBannerCta: 'Inserir código →',
         secS2: 'FERRAMENTAS DA TEMPORADA 2 · AO VIVO (só cliente)',
         secPhilosophy: 'POR QUE ESTA SUITE É DIFERENTE',
         hivePlannerBody: 'Planejador de formações Guarda do Marechal 3×3 e Fortaleza Militar 21×21. Arrastar e soltar, algoritmo de anéis ancorado nos cantos, importação CSV, exportação PNG para Discord.',
@@ -1289,6 +1317,10 @@
         heroBody: '<em>ラストウォー・サバイバル</em>同盟のための小さく特化した計画ツール群。シーズン2開始前の着陸調整、凍結リスクのモデリング、第4週ブリザードの石炭予算、ハイブ陣形の計画、都市占領の優先度決定。R5がR5のために作成。7言語対応。',
         krNote: '🇰🇷 ウォーゾーン2007のメンバーは無料アンロックコードを取得できます。R5に問い合わせてください。',
         secLive: 'ライブ',
+        signInBtn: 'スイートをアンロック',
+        unlockBannerTitle: '🔓 ウォーゾーン2007メンバー無料',
+        unlockBannerBody: 'R5からアライアンスコードを取得、または$20の永久アンロック。すべてのツールで動作。',
+        unlockBannerCta: 'コード入力 →',
         secS2: 'シーズン2ツール · ライブ (クライアントのみ)',
         secPhilosophy: 'このスイートが違う理由',
         hivePlannerBody: 'マーシャルガード3×3およびミリタリーストロングホールド21×21陣形プランナー。ドラッグ&ドロップ、コーナー基点リングアルゴリズム、CSVインポート、Discord用PNGエクスポート。',
@@ -1475,6 +1507,10 @@
         heroBody: 'Une suite d\'outils de planification petits et ciblés pour les alliances de <em>Last War: Survival</em>. Coordonnez les atterrissages avant l\'ouverture de la Saison 2, modélisez le risque de gel, budgétisez le charbon pour le blizzard de la Semaine 4, planifiez les formations de ruche, priorisez les captures de villes. Fait par un R5, pour les R5. Disponible en 7 langues.',
         krNote: '🇰🇷 Les membres de Warzone 2007 obtiennent un code de déverrouillage gratuit. Demandez à votre R5.',
         secLive: 'EN LIGNE',
+        signInBtn: 'Débloquer la suite',
+        unlockBannerTitle: '🔓 Gratuit pour les membres de Warzone 2007',
+        unlockBannerBody: "Demandez à votre R5 le code d'alliance ou achetez le déblocage à vie à $20. Fonctionne sur tous les outils.",
+        unlockBannerCta: 'Entrer le code →',
         secS2: 'OUTILS SAISON 2 · EN LIGNE (client uniquement)',
         secPhilosophy: 'POURQUOI CETTE SUITE EST DIFFÉRENTE',
         hivePlannerBody: 'Planificateur de formations Garde du Maréchal 3×3 et Forteresse Militaire 21×21. Glisser-déposer, algorithme d\'anneau ancré aux coins, importation CSV, exportation PNG pour Discord.',
