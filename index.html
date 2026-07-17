@@ -419,7 +419,7 @@
             </g>
             <!-- Capitol marker -->
             <circle cx="130" cy="130" r="4" fill="#c9a961"/>
-            <text x="130" y="126" text-anchor="middle" fill="#f6e8b8" font-size="7" font-family="ui-monospace,monospace">CAPITOL</text>
+            <text x="130" y="126" text-anchor="middle" fill="#f6e8b8" font-size="7" font-family="ui-monospace,monospace" data-i18n="svgCapitol">CAPITOL</text>
             <!-- Temperature labels along east ray -->
             <g fill="#e6e8ee" font-size="9" font-family="ui-monospace,monospace">
               <text x="152" y="133">-80°</text>
@@ -430,7 +430,7 @@
             </g>
             <!-- Freeze threshold ring -->
             <circle cx="130" cy="130" r="108" fill="none" stroke="#e6cf7a" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.7"/>
-            <text x="130" y="26" text-anchor="middle" fill="#e6cf7a" font-size="9" font-family="ui-monospace,monospace">FREEZE ZONE · -20°C for 5 min</text>
+            <text x="130" y="26" text-anchor="middle" fill="#e6cf7a" font-size="9" font-family="ui-monospace,monospace" data-i18n="svgFreezeZone">FREEZE ZONE · -20°C for 5 min</text>
             <!-- Sample bases -->
             <g fill="#8ae0a3">
               <circle cx="70" cy="90" r="2"/>
@@ -452,13 +452,13 @@
             <rect x="0" y="0" width="260" height="260" fill="#0a0e1a" rx="6"/>
             <!-- 25x25 grid box -->
             <rect x="60" y="60" width="140" height="140" fill="rgba(255,80,80,0.08)" stroke="#ff5050" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <text x="130" y="52" text-anchor="middle" fill="#ff8080" font-size="9" font-family="ui-monospace,monospace">CONTAMINATED LAND · 25×25 · 1hr</text>
+            <text x="130" y="52" text-anchor="middle" fill="#ff8080" font-size="9" font-family="ui-monospace,monospace" data-i18n="svgContaminated">CONTAMINATED LAND · 25×25 · 1hr</text>
             <!-- Alliance furnace -->
             <rect x="122" y="122" width="16" height="16" fill="#c9a961" stroke="#f6e8b8" stroke-width="1"/>
-            <text x="130" y="146" text-anchor="middle" fill="#c9a961" font-size="7" font-family="ui-monospace,monospace">FURNACE</text>
+            <text x="130" y="146" text-anchor="middle" fill="#c9a961" font-size="7" font-family="ui-monospace,monospace" data-i18n="svgFurnace">FURNACE</text>
             <!-- 5-tile safe distance ring -->
             <rect x="102" y="102" width="56" height="56" fill="none" stroke="#8ae0a3" stroke-width="1" stroke-dasharray="2 2"/>
-            <text x="130" y="98" text-anchor="middle" fill="#8ae0a3" font-size="7" font-family="ui-monospace,monospace">safe: 5 tiles</text>
+            <text x="130" y="98" text-anchor="middle" fill="#8ae0a3" font-size="7" font-family="ui-monospace,monospace" data-i18n="svgSafeTiles">safe: 5 tiles</text>
             <!-- Defender squads (pre-ping) -->
             <g fill="#7aa8e0" stroke="#0a0e1a" stroke-width="0.5">
               <circle cx="115" cy="115" r="3"/>
@@ -482,7 +482,7 @@
             </defs>
             <!-- Intercept window callout -->
             <rect x="6" y="230" width="248" height="24" fill="rgba(201,169,97,0.14)" stroke="#c9a961" stroke-width="0.8" rx="3"/>
-            <text x="130" y="246" text-anchor="middle" fill="#f6e8b8" font-size="9" font-family="ui-monospace,monospace">3-min prep window · Warlord's base revealed · rally to cancel</text>
+            <text x="130" y="246" text-anchor="middle" fill="#f6e8b8" font-size="9" font-family="ui-monospace,monospace" data-i18n="svgPrepWindow">3-min prep window · Warlord's base revealed · rally to cancel</text>
           </svg>
           <div class="s2-caption" data-i18n="vizMissileCap">
             On impact, <strong>every base inside the 25×25 zone</strong> (except Warlords) is randomly teleported away — furnace defenders scatter and must re-reinforce under fire. Intercept during the <strong>3-minute prep window</strong> by rallying the Warlord's revealed base = 72h missile cooldown.
@@ -497,8 +497,8 @@
             <rect x="0" y="0" width="260" height="260" fill="#0a0e1a" rx="6"/>
             <!-- TIGHT HIVE (left half) -->
             <g>
-              <text x="65" y="16" text-anchor="middle" fill="#7aa8e0" font-size="10" font-weight="600">TIGHT</text>
-              <text x="65" y="28" text-anchor="middle" fill="#7a8290" font-size="8">easy defense, easy walk-back</text>
+              <text x="65" y="16" text-anchor="middle" fill="#7aa8e0" font-size="10" font-weight="600" data-i18n="svgTight">TIGHT</text>
+              <text x="65" y="28" text-anchor="middle" fill="#7a8290" font-size="8" data-i18n="svgEasyDefense">easy defense, easy walk-back</text>
               <rect x="20" y="36" width="90" height="90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2 2"/>
               <!-- clustered dots -->
               <g fill="#8ae0a3">
@@ -512,12 +512,12 @@
               <rect x="61" y="76" width="8" height="8" fill="#c9a961"/>
               <!-- walk-back arrow (short) -->
               <line x1="18" y1="112" x2="110" y2="112" stroke="#e6cf7a" stroke-width="1.2" marker-end="url(#arr2)"/>
-              <text x="65" y="122" text-anchor="middle" fill="#e6cf7a" font-size="8">~5 min walk</text>
+              <text x="65" y="122" text-anchor="middle" fill="#e6cf7a" font-size="8" data-i18n="svgWalk5">~5 min walk</text>
             </g>
             <!-- MEGAHIVE (right half) -->
             <g>
-              <text x="185" y="16" text-anchor="middle" fill="#c9a961" font-size="10" font-weight="600">MEGA</text>
-              <text x="185" y="28" text-anchor="middle" fill="#7a8290" font-size="8">spread wide, long walk-back</text>
+              <text x="185" y="16" text-anchor="middle" fill="#c9a961" font-size="10" font-weight="600" data-i18n="svgMega">MEGA</text>
+              <text x="185" y="28" text-anchor="middle" fill="#7a8290" font-size="8" data-i18n="svgSpreadWide">spread wide, long walk-back</text>
               <rect x="140" y="36" width="110" height="90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2 2"/>
               <!-- spread dots -->
               <g fill="#8ae0a3">
@@ -532,7 +532,7 @@
               <rect x="185" y="80" width="8" height="8" fill="#c9a961"/>
               <!-- walk-back arrow (long) -->
               <line x1="138" y1="140" x2="252" y2="140" stroke="#e6cf7a" stroke-width="1.2" marker-end="url(#arr2)"/>
-              <text x="195" y="150" text-anchor="middle" fill="#e6cf7a" font-size="8">~14 min walk (harder counter)</text>
+              <text x="195" y="150" text-anchor="middle" fill="#e6cf7a" font-size="8" data-i18n="svgWalk14">~14 min walk (harder counter)</text>
             </g>
             <defs>
               <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -543,8 +543,8 @@
           <!-- Bottom rows moved to HTML for proper wrapping instead of overflowing SVG text -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px;padding:0 4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.55">
             <div>
-              <div style="color:#c9a961;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">Tight hive</div>
-              <div style="color:#8ae0a3">✓ tight furnace radius reinforcements</div>
+              <div style="color:#c9a961;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px" data-i18n="svgTightHive">Tight hive</div>
+              <div style="color:#8ae0a3" data-i18n="svgTightBenefit1">✓ tight furnace radius reinforcements</div>
               <div style="color:#ff8080">✗ one missile catches whole hive</div>
               <div style="color:#8ae0a3">✓ simple to coordinate</div>
               <div style="color:#ff8080">✗ shorter walk = easy counter</div>
@@ -999,6 +999,26 @@
         unlockBannerTitle: '🔓 Free for Warzone 2007 members',
         unlockBannerBody: 'Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">WARZONE-2007-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.',
         unlockBannerCta: 'Enter code →',
+        betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
+        betaBannerCta: 'Send feedback →',
+        betaBannerDismiss: 'Dismiss',
+        svgCapitol: 'CAPITOL',
+        svgFreezeZone: 'FREEZE ZONE · -20°C for 5 min',
+        svgContaminated: 'CONTAMINATED LAND · 25×25 · 1hr',
+        svgFurnace: 'FURNACE',
+        svgSafeTiles: 'safe: 5 tiles',
+        svgPrepWindow: '3-min prep window · Warlord\'s base revealed · rally to cancel',
+        svgTight: 'TIGHT',
+        svgTightHive: 'Tight hive',
+        svgEasyDefense: 'easy defense, easy walk-back',
+        svgWalk5: '~5 min walk',
+        svgMega: 'MEGA',
+        svgMegaHive: 'Mega hive',
+        svgSpreadWide: 'spread wide, long walk-back',
+        svgWalk14: '~14 min walk (harder counter)',
+        svgTightBenefit1: '✓ tight furnace radius reinforcements',
+        activityViewsInHour: 'tool views in the last hour ·',
+        activityUnlocksToday: 'unlocks today',
         secS2: 'SEASON 2 TOOLS · LIVE (client-only)',
         secPhilosophy: 'HOW THIS SUITE IS DIFFERENT',
         hivePlannerBody: "Marshall's Guard 3×3 and Military Stronghold 21×21 formation planner. Drag-and-drop, corner-anchored ring algorithm, CSV import, PNG export for Discord.",
@@ -1106,6 +1126,26 @@
         unlockBannerTitle: '🔓 워존 2007 멤버 무료',
         unlockBannerBody: 'R5에게 연맹 코드를 요청하세요 (예: WARZONE-2007-FREE) 또는 $20 평생 잠금 해제. 로그인 페이지 하나로 모든 도구 이용 가능.',
         unlockBannerCta: '코드 입력 →',
+        betaBannerBody: '<strong style="color:#fff">지속 개선 중</strong> — R5 피드백을 기반으로 매시간 새 기능을 배포합니다. 빠진 것, 안 되는 것, 느린 것을 알려주시면 바로 고치겠습니다.',
+        betaBannerCta: '피드백 보내기 →',
+        betaBannerDismiss: '닫기',
+        svgCapitol: '캐피톨',
+        svgFreezeZone: '동결 구역 · -20°C · 5분',
+        svgContaminated: '오염 지역 · 25×25 · 1시간',
+        svgFurnace: '화로',
+        svgSafeTiles: '안전: 5타일',
+        svgPrepWindow: '3분 준비 시간 · 워로드 기지 공개 · 집결로 취소',
+        svgTight: '타이트',
+        svgTightHive: '타이트 벌집',
+        svgEasyDefense: '방어 쉬움, 복귀 짧음',
+        svgWalk5: '이동 약 5분',
+        svgMega: '메가',
+        svgMegaHive: '메가 벌집',
+        svgSpreadWide: '넓게 분산, 복귀 길음',
+        svgWalk14: '이동 약 14분 (반격 어려움)',
+        svgTightBenefit1: '✓ 타이트 화로 반경 지원 가능',
+        activityViewsInHour: '지난 한 시간 동안의 도구 조회 ·',
+        activityUnlocksToday: '오늘 잠금 해제',
         secS2: '시즌 2 도구 · 스캐폴드 라이브',
         secPhilosophy: '이 스위트의 차별점',
         hivePlannerBody: '마샬 가드 3×3 및 밀리터리 스트롱홀드 21×21 대형 플래너. 드래그 앤 드롭, 코너 앵커 링 알고리즘, CSV 임포트, 디스코드용 PNG 익스포트.',
@@ -1206,6 +1246,26 @@
         unlockBannerTitle: '🔓 Gratis para miembros de Warzone 2007',
         unlockBannerBody: 'Pide a tu R5 el código de alianza o compra el desbloqueo vitalicio de $20. Funciona en todas las herramientas.',
         unlockBannerCta: 'Ingresar código →',
+        betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
+        betaBannerCta: 'Send feedback →',
+        betaBannerDismiss: 'Dismiss',
+        svgCapitol: 'CAPITOL',
+        svgFreezeZone: 'FREEZE ZONE · -20°C for 5 min',
+        svgContaminated: 'CONTAMINATED LAND · 25×25 · 1hr',
+        svgFurnace: 'FURNACE',
+        svgSafeTiles: 'safe: 5 tiles',
+        svgPrepWindow: '3-min prep window · Warlord\'s base revealed · rally to cancel',
+        svgTight: 'TIGHT',
+        svgTightHive: 'Tight hive',
+        svgEasyDefense: 'easy defense, easy walk-back',
+        svgWalk5: '~5 min walk',
+        svgMega: 'MEGA',
+        svgMegaHive: 'Mega hive',
+        svgSpreadWide: 'spread wide, long walk-back',
+        svgWalk14: '~14 min walk (harder counter)',
+        svgTightBenefit1: '✓ tight furnace radius reinforcements',
+        activityViewsInHour: 'tool views in the last hour ·',
+        activityUnlocksToday: 'unlocks today',
         secS2: 'HERRAMIENTAS DE TEMPORADA 2 · EN VIVO (solo cliente)',
         secPhilosophy: 'POR QUÉ ESTA SUITE ES DIFERENTE',
         hivePlannerBody: 'Planificador de formaciones Guardia del Mariscal 3×3 y Fortaleza Militar 21×21. Arrastrar y soltar, algoritmo de anillos con anclaje en esquinas, importación CSV, exportación PNG para Discord.',
@@ -1306,6 +1366,26 @@
         unlockBannerTitle: '🔓 Grátis para membros do Warzone 2007',
         unlockBannerBody: 'Peça ao seu R5 o código da aliança ou compre o desbloqueio vitalício de $20. Funciona em todas as ferramentas.',
         unlockBannerCta: 'Inserir código →',
+        betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
+        betaBannerCta: 'Send feedback →',
+        betaBannerDismiss: 'Dismiss',
+        svgCapitol: 'CAPITOL',
+        svgFreezeZone: 'FREEZE ZONE · -20°C for 5 min',
+        svgContaminated: 'CONTAMINATED LAND · 25×25 · 1hr',
+        svgFurnace: 'FURNACE',
+        svgSafeTiles: 'safe: 5 tiles',
+        svgPrepWindow: '3-min prep window · Warlord\'s base revealed · rally to cancel',
+        svgTight: 'TIGHT',
+        svgTightHive: 'Tight hive',
+        svgEasyDefense: 'easy defense, easy walk-back',
+        svgWalk5: '~5 min walk',
+        svgMega: 'MEGA',
+        svgMegaHive: 'Mega hive',
+        svgSpreadWide: 'spread wide, long walk-back',
+        svgWalk14: '~14 min walk (harder counter)',
+        svgTightBenefit1: '✓ tight furnace radius reinforcements',
+        activityViewsInHour: 'tool views in the last hour ·',
+        activityUnlocksToday: 'unlocks today',
         secS2: 'FERRAMENTAS DA TEMPORADA 2 · AO VIVO (só cliente)',
         secPhilosophy: 'POR QUE ESTA SUITE É DIFERENTE',
         hivePlannerBody: 'Planejador de formações Guarda do Marechal 3×3 e Fortaleza Militar 21×21. Arrastar e soltar, algoritmo de anéis ancorado nos cantos, importação CSV, exportação PNG para Discord.',
@@ -1406,6 +1486,26 @@
         unlockBannerTitle: '🔓 ウォーゾーン2007メンバー無料',
         unlockBannerBody: 'R5からアライアンスコードを取得、または$20の永久アンロック。すべてのツールで動作。',
         unlockBannerCta: 'コード入力 →',
+        betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
+        betaBannerCta: 'Send feedback →',
+        betaBannerDismiss: 'Dismiss',
+        svgCapitol: 'CAPITOL',
+        svgFreezeZone: 'FREEZE ZONE · -20°C for 5 min',
+        svgContaminated: 'CONTAMINATED LAND · 25×25 · 1hr',
+        svgFurnace: 'FURNACE',
+        svgSafeTiles: 'safe: 5 tiles',
+        svgPrepWindow: '3-min prep window · Warlord\'s base revealed · rally to cancel',
+        svgTight: 'TIGHT',
+        svgTightHive: 'Tight hive',
+        svgEasyDefense: 'easy defense, easy walk-back',
+        svgWalk5: '~5 min walk',
+        svgMega: 'MEGA',
+        svgMegaHive: 'Mega hive',
+        svgSpreadWide: 'spread wide, long walk-back',
+        svgWalk14: '~14 min walk (harder counter)',
+        svgTightBenefit1: '✓ tight furnace radius reinforcements',
+        activityViewsInHour: 'tool views in the last hour ·',
+        activityUnlocksToday: 'unlocks today',
         secS2: 'シーズン2ツール · ライブ (クライアントのみ)',
         secPhilosophy: 'このスイートが違う理由',
         hivePlannerBody: 'マーシャルガード3×3およびミリタリーストロングホールド21×21陣形プランナー。ドラッグ&ドロップ、コーナー基点リングアルゴリズム、CSVインポート、Discord用PNGエクスポート。',
@@ -1502,6 +1602,26 @@
         heroBody: 'Eine Sammlung kleiner, fokussierter Planungstools für <em>Last War: Survival</em>-Allianzen. Koordiniere Landungen vor Season 2, modelliere Einfrier-Risiken, budgetiere Kohle für den Woche-4-Blizzard, plane Bienenstock-Formationen, priorisiere Städte-Eroberungen. Von einem R5, für R5s. In 7 Sprachen verfügbar.',
         krNote: '🇰🇷 Warzone-2007-Mitglieder erhalten einen kostenlosen Freischalt-Code. Frag deinen R5.',
         secLive: 'LIVE',
+        betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
+        betaBannerCta: 'Send feedback →',
+        betaBannerDismiss: 'Dismiss',
+        svgCapitol: 'CAPITOL',
+        svgFreezeZone: 'FREEZE ZONE · -20°C for 5 min',
+        svgContaminated: 'CONTAMINATED LAND · 25×25 · 1hr',
+        svgFurnace: 'FURNACE',
+        svgSafeTiles: 'safe: 5 tiles',
+        svgPrepWindow: '3-min prep window · Warlord\'s base revealed · rally to cancel',
+        svgTight: 'TIGHT',
+        svgTightHive: 'Tight hive',
+        svgEasyDefense: 'easy defense, easy walk-back',
+        svgWalk5: '~5 min walk',
+        svgMega: 'MEGA',
+        svgMegaHive: 'Mega hive',
+        svgSpreadWide: 'spread wide, long walk-back',
+        svgWalk14: '~14 min walk (harder counter)',
+        svgTightBenefit1: '✓ tight furnace radius reinforcements',
+        activityViewsInHour: 'tool views in the last hour ·',
+        activityUnlocksToday: 'unlocks today',
         secS2: 'SEASON-2-TOOLS · LIVE (nur Client)',
         secPhilosophy: 'WAS DIESE SUITE ANDERS MACHT',
         hivePlannerBody: 'Marshall\'s Guard 3×3 und Militärische Festung 21×21 Formationsplaner. Drag-and-Drop, eckenverankerter Ring-Algorithmus, CSV-Import, PNG-Export für Discord.',
@@ -1602,6 +1722,26 @@
         unlockBannerTitle: '🔓 Gratuit pour les membres de Warzone 2007',
         unlockBannerBody: "Demandez à votre R5 le code d'alliance ou achetez le déblocage à vie à $20. Fonctionne sur tous les outils.",
         unlockBannerCta: 'Entrer le code →',
+        betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
+        betaBannerCta: 'Send feedback →',
+        betaBannerDismiss: 'Dismiss',
+        svgCapitol: 'CAPITOL',
+        svgFreezeZone: 'FREEZE ZONE · -20°C for 5 min',
+        svgContaminated: 'CONTAMINATED LAND · 25×25 · 1hr',
+        svgFurnace: 'FURNACE',
+        svgSafeTiles: 'safe: 5 tiles',
+        svgPrepWindow: '3-min prep window · Warlord\'s base revealed · rally to cancel',
+        svgTight: 'TIGHT',
+        svgTightHive: 'Tight hive',
+        svgEasyDefense: 'easy defense, easy walk-back',
+        svgWalk5: '~5 min walk',
+        svgMega: 'MEGA',
+        svgMegaHive: 'Mega hive',
+        svgSpreadWide: 'spread wide, long walk-back',
+        svgWalk14: '~14 min walk (harder counter)',
+        svgTightBenefit1: '✓ tight furnace radius reinforcements',
+        activityViewsInHour: 'tool views in the last hour ·',
+        activityUnlocksToday: 'unlocks today',
         secS2: 'OUTILS SAISON 2 · EN LIGNE (client uniquement)',
         secPhilosophy: 'POURQUOI CETTE SUITE EST DIFFÉRENTE',
         hivePlannerBody: 'Planificateur de formations Garde du Maréchal 3×3 et Forteresse Militaire 21×21. Glisser-déposer, algorithme d\'anneau ancré aux coins, importation CSV, exportation PNG pour Discord.',

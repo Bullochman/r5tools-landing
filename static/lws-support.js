@@ -18,6 +18,59 @@
 (function (global) {
   'use strict';
 
+  // ---- i18n (mirrors the shared `lws_lang` preference set by sibling tools)
+  function _getLang() {
+    try {
+      var s = localStorage.getItem('lws_lang');
+      if (s === 'ko' || s === 'en') return s;
+    } catch (e) { /* private mode */ }
+    return (navigator.language || 'en').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+  }
+  var _STR = {
+    en: {
+      fabLabel: 'Request Feature',
+      fabTitle: 'Request a feature or get support',
+      modalHeader: '💡 Request a feature or get support',
+      checkingEvan: "Checking Evan's current availability…",
+      modalBody: "What's missing? What's broken? What would make this suite work better for your R5 role? Every message lands in Evan's Discord instantly. You'll get a reference number — check back here anytime to see where it is in his pipeline.",
+      youAreHere: 'You are here:',
+      msgPlaceholder: 'Type your feature request, bug report, or question here...',
+      contactLabel: 'Optional — how to reach you back (email, Discord tag, alliance name)',
+      contactPlaceholder: 'you@example.com or Discord@name or alliance name',
+      cancel: 'Cancel',
+      sendBtn: "Send to Evan's Discord",
+      nothingWorks: 'Nothing else works?',
+      urgentBtn: '🚨 URGENT — WAKE EVAN UP (paying customer, tool is broken)',
+      urgentNote: "Sends the same message flagged red with @here in Evan's admin channel. Use only if a paid tool isn't working and you're stuck. He'll see the push notification on his phone within seconds.",
+      typeMsgFirst: 'Type a message first.',
+      sending: 'Sending...',
+      sendingUrgent: 'Sending URGENT notification...',
+    },
+    ko: {
+      fabLabel: '기능 요청',
+      fabTitle: '기능 요청 또는 지원 받기',
+      modalHeader: '💡 기능 요청 또는 지원 받기',
+      checkingEvan: '에반의 현재 상태를 확인 중…',
+      modalBody: '무엇이 빠졌나요? 무엇이 안 되나요? R5 역할을 더 잘 수행하려면 어떤 기능이 필요한가요? 모든 메시지는 에반의 디스코드로 즉시 전달됩니다. 참조 번호를 받게 되니 언제든 돌아와서 처리 상태를 확인하세요.',
+      youAreHere: '현재 위치:',
+      msgPlaceholder: '기능 요청, 버그 신고, 질문을 여기에 입력하세요...',
+      contactLabel: '선택 — 연락받을 방법 (이메일, 디스코드 태그, 얼라이언스 이름)',
+      contactPlaceholder: 'you@example.com 또는 Discord@name 또는 얼라이언스 이름',
+      cancel: '취소',
+      sendBtn: '에반의 디스코드로 보내기',
+      nothingWorks: '다른 방법이 안 될 때?',
+      urgentBtn: '🚨 긴급 — 에반 즉시 호출 (유료 사용자, 도구 고장)',
+      urgentNote: '같은 메시지를 @here 태그와 함께 빨간색으로 관리자 채널에 전달합니다. 유료 도구가 작동하지 않아 막힌 경우에만 사용하세요. 몇 초 안에 폰 알림으로 확인합니다.',
+      typeMsgFirst: '먼저 메시지를 입력하세요.',
+      sending: '전송 중...',
+      sendingUrgent: '긴급 알림 전송 중...',
+    },
+  };
+  function _t(key) {
+    var lang = _getLang();
+    return (_STR[lang] && _STR[lang][key]) || _STR.en[key] || key;
+  }
+
   var API = 'https://access-codes.r5tools.io/api/support';
   var STATUS_API = 'https://access-codes.r5tools.io/api/support/status';
   var LS_KEY = 'lws_support_requests';   // array of {id, ts, tool, snippet, status, checked_at}
@@ -97,8 +150,8 @@
     btn.id = 'lws-support-fab';
     btn.type = 'button';
     btn.setAttribute('style', FAB_STYLE);
-    btn.innerHTML = '<span style="font-size:16px;line-height:1">💡</span><span>Request Feature</span>';
-    btn.title = 'Request a feature or get support';
+    btn.innerHTML = '<span style="font-size:16px;line-height:1">💡</span><span>' + _t('fabLabel') + '</span>';
+    btn.title = _t('fabTitle');
     btn.onmouseover = function () { btn.setAttribute('style', FAB_STYLE + ';' + FAB_HOVER); };
     btn.onmouseout = function () { btn.setAttribute('style', FAB_STYLE); };
     btn.onclick = openModal;
@@ -116,31 +169,31 @@
 
     box.innerHTML =
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
-      '  <h3 style="margin:0;color:#c9a961;font-size:15px;letter-spacing:0.05em;text-transform:uppercase">💡 Request a feature or get support</h3>' +
+      '  <h3 style="margin:0;color:#c9a961;font-size:15px;letter-spacing:0.05em;text-transform:uppercase">' + _t('modalHeader') + '</h3>' +
       '  <button id="lws-support-close" style="background:transparent;color:#7a8290;border:none;font-size:22px;cursor:pointer;padding:0 6px">×</button>' +
       '</div>' +
       '<div id="lws-evan-status" style="padding:10px 14px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.25);border-radius:8px;margin-bottom:14px;font-size:12.5px;color:#a8b0c0;display:flex;align-items:center;gap:10px">' +
       '  <span id="lws-evan-emoji" style="font-size:18px;line-height:1">⏳</span>' +
-      '  <span id="lws-evan-text" style="flex:1;line-height:1.4">Checking Evan\'s current availability…</span>' +
+      '  <span id="lws-evan-text" style="flex:1;line-height:1.4">' + _t('checkingEvan') + '</span>' +
       '</div>' +
       '<div id="lws-my-requests-slot" style="margin-bottom:14px"></div>' +
       '<p style="margin:0 0 14px;color:#a8b0c0;font-size:13px;line-height:1.5">' +
-      "What's missing? What's broken? What would make this suite work better for your R5 role? Every message lands in Evan's Discord instantly. You'll get a reference number — check back here anytime to see where it is in his pipeline." +
+      _t('modalBody') +
       '</p>' +
-      '<label style="display:block;font-size:11px;color:#7a8290;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px">You are here: <span style="color:#c9a961">' + detectTool().replace(/</g, '&lt;') + '</span></label>' +
-      '<textarea id="lws-support-msg" rows="6" placeholder="Type your feature request, bug report, or question here..." style="width:100%;padding:12px;background:#050810;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:6px;font:14px system-ui;box-sizing:border-box;resize:vertical;min-height:120px;line-height:1.5"></textarea>' +
-      '<label style="display:block;font-size:11px;color:#7a8290;letter-spacing:.05em;text-transform:uppercase;margin:12px 0 4px">Optional — how to reach you back (email, Discord tag, alliance name)</label>' +
-      '<input id="lws-support-contact" type="text" placeholder="you@example.com or Discord@name or alliance name" style="width:100%;padding:10px 12px;background:#050810;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:6px;font:13px system-ui;box-sizing:border-box" />' +
+      '<label style="display:block;font-size:11px;color:#7a8290;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px">' + _t('youAreHere') + ' <span style="color:#c9a961">' + detectTool().replace(/</g, '&lt;') + '</span></label>' +
+      '<textarea id="lws-support-msg" rows="6" placeholder="' + _t('msgPlaceholder') + '" style="width:100%;padding:12px;background:#050810;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:6px;font:14px system-ui;box-sizing:border-box;resize:vertical;min-height:120px;line-height:1.5"></textarea>' +
+      '<label style="display:block;font-size:11px;color:#7a8290;letter-spacing:.05em;text-transform:uppercase;margin:12px 0 4px">' + _t('contactLabel') + '</label>' +
+      '<input id="lws-support-contact" type="text" placeholder="' + _t('contactPlaceholder') + '" style="width:100%;padding:10px 12px;background:#050810;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:6px;font:13px system-ui;box-sizing:border-box" />' +
       '<div id="lws-support-status" style="margin-top:10px;font-size:12.5px;min-height:16px;color:#a8b0c0"></div>' +
       '<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:flex-end">' +
-      '  <button id="lws-support-cancel" style="padding:9px 14px;background:transparent;color:#a8b0c0;border:1px solid rgba(255,255,255,0.15);border-radius:6px;font:500 13px system-ui;cursor:pointer">Cancel</button>' +
-      '  <button id="lws-support-send" style="padding:9px 16px;background:#c9a961;color:#0a0e1a;border:none;border-radius:6px;font:700 13px system-ui;cursor:pointer">Send to Evan\'s Discord</button>' +
+      '  <button id="lws-support-cancel" style="padding:9px 14px;background:transparent;color:#a8b0c0;border:1px solid rgba(255,255,255,0.15);border-radius:6px;font:500 13px system-ui;cursor:pointer">' + _t('cancel') + '</button>' +
+      '  <button id="lws-support-send" style="padding:9px 16px;background:#c9a961;color:#0a0e1a;border:none;border-radius:6px;font:700 13px system-ui;cursor:pointer">' + _t('sendBtn') + '</button>' +
       '</div>' +
       '<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08)">' +
-      '  <div style="font-size:11px;color:#7a8290;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px">Nothing else works?</div>' +
-      '  <button id="lws-support-urgent" style="width:100%;padding:12px;background:#7a1f1f;color:#ffdad7;border:1px solid #b8402c;border-radius:6px;font:700 13px system-ui;cursor:pointer;letter-spacing:.03em">🚨 URGENT — WAKE EVAN UP (paying customer, tool is broken)</button>' +
+      '  <div style="font-size:11px;color:#7a8290;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px">' + _t('nothingWorks') + '</div>' +
+      '  <button id="lws-support-urgent" style="width:100%;padding:12px;background:#7a1f1f;color:#ffdad7;border:1px solid #b8402c;border-radius:6px;font:700 13px system-ui;cursor:pointer;letter-spacing:.03em">' + _t('urgentBtn') + '</button>' +
       '  <p style="margin:6px 0 0;font-size:11px;color:#7a8290;line-height:1.5">' +
-      "Sends the same message flagged red with @here in Evan's admin channel. Use only if a paid tool isn't working and you're stuck. He'll see the push notification on his phone within seconds." +
+      _t('urgentNote') +
       '  </p>' +
       '</div>';
 
@@ -174,11 +227,11 @@
 
     async function send(urgent) {
       var msg = msgEl.value.trim();
-      if (!msg) { setStatus('Type a message first.', '#e08a8a'); return; }
+      if (!msg) { setStatus(_t('typeMsgFirst'), '#e08a8a'); return; }
       var sendBtn = box.querySelector('#lws-support-send');
       var urgentBtn = box.querySelector('#lws-support-urgent');
       sendBtn.disabled = true; urgentBtn.disabled = true;
-      setStatus(urgent ? 'Sending URGENT notification...' : 'Sending...', '#c9a961');
+      setStatus(urgent ? _t('sendingUrgent') : _t('sending'), '#c9a961');
       try {
         var resp = await fetch(API, {
           method: 'POST',
