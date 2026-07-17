@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Leaderboard — R5TOOLS.IO</title>
+  <meta name="description" content="Top Last War: Survival alliances by total power. Live from Roster Extractor uploads." />
+  <meta property="og:title" content="Alliance Leaderboard — R5TOOLS.IO" />
+  <meta property="og:description" content="Top LWS alliances by total power — updated as alliances upload their rosters." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/leaderboard.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --live: #8ae0a3;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 24px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600;
+      text-decoration: none;
+    }
+    .brand:hover { color: var(--accent-hover); }
+    .lang-toggle {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 28px 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px;
+      font-family: inherit;
+      appearance: none; -webkit-appearance: none;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-toggle option { background: var(--panel); color: var(--text); }
+
+    h1 {
+      font-size: 32px; margin: 0 0 8px; font-weight: 600;
+      letter-spacing: -0.02em; line-height: 1.15;
+    }
+    h1 .accent { color: var(--accent); }
+    .subtitle {
+      font-size: 15px; color: var(--text-dim); max-width: 640px;
+      margin: 0 0 24px;
+    }
+
+    .meta-row {
+      display: flex; gap: 16px; flex-wrap: wrap; margin: 0 0 24px;
+      font-size: 12px; color: var(--text-mute);
+    }
+    .meta-row .pill {
+      padding: 4px 12px; border-radius: 20px;
+      background: var(--panel); border: 1px solid var(--border);
+    }
+    .meta-row .pill strong { color: var(--accent); font-weight: 600; }
+
+    .table-wrap {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+    }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 13.5px;
+    }
+    thead th {
+      text-align: left; padding: 12px 16px; font-size: 11px;
+      letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase;
+      font-weight: 600; background: var(--panel-2);
+      border-bottom: 1px solid var(--border);
+    }
+    thead th.num, tbody td.num { text-align: right; font-family: var(--mono); }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--panel-2); }
+    tbody td { padding: 12px 16px; vertical-align: middle; }
+    tbody td.rank {
+      font-family: var(--mono); color: var(--text-mute); width: 60px;
+      font-size: 13px;
+    }
+    tbody td.rank .medal { font-size: 18px; margin-right: 4px; }
+    tbody td.name { color: var(--text); font-weight: 500; }
+    tbody td.name .badge {
+      display: inline-block; margin-left: 8px; font-size: 10px;
+      color: var(--text-mute); font-family: var(--mono);
+      padding: 2px 6px; border-radius: 4px;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    }
+    tbody td.power {
+      color: var(--accent); font-weight: 600;
+    }
+    tbody td.updated {
+      color: var(--text-mute); font-size: 12px; white-space: nowrap;
+    }
+    tbody tr.top-3 td.name { color: var(--accent); }
+
+    .empty {
+      padding: 48px 24px; text-align: center;
+      color: var(--text-dim); font-size: 14px;
+    }
+    .empty strong { color: var(--text); }
+
+    .cta-below {
+      margin: 28px 0 0; padding: 20px 24px;
+      background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.02));
+      border: 1px solid var(--border-accent); border-radius: 10px;
+      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    }
+    .cta-below .cta-text {
+      flex: 1; min-width: 240px; font-size: 14px; color: var(--text-dim);
+    }
+    .cta-below .cta-text strong { color: var(--text); }
+    .cta-below a.cta-btn {
+      background: var(--accent); color: #0a0e1a; text-decoration: none;
+      padding: 10px 18px; border-radius: 8px; font-weight: 700;
+      font-size: 13px; letter-spacing: 0.02em; white-space: nowrap;
+    }
+    .cta-below a.cta-btn:hover { background: var(--accent-hover); }
+
+    .tools-usage {
+      margin-top: 32px; padding: 20px 24px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .tools-usage h3 {
+      margin: 0 0 12px; font-size: 12px; letter-spacing: 0.12em;
+      color: var(--accent); text-transform: uppercase; font-weight: 600;
+    }
+    .tools-usage p { margin: 0 0 8px; color: var(--text-dim); font-size: 13px; }
+    .tools-usage .usage-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px; margin: 12px 0 0;
+    }
+    .tools-usage .usage-cell {
+      padding: 10px 14px; background: var(--panel-2);
+      border: 1px solid var(--border); border-radius: 6px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12.5px;
+    }
+    .tools-usage .usage-cell .u-name { color: var(--text); }
+    .tools-usage .usage-cell .u-count {
+      font-family: var(--mono); color: var(--accent); font-weight: 600;
+    }
+
+    .loading {
+      padding: 40px; text-align: center; color: var(--text-dim);
+      font-size: 13px;
+    }
+    .loading .dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); margin: 0 3px;
+      animation: pulse 1.4s infinite ease-in-out;
+    }
+    .loading .dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse {
+      0%, 60%, 100% { opacity: 0.3; }
+      30% { opacity: 1; }
+    }
+
+    footer {
+      margin-top: 48px; padding: 20px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-mute); font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 24px; }
+      tbody td.updated { display: none; }
+      thead th.updated { display: none; }
+      tbody td, thead th { padding: 10px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <a href="/" class="brand" data-i18n="brand">← R5TOOLS.IO — LWS SUITE</a>
+      <select class="lang-toggle" id="langToggle" aria-label="Language">
+        <option value="en">EN — English</option>
+        <option value="ko">KO — 한국어</option>
+      </select>
+    </header>
+
+    <h1 data-i18n="pageTitle"><span class="accent">🏆</span> Alliance Leaderboard</h1>
+    <p class="subtitle" data-i18n="subtitle">
+      Top LWS alliances by total member power. Live from Roster Extractor uploads — each row is a real R5 who's already using this suite to plan their season.
+    </p>
+
+    <div class="meta-row">
+      <span class="pill" data-i18n="metaLive"><strong>● LIVE</strong> updated on every roster upload</span>
+      <span class="pill"><span data-i18n="metaCache">Cached 30 min</span></span>
+      <span class="pill" id="metaCount"></span>
+    </div>
+
+    <div id="loading" class="loading">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <div style="margin-top: 12px" data-i18n="loading">Loading leaderboard…</div>
+    </div>
+
+    <div id="tableWrap" class="table-wrap" style="display:none">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="colRank">Rank</th>
+            <th data-i18n="colAlliance">Alliance</th>
+            <th class="num" data-i18n="colMembers">Members</th>
+            <th class="num" data-i18n="colPower">Total Power (B)</th>
+            <th class="updated" data-i18n="colUpdated">Last Roster Update</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <div id="empty" class="empty" style="display:none">
+      <strong data-i18n="emptyTitle">No alliances yet.</strong><br>
+      <span data-i18n="emptyBody">Be the first — upload your alliance roster and you'll appear here.</span>
+    </div>
+
+    <div class="cta-below">
+      <div class="cta-text" data-i18n="ctaBody">
+        <strong>Want your alliance listed?</strong> Upload your member-list screen recording. Claude vision reads every row, and your alliance appears on this board.
+      </div>
+      <a class="cta-btn" href="https://roster.r5tools.io/" data-i18n="ctaBtn">Upload roster →</a>
+    </div>
+
+    <div class="tools-usage" id="toolsUsage" style="display:none">
+      <h3 data-i18n="toolsTitle">📊 What tools these alliances use most</h3>
+      <p data-i18n="toolsBlurb">Anonymous aggregate pings from the suite — no roster data, no user IDs, just tool-open counts.</p>
+      <div class="usage-grid" id="usageGrid"></div>
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · <span data-i18n="footerNote">Last War: Survival is a First Fun / Century Games product. This site is fan-made and unaffiliated.</span></div>
+      <div style="display:flex;gap:14px">
+        <a href="/" data-i18n="footerHome">Home</a>
+        <a href="/status.html" data-i18n="footerStatus">Status</a>
+        <a href="/privacy.html" data-i18n="footerPrivacy">Privacy</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // ── i18n (EN + KR only — this page is narrow scope; landing page holds all 7 langs)
+    const STRINGS = {
+      en: {
+        brand: '← R5TOOLS.IO — LWS SUITE',
+        pageTitle: '🏆 Alliance Leaderboard',
+        subtitle: "Top LWS alliances by total member power. Live from Roster Extractor uploads — each row is a real R5 who's already using this suite to plan their season.",
+        metaLive: '<strong>● LIVE</strong> updated on every roster upload',
+        metaCache: 'Cached 30 min',
+        metaCount: '{{n}} alliances ranked',
+        loading: 'Loading leaderboard…',
+        colRank: 'Rank',
+        colAlliance: 'Alliance',
+        colMembers: 'Members',
+        colPower: 'Total Power (B)',
+        colUpdated: 'Last Roster Update',
+        emptyTitle: 'No alliances yet.',
+        emptyBody: "Be the first — upload your alliance roster and you'll appear here.",
+        ctaBody: "<strong>Want your alliance listed?</strong> Upload your member-list screen recording. Claude vision reads every row, and your alliance appears on this board.",
+        ctaBtn: 'Upload roster →',
+        toolsTitle: '📊 What tools these alliances use most',
+        toolsBlurb: 'Anonymous aggregate pings from the suite — no roster data, no user IDs, just tool-open counts.',
+        footerNote: 'Last War: Survival is a First Fun / Century Games product. This site is fan-made and unaffiliated.',
+        footerHome: 'Home',
+        footerStatus: 'Status',
+        footerPrivacy: 'Privacy',
+        capped: '(capped)',
+      },
+      ko: {
+        brand: '← R5TOOLS.IO — LWS 툴킷',
+        pageTitle: '🏆 얼라이언스 리더보드',
+        subtitle: '총 멤버 파워 기준 LWS 상위 얼라이언스. Roster Extractor 업로드로 실시간 반영 — 각 행은 실제 R5가 이미 이 툴킷으로 시즌을 계획하고 있다는 뜻입니다.',
+        metaLive: '<strong>● 실시간</strong> 로스터 업로드마다 갱신',
+        metaCache: '30분 캐시',
+        metaCount: '{{n}}개 얼라이언스 순위',
+        loading: '리더보드 불러오는 중…',
+        colRank: '순위',
+        colAlliance: '얼라이언스',
+        colMembers: '멤버',
+        colPower: '총 파워 (B)',
+        colUpdated: '최근 로스터 업데이트',
+        emptyTitle: '아직 등록된 얼라이언스가 없습니다.',
+        emptyBody: '첫 번째가 되어보세요 — 로스터를 업로드하면 여기에 표시됩니다.',
+        ctaBody: '<strong>얼라이언스를 여기에 올리고 싶으신가요?</strong> 멤버 리스트 화면 녹화를 업로드하세요. Claude 비전이 모든 행을 읽고, 얼라이언스가 이 보드에 표시됩니다.',
+        ctaBtn: '로스터 업로드 →',
+        toolsTitle: '📊 상위 얼라이언스가 가장 많이 쓰는 툴',
+        toolsBlurb: '툴킷의 익명 집계 핑 — 로스터 데이터도, 사용자 ID도 아닌, 툴 오픈 카운트만.',
+        footerNote: 'Last War: Survival은 First Fun / Century Games 제품입니다. 본 사이트는 팬메이드이며 비공식입니다.',
+        footerHome: '홈',
+        footerStatus: '상태',
+        footerPrivacy: '개인정보',
+        capped: '(상한)',
+      },
+    };
+
+    function currentLang() {
+      const saved = localStorage.getItem('r5tools_lang');
+      if (saved && STRINGS[saved]) return saved;
+      const nav = (navigator.language || 'en').toLowerCase();
+      if (nav.startsWith('ko')) return 'ko';
+      return 'en';
+    }
+    function applyLang(lang) {
+      const dict = STRINGS[lang] || STRINGS.en;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (dict[k] !== undefined) el.innerHTML = dict[k];
+      });
+      // The rank-count pill has a {{n}} placeholder — filled by render.
+      const mc = document.getElementById('metaCount');
+      const n = mc.dataset.count || '—';
+      mc.textContent = (dict.metaCount || STRINGS.en.metaCount).replace('{{n}}', n);
+      document.getElementById('langToggle').value = lang;
+    }
+    document.getElementById('langToggle').addEventListener('change', e => {
+      localStorage.setItem('r5tools_lang', e.target.value);
+      applyLang(e.target.value);
+      // Re-render table to swap the "(capped)" label
+      if (window.__lastBoard) render(window.__lastBoard);
+    });
+
+    // ── Data fetch + render
+    const LEADERBOARD_URL = 'https://roster.r5tools.io/api/leaderboard/public';
+    const ANALYTICS_URL   = 'https://access-codes.r5tools.io/api/analytics/public';
+
+    function fmtDate(iso) {
+      if (!iso) return '—';
+      try {
+        const d = new Date(iso);
+        const now = new Date();
+        const diffH = (now - d) / 3600000;
+        if (diffH < 1) return Math.max(1, Math.round(diffH * 60)) + 'm ago';
+        if (diffH < 24) return Math.round(diffH) + 'h ago';
+        const diffD = diffH / 24;
+        if (diffD < 30) return Math.round(diffD) + 'd ago';
+        return d.toISOString().slice(0, 10);
+      } catch (e) { return iso.slice(0, 10); }
+    }
+
+    function medalFor(rank) {
+      if (rank === 1) return '🥇';
+      if (rank === 2) return '🥈';
+      if (rank === 3) return '🥉';
+      return '';
+    }
+
+    function render(board) {
+      window.__lastBoard = board;
+      const dict = STRINGS[currentLang()] || STRINGS.en;
+      const tbody = document.getElementById('tableBody');
+      const wrap  = document.getElementById('tableWrap');
+      const empty = document.getElementById('empty');
+      const loading = document.getElementById('loading');
+      loading.style.display = 'none';
+
+      if (!board || board.length === 0) {
+        wrap.style.display = 'none';
+        empty.style.display = 'block';
+        document.getElementById('metaCount').dataset.count = '0';
+        applyLang(currentLang());
+        return;
+      }
+      empty.style.display = 'none';
+      wrap.style.display = 'block';
+      document.getElementById('metaCount').dataset.count = String(board.length);
+      applyLang(currentLang());
+
+      tbody.innerHTML = board.map(row => {
+        const medal = medalFor(row.rank);
+        const powerStr = (row.total_power_billions != null)
+          ? row.total_power_billions.toFixed(2) + ' B' + (row.total_power_capped ? ' <span class="badge">' + dict.capped + '</span>' : '')
+          : '—';
+        const isTop3 = row.rank <= 3 ? ' class="top-3"' : '';
+        const snapBadge = row.snapshot_count > 1
+          ? ' <span class="badge" title="Snapshot count">📸 ' + row.snapshot_count + '</span>'
+          : '';
+        return '<tr' + isTop3 + '>'
+          + '<td class="rank">' + (medal ? '<span class="medal">' + medal + '</span>' : '') + '#' + row.rank + '</td>'
+          + '<td class="name">' + escapeHtml(row.name) + snapBadge + '</td>'
+          + '<td class="num">' + row.member_count + '</td>'
+          + '<td class="num power">' + powerStr + '</td>'
+          + '<td class="updated">' + fmtDate(row.last_updated) + '</td>'
+          + '</tr>';
+      }).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      })[c]);
+    }
+
+    async function loadLeaderboard() {
+      try {
+        const r = await fetch(LEADERBOARD_URL, { cache: 'default' });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+        render(data.leaderboard || []);
+      } catch (e) {
+        document.getElementById('loading').innerHTML =
+          '<div style="color:#e6cf7a">Could not load leaderboard right now.</div>'
+          + '<div style="margin-top:8px;font-size:12px">' + escapeHtml(String(e)) + '</div>';
+      }
+    }
+
+    async function loadToolsUsage() {
+      // Optional — access-codes may not have /api/analytics/public wired yet.
+      try {
+        const r = await fetch(ANALYTICS_URL, { cache: 'default' });
+        if (!r.ok) return;
+        const data = await r.json();
+        const tools = data.tool_opens || data.tools || {};
+        const entries = Object.entries(tools).sort((a, b) => (b[1] || 0) - (a[1] || 0)).slice(0, 8);
+        if (!entries.length) return;
+        const grid = document.getElementById('usageGrid');
+        grid.innerHTML = entries.map(([name, count]) =>
+          '<div class="usage-cell"><span class="u-name">' + escapeHtml(name) + '</span>'
+          + '<span class="u-count">' + count + '</span></div>'
+        ).join('');
+        document.getElementById('toolsUsage').style.display = 'block';
+      } catch (e) {
+        // Silently no-op — this section is enrichment, not core.
+      }
+    }
+
+    applyLang(currentLang());
+    loadLeaderboard();
+    loadToolsUsage();
+  </script>
+</body>
+</html>
