@@ -338,7 +338,7 @@
     <div style="max-width: 1080px; margin: 0 auto 24px; padding: 14px 20px; background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04)); border: 1px solid rgba(201,169,97,0.35); border-radius: 12px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
       <div style="flex: 1; min-width: 260px">
         <div data-i18n="unlockBannerTitle" style="font-weight: 700; color: var(--accent); font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px">🔓 Free for Warzone 2007 members</div>
-        <div data-i18n="unlockBannerBody" style="color: var(--text-dim); font-size: 13.5px; line-height: 1.5">Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">WARZONE-2007-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.</div>
+        <div data-i18n="unlockBannerBody" style="color: var(--text-dim); font-size: 13.5px; line-height: 1.5">Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">RONY-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.</div>
       </div>
       <a href="https://access-codes.r5tools.io/" data-i18n="unlockBannerCta" style="background: var(--accent); color: #0a0e1a; border-radius: 8px; padding: 10px 18px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap">Enter code →</a>
     </div>
@@ -361,6 +361,37 @@
     <div id="activityTicker" style="display:none;margin:24px auto 8px;padding:10px 16px;background:rgba(201,169,97,0.06);border:1px solid rgba(201,169,97,0.20);border-radius:100px;font-size:13px;color:var(--text-dim);text-align:center;max-width:760px;line-height:1.5">
       <span id="activityTickerText"></span>
     </div>
+
+    <!-- Leaderboard callout — social proof above WHY R5s section. Live count
+         is fetched inline so we can say "N alliances are ranked" not a generic
+         "the leaderboard". Falls back to a generic string on network error. -->
+    <a href="/leaderboard.html" id="leaderboardCallout" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;max-width:1080px;margin:24px auto 0;padding:14px 20px;background:linear-gradient(180deg,rgba(201,169,97,0.10),rgba(201,169,97,0.02));border:1px solid rgba(201,169,97,0.35);border-radius:12px;text-decoration:none;color:inherit;transition:border-color 0.15s">
+      <span style="font-size:22px;line-height:1">🏆</span>
+      <div style="flex:1;min-width:220px">
+        <div data-i18n="leaderboardCalloutTitle" style="font-weight:700;color:var(--accent);font-size:13px;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:2px">See the leaderboard</div>
+        <div id="leaderboardCalloutBody" data-i18n="leaderboardCalloutBody" style="color:var(--text-dim);font-size:13.5px;line-height:1.5">Top alliances already using this suite to plan Season 2.</div>
+      </div>
+      <span data-i18n="leaderboardCalloutCta" style="background:var(--accent);color:#0a0e1a;border-radius:8px;padding:8px 16px;font-weight:700;font-size:12.5px;letter-spacing:0.02em;white-space:nowrap">View →</span>
+    </a>
+    <script>
+      // Live count injection — one fetch on page load, no interval.
+      (function () {
+        fetch('https://roster.r5tools.io/api/leaderboard/public', { cache: 'default' })
+          .then(r => r.ok ? r.json() : null)
+          .then(d => {
+            if (!d || !d.total_alliances_ranked) return;
+            const el = document.getElementById('leaderboardCalloutBody');
+            if (!el) return;
+            const lang = (document.documentElement.lang || 'en').toLowerCase();
+            const n = d.total_alliances_ranked;
+            const msg = lang.startsWith('ko')
+              ? `현재 ${n}개 얼라이언스가 이 툴킷으로 시즌을 계획하고 있습니다.`
+              : `${n} alliances are already using this suite to plan Season 2.`;
+            el.textContent = msg;
+          })
+          .catch(() => {});
+      })();
+    </script>
 
     <section>
       <h2 data-i18n="secWhy">WHY R5s USE THIS SUITE</h2>
@@ -993,12 +1024,15 @@
         heroCta1: 'See pricing →',
         heroCta2: 'Try Roster Extractor (free demo)',
         krNote: '🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요. · Warzone 2007 members get a free unlock code. Ask your R5.',
+        leaderboardCalloutTitle: '🏆 See the leaderboard',
+        leaderboardCalloutBody: 'Top alliances already using this suite to plan Season 2.',
+        leaderboardCalloutCta: 'View →',
         foundingLine1: 'FOUNDING ALLIANCE · FIRST 10 ONLY',
         foundingLine2: 'Alliance Bundle at <strong style="color:#fff">$30</strong> instead of $50 while I onboard the first 10 alliances. Lifetime access to every new tool I ship. Email me — first come, first served.',
         secLive: 'LIVE',
         signInBtn: 'Unlock the suite',
         unlockBannerTitle: '🔓 Free for Warzone 2007 members',
-        unlockBannerBody: 'Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">WARZONE-2007-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.',
+        unlockBannerBody: 'Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">RONY-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.',
         unlockBannerCta: 'Enter code →',
         betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
         betaBannerCta: 'Send feedback →',
@@ -1134,12 +1168,15 @@
         heroCta1: '가격 보기 →',
         heroCta2: '명단 추출기 체험 (무료 데모)',
         krNote: '🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요.',
+        leaderboardCalloutTitle: '🏆 리더보드 보기',
+        leaderboardCalloutBody: '이미 이 툴킷으로 시즌 2를 계획하고 있는 상위 얼라이언스.',
+        leaderboardCalloutCta: '보기 →',
         foundingLine1: '창립 얼라이언스 · 선착순 10팀',
         foundingLine2: '첫 10개 얼라이언스를 온보딩하는 동안 얼라이언스 번들을 <strong style="color:#fff">$30</strong>에 (기존 $50). 앞으로 출시되는 모든 도구에 평생 접근. 이메일 주세요 — 선착순.',
         secLive: '라이브',
         signInBtn: '스위트 잠금 해제',
         unlockBannerTitle: '🔓 워존 2007 멤버 무료',
-        unlockBannerBody: 'R5에게 연맹 코드를 요청하세요 (예: WARZONE-2007-FREE) 또는 $20 평생 잠금 해제. 로그인 페이지 하나로 모든 도구 이용 가능.',
+        unlockBannerBody: 'R5에게 연맹 코드를 요청하세요 (예: RONY-FREE) 또는 $20 평생 잠금 해제. 로그인 페이지 하나로 모든 도구 이용 가능.',
         unlockBannerCta: '코드 입력 →',
         betaBannerBody: '<strong style="color:#fff">지속 개선 중</strong> — R5 피드백을 기반으로 매시간 새 기능을 배포합니다. 빠진 것, 안 되는 것, 느린 것을 알려주시면 바로 고치겠습니다.',
         betaBannerCta: '피드백 보내기 →',
