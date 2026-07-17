@@ -193,7 +193,9 @@
 
       function refreshBadge() {
         resolveContext().then(function (ctx) {
-          var seasonName = (ctx.season && ctx.season.name && ctx.season.name.en) || ctx.season_id;
+          // Pick season name by active document lang so KR/JA/etc. don't leak an English name.
+          var lang = (document.documentElement.lang || navigator.language || 'en').slice(0, 2).toLowerCase();
+          var seasonName = (ctx.season && ctx.season.name && (ctx.season.name[lang] || ctx.season.name.en)) || ctx.season_id;
           seasonBadge.textContent = seasonName + ' · Wk ' + ctx.week + (ctx.is_override ? ' (override)' : '');
         });
       }
