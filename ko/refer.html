@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>추천하고 리워드 받기 — R5TOOLS.IO</title>
+  <meta name="description" content="R5TOOLS.IO의 모든 사용자에게 고유 추천 코드가 발급됩니다. 코드를 공유하시고, 유료 잠금해제가 발생할 때마다 매출의 일부를 돌려받으십시오." />
+  <meta name="robots" content="index,follow" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="추천하고 리워드 받기 — R5TOOLS.IO" />
+  <meta property="og:description" content="고유 코드를 공유하시고, 유료 잠금해제가 발생할 때마다 매출의 일부를 돌려받으십시오." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/ko/refer.html" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="추천하고 리워드 받기 — R5TOOLS.IO" />
+  <meta name="twitter:description" content="고유 코드를 공유하시고, 유료 잠금해제가 발생할 때마다 매출의 일부를 돌려받으십시오." />
+
+  <link rel="canonical" href="https://r5tools.io/ko/refer.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/refer.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/refer.html" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/refer.html" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/refer.html" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/refer.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/refer.html" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --success: #8ae0a3;
+      --warn: #e88a4a;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: "Noto Sans KR", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+    }
+    .brand { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600; text-decoration: none; }
+    .brand:hover { color: var(--accent-hover); }
+    .lang-toggle {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 28px 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px;
+      font-family: inherit;
+      appearance: none; -webkit-appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--text-dim) 50%),
+                        linear-gradient(135deg, var(--text-dim) 50%, transparent 50%);
+      background-position: right 12px top 12px, right 8px top 12px;
+      background-size: 4px 4px, 4px 4px;
+      background-repeat: no-repeat;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-toggle:focus { outline: none; border-color: var(--accent); }
+
+    .suite-nav {
+      display: flex; flex-wrap: wrap; gap: 10px 18px;
+      padding: 12px 16px; margin: 0 0 32px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 12.5px;
+    }
+    .suite-nav a { color: var(--text-dim); text-decoration: none; }
+    .suite-nav a:hover { color: var(--accent); }
+    .suite-nav .sep { color: var(--text-mute); }
+
+    .page-title { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 12px 0 8px; }
+    .page-title .accent { color: var(--accent); }
+    .page-sub { color: var(--text-dim); font-size: 15px; max-width: 720px; margin: 0 0 28px; }
+
+    /* Login card (shown when not logged in) */
+    .login-card, .refer-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px;
+      margin-bottom: 20px;
+    }
+    .login-card h2, .refer-card h2 {
+      margin: 0 0 8px; font-size: 20px; font-weight: 600; color: var(--accent);
+    }
+    .login-card p { color: var(--text-dim); font-size: 14px; margin: 6px 0 18px; }
+    .email-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .email-row input {
+      flex: 1 1 220px; min-width: 0;
+      padding: 12px 14px; border-radius: 8px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      color: var(--text); font-size: 15px; font-family: inherit;
+    }
+    .email-row input:focus { outline: none; border-color: var(--accent); }
+    .btn {
+      background: var(--accent); color: #0a0e1a;
+      padding: 12px 20px; border-radius: 8px;
+      font-weight: 700; font-size: 14px;
+      text-decoration: none; white-space: nowrap;
+      border: none; cursor: pointer; font-family: inherit;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn.secondary {
+      background: var(--panel-2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn.secondary:hover { border-color: var(--accent); color: var(--accent); background: var(--panel-2); }
+
+    /* The big code display */
+    .code-block {
+      background: var(--panel-2); border: 1px solid var(--border-accent);
+      border-radius: 10px; padding: 18px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
+      margin: 16px 0 20px;
+    }
+    .code-block .code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 22px; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.04em; word-break: break-all;
+    }
+    .code-block .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .link-block {
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12.5px; color: var(--text-dim);
+      word-break: break-all;
+      margin-bottom: 16px;
+    }
+
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px; margin: 16px 0 24px;
+    }
+    .stat {
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px;
+    }
+    .stat .label {
+      font-size: 10.5px; letter-spacing: 0.12em; color: var(--text-mute);
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .stat .value { font-size: 24px; font-weight: 700; color: var(--text); }
+    .stat.earnings .value { color: var(--success); }
+    .stat.owed .value { color: var(--warn); }
+
+    .share-row {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 16px; border-radius: 8px;
+      font-weight: 600; font-size: 13px; text-decoration: none;
+      cursor: pointer; font-family: inherit;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .share-btn .icon { font-size: 15px; line-height: 1; }
+
+    .how {
+      margin-top: 32px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px;
+    }
+    .how h3 { margin: 0 0 14px; font-size: 16px; color: var(--accent); }
+    .how ol { margin: 0; padding-left: 20px; color: var(--text-dim); font-size: 14px; }
+    .how li { margin-bottom: 8px; }
+    .how .fine {
+      margin-top: 16px; padding-top: 16px;
+      border-top: 1px dashed var(--border);
+      font-size: 12px; color: var(--text-mute);
+    }
+
+    .founding-note {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04));
+      border: 1px solid rgba(201,169,97,0.35); border-radius: 10px;
+      font-size: 13px; color: var(--text-dim);
+    }
+    .founding-note b { color: var(--accent); }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #0a0e1a;
+      padding: 10px 20px; border-radius: 8px;
+      font-weight: 600; font-size: 13px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .18s;
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; }
+
+    footer {
+      margin-top: 48px; padding: 24px 0;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      justify-content: space-between;
+      color: var(--text-mute); font-size: 12px;
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    .hidden { display: none !important; }
+    .status-note {
+      color: var(--text-mute); font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      margin-top: 8px;
+    }
+    .status-note.warn { color: var(--warn); }
+    .status-note.ok { color: var(--success); }
+
+    @media (max-width: 640px) {
+      .page-title { font-size: 26px; }
+      .code-block .code { font-size: 17px; }
+    }
+  </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+<!-- BEGIN r5tools:seo:softwareapp v1 -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"R5TOOLS.IO 추천하고 리워드 받기","url":"https://r5tools.io/ko/refer.html","description":"R5TOOLS.IO의 모든 사용자에게 고유 추천 코드가 발급됩니다. 코드를 공유하시고, 유료 잠금해제가 발생할 때마다 매출의 일부를 돌려받으십시오.","applicationCategory":"GameApplication","applicationSubCategory":"Strategy game companion tool","operatingSystem":"Web","image":"https://r5tools.io/static/og-image.png","inLanguage":"ko","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"},"offers":{"@type":"Offer","price":"0.00","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://r5tools.io/ko/#pricing","description":"워존 2007 얼라이언스 멤버는 코드 RONY-FREE로 전체 툴 스위트를 무료로 잠금해제합니다."}}</script>
+<!-- END r5tools:seo:softwareapp v1 -->
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="/ko/" class="brand" data-i18n="brand">R5TOOLS.IO — LWS 스위트</a>
+      <select class="lang-toggle" id="langToggle" aria-label="Language">
+        <option value="en">EN — English</option>
+        <option value="ko">KO — 한국어</option>
+      </select>
+    </header>
+
+    <nav class="suite-nav">
+      <a href="/ko/" data-i18n="navHome">홈</a>
+      <span class="sep">·</span>
+      <a href="/roadmap.html" data-i18n="navRoadmap">로드맵</a>
+      <span class="sep">·</span>
+      <a href="/leaderboard.html" data-i18n="navLeaderboard">리더보드</a>
+      <span class="sep">·</span>
+      <a href="https://roster.r5tools.io/">로스터 추출기</a>
+      <span class="sep">·</span>
+      <a href="https://hive.r5tools.io/">하이브 플래너</a>
+      <span class="sep">·</span>
+      <a href="https://chat.r5tools.io/">KB 챗</a>
+    </nav>
+
+    <h1 class="page-title" data-i18n="pageTitle">R5TOOLS를 공유하세요. <span class="accent">잠금해제마다 수익.</span></h1>
+    <p class="page-sub" data-i18n="pageSub">
+      모든 사용자에게 고유 추천 코드가 발급됩니다. 얼라이언스, 디스코드, 카톡, 레딧 — 어디든 공유하십시오. 내 링크로 발생한 모든 유료 잠금해제에 대해
+      <b><span id="revSharePct">25</span>%</b>를 돌려받으십시오. 수동 PayPal / CashApp 지급 방식입니다 (결제 통합은 아직 없습니다 — 깔끔한 원장만 운영합니다).
+    </p>
+
+    <!-- Login card — visible when user is not authed with email -->
+    <section id="loginCard" class="login-card hidden">
+      <h2 data-i18n="loginTitle">이메일로 로그인하고 내 코드를 받으십시오</h2>
+      <p data-i18n="loginSub">비밀번호는 사용하지 않습니다 — 매직 링크 방식입니다. 이미 익명 코드로 잠금해제하셨더라도, 추천 프로그램에 참여하시려면 이메일로 로그인하셔야 합니다 (수익을 정확히 적립해 드리기 위함입니다).</p>
+      <div class="email-row">
+        <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
+        <button class="btn" id="sendLinkBtn" data-i18n="sendLink">매직 링크 보내기</button>
+      </div>
+      <div id="loginStatus" class="status-note"></div>
+    </section>
+
+    <!-- Refer card — visible when logged in -->
+    <section id="referCard" class="refer-card hidden">
+      <h2 data-i18n="yourCode">내 추천 코드</h2>
+      <div class="code-block">
+        <div class="code" id="codeDisplay">R5-…</div>
+        <div class="actions">
+          <button class="btn secondary" id="copyCodeBtn" data-i18n="copyCode">코드 복사</button>
+        </div>
+      </div>
+
+      <div style="color: var(--text-dim); font-size: 13px; margin-bottom: 6px;" data-i18n="yourLink">내 공유 링크:</div>
+      <div class="link-block" id="linkDisplay">https://r5tools.io/?ref=…</div>
+
+      <div class="share-row">
+        <button class="share-btn" id="copyLinkBtn"><span class="icon">📋</span> <span data-i18n="copyLink">링크 복사</span></button>
+        <a class="share-btn" id="shareDiscord" href="#" target="_blank" rel="noopener"><span class="icon">💬</span> Discord</a>
+        <a class="share-btn" id="shareX" href="#" target="_blank" rel="noopener"><span class="icon">𝕏</span> X (Twitter)</a>
+        <a class="share-btn" id="shareReddit" href="#" target="_blank" rel="noopener"><span class="icon">🔗</span> Reddit</a>
+        <a class="share-btn" id="shareKakao" href="#" target="_blank" rel="noopener"><span class="icon">💛</span> 카톡</a>
+        <button class="share-btn" id="shareNative" style="display:none"><span class="icon">📤</span> <span data-i18n="shareEllipsis">공유…</span></button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="label" data-i18n="statClicks">클릭수</div>
+          <div class="value" id="statClicks">0</div>
+        </div>
+        <div class="stat">
+          <div class="label" data-i18n="statConversions">전환</div>
+          <div class="value" id="statConversions">0</div>
+        </div>
+        <div class="stat earnings">
+          <div class="label" data-i18n="statEarned">총 수익</div>
+          <div class="value" id="statEarned">$0.00</div>
+        </div>
+        <div class="stat owed">
+          <div class="label" data-i18n="statOwed">미지급 잔액</div>
+          <div class="value" id="statOwed">$0.00</div>
+        </div>
+      </div>
+
+      <div class="status-note" id="referStatus"></div>
+
+      <div style="margin-top:14px;">
+        <button class="btn secondary" id="refreshBtn" data-i18n="refresh">통계 새로고침</button>
+        <button class="btn secondary" id="logoutBtn" data-i18n="logout">로그아웃</button>
+      </div>
+    </section>
+
+    <section class="how">
+      <h3 data-i18n="howTitle">작동 방식</h3>
+      <ol>
+        <li data-i18n="howStep1"><b>이메일로 로그인</b>하셔서 수익이 정확히 적립되도록 하십시오.</li>
+        <li data-i18n="howStep2"><b>코드나 링크를 공유</b>하십시오 — 디스코드, 카톡, 레딧, X, 얼라이언스 채팅 어디든 좋습니다.</li>
+        <li data-i18n="howStep3">내 링크로 r5tools.io에 방문하신 분은 <b>30일간</b> 태깅됩니다. 그 기간 안에 유료 잠금해제를 구매하시면, 그 총액의 <b><span class="howPct">25</span>%</b>를 받으십니다.</li>
+        <li data-i18n="howStep4">지급은 <b>수동</b> 방식입니다 — 매주 CSV로 내보내고 PayPal / CashApp으로 각 추천인에게 직접 지급합니다. 최소 금액 조건도, 지급 지연도 없습니다.</li>
+      </ol>
+      <div class="fine" data-i18n="howFine">
+        최초 접촉 귀속 원칙이 적용됩니다 (먼저 태깅한 분이 크레딧을 받으십니다). 자기 추천은 차단됩니다. 원장은 사람이 직접 확인 가능합니다 — 본인 기록을 보고 싶으시면 언제든 요청하십시오.
+      </div>
+    </section>
+
+    <div class="founding-note" data-i18n="foundingNote">
+      <b>처음 10 얼라이언스만</b> — 얼라이언스 파운딩 번들은 <b>$30</b>로 이용 가능합니다 (정가 $50, 100 얼라이언스 온보딩 후 영구 인상). 개인 잠금해제는 <b>$10</b>, 매출 공유는 <b>25%</b>. 파운딩 시기에 추천을 유도하시면 초기 얼라이언스에게 가장 큰 수익 기회가 됩니다.
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · <span data-i18n="footerNote">팬이 만든 툴킷입니다. First Fun / Century Games와는 무관합니다.</span></div>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <a href="/ko/" data-i18n="footerHome">홈</a>
+        <a href="/roadmap.html" data-i18n="footerRoadmap">로드맵</a>
+        <a href="/terms.html" data-i18n="footerTerms">약관</a>
+        <a href="/privacy.html" data-i18n="footerPrivacy">개인정보</a>
+      </div>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast">복사됨!</div>
+
+  <script>
+    // ---------- config ----------
+    var API_BASE = 'https://access-codes.r5tools.io';
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      // Local dev — hit the local access-codes server (matches the pattern from roadmap.html / leaderboard.html).
+      API_BASE = 'http://127.0.0.1:8791';
+    }
+
+    // ---------- i18n ----------
+    var I18N = {
+      en: {
+        brand: 'R5TOOLS.IO — LWS SUITE',
+        navHome: 'Home', navRoadmap: 'Roadmap', navLeaderboard: 'Leaderboard',
+        pageTitle: 'Share R5TOOLS. <span class="accent">Earn on every unlock.</span>',
+        pageSub: null,  // has interpolated span, updated in code
+        loginTitle: 'Sign in with your email to grab your code',
+        loginSub: "We use a magic link — no password. If you already unlocked with an anonymous code, you'll still need to sign in with email to enter the referral program (that's how we credit your earnings).",
+        sendLink: 'Send magic link',
+        yourCode: 'Your referral code',
+        copyCode: 'Copy code',
+        yourLink: 'Your share link:',
+        copyLink: 'Copy link',
+        shareEllipsis: 'Share…',
+        statClicks: 'Clicks',
+        statConversions: 'Conversions',
+        statEarned: 'Total earned',
+        statOwed: 'Unpaid balance',
+        refresh: 'Refresh stats',
+        logout: 'Sign out',
+        howTitle: 'How it works',
+        howStep1: '<b>Sign in</b> with your email so we can credit you.',
+        howStep2: '<b>Share your code or link</b> anywhere — Discord, 카톡, Reddit, X, alliance chat.',
+        howStep3: 'Anyone who lands on r5tools.io via your link gets tagged for <b>30 days</b>. If they buy a paid unlock in that window, you get <b><span class="howPct">25</span>%</b> of gross.',
+        howStep4: 'Payouts are <b>manual</b> — I run a CSV export weekly and PayPal / CashApp each referrer. No minimums, no schedule games.',
+        howFine: 'First-touch attribution wins (whoever tagged the visitor first gets the credit). Self-referrals are blocked. Ledger is human-verifiable — if you want to see your rows, ask.',
+        foundingNote: '<b>First 10 alliances only</b> — the Alliance Founding bundle is <b>$30</b> (regular $50, jumps permanently once 100 alliances are onboarded). Personal unlock is <b>$10</b>, rev share is <b>25%</b>. Referring during the Founding window is the biggest revenue window early alliances will see.',
+        footerNote: 'Fan-made toolkit. Not affiliated with First Fun / Century Games.',
+        footerHome: 'Home', footerRoadmap: 'Roadmap', footerTerms: 'Terms', footerPrivacy: 'Privacy',
+        toastCopied: 'Copied!',
+        shareText: 'I use R5TOOLS.IO to run my Last War: Survival alliance — roster extraction, hive planning, coal burn, all the sweaty stuff. Free tier available:',
+      },
+      ko: {
+        brand: 'R5TOOLS.IO — LWS 스위트',
+        navHome: '홈', navRoadmap: '로드맵', navLeaderboard: '리더보드',
+        pageTitle: 'R5TOOLS를 공유하세요. <span class="accent">잠금해제마다 수익.</span>',
+        pageSub: null,
+        loginTitle: '이메일로 로그인하고 내 코드를 받으십시오',
+        loginSub: '비밀번호는 사용하지 않습니다 — 매직 링크 방식입니다. 이미 익명 코드로 잠금해제하셨더라도, 추천 프로그램에 참여하시려면 이메일로 로그인하셔야 합니다 (수익을 정확히 적립해 드리기 위함입니다).',
+        sendLink: '매직 링크 보내기',
+        yourCode: '내 추천 코드',
+        copyCode: '코드 복사',
+        yourLink: '내 공유 링크:',
+        copyLink: '링크 복사',
+        shareEllipsis: '공유…',
+        statClicks: '클릭수',
+        statConversions: '전환',
+        statEarned: '총 수익',
+        statOwed: '미지급 잔액',
+        refresh: '통계 새로고침',
+        logout: '로그아웃',
+        howTitle: '작동 방식',
+        howStep1: '<b>이메일로 로그인</b>하셔서 수익이 정확히 적립되도록 하십시오.',
+        howStep2: '<b>코드나 링크를 공유</b>하십시오 — 디스코드, 카톡, 레딧, X, 얼라이언스 채팅 어디든 좋습니다.',
+        howStep3: '내 링크로 r5tools.io에 방문하신 분은 <b>30일간</b> 태깅됩니다. 그 기간 안에 유료 잠금해제를 구매하시면, 그 총액의 <b><span class="howPct">25</span>%</b>를 받으십니다.',
+        howStep4: '지급은 <b>수동</b> 방식입니다 — 매주 CSV로 내보내고 PayPal / CashApp으로 각 추천인에게 직접 지급합니다. 최소 금액 조건도, 지급 지연도 없습니다.',
+        howFine: '최초 접촉 귀속 원칙이 적용됩니다 (먼저 태깅한 분이 크레딧을 받으십니다). 자기 추천은 차단됩니다. 원장은 사람이 직접 확인 가능합니다 — 본인 기록을 보고 싶으시면 언제든 요청하십시오.',
+        foundingNote: '<b>처음 10 얼라이언스만</b> — 얼라이언스 파운딩 번들은 <b>$30</b>로 이용 가능합니다 (정가 $50, 100 얼라이언스 온보딩 후 영구 인상). 개인 잠금해제는 <b>$10</b>, 매출 공유는 <b>25%</b>. 파운딩 시기에 추천을 유도하시면 초기 얼라이언스에게 가장 큰 수익 기회가 됩니다.',
+        footerNote: '팬이 만든 툴킷입니다. First Fun / Century Games와는 무관합니다.',
+        footerHome: '홈', footerRoadmap: '로드맵', footerTerms: '약관', footerPrivacy: '개인정보',
+        toastCopied: '복사됨!',
+        shareText: 'Last War: Survival 얼라이언스 운영에 R5TOOLS.IO를 씁니다 — 로스터 추출, 하이브 배치, 석탄 계산, 힘든 작업 전부. 무료 티어 있습니다:',
+      }
+    };
+    function detectLang() {
+      var saved = null;
+      try { saved = localStorage.getItem('lang'); } catch (e) {}
+      if (saved === 'en' || saved === 'ko') return saved;
+      var nav = (navigator.language || 'ko').toLowerCase();
+      return nav.indexOf('en') === 0 ? 'en' : 'ko';
+    }
+    var lang = detectLang();
+    function applyLang() {
+      var dict = I18N[lang] || I18N.ko;
+      document.documentElement.setAttribute('lang', lang === 'ko' ? 'ko' : 'en');
+      var nodes = document.querySelectorAll('[data-i18n]');
+      for (var i = 0; i < nodes.length; i++) {
+        var k = nodes[i].getAttribute('data-i18n');
+        if (dict[k] != null) nodes[i].innerHTML = dict[k];
+      }
+      // Compose the pageSub in code so REV_SHARE_PCT interpolates.
+      var pct = document.getElementById('revSharePct').textContent || '25';
+      var sub = document.querySelector('.page-sub');
+      if (sub) {
+        if (lang === 'ko') {
+          sub.innerHTML = '모든 사용자에게 고유 추천 코드가 발급됩니다. 얼라이언스, 디스코드, 카톡, 레딧 — 어디든 공유하십시오. 내 링크로 발생한 모든 유료 잠금해제에 대해 <b>' + pct + '%</b>를 돌려받으십시오. 수동 PayPal / CashApp 지급 방식입니다 (결제 통합은 아직 없습니다 — 깔끔한 원장만 운영합니다).';
+        } else {
+          sub.innerHTML = 'Every user gets a unique referral code. Share it with your alliance, on Discord, on 카톡, on Reddit — any paid unlock we get from your link, you earn <b>' + pct + '%</b> back. Manual PayPal / CashApp payouts (no payment integration for now — just a clean ledger).';
+        }
+      }
+      var toast = document.getElementById('toast');
+      if (toast) toast.setAttribute('data-copied-text', dict.toastCopied);
+    }
+    var langSel = document.getElementById('langToggle');
+    langSel.value = lang;
+    langSel.addEventListener('change', function () {
+      lang = this.value;
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+      // If user switches to EN, send them to the EN page so they get the EN canonical.
+      if (lang === 'en') {
+        location.href = '/refer.html';
+        return;
+      }
+      applyLang();
+      // Re-render sharing links since the share text changed language.
+      renderShareLinks();
+    });
+
+    // ---------- state ----------
+    var STATE = { code: null, email: null, stats: null, revSharePct: 25 };
+
+    // ---------- helpers ----------
+    function $(id) { return document.getElementById(id); }
+    function toast(msg) {
+      var t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 1400);
+    }
+    function copy(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      // Fallback
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }
+    function fmtDollars(cents) {
+      var d = (cents || 0) / 100;
+      return '$' + d.toFixed(2);
+    }
+    function shareUrl() {
+      if (!STATE.code) return 'https://r5tools.io/';
+      return 'https://r5tools.io/?ref=' + encodeURIComponent(STATE.code);
+    }
+    function shareText() {
+      var dict = I18N[lang] || I18N.ko;
+      return dict.shareText + ' ' + shareUrl();
+    }
+
+    // ---------- API ----------
+    function apiGet(path) {
+      return fetch(API_BASE + path, { credentials: 'include' })
+        .then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); });
+    }
+    function apiPost(path, body) {
+      return fetch(API_BASE + path, {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body || {}),
+      }).then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); });
+    }
+
+    // ---------- render ----------
+    function renderLoggedIn() {
+      $('loginCard').classList.add('hidden');
+      $('referCard').classList.remove('hidden');
+      if (window.r5t) window.r5t.track('refer_page_view', { state: 'logged_in', code: STATE.code });
+      $('codeDisplay').textContent = STATE.code;
+      $('linkDisplay').textContent = shareUrl();
+      var s = STATE.stats || {};
+      $('statClicks').textContent = String(s.clicks || 0);
+      $('statConversions').textContent = String(s.conversions || 0);
+      $('statEarned').textContent = fmtDollars(s.earnings_cents || 0);
+      $('statOwed').textContent = fmtDollars(STATE.unpaidCents || 0);
+      $('revSharePct').textContent = String(STATE.revSharePct);
+      var howPcts = document.querySelectorAll('.howPct');
+      for (var i = 0; i < howPcts.length; i++) howPcts[i].textContent = String(STATE.revSharePct);
+      applyLang();
+      renderShareLinks();
+    }
+    function renderLoggedOut() {
+      $('loginCard').classList.remove('hidden');
+      $('referCard').classList.add('hidden');
+      if (window.r5t) window.r5t.track('refer_page_view', { state: 'logged_out' });
+    }
+    function renderShareLinks() {
+      var url = shareUrl();
+      var text = shareText();
+      $('shareDiscord').href = 'https://discord.com/channels/@me';
+      $('shareDiscord').addEventListener('click', function (e) {
+        // Discord has no direct share URL; we copy the message + open Discord in a new tab.
+        e.preventDefault();
+        if (window.r5t) window.r5t.track('refer_share_click', { channel: 'discord', code: STATE.code });
+        copy(text).then(function () {
+          toast(lang === 'ko' ? '복사됨 — 디스코드에 붙여넣으십시오' : 'Copied — paste in Discord');
+          window.open('https://discord.com/channels/@me', '_blank', 'noopener');
+        });
+      }, { once: true });
+      $('shareX').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+      $('shareX').addEventListener('click', function () {
+        if (window.r5t) window.r5t.track('refer_share_click', { channel: 'x', code: STATE.code });
+      });
+      $('shareReddit').href = 'https://www.reddit.com/submit?title=' +
+        encodeURIComponent('R5TOOLS.IO — Last War: Survival toolkit') + '&url=' + encodeURIComponent(url);
+      $('shareReddit').addEventListener('click', function () {
+        if (window.r5t) window.r5t.track('refer_share_click', { channel: 'reddit', code: STATE.code });
+      });
+      // 카톡 has no public web-share URL for non-registered apps; fall back to copy + open.
+      $('shareKakao').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (window.r5t) window.r5t.track('refer_share_click', { channel: 'kakao', code: STATE.code });
+        copy(text).then(function () { toast(lang === 'ko' ? '복사됨 — 카톡에 붙여넣으십시오' : 'Copied — paste in 카톡'); });
+      }, { once: true });
+
+      // Native share where supported (mobile).
+      if (navigator.share) {
+        var btn = $('shareNative');
+        btn.style.display = 'inline-flex';
+        btn.addEventListener('click', function () {
+          if (window.r5t) window.r5t.track('refer_share_click', { channel: 'native', code: STATE.code });
+          navigator.share({ title: 'R5TOOLS.IO', text: text, url: url })
+            .catch(function () { /* user cancelled */ });
+        });
+      }
+    }
+
+    // ---------- flows ----------
+    function loadMe() {
+      return apiGet('/api/refer/me').then(function (r) {
+        if (r.status === 200 && r.body && r.body.ok) {
+          STATE.code = r.body.referral_code;
+          STATE.email = r.body.email;
+          STATE.stats = r.body.stats;
+          STATE.unpaidCents = r.body.unpaid_cents || 0;
+          STATE.paidCents = r.body.paid_cents || 0;
+          STATE.revSharePct = r.body.rev_share_pct || 25;
+          renderLoggedIn();
+        } else {
+          renderLoggedOut();
+        }
+      }).catch(function () {
+        renderLoggedOut();
+      });
+    }
+
+    // If the caller landed with ?ref=..., attribute it — that's how the landing page
+    // itself becomes viral. Anyone reading THIS page via a shared link gets tagged
+    // as attributed to whoever sent them here, and their eventual purchase credits
+    // that sender. (You can then share your own code from this same page. Referral turtles all the way down.)
+    (function attributeIfNeeded() {
+      var qs = new URLSearchParams(location.search || '');
+      var ref = (qs.get('ref') || '').trim().toUpperCase();
+      if (!ref) return;
+      apiPost('/api/refer/attribute', { ref: ref, path: location.pathname }).catch(function () {});
+    })();
+
+    // ---------- wire up UI ----------
+    $('sendLinkBtn').addEventListener('click', function () {
+      var email = ($('emailInput').value || '').trim();
+      if (!email || email.indexOf('@') < 0) {
+        $('loginStatus').textContent = lang === 'ko' ? '유효한 이메일 주소를 입력해 주십시오.' : 'Please enter a valid email.';
+        $('loginStatus').className = 'status-note warn';
+        return;
+      }
+      $('loginStatus').textContent = lang === 'ko' ? '링크 전송 중…' : 'Sending link…';
+      $('loginStatus').className = 'status-note';
+      apiPost('/api/register-email', { email: email }).then(function (r) {
+        if (r.body && r.body.ok) {
+          if (lang === 'ko') {
+            $('loginStatus').innerHTML = '<b>' + email + '</b> 주소로 매직 링크를 발송했습니다. 링크를 클릭하신 뒤 이 페이지로 돌아와 주십시오.';
+          } else {
+            $('loginStatus').innerHTML = 'Magic link sent to <b>' + email + '</b>. Click it, then come back here.';
+          }
+          $('loginStatus').className = 'status-note ok';
+        } else {
+          $('loginStatus').textContent = lang === 'ko' ? '문제가 발생했습니다. 잠시 후 다시 시도해 주십시오.' : 'Something went wrong. Try again in a moment.';
+          $('loginStatus').className = 'status-note warn';
+        }
+      }).catch(function () {
+        $('loginStatus').textContent = lang === 'ko' ? '서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주십시오.' : "Couldn't reach the server. Try again in a moment.";
+        $('loginStatus').className = 'status-note warn';
+      });
+    });
+    $('emailInput') && $('emailInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); $('sendLinkBtn').click(); }
+    });
+
+    $('copyCodeBtn').addEventListener('click', function () {
+      if (!STATE.code) return;
+      if (window.r5t) window.r5t.track('refer_copy_code', { code: STATE.code });
+      copy(STATE.code).then(function () { toast((I18N[lang] || I18N.ko).toastCopied || '복사됨!'); });
+    });
+    $('copyLinkBtn').addEventListener('click', function () {
+      if (window.r5t) window.r5t.track('refer_copy_code', { kind: 'link', code: STATE.code });
+      copy(shareUrl()).then(function () { toast((I18N[lang] || I18N.ko).toastCopied || '복사됨!'); });
+    });
+    $('refreshBtn').addEventListener('click', loadMe);
+    $('logoutBtn').addEventListener('click', function () {
+      apiPost('/api/logout', {}).finally(loadMe);
+    });
+
+    // ---------- init ----------
+    applyLang();
+    loadMe();
+  </script>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>
