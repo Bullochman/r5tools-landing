@@ -7,6 +7,9 @@
 <meta name="description" content="Every building in Last War: Survival — HQ, troop centers, Alliance Furnace, Warlord Tower, Bank, Altars. Level caps, HQ gates, and R5 priorities.">
 
 <link rel="canonical" href="https://r5tools.io/buildings/">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/buildings/index.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/buildings/index.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/buildings/index.html">
 <meta property="og:title" content="Last War buildings — every base building explained | R5TOOLS.IO">
 <meta property="og:description" content="Every building in Last War: Survival — HQ, troop centers, Alliance Furnace, Warlord Tower, Bank, Altars. Level caps, HQ gates, and R5 priorities.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/buildings/index.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -125,7 +160,19 @@ td { color: var(--text-dim); }
   <article>
     <h3>Every base building</h3>
 <ul><li><a href="/buildings/headquarters.html" rel="nofollow noopener"><strong>Headquarters (HQ)</strong></a> — The master gate — every other building&#x27;s level cap is set by HQ.</li><li><a href="/buildings/barracks.html" rel="nofollow noopener"><strong>Barracks</strong></a> — Trains Warrior/Infantry troops. HQ-gated T-tier troop unlock.</li><li><a href="/buildings/tank-center.html" rel="nofollow noopener"><strong>Tank Center</strong></a> — Trains Tank troops. Gates Wall of Honor unlock for Tank heroes at Lv.20.</li><li><a href="/buildings/missile-center.html" rel="nofollow noopener"><strong>Missile Center</strong></a> — Trains Missile Vehicles. Gates Wall of Honor for Missile heroes at Lv.20.</li><li><a href="/buildings/aircraft-center.html" rel="nofollow noopener"><strong>Aircraft Center</strong></a> — Trains Aircraft troops. Gates Wall of Honor for Aircraft heroes at Lv.20.</li><li><a href="/buildings/drill-grounds.html" rel="nofollow noopener"><strong>Drill Grounds</strong></a> — Trained-troop holding capacity — bigger drill = bigger march.</li><li><a href="/buildings/hospital.html" rel="nofollow noopener"><strong>Hospital</strong></a> — Heals wounded troops. Overflow goes to Emergency Center at HQ 22+.</li><li><a href="/buildings/emergency-center.html" rel="nofollow noopener"><strong>Emergency Center (ICU)</strong></a> — HQ 22 unlock — catches severely-wounded from Hospital overflow.</li><li><a href="/buildings/tech-center.html" rel="nofollow noopener"><strong>Tech Center</strong></a> — Runs the research queue. Second Tech Center unlocks dual research queue.</li><li><a href="/buildings/alliance-center.html" rel="nofollow noopener"><strong>Alliance Center</strong></a> — Controls alliance join capacity, Help cap, and hosts garrison troops.</li><li><a href="/buildings/wall.html" rel="nofollow noopener"><strong>Wall / Barrier</strong></a> — Base HP defense stat. Upgraded via wall repair kits + build points.</li><li><a href="/buildings/radar.html" rel="nofollow noopener"><strong>Radar Vehicle</strong></a> — Generates daily radar missions — the daily-quest backbone.</li><li><a href="/buildings/farm.html" rel="nofollow noopener"><strong>Farm</strong></a> — Produces Food (식량). Critical resource for troop training.</li><li><a href="/buildings/iron-mine.html" rel="nofollow noopener"><strong>Iron Mine</strong></a> — Produces Iron (철). Second-most-consumed base resource.</li><li><a href="/buildings/gold-mine.html" rel="nofollow noopener"><strong>Gold Mine / Coin Mint</strong></a> — Produces Coins. Distinct from Gold Vault (storage).</li><li><a href="/buildings/alliance-furnace.html" rel="nofollow noopener"><strong>Alliance Furnace</strong></a> — Season 2 — alliance-scale heat source. Radius scales L1 (5 tiles) to L20 (10 tiles).</li><li><a href="/buildings/home-heating-furnace.html" rel="nofollow noopener"><strong>Home Heating Furnace</strong></a> — Season 2 — individual furnace. L30 burns ~240 coal/min normal, ~960 coal/min overdrive.</li><li><a href="/buildings/warlord-tower.html" rel="nofollow noopener"><strong>Warlord Tower</strong></a> — Season 2 — launches Warlord Missile from the R4 Warlord slot. 25×25 blast (S2) / 35×35 (S3).</li><li><a href="/buildings/alliance-center-hive-s3.html" rel="nofollow noopener"><strong>Alliance Center Hive (S3)</strong></a> — Season 3 — 5×5 AC compound with sandworm-range defense.</li><li><a href="/buildings/alliance-center-hive-s4.html" rel="nofollow noopener"><strong>Alliance Center Hive (S4)</strong></a> — Season 4 — 11×11 AC compound with 3 secondary buildings, min 11-tile spacing between hives.</li><li><a href="/buildings/lighthouse.html" rel="nofollow noopener"><strong>Lighthouse (S4)</strong></a> — Season 4 — brightness levels power Blood Night mitigation.</li><li><a href="/buildings/divine-tree.html" rel="nofollow noopener"><strong>Divine Tree (S4)</strong></a> — Season 4 — supports Lighthouse in Blood Night defense.</li><li><a href="/buildings/bank.html" rel="nofollow noopener"><strong>Bank (S5)</strong></a> — Season 5 — capacity 4→12 members, unlocks L1-6 W1 / L7-10 W4. High Noon 15k/day cap.</li><li><a href="/buildings/trade-train.html" rel="nofollow noopener"><strong>Trade Train (S5)</strong></a> — Season 5 — cross-server trade route with alliance safe-time windows.</li><li><a href="/buildings/altars.html" rel="nofollow noopener"><strong>Altars (S6)</strong></a> — Season 6 — 5 altars (Cobra/Echo/Gust/Feather/Treehaven) contested Tuesdays only, max 3 held per faction.</li><li><a href="/buildings/missile-silo.html" rel="nofollow noopener"><strong>Missile Silo (S6)</strong></a> — Season 6 — corner-pattern attack pattern from community consensus.</li><li><a href="/buildings/stronghold.html" rel="nofollow noopener"><strong>Stronghold</strong></a> — General-purpose 21×21 corner-first defensive formation used across S1/S2/S5/S6/S7.</li><li><a href="/buildings/machine-gun-nest.html" rel="nofollow noopener"><strong>MG (Machine Gun) Nest</strong></a> — Individual member 3×3 defensive slot; used in every hive-grid layout.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/buildings/warlord-tower.html">Warlord Tower — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-furnace.html">Alliance Furnace — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/headquarters.html">Headquarters (HQ) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/bank.html">Bank (S5) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/altars.html">Altars (S6) — Last War building guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -139,5 +186,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

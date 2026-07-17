@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>치프 gear 가이드 — 4 slots + mythic + weapon aura | R5TOOLS.IO</title>
+<meta name="description" content="The chief gear system — 4 slots, mythic tier, deterministic (tier, level, star, weapon-aura), and the substats/gear-set-bonus questions the KB confirmed are…">
+<meta name="keywords" content="치프 gear 가이드 — 4 slots + mythic + weapon aura, 라스트 워 가이드, 라워 R5, 얼라이언스 전략">
+<link rel="canonical" href="https://r5tools.io/ko/guides/chief-gear-guide.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/chief-gear-guide.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/chief-gear-guide.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/chief-gear-guide.html">
+<meta property="og:title" content="치프 gear 가이드 — 4 slots + mythic + weapon aura | R5TOOLS.IO">
+<meta property="og:description" content="The chief gear system — 4 slots, mythic tier, deterministic (tier, level, star, weapon-aura), and the substats/gear-set-bonus questions the KB confirmed are…">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/ko/guides/chief-gear-guide.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="치프 gear 가이드 — 4 slots + mythic + weapon aura | R5TOOLS.IO">
+<meta name="twitter:description" content="The chief gear system — 4 slots, mythic tier, deterministic (tier, level, star, weapon-aura), and the substats/gear-set-bonus questions the KB confirmed are…">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "치프 gear 가이드 — 4 slots + mythic + weapon aura", "description": "The chief gear system — 4 slots, mythic tier, deterministic (tier, level, star, weapon-aura), and the substats/gear-set-bonus questions the KB confirmed are…", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/guides/chief-gear-guide.html", "inLanguage": "ko"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "가이드", "item": "https://r5tools.io/guides/"}, {"@type": "ListItem", "position": 3, "name": "치프 gear 가이드 — 4 slots + mythic + weapon aura", "item": "https://r5tools.io/guides/chief-gear-guide.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+    <a href="https://r5tools.io/guides/chief-gear-guide.html" hreflang="en" rel="alternate" style="border-color:#c9a961;color:#c9a961;">EN</a>
+<a href="https://r5tools.io/">홈</a>
+  <a href="https://roster.r5tools.io/">로스터 추출기</a>
+  <a href="https://hive.r5tools.io/">하이브 플래너</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">홈</a> › <a href="/guides/">가이드</a> › <span>치프 gear guide — 4 slots + mythic + weapon aura</span></nav>
+  <h1>치프 gear guide — 4 slots + mythic + weapon aura</h1>
+  <p style="font-size:12px;color:var(--text-mute);margin:4px 0 12px;padding:6px 10px;border-left:2px solid var(--accent);background:var(--panel);border-radius:4px;">자동 번역되었습니다. <a href="https://r5tools.io/guides/chief-gear-guide.html" style="color:var(--text-dim);text-decoration:underline;">영문 원본 보기 →</a></p>
+
+  <p class="lede">The chief gear system — 4 slots, mythic tier, deterministic (tier, level, star, weapon-aura), and the substats/gear-set-bonus questions the KB confirmed are absent.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">하이브 플래너</a><a href="https://roster.r5tools.io/">로스터 추출기</a><a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a><a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a><a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a><a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a><a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a><a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a></div>
+  <div class="cta-card">
+    <h3>이 코드로 무료 체험 <code>RONY-FREE</code></h3>
+    <p>R5TOOLS.IO의 모든 플래너는 워존 2007 소속 얼라이언스 회원에게 즉시 잠금 해제됩니다 — 가입 불필요, 결제 불필요.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">우리 얼라이언스 잠금 해제 →</a>
+  </div>
+  <article>
+    <h3>치프 (워로드 / 총사령관 / 총사령관)</h3>
+<p><strong>Last researched:</strong> 2026-07-14 <strong>Sources consulted:</strong> 21 (see <em>sources</em>) <strong>KR sources included:</strong> ✓ <strong>Completeness:</strong> comprehensive</p>
+<blockquote>⚠ <strong>Terminology note.</strong> In <em>라스트 워: 서바이벌</em> (라워) the word &quot;치프&quot; does <strong>not</strong> map cleanly to a single system the way it does in <a href="https://state-of-survival.fandom.com/wiki/Chief_Levels" rel="nofollow noopener">왕국 of Survival</a> (Century Games&#x27; other title). 라워 calls the player character variously <strong>총사령관</strong> (in EN marketing and cutscenes), <strong>워로드</strong> when discussing the combat profession, and <strong>총사령관 / 사령관</strong> in 한국어. There is no single &quot;치프 Level&quot; progression bar from 1–60. What &quot;치프-side&quot; progression exists is split across four distinct systems: <strong>직업 skill tree</strong> (엔지니어 / 전쟁 리더), <strong>HQ level</strong> (functionally the &quot;치프 level&quot; of 라워 — capped at 35), <strong>VIP level</strong> (1–18, cosmetic + stipend layer), and <strong>hero-worn Gear</strong> (4-slot: 무기/칩/장갑/레이더 — not a 6-slot 무기/Helmet/장갑/Belt/Pants/Boots set like some SLG cousins). This article documents all four in that order. If your reference model is 왕국 of Survival&#x27;s chief tree, jump to <a href="#open-questions" rel="nofollow noopener">Open Questions</a> — several 왕국-of-Survival-shaped assumptions do not port to 라워.</blockquote>
+<p>---</p>
+<p><strong>Last researched:</strong> 2026-07-14 <strong>Sources consulted:</strong> 21 (see <em>sources</em>) <strong>KR sources included:</strong> ✓ <strong>Completeness:</strong> comprehensive</p>
+<blockquote>⚠ <strong>Terminology note.</strong> In <em>라스트 워: 서바이벌</em> (라워) the word &quot;치프&quot; does <strong>not</strong> map cleanly to a single system the way it does in <a href="https://state-of-survival.fandom.com/wiki/Chief_Levels" rel="nofollow noopener">왕국 of Survival</a> (Century Games&#x27; other title). 라워 calls the player character variously <strong>총사령관</strong> (in EN marketing and cutscenes), <strong>워로드</strong> when discussing the combat profession, and <strong>총사령관 / 사령관</strong> in 한국어. There is no single &quot;치프 Level&quot; progression bar from 1–60. What &quot;치프-side&quot; progression exists is split across four distinct systems: <strong>직업 skill tree</strong> (엔지니어 / 전쟁 리더), <strong>HQ level</strong> (functionally the &quot;치프 level&quot; of 라워 — capped at 35), <strong>VIP level</strong> (1–18, cosmetic + stipend layer), and <strong>hero-worn Gear</strong> (4-slot: 무기/칩/장갑/레이더 — not a 6-slot 무기/Helmet/장갑/Belt/Pants/Boots set like some SLG cousins). This article documents all four in that order. If your reference model is 왕국 of Survival&#x27;s chief tree, jump to <a href="#open-questions" rel="nofollow noopener">Open Questions</a> — several 왕국-of-Survival-shaped assumptions do not port to 라워.</blockquote>
+<p>The 라워 &quot;치프&quot; system is really four systems bolted together. (1) The <strong>profession skill tree</strong>, chosen at HQ 25 / 시즌 1 start, is the closest analogue to a talent tree: pick <strong>엔지니어</strong> (economy/development) or <strong>전쟁 리더 / 워로드</strong> (military/combat), spend skill points earned by kills + seasonal building upgrades on a shared-shape tree that unlocks skills every 5 levels up to a cap that rises across seasons (Lv 40 in S1, Lv 70 in S2, Lv 100 by S3+). (2) <strong>HQ level</strong> (1–35) is the master gate — hero level cap = HQ × 5 (max hero 175 at HQ 35), and every research node, troop tier, and building unlock sits behind it. (3) <strong>VIP level</strong> (1–18) is a permanent progression from spending or earning VIP points; big power tiers land at VIP 6 (second builder), VIP 8 (Agent 셜리), VIP 11 (+50% construction / +15% research during VIP 타임), and VIP 18 (+12.5% hero HP/ATK/DEF plus a designer-custom base skin). (4) <strong>히어로 gear</strong> is 4 slots per hero (Gun / 칩 / 장갑 / 레이더), five rarities (Common → 레어 → 에픽 → 전설 → Mythic), Lv 1–40 with a stat pulse every 10 levels, then up to 5 stars post-40, then Mythic promotion at 장비 공장 20 (see <em>12-progression</em> for the material-cost pipeline). Respec is available for the profession tree via 직업 스킬 초기화 서적; profession change requires a 전직 증명서; seasonal skill points refund automatically at season end.</p>
+<h3>1. The profession skill tree (라워&#x27;s &quot;chief talent tree&quot;)</h3>
+<p>The profession system unlocks at <strong>HQ 25</strong> when 시즌 1 starts and is the primary &quot;chief-side&quot; character-progression system in the game.</p>
+<p><strong>Two active professions</strong> (a third, <strong>외교관</strong>, is present in the game files but has no skill tree and cannot be selected as of 시즌 6):</p>
+<ul><li><strong>엔지니어</strong> — economy/development focus. Cheaper builds, cheaper research, resource generation, welfare bonuses, defensive posture. 권장 default for most players; 엔지니어&#x27;s compounding cost/speed discounts accelerate every other progression system.</li><li><strong>전쟁 리더 (aka 워로드)</strong> — combat/military focus. 랠리 damage, defensive multipliers, troop training speed, daily free tier-max squads. 권장 for 얼라이언스 leaders and active PvP participants once their base and troop stack are already mature.</li></ul>
+<p><strong>스킬 tree layout.</strong> The tree is three columns wide:</p>
+<ul><li><strong>Left column</strong> — economy skills (엔지니어) or combat-utility skills (워로드).</li><li><strong>Middle column</strong> — construction/research speed (엔지니어) or training/troop-capacity (워로드).</li><li><strong>Right column</strong> — <strong>seasonal exclusive skills</strong> — shared shape between both professions, reset automatically at season end.</li></ul>
+<p>Both professions technically share the same underlying tree shape and the seasonal (right) column is identical between them; the left and middle columns swap contents based on which profession you picked. That means a 워로드 and an 엔지니어 see mostly the same UI structure, but their skill effects differ.</p>
+<p><strong>스킬 points.</strong> Each profession level grants 1 skill point. Additional points come from three sources:</p>
+<ol><li>Killing monsters on the world map (main early feed).</li><li>Upgrading or activating <strong>seasonal buildings</strong> on the map.</li><li>Participating in the <strong>island light/electricity system</strong> (S5+ mini-game feed).</li></ol>
+<p>You can also consume up to <strong>10 &quot;S1/S2/S3 스킬 포인트s&quot; items per season</strong> (bounty-pack drops). Any 11th+ skill-point item consumed <strong>auto-converts to 10,000 profession XP</strong> instead of granting a point.</p>
+<p><strong>스킬 scaling.</strong> Individual skills upgrade Lv 1 → Lv 5, with higher levels either shortening the cooldown or strengthening the effect (or both). Not enough points exist to unlock every skill — prioritisation is required.</p>
+<p><strong>Respec / reset.</strong></p>
+<ul><li><strong>직업 스킬 초기화 서적</strong> — full tree wipe, refunds all spent points. Distributed sparingly through Light Hours event rewards, season pass, and paid packs.</li><li><strong>전직 증명서</strong> — switches 엔지니어 ↔ 워로드 and refunds all points at the same time. Same distribution channel; scarcer than reset books.</li><li><strong>시즌al (right column) points</strong> are refunded automatically when the season ends — you never lose those.</li></ul>
+<p><strong>Level cap by season</strong> (this is the single most misquoted number in EN guides — different seasons had different caps):</p>
+<div class="tbl-wrap"><table><thead><tr><th>시즌</th><th>직업 Level Cap</th></tr></thead><tbody><tr><td>S1</td><td>40</td></tr><tr><td>S2</td><td>70</td></tr><tr><td>S3 → present (S6)</td><td>100</td></tr></tbody></table></div>
+<p>At Lv 100 in S3+ any additional profession XP earned during the season is either mailed as end-of-season rewards or (from S6 onward) converted into upgrades on your <strong>Core Tactic</strong> cards.</p>
+<p>The profession system unlocks at <strong>HQ 25</strong> when 시즌 1 starts and is the primary &quot;chief-side&quot; character-progression system in the game.</p>
+<div class="tbl-wrap"><table><thead><tr><th>시즌</th><th>직업 Level Cap</th></tr></thead><tbody><tr><td>S1</td><td>40</td></tr><tr><td>S2</td><td>70</td></tr><tr><td>S3 → present (S6)</td><td>100</td></tr></tbody></table></div>
+<div class="tbl-wrap"><table><thead><tr><th>해금 Lv</th><th>스킬</th><th>유형</th><th>효과 at max (Lv 5)</th><th>Cooldown</th></tr></thead><tbody><tr><td>1</td><td><strong>빠른 생산</strong></td><td>전술</td><td>Grants 4–20 h of resource production instantly (scales with rank)</td><td>23.5 h</td></tr><tr><td>1</td><td><strong>Outstanding Contribution</strong></td><td>패시브</td><td>얼라이언스-donation contribution points doubled</td><td>—</td></tr><tr><td>1</td><td><strong>Combat Experience</strong></td><td>패시브</td><td>Monster-kill profession XP +20–60%</td><td>—</td></tr><tr><td>5</td><td><strong>Extra Meal</strong></td><td>패시브</td><td>Daily stamina rewards +50%</td><td>—</td></tr><tr><td>5</td><td><strong>공성마스터y</strong></td><td>패시브</td><td>+100–500 unit durability</td><td>—</td></tr><tr><td>5</td><td><strong>건물 Inspiration I</strong></td><td>패시브</td><td>Construction speed +5–15%</td><td>—</td></tr><tr><td>10</td><td><strong>Build for Free</strong></td><td>패시브</td><td>+48–240 minutes of free construction speedups daily</td><td>—</td></tr><tr><td>10</td><td><strong>연맹 기술 for Free</strong></td><td>패시브</td><td>+48–240 minutes of free research speedups daily</td><td>—</td></tr><tr><td>10</td><td><strong>Infection Spread</strong></td><td>패시브</td><td>Enables virus transmission to defeated opponents</td><td>—</td></tr><tr><td>15</td><td><strong>Build Now</strong></td><td>전술</td><td>Reduces build queue by 120–600 min</td><td>47.5 h</td></tr><tr><td>15</td><td><strong>연맹 기술 Now</strong></td><td>전술</td><td>Reduces research queue by 240–1200 min</td><td>47.5 h</td></tr><tr><td>15</td><td><strong>Healing Expert</strong></td><td>패시브</td><td>Removes extra virus stacks when curing allies</td><td>—</td></tr><tr><td>20</td><td><strong>랠리 Rush</strong></td><td>패시브</td><td>랠리 march speed +10–50%</td><td>—</td></tr><tr><td>20</td><td><strong>Siege Banner</strong></td><td>전술</td><td>Places nearby-base damage buff (+100 flat), stacks to 5</td><td>71.5 h</td></tr><tr><td>20</td><td><strong>Double Exchange</strong></td><td>전술</td><td>Convert seasonal resources at 1:2 for one use</td><td>47.5 h</td></tr><tr><td>25</td><td><strong>Siege Inspiration</strong></td><td>패시브</td><td>도시-damage profession XP +20–60%</td><td>—</td></tr><tr><td>25</td><td><strong>Friendly Aid</strong></td><td>패시브</td><td>증원ment-troop casualty rate –5–25%</td><td>—</td></tr><tr><td>30</td><td><strong>Cooperative Construction</strong></td><td>전술</td><td>Build speed +10–20% for self and one ally, non-stacking</td><td>23.5 h</td></tr><tr><td>30</td><td><strong>Cooperative 연맹 기술</strong></td><td>전술</td><td>연맹 기술 speed +10–20% for self and one ally, non-stacking</td><td>23.5 h</td></tr><tr><td>30</td><td><strong>Poison Trial</strong></td><td>패시브</td><td>Raises virus stack cap to 100</td><td>—</td></tr><tr><td>35</td><td><strong>자원-Saving</strong></td><td>패시브</td><td>Construction resource cost –1–5%</td><td>—</td></tr><tr><td>35</td><td><strong>Recycling</strong></td><td>패시브</td><td>연맹 기술 resource cost –1–5%</td><td>—</td></tr><tr><td>35</td><td><strong>직업al Insights</strong></td><td>전술</td><td>Grants 2–10% of current level&#x27;s XP instantly (cap 20,000)</td><td>23.5 h</td></tr><tr><td>40</td><td><strong>Medical Aid</strong></td><td>전술</td><td>병원 capacity +10% for self + one ally</td><td>71.5 h</td></tr><tr><td>40</td><td><strong>Friendly 방어막</strong></td><td>전술</td><td>Activates 1–4 h protection for self + one ally</td><td>71.5 h</td></tr><tr><td>45</td><td><strong>건물 Inspiration II</strong></td><td>패시브</td><td>Non-seasonal buildings grant profession XP (10% and up)</td><td>—</td></tr><tr><td>45</td><td><strong>Suicide 편성</strong></td><td>패시브</td><td>Deals 1–5% damage based on your own troop losses</td><td>—</td></tr><tr><td>50</td><td><strong>Scientific Insight</strong></td><td>패시브</td><td>연맹 기술 grants 10%+ profession XP</td><td>—</td></tr><tr><td>50</td><td><strong>Landmine</strong></td><td>전술</td><td>Deploys landmine, generates every 12 h, max 2 active; enemies lose 10% troops</td><td>—</td></tr><tr><td>50</td><td><strong>Virus Control</strong></td><td>패시브</td><td>Chance to obtain summoning item after defeating 둠 워커</td><td>—</td></tr></tbody></table></div>
+<div class="tbl-wrap"><table><thead><tr><th>해금 Lv</th><th>스킬</th><th>유형</th><th>효과 at max (Lv 5)</th><th>Cooldown</th></tr></thead><tbody><tr><td>1</td><td><strong>신속 귀환</strong></td><td>전술</td><td>텔레포트ing squads return instantly (1–5 uses/day)</td><td>daily</td></tr><tr><td>1</td><td><strong>부대 동원</strong></td><td>전술</td><td>Instant squad of 50+ tier-max units</td><td>23.5 h</td></tr><tr><td>1</td><td><strong>Combat Experience</strong></td><td>패시브</td><td>Monster-kill profession XP +20–60%</td><td>—</td></tr><tr><td>5</td><td><strong>Drill 지면 온도 Prep</strong></td><td>패시브</td><td>Troop capacity +2–4%+</td><td>—</td></tr><tr><td>5</td><td><strong>병원 Prep</strong></td><td>패시브</td><td>병원 capacity +2–4%+</td><td>—</td></tr><tr><td>5</td><td><strong>건물 Inspiration I</strong></td><td>패시브</td><td>Construction speed +5–15%</td><td>—</td></tr><tr><td>10</td><td><strong>Craze</strong></td><td>패시브</td><td>전쟁 열풍 damage +1–5%</td><td>—</td></tr><tr><td>10</td><td><strong>급성 치료</strong></td><td>전술</td><td>Instantly heals 1,000+ hospital units</td><td>71.5 h</td></tr><tr><td>10</td><td><strong>Infection Spread</strong></td><td>패시브</td><td>Enables virus transmission</td><td>—</td></tr><tr><td>15</td><td><strong>Winning Pursuit</strong></td><td>패시브</td><td>Burning-target casualty rate +1–5%</td><td>—</td></tr><tr><td>15</td><td><strong>Intensive 훈련</strong></td><td>패시브</td><td>Unit training speed +5%+</td><td>—</td></tr><tr><td>15</td><td><strong>Healing Expert</strong></td><td>패시브</td><td>Extra virus stack removal on cure</td><td>—</td></tr><tr><td>20</td><td><strong>행군 in Badlands</strong></td><td>패시브</td><td>Contaminated-land march speed +25–50% (수도 Conquest)</td><td>—</td></tr><tr><td>20</td><td><strong>Warfare Supplies</strong></td><td>패시브</td><td>Daily plunder resource cap +10%+</td><td>—</td></tr><tr><td>20</td><td><strong>Double Exchange</strong></td><td>전술</td><td>Convert seasonal resources 1:2</td><td>47.5 h</td></tr><tr><td>25</td><td><strong>Inspire</strong></td><td>패시브</td><td>사기 +2–6%</td><td>—</td></tr><tr><td>25</td><td><strong>Speedup 증원</strong></td><td>패시브</td><td>증원ment march speed +10%+</td><td>—</td></tr><tr><td>30</td><td><strong>팀 스트라이크</strong></td><td>패시브</td><td>랠리 damage +1–5%+ (non-stacking across 랠리 members)</td><td>—</td></tr><tr><td>30</td><td><strong>위장</strong></td><td>전술</td><td>Hides your info from enemy battle reports 30 min</td><td>47.5 h</td></tr><tr><td>30</td><td><strong>Poison Trial</strong></td><td>패시브</td><td>Virus stack cap 100</td><td>—</td></tr><tr><td>35</td><td><strong>전술 증원</strong></td><td>패시브</td><td>Attacking-unit casualty rate +1–5% when reinforcing, non-stacking</td><td>—</td></tr><tr><td>35</td><td><strong>증원 Strengthen</strong></td><td>패시브</td><td>Reinforcing hero stats +1–5%+, non-stacking</td><td>—</td></tr><tr><td>35</td><td><strong>직업al Insights</strong></td><td>전술</td><td>+2–10% current-level XP (cap 20,000)</td><td>23.5 h</td></tr><tr><td>40</td><td><strong>Decay Ray</strong></td><td>패시브</td><td>Degrades 1,000 seriously-injured enemy units/day (min –1 unit level)</td><td>—</td></tr><tr><td>40</td><td><strong>Charge Banner</strong></td><td>전술</td><td>+2% nearby-base attack buff, stacks to 5</td><td>71.5 h</td></tr><tr><td>45</td><td><strong>Fortify Defense</strong></td><td>패시브</td><td>Defending squad damage +2%+</td><td>—</td></tr><tr><td>45</td><td><strong>Prisoner</strong></td><td>패시브</td><td>1–5% chance to capture enemy hero after a win</td><td>—</td></tr><tr><td>50</td><td><strong>공성 강화</strong></td><td>패시브</td><td>Base-attack damage +2%+</td><td>—</td></tr><tr><td>50</td><td><strong>Prism 미사일 발사대</strong></td><td>전술</td><td>Builds a damage-dealing structure in 얼라이언스 territory</td><td>—</td></tr><tr><td>50</td><td><strong>Virus Control</strong></td><td>패시브</td><td>Chance to obtain 둠 워커 summon item</td><td>—</td></tr></tbody></table></div>
+<p><strong>엔지니어 early-season point-dump order</strong> (first ~30 skill points):</p>
+<ol><li><strong>건물 Inspiration I</strong> (Lv 5) — snowballs profession XP off seasonal building upgrades, which then feeds every other skill purchase. Max first.</li><li><strong>Build for Free</strong> + <strong>연맹 기술 for Free</strong> (Lv 10) — free speedups drip daily forever.</li><li><strong>빠른 생산</strong> (Lv 1, active) — fills resource gaps for the next building sprint.</li><li><strong>Build Now</strong> + <strong>연맹 기술 Now</strong> (Lv 15, actives) — 10-h queue skips paired with the free-drip.</li><li><strong>Cooperative Construction</strong> + <strong>Cooperative 연맹 기술</strong> (Lv 30) — team play multiplier once you have an active 얼라이언스 target.</li><li><strong>자원-Saving</strong> + <strong>Recycling</strong> (Lv 35) — 5% cost cut on everything, compounding.</li></ol>
+  </article>
+  <div class="cta-card">
+    <h3>얼라이언스 채팅에 바로 공유</h3>
+    <p>R5TOOLS.IO의 모든 플래너는 Discord용 PNG, 로스터 CSV, 공유 링크로 즉시 내보낼 수 있습니다.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">지금 무료로 시작 →</a>
+  </div>
+  <footer class="foot">
+  <p>다음 툴 세트의 일부입니다: <a href="https://r5tools.io/">R5TOOLS.IO</a> 라스트 워: 서바이벌 얼라이언스 도구.
+     팬 제작 · 퍼스트펀 / Century Games와 무관합니다.
+     <a href="https://r5tools.io/terms.html">이용약관</a> · <a href="https://r5tools.io/privacy.html">개인정보처리방침</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">베타 · 피드백</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

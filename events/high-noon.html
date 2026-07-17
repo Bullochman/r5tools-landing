@@ -7,6 +7,9 @@
 <meta name="description" content="High Noon in Last War: Survival. Season 5 Bank event — 15k/day cap, Wed/Sat war days.">
 <meta name="keywords" content="High Noon, Last War event, LWS, R5 alliance planning">
 <link rel="canonical" href="https://r5tools.io/events/high-noon.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/high-noon.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/high-noon.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/high-noon.html">
 <meta property="og:title" content="High Noon — Last War event guide | R5TOOLS.IO">
 <meta property="og:description" content="High Noon in Last War: Survival. Season 5 Bank event — 15k/day cap, Wed/Sat war days.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/high-noon.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -128,7 +163,19 @@ td { color: var(--text-dim); }
 <ul><li><strong>Alliance Pacts</strong> — 7-day non-aggression treaties between same-faction alliances. Prevent City Destruction. Share adjacency benefits and open joint communication channels for up to <strong>200 members</strong>. Make faction selection load-bearing.</li><li><strong>Faction Technology</strong> — faction-wide research tree unlocked via Stronghold donations, applies buffs to all faction members after individual contribution thresholds met.</li><li><strong>War Merit economy</strong> — earned via kills, captures, reinforcements, donations, rankings. Tiers Bronze → Elite with corresponding daily stipends and stat bonuses. War Merit Shop trades.</li><li><strong>Fungus Institute</strong> (max ~L60) — enhances Virus Resistance (analog to Optoelectronic Lab / Curse Research Lab).</li><li><strong>Spore Factory</strong> (max L30) — produces Spores.</li><li><strong>Sanctuary timer buff:</strong> doubled from 10 → 20 minutes (occupies 1/3 of the 60-minute attack window). Sources call this a &quot;stealth change&quot; that significantly restricts strategic flexibility.</li><li><strong>Alliance Skill cooldowns:</strong> 3–6 days.</li><li><strong>Card meta shift:</strong> the popular &quot;4+1 hybrid squad strategy&quot; was removed from Global Expedition, forcing pure Tank / Missile / Aircraft formations backed by attribute-specific Tactics Cards.</li><li><strong>Beneath the Ruins</strong> <em>(added 2026-07-15)</em> — Season 6&#x27;s dedicated minigame, launched in TWO phases [Cpt Hedgehog Beneath the Ruins, 2026-07-15; TheGamesEdge Beneath the Ruins Guide, 2026-07-15]:</li><li><strong>Solo Mode (Week 1 Day 2+):</strong> descending-platformer challenge. Guide your character downward through an ever-deepening stage, avoiding hazards. <strong>1 new stage unlocks per day.</strong> Missed days stack — play back-to-back to catch up. Platform types: Regular (safe), Crumbly (breaks after ~1 sec), Spike (1 HP damage on landing — avoid at low HP), Travelators (moving belts — go with the flow, fighting them costs time). HP regenerates when standing on safe platforms. Only left/right movement. Reward: <strong>Rainforest Mushrooms</strong> (larger on later stages), plus season-exclusive gifts.</li><li><strong>PvP Duel Mode (Week 2+):</strong> competitive descent against another commander, same stage simultaneously, first to bottom wins. No HP regeneration. Entry paid in <strong>War Merit deposit up to 500 (or 1,500 with Season Skill)</strong>. Rewards up to <strong>3,000 War Merit per match</strong> [TheGamesEdge, 2026-07-15]. Wager spirit similar to S5&#x27;s High Noon Duel.</li><li><strong>Global Expedition — new dedicated building &amp; schedule</strong> <em>(added 2026-07-15)</em> — moved out of the Alert Tower into a new dedicated <strong>Expedition Base</strong> building [LDShop S6 Global Expedition Guide, 2026-07-15]. Three GE rounds per season, each <strong>14 days long</strong> (roughly Weeks 2, 4, 6 of the main season). Named Awakening Shards drop at rank thresholds — one of the best regular free shard sources in the game.</li></ul>
 <div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Map size</td><td>9× previous seasons</td><td>multiple</td></tr><tr><td>Warzones on shared map</td><td>8 + central area</td><td>multiple</td></tr><tr><td>Bank Stronghold cap/day</td><td>2 captures</td><td>packsify</td></tr><tr><td>Max Bank holdings</td><td>4 default, up to 12 with 8 cities</td><td>packsify</td></tr><tr><td>CrystalGold deposits/day</td><td>3</td><td>packsify</td></tr><tr><td>Simultaneous deposits max</td><td>15 (5-day term each)</td><td>packsify</td></tr><tr><td>Bank levels</td><td>1–6 Week 1, 7–10 Week 4</td><td>packsify</td></tr><tr><td>Virus Resistance for L10 Banks</td><td>39,900</td><td>packsify</td></tr><tr><td>War days</td><td>Wed / Sat only</td><td>packsify</td></tr><tr><td>City captures per war day</td><td>2 (4/week)</td><td>packsify</td></tr><tr><td>War time slots / day</td><td>3 fixed</td><td>multiple</td></tr><tr><td>Alliance Safe Time</td><td>7–15 consecutive hours</td><td>multiple</td></tr><tr><td>Truce Day</td><td>Sunday</td><td>multiple</td></tr><tr><td>High Noon daily CrystalGold cap (from W3)</td><td>15,000</td><td>packsify</td></tr><tr><td>Season length</td><td>8 weeks + 2-week pre</td><td>multiple</td></tr><tr><td>Featured hero (UR)</td><td>Venom</td><td>multiple</td></tr><tr><td>Monster damage bonus heroes</td><td>+10% Venom/Fiona/Stetmann/Morrison</td><td>medievalfun</td></tr><tr><td>Season skin bonus</td><td>+5% ATK (Tycoon&#x27;s Mansion)</td><td>medievalfun</td></tr></tbody></table></div>
 <div class="tbl-wrap"><table><thead><tr><th>한국어</th><th>English</th><th>Notes</th></tr></thead><tbody><tr><td>시즌 3 / 골든 킹덤</td><td>Season 3 / Golden Kingdom</td><td>Egyptian desert theme</td></tr><tr><td>시즌 4 / 에버나잇 아일</td><td>Season 4 / Evernight Isle</td><td>Sakura island / darkness theme</td></tr><tr><td>시즌 5 / 와일드 웨스트</td><td>Season 5 / Wild West</td><td>Golden Wasteland / Land of Liberty</td></tr><tr><td>시즌 6 / 섀도우 레인포레스트</td><td>Season 6 / Shadow Rainforest</td><td>Also &quot;Lost Rainforest&quot; in some EN sources</td></tr><tr><td>시즌 7</td><td>Season 7</td><td>Theme unannounced (as of 2026-07-15); launch ~August 2026 per community creators</td></tr><tr><td>폐허 아래 / 폐허의 밑바닥</td><td>Beneath the Ruins</td><td>S6 dedicated minigame (Solo + Duel)</td></tr><tr><td>원정대 기지</td><td>Expedition Base</td><td>S6 new dedicated Global Expedition building (was Alert Tower)</td></tr><tr><td>사전 시즌</td><td>Pre-season</td><td>2 weeks before main season since S4</td></tr><tr><td>시즌 프리뷰</td><td>Season Preview</td><td>7-day daily challenge before main season</td></tr><tr><td>축하 주간</td><td>Celebration week</td><td>Post-season / off-season</td></tr><tr><td>파벌</td><td>Faction</td><td>S4 Kage no Sato vs Koubutai; S6 Deepwood vs Wetland</td></tr><tr><td>카게노사토</td><td>Kage no Sato</td><td>S4 Ninja Clan faction</td></tr><tr><td>코부타이</td><td>Koubutai</td><td>S4 Samurai Clan faction</td></tr><tr><td>딥우드 클랜</td><td>Deepwood Clan</td><td>S6 stag totem faction</td></tr><tr><td>웨틀랜드 클랜</td><td>Wetland Clan</td><td>S6 crocodile totem faction</td></tr><tr><td>그레이트 리버 클랜</td><td>Great River Clan</td><td>S6 neutral central faction</td></tr><tr><td>저주 저항</td><td>Curse Resistance</td><td>S3 mandatory stat</td></tr><tr><td>저주 연구실</td><td>Curse Research Lab</td><td>S3, max L30</td></tr><tr><td>사막 수호자</td><td>Desert Protector</td><td>S3 disposable elite unit</td></tr><tr><td>축복의 샘</td><td>Blessing Fountain</td><td>S3 Sacred Water producer</td></tr><tr><td>신성수</td><td>Sacred Water</td><td>S3 resource</td></tr><tr><td>미스릴</td><td>Mithril</td><td>S3 building resource</td></tr><tr><td>향신료</td><td>Spice</td><td>S3 ranking currency</td></tr><tr><td>향신료 전쟁</td><td>Spice Wars</td><td>S3 main PvP event (Weeks 4–8)</td></tr><tr><td>모래벌레 위기</td><td>Sandworm Crisis</td><td>S3 14-day event</td></tr><tr><td>파벌 대전</td><td>Faction Duel</td><td>Season-ending faction battle</td></tr><tr><td>사바이벌 캐피탈</td><td>Capitol / Capital</td><td>Central control point per season</td></tr><tr><td>등대</td><td>Lighthouse</td><td>S4 signature building</td></tr><tr><td>광전기 실험실</td><td>Optoelectronic Lab</td><td>S4, max L35, Virus Resistance</td></tr><tr><td>바이러스 저항</td><td>Virus Resistance</td><td>S4+ mandatory stat</td></tr><tr><td>전기공</td><td>Electrician</td><td>S4 profession/unit</td></tr><tr><td>오니 바이러스 (ONV)</td><td>Oni Virus (ONV)</td><td>S4 lore virus</td></tr><tr><td>오니 장군</td><td>Oni General</td><td>S4 Blood Night boss</td></tr><tr><td>블러드 나이트 강림</td><td>Blood Night Descend</td><td>S4 3×/day event</td></tr><tr><td>스톤 / 쿼츠 / 마가타마 / 코퍼</td><td>Stone / Quartz / Magatama / Copper</td><td>S4 resources</td></tr><tr><td>코퍼 전쟁</td><td>Copper Wars</td><td>S4 main PvP event</td></tr><tr><td>스시 레스토랑</td><td>Sushi Restaurant</td><td>S4 map building</td></tr><tr><td>마네키네코</td><td>Maneki-neko</td><td>S4 map artifact discovery</td></tr><tr><td>크리스탈골드</td><td>CrystalGold</td><td>S5 ranking currency</td></tr><tr><td>커피</td><td>Coffee</td><td>S5 resource</td></tr><tr><td>위스키</td><td>Whiskey</td><td>S5 Trade Train resource</td></tr><tr><td>은행 요새</td><td>Bank Stronghold</td><td>S5 signature building</td></tr><tr><td>무역 열차</td><td>Trade Train</td><td>S5 cross-alliance economy</td></tr><tr><td>카페인 학원</td><td>Caffeine Institute</td><td>S5 Virus Resistance building</td></tr><tr><td>얼라이언스 세이프 타임</td><td>Alliance Safe Time</td><td>S5+ immunity mechanic</td></tr><tr><td>하이눈</td><td>High Noon</td><td>S5 weekly shooting mini-game</td></tr><tr><td>옥타곤 클래시</td><td>Octagon Clash</td><td>S5 8-warzone shared battlefield</td></tr><tr><td>골드 프로스펙팅</td><td>Gold Prospecting</td><td>S5 pre-season match-3</td></tr><tr><td>지역 선택</td><td>Area Selection</td><td>S5 pre-season spawn choice</td></tr><tr><td>도시 파괴</td><td>City Destruction</td><td>S6 permanent removal</td></tr><tr><td>영향력 포인트</td><td>Influence Points</td><td>S6 faction ranking metric</td></tr><tr><td>제단</td><td>Altar</td><td>S6 central-zone objectives</td></tr><tr><td>조상 사원</td><td>Ancestral Temple</td><td>S6 Capitol</td></tr><tr><td>얼라이언스 협약</td><td>Alliance Pact</td><td>S6 7-day non-aggression treaty</td></tr><tr><td>워 메리트</td><td>War Merit</td><td>S6 currency</td></tr><tr><td>파벌 기술</td><td>Faction Technology</td><td>S6 shared research</td></tr><tr><td>성역</td><td>Sanctuary</td><td>S6 stealth-buffed 20-min timer</td></tr><tr><td>균류 연구소</td><td>Fungus Institute</td><td>S6 Virus Resistance building</td></tr><tr><td>포자 공장</td><td>Spore Factory</td><td>S6 Spore producer</td></tr><tr><td>영웅 각성</td><td>Hero Awakening</td><td>S6 debut mechanic</td></tr><tr><td>각성 스킬</td><td>Awakening Skill</td><td>Replaces Expertise</td></tr><tr><td>각성 파편</td><td>Awakening Shards</td><td>Named / Universal</td></tr><tr><td>코브라 결계 / 밤 군대 / 세르펜트 브레스 / 페더 라이트닝 / 트리헤이븐</td><td>Cobra Barrier / Night Army / Serpent Breath / Feather Lightning / Treehaven</td><td>S6 Alliance Skills tied to leadership roles</td></tr></tbody></table></div>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/vs-days.html">VS Days — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-duel-vs.html">Alliance Duel VS — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/sky-battlefront.html">Sky Battlefront — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/doomsday.html">Doomsday — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/copper-wars.html">Copper Wars — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -142,5 +189,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cheat sheet de pouso da Temporada 2 — Grátis — R5TOOLS.IO</title>
+  <meta name="description" content="Cheat sheet de pouso da Temporada 2 — PDF grátis de 7 páginas. As 4 coordenadas que toda aliança esquece, distribuição por tier de HQ, posição do ranger, ordem de construção nas primeiras 72h e 8 avisos que só R5 sabe. Sem cadastro." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://r5tools.io/pt/cheat-sheet.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/cheat-sheet.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/cheat-sheet.html" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/cheat-sheet.html" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/cheat-sheet.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/cheat-sheet.html" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="Cheat sheet de pouso da Temporada 2 — Grátis — R5TOOLS.IO" />
+  <meta property="og:description" content="Playbook R5-pra-R5 pras primeiras 72h no mapa de gelo. 7 páginas, grátis, sem cadastro." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/pt/cheat-sheet.html" />
+  <meta property="og:image" content="https://r5tools.io/static/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961; --accent-hover: #d9b871;
+      --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+      --success: #8ae0a3; --danger: #e88a4a;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased; line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 96px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 24px;
+    }
+    .brand { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600; }
+    .lang-toggle {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px; text-decoration: none;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero {
+      text-align: center; padding: 40px 12px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero .kicker {
+      display: inline-block; padding: 4px 12px; border: 1px solid var(--border-accent);
+      color: var(--accent); background: var(--panel);
+      border-radius: 14px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.02em;
+      line-height: 1.2; margin: 0 0 16px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .sub {
+      font-size: 17px; color: var(--text-dim); max-width: 640px; margin: 0 auto 12px;
+    }
+    .hero .attrib { font-size: 13px; color: var(--text-mute); margin-top: 8px; }
+
+    .grab {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      margin: 40px 0;
+    }
+    @media (max-width: 760px) {
+      .grab { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 30px; }
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+    }
+    .card h2 {
+      color: var(--accent); font-size: 12px; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 600; margin: 0 0 12px;
+    }
+    .card p { color: var(--text-dim); font-size: 14px; margin: 0 0 16px; }
+    .form-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .form-row input {
+      flex: 1; padding: 12px 14px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 14px; font-family: inherit; outline: none;
+    }
+    .form-row input:focus { border-color: var(--accent); }
+    .form-row button {
+      padding: 12px 18px; background: var(--accent); color: var(--bg);
+      border: 0; border-radius: 8px; font-weight: 600; font-size: 14px;
+      cursor: pointer; font-family: inherit;
+    }
+    .form-row button:hover { background: var(--accent-hover); }
+    .form-status { min-height: 18px; font-size: 12px; color: var(--text-mute); margin-bottom: 12px; }
+    .form-status.ok { color: var(--success); }
+    .form-status.warn { color: var(--danger); }
+    .download-btn {
+      display: block; width: 100%; text-align: center;
+      padding: 16px 20px; background: transparent;
+      border: 2px solid var(--accent); color: var(--accent);
+      border-radius: 8px; font-weight: 700; font-size: 16px;
+      cursor: pointer; text-decoration: none;
+    }
+    .download-btn.primary { background: var(--accent); color: var(--bg); }
+    .download-btn.primary:hover { background: var(--accent-hover); }
+    .download-mini { font-size: 11px; color: var(--text-mute); text-align: center; margin-top: 8px; }
+
+    .preview {
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; text-align: center;
+    }
+    .preview .pdf-mock {
+      background: linear-gradient(135deg, #0a0e1a 0%, #12192c 100%);
+      border: 1px solid var(--border-accent); border-radius: 6px;
+      padding: 32px 16px; margin: 0 auto 16px; max-width: 280px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .pdf-mock .band { height: 3px; background: var(--accent); width: 60%; margin: 0 auto 12px; }
+    .pdf-mock .title { color: var(--accent); font-size: 15px; font-weight: 700; margin: 0 0 6px; }
+    .pdf-mock .subtitle { color: var(--text-mute); font-size: 10px; margin: 0 0 20px; }
+    .pdf-mock .attr { color: var(--text-dim); font-size: 9px; letter-spacing: 0.05em; margin-top: 24px; }
+    .preview .meta { color: var(--text-mute); font-size: 12px; margin-top: 12px; }
+
+    .whats-inside { margin: 40px 0; }
+    .whats-inside h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .toc {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;
+    }
+    .toc-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .toc-item .num {
+      color: var(--accent); font-weight: 700; font-family: ui-monospace, monospace;
+      font-size: 14px; min-width: 28px;
+    }
+    .toc-item .body { flex: 1; }
+    .toc-item .body strong { color: var(--text); font-size: 14px; display: block; margin-bottom: 4px; }
+    .toc-item .body span { color: var(--text-mute); font-size: 12px; }
+
+    .testimonials { margin: 48px 0; }
+    .testimonials h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .test-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+    }
+    .test-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .test-card blockquote {
+      margin: 0; color: var(--text-dim); font-size: 14px;
+      font-style: italic; line-height: 1.7;
+    }
+    .test-card .author {
+      color: var(--text-mute); font-size: 12px; margin-top: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .test-card .author .r5-tag {
+      color: var(--accent); background: rgba(201,169,97,0.08);
+      padding: 2px 8px; border-radius: 10px; font-size: 10px; letter-spacing: 0.05em;
+    }
+    .test-card.placeholder blockquote { color: var(--text-mute); font-style: normal; }
+
+    .built-by {
+      background: var(--panel-2); border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 20px 24px; text-align: center; margin: 32px 0;
+    }
+    .built-by strong { color: var(--accent); }
+    .built-by p { margin: 0; color: var(--text-dim); font-size: 14px; }
+
+    .cta {
+      background: linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 36px 28px; text-align: center; margin: 48px 0 0;
+    }
+    .cta h2 {
+      color: var(--accent); font-size: 22px; margin: 0 0 12px;
+      text-transform: none; letter-spacing: normal; font-weight: 600;
+    }
+    .cta p { color: var(--text-dim); font-size: 15px; margin: 0 0 24px; }
+    .cta .code {
+      display: inline-block; padding: 4px 14px; background: var(--bg);
+      border: 1px solid var(--border-accent); border-radius: 6px;
+      color: var(--accent); font-family: ui-monospace, monospace;
+      font-size: 13px; letter-spacing: 0.05em; margin: 0 6px;
+    }
+    .cta .btn {
+      display: inline-block; padding: 14px 32px; background: var(--accent);
+      color: var(--bg); border-radius: 8px; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.02em; font-size: 15px;
+    }
+    .cta .btn:hover { background: var(--accent-hover); color: var(--bg); }
+
+    footer {
+      margin-top: 60px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-mute); font-size: 12px; text-align: center;
+    }
+    footer a { color: var(--text-dim); }
+    footer a:hover { color: var(--accent); }
+    .lang-note {
+      background: var(--panel); border: 1px dashed var(--border-accent);
+      color: var(--text-mute); padding: 10px 14px; border-radius: 8px;
+      font-size: 12px; margin: 12px 0 0; text-align: center;
+    }
+  </style>
+
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      var COLLECTOR = 'https://access-codes.r5tools.io/api/analytics/event';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        COLLECTOR = 'http://127.0.0.1:8791/api/analytics/event';
+      }
+      window.r5Track = function (event, extra) {
+        var payload = Object.assign({
+          event: event, page: location.pathname,
+          lang: document.documentElement.lang || 'pt-BR', ts: Date.now()
+        }, extra || {});
+        try { window.dataLayer.push(payload); } catch (e) {}
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(COLLECTOR, JSON.stringify(payload));
+          } else {
+            fetch(COLLECTOR, {
+              method: 'POST', mode: 'no-cors', keepalive: true,
+              body: JSON.stringify(payload)
+            }).catch(function () {});
+          }
+        } catch (e) {}
+      };
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="/pt/" class="brand">R5TOOLS.IO</a>
+      <a href="/cheat-sheet.html" class="lang-toggle">English →</a>
+    </header>
+
+    <section class="hero">
+      <div class="kicker">Lead magnet grátis · 7 páginas · PDF</div>
+      <h1><span class="accent">Pouso da Temporada 2</span> · cheat sheet</h1>
+      <p class="sub">Totalmente grátis, sem cadastro. As 4 coordenadas que toda aliança esquece, distribuição por nível de HQ, posição do ranger (rally leader), ordem de construção nas primeiras 72h e 8 avisos que só R5 experiente sabe.</p>
+      <p class="attrib">Escrito por um R5 ativo da Warzone 2007. Distribua livremente dentro da sua aliança.</p>
+    </section>
+
+    <div class="grab">
+      <div class="card">
+        <h2>Baixar o PDF</h2>
+        <p>Se quiser receber aviso quando a gente lançar ferramenta nova (risco de congelamento, queima de carvão, captura de cidade), deixa seu e-mail. Ou só baixa direto — sem gate.</p>
+        <form id="emailForm" onsubmit="return submitEmail(event)">
+          <div class="form-row">
+            <input type="email" id="emailInput" placeholder="voce@email.com" autocomplete="email" />
+            <button type="submit" id="sendBtn">Enviar</button>
+          </div>
+        </form>
+        <div class="form-status" id="formStatus"></div>
+        <a href="../marketing/lead-magnets/season-2-landing-cheat-sheet.pdf"
+           class="download-btn primary"
+           id="downloadBtn"
+           download
+           onclick="onDownload()">Baixar cheat sheet →</a>
+        <div class="download-mini">PDF · ~90 KB · 7 páginas · dá pra imprimir</div>
+        <div class="lang-note">Versão em português brasileiro sai em breve — por enquanto, o PDF está em inglês (referência para R5 e R4 que já leem EN).</div>
+      </div>
+
+      <div class="preview" aria-hidden="true">
+        <div class="pdf-mock">
+          <div class="band"></div>
+          <div class="title">Season 2 Landing Cheat Sheet</div>
+          <div class="subtitle">Polar Storm · Ice Map · Rare-Earth Wars</div>
+          <div style="height: 8px; background: var(--accent); margin: 24px auto; width: 40%;"></div>
+          <div class="attr">R5TOOLS.IO  ·  2026</div>
+        </div>
+        <div class="meta">Capa · 6 páginas de conteúdo · verso com QR</div>
+      </div>
+    </div>
+
+    <section class="whats-inside">
+      <h2>O que tem dentro</h2>
+      <div class="toc">
+        <div class="toc-item"><div class="num">01</div><div class="body"><strong>As 4 coordenadas que toda aliança esquece</strong><span>Tile da fornalha · ponto de reunião · âncora do ranger · anel de recuo</span></div></div>
+        <div class="toc-item"><div class="num">02</div><div class="body"><strong>Tiers de pouso por nível do HQ</strong><span>Distribuição por nível de HQ, princípio "mais fraco fica mais perto"</span></div></div>
+        <div class="toc-item"><div class="num">03</div><div class="body"><strong>Posição do ranger (rally leader)</strong><span>Janela de 3 s · geometria do míssil warlord · explosão 25×25 · cooldown de 72h</span></div></div>
+        <div class="toc-item"><div class="num">04</div><div class="body"><strong>Ordem de construção nas primeiras 72h</strong><span>Proporção carvão / titânio / terras raras · gate de 20 ajudas na fornalha da aliança</span></div></div>
+        <div class="toc-item"><div class="num">05</div><div class="body"><strong>Checklist "assim você quebra"</strong><span>8 avisos que só R5 ativo sabe · do bracket jump ao caos do safe time</span></div></div>
+        <div class="toc-item"><div class="num">06</div><div class="body"><strong>Prévia do planejador de pouso</strong><span>QR de bônus de indicação + preço $30 da aliança + código RONY-FREE</span></div></div>
+      </div>
+    </section>
+
+    <section class="built-by">
+      <p><strong>Escrito por um R5 ativo da Warzone 2007</strong> — cada número vem da knowledge base LWS do R5TOOLS.IO (22 fontes cruzadas, incluindo 4 fontes em KR).</p>
+    </section>
+
+    <section class="testimonials">
+      <h2>O que dizem os R5</h2>
+      <div class="test-grid">
+        <div class="test-card placeholder">
+          <blockquote>"Espaço reservado — R5 de Warzone 2007 contando como a tabela por tier acabou com o colapso de congelamento que voltava toda semana."</blockquote>
+          <div class="author"><span>— Nome reservado</span><span class="r5-tag">R5 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>"Espaço reservado — R4 usando a ordem de construção pra terminar 4 fábricas de titânio até o fim da semana 1."</blockquote>
+          <div class="author"><span>— Nome reservado</span><span class="r5-tag">R4 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>"Espaço reservado — R5 de aliança BR mostrando o quanto essa cheat sheet bate com tudo que o Discord da comunidade suou pra descobrir."</blockquote>
+          <div class="author"><span>— Nome reservado</span><span class="r5-tag">R5 · BR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Se ajudou, desbloqueia as ferramentas pra aliança inteira</h2>
+      <p>O planejador de pouso atribui tiles específicos aos 100 membros com base na âncora, exporta PNGs de rótulo pro Discord e gera nota de risco de congelamento por membro antes do Day 1. Todas as 8 ferramentas incluídas.</p>
+      <p><strong>Aliança inteira $30</strong>. No período fundador, grátis com o código <span class="code">RONY-FREE</span>.</p>
+      <a href="/refer.html?ref=CHEATSHEET-PT" class="btn">Ver todas as ferramentas →</a>
+    </section>
+
+    <footer>
+      <p><a href="/pt/">← r5tools.io</a>  ·  <a href="/cheat-sheet.html">English</a>  ·  <a href="/es/cheat-sheet.html">Español</a>  ·  <a href="/ko/cheat-sheet.html">한국어</a>  ·  <a href="/refer.html">Indicação</a>  ·  <a href="/privacy.html">Privacidade</a></p>
+      <p>© 2026 R5TOOLS.IO · Sem afiliação com First Fun ou Century Games</p>
+    </footer>
+  </div>
+
+  <script>
+    window.r5Track('cheat_sheet_page_view');
+
+    function onDownload() {
+      window.r5Track('cheat_sheet_downloaded', { format: 'pdf', lang: 'pt' });
+      return true;
+    }
+
+    function submitEmail(ev) {
+      ev.preventDefault();
+      var email = (document.getElementById('emailInput').value || '').trim();
+      var status = document.getElementById('formStatus');
+      if (!email || email.indexOf('@') < 0) {
+        status.textContent = 'Informe um e-mail válido.';
+        status.className = 'form-status warn';
+        return false;
+      }
+      status.textContent = 'Enviando…';
+      status.className = 'form-status';
+
+      var API_BASE = 'https://access-codes.r5tools.io';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        API_BASE = 'http://127.0.0.1:8791';
+      }
+      fetch(API_BASE + '/api/register-email', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'cheat-sheet-pt', ref: 'CHEATSHEET-PT' })
+      }).then(function (r) {
+        return r.json().catch(function () { return { ok: r.ok }; });
+      }).then(function (body) {
+        if (body && (body.ok === true || body.ok === undefined)) {
+          status.textContent = 'Feito — a cheat sheet vai baixar agora.';
+          status.className = 'form-status ok';
+          window.r5Track('cheat_sheet_email_captured', { source: 'cheat-sheet-pt' });
+          setTimeout(function () { document.getElementById('downloadBtn').click(); }, 250);
+        } else {
+          status.textContent = 'Erro no servidor, mas o PDF ainda dá pra baixar. Clica no botão de download aí embaixo.';
+          status.className = 'form-status warn';
+        }
+      }).catch(function () {
+        status.textContent = 'Não deu pra falar com o servidor, mas o PDF ainda dá pra baixar. Clica no botão de download aí embaixo.';
+        status.className = 'form-status warn';
+      });
+      return false;
+    }
+  </script>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

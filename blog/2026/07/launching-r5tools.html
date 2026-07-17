@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Launching r5tools — why we stopped running our alliance on a Google Sheet | R5TOOLS.IO Blog</title>
+<meta name="description" content="Our WZ 2007 alliance was burning 3-4 hours per season on landing coordination inside a Google Sheet. So I built the whole planning suite in a month. Here&#x27;s what shipped.">
+<meta name="keywords" content="r5tools, last war alliance tools, lws season 2 tools, r5 planning suite">
+<meta name="author" content="Evan @ r5tools">
+<link rel="canonical" href="https://r5tools.io/blog/2026/07/launching-r5tools.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/blog/2026/07/launching-r5tools.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/blog/2026/07/launching-r5tools.html">
+<meta property="og:title" content="Launching r5tools — why we stopped running our alliance on a Google Sheet">
+<meta property="og:description" content="Our WZ 2007 alliance was burning 3-4 hours per season on landing coordination inside a Google Sheet. So I built the whole planning suite in a month. Here&#x27;s what shipped.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/blog/2026/07/launching-r5tools.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-07-17">
+<meta property="article:author" content="Evan @ r5tools">
+<meta property="article:tag" content="founding-story"><meta property="article:tag" content="alliance-strategy"><meta property="article:tag" content="tool-walkthrough">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Launching r5tools — why we stopped running our alliance on a Google Sheet">
+<meta name="twitter:description" content="Our WZ 2007 alliance was burning 3-4 hours per season on landing coordination inside a Google Sheet. So I built the whole planning suite in a month. Here&#x27;s what shipped.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<link rel="alternate" type="application/rss+xml" title="R5TOOLS.IO Blog" href="/blog/feed.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Launching r5tools — why we stopped running our alliance on a Google Sheet","description":"Our WZ 2007 alliance was burning 3-4 hours per season on landing coordination inside a Google Sheet. So I built the whole planning suite in a month. Here's what shipped.","datePublished":"2026-07-17","dateModified":"2026-07-17","author":{"@type":"Person","name":"Evan @ r5tools","url":"https://r5tools.io"},"publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io","logo":{"@type":"ImageObject","url":"https://r5tools.io/static/og-image.png"}},"image":"https://r5tools.io/static/og-image.png","mainEntityOfPage":"https://r5tools.io/blog/2026/07/launching-r5tools.html","inLanguage":"en","keywords":"r5tools, last war alliance tools, lws season 2 tools, r5 planning suite"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://r5tools.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://r5tools.io/blog/"},{"@type":"ListItem","position":3,"name":"Launching r5tools — why we stopped running our alliance on a Google Sheet","item":"https://r5tools.io/blog/2026/07/launching-r5tools.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg:#0a0e1a; --panel:#0d1424; --panel-2:#12192c;
+  --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.3);
+  --accent:#c9a961; --accent-hover:#d9b871;
+  --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290;
+  --live:#8ae0a3; --soon:#e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+.wrap { max-width: 820px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px; letter-spacing:0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 36px; line-height:1.15; letter-spacing:-0.01em; margin: 6px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p, li { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+.meta { font-size:12px; color: var(--text-mute); letter-spacing:0.05em; text-transform:uppercase;
+  margin: 0 0 4px; }
+.byline { font-size:13px; color: var(--text-dim); margin: 4px 0 24px; }
+.byline .dot { color: var(--text-mute); margin: 0 6px; }
+.tag { display:inline-block; font-size:11px; padding: 2px 10px; margin: 0 4px 4px 0;
+  background: var(--panel); border:1px solid var(--border); border-radius:14px; color: var(--text-dim);
+  text-decoration:none; letter-spacing:0.04em; }
+.tag:hover { border-color: var(--accent); color: var(--accent); }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left; vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.related { margin: 48px 0 20px; }
+.related h2 { border-bottom:1px solid var(--border); padding-bottom:8px; }
+.related-list { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; }
+.related-card { background: var(--panel); border:1px solid var(--border); border-radius:10px;
+  padding: 14px 16px; text-decoration:none; color: var(--text); display:block; }
+.related-card:hover { border-color: var(--accent); }
+.related-card .rc-date { font-size:11px; color: var(--text-mute); letter-spacing:0.05em; text-transform:uppercase; }
+.related-card .rc-title { font-size:14px; color: var(--text); margin-top:4px; font-weight:600; line-height:1.35; }
+.newsletter-widget { margin: 40px 0 20px; padding: 20px 22px; background: var(--panel);
+  border:1px solid var(--border-accent); border-radius:12px; }
+.newsletter-widget h3 { color: var(--accent); font-size:15px; margin:0 0 6px; letter-spacing:0.06em;
+  text-transform:uppercase; }
+.newsletter-widget p { color: var(--text); font-size:14px; margin: 0 0 12px; }
+.newsletter-widget form { display:flex; gap:8px; flex-wrap:wrap; }
+.newsletter-widget input[type=email] { flex:1; min-width:200px; padding: 9px 12px;
+  background: var(--panel-2); border:1px solid var(--border); color: var(--text);
+  border-radius:8px; font-size:14px; font-family:inherit; }
+.newsletter-widget input[type=email]:focus { outline:none; border-color: var(--accent); }
+.newsletter-widget button { padding: 9px 18px; background: var(--accent); color:#000;
+  border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; }
+.newsletter-widget button:hover { background: var(--accent-hover); }
+.newsletter-widget .status { margin-top:8px; font-size:13px; color: var(--text-dim); min-height:1em; }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+  <a href="/">Home</a>
+  <a href="/blog/">Blog</a>
+  <a href="https://roster.r5tools.io/">Roster Extractor</a>
+  <a href="https://hive.r5tools.io/">Hive Planner</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Sim</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/blog/">Blog</a> › <span>Launching r5tools — why we stopped running our alliance on a Google Sheet</span></nav>
+  <div class="meta">2026-07-17 · Evan @ r5tools</div>
+  <h1>Launching r5tools — why we stopped running our alliance on a Google Sheet</h1>
+  <p class="lede">Our WZ 2007 alliance was burning 3-4 hours per season on landing coordination inside a Google Sheet. So I built the whole planning suite in a month. Here&#x27;s what shipped.</p>
+  <div class="byline"><a class="tag" href="/blog/?tag=founding-story">founding-story</a><a class="tag" href="/blog/?tag=alliance-strategy">alliance-strategy</a><a class="tag" href="/blog/?tag=tool-walkthrough">tool-walkthrough</a></div>
+  <div class="cta-card">
+  <h3>Unlock your alliance</h3>
+  <p>All R5TOOLS.IO planners unlock instantly for Warzone 2007 members — no signup, no payment.</p>
+  <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Unlock your alliance →</a>
+</div>
+  <article>
+<p>Our alliance officers spent the first three days of Season 2 in a shared Google Sheet.</p>
+<p>Landing coordinates in column B. Coal reserves in column D. A "who has an active High-Heat Furnace at L20 or above" tab that Nikki manually updated every time somebody dinged. Five formatting styles because three of us kept re-doing the conditional formatting on top of each other. A <code>#coordination</code> Discord channel that scrolled faster than anyone could read.</p>
+<p>At the end of week one I sat down and added up the officer-hours. Just landing planning — deciding who parks where relative to the Alliance Furnace, who's in Warlord Missile blast range, who anchors the outer ring. <strong>11 hours of R4/R5 time across four officers</strong>, most of it re-doing math because someone had updated their gear or someone new had joined.</p>
+<p>Eleven hours. For one map transition. In one week.</p>
+<p>That's when r5tools started.</p>
+<h2>What r5tools is</h2>
+<p>A suite of small, focused planners for <em>Last War: Survival</em> alliances. Each tool does one thing well and shares zero state with the others — you can use just the Landing Planner and ignore everything else, or run the whole stack. Nothing is a "platform." Everything is a tool.</p>
+<p>The current suite:</p>
+<div class='tbl-wrap'><table><thead><tr><th>Tool</th><th>What it replaces</th><th>Time saved per season</th></tr></thead><tbody><tr><td><strong>Roster Extractor</strong></td><td>Manually typing 50 alliance members into a Google Sheet</td><td>2-3 hours</td></tr><tr><td><strong>Landing Planner</strong></td><td>The "who parks where" coordinate sheet</td><td>3-4 hours</td></tr><tr><td><strong>Heat Simulator</strong></td><td>Guessing which stacks freeze in a blizzard</td><td>1-2 hours</td></tr><tr><td><strong>Freeze-Risk Dashboard</strong></td><td>Watching Discord after every blizzard for "who died" reports</td><td>1 hour</td></tr><tr><td><strong>Coal Burn Calculator</strong></td><td>The overdrive-window guesswork that decides your week-3 reserves</td><td>2 hours</td></tr><tr><td><strong>Hive Planner</strong></td><td>The graph-paper drawing of hive formations</td><td>1 hour</td></tr><tr><td><strong>City Capture Planner</strong></td><td>The Excel-tab tracking captured-vs-defensible cities</td><td>1 hour</td></tr><tr><td><strong>Season Timeline</strong></td><td>The pinned Discord message that goes out of date week 2</td><td>ongoing</td></tr></tbody></table></div>
+<p>The math on my alliance alone: <strong>10-14 officer-hours saved per season</strong> just from the tools I'd built before day one of S2. The rest of the season I kept building because every gap I found was a gap another alliance was going to hit too.</p>
+<h2>The rule I set for every tool</h2>
+<p><strong>No tool ships until it saves an officer at least 30 minutes on its first use.</strong></p>
+<p>That's why some things that "should" be in the suite aren't. There's no in-game overlay. No auto-attack scripts. No coordination-bot that DMs your officers. Those are all interesting problems, but none of them save an R5 30 minutes the first time they touch them.</p>
+<p>Instead every tool starts from the specific manual thing you were doing yesterday, and cuts it to the smallest number of clicks I can defend.</p>
+<p>The Roster Extractor is the clearest example. Everyone knows the problem: your alliance list lives in-game, there's no export, there's no API, and you need it in a spreadsheet to plan anything. Every alliance solves this by typing. <strong>Screen-record the list on your phone, drop the video in, get a clean CSV in 90 seconds.</strong> That's the whole tool. It does nothing else. It never will.</p>
+<p>The Coal Burn Calculator is another one. Sites publish coal-per-minute numbers. Nobody publishes the <em>reserve</em> you need to survive a specific blizzard schedule given your specific Alliance Furnace level and overdrive discipline. That's the calculation R5s actually need. So that's what the tool does. The math lives in the <a href="/guides/coal-budget-calculator-guide.html">coal budget calculator guide</a>; the tool just applies it to your inputs.</p>
+<h2>What this blog is</h2>
+<p>Same rule as the tools: nothing gets published unless it saves an R5 time or wins them a fight.</p>
+<p>You will see:</p>
+<ul>
+<li><strong>Weekly meta reads.</strong> What actually changed in the current season week. Which mechanics are newly load-bearing. Where alliances are getting caught.</li>
+<li><strong>Event breakdowns.</strong> VS Days, Rare Soil War, Blood Night, hero drops — the scoring math and the actual decisions that move the leaderboard.</li>
+<li><strong>Composite case studies.</strong> How three-to-five alliances handled the same problem, anonymized, with numbers.</li>
+<li><strong>Tool walkthroughs.</strong> Screen-recording an R5 using the tools in-context, not a marketing "features" list.</li>
+</ul>
+<p>You will not see:</p>
+<ul>
+<li>"10 tips for R5 leaders" listicles.</li>
+<li>Screenshots that dox real players.</li>
+<li>Anything sourced from vibes.</li>
+</ul>
+<p>Every claim in every post traces back to either the <a href="/glossary/">LWS Knowledge Base</a> (which is a versioned, sourced reference we keep in the repo) or a specific observable event the author witnessed and can name. If we can't source it, we don't publish it.</p>
+<h2>Founding pricing — why it exists and how long</h2>
+<p>The tools are free to use with a Warzone 2007 unlock code (which is public in our Discord). For everyone else, the pricing is:</p>
+<ul>
+<li><strong>$10 lifetime</strong> for an individual R5 who wants everything.</li>
+<li><strong>$50 alliance bundle</strong> for R5s who want to unlock the whole officer group at once.</li>
+</ul>
+<p>The first <strong>100 alliances</strong> to unlock get "Founding" pricing — the same as launch pricing, but locked in for the life of the account. The floating badge on the corner of every page shows the count. It ticks down in real time.</p>
+<p>Why 100? Because that's roughly how many R5s I can personally reply to in Discord if something breaks. Once the founding tier fills, the price and the support model both level up, and the badge switches to a waitlist.</p>
+<h2>What's next</h2>
+<p>The immediate roadmap, in order of ship date:</p>
+<ol>
+<li><strong>Season 2 week-2 audit.</strong> A post on what actually happened week one of S2 across the alliances I can see — what worked, what got destroyed, what everyone underestimated.</li>
+<li><strong>Warlord Missile deep-dive.</strong> The math for intercepting a missile in the 3-minute prep window versus absorbing it. Nobody has published this well.</li>
+<li><strong>Hero drop template.</strong> When the next hero drops, a 24-hour turnaround post on the day-1 build, gear priorities, and shred value.</li>
+</ol>
+<p>Every post ends up here, in the RSS feed, and in the weekly digest that goes out Sundays 10 AM Central to anyone on the newsletter.</p>
+<h2>What I'm asking</h2>
+<p><strong>Try one tool.</strong> Even just the Roster Extractor. If it saves you the 90 seconds it promises, come back for the Landing Planner. If it doesn't, tell me why in Discord — I can only fix what I know about.</p>
+<p>And if you're an R5 who runs a spreadsheet-heavy alliance, join the newsletter below. That's where I'll post the weekly meta reads and any new tools I ship. One email per week, one click to unsubscribe, never a marketing blast.</p>
+<p>Good hunting.</p>
+<p>Evan R5 · RONY · WZ 2007</p>
+<hr>
+<h2>Sources</h2>
+<ul>
+<li><a href="/guides/coal-budget-calculator-guide.html">Coal budget calculator guide</a> — coal-per-minute and reserve math.</li>
+<li><a href="/guides/alliance-furnace-guide.html">Alliance furnace guide</a> — L20 output and coal consumption.</li>
+<li><a href="https://roster.r5tools.io/">Roster Extractor</a> · <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a> · <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Simulator</a> · <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze-Risk Dashboard</a> · <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn Calculator</a> · <a href="https://hive.r5tools.io/">Hive Planner</a> · <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture Planner</a> · <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>.</li>
+</ul>
+  </article>
+  <aside class="newsletter-widget">
+  <h3>Get one email a week</h3>
+  <p>New tools, meta reads, and LWS math — no spam, one-click unsubscribe.</p>
+  <form onsubmit="return r5tSubscribeNewsletter(event, this)">
+    <input type="email" name="email" required placeholder="Your email" autocomplete="email">
+    <button type="submit">Subscribe</button>
+  </form>
+  <div class="status" data-done="Subscribed — check your inbox."></div>
+</aside>
+<script>
+function r5tSubscribeNewsletter(ev, form){
+  ev.preventDefault();
+  var email = form.email.value.trim();
+  if (!email) return false;
+  var status = form.parentElement.querySelector('.status');
+  status.textContent = '...';
+  fetch('https://access-codes.r5tools.io/api/drip/subscribe', {
+    method:'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({email: email, lang: 'en', tag: 'newsletter'})
+  }).then(function(r){return r.json();})
+    .then(function(j){
+      status.textContent = status.dataset.done;
+      if (window.r5t && window.r5t.track) window.r5t.track('newsletter_subscribe', {lang:'en'});
+    })
+    .catch(function(){ status.textContent = 'Error — try again in a moment.'; });
+  return false;
+}
+</script>
+  <div class="cta-card">
+    <h3>Bring this into your alliance chat</h3>
+    <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Get started free →</a>
+  </div>
+  <section class="related"><h2>Related posts</h2><div class="related-list"><a class="related-card" href="/blog/2026/07/warlord-missile-math.html"><div class="rc-date">2026-07-22</div><div class="rc-title">Warlord Missile — the intercept-vs-absorb math that decides every rally</div></a><a class="related-card" href="/blog/2026/07/landing-coords-r5s-miss.html"><div class="rc-date">2026-07-20</div><div class="rc-title">The Season 2 landing coordinates every R5 gets wrong</div></a><a class="related-card" href="/blog/2026/07/season-2-week-1-coal-budget.html"><div class="rc-date">2026-07-18</div><div class="rc-title">Season 2 week 1 — the coal budget every R5 gets wrong on day 1</div></a></div></section>
+  <footer class="foot">
+  <p>Part of the <a href='https://r5tools.io/'>R5TOOLS.IO</a> Last War: Survival alliance toolkit. Fan-made · unaffiliated with First Fun / Century Games. <a href='https://r5tools.io/terms.html'>Terms</a> · <a href='https://r5tools.io/privacy.html'>Privacy</a>.</p>
+  </footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

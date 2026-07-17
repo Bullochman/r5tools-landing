@@ -1,0 +1,157 @@
+<!--
+  FOUNDING-TIER SCARCITY WIDGET
+  ==============================
+  A live counter that reads the count of alliances that have already
+  claimed Founding pricing (the $30 tier, first 100 alliances) and
+  renders "23/100 alliances have claimed Founding pricing" — genuine
+  scarcity, not fake.
+
+  DEPENDENCY / ACTION ITEM FOR EVAN
+  ---------------------------------
+  This widget hits `access-codes.r5tools.io/api/founding-count`, which
+  DOES NOT EXIST YET. You need to add an endpoint to
+  ~/claudecode/r5tools/LWS_Access_Codes/server.py that returns:
+
+      GET /api/founding-count
+      -> {
+           "claimed": 23,        // count of alliance-bundle-founding codes issued
+           "cap":     100,       // configured founding cap
+           "remaining": 77,      // convenience field, cap - claimed
+           "cap_reached": false, // convenience boolean
+           "generated_at": "2026-07-17T05:12:00Z"
+         }
+
+  Server-side query is straightforward — server.py already has the
+  tier taxonomy that includes "alliance-bundle-founding" (see lines
+  3181-3198). Count rows in the codes table with that tier and cap
+  from a config value (start with 100). CORS must allow r5tools.io
+  and access-codes.r5tools.io — same origin pattern used by
+  /api/leaderboard/public that the landing page already calls.
+
+  Until the endpoint exists, the widget falls back to hiding itself
+  (see WIDGET_HIDE_ON_ERROR = true below). That way it never shows
+  a broken/loading state on the live page — it only appears once the
+  real number is available.
+
+  USAGE
+  -----
+  Drop this entire block into index.html anywhere you want the counter
+  to appear. It's self-contained (own <style>, own <script>).
+  Placement recommendations:
+    - Right above the primary CTA in the hero (highest lift)
+    - Inside the FOUNDING ALLIANCE red-orange banner in the pricing
+      section (line ~929 of index.html — replace the static "first 10"
+      copy with this live counter)
+
+  The variant-c hero (hero-variant-c.html) already includes an inline
+  #foundingCounter div that this script populates — if you use variant
+  C, this widget's <script> alone is sufficient (no need to include the
+  visual markup below, since variant C provides its own).
+-->
+
+<!-- ===== VISUAL MARKUP (skip if using hero-variant-c which has its own) ===== -->
+<div id="foundingCounter" data-founding-counter style="display:none;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,120,80,0.10);border:1px solid rgba(255,120,80,0.30);border-radius:100px;font-size:13px;color:#ff9970;font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:0.02em;max-width:fit-content;margin:12px auto">
+  <span style="width:8px;height:8px;background:#ff9970;border-radius:50%;box-shadow:0 0 8px rgba(255,120,80,0.6);animation:foundingPulse 2s ease-in-out infinite;flex-shrink:0"></span>
+  <span id="foundingCounterText">Loading founding count…</span>
+</div>
+<style>
+  @keyframes foundingPulse { 0%,100% { opacity:1 } 50% { opacity:0.4 } }
+</style>
+
+<!-- ===== SCRIPT ===== -->
+<script>
+(function () {
+  'use strict';
+
+  var ENDPOINT = 'https://access-codes.r5tools.io/api/founding-count';
+  var WIDGET_HIDE_ON_ERROR = true;   // hide widget entirely if endpoint fails
+  var REFRESH_MS = 5 * 60 * 1000;    // re-fetch every 5 minutes on same tab
+  var LOW_REMAINING_THRESHOLD = 15;  // switch to urgent styling under this
+
+  function el(sel, root) { return (root || document).querySelector(sel); }
+
+  function detectLang() {
+    return (document.documentElement.lang || 'en').toLowerCase();
+  }
+
+  function render(data) {
+    var text = el('#foundingCounterText');
+    var wrap = el('#foundingCounter, [data-founding-counter]');
+    if (!text || !wrap) return;
+
+    var claimed = Number(data.claimed || 0);
+    var cap = Number(data.cap || 100);
+    var remaining = Math.max(0, cap - claimed);
+    var lang = detectLang();
+
+    var msg;
+    if (data.cap_reached || remaining === 0) {
+      msg = lang.startsWith('ko')
+        ? '창립 100 자리 모두 마감 · 정가로 전환됨'
+        : 'All 100 Founding seats claimed · standard pricing now';
+      // Red styling once cap is reached — signals urgency for late arrivals
+      // who might still want to know we ran a Founding tier at all.
+      wrap.style.background = 'rgba(255,80,80,0.10)';
+      wrap.style.borderColor = 'rgba(255,80,80,0.35)';
+      wrap.style.color = '#ff8080';
+    } else if (remaining <= LOW_REMAINING_THRESHOLD) {
+      msg = lang.startsWith('ko')
+        ? '창립 얼라이언스 ' + claimed + '/' + cap + ' — 남은 자리 ' + remaining + '개'
+        : claimed + '/' + cap + ' Founding claimed — only ' + remaining + ' left';
+      // Amber-hot styling — urgency without being desperate.
+      wrap.style.background = 'rgba(230,207,122,0.14)';
+      wrap.style.borderColor = 'rgba(230,207,122,0.45)';
+      wrap.style.color = '#e6cf7a';
+    } else {
+      msg = lang.startsWith('ko')
+        ? claimed + '/' + cap + '개 얼라이언스가 창립 가격 확보'
+        : claimed + '/' + cap + ' alliances have claimed Founding pricing';
+    }
+
+    text.textContent = msg;
+    wrap.style.display = 'inline-flex';
+
+    // Fire analytics ping — measure how often the widget is actually seen
+    // with each remaining-count bucket, so we can correlate scarcity level
+    // with conversion later.
+    try {
+      if (window.LWSTrack && typeof window.LWSTrack.event === 'function') {
+        window.LWSTrack.event('founding_counter_shown', 'landing', {
+          claimed: claimed, cap: cap, remaining: remaining,
+        });
+      }
+    } catch (e) { /* swallow */ }
+  }
+
+  function hide() {
+    var wrap = el('#foundingCounter, [data-founding-counter]');
+    if (wrap && WIDGET_HIDE_ON_ERROR) wrap.style.display = 'none';
+  }
+
+  function fetchCount() {
+    fetch(ENDPOINT, { cache: 'no-store', credentials: 'omit', mode: 'cors' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('status ' + r.status);
+        return r.json();
+      })
+      .then(render)
+      .catch(function (err) {
+        try { console.warn('[founding-counter] fetch failed:', err); } catch (e) {}
+        hide();
+      });
+  }
+
+  function boot() {
+    fetchCount();
+    // Refresh periodically so a viewer camping on the page sees the count
+    // tick down if other alliances claim while they're deciding.
+    setInterval(fetchCount, REFRESH_MS);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>

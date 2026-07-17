@@ -7,6 +7,9 @@
 <meta name="description" content="Spice Wars in Last War: Survival. Season 3 flagship — 100–600/hr spice per city, 30% steal cap, Wed/Sat war days weeks 4–8.">
 <meta name="keywords" content="Spice Wars, Last War event, LWS, R5 alliance planning">
 <link rel="canonical" href="https://r5tools.io/events/spice-wars.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/spice-wars.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/spice-wars.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/spice-wars.html">
 <meta property="og:title" content="Spice Wars — Last War event guide | R5TOOLS.IO">
 <meta property="og:description" content="Spice Wars in Last War: Survival. Season 3 flagship — 100–600/hr spice per city, 30% steal cap, Wed/Sat war days weeks 4–8.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/spice-wars.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -142,7 +177,19 @@ td { color: var(--text-dim); }
 <div class="tbl-wrap"><table><thead><tr><th>Season</th><th>Marketing name</th><th>Core mechanic</th><th>Warzone scope</th></tr></thead><tbody><tr><td>1</td><td>Crimson Plague</td><td>Virus stacks (per-base debuff)</td><td>Per-warzone</td></tr><tr><td><strong>2</strong></td><td><strong>Polar Storm / Frozen</strong></td><td><strong>Per-tile temperature + freeze threshold</strong></td><td><strong>Per-warzone</strong></td></tr><tr><td>3</td><td>Golden Kingdom (Golden Empire)</td><td>Curse Resistance + Mithril / Sacred Water desert map; Spice Wars Wed/Sat W4-W8; factions Scarlet Legion vs Golden Tribe</td><td>Per-warzone</td></tr><tr><td>4</td><td>Evernight Isle (Sakura Isle)</td><td>Light-vs-darkness; Lighthouse building + Zombie-powered Generators; Copper Wars Wed/Sat W4-W7; factions Kage no Sato vs Koubutai</td><td>Single-warzone (per lastwarhandbook Season 4 guide)</td></tr><tr><td>5</td><td>Wild West</td><td>Bank Stronghold PvE + CrystalGold economy; introduces Alliance Safe Time (3 windows × 1h, 7h apart) which does NOT exist in S2</td><td>Cross-warzone</td></tr><tr><td>6</td><td>Lost Rainforest</td><td>Faction-based mega-map (8 warzones + 1 central); Deepwood Clan / Wetland Clan / Great River Clan (neutral)</td><td>Mega-map</td></tr></tbody></table></div>
 <p><em>Last War: Survival</em> runs on an <strong>8-week seasonal treadmill</strong>: every server rotates through a fresh themed map with new resources, buildings, PvP events, and hero/weapon rollouts. Since Season 2 (Polar Storm) ended, First Fun has shipped <strong>four full seasons</strong> — S3 Golden Kingdom (Egyptian desert / Spice Wars / Curse Resistance), S4 Evernight Isle (Sakura island / Lighthouse / Blood Night), S5 Wild West (Golden Wasteland / Banks / Trade Train / merged 8-warzone map), and S6 Shadow Rainforest (faction warfare / permanent city destruction / Hero Awakening). <strong>Season 7</strong> is confirmed by community creators as launching approximately <strong>August 2026</strong> but no official theme/mechanic details have leaked publicly at the time of this research (2026-07-14). Each season introduces a new seasonal resource loop, a new PvP conflict pattern, and a designated hero for UR ascension or Awakening — and the trend from S5→S6 is toward <strong>fewer, longer war windows</strong> and <strong>permanent, high-stakes territorial outcomes</strong> rather than continuous grind (documented in <em>13-meta-competitive</em>).</p>
 <p>The 8-week main season subdivides consistently: <strong>Weeks 1–3</strong> are build-out (buildings unlocked progressively, seasonal resource stockpiling), <strong>Weeks 4–6</strong> are the main PvP conflict (Spice Wars / Copper Wars / City Clash / Faction Duel prelims), and <strong>Weeks 7–8</strong> are the season-defining endgame (Capitol War, Ancestral Temple, Faction Duel final).</p>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/copper-wars.html">Copper Wars — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/vs-days.html">VS Days — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/high-noon.html">High Noon — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-duel-vs.html">Alliance Duel VS — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/doomsday.html">Doomsday — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -156,5 +203,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

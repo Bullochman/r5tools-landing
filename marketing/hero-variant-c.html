@@ -1,0 +1,73 @@
+<!--
+  HERO VARIANT C — "Social-proof + scarcity"
+  Angle:  "Everyone smarter than you is already on this." Combines
+          social proof (top alliances use it) with genuine scarcity
+          (Founding tier is capped at 100 alliances — real cap, not
+          fake). Works best when the audience trusts their leaderboard
+          — Whales, top-tier R5s, alliance-of-alliances presidents.
+          Best channel: KR alliance leader Discords, top-100 warzone
+          leaderboard DMs, X/Twitter LWS accounts.
+
+  Drop-in: paste the entire <div class="hero"> block into index.html at
+           the current hero site (line ~347). The founding-count widget
+           at the bottom of this variant is populated by
+           founding-scarcity-widget.html — include that widget's script
+           on the page for the live counter to show.
+
+  Variant ID: 'c'
+-->
+
+<!-- ===== ENGLISH HERO (variant C) ===== -->
+<div class="hero" data-hero-variant="c">
+  <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;margin-bottom:18px;background:rgba(138,224,163,0.14);border:1px solid rgba(138,224,163,0.35);border-radius:100px;font-size:12px;color:var(--live);letter-spacing:0.05em;font-weight:600" data-i18n="heroC_Badge">🏆 USED BY TOP-100 ALLIANCES · SEASON 2 · LIVE</div>
+
+  <h1 data-i18n="heroC_Title">
+    The tools your alliance's <span class="accent">top 3</span> already use.<br/>
+    First 100 alliances get Founding pricing.
+  </h1>
+
+  <p data-i18n="heroC_Body">
+    Whale R5s across 40+ warzones plan Season 2 with r5tools — 8 planners, 7 languages, one $30 unlock that covers your whole alliance. If your R4 already screenshots roster PNGs into #alliance-general, they got them here.
+    <br/><br/>
+    <strong style="color:var(--text)">Founding tier caps at 100 alliances</strong> — $30 lifetime instead of $50/season, forever, on every tool I ship. When 100 is hit, price goes to $50 and stays there.
+  </p>
+
+  <!-- Live founding counter — populated by founding-scarcity-widget.js -->
+  <div id="foundingCounter" style="display:inline-flex;align-items:center;gap:10px;margin:8px 0 6px;padding:8px 16px;background:rgba(255,120,80,0.10);border:1px solid rgba(255,120,80,0.30);border-radius:100px;font-size:13px;color:#ff9970;font-weight:600;font-family:var(--mono);letter-spacing:0.02em">
+    <span id="foundingCounterDot" style="width:8px;height:8px;background:#ff9970;border-radius:50%;box-shadow:0 0 8px rgba(255,120,80,0.6);animation:pulse 2s ease-in-out infinite"></span>
+    <span id="foundingCounterText" data-i18n="heroC_FoundingCounter">Loading founding count…</span>
+  </div>
+  <style>@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.4 } }</style>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px">
+    <a class="price-cta" href="#pricing" style="text-decoration:none" data-i18n="heroC_Cta1" data-track-cta="variant-c-primary">Claim Founding pricing →</a>
+    <a class="price-cta ghost" href="/leaderboard.html" style="text-decoration:none" data-i18n="heroC_Cta2" data-track-cta="variant-c-secondary">See who's already ranked</a>
+  </div>
+
+  <span class="kr-note" style="margin-top:16px" data-i18n="heroC_KrNote">🇰🇷 한국 얼라이언스 리더 · 창립 100 자리 중 일부 아직 남음 · KR alliance leaders — some Founding seats still open</span>
+
+  <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
+</div>
+
+<!-- ===== I18N DICTIONARY ADDITIONS (per language) ===== -->
+<!--
+  EN:
+    heroC_Badge:           '🏆 USED BY TOP-100 ALLIANCES · SEASON 2 · LIVE',
+    heroC_Title:           'The tools your alliance\'s <span class="accent">top 3</span> already use.<br/>First 100 alliances get Founding pricing.',
+    heroC_Body:            'Whale R5s across 40+ warzones plan Season 2 with r5tools — 8 planners, 7 languages, one $30 unlock that covers your whole alliance. If your R4 already screenshots roster PNGs into #alliance-general, they got them here.<br/><br/><strong>Founding tier caps at 100 alliances</strong> — $30 lifetime instead of $50/season, forever, on every tool I ship. When 100 is hit, price goes to $50 and stays there.',
+    heroC_FoundingCounter: 'Loading founding count…',
+    heroC_Cta1:            'Claim Founding pricing →',
+    heroC_Cta2:            'See who\'s already ranked',
+    heroC_KrNote:          '🇰🇷 한국 얼라이언스 리더 · 창립 100 자리 중 일부 아직 남음 · KR alliance leaders — some Founding seats still open'
+
+  KO (natural-voice — KR audience responds strongly to rank + scarcity framing):
+    heroC_Badge:           '🏆 상위 100 얼라이언스가 사용 · 시즌 2 · 라이브',
+    heroC_Title:           '당신 연맹의 <span class="accent">상위 3명</span>이 이미 사용 중인 도구.<br/>선착순 100개 연맹만 창립 가격.',
+    heroC_Body:            '40개 이상의 워존에서 웨일 R5들이 r5tools로 시즌 2를 기획합니다 — 플래너 8종, 7개 언어, 연맹 전체를 커버하는 $30 잠금 해제. R4가 이미 #alliance-general에 로스터 PNG 스크린샷을 올린다면, 여기서 만든 겁니다.<br/><br/><strong>창립 등급은 100개 연맹까지</strong> — 시즌당 $50이 아닌 평생 $30, 앞으로 만들 모든 도구 포함. 100 채워지면 $50로 오르고 안 내려갑니다.',
+    heroC_FoundingCounter: '창립 얼라이언스 수 불러오는 중…',
+    heroC_Cta1:            '창립 가격 확보하기 →',
+    heroC_Cta2:            '이미 등록된 연맹 보기',
+    heroC_KrNote:          '🇰🇷 한국 얼라이언스 리더 · 창립 100 자리 중 일부 아직 남음'
+-->
+</content>
+</invoke>

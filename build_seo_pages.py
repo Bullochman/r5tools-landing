@@ -467,6 +467,14 @@ def render_page(
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
 <script type="application/ld+json">{schema_json}</script>
 <style>{BASE_CSS}</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  (function(){{var id=(window.R5T_ANALYTICS||{{}}).ga4MeasurementId||"";if(!id)return;var s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(id);document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){{window.dataLayer.push(arguments);}};window.gtag("js",new Date());window.gtag("config",id,{{anonymize_ip:true,allow_google_signals:false}});}})();
+  (function(){{var cfg=window.R5T_ANALYTICS||{{}};if(!cfg.plausibleDomain)return;var p=document.createElement("script");p.defer=true;p.setAttribute("data-domain",cfg.plausibleDomain);p.src=cfg.plausibleScriptUrl||"https://plausible.io/js/script.js";document.head.appendChild(p);window.plausible=window.plausible||function(){{(window.plausible.q=window.plausible.q||[]).push(arguments);}};}})();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 {SUITE_NAV_HTML}

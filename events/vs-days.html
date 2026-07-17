@@ -7,6 +7,9 @@
 <meta name="description" content="VS Days in Last War: Survival. Weekly Alliance Duel VS competition — the phase-stack optimizer&#x27;s target.">
 <meta name="keywords" content="VS Days, Last War event, LWS, R5 alliance planning">
 <link rel="canonical" href="https://r5tools.io/events/vs-days.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/vs-days.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/vs-days.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/vs-days.html">
 <meta property="og:title" content="VS Days — Last War event guide | R5TOOLS.IO">
 <meta property="og:description" content="VS Days in Last War: Survival. Weekly Alliance Duel VS competition — the phase-stack optimizer&#x27;s target.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/vs-days.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -144,7 +179,19 @@ td { color: var(--text-dim); }
 <div class="tbl-wrap"><table><thead><tr><th>War role</th><th>Typical power tier</th><th>Job</th><th>Primary event</th></tr></thead><tbody><tr><td><strong>Rally Leader</strong></td><td>Top 5 in alliance, strong offensive stats</td><td>Leads named rallies on high-value targets; coordinates simultaneous launch times with other rally leaders</td><td>VS Day 6 (Enemy Buster), Marshal&#x27;s Guard, city captures</td></tr><tr><td><strong>Rally Filler</strong></td><td>Mid-power accounts with high reinforcement-march-speed research</td><td>Fills joining slots on rally leaders&#x27; marches within seconds of launch; runs no personal rallies</td><td>All rally-based events</td></tr><tr><td><strong>Garrison Defender</strong></td><td>High-defense Tank-carry builds</td><td>Sits reinforcement troops inside Ring 1/Ring 2 teammates&#x27; Alliance Centers; absorbs incoming rally damage</td><td>Enemy Buster (defense hours), Zombie Siege, S1 stronghold protection windows</td></tr><tr><td><strong>Gatherer</strong></td><td>Low-power accounts (R1/R2, farm alts)</td><td>Runs marches to enemy resource tiles for VS Day points and Rare Soil War plunder</td><td>VS Days 2–5 (resource themes), S2 Rare Soil War</td></tr><tr><td><strong>Scout</strong></td><td>Any active player whose hours match opponent&#x27;s offline window</td><td>Identifies enemy shield-down states, reports positions to War Coordinator, tracks paired-duel-alliance rally leaders</td><td>VS Day 6, faction wars</td></tr></tbody></table></div>
 <ul><li><strong><em>02-heroes</em></strong> — hero level is the primary driver of march size, which determines how many troops you contribute per rally join. Shirley (VIP 8 survivor) is the only survivor that directly scales march size.</li><li><strong><em>03-chief</em></strong> — HQ 10 unlocks alliance joining; HQ 16 unlocks President title assignment; HQ 31+ + Base Expansion research unlocks Alliance Center 31–35.</li><li><strong><em>04-squads-combat</em></strong> — rally troop cap and join-under-leader-stats mechanics live here; alliance officer +5%/+2.5% buffs modify per-rally damage.</li><li><strong><em>05-season-1-crimson-plague</em></strong> — Military Stronghold, capital, warzone capture rules originate here.</li><li><strong><em>06-season-2-frozen</em></strong> — Age of Oil unlock and post-S2 alliance tech branches; Alliance Furnace deployment is R4/R5-gated.</li><li><strong><em>07-future-seasons</em></strong> — S6 (Shadow Rainforest) Alliance Skills, Alliance Pact, Altars, Faction/Server groups of 4. S3+ also evolves the Ministry / titled-slot mechanic that gates S6 skills.</li><li><strong><em>12-progression</em></strong> — alliance-tech contribution feeds one of the six power tracks; second-Tech-Center payoff is amplified by alliance help.</li><li><strong><em>13-meta-competitive</em></strong> — the four titled R4 slots (Warlord / Recruiter / Muse / Butler) gate the four S6 Alliance Skills — the assignment decision is the biggest single R5 lever in mid-2026.</li><li><strong><em>09-events</em></strong> — Marshal&#x27;s Guard cadence, VS Days schedule, Arms Race pairing.</li><li><strong><em>10-economy</em></strong> — alliance coin regen, diamond donation escalation, contribution points, Alliance Store item costs and priority.</li><li><strong><em>11-monetization</em></strong> — Premium Gifts drop when any member buys an alliance-gift-tagged pack; VIP 8 unlocks Shirley (march size).</li><li><strong><em>14-ui-reference</em></strong> — Alliance Assembly Point marker; alliance chat + mail UI; hive planner tools.</li><li><strong><em>15-glossary</em></strong> — R1/R2/R3/R4/R5, VS, MG, hive, mud, ring, TP, RC.</li></ul>
 <ul><li><a href="https://lastwarhandbook.com/guides/r4-r5-alliance-officer-organization-guide" rel="nofollow noopener">Last War R4 &amp; R5 Guide (2026) — Last War Handbook</a> · 2026 · Tier B · rank permissions, officer titles, R4 cap</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/r4-r5-guide.html" rel="nofollow noopener">Last War: Survival — Complete R4 &amp; R5 Alliance Officer Guide — LDShop</a> · 2026 · Tier B · rank permissions</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/45560184910355-Alliance-Officers" rel="nofollow noopener">Alliance Officers — First Fun Support (Zendesk)</a> · 2026 · Tier A (official; access-limited to browser) · R4 cap 8→10 at Gift L10</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/39668648978195-What-is-the-Alliance-Gift-How-does-it-work" rel="nofollow noopener">What is the Alliance Gift? — First Fun Support (Zendesk)</a> · 2026 · Tier A · Gift Level unlock table</li><li><a href="https://www.lastwartutorial.com/alliances/" rel="nofollow noopener">Alliances — LastWarTutorial</a> · 2026 · Tier B · rank table with counts, donation caps, gift types, inactive-R5 auto-transfer</li><li><a href="https://www.lastwartutorial.com/ultimate-war-rules-guide-for-season-1/" rel="nofollow noopener">Ultimate war rules guide for Season 1 — LastWarTutorial</a> · 2026 · Tier B · Military Stronghold rules, 2/day cap, 36h protection, abandon time</li><li><a href="https://www.lastwartutorial.com/duel-vs/" rel="nofollow noopener">Alliance Duel VS — LastWarTutorial</a> · 2026 · Tier B (⚠ VP table older schedule; kept for cross-check)</li><li><a href="https://www.lastwargame.online/en/game-alliance-duel/" rel="nofollow noopener">Last War: VS Duel Guide — Lastwargame.online</a> · 2026 · Tier B · current 1/2/2/2/2/4 VP schedule, 7 to win</li><li><a href="https://lw-spy.com/blog/last-war-vs-days-schedule/" rel="nofollow noopener">Last War VS Days Schedule — LW-Spy</a> · 2026 · Tier C · daily theme cross-check</li><li><a href="https://lw-spy.com/glossary/alliance/" rel="nofollow noopener">Alliance / glossary — LW-Spy</a> · 2026 · Tier B · 100-member cap, rank permissions</li><li><a href="https://lastwarguide.net/en/alliance" rel="nofollow noopener">Alliance Last War: complete guide — Lastwarguide.net</a> · 2026 · Tier C · donation mechanics, alliance store notes</li><li><a href="https://medievalfun.com/last-war-survival-alliances-guide/" rel="nofollow noopener">Last War Survival Alliances Explained — MedievalFun</a> · 2026 · Tier C · rank descriptions</li><li><a href="https://www.packsify.com/blogs/last-war-survival-alliance-guide" rel="nofollow noopener">How Alliance Leaders Build Winning Alliances — Packsify</a> · 2026 · Tier C · officer roles, Season 6 skills for R5, war-window guidance</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/marshal-guard-guide.html" rel="nofollow noopener">Marshal&#x27;s Guard Guide — LDShop</a> · 2026 · Tier B · rally cadence, Drill Field +25%, 10K/40K point tiers</li><li><a href="https://www.lastwargame.online/en/alliance-exercise-2/" rel="nofollow noopener">Alliance Exercise Guide — Lastwargame.online</a> · 2026 · Tier B · 30-min duration, 3-min-rallies-only rule, +2.5%/+5% officer buff, 10× MVP multiplier, 5-stage progress bar</li><li><a href="https://forum.gamoria.com/t/alliance-exercise-marshals-guard-strategy/30" rel="nofollow noopener">Alliance Exercise – Marshal&#x27;s Guard strategy — Gamoria forum</a> · 2026 · Tier C · rally staggering pattern</li><li><a href="https://forum.gamoria.com/t/alliance-exercise-marshal-s-guard-event-guide/187" rel="nofollow noopener">Marshal&#x27;s Guard Event Guide — Gamoria forum</a> · 2026 · Tier C · 3K/10K/20-40K reward tiers, 2–3 day cadence, difficulty guidance</li><li><a href="https://lastwarvault.com/guides/pre-season-1/marshals-guard-guide/" rel="nofollow noopener">Marshal&#x27;s Guard (Pre-Season 1) — Last War Vault</a> · 2025 · Tier C · pre-Season strategy <code>⚠ pre-patch (2025)</code></li><li><a href="https://cpt-hedge.com/guides/season-6-alliance-skills" rel="nofollow noopener">Season 6 Alliance Skills Guide — Cpt Hedgehog&#x27;s Battle HQ</a> · 2026 · Tier B (paywalled to WebFetch; content via search snippets) · Frog&#x27;s Gifts, Tranquil Rewind, per-title skill mapping, War Merit</li><li><a href="https://grindnstrat.com/last-war-season-6-alliance-pact-altar-system/" rel="nofollow noopener">Last War Season 6 Alliance Pact &amp; Altar System — GrindNStrat</a> · 2026 · Tier C · pact rules, altar effects (Snake/Echo/Gust/Feather/Tree Haven)</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/enemy-buster-day-6-guide.html" rel="nofollow noopener">Alliance Duel Day 6 (Enemy Buster) — LDShop</a> · 2026 · Tier B · 5× kill multiplier vs paired alliance, shield trade dynamic</li><li><a href="https://kr.ldplayer.net/blog/last-war-survival-alliance-duel-guide.html" rel="nofollow noopener">Alliance Duel Guide — LDPlayer KR</a> · 2026 · Tier B · KR terminology, 20-member minimum, 6-day theme translation</li><li><a href="https://namu.wiki/w/%EB%9D%BC%EC%8A%A4%ED%8A%B8%20%EC%9B%8C:%20%EC%84%9C%EB%B0%94%EC%9D%B4%EB%B2%8C" rel="nofollow noopener">라스트 워: 서바이벌 — 나무위키</a> · 2026 · Tier B (KR wiki; snapshot via search) · R1–R3 mechanical equivalence, 4 R4 titles KR names, R5 rally +5%</li><li><a href="https://web-production-46ee1.up.railway.app/" rel="nofollow noopener">Alliance Hive Grid Manager — Bullochman/hivegrid (project CLAUDE.md)</a> · 2026 · Tier B (in-house authoritative for tool dimensions) · Marshal&#x27;s Guard 3×3 platform, Stronghold 21×21, 2-tile gap rule, 4-ring 128-slot capacity, corner-anchored ring algorithm</li><li><a href="https://www.packsify.com/blogs/last-war-survival-alliance-guide" rel="nofollow noopener">How Alliance Leaders Build Winning Alliances — Packsify</a> · 2026-07-15 WebFetch · Tier C · 4 R4 functional specializations (War Coord / Recruit Ofc / Diplomacy Ofc / Event Coord), hive-discipline enforcement pattern (1-warning-then-kick), R4-can-cover-multiple-functions in small alliances</li><li><a href="https://lastwarguilds.com/leadership-roles/" rel="nofollow noopener">Last War Leadership Roles — Last War Guilds</a> · 2026 · Tier C · corroborates R4 functional roles (500 error on WebFetch; via search snippet)</li><li><a href="https://lastwarhandbook.com/guides/alliance-leadership" rel="nofollow noopener">Last War Alliance Leadership Guide (Handbook)</a> · 2026 · Tier B · war-role taxonomy (Rally Leader / Rally Filler / Garrison Defender / Gatherer / Scout / Event Coordinator); direct fetch 403, via search excerpt</li><li><a href="https://x.com/lastwarsurvival/status/1805895700640866377" rel="nofollow noopener">Alliance Officers Co-Creation event — Last War Official X (@lastwarsurvival)</a> · 2024 · Tier A · confirms exactly 4 titles (Warlord, Recruiter, Muse, Butler) and that players were being surveyed for skill-attachment ideas (context for the S6 skill-title binding shipping later)</li><li><a href="https://lastwarhandbook.com/guides/lucky-gift-guide" rel="nofollow noopener">Last War Lucky Gift Guide — Last War Handbook</a> · 2026 · Tier B · Lucky Gift trigger tiers (5K/10K Diamond, 100 UR shard, 1K Valor Badge), ≤20 claim slots, feeds Alliance Gift Level; direct fetch 403, via search excerpt</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/last-war-3-19-update.html" rel="nofollow noopener">Last War March 19 Update Breakdown — LDShop</a> · 2026 · Tier B · Lucky Gifts introduction date (March 19 2026 update)</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/39669198704147-Why-didn-t-I-get-contribution-points-for-helping" rel="nofollow noopener">Why didn&#x27;t I get contribution points for helping? — First Fun Support (Zendesk)</a> · 2026 · Tier A · confirms daily-cap on contribution points from Alliance Help exists (separate ceiling from tech-donation cap); exact number visible only in-game; direct fetch 403, via search excerpt</li><li><a href="https://www.lastwar.farm/last-war-hive-planner" rel="nofollow noopener">Last War Hive Planner (FarmOps)</a> · 2026-07-15 WebFetch · Tier B · mega-hive supports up to 6 alliances color-coded, missile threat simulator attack model (1 nuke per enemy AC, must touch AC footprint, blast-area optimizer), corner missile silo stack recommendation</li><li><a href="https://tap-guides.com/2025/10/24/last-war-survival-alliance-guide/" rel="nofollow noopener">Alliances in Last War Survival — Tap Guides</a> · 2025-10-24 WebFetch · Tier C · Alliance help general mechanics (no numeric caps published there)</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/alliance-duel-vs.html">Alliance Duel VS — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-duel-league.html">Alliance Duel League Match — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-exercise.html">Alliance Exercise — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-duel-warm-up.html">Alliance Duel Warm-up Match — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/high-noon.html">High Noon — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -158,5 +205,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

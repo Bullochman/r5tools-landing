@@ -4,6 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy Policy · R5TOOLS.IO</title>
+  <meta name="description" content="How r5tools.io handles your data. GDPR + CCPA + PIPA compliant. Plain-English privacy policy for our Last War: Survival fan tools." />
+  <link rel="canonical" href="https://r5tools.io/privacy.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/privacy.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/privacy.html" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/privacy.html" />
+  <link rel="alternate" hreflang="pt" href="https://r5tools.io/pt/privacy.html" />
+  <link rel="alternate" hreflang="es" href="https://r5tools.io/es/privacy.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/privacy.html" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c9a961'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-size='52' font-weight='700' fill='%230a0e1a'%3ER5%3C/text%3E%3C/svg%3E" />
   <style>
     :root { --bg:#0a0e1a; --panel:#0d1424; --border:rgba(255,255,255,0.08); --accent:#c9a961; --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290; }
@@ -13,90 +21,204 @@
     h1 { font-size: 28px; margin: 0 0 6px; color: var(--accent); }
     .lede { color: var(--text-mute); margin: 0 0 32px; font-size: 13px; }
     h2 { font-size: 18px; color: var(--accent); margin: 32px 0 8px; }
+    h3 { font-size: 15px; color: var(--text); margin: 18px 0 4px; }
     p, li { color: var(--text-dim); font-size: 14.5px; }
     ul { padding-left: 22px; }
     a { color: var(--accent); }
     strong { color: var(--text); }
     footer { margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-mute); font-size: 12px; }
     footer a { text-decoration: none; margin: 0 8px; }
-    .nav { margin-bottom: 24px; }
+    .nav { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .nav a { color: var(--text-dim); text-decoration: none; font-size: 12px; }
+    .langs { display: flex; gap: 8px; }
+    .langs a { padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; }
+    .langs a.active { color: var(--accent); border-color: var(--accent); }
     .callout { padding: 14px 18px; background: rgba(201,169,97,0.08); border: 1px solid rgba(201,169,97,0.25); border-radius: 8px; margin: 12px 0; }
+    .disclaimer { padding: 12px 16px; background: rgba(255,80,80,0.06); border: 1px solid rgba(255,80,80,0.25); border-radius: 8px; margin: 20px 0; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13.5px; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; color: var(--text-dim); }
+    th { background: rgba(201,169,97,0.06); color: var(--text); }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="nav"><a href="/">← r5tools.io</a></div>
+    <div class="nav">
+      <a href="/">&larr; r5tools.io</a>
+      <div class="langs">
+        <a href="/privacy.html" class="active">EN</a>
+        <a href="/ko/privacy.html">KR</a>
+        <a href="/ja/privacy.html">JP</a>
+        <a href="/pt/privacy.html">PT</a>
+        <a href="/es/privacy.html">ES</a>
+      </div>
+    </div>
+
     <h1>Privacy Policy</h1>
-    <p class="lede">Last updated: July 2026. Short version: <strong>we don't collect what we don't need</strong>. Long version below.</p>
+    <p class="lede">Version 2.0 &middot; Last updated: July 17, 2026 &middot; Effective: July 17, 2026</p>
 
-    <div class="callout"><strong>TL;DR:</strong> Your roster data + Discord webhooks stay private. We don't sell anything. Photos in Profile Studio never leave your device. Analytics are aggregate + IP-masked.</div>
+    <div class="disclaimer"><strong>Not legal advice.</strong> This document explains our practices in plain English. It is not a substitute for legal counsel. If you are relying on this policy for compliance with laws in your jurisdiction, please consult a licensed attorney.</div>
 
-    <h2>What we collect</h2>
+    <div class="callout"><strong>Short version:</strong> We collect the minimum data needed to run the tool. Photos in Profile Studio never leave your device. We do not sell your data. We honor GDPR, CCPA, and PIPA data-subject rights. To exercise any right, email <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a>.</div>
+
+    <h2>1. Who we are (Data Controller)</h2>
+    <p><strong>Evan Jones</strong>, operating r5tools.io as an independent developer.</p>
     <ul>
-      <li><strong>Access-code redemptions</strong> — which code you entered, when, from which tool. Stored in a per-code counter.</li>
-      <li><strong>IP address</strong> — masked to last-octet-x for analytics; unmasked briefly for rate limiting (auto-forgotten after 1 hour).</li>
-      <li><strong>Browser language</strong> — for auto-toggling UI language.</li>
-      <li><strong>Country</strong> — inferred from IP via Cloudflare's CF-IPCountry header, only for analytics ("how many R5s from KR are using this today").</li>
-      <li><strong>Roster data</strong> — CSVs you upload to Roster Extractor. Stored per <em>alliance signature</em> (SHA-256 hash of your R5 name + top 8 members), separate from IP. Never shared with other alliances.</li>
-      <li><strong>Discord webhook URLs</strong> you paste — stored server-side under your alliance access code so sibling tools can auto-sync. Never exposed to other alliances.</li>
-      <li><strong>Support request contents</strong> — the text you type in the 💡 Feature Request modal. Forwarded to Evan's Discord + stored server-side by reference ID.</li>
+      <li>Contact: <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a></li>
+      <li>Location: Alabama, United States</li>
+      <li>Site: <a href="https://r5tools.io">https://r5tools.io</a></li>
+    </ul>
+    <p>Under the EU General Data Protection Regulation (GDPR), Evan Jones is the "data controller" for personal data processed through r5tools.io. Under the California Consumer Privacy Act (CCPA), Evan Jones is the "business." Under Korea's Personal Information Protection Act (PIPA), Evan Jones is the "personal information handler."</p>
+    <p>We do not currently have an EU-based representative under GDPR Article 27 because our processing does not meet the threshold that requires one. If our EU user base grows past that threshold we will appoint one and update this page.</p>
+
+    <h2>2. What data we collect</h2>
+
+    <h3>Data you give us directly</h3>
+    <ul>
+      <li><strong>Email address</strong> (opt-in) &mdash; only if you join the waitlist, subscribe to updates, or use the email magic-link login path.</li>
+      <li><strong>Discord handle</strong> (opt-in) &mdash; only if you provide it on the waitlist form so we can invite you to the community server.</li>
+      <li><strong>Roster CSVs and coordinates</strong> &mdash; if you upload alliance rosters or base coordinates to the tools that need them. Stored per alliance signature (SHA-256 hash of your R5 name + top 8 members), separate from your IP address.</li>
+      <li><strong>Discord webhook URLs</strong> &mdash; if you paste one so a tool can auto-post exports to your alliance chat.</li>
+      <li><strong>Support request contents</strong> &mdash; anything you type in the Feature Request or Contact widgets.</li>
     </ul>
 
-    <h2>What we DON'T collect</h2>
+    <h3>Data collected automatically</h3>
     <ul>
-      <li>Real names</li>
-      <li>Email addresses (unless you explicitly use the email-magic-link login path)</li>
-      <li>Phone numbers</li>
-      <li>Payment card info — Stripe handles that; we only see the tier + code minted</li>
-      <li>Screenshots or photos beyond the specific tool you're using (Profile Studio processes 100% in your browser — never uploads)</li>
-      <li>Any in-game credentials (username, password, session token)</li>
+      <li><strong>IP address</strong> &mdash; used briefly for rate limiting (retained up to 1 hour); anonymized to the /24 network for longer analytics use.</li>
+      <li><strong>Browser language, country (from IP), user agent</strong> &mdash; for UI localization and aggregate analytics.</li>
+      <li><strong>Page views and event actions</strong> &mdash; through Plausible (cookieless) and Google Analytics 4 (with IP anonymization and Google Signals disabled).</li>
+      <li><strong>Referral attribution</strong> &mdash; if you arrived through a `?ref=CODE` link, the code is stored in a first-party cookie (see Section 5).</li>
     </ul>
 
-    <h2>Cookies</h2>
+    <h3>Data collected by our payment processor</h3>
     <ul>
-      <li><strong>lws_unlock_code</strong> — your access code, cross-subdomain on .r5tools.io, 90-day expiry. HttpOnly, Secure, SameSite=Lax.</li>
-      <li><strong>lws_email_session</strong> — HMAC-signed session token if you used email magic-link auth. 90-day expiry.</li>
-      <li>No third-party trackers, no Google Analytics, no Facebook Pixel, no advertising cookies. Ever.</li>
+      <li><strong>Stripe payment metadata</strong> &mdash; email, name on card, billing country, last-4 of card, and transaction amount. We never see or store your full card number. Stripe processes this data under its own privacy policy: <a href="https://stripe.com/privacy" target="_blank" rel="noopener">stripe.com/privacy</a>.</li>
     </ul>
 
-    <h2>localStorage</h2>
+    <h2>3. Why we collect it (Purposes) and Legal Basis</h2>
+    <table>
+      <thead><tr><th>Purpose</th><th>Data used</th><th>Legal basis (GDPR)</th></tr></thead>
+      <tbody>
+        <tr><td>Deliver the service you asked for (the tool works)</td><td>Roster data, coordinates, tool inputs</td><td>Contract (Art. 6(1)(b))</td></tr>
+        <tr><td>Send waitlist / update emails</td><td>Email, Discord handle</td><td>Consent (Art. 6(1)(a))</td></tr>
+        <tr><td>Drip campaign and referral attribution</td><td>Email, ref cookie</td><td>Consent + legitimate interest (Art. 6(1)(a)(f))</td></tr>
+        <tr><td>Process paid subscriptions and refunds</td><td>Stripe metadata</td><td>Contract (Art. 6(1)(b))</td></tr>
+        <tr><td>Aggregate analytics to improve the site</td><td>Pageviews, events, country, UA</td><td>Legitimate interest (Art. 6(1)(f))</td></tr>
+        <tr><td>Prevent abuse and rate limiting</td><td>IP address (short retention)</td><td>Legitimate interest (Art. 6(1)(f))</td></tr>
+        <tr><td>Tax and financial recordkeeping</td><td>Stripe transaction records</td><td>Legal obligation (Art. 6(1)(c))</td></tr>
+      </tbody>
+    </table>
+    <p>For visitors in the European Economic Area (EEA) and the United Kingdom, we rely on <strong>consent</strong> for optional cookies and email marketing, and <strong>legitimate interest</strong> for basic analytics and abuse prevention. You can withdraw consent at any time.</p>
+
+    <h2>4. How long we keep it (Retention)</h2>
     <ul>
-      <li><strong>lws_discord_webhook</strong> — your alliance's Discord webhook URL (per-tool origin).</li>
-      <li><strong>lws_support_requests</strong> — list of ref IDs of your support requests, so the widget can show status without needing an account.</li>
-      <li><strong>lws_alliance_roster</strong> — cached CSV of your latest extracted roster, for cross-tool carry-through.</li>
-      <li><strong>lws_current_warzone</strong> — your warzone selection.</li>
-      <li>You can clear all of this at any time via your browser's Clear Site Data option.</li>
+      <li><strong>Newsletter subscribers:</strong> retained until you unsubscribe, then a further 2 years for suppression-list purposes (so we do not accidentally re-email you).</li>
+      <li><strong>Stripe payment records:</strong> 7 years, to satisfy U.S. tax law.</li>
+      <li><strong>Analytics data:</strong> 26 months (Google Analytics 4 default). Plausible aggregates only, no raw retention.</li>
+      <li><strong>Roster / coordinates uploaded to tools:</strong> 90 days after last use, then automatically purged.</li>
+      <li><strong>IP address:</strong> 1 hour for rate limiting; anonymized after that.</li>
+      <li><strong>Support tickets:</strong> 3 years, then archived and stripped of identifiers.</li>
     </ul>
 
-    <h2>Sharing with third parties</h2>
+    <h2>5. Cookies and local storage</h2>
+    <p>We keep cookies to an absolute minimum. Plausible is fully cookieless. Google Analytics 4 is configured to store its `client_id` only in your browser's `localStorage`, not a cookie.</p>
+    <table>
+      <thead><tr><th>Name</th><th>Purpose</th><th>Duration</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td>lws_ref</td><td>First-touch referral attribution</td><td>30 days</td><td>First-party cookie</td></tr>
+        <tr><td>lws_variant</td><td>A/B test bucket assignment</td><td>60 days</td><td>First-party cookie</td></tr>
+        <tr><td>lws_unlock_code</td><td>Your access code (paid users)</td><td>90 days</td><td>First-party cookie, HttpOnly, Secure, SameSite=Lax</td></tr>
+        <tr><td>_ga (and related)</td><td>Google Analytics client ID</td><td>localStorage only</td><td>First-party, no cross-site tracking</td></tr>
+        <tr><td>lws_discord_webhook</td><td>Your saved Discord webhook</td><td>localStorage only</td><td>Never leaves your browser unless you upload</td></tr>
+        <tr><td>lws_alliance_roster</td><td>Cached roster CSV for cross-tool carry</td><td>localStorage only</td><td>Never leaves your browser</td></tr>
+      </tbody>
+    </table>
+    <p>You can clear all of the above at any time in your browser's Clear Site Data option. EEA and UK visitors will see a cookie banner to opt in or opt out of Google Analytics; opting out disables GA4 completely (Plausible continues because it is cookieless and gathers no personal data).</p>
+
+    <h2>6. Who we share data with (Third parties)</h2>
+    <p>We share the minimum data required for each vendor to do its job. We do not sell data. We do not share for advertising.</p>
     <ul>
-      <li><strong>Stripe</strong> — handles all payment processing. We never see card details.</li>
-      <li><strong>Anthropic (Claude API)</strong> — the KB Chat + Roster Extractor call the Claude API. Anthropic sees the KB context + your questions / roster frame images, subject to Anthropic's data usage policy (they don't train on API traffic by default).</li>
-      <li><strong>Cloudflare</strong> — DNS + edge for r5tools.io. Standard edge logs.</li>
-      <li><strong>Railway</strong> — hosting for our backend. Standard server logs.</li>
-      <li><strong>GitHub Pages</strong> — hosting for the static tools. Standard access logs.</li>
-      <li>That's it. No advertisers. No data brokers. No re-sale.</li>
+      <li><strong>Stripe</strong> &mdash; payment processing. <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+      <li><strong>Plausible Analytics</strong> &mdash; cookieless site analytics. EU-based, GDPR-compliant. <a href="https://plausible.io/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+      <li><strong>Google Analytics 4</strong> &mdash; pageview counts. IP anonymization is on and Google Signals is off. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+      <li><strong>SMTP provider</strong> &mdash; sends transactional and newsletter email (currently Postmark / Amazon SES depending on volume). Data shared: your email address and the message content.</li>
+      <li><strong>Railway</strong> &mdash; hosts our backend API. U.S.-based infrastructure. <a href="https://railway.app/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+      <li><strong>GitHub Pages</strong> &mdash; hosts our static site. <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+      <li><strong>Cloudflare</strong> &mdash; DNS and edge caching. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+      <li><strong>Anthropic (Claude API)</strong> &mdash; powers the KB Chat and Roster Extractor. Only your question or roster frame is sent, never your account info. <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+    </ul>
+    <p>We have Data Processing Agreements (DPAs) with Stripe, Plausible, and Anthropic. We are working on formal DPAs with the remaining vendors and will publish links here as they are executed.</p>
+
+    <h2>7. International data transfers</h2>
+    <p>Our hosting is primarily in the United States. If you are located in the EEA, UK, or South Korea, your data will be transferred to and processed in the U.S. We rely on the following safeguards:</p>
+    <ul>
+      <li><strong>EU-U.S. Data Privacy Framework</strong> where the vendor is self-certified (Stripe, Google, Cloudflare, GitHub).</li>
+      <li><strong>Standard Contractual Clauses (SCCs)</strong> under Commission Decision 2021/914 for other transfers.</li>
+      <li><strong>Additional technical measures</strong>: encryption in transit (TLS 1.2+), encryption at rest, and minimization of the personal data actually sent abroad.</li>
     </ul>
 
-    <h2>Your rights</h2>
+    <h2>8. Your rights</h2>
+
+    <h3>Everyone</h3>
+    <p>Regardless of where you live, you can email <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a> to ask us to access, correct, delete, or export your data. We respond within 30 days.</p>
+
+    <h3>If you are in the EEA, UK, or Switzerland (GDPR / UK GDPR)</h3>
     <ul>
-      <li>Delete your data: email <a href="mailto:hello@r5tools.io">hello@r5tools.io</a> with your alliance access code. We'll wipe the roster snapshots + webhook + support tickets tied to it within 7 days.</li>
-      <li>Export your data: same email. We'll send you a JSON dump of everything tied to your code.</li>
-      <li>Correct wrong data: use the tool's Edit UI (Roster Extractor lets you edit rows before saving).</li>
+      <li><strong>Right of access</strong> &mdash; ask what data we hold about you.</li>
+      <li><strong>Right to rectification</strong> &mdash; ask us to correct inaccurate data.</li>
+      <li><strong>Right to erasure</strong> ("right to be forgotten") &mdash; ask us to delete your data.</li>
+      <li><strong>Right to restrict processing</strong>.</li>
+      <li><strong>Right to data portability</strong> &mdash; get a JSON export of your data.</li>
+      <li><strong>Right to object</strong> to processing based on legitimate interest.</li>
+      <li><strong>Right to withdraw consent</strong> at any time (does not affect processing already done).</li>
+      <li><strong>Right to lodge a complaint</strong> with your local data protection authority.</li>
     </ul>
 
-    <h2>Children</h2>
-    <p>This tool is for players of a mobile military strategy game. It's not designed for children under 13. If we discover data belonging to a child under 13 we delete it.</p>
+    <h3>If you are in California (CCPA / CPRA)</h3>
+    <ul>
+      <li><strong>Right to know</strong> what personal information we collect, use, disclose, and (if applicable) sell.</li>
+      <li><strong>Right to delete</strong> personal information we hold about you.</li>
+      <li><strong>Right to correct</strong> inaccurate personal information.</li>
+      <li><strong>Right to opt out of "sale" or "sharing"</strong> &mdash; we do not sell or share for cross-context behavioral advertising, so there is nothing to opt out of, but the right exists.</li>
+      <li><strong>Right to limit use of sensitive personal information</strong> &mdash; we do not collect sensitive personal information as defined by the CPRA.</li>
+      <li><strong>Right to non-discrimination</strong> for exercising these rights.</li>
+    </ul>
 
-    <h2>Changes</h2>
-    <p>Material changes to this policy get in-tool notification 7 days before taking effect. Current version always at <a href="https://r5tools.io/privacy.html">r5tools.io/privacy.html</a>.</p>
+    <h3>If you are in South Korea (PIPA)</h3>
+    <ul>
+      <li><strong>Right to be informed</strong> about processing of your personal information.</li>
+      <li><strong>Right to access</strong> your personal information.</li>
+      <li><strong>Right to correct or delete</strong>.</li>
+      <li><strong>Right to suspend processing</strong>.</li>
+      <li><strong>Right to compensation</strong> for damages resulting from a violation.</li>
+      <li>Our designated personal information protection officer is Evan Jones (contact above).</li>
+    </ul>
 
-    <h2>Contact</h2>
-    <p><a href="mailto:hello@r5tools.io">hello@r5tools.io</a> — usually answered within a few hours.</p>
+    <p>To exercise any right, email <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a>. We may ask you to verify your identity before we act (typically by confirming the email address linked to your account or the access code you used).</p>
+
+    <h2>9. Children</h2>
+    <p>r5tools.io is a companion tool for a mobile military strategy game. It is not directed at children under 13 (or under 14 in Korea, or under 16 in some EEA member states). We do not knowingly collect personal information from children. If you believe a child has provided us information, email <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a> and we will delete it.</p>
+
+    <h2>10. Security</h2>
+    <ul>
+      <li>All traffic between your browser and our servers uses TLS 1.2 or higher.</li>
+      <li>Access codes are stored as hashes, not plaintext.</li>
+      <li>Roster uploads are stored with per-alliance signatures separate from your IP address.</li>
+      <li>Photos processed in Profile Studio never leave your device.</li>
+      <li>We publish a bug bounty policy at <a href="/trust.html">/trust.html</a> and welcome responsible disclosure.</li>
+    </ul>
+    <p>No system is perfectly secure. If we discover a breach involving your personal data, we will notify you within 72 hours as required by GDPR Article 33 (and equivalent laws in your jurisdiction).</p>
+
+    <h2>11. Automated decision-making</h2>
+    <p>We do not use your personal data for automated decision-making that produces legal or similarly significant effects. The AI features (KB Chat, Roster Extractor) generate text or extract data but do not make decisions about you.</p>
+
+    <h2>12. Changes to this policy</h2>
+    <p>We may update this policy. For material changes we will notify you at least 30 days in advance by email (if we have your address) and by an in-tool banner. The current version is always at <a href="https://r5tools.io/privacy.html">r5tools.io/privacy.html</a>. Older versions are kept in our Git history and available on request.</p>
+
+    <h2>13. Contact</h2>
+    <p>Questions, requests, or complaints: <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a>. Usual response time: within a few days.</p>
 
     <footer>
-      <a href="/">Home</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:hello@r5tools.io">Contact</a>
+      <a href="/">Home</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/refund.html">Refunds</a> &middot; <a href="/trust.html">Trust</a> &middot; <a href="mailto:evanjones@mdr.net">Contact</a>
     </footer>
   </div>
 </body>

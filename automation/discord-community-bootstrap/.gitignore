@@ -1,0 +1,13 @@
+# Runtime state — merged by all bots. Contains guild IDs + message IDs +
+# verification queue state. Never commit.
+bot-state.json
+
+# Log output if run under nohup / tmux with a redirect
+logs/
+*.log
+
+# Local venv
+.venv/
+venv/
+__pycache__/
+*.pyc

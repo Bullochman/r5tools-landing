@@ -1,0 +1,231 @@
+{
+  "total": 689,
+  "orphans_count": 0,
+  "sample_stats": [
+    {
+      "page": "buildings/divine-tree.html",
+      "in": 2,
+      "out": 17,
+      "ext": 49
+    },
+    {
+      "page": "buildings/lighthouse.html",
+      "in": 13,
+      "out": 17,
+      "ext": 58
+    },
+    {
+      "page": "buildings/radar.html",
+      "in": 1,
+      "out": 17,
+      "ext": 8
+    },
+    {
+      "page": "events/new-year.html",
+      "in": 4,
+      "out": 16,
+      "ext": 60
+    },
+    {
+      "page": "glossary/alliance-duel.html",
+      "in": 6,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/alliance-help.html",
+      "in": 7,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/bomber.html",
+      "in": 1,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/cobra-barrier.html",
+      "in": 2,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/copper.html",
+      "in": 3,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/frontline-breakthrough.html",
+      "in": 3,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/generals-trial.html",
+      "in": 2,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/home-server.html",
+      "in": 6,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/koubutai.html",
+      "in": 1,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/meteorite-iron-war.html",
+      "in": 5,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/oni-virus.html",
+      "in": 4,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/pull.html",
+      "in": 2,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/r2.html",
+      "in": 27,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/radar-training.html",
+      "in": 5,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/snipe.html",
+      "in": 1,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/tank.html",
+      "in": 12,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "glossary/warzone-duel.html",
+      "in": 8,
+      "out": 17,
+      "ext": 7
+    },
+    {
+      "page": "guides/legendary-recruitment-strategy.html",
+      "in": 18,
+      "out": 18,
+      "ext": 12
+    },
+    {
+      "page": "heroes/fiona.html",
+      "in": 8,
+      "out": 19,
+      "ext": 49
+    },
+    {
+      "page": "warzones/warzone-1016.html",
+      "in": 1,
+      "out": 22,
+      "ext": 10
+    },
+    {
+      "page": "warzones/warzone-1025.html",
+      "in": 1,
+      "out": 22,
+      "ext": 10
+    },
+    {
+      "page": "warzones/warzone-1048.html",
+      "in": 1,
+      "out": 22,
+      "ext": 10
+    },
+    {
+      "page": "warzones/warzone-1062.html",
+      "in": 1,
+      "out": 22,
+      "ext": 10
+    },
+    {
+      "page": "warzones/warzone-1064.html",
+      "in": 1,
+      "out": 22,
+      "ext": 10
+    },
+    {
+      "page": "warzones/warzone-1072.html",
+      "in": 1,
+      "out": 22,
+      "ext": 10
+    },
+    {
+      "page": "warzones/warzone-1073.html",
+      "in": 1,
+      "out": 22,
+      "ext": 10
+    }
+  ],
+  "orphans_first_20": [],
+  "by_category": {
+    "buildings": {
+      "pages": 29,
+      "in_total": 201,
+      "out_total": 519,
+      "orphans": 0
+    },
+    "events": {
+      "pages": 42,
+      "in_total": 292,
+      "out_total": 712,
+      "orphans": 0
+    },
+    "glossary": {
+      "pages": 408,
+      "in_total": 2871,
+      "out_total": 7358,
+      "orphans": 0
+    },
+    "guides": {
+      "pages": 49,
+      "in_total": 341,
+      "out_total": 929,
+      "orphans": 0
+    },
+    "heroes": {
+      "pages": 32,
+      "in_total": 253,
+      "out_total": 637,
+      "orphans": 0
+    },
+    "seasons": {
+      "pages": 8,
+      "in_total": 54,
+      "out_total": 142,
+      "orphans": 0
+    },
+    "warzones": {
+      "pages": 121,
+      "in_total": 845,
+      "out_total": 2776,
+      "orphans": 0
+    }
+  }
+}

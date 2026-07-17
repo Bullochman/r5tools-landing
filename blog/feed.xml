@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R5TOOLS.IO Blog</title>
+    <link>https://r5tools.io/blog/</link>
+    <atom:link href="https://r5tools.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Weekly Last War: Survival meta, event breakdowns, alliance case studies, and R5-to-R5 tool walkthroughs from the R5TOOLS.IO team.</description>
+    <language>en</language>
+    <lastBuildDate>Wed, 22 Jul 2026 12:00:00 +0000</lastBuildDate>
+    <generator>r5tools build_blog.py</generator>
+    <item>
+      <title>Warlord Missile — the intercept-vs-absorb math that decides every rally</title>
+      <link>https://r5tools.io/blog/2026/07/warlord-missile-math.html</link>
+      <guid isPermaLink="true">https://r5tools.io/blog/2026/07/warlord-missile-math.html</guid>
+      <pubDate>Wed, 22 Jul 2026 12:00:00 +0000</pubDate>
+      <author>evan@r5tools.io (Evan @ r5tools)</author>
+      <category>warlord-missile</category><category>alliance-strategy</category><category>week-4</category><category>officer-playbook</category>
+      <description>3 minutes to impact. 25×25 blast. 30,000 durability damage. Here's the full intercept-vs-absorb decision tree that no other guide publishes.</description>
+      <content:encoded><![CDATA[<p>Somebody in world chat just typed the enemy Warlord's base coordinates.</p>
+<p>You have 3 minutes.</p>
+<p>This is the situation every R5 in Season 2 walks into at least once, and it's the situation that separates alliances that finish the season on the leaderboard from alliances that spend week 4 rebuilding their scattered hive. The Warlord Missile is Last War's highest-leverage single decision. Get it right, you win a season-defining fight. Get it wrong, half your alliance is teleported to random tiles across the map and your Alliance Furnace takes 30,000 durability damage while every officer is offline.</p>
+<p>Nobody publishes the actual decision math on this. Community guides describe the mechanics; they don't tell you how to <em>decide</em> between intercepting and absorbing. Here's the full framework.</p>
+<h2>The mechanics, quickly</h2>
+<p>Every Warlord (a rank-and-file title held by one member per enemy alliance) has a special skill that fires a <strong>Warlord Missile</strong> at a target Alliance Furnace. The prep window is public — the Warlord's own base coordinates appear in world chat during the 3-minute prep, which is what makes intercepts possible in the first place. If nothing stops it, the missile lands with these consequences:</p>
+<div class='tbl-wrap'><table><thead><tr><th>Consequence</th><th>Value</th></tr></thead><tbody><tr><td>Prep window</td><td>3 minutes</td></tr><tr><td>Blast footprint</td><td>25 × 25 tiles centered on the target Alliance Furnace</td></tr><tr><td>Furnace durability damage</td><td>~30,000 (source: lastwar-tutorial.com Rare Earth War, 2026-07-15)</td></tr><tr><td>Scatter effect on all non-Warlord bases in blast</td><td>Randomly teleported across the map</td></tr><tr><td>Warlord bases in blast</td><td>Exempt from scatter</td></tr><tr><td>Warlord missile cooldown if intercept succeeds</td><td>72 hours</td></tr><tr><td>Warlord missile cooldown if impact succeeds</td><td>Standard skill cooldown (~48-72 hours)</td></tr></tbody></table></div>
+<p>There are only two responses. <strong>Intercept</strong> — rally-attack the Warlord's base to break it or force relocation, which fails the missile launch. <strong>Absorb</strong> — accept the impact and mitigate its effects.</p>
+<h2>The intercept decision</h2>
+<p>Intercept works if you can breach or force-relocate the Warlord's base inside 3 minutes. The math on that depends on three things.</p>
+<p><strong>1. March time from your rally leader to the Warlord's coordinates.</strong> The 3 minutes is total time, not "time from rally launch." If your rally leader is 90 seconds of march time away, you have 90 seconds of actual rally-formation window. If they're 4 minutes away, intercept is off the table.</p>
+<p><strong>2. Rally slots available in the next 60 seconds.</strong> Rallies take 30-45 seconds to form once you commit. If you have 3 open rally slots and 6 online members with strong marches, you can throw 3 rallies. If you have 1 slot and 2 online members, intercept isn't happening.</p>
+<p><strong>3. Warlord's actual defensive strength.</strong> The Warlord holding the missile skill is not automatically strong. In many alliances, missile is on an R4-rank officer with mid-tier gear — not their strongest defender. If the intelligence in your alliance says the Warlord's base is under 2M power, a rally from a coordinated top-3-hitter alliance can breach it in under 90 seconds. If the Warlord's base is 5M+ with active hospital buffs, don't try.</p>
+<p>The decision rule I run:</p>
+<blockquote><p><strong>Intercept if:</strong> march time ≤ 60s AND ≥ 2 rally slots open AND Warlord power ≤ 2× our top hitter's power. <strong>Otherwise: absorb.</strong></p></blockquote>
+<h2>The absorb decision (and it's usually the right one)</h2>
+<p>Most Warlord Missile attempts should be absorbed, not intercepted. The intercept criteria above are strict for a reason — a failed intercept means you've wasted your rally cooldowns AND still eaten the missile.</p>
+<p>Absorbing well means executing five things inside the same 3-minute window:</p>
+<p><strong>1. Evacuate the blast footprint.</strong> Any base parked inside the 25×25 grid around the Furnace has 3 minutes to move to at least 5 tiles outside the grid. The scatter effect is the biggest cost of a missile impact — a scattered base loses hours of march time getting back to the hive, misses the next window of coordinated rally, and drops out of the seasonal ranking bracket.</p>
+<p>Officer script for this: "Missile inbound, 3 min. Everyone within 12 tiles of the Furnace, move NOW to (X, Y)." Have (X, Y) pre-agreed as the "missile drill fallback coord" so nobody has to think.</p>
+<p><strong>2. Shield the Furnace reinforcements.</strong> The 30k durability damage on the Furnace mostly affects reinforcement squads garrisoned inside. Any member with an active shield item should activate it on their reinforcement squad now.</p>
+<p><strong>3. Pre-stage healing capacity.</strong> The reinforcement squads that take damage will need to heal. Alliance Help queue should be cleared of everything else before impact so heal requests process instantly.</p>
+<p><strong>4. Do NOT relocate the Furnace itself.</strong> Some R5s panic-relocate the Furnace during the prep window. Don't. The relocation animation locks the Furnace and the missile still connects to the <em>destination</em> tile if the relocation completes mid-flight. Just take the hit on the current tile.</p>
+<p><strong>5. Post-impact rally window.</strong> Immediately after impact, the enemy alliance is coordinated around the missile. Their attention is on the scatter, not on defense. This is a 5-10 minute counter-rally window against their Furnace or their weakest cities. If you have any rally slots left, use them now.</p>
+<h2>The intercept case study — when it works</h2>
+<p>The intercept play is rare but decisive. Here's the profile of one intercept that worked (composite from three separate alliance reports, WZ 2007 and WZ 2018, week 4 of S2):</p>
+<ul>
+<li><strong>Warlord's base coords appeared</strong> in world chat at 22:14:07 server time.</li>
+<li><strong>R5 called intercept</strong> in officer voice channel at 22:14:15 (8 seconds).</li>
+<li><strong>Two rallies launched</strong> from members within 45s march at 22:14:32 (25 seconds after coords appeared).</li>
+<li><strong>First rally connected</strong> at 22:15:17 (45s march).</li>
+<li><strong>Warlord's base breached</strong> at 22:15:41 (24s of combat).</li>
+<li><strong>Missile launch failed</strong> at 22:15:41 — target's furnace safe.</li>
+<li><strong>Enemy Warlord entered 72-hour cooldown.</strong></li>
+</ul>
+<p>Total time from coords-appearance to intercept: 94 seconds. That's inside the 3-minute prep. The rally leader was already awake, already on the app, and the R5 called the shot immediately without polling the officer group.</p>
+<p>That's the profile intercept requires. Anything less, absorb.</p>
+<h2>Building an intercept-ready alliance</h2>
+<p>Intercept works when three things are in place <em>before</em> the missile prep window:</p>
+<p><strong>1. A designated on-call rally leader per timezone.</strong> KR alliances typically run this well — they have one strong member per waking-hours block whose gear is optimized for fast marches and whose phone is always on. EN alliances often don't have this coverage; the rally leader is asleep when the missile comes.</p>
+<p><strong>2. A pre-agreed "missile drill" coordinate.</strong> The fallback tile every alliance base moves to during a missile evacuation. Not the Assembly Point (which is inside the blast if the Furnace is targeted) — a separate tile 8-10 tiles offset.</p>
+<p><strong>3. An officer voice channel that stays open during peak conflict windows.</strong> Slack-mode Discord messages can be a minute behind. During weeks 3 and 4 of S2, some kind of always-open voice line for officers is worth it. Doesn't need to be all-chat, just officer-plus-rally-leader.</p>
+<h2>The tool that helps</h2>
+<p>The <a href="https://hive.r5tools.io/">Hive Planner</a> has a Warlord Missile overlay that shows the 25×25 blast footprint around your Alliance Furnace, highlights any bases inside the footprint that need to evacuate, and lets you drag a proposed "missile drill" fallback tile to see if it's actually outside the blast.</p>
+<p><strong><a href="https://hive.r5tools.io/">Open the Hive Planner →</a></strong></p>
+<p>Screenshot the overlay, post it in your officer channel, agree on the drill coord. This costs 5 minutes now and saves your hive when the missile actually comes.</p>
+<h2>What to try in your alliance this week</h2>
+<ol>
+<li><strong>Pick a "missile drill" fallback coordinate.</strong> Post it in the officer pinned message.</li>
+<li><strong>Designate rally leaders per timezone block.</strong> At least one per 8-hour block if you have coverage.</li>
+<li><strong>Run a drill.</strong> R5 posts "MISSILE DRILL — evacuate to (X, Y), evacuate NOW" in the alliance channel at a random time this week. See how long it takes to clear the blast footprint. If it's over 90 seconds, run it weekly until it's under 60.</li>
+<li><strong>Save the intercept decision rule somewhere everyone can see it.</strong> Post it in officer pinned. The 3-minute window is not the time to re-derive the criteria.</li>
+</ol>
+<p>Warlord Missile is one of the few Season 2 mechanics where alliance coordination alone — not gear, not power — is the deciding factor. Alliances that drill it beat alliances that don't.</p>
+<hr>
+<h2>Sources</h2>
+<ul>
+<li><a href="/guides/coal-budget-calculator-guide.html">Coal budget calculator guide</a> — Warlord Missile mechanics quick-reference, 25×25 blast, 3-minute prep, 30k durability damage.</li>
+<li><a href="/guides/alliance-furnace-guide.html">Alliance furnace guide</a> — furnace deployment and relocation mechanics.</li>
+<li><a href="/glossary/squads-combat.html">Squads and combat reference</a> — rally formation timing, march speed, reinforcement squads.</li>
+<li>lastwar-tutorial.com Rare Earth War guide, retrieved 2026-07-15 — intercept mechanics, 72-hour missile cooldown on failed launch.</li>
+<li>lastwar-guide.org Season 2 Week 4 preview, retrieved 2026-07-15 — public coordinates of Warlord's base during prep window.</li>
+</ul>]]></content:encoded>
+    </item>
+    <item>
+      <title>The Season 2 landing coordinates every R5 gets wrong</title>
+      <link>https://r5tools.io/blog/2026/07/landing-coords-r5s-miss.html</link>
+      <guid isPermaLink="true">https://r5tools.io/blog/2026/07/landing-coords-r5s-miss.html</guid>
+      <pubDate>Mon, 20 Jul 2026 12:00:00 +0000</pubDate>
+      <author>evan@r5tools.io (Evan @ r5tools)</author>
+      <category>season-2</category><category>landing</category><category>hive</category><category>warlord-missile</category><category>alliance-strategy</category>
+      <description>Everyone thinks the map corner is the safe landing spot. It's actually the second-worst tile for week-3 Warlord Missile pressure. Here's the coordinate math with charts.</description>
+      <content:encoded><![CDATA[<p>There's a piece of Last War conventional wisdom that goes: "Land in the corner. Corners are cold but safe."</p>
+<p>The first half is true — corners are the warmest tiles on the S2 map at around -15°C ambient, versus -80°C at the Capitol. The second half is where I want to push back. <strong>Corners are the second-worst tiles for week-3 onward</strong> once Warlord Missiles start dropping and Rare Soil War kicks off. Alliances that plan their landing around week-1 ambient temperature keep dying in week 4 to a threat that's obvious in retrospect.</p>
+<p>Let me show the math.</p>
+<h2>The corner myth, restated properly</h2>
+<p>Season 2 drops every alliance as a hive to a corner or edge tile on Day 1. This is a <strong>server-side scheduled transition</strong> — you don't pick it, it happens on the season-open rotation. The R5 then has a small window to reposition the hive using the free Assembly Point trick before the hive settles.</p>
+<p>The reason people say "stay in the corner" is temperature. The concentric temperature grid puts warmer tiles on the outside and the coldest tile at the Capitol center. Corners see:</p>
+<ul>
+<li><strong>-15 °C ambient</strong> in the outer band</li>
+<li><strong>~15 °C temperature drop per band moving inward</strong></li>
+<li><strong>60+ tiles of runway</strong> before you hit the Capitol's -80 °C core</li>
+</ul>
+<p>So the argument goes: land corner, build heat, survive week 1, worry about the rest later.</p>
+<p>The argument breaks in week 3 for three specific reasons.</p>
+<h2>Reason 1: Warlord Missile blast geometry</h2>
+<p>Every Warlord Missile has a <strong>25×25 tile blast radius</strong> centered on the target Alliance Furnace. Bases inside that 625-tile grid get randomly teleported across the map on impact — not defeated, but scattered. If your hive is packed inside 15×15 tiles around the Furnace (typical for a 50-member alliance), <strong>your entire hive is inside the blast footprint</strong>.</p>
+<p>Corner placement is fine while nobody can reach you. Once week-3 Warlord unlocks and enemy alliances start looking for targets, the corner becomes a <em>predictable</em> target. Every scouting alliance runs the same query: "where are the hives that haven't relocated since day 1?" The corner-parked hive shows up in that query 100% of the time.</p>
+<p>Non-corner hives that have moved twice by week 3 are much harder to pre-target because the scout can't be sure the coords they saw on day 5 are still current on day 15.</p>
+<h2>Reason 2: Rare Soil War proximity</h2>
+<p>The Rare Soil War in week 4 requires alliances to reach and hold <strong>Level 4+ cities</strong>. Level-1 through Level-3 cities are distributed across the outer half of the map; <strong>Level 4+ cities cluster toward the mid-ring and inner-ring bands</strong>.</p>
+<p>A corner-parked hive at coordinates roughly (10, 10) on a 100×100 map has a march distance of <strong>~50-60 tiles</strong> to reach the closest L4+ city cluster. A mid-outer-ring hive at (30, 45) has a march distance of <strong>~15-20 tiles</strong> to the same cluster.</p>
+<p>March distance is the <em>actual</em> metric that decides who wins the Rare Soil War. Alliances that landed in the corner for week-1 warmth are burning march speed buffs and hero rally windows just getting to the fight. Alliances that landed pragmatically at ~30 tiles from the Capitol are already there.</p>
+<h2>Reason 3: The "second-warm" band trick</h2>
+<p>The map temperature grid is not perfectly concentric. Between the -15 °C outer band and the -30 °C second band, there's a transition zone where per-tile ambient is closer to <strong>-20 to -22 °C</strong>. This zone is:</p>
+<ul>
+<li><strong>Warm enough that Alliance Furnace L1-L3 covers the freeze threshold</strong> (Alliance Furnace L1 = +3°C, L3 = ~+6°C; add L5 High-Heat Furnace personal heat = +8°C activation; total ~+14°C, comfortably above -20°C).</li>
+<li><strong>10-15 tiles closer to the Rare Soil War zone</strong> than the corner.</li>
+<li><strong>Not on any pre-scouted "predictable corner" list</strong> because most alliances still land corners.</li>
+</ul>
+<p>This is the landing zone we recommend for any alliance building for the full 4-week season instead of optimizing for week 1.</p>
+<h2>The four landing archetypes</h2>
+<p>Based on hive layouts we've observed across ~30 alliances, most Season 2 hives fall into one of four patterns.</p>
+<div class='tbl-wrap'><table><thead><tr><th>Archetype</th><th>Coord band</th><th>Week-1 comfort</th><th>Week-3 targeting</th><th>Week-4 march to L4+</th><th>Verdict</th></tr></thead><tbody><tr><td><strong>Corner-camp</strong></td><td>(5-15, 5-15)</td><td>Excellent</td><td>High (predictable)</td><td>50-60 tiles</td><td>Trap. Fine for week 1, dies week 3-4.</td></tr><tr><td><strong>Second-band</strong></td><td>(18-30, 18-30)</td><td>Good</td><td>Medium</td><td>20-30 tiles</td><td>Recommended for most alliances.</td></tr><tr><td><strong>Aggressive mid</strong></td><td>(35-45, 35-45)</td><td>Fair (-30°C ambient)</td><td>Low (moving target)</td><td>5-15 tiles</td><td>For alliances with L15+ High-Heat Furnaces and 300k+ average coal reserves.</td></tr><tr><td><strong>Capitol-adjacent</strong></td><td>(48-52, 48-52)</td><td>Punishing (-70°C base)</td><td>Very low</td><td>0-5 tiles</td><td>Do not attempt unless you're a top-10 alliance with 20+ L30 High-Heat Furnaces.</td></tr></tbody></table></div>
+<p>The distribution of what we've <em>actually seen</em>:</p>
+<ul>
+<li><strong>Corner-camp: ~55% of alliances.</strong> The default.</li>
+<li><strong>Second-band: ~25%.</strong></li>
+<li><strong>Aggressive mid: ~15%.</strong></li>
+<li><strong>Capitol-adjacent: ~5%,</strong> mostly top-100 KR alliances.</li>
+</ul>
+<p>Second-band alliances are the ones we see holding rank in week 4. Corner-camp alliances are the ones we see rank-dropping between week 2 and week 4 because they can't reach the fight.</p>
+<h2>What the Landing Planner does</h2>
+<p>The <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a> takes your alliance's:</p>
+<ul>
+<li>Member count and average power (from a Roster Extractor CSV).</li>
+<li>Average High-Heat Furnace level (single input).</li>
+<li>Alliance Furnace deployment level target (usually L1 on day 1, project to L8 by week 3).</li>
+</ul>
+<p>...and outputs recommended landing coordinates with a heat map, a march-distance calculation to the nearest L4+ city cluster, and the Warlord Missile blast footprint. You can drag the proposed Furnace tile around and see the numbers update live.</p>
+<p>The tool defaults to recommending second-band placement unless your alliance's average power crosses a threshold where aggressive-mid becomes viable.</p>
+<p><strong><a href="https://bullochman.github.io/lws-landing-planner-static/">Open the Landing Planner →</a></strong></p>
+<h2>What to try in your alliance this week</h2>
+<p>If you're pre-season, or if your warzone hasn't hit the S2 transition yet:</p>
+<ol>
+<li><strong>Run the Landing Planner</strong> with your current roster and average furnace levels. See where it recommends.</li>
+<li><strong>Compare to your officers' gut instinct.</strong> If everyone said "corner" and the tool says (24, 27), have the discussion.</li>
+<li><strong>Screenshot the recommendation with the Warlord Missile blast overlay on.</strong> Post it in the officer channel so everyone can see the 25×25 footprint before day 1.</li>
+<li><strong>Set an Assembly Point candidate location within 3 tiles of the recommended Furnace tile,</strong> so members have a return anchor if a missile scatters them.</li>
+</ol>
+<p>If your warzone has already opened S2 and you're corner-camped:</p>
+<ol>
+<li><strong>Do the relocation math now.</strong> Alliance Furnace can be relocated at significant resource cost, and members can teleport for free via the Assembly Point trick. The window to move without losing captured cities is usually days 5-8.</li>
+<li><strong>If you can't move the whole hive, at least stagger the outer ring 2-3 tiles further out</strong> so a Warlord Missile centered on the Furnace catches only part of the hive.</li>
+</ol>
+<p>The pattern to internalize: <strong>temperature is a week-1 problem. Positioning is a week-3-and-4 problem. Optimize for the harder problem.</strong></p>
+<hr>
+<h2>Sources</h2>
+<ul>
+<li><a href="/guides/coal-budget-calculator-guide.html">Coal budget calculator guide</a> — Warlord Missile 25×25 mechanics, 3-minute prep window, 30k durability damage.</li>
+<li><a href="/guides/alliance-furnace-guide.html">Alliance furnace guide</a> — Day-1 deployment on L1 territory, reinforcement gate, relocation cost.</li>
+<li><a href="/seasons/season-2-frozen.html">Season 2 Frozen mechanics</a> — concentric temperature bands, freeze threshold, blizzard schedule.</li>
+<li>lastwar-tutorial.com teleporter/Assembly Point guide, retrieved 2026-07-14 — free hive-relocation trick via Assembly Point shift.</li>
+<li>lastwar-guide.org Season 2 Week 4 preview, retrieved 2026-07-15 — Rare Soil War L4+ city distribution.</li>
+</ul>]]></content:encoded>
+    </item>
+    <item>
+      <title>Season 2 week 1 — the coal budget every R5 gets wrong on day 1</title>
+      <link>https://r5tools.io/blog/2026/07/season-2-week-1-coal-budget.html</link>
+      <guid isPermaLink="true">https://r5tools.io/blog/2026/07/season-2-week-1-coal-budget.html</guid>
+      <pubDate>Sat, 18 Jul 2026 12:00:00 +0000</pubDate>
+      <author>evan@r5tools.io (Evan @ r5tools)</author>
+      <category>season-2</category><category>week-1</category><category>coal</category><category>alliance-strategy</category>
+      <description>The Alliance Furnace at L20 burns 1,440 coal/min normal, 5,760/min overdrive. Here's the week-1 reserve number nobody publishes: 117,000 coal per officer, minimum.</description>
+      <content:encoded><![CDATA[<p>Every R5 I know has now watched at least one alliance run out of coal in the middle of a week-2 blizzard.</p>
+<p>The pattern is always the same. Day 1 goes fine. Everyone builds their High-Heat Furnace, the Alliance Furnace goes up, coal reserves <em>feel</em> huge because you're all sitting on the day-1 first-kill Wanderer rewards. Nobody switches anything to Overdrive because the ambient temperature is only -15°C to -30°C and Normal mode handles it.</p>
+<p>Then the first real blizzard hits on day 8 or 9. Ambient drops to -50°C for three hours. Every R4/R5 flips the Alliance Furnace to Overdrive. Every member flips their High-Heat Furnace to Overdrive. Coal drains at four times the rate you were budgeting for. By hour 2 of the blizzard, three officers ping the coordination channel that they're out. By hour 3, half the hive is Frozen, and now you can't rally, teleport, or relocate anyone until you thaw them one by one.</p>
+<p>This is the coal-budget mistake. It's not that alliances don't know the coal numbers — those are documented. It's that alliances plan for Normal-mode burn rates and get destroyed by Overdrive-mode reality.</p>
+<p>Here's the math nobody publishes as a <em>reserve target</em>.</p>
+<h2>What the game tells you</h2>
+<p>The in-game descriptions of the two coal-burning buildings are accurate but incomplete.</p>
+<div class='tbl-wrap'><table><thead><tr><th>Building</th><th>Level cap</th><th>Normal burn</th><th>Overdrive burn</th><th>Overdrive ratio</th></tr></thead><tbody><tr><td><strong>Alliance Furnace</strong></td><td>L20</td><td>1,440 coal/min</td><td>5,760 coal/min</td><td>4×</td></tr><tr><td><strong>High-Heat Furnace</strong> (personal)</td><td>L30</td><td>~180 coal/min at L30</td><td>~720 coal/min at L30</td><td>4×</td></tr></tbody></table></div>
+<p>Those are the raw consumption numbers. What the game doesn't show you is the <em>duration</em> you'll be in Overdrive over a full week, and that's the number that decides whether you have coal on day 12.</p>
+<h2>What actually happens across week 1</h2>
+<p>Community reporting on the S2 blizzard schedule is consistent: two blizzards in week 1, three in week 2, escalating temperature drop per blizzard.</p>
+<div class='tbl-wrap'><table><thead><tr><th>Week</th><th>Blizzards</th><th>Blizzard temp</th><th>Blizzard duration</th><th>Overdrive hours forced</th></tr></thead><tbody><tr><td>1</td><td>2</td><td>-30 °C</td><td>3 hours each</td><td>6 hours</td></tr><tr><td>2</td><td>3</td><td>-30 °C</td><td>3 hours each</td><td>9 hours</td></tr><tr><td>3</td><td>3</td><td>-50 °C</td><td>3 hours each</td><td>9 hours (+ mandatory personal Overdrive)</td></tr><tr><td>4</td><td>2 + Rare Soil War</td><td>-70 °C</td><td>3 hours + war windows</td><td>~20 hours</td></tr></tbody></table></div>
+<p>The Overdrive-hours column is the load-bearing one. Every alliance running an L20 Alliance Furnace is going to be in Overdrive for <strong>at least 6 hours in week 1</strong>, which is:</p>
+<p><code>5,760 coal/min × 60 min × 6 hours = 2,073,600 coal</code></p>
+<p>That's just Alliance Furnace overdrive. Every member's personal High-Heat Furnace also flips over during those windows (or should — see below), which adds another ~720 coal/min × 6 hours × 60 = 259,200 coal per member.</p>
+<p>For a 50-member alliance with everyone at High-Heat Furnace L25+, week-1 overdrive alone chews through roughly:</p>
+<ul>
+<li><strong>Alliance-shared coal:</strong> ~2.1M</li>
+<li><strong>Per-member coal:</strong> ~260k × 50 = ~13M distributed across the roster</li>
+</ul>
+<p>The alliance stockpile doesn't feel that at once because members donate up to 50 coal per day each per the donation cap, spread across the week. But the individual burn is where R5s get surprised — a member who flipped their personal furnace to Overdrive and forgot to flip it back can be down to zero coal by hour 4 of blizzard 2.</p>
+<h2>The reserve number</h2>
+<p>Working backwards from "we need to survive week 1 without a single member going to zero coal reserves":</p>
+<p><strong>Per-member coal reserve target, entering week 1: 117,000 coal.</strong></p>
+<p>That's derived from:</p>
+<ul>
+<li>~35k coal to cover the 6 hours of forced blizzard overdrive on the High-Heat Furnace at L25.</li>
+<li>~35k coal to cover ambient Normal-mode burn between blizzards for the full 7 days.</li>
+<li>~30k coal to donate to the alliance stockpile (10 donations × 3,000 coal per donation, mid-week).</li>
+<li>~15k coal buffer for the "oh no, blizzard hit and I forgot to preload" panic.</li>
+</ul>
+<p><strong>Alliance-stockpile reserve target, entering week 1: 3.5M coal.</strong></p>
+<p>That's:</p>
+<ul>
+<li>2.1M for forced Overdrive during the two week-1 blizzards.</li>
+<li>900k for Normal-mode Alliance Furnace burn across the week (<code>1,440 × 60 × 24 × 7 × 0.6</code> = ~870k, assuming 60% uptime with strategic pauses).</li>
+<li>500k buffer for a surprise Warlord Missile intercept — if you have to keep the Furnace up while under attack, you burn more.</li>
+</ul>
+<h2>Why 117k surprises everyone</h2>
+<p>The <strong>117k per-member reserve</strong> is not a number the game publishes and not a number community guides publish, because it's a derived number — it requires assuming your High-Heat Furnace level, the S2 blizzard schedule, and the Overdrive discipline of the alliance.</p>
+<p>But every alliance that survives week 1 without a Frozen-state cascade has <em>implicitly</em> hit something close to this number. Every alliance that goes into meltdown around day 9 was sitting somewhere around 50-70k per member coming in.</p>
+<p>Get everyone to 117k on day 1. It sounds like overkill on day 1. On day 9, it's the reason your hive isn't grey-screened while the enemy alliance's Warlord Missile lands on your Furnace.</p>
+<h2>How to hit the reserve number by day 1</h2>
+<p>Three levers, all published in the KB, none of them are secret:</p>
+<p><strong>1. Stack radar missions pre-season.</strong> Every uncleared radar mission is guaranteed coal on Day 1 once the map transitions to winter. If you have 20 radar missions stacked, that's ~40-60k coal per member the moment the season opens.</p>
+<p><strong>2. Save your highest-level Wanderer / Doom Walker kill for post-transition.</strong> The first-kill coal bonus for a L180 Wanderer paid ~200k coal in one community report. Killing it before the map transitions gives you Normal-mode resources, not seasonal Coal. Save it.</p>
+<p><strong>3. Coal donations from the alliance stockpile.</strong> R5/R4 can allocate a portion of the alliance stockpile as personal-donation rewards to under-provisioned members. This is a lever most alliances forget exists. Use it to top up anyone under 80k on day 3 or 4.</p>
+<h2>The tool that does this for you</h2>
+<p>The <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn Calculator</a> takes your Alliance Furnace level, your alliance size, and your average High-Heat Furnace level and outputs the reserve target for the current week of the season. It also flags which members are behind — plug in a Roster Extractor CSV and it colors the ones at risk.</p>
+<p><strong><a href="https://bullochman.github.io/lws-coal-burn-static/">Open the Coal Burn Calculator →</a></strong></p>
+<p>Takes about 40 seconds. If your alliance is entering week 1 and any member shows under 80k, DM them today.</p>
+<h2>What to try in your alliance this week</h2>
+<ol>
+<li><strong>Post the 117k reserve target in your officer channel.</strong> Not the whole alliance channel — this is an officer coordination number, not a public one.</li>
+<li><strong>Run the Coal Burn Calculator with your current roster CSV.</strong> Flag every member under 80k.</li>
+<li><strong>Turn on the "auto-activate in blizzard" toggle</strong> on every member's High-Heat Furnace. This is the single lowest-cost fix for the "member was asleep during blizzard 2" problem.</li>
+<li><strong>Reserve at least 500k coal in the alliance stockpile for Warlord Missile response.</strong> Don't let it drain to Normal-mode burn only.</li>
+<li><strong>Save at least one Wanderer kill for post-transition</strong> if the season hasn't started yet in your warzone.</li>
+</ol>
+<p>The pattern to internalize: coal reserves that look "fine" at ambient temperatures collapse in Overdrive. Plan for the Overdrive hours, not the ambient hours.</p>
+<hr>
+<h2>Sources</h2>
+<ul>
+<li><a href="/guides/coal-budget-calculator-guide.html">Coal budget calculator guide</a> — full L1-L20 output curves for both furnaces, blizzard temperature by week, and the Warlord Missile 25×25 blast mechanics.</li>
+<li><a href="/guides/alliance-furnace-guide.html">Alliance furnace guide</a> — L20 deployment, reinforcement gate, coal consumption.</li>
+<li><a href="/seasons/season-2-frozen.html">Season 2 Frozen mechanics reference</a> — the per-tile temperature system, freeze threshold, defrost mechanics.</li>
+<li>lastwartutorial.com S2 Ultimate Strategy Guide, retrieved 2026-07-14 — pre-season radar mission stacking, Wanderer kill timing.</li>
+</ul>]]></content:encoded>
+    </item>
+    <item>
+      <title>Launching r5tools — why we stopped running our alliance on a Google Sheet</title>
+      <link>https://r5tools.io/blog/2026/07/launching-r5tools.html</link>
+      <guid isPermaLink="true">https://r5tools.io/blog/2026/07/launching-r5tools.html</guid>
+      <pubDate>Fri, 17 Jul 2026 12:00:00 +0000</pubDate>
+      <author>evan@r5tools.io (Evan @ r5tools)</author>
+      <category>founding-story</category><category>alliance-strategy</category><category>tool-walkthrough</category>
+      <description>Our WZ 2007 alliance was burning 3-4 hours per season on landing coordination inside a Google Sheet. So I built the whole planning suite in a month. Here's what shipped.</description>
+      <content:encoded><![CDATA[<p>Our alliance officers spent the first three days of Season 2 in a shared Google Sheet.</p>
+<p>Landing coordinates in column B. Coal reserves in column D. A "who has an active High-Heat Furnace at L20 or above" tab that Nikki manually updated every time somebody dinged. Five formatting styles because three of us kept re-doing the conditional formatting on top of each other. A <code>#coordination</code> Discord channel that scrolled faster than anyone could read.</p>
+<p>At the end of week one I sat down and added up the officer-hours. Just landing planning — deciding who parks where relative to the Alliance Furnace, who's in Warlord Missile blast range, who anchors the outer ring. <strong>11 hours of R4/R5 time across four officers</strong>, most of it re-doing math because someone had updated their gear or someone new had joined.</p>
+<p>Eleven hours. For one map transition. In one week.</p>
+<p>That's when r5tools started.</p>
+<h2>What r5tools is</h2>
+<p>A suite of small, focused planners for <em>Last War: Survival</em> alliances. Each tool does one thing well and shares zero state with the others — you can use just the Landing Planner and ignore everything else, or run the whole stack. Nothing is a "platform." Everything is a tool.</p>
+<p>The current suite:</p>
+<div class='tbl-wrap'><table><thead><tr><th>Tool</th><th>What it replaces</th><th>Time saved per season</th></tr></thead><tbody><tr><td><strong>Roster Extractor</strong></td><td>Manually typing 50 alliance members into a Google Sheet</td><td>2-3 hours</td></tr><tr><td><strong>Landing Planner</strong></td><td>The "who parks where" coordinate sheet</td><td>3-4 hours</td></tr><tr><td><strong>Heat Simulator</strong></td><td>Guessing which stacks freeze in a blizzard</td><td>1-2 hours</td></tr><tr><td><strong>Freeze-Risk Dashboard</strong></td><td>Watching Discord after every blizzard for "who died" reports</td><td>1 hour</td></tr><tr><td><strong>Coal Burn Calculator</strong></td><td>The overdrive-window guesswork that decides your week-3 reserves</td><td>2 hours</td></tr><tr><td><strong>Hive Planner</strong></td><td>The graph-paper drawing of hive formations</td><td>1 hour</td></tr><tr><td><strong>City Capture Planner</strong></td><td>The Excel-tab tracking captured-vs-defensible cities</td><td>1 hour</td></tr><tr><td><strong>Season Timeline</strong></td><td>The pinned Discord message that goes out of date week 2</td><td>ongoing</td></tr></tbody></table></div>
+<p>The math on my alliance alone: <strong>10-14 officer-hours saved per season</strong> just from the tools I'd built before day one of S2. The rest of the season I kept building because every gap I found was a gap another alliance was going to hit too.</p>
+<h2>The rule I set for every tool</h2>
+<p><strong>No tool ships until it saves an officer at least 30 minutes on its first use.</strong></p>
+<p>That's why some things that "should" be in the suite aren't. There's no in-game overlay. No auto-attack scripts. No coordination-bot that DMs your officers. Those are all interesting problems, but none of them save an R5 30 minutes the first time they touch them.</p>
+<p>Instead every tool starts from the specific manual thing you were doing yesterday, and cuts it to the smallest number of clicks I can defend.</p>
+<p>The Roster Extractor is the clearest example. Everyone knows the problem: your alliance list lives in-game, there's no export, there's no API, and you need it in a spreadsheet to plan anything. Every alliance solves this by typing. <strong>Screen-record the list on your phone, drop the video in, get a clean CSV in 90 seconds.</strong> That's the whole tool. It does nothing else. It never will.</p>
+<p>The Coal Burn Calculator is another one. Sites publish coal-per-minute numbers. Nobody publishes the <em>reserve</em> you need to survive a specific blizzard schedule given your specific Alliance Furnace level and overdrive discipline. That's the calculation R5s actually need. So that's what the tool does. The math lives in the <a href="/guides/coal-budget-calculator-guide.html">coal budget calculator guide</a>; the tool just applies it to your inputs.</p>
+<h2>What this blog is</h2>
+<p>Same rule as the tools: nothing gets published unless it saves an R5 time or wins them a fight.</p>
+<p>You will see:</p>
+<ul>
+<li><strong>Weekly meta reads.</strong> What actually changed in the current season week. Which mechanics are newly load-bearing. Where alliances are getting caught.</li>
+<li><strong>Event breakdowns.</strong> VS Days, Rare Soil War, Blood Night, hero drops — the scoring math and the actual decisions that move the leaderboard.</li>
+<li><strong>Composite case studies.</strong> How three-to-five alliances handled the same problem, anonymized, with numbers.</li>
+<li><strong>Tool walkthroughs.</strong> Screen-recording an R5 using the tools in-context, not a marketing "features" list.</li>
+</ul>
+<p>You will not see:</p>
+<ul>
+<li>"10 tips for R5 leaders" listicles.</li>
+<li>Screenshots that dox real players.</li>
+<li>Anything sourced from vibes.</li>
+</ul>
+<p>Every claim in every post traces back to either the <a href="/glossary/">LWS Knowledge Base</a> (which is a versioned, sourced reference we keep in the repo) or a specific observable event the author witnessed and can name. If we can't source it, we don't publish it.</p>
+<h2>Founding pricing — why it exists and how long</h2>
+<p>The tools are free to use with a Warzone 2007 unlock code (which is public in our Discord). For everyone else, the pricing is:</p>
+<ul>
+<li><strong>$10 lifetime</strong> for an individual R5 who wants everything.</li>
+<li><strong>$50 alliance bundle</strong> for R5s who want to unlock the whole officer group at once.</li>
+</ul>
+<p>The first <strong>100 alliances</strong> to unlock get "Founding" pricing — the same as launch pricing, but locked in for the life of the account. The floating badge on the corner of every page shows the count. It ticks down in real time.</p>
+<p>Why 100? Because that's roughly how many R5s I can personally reply to in Discord if something breaks. Once the founding tier fills, the price and the support model both level up, and the badge switches to a waitlist.</p>
+<h2>What's next</h2>
+<p>The immediate roadmap, in order of ship date:</p>
+<ol>
+<li><strong>Season 2 week-2 audit.</strong> A post on what actually happened week one of S2 across the alliances I can see — what worked, what got destroyed, what everyone underestimated.</li>
+<li><strong>Warlord Missile deep-dive.</strong> The math for intercepting a missile in the 3-minute prep window versus absorbing it. Nobody has published this well.</li>
+<li><strong>Hero drop template.</strong> When the next hero drops, a 24-hour turnaround post on the day-1 build, gear priorities, and shred value.</li>
+</ol>
+<p>Every post ends up here, in the RSS feed, and in the weekly digest that goes out Sundays 10 AM Central to anyone on the newsletter.</p>
+<h2>What I'm asking</h2>
+<p><strong>Try one tool.</strong> Even just the Roster Extractor. If it saves you the 90 seconds it promises, come back for the Landing Planner. If it doesn't, tell me why in Discord — I can only fix what I know about.</p>
+<p>And if you're an R5 who runs a spreadsheet-heavy alliance, join the newsletter below. That's where I'll post the weekly meta reads and any new tools I ship. One email per week, one click to unsubscribe, never a marketing blast.</p>
+<p>Good hunting.</p>
+<p>Evan R5 · RONY · WZ 2007</p>
+<hr>
+<h2>Sources</h2>
+<ul>
+<li><a href="/guides/coal-budget-calculator-guide.html">Coal budget calculator guide</a> — coal-per-minute and reserve math.</li>
+<li><a href="/guides/alliance-furnace-guide.html">Alliance furnace guide</a> — L20 output and coal consumption.</li>
+<li><a href="https://roster.r5tools.io/">Roster Extractor</a> · <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a> · <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Simulator</a> · <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze-Risk Dashboard</a> · <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn Calculator</a> · <a href="https://hive.r5tools.io/">Hive Planner</a> · <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture Planner</a> · <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>.</li>
+</ul>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

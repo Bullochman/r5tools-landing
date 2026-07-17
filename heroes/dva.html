@@ -7,6 +7,9 @@
 <meta name="description" content="DVA in Last War: Survival — Season 1 Aircraft UR — single-target burst partner to Kimberly, Awakening Week 3 in Season 6. Skills, best pairings, F2P priority.">
 <meta name="keywords" content="DVA, Last War hero, LWS, UR, Aircraft, hero build, hero guide">
 <link rel="canonical" href="https://r5tools.io/heroes/dva.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/heroes/dva.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/heroes/dva.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/heroes/dva.html">
 <meta property="og:title" content="DVA — Last War hero build (UR Aircraft) | R5TOOLS.IO">
 <meta property="og:description" content="DVA in Last War: Survival — Season 1 Aircraft UR — single-target burst partner to Kimberly, Awakening Week 3 in Season 6. Skills, best pairings, F2P priority.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/heroes/dva.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -145,7 +180,19 @@ td { color: var(--text-dim); }
 <div class="tbl-wrap"><table><thead><tr><th>Hero</th><th>Type</th><th>Role</th><th>Season introduced</th><th>S6 tier</th><th>Awakening?</th><th>Exclusive Weapon (season)</th></tr></thead><tbody><tr><td>Kimberly</td><td>Tank</td><td>Attack (AoE DPS carry)</td><td>S1</td><td>S/SS</td><td>✓ Week 1</td><td>S1</td></tr><tr><td>Murphy</td><td>Tank</td><td>Defense (frontline anchor, F2P starter UR)</td><td>Pre-season</td><td>S</td><td>–</td><td>S2</td></tr><tr><td>Marshall</td><td>Tank</td><td>Support (only UR support in game)</td><td>S1</td><td>SS</td><td>–</td><td>S3</td></tr><tr><td>Williams</td><td>Tank</td><td>Defense (secondary anchor)</td><td>S4</td><td>S</td><td>–</td><td>S4</td></tr><tr><td>Stetmann</td><td>Tank</td><td>Attack (sustained EM DPS)</td><td>S5</td><td>A</td><td>–</td><td>S5</td></tr><tr><td>DVA</td><td>Aircraft</td><td>Attack (single-target burst)</td><td>S1</td><td>SS</td><td>✓ Week 3</td><td>S1</td></tr><tr><td>Carlie</td><td>Aircraft</td><td>Defense (Aircraft frontline)</td><td>S2</td><td>S</td><td>–</td><td>S2</td></tr><tr><td>Schuyler</td><td>Aircraft</td><td>Attack + control (stun, back-row focus)</td><td>S3</td><td>S</td><td>–</td><td>S3</td></tr><tr><td>Lucius</td><td>Aircraft</td><td>Defense/support (universal shield)</td><td>S4</td><td>S</td><td>–</td><td>S4</td></tr><tr><td>Morrison</td><td>Aircraft</td><td>Attack (armor-shred DPS)</td><td>S5</td><td>SS</td><td>–</td><td>S5</td></tr><tr><td>Tesla</td><td>Missile</td><td>Attack (back-row lockdown DPS)</td><td>S1</td><td>SS (post-awaken)</td><td>✓ Week 5/6</td><td>S1</td></tr><tr><td>Swift</td><td>Missile</td><td>Attack (finisher, low-HP target)</td><td>S2</td><td>S/B</td><td>–</td><td>S2</td></tr><tr><td>McGregor</td><td>Missile</td><td>Defense (Missile taunt/frontline)</td><td>S3</td><td>S/A</td><td>–</td><td>S3</td></tr><tr><td>Adam</td><td>Missile</td><td>Defense (Missile counter-attack)</td><td>S4</td><td>S</td><td>–</td><td>S4</td></tr><tr><td>Fiona</td><td>Missile</td><td>Attack (Missile primary DPS)</td><td>S5</td><td>SS</td><td>–</td><td>S5</td></tr><tr><td>Braz</td><td>Aircraft</td><td>Attack (S6 SSR→UR promotion)</td><td>S6 promoted</td><td>(new)</td><td>–</td><td>(Awakening slot)</td></tr></tbody></table></div>
 <h3>Quick facts</h3>
 <ul><li><strong>Type:</strong> Aircraft</li><li><strong>Rarity:</strong> UR</li><li><strong>Squad slot preference:</strong> back row</li><li><strong>Recommended:</strong> see F2P investment priority table in the <a href="/heroes/" rel="nofollow noopener">Heroes hub</a>.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/heroes/morrison.html">Morrison — Last War hero build (UR Aircraft)</a></li>
+    <li><a href="https://r5tools.io/heroes/ambolt.html">Ambolt — Last War hero build (SR Aircraft)</a></li>
+    <li><a href="https://r5tools.io/heroes/lucius.html">Lucius — Last War hero build (UR Aircraft)</a></li>
+    <li><a href="https://r5tools.io/heroes/schuyler.html">Schuyler — Last War hero build (UR Aircraft)</a></li>
+    <li><a href="https://r5tools.io/heroes/carlie.html">Carlie — Last War hero build (UR Aircraft)</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -159,5 +206,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

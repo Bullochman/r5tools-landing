@@ -7,6 +7,9 @@
 <meta name="description" content="Every UR, SSR, and SR hero in Last War: Survival with skills, formations, and F2P priority ranking. Kimberly, DVA, Tesla, Marshall, Mason, and more.">
 
 <link rel="canonical" href="https://r5tools.io/heroes/">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/heroes/index.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/heroes/index.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/heroes/index.html">
 <meta property="og:title" content="Every Last War hero — builds, tiers, F2P priority | R5TOOLS.IO">
 <meta property="og:description" content="Every UR, SSR, and SR hero in Last War: Survival with skills, formations, and F2P priority ranking. Kimberly, DVA, Tesla, Marshall, Mason, and more.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/heroes/index.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -130,7 +165,19 @@ td { color: var(--text-dim); }
 <ul><li><a href="/heroes/mason.html" rel="nofollow noopener"><strong>Mason</strong></a> — Tank. Season 1 SSR→UR promotion Tank — the most-recommended F2P promotion, shards farm at Normal Stage 4-3.</li><li><a href="/heroes/violet.html" rel="nofollow noopener"><strong>Violet</strong></a> — Tank. Season 2 SSR→UR promotion Tank — conditional promotion; only worth it if she&#x27;s in your active squad.</li><li><a href="/heroes/scarlett.html" rel="nofollow noopener"><strong>Scarlett</strong></a> — Tank. Season 3 SSR→UR promotion Tank — skip unless you specifically need her Season 3 comp.</li><li><a href="/heroes/sarah.html" rel="nofollow noopener"><strong>Sarah</strong></a> — Aircraft. Season 4 SSR→UR promotion Aircraft — situational promotion for S4 comps only.</li><li><a href="/heroes/venom.html" rel="nofollow noopener"><strong>Venom</strong></a> — Missile. Season 5 SSR→UR promotion Missile (weeks 3–7 only) — poison DPS, community consensus skip.</li><li><a href="/heroes/braz.html" rel="nofollow noopener"><strong>Braz</strong></a> — Aircraft. Season 6 SSR→UR promotion Aircraft — situational rocket DPS.</li><li><a href="/heroes/cage.html" rel="nofollow noopener"><strong>Cage</strong></a> — Aircraft. SSR Aircraft — +40 DEF short-cooldown defensive skill.</li><li><a href="/heroes/elsa.html" rel="nofollow noopener"><strong>Elsa</strong></a> — Missile. SSR Missile — –18% damage from monsters, useful for zombie modes.</li><li><a href="/heroes/maxwell.html" rel="nofollow noopener"><strong>Maxwell</strong></a> — Aircraft. SSR Aircraft — front-row burst DPS.</li><li><a href="/heroes/monica.html" rel="nofollow noopener"><strong>Monica</strong></a> — Tank. SSR Tank — energy support kit.</li><li><a href="/heroes/richard.html" rel="nofollow noopener"><strong>Richard</strong></a> — Tank. SSR Tank — dual-rocket attack kit.</li><li><a href="/heroes/farhad.html" rel="nofollow noopener"><strong>Farhad</strong></a> — Tank. SSR Tank — mid-tier bulk pick.</li></ul>
 <h4>SR heroes</h4>
 <ul><li><a href="/heroes/loki.html" rel="nofollow noopener"><strong>Loki</strong></a> — Tank. SR Tank — shotgun burst kit, strongest of the SR pool.</li><li><a href="/heroes/gump.html" rel="nofollow noopener"><strong>Gump</strong></a> — Tank. SR Tank — pyro AoE, cheap filler damage dealer.</li><li><a href="/heroes/ambolt.html" rel="nofollow noopener"><strong>Ambolt</strong></a> — Aircraft. SR Aircraft — first Aircraft hero most accounts touch; missile-AoE kit.</li><li><a href="/heroes/kane.html" rel="nofollow noopener"><strong>Kane</strong></a> — Missile. SR Missile — grenade single-target.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/heroes/dva.html">DVA — Last War hero build (UR Aircraft)</a></li>
+    <li><a href="https://r5tools.io/heroes/marshall.html">Marshall — Last War hero build (UR Tank)</a></li>
+    <li><a href="https://r5tools.io/heroes/mason.html">Mason — Last War hero build (SSR Tank)</a></li>
+    <li><a href="https://r5tools.io/heroes/kimberly.html">Kimberly — Last War hero build (UR Tank)</a></li>
+    <li><a href="https://r5tools.io/heroes/monica.html">Monica — Last War hero build (SSR Tank)</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -144,5 +191,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

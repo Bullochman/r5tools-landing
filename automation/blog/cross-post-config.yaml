@@ -1,0 +1,32 @@
+# r5tools blog cross-poster config
+#
+# Copy this file to cross-post-config.local.yaml and edit if you want per-machine
+# overrides. Or edit in place — this file is committed, so keep secrets in env.
+
+x:
+  enabled: true
+  # Local time. Cross-poster picks the next occurrence of this time in the
+  # timezone below. Evenings tend to outperform mornings for LWS players (KR/EU
+  # players are online in EN's evening; US players are winding down).
+  schedule_time: "19:00"
+  timezone: "America/Chicago"
+  # If true, split the post into a 3-tweet thread (hook + takeaway + CTA).
+  # If false, post a single tweet with title + link.
+  threadify: true
+  # If true, create the draft in Typefully but do not schedule — you'll
+  # publish manually from the Typefully UI. Handy while you're tuning voice.
+  draft_only: false
+
+discord:
+  enabled: true
+  # Channel *name*. The bot resolves this against the guild it's attached to.
+  channel: "announcements"
+  # Optional — restrict to a specific guild. Leave null to let the bot decide
+  # (it will use its DISCORD_GUILD_ID env var).
+  guild_id: null
+
+newsletter:
+  # The weekly digest builder auto-picks any post from the past 7 days out of
+  # posts/. Setting this to true just records that the crosspost pipeline
+  # considered the post — useful for auditing "did this post make the digest?"
+  enabled: true

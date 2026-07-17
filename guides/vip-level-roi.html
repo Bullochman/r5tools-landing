@@ -7,6 +7,9 @@
 <meta name="description" content="The VIP 1-18 point system, 2026 monetization overhaul, pop-up removal, and where VIP thresholds actually pay off vs where they&#x27;re a trap.">
 <meta name="keywords" content="VIP level ROI — 1 through 18 point thresholds, Last War guide, LWS R5, alliance strategy">
 <link rel="canonical" href="https://r5tools.io/guides/vip-level-roi.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/vip-level-roi.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/vip-level-roi.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/vip-level-roi.html">
 <meta property="og:title" content="VIP level ROI — 1 through 18 point thresholds | R5TOOLS.IO">
 <meta property="og:description" content="The VIP 1-18 point system, 2026 monetization overhaul, pop-up removal, and where VIP thresholds actually pay off vs where they&#x27;re a trap.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/guides/vip-level-roi.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -138,7 +173,19 @@ td { color: var(--text-dim); }
 <ol><li><strong>Super Monthly Pass ($24.99 / 2,500 GB, 30 days)</strong> — one-time upfront delivery of <strong>2,500 Gems + 300 VIP Points</strong>, then a 30-day daily drip totalling approximately <strong>5,500 Diamonds, 3,000+ Stamina, 60 Hero Recruitment Tickets, 150+ hours Universal Speedups, 375+ Ceramic</strong>, plus an <strong>extra marching queue</strong> (permanent while active), +% gathering speed, and additional Super Alloys. TopUpLive characterizes efficiency as &quot;8,000%+ vs direct diamond purchase.&quot; No community source documents a <em>second</em> monthly tier (no &quot;Basic / Silver / Bronze&quot; Monthly Pass variant exists in Western-server documentation as of 2026-07-14). ⚠ <strong>Only one Monthly Pass SKU is confirmed globally</strong>; if Chinese-server or KR-server tiers differ, that is an open question.</li><li><strong>Growth Fund (~$4.99–$9.99)</strong> — pays out across the <strong>account&#x27;s entire lifetime</strong> via HQ-milestone-gated tranches: Diamonds, VIP Points, hero shards, gear pieces released as the base advances. Superior to any generic $9.99 gem pack because rewards compound with progression. Vault ranks S-tier: &quot;always worth it.&quot; Recommendation: <strong>buy before HQ 28</strong> — after that, most milestone rewards have already unlocked and value collapses.</li><li><strong>Dawn Fund</strong> — a second milestone-gated fund. Structure mirrors Growth Fund; releases speed-ups, Diamonds, and hero materials as HQ level progresses. Same &quot;buy early or lose value&quot; curve.</li></ol>
 <ul><li><strong>Free track</strong> — modest rewards at every tier (Gems, speedups, basic resources, some hero shards) accessible to every player.</li><li><strong>Advanced (500 GB / ~$4.99)</strong> — unlocks the mid-tier reward path plus battle-pass-point bonuses that accelerate free-track objectives.</li><li><strong>Premium (2,000 GB / ~$19.99)</strong> — top-tier path. During UR-hero seasons the Premium track delivered enough <strong>named seasonal hero shards to reach 5★ on the season carry</strong> (e.g. Kimberly Weeks 1–3, DVA Weeks 3–5, Tesla Weeks 6–8 during Season 6). Vault rates the Awakening-season Premium Battle Pass S-tier.</li></ul>
 <ul><li><strong>Custom Weekly Pass</strong> — Premium 500 GB (~$4.99), Elite 10,000 GB (~$9.99–$19.99). Premium = pick 2 daily rewards from a menu; Elite (unlocks after Premium bought) = pick 4 daily. Immediate rewards: Premium 500 Diamonds + 500 VIP Points + 1 Alliance Gift + 50 Energy Badges; Elite adds 1,000 Diamonds + 10,000 VIP Points cumulative + 100 more Energy Badges. Ranked &quot;one of the best value purchases in the game.&quot;</li><li><strong>Special Training Pass (Gear focus, 7 days)</strong> — Freebie + Advanced (~$5.99) + Premium (~$23.99).</li><li><strong>Drone Training Pass (Drone materials, 7 days)</strong> — Freebie + Advanced (~$5.99) + Premium (~$23.99).</li><li><strong>Hero Growth Battle Pass (Hero shards / EW shards focus, ~7–14 days, typically Weeks 2 &amp; 6)</strong> — Advanced 500 GB, Supreme/Premium 2,000 GB. Delivers Universal Legendary Hero Shards or Exclusive Weapon Shards for the featured hero, plus skill medals and ore. F2P can hit 4,000–6,000 points across daily/target tasks; 9,000 (all reward tiers) requires the premium bonus.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/guides/s7-unnamed-leaks.html">Season 7 leaks — August 2026 launch tracker</a></li>
+    <li><a href="https://r5tools.io/guides/alliance-furnace-guide.html">Alliance Furnace guide — coal budget, radius, overdrive</a></li>
+    <li><a href="https://r5tools.io/guides/meta-squad-2026.html">2026 meta squad — Williams / Kimberly / DVA / Schuyler / Mars…</a></li>
+    <li><a href="https://r5tools.io/guides/chief-gear-guide.html">Chief gear guide — 4 slots + mythic + weapon aura</a></li>
+    <li><a href="https://r5tools.io/guides/rare-soil-war-strategy.html">Rare Soil War strategy — the S2 blizzard-and-plunder guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -152,5 +199,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

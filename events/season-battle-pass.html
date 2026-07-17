@@ -7,6 +7,9 @@
 <meta name="description" content="Season Battle Pass in Last War: Survival. Recurring per-season battle pass — hero-shard milestone track.">
 <meta name="keywords" content="Season Battle Pass, Last War event, LWS, R5 alliance planning">
 <link rel="canonical" href="https://r5tools.io/events/season-battle-pass.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/season-battle-pass.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/season-battle-pass.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/season-battle-pass.html">
 <meta property="og:title" content="Season Battle Pass — Last War event guide | R5TOOLS.IO">
 <meta property="og:description" content="Season Battle Pass in Last War: Survival. Recurring per-season battle pass — hero-shard milestone track.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/season-battle-pass.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -125,7 +160,19 @@ td { color: var(--text-dim); }
   <article>
     <div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Map size</td><td>13×13</td><td>lastwartutorial</td></tr><tr><td>City count / levels</td><td>Multi-level, Levels 1–6</td><td>earnne / lastwartutorial</td></tr><tr><td>Spice / hour by city level</td><td>100–600</td><td>lastwartutorial</td></tr><tr><td>Curse Research Lab max</td><td>L30</td><td>lastwartutorial</td></tr><tr><td>Curse damage penalty if under-resisted</td><td>up to 99.9%</td><td>earnne</td></tr><tr><td>Curse Resistance from Adaptation buff (500+ protectors)</td><td>+250, +25% ATK/DEF/HP</td><td>lastwartutorial</td></tr><tr><td>Blessing Fountain max</td><td>L30</td><td>lastwartutorial</td></tr><tr><td>Mithril Plant output (AC L5)</td><td>34,560 / hour</td><td>lastwartutorial</td></tr><tr><td>Sacred Water Hut (AC L15)</td><td>8,640 / hour</td><td>lastwartutorial</td></tr><tr><td>Obelisk Protector Horns (AC L20)</td><td>6 / hour</td><td>lastwartutorial</td></tr><tr><td>Alliance city cap</td><td>8</td><td>lastwartutorial</td></tr><tr><td>Alliance stronghold cap</td><td>8</td><td>lastwartutorial</td></tr><tr><td>Spice steal from enemy</td><td>up to 30%</td><td>earnne</td></tr><tr><td>Spice from Capitol at Faction Duel</td><td>+10M</td><td>earnne</td></tr><tr><td>Spice per Cannon at Faction Duel</td><td>+5M</td><td>earnne</td></tr><tr><td>Radar Ruins final-stage odds</td><td>2.016%</td><td>lastwartutorial</td></tr><tr><td>Season Battle Pass length</td><td>48 days</td><td>lastwartutorial</td></tr><tr><td>Season Battle Pass tier prices</td><td>~€11.99 Advanced / ~€23.99 Luxury</td><td>lastwartutorial</td></tr><tr><td>Profession cap</td><td>100 (up from 60)</td><td>lastwartutorial</td></tr></tbody></table></div>
 <ul><li><strong><em>02-heroes</em></strong> — Every season promotes one SSR to UR. Since S6, three heroes per season also gain Hero Awakening. Named vs Universal Awakening Shards are the new currency; hero tier-list volatility now depends on which heroes are in the Awakening rotation.</li><li><strong><em>03-chief</em></strong> — Chief profession cap extended from 60 → 100 in S3, retained through S6. Diplomat unavailable in S3/S4 (unconfirmed if unlocked later). New seasonal skills (Sandworm Traps, Trap Landmines, Nature&#x27;s Touch, etc.) tie to season-specific PvE.</li><li><strong><em>04-squads-combat</em></strong> — Tactics Cards debuted in S4; card meta shifted hard in S6 with the removal of the 4+1 hybrid squad strategy from Global Expedition, forcing pure Tank/Missile/Aircraft formations. Curse Resistance / Virus Resistance stats are new gate mechanics for PvE damage that stack over standard stats.</li><li><strong><em>05-season-1-crimson-plague</em></strong> — S1 Crimson Plague introduced T10 troops. Season structure since S3 has become more elaborate but retains the S1 template of themed map + seasonal resources + Capitol/faction endgame.</li><li><strong><em>06-season-2-frozen</em></strong> — S2 Polar Storm was the first true themed environmental hazard (cold/heat). S3+ retained the &quot;seasonal building trinity&quot; model (resource-producer + shop-currency-producer + resistance-lab). Alliance Furnace pattern from S2 evolves into Blessing Fountain (S3) / Lighthouse (S4) / Bank Stronghold (S5) / Altars (S6). See <em>STYLE_GUIDE</em> for how the LWS_Alliance_Ops_Center suite handles seasonal building overlays.</li><li><strong><em>08-alliance-systems</em></strong> — Alliance Pacts (S6), Alliance Safe Time (S5+), and Faction Technology (S6) reshape how alliances coordinate at the meta level. Alliance city/stronghold caps evolve per season (S3 = 8/8; S4 = 6/6; S5 Bank = 4 default up to 12; S6 factional).</li><li><strong><em>09-events</em></strong> — Blood Night Descend (S4, 02:30/10:30/18:30 server), Sandworm Crisis (S3, 14 days), Spice Wars (S3, biweekly), Copper Wars (S4, Wed/Sat), Trade Train (S5), Altar Tuesdays (S6), Faction Duel (season-ending). Each season adds 2–3 new recurring events.</li><li><strong><em>10-economy</em></strong> — Season Battle Pass (~48 days, ~€11.99 Advanced / ~€23.99 Luxury) is the shipped pricing anchor since S3. Weekly Pass adds a temporary seasonal building + resources. Three exclusive weapon passes per season (Weeks 1/3/6). Hero Awakening shards are now a paid axis on top of exclusive weapons.</li><li><strong><em>14-ui-reference</em></strong> — Season transitions require map re-render, seasonal building rendering, and faction color coding (S6 Deepwood green / Wetland blue / Great River neutral). Alliance Safe Time UI added in S5.</li><li><strong><em>15-glossary</em></strong> — Every season has full KR terminology; namu.wiki maintains a running Korean-language reference. Faction names (Kage no Sato, Koubutai in S4; Deepwood/Wetland in S6) are transliterated from EN in KR sources rather than re-localized.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/awakening-battle-pass.html">Awakening Battle Pass — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/exclusive-weapon-pass.html">Exclusive Weapon Battle Pass — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/growth-pass.html">Growth Pass — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/zombie-rush.html">Zombie Rush — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/zombie-cataclysm.html">Zombie Cataclysm — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -139,5 +186,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

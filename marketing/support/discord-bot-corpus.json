@@ -1,0 +1,155 @@
+{
+  "_meta": {
+    "purpose": "Auto-response corpus for the r5tools Discord bot (see marketing/discord/discord-bot-spec.md). When a member's message matches any q_variant (case-insensitive substring or fuzzy match, up to bot implementer), the bot posts a_en (in English channels) or a_ko (in Korean channels). Answers are trimmed vs the HTML FAQ to fit Discord embed limits (≤2000 chars including markdown).",
+    "source_of_truth": "marketing/support/faq-en.md and faq-ko.md — regenerate this JSON when those change",
+    "generated": "2026-07-17",
+    "answer_max_chars": 1800,
+    "unresolved_policy_flags": [
+      "Q11 payout method / minimum (see EVAN — decide)",
+      "Q12 formal creator program tiers (see EVAN — decide)",
+      "Q17 per-device cap (see EVAN — decide)"
+    ]
+  },
+  "faqs": [
+    {
+      "id": "q01_what_is",
+      "category": "getting_started",
+      "q_variants": ["what is r5tools", "what does r5tools do", "whats r5tools", "explain r5tools", "r5tools.io explained", "what are these tools"],
+      "a_en": "**R5TOOLS.IO** is a suite of 11 planning tools for *Last War: Survival* alliance leaders (R5s/R4s). Replaces the Google Sheet + Discord PDF workflow. Flagship: **Roster Extractor** — 90s screen recording → CSV in 2 min via Claude vision. That CSV powers every other tool: Landing Planner, Heat Simulator, Freeze-Risk, Coal Burn, City Capture, Season Timeline, Hive Grid, Profile Studio, VS Days, KB Chat. 7 languages (Korean-first), Discord PNG export on every tool. Built by an active R5. Full FAQ: <https://r5tools.io/faq.html>",
+      "a_ko": "**R5TOOLS.IO**는 *Last War: Survival* 얼라이언스 R5·R4를 위한 11개 계획 도구 모음입니다. 구글 시트 + 디스코드 PDF 워크플로우를 대체합니다. 대표 도구: **로스터 추출기** — 90초 화면 녹화 → 2분 내에 CSV (Claude 비전). 그 CSV가 나머지 모든 도구를 구동합니다: 랜딩, 열지도, 동결 위험, 석탄, 도시 점령, 시즌 타임라인, 하이브 그리드, 프로필, VS 데이, KB 챗. 7개 언어 (한국어 우선), 모든 도구 디스코드 PNG 지원. 전체 FAQ: <https://r5tools.io/ko/faq.html>"
+    },
+    {
+      "id": "q02_unlock",
+      "category": "getting_started",
+      "q_variants": ["how do i unlock", "unlock instructions", "how to sign in", "how do i get in", "how do i log in", "unlock the suite", "how to activate"],
+      "a_en": "Go to <https://access-codes.r5tools.io/> and enter your code. Unlocks every tool for 90 days on that device. Three options:\n• **Free** — ask your R5 for `RONY-FREE` (Warzone 2007 & KR speakers).\n• **$10 Personal** — one-time Stripe checkout, one player.\n• **$50 Alliance Bundle** or **$30 Founding** (first 10 alliances) — R5 pays, shares code with whole alliance.\n\nClear cookies or new device? Just re-enter the same code.",
+      "a_ko": "<https://access-codes.r5tools.io/> 에서 코드 입력하시면 됩니다. 그 기기에서 90일간 모든 도구 잠금해제. 세 가지 방법:\n• **무료** — R5에게 `RONY-FREE` 요청 (워존 2007 · 한국어 사용자).\n• **$10 개인** — Stripe 1회 결제, 개인 1명.\n• **$50 얼라이언스 번들** 또는 **$30 파운딩** (얼라이언스 10곳 한정) — R5 1회 결제 후 얼라이언스 전체에 코드 공유.\n\n쿠키 삭제나 새 기기? 같은 코드 다시 입력하시면 됩니다."
+    },
+    {
+      "id": "q03_rony_free",
+      "category": "getting_started",
+      "q_variants": ["what is rony-free", "rony free code", "what does rony free do", "how to use rony-free", "rony-free code", "free code"],
+      "a_en": "`RONY-FREE` is our primary free access code — for RONY alliance members and Korean speakers Evan has personally invited. Tagged as Warzone 2007 in our system but works anywhere. Enter it at <https://access-codes.r5tools.io/> for the full 11-tool suite, 90 days per device. If someone in your alliance is using it, ask them — same code works for the whole alliance.",
+      "a_ko": "`RONY-FREE`는 저희 주 무료 코드입니다 — RONY 얼라이언스 멤버와 Evan이 초대한 한국어 사용자용. 시스템상 워존 2007로 표시되지만 어디서든 사용 가능. <https://access-codes.r5tools.io/> 에서 입력하시면 90일간 11개 도구 전체 사용 가능. 얼라이언스 내 다른 분이 이미 쓰고 계시면 그분께 여쭤보세요 — 같은 코드로 얼라이언스 전체 사용 가능합니다."
+    },
+    {
+      "id": "q04_install",
+      "category": "getting_started",
+      "q_variants": ["do i need to install", "is there an app", "download required", "do i need to download", "install app", "is there a download"],
+      "a_en": "**No install.** Everything runs in your browser. No app, no download. KB Chat + Roster Extractor call our server (Claude API); the other 9 tools run entirely client-side. Bookmark <https://r5tools.io/> and you're set.",
+      "a_ko": "**설치 필요 없습니다.** 모든 게 브라우저에서 실행됩니다. 앱 없음, 다운로드 없음. KB 챗과 로스터 추출기만 저희 서버(Claude API)를 호출하고, 나머지 9개 도구는 완전히 클라이언트에서 작동합니다. <https://r5tools.io/> 즐겨찾기하시면 끝."
+    },
+    {
+      "id": "q05_phone",
+      "category": "getting_started",
+      "q_variants": ["does this work on my phone", "mobile support", "iphone android", "works on ios", "works on android", "phone compatibility"],
+      "a_en": "Yes for most tools. Tested on Chrome + Safari (desktop & iOS). Roster Extractor takes iPhone `.mov` and Android `.mp4` — most R5s do the whole flow from their phone. Heavier tools (Heat Sim, Hive Grid) work better on tablet/laptop. Firefox usually works. Broken on your device? Hit the 💡 feedback button.",
+      "a_ko": "대부분의 도구는 작동합니다. Chrome, Safari (데스크톱 & iOS)에서 테스트됨. 로스터 추출기는 아이폰 `.mov`와 안드로이드 `.mp4` 지원 — 대부분 R5분들은 스마트폰으로 전체 진행하십니다. 무거운 도구(열지도, 하이브 그리드)는 태블릿·노트북이 편함. Firefox도 보통 잘 됨. 기기에서 안 되시면 💡 피드백 버튼 눌러주세요."
+    },
+    {
+      "id": "q06_pricing",
+      "category": "pricing",
+      "q_variants": ["what does it cost", "how much does it cost", "pricing", "what does 10 dollars get me", "what does 30 dollars get me", "what does 50 dollars get me", "price breakdown", "tier comparison"],
+      "a_en": "**$10 Personal** — 11-tool suite, one player, 90 days/device.\n**$30 Alliance Founding** — first 10 alliances only. Whole alliance sharing + **lifetime access to every new tool**.\n**$50 Alliance Bundle** — same alliance sharing, no lifetime bonus.\n**+$5 Roster Premium** — 2nd-pass audit for 94/94 accuracy.\n\nAll one-time. No subscription. Full details: <https://r5tools.io/faq.html#pricing>",
+      "a_ko": "**$10 개인** — 11개 도구, 개인 1명, 기기당 90일.\n**$30 얼라이언스 파운딩** — 얼라이언스 10곳 한정. 얼라이언스 전체 공유 + **평생 신규 도구 무료**.\n**$50 얼라이언스 번들** — 같은 얼라이언스 공유, 평생 혜택 제외.\n**+$5 로스터 프리미엄** — 2차 감사로 94/94 정확도.\n\n전부 1회 결제. 구독 없음. 상세: <https://r5tools.io/ko/faq.html#pricing>"
+    },
+    {
+      "id": "q07_refund",
+      "category": "pricing",
+      "q_variants": ["can i get a refund", "refund policy", "how do refunds work", "money back", "refund", "return money"],
+      "a_en": "Yes, within limits:\n• **Within 24h, unredeemed code** — full refund, no questions. Email hello@r5tools.io.\n• **Code already used** — no refund except we caused >48h downtime.\n• **Alliance disbands** — no refund; code can transfer to successor alliance.\n\nSolo-dev shop. Ask honestly and we'll usually work with you.",
+      "a_ko": "가능합니다 (제한 있음):\n• **24시간 이내, 코드 미사용** — 무조건 전액 환불. hello@r5tools.io 로 메일.\n• **코드 이미 사용** — 환불 불가 (저희 측 48시간 이상 다운은 예외).\n• **얼라이언스 해체** — 환불 불가. 후속 얼라이언스에 코드 양도 가능.\n\n1인 개발 팀. 솔직하게 사정 말씀하시면 대부분 협의 가능."
+    },
+    {
+      "id": "q08_founding",
+      "category": "pricing",
+      "q_variants": ["what is founding tier", "founding alliance", "why 10 alliances", "when does founding end", "founding limit", "founding vs bundle"],
+      "a_en": "**Founding tier** is the permanent-lifetime deal for the first 10 alliances: **$30** one-time (vs $50 regular Bundle) + **lifetime access to every new tool** the suite ever ships. These 10 R5s fund the next 6 months of development. Once 10 alliances claim it, tier closes. Live counter on <https://r5tools.io/#pricing>",
+      "a_ko": "**파운딩 요금제**는 얼라이언스 10곳 한정 평생 특가입니다: **$30** 1회 결제 (정가 $50 대비) + **앞으로 나올 모든 신규 도구 평생 무료**. 이 10명의 R5가 향후 6개월 개발을 지원합니다. 10곳 채워지면 마감. 실시간 남은 자리: <https://r5tools.io/#pricing>"
+    },
+    {
+      "id": "q09_split",
+      "category": "pricing",
+      "q_variants": ["can my alliance split the cost", "can we share", "split the price", "share the cost", "share with alliance", "alliance sharing"],
+      "a_en": "Yes — that's how Alliance Bundle ($50) and Founding ($30) work. **R5 pays once, shares the code with every member.** Each member enters the same code at access-codes.r5tools.io. Common patterns: R5 expenses to alliance funds, 5 officers split $10 each, or 4 top players chip $10 apiece for the Bundle.",
+      "a_ko": "가능합니다 — 얼라이언스 번들($50)과 파운딩($30)이 정확히 그 방식입니다. **R5 1회 결제, 얼라이언스 전원에게 코드 공유.** 각 멤버가 access-codes.r5tools.io 에서 같은 코드 입력. 흔한 사례: R5가 결제 후 얼라이언스 자금에서 정산, 임원 5명이 $10씩 분담, 또는 상위 4명이 $10씩 분담해 번들 구매."
+    },
+    {
+      "id": "q10_referral_code",
+      "category": "referral",
+      "q_variants": ["how do i get my referral code", "referral code", "my referral link", "how do i get my code", "affiliate code", "get referral link"],
+      "a_en": "Go to <https://r5tools.io/refer.html> and sign in with email (magic link, no password). You'll see your unique code (`R5-YOURNAME-A7K3`) + shareable link. If you already unlocked with an anonymous access code, you still need email sign-in for the referral program — that's how we credit your earnings.",
+      "a_ko": "<https://r5tools.io/refer.html> 에서 이메일 로그인 (매직 링크, 비밀번호 없음). 여러분 전용 코드(`R5-닉네임-A7K3`)와 공유 링크가 표시됩니다. 익명 코드로 이미 잠금해제하셨더라도, 추천 프로그램은 이메일 로그인이 별도로 필요합니다 — 그래야 수익 크레딧 가능."
+    },
+    {
+      "id": "q11_payout",
+      "category": "referral",
+      "q_variants": ["when do i get paid", "how do i get paid", "payout schedule", "when do referrals pay", "payment method", "how much do i earn"],
+      "a_en": "Payouts are **manual** — Evan runs a weekly CSV export and PayPal/CashApp each referrer. **No minimums, no schedule games, no clawbacks.** You earn **25% of gross** on paid unlocks tagged to your link within 30 days (first-touch attribution). Self-referrals blocked. Ledger is human-verifiable — email hello@r5tools.io to see your rows.",
+      "a_ko": "정산은 **수동** — Evan이 매주 CSV 뽑아 PayPal · CashApp로 지급. **최소 금액 없음, 스케줄 눈치 게임 없음, 회수 없음.** 추천 링크로 30일 이내 유료 결제 시 **총액의 25%** 크레딧 (first-touch 기준). 자기 추천 차단. 원장 확인 가능 — hello@r5tools.io 로 요청."
+    },
+    {
+      "id": "q12_promote",
+      "category": "referral",
+      "q_variants": ["can i promote on youtube", "can i promote on tiktok", "can i promote on twitch", "content creator", "review video", "make a video about r5tools"],
+      "a_en": "Yes — please do. Use your referral link (`r5tools.io?ref=R5-YOURNAME-XXXX`) in the description; viewers who buy in the next 30 days credit you 25%. Rules:\n• Don't claim r5tools is affiliated with First Fun / LWS — fan-made only.\n• Don't promise things we don't do (no \"guaranteed no ban\", no \"auto-plays\").\n• Screen recording our tools is fine.",
+      "a_ko": "당연히 됩니다 — 오히려 환영입니다. 추천 링크(`r5tools.io?ref=R5-닉네임-XXXX`)를 설명란에 넣으시면 30일 이내 구매자에 대해 25% 크레딧. 규칙:\n• r5tools가 First Fun · LWS와 제휴라고 주장하지 마세요 — fan-made 도구.\n• 저희가 안 하는 것 약속하지 마세요 (\"밴 절대 없음\", \"자동 플레이\" 금지).\n• 저희 도구 화면 녹화는 자유롭게 가능."
+    },
+    {
+      "id": "q13_korean",
+      "category": "international",
+      "q_variants": ["do you support korean", "한국어 지원", "korean language", "한국어", "한글", "supports korean"],
+      "a_en": "네, fully supported. **Korean-first** — every tool, page, PNG export in 한국어. Warzone 2007 KR players are our primary audience. RONY R5 distributes free code `RONY-FREE`. Full Korean FAQ: <https://r5tools.io/ko/faq.html>",
+      "a_ko": "네, 완벽 지원됩니다. **한국어 1순위** — 모든 도구, 페이지, PNG 내보내기가 한국어. 워존 2007 한국어 사용자가 저희 주 사용자층. RONY R5가 무료 코드 `RONY-FREE` 배포 중. 전체 한국어 FAQ: <https://r5tools.io/ko/faq.html>"
+    },
+    {
+      "id": "q14_languages",
+      "category": "international",
+      "q_variants": ["what languages", "language support", "does it support spanish", "does it support japanese", "does it support portuguese", "does it support german", "does it support french", "other languages"],
+      "a_en": "**7 languages from day one**: 한국어 · English · Español · Português (BR) · 日本語 · Deutsch · Français. Toggle top-right of any page. Every tool, button, exported PNG in your chosen language. Bad translation? Hit 💡 feedback — we fix inside a few hours.",
+      "a_ko": "**첫날부터 7개 언어**: 한국어 · English · Español · Português (BR) · 日本語 · Deutsch · Français. 페이지 우측 상단에서 전환. 모든 도구, 버튼, PNG가 선택 언어. 어색한 번역? 💡 피드백 눌러주세요 — 몇 시간 내 수정."
+    },
+    {
+      "id": "q15_broken",
+      "category": "technical",
+      "q_variants": ["the tool is broken", "not loading", "error", "wont load", "doesnt work", "getting an error", "help its broken", "page wont load"],
+      "a_en": "Three fixes first:\n1. **Hard refresh** — Cmd+Shift+R (Mac) / Ctrl+F5 (Windows). Most \"broken\" is stale cached JS.\n2. **Re-enter your code** — cookies expire at 90 days. <https://access-codes.r5tools.io/>\n3. **Try another browser** — Chrome/Safari best. Older Android + in-app browsers (Discord, Instagram) are hit-or-miss.\n\nStill broken? Hit 💡 **Send feedback** on any page. Urgent = red flag = Evan gets pinged.",
+      "a_ko": "먼저 세 가지:\n1. **강력 새로고침** — Cmd+Shift+R (맥) · Ctrl+F5 (윈도우). \"고장\" 신고 대부분은 캐시된 낡은 JS.\n2. **코드 재입력** — 쿠키 90일 만료. <https://access-codes.r5tools.io/>\n3. **다른 브라우저 시도** — Chrome · Safari 최적. 구형 안드로이드와 앱 내 브라우저(디스코드, 인스타)는 편차 큼.\n\n여전히 안 되면 💡 **피드백 보내기** 버튼. 긴급 = 빨강 = Evan에게 즉시 알림."
+    },
+    {
+      "id": "q16_import_roster",
+      "category": "technical",
+      "q_variants": ["how do i import my roster", "roster import", "how to add roster", "csv import", "how do i upload my alliance", "roster extractor how", "how to use roster extractor"],
+      "a_en": "Use **Roster Extractor** at <https://roster.r5tools.io/>. Three steps:\n1. Screen-record your alliance member list scrolling R5 → R1 (~90s for 100 players).\n2. Upload the `.mov`/`.mp4`.\n3. Claude vision → CSV + JSON in ~2 min (costs us ~$0.45).\n\nThat CSV feeds every other tool. For perfect accuracy add **Roster Extractor Premium (+$5)** — 2nd-pass audit, 94/94 rows guaranteed.",
+      "a_ko": "<https://roster.r5tools.io/> 에서 **로스터 추출기** 사용. 3단계:\n1. 얼라이언스 멤버 목록을 R5 → R1 스크롤 화면 녹화 (100명 기준 ~90초).\n2. `.mov` · `.mp4` 업로드.\n3. Claude 비전 → 2분 내 CSV + JSON (저희 비용 ~$0.45).\n\n그 CSV가 모든 도구의 입력. 완벽 정확도가 필요하면 **로스터 프리미엄 (+$5)** — 2차 감사, 94/94 행 보장."
+    },
+    {
+      "id": "q17_multiple_devices",
+      "category": "technical",
+      "q_variants": ["can i use on multiple devices", "multiple devices", "phone and laptop", "share between devices", "same code multiple", "device limit"],
+      "a_en": "Yes. Cookie is per-device — unlock on laptop + phone + tablet, each gets its own 90-day cookie. No seat limit. Alliance/Founding codes are explicitly meant to be shared alliance-wide. Personal $10 is meant for one player, but code isn't locked — we trust you.",
+      "a_ko": "네. 쿠키가 기기별 — 노트북 + 스마트폰 + 태블릿에서 각각 잠금해제 시 각자 90일 쿠키. 좌석 제한 없음. 얼라이언스 · 파운딩 코드는 명시적으로 얼라이언스 전체 공유용. 개인 $10은 원래 1명용이지만 기기 잠금 없음 — 신뢰 기반."
+    },
+    {
+      "id": "q18_affiliation",
+      "category": "trust",
+      "q_variants": ["is this affiliated with last war", "affiliated with first fun", "official tool", "is this official", "first fun", "last war affiliation"],
+      "a_en": "**No.** R5TOOLS.IO is **fan-made and independent**. Not affiliated with, endorsed by, or licensed by First Fun Group, Century Games, or *Last War: Survival*. All trademarks belong to their owners. If First Fun asks us to change something, we will. Full disclaimer: <https://r5tools.io/terms.html>",
+      "a_ko": "**아니요.** R5TOOLS.IO는 **팬 제작 독립 도구**입니다. First Fun Group, Century Games, *Last War: Survival* 과 어떤 제휴 · 승인 · 라이선스 관계도 없습니다. 모든 상표는 각 소유자의 재산. First Fun이 변경 요구하면 즉시 응할 것. 전체 면책: <https://r5tools.io/terms.html>"
+    },
+    {
+      "id": "q19_ban_risk",
+      "category": "trust",
+      "q_variants": ["will i get banned", "is this against tos", "safe to use", "ban risk", "will my account get banned", "against terms of service"],
+      "a_en": "We can't guarantee zero risk (nobody honestly can), but we're designed to stay safe:\n• **No automation of in-game actions.** No auto-play, no bots, no packet injection, no client mods.\n• **Import-only + planning tools.** You screen-record and execute in-game manually. We help you plan.\n• **We never touch your game credentials.**\n\nLWS ToS forbids tools providing \"unfair advantage.\" Planning tools (Google Sheets, coal calcs, hive layouts) are ubiquitous in LWS and — to our knowledge — have not led to bans. We monitor and update if that changes.",
+      "a_ko": "0% 리스크 보장은 불가능합니다 (정직한 누구도 못함). 하지만 저희는 안전하게 설계:\n• **게임 내 액션 자동화 없음.** 자동 플레이 · 봇 · 패킷 인젝션 · 클라이언트 수정 없음.\n• **입력 전용 + 계획 도구.** 여러분이 직접 화면 녹화하고 게임 내에서 실행. 저희는 계획을 도움.\n• **여러분의 게임 계정 정보를 절대 취급하지 않음.**\n\nLWS ToS는 \"부당 이득\" 서드파티 도구를 금지. 구글 시트, 석탄 계산기, 하이브 배치도 같은 계획 도구는 LWS에서 광범위 사용되며 저희가 아는 한 밴 사례 없음. 계속 모니터링 · 변경 시 업데이트."
+    },
+    {
+      "id": "q20_data_handling",
+      "category": "trust",
+      "q_variants": ["how do you handle my data", "privacy", "what data do you collect", "data policy", "gdpr", "delete my data", "data privacy"],
+      "a_en": "Short version (full: <https://r5tools.io/privacy.html>):\n• **Roster CSV** stored per alliance signature (SHA-256 of R5 + top 8), separate from IP. Never shared, sold, or used for training.\n• **Discord webhooks** you paste stay under your access code. Never exposed to other alliances.\n• **Analytics** aggregate + IP-masked. Plausible (cookieless) + optional GA4 anonymized.\n• **Processors**: Stripe (payments), Anthropic (Claude API), Cloudflare (CDN). No advertisers, no brokers.\n• **Delete request**: email hello@r5tools.io with your code — wiped within 7 days.",
+      "a_ko": "간단 요약 (전체: <https://r5tools.io/privacy.html>):\n• **로스터 CSV**는 얼라이언스 시그니처(R5 + 상위 8명 SHA-256) 기준 저장, IP와 분리. 공유 · 판매 · 학습 사용 절대 안 함.\n• **디스코드 웹훅**은 여러분 액세스 코드 하에 저장. 다른 얼라이언스에 노출 없음.\n• **분석 데이터**는 집계 + IP 마스킹. Plausible (쿠키 없음) + 선택적 GA4 익명화.\n• **처리자**: Stripe (결제), Anthropic (Claude API), Cloudflare (CDN). 광고주 없음, 브로커 없음.\n• **삭제 요청**: hello@r5tools.io 로 코드와 함께 메일 — 7일 이내 삭제."
+    }
+  ]
+}

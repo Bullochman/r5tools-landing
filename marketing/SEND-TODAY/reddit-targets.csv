@@ -1,0 +1,10 @@
+subreddit,subscribers,best_post_time_CT,post_template_filename,verified_flair_required,rate_limit_notes
+r/LastWarSurvival,~30000,7:30 PM CT Monday,SEND-EMAIL-TEMPLATES.md#reddit-post-1-coal-burn,yes (Guide),Min 36h between posts. Comment 3-5 other threads between posts. If flagged wait 3 days.
+r/LastWarSurvival,~30000,7:30 PM CT Wednesday,SEND-EMAIL-TEMPLATES.md#reddit-post-2-vs-days,yes (Resource),Same account hygiene as Post 1.
+r/LastWarSurvival,~30000,7:30 PM CT Friday,SEND-EMAIL-TEMPLATES.md#reddit-post-3-warlord-missile,yes (Discussion),Same account hygiene as Post 1.
+r/LastWarSurvival,~30000,7:00 PM CT Sunday,SEND-EMAIL-TEMPLATES.md#reddit-post-4-roster-extractor,yes (Tool),Sunday alliance planning window. Most promotional post - fire only after 3 authority posts.
+r/LastWarSurvival,~30000,5:30 PM CT Tuesday,SEND-EMAIL-TEMPLATES.md#reddit-post-5-week5-rsw,yes (Guide),Earlier than others - pre-Wednesday RSW window.
+r/LastWarSurvivalTop,TBD - unverified,7:30 PM CT any weeknight,SEND-EMAIL-TEMPLATES.md#reddit-post-4-roster-extractor,unverified,Smaller more R5-heavy per how-to-find-r5s.md - lurk first.
+r/incremental_games,TBD - unverified,3:00 AM CT Tuesday 2026-07-28 (PH launch),SEND-EMAIL-TEMPLATES.md#ph-launch-reddit-drop,unverified,PH launch day only per launch-day-checklist.md T+1h.
+r/SideProject,TBD - unverified,3:00 AM CT Tuesday 2026-07-28,SEND-EMAIL-TEMPLATES.md#ph-launch-reddit-drop,unverified,PH launch day. PH mentions welcome here.
+r/androidgaming,TBD - unverified,3:00 AM CT Tuesday 2026-07-28,SEND-EMAIL-TEMPLATES.md#ph-launch-reddit-drop,unverified,Softest fit - only post if you have karma there.

@@ -1,0 +1,57 @@
+# r5tools.io sitemap-ping crontab
+# ---------------------------------
+# Install with:
+#     crontab -e
+# then paste the lines below (edit paths as needed).
+#
+# All times are UTC because that's how cron parses them on Linux servers /
+# the Lightsail box. If installing on macOS (where `crontab` runs in local
+# time), convert accordingly.
+
+# Environment for the cron shell — cron does NOT source ~/.zshrc.
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+INDEXNOW_KEY=REPLACE_WITH_YOUR_INDEXNOW_KEY
+# Uncomment when you have GSC set up:
+# GSC_SERVICE_ACCOUNT_JSON=/home/you/.config/r5tools/gsc-service-account.json
+
+# Path constants
+PING_DIR=/Users/evanjones/claudecode/r5tools/r5tools-landing/automation/sitemap-ping
+
+# ---- Daily recent-URL ping (last 24h, all engines) ----
+# 08:00 UTC every day — after nightly SEO builds.
+0 8 * * *   cd $PING_DIR && /usr/bin/python3 ping_sitemap.py >> logs/cron.log 2>&1
+
+# ---- Daily with GSC included (only if GSC_SERVICE_ACCOUNT_JSON is set) ----
+# If you'd rather keep GSC in the daily run, use this line INSTEAD of the one above.
+# 0 8 * * *   cd $PING_DIR && /usr/bin/python3 ping_sitemap.py --with-gsc >> logs/cron.log 2>&1
+
+# ---- Weekly full-sitemap resubmit (Sundays 09:00 UTC) ----
+# Re-submits every URL in sitemap.xml, regardless of lastmod window. Belt-and-suspenders.
+0 9 * * 0   cd $PING_DIR && /usr/bin/python3 ping_sitemap.py --full --force >> logs/cron.log 2>&1
+
+# ---- Log rotation (keep last 90 days) ----
+# Truncate ping.log and cron.log at first-of-month if they exceed 5 MB.
+0 3 1 * *   find $PING_DIR/logs -name '*.log' -size +5M -exec truncate -s 0 {} \;
+
+
+# =====================================================
+# Post-build hook — NOT a crontab entry, install this
+# by adding the following block to the end of build_seo_pages.py:
+# =====================================================
+#
+#     import subprocess
+#     from pathlib import Path
+#     ping_dir = Path(__file__).parent / "automation" / "sitemap-ping"
+#     try:
+#         subprocess.run(
+#             ["python3", "ping_sitemap.py"],
+#             cwd=ping_dir,
+#             check=False,
+#             timeout=90,
+#         )
+#     except Exception as e:  # noqa: BLE001
+#         print(f"[warn] post-build sitemap ping failed: {e}")
+#
+# The ping script's own mtime-state guard prevents double-firing if the SEO
+# build didn't actually touch sitemap.xml.

@@ -7,6 +7,9 @@
 <meta name="description" content="Storm Arena in Last War: Survival. Arena ecosystem — Apex Arena / 3v3 Brawl companion mode.">
 <meta name="keywords" content="Storm Arena, Last War event, LWS, R5 alliance planning">
 <link rel="canonical" href="https://r5tools.io/events/storm-arena.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/storm-arena.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/storm-arena.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/storm-arena.html">
 <meta property="og:title" content="Storm Arena — Last War event guide | R5TOOLS.IO">
 <meta property="og:description" content="Storm Arena in Last War: Survival. Arena ecosystem — Apex Arena / 3v3 Brawl companion mode.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/storm-arena.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -136,7 +171,19 @@ td { color: var(--text-dim); }
 <p><strong>Still open:</strong></p>
 <ol><li><strong>KvK by that exact name</strong> — LWS does not currently ship a single event literally named &quot;KvK.&quot; Confirm whether &quot;KvK&quot; in patch notes, in-game menus, or KR/CN builds refers to Rare Soil War / Spice War / Goldvein War / Meteorite Iron War, or to a distinct cross-server event we have not yet located.</li><li><strong>KvK phase names (Ranking / Warpath / Free Attack / Preparation)</strong> — Not directly documented as LWS phase labels. These appear in sibling-title (Kingshot, WOS, SoS) guides. Confirm whether LWS uses any of these labels for Rare Soil / Spice / season-war internal phases, or if the equivalent phases are &quot;Declaration / Invitation / Preparation / Active War / Resolution&quot; as documented on lastwar-tutorial.com&#x27;s Rare Earth War page.</li><li><strong>Zombie Rush (&quot;좀비 러시&quot;) boss stat blocks</strong> — The Korean namu.wiki entry documents the bi-weekly Sunday 5v5 event, boss order (Baseball → Boxing → Rugby), and 30,000-point win condition, but no EN guide provides boss HP, damage, or squad recommendations. Untranslated content gap.</li><li><strong>Arms Race exact points per phase per HQ bracket</strong> — Only sample thresholds cited: HQ 10–12 = 1,000 pts first chest, HQ 31–35 = 15,000 pts first chest. Full bracket table not published.</li><li><strong>Meteorite Iron War schedule</strong> — &quot;No fixed schedule&quot; per source but presumably tied to inter-season windows. Which off-season weeks? Cadence per year?</li><li><strong>Capital War 3-alliance rotation status</strong> — Historical forum post cites RPX / OTL / UYL rotation on Fridays 9am CST for 8h. Confirm whether this rotation model is still active in 2026 or was replaced by the current season-scoped Capitol events.</li><li><strong>General&#x27;s Trial Advanced Mode Level 6–9 squad power</strong> — Only L1–L5 Advanced squad power published; L6–L9 minimum requirements not documented.</li><li><strong>Zombie Siege wave power tables at levels 2–12</strong> — Only Level 1 baseline (782K → 4.5M) is cited; higher-difficulty wave power scaling not published (structural model confirmed as <code>groups × per-group power</code>, but per-group scaling curve is not).</li><li><strong>Ghost Ops UR mission drop table by tier</strong> — L4 = 1 shard, L5 = 2 shards, star UR = 5 shards cited but full drop table (drone parts, exclusive weapon shard rates) not published.</li><li><strong>Weekly VS reward tier point thresholds</strong> — Basic/Advanced/Super chest thresholds cited (540k / 2.3M / 7.2M) but weekly tier reward thresholds (for the full-week win) not published.</li><li><strong>Doomsday Doom Walker level unlocks S3–S6</strong> — pattern is +30 per off-season (S1→220, S2→250), extrapolates to S3→280, S4→310, S5→340, S6→370. Not source-confirmed for S3+.</li><li><strong>Arena Coin weekly settlement thresholds</strong> (Storm Arena / Apex Arena / 3v3 Brawl) — the arena system&#x27;s weekly reward tier tables are not published in any accessible source.</li><li><strong>Trade Truck event vs Trade Truck daily plunder</strong> — is Trade Truck Plunder a discrete &quot;event&quot; or a continuous daily activity? Sources conflate these; the &quot;6-day event cycle&quot; claim from Handbook may be a Season-5-Wasteland-Trade-Train specific feature, not a general daily. Needs disambiguation.</li></ol>
 <ul><li><a href="https://www.lastwarvault.com/guides/general/wanted-boss-guide/" rel="nofollow noopener">Wanted Boss Guide — Last War Vault</a> — Last War Vault, 2026, EN, Tier B (WebFetch — <strong>weekly rotation by day-of-week + boss names Frenzied Butcher/Frankenstein/Mutant Bulldog</strong>; corrects prior KB claim of daily rotation)</li><li><a href="https://www.lastwargame.online/en/bosses-code-39-64-87/" rel="nofollow noopener">Code 39, 64, 87 Bosses in Last War — LastWar.online</a> — LastWar.online, 2026, EN, Tier B (WebFetch — spawn times 00:00/06:00/12:00/18:00, 3h duration, 5 attempts/day, weekly Mon-Sat rotation with Sunday off, HQ 8 requirement)</li><li><a href="https://cpt-hedge.com/guides/winter-storm-reward-structure-changes" rel="nofollow noopener">Winter Storm New Reward System Guide — Cpt Hedgehog</a> — Cpt Hedgehog&#x27;s Battle HQ, 2026, EN, Tier B (search excerpt — <strong>16,500 Honor total across 6 chests, first at 45k pts, final at 450k pts</strong>; supersedes old 10k-per-3-wins system)</li><li><a href="https://lastwarhandbook.com/guides/time-zone-guide" rel="nofollow noopener">Time Zone Guide (2026) — Last War Handbook</a> — Last War Handbook, 2026, EN, Tier B (search excerpt; direct fetch 403 — <strong>server time = UTC-2</strong>, 5-min post-reset scoring dead-zone)</li><li><a href="https://extremesecrecy.github.io/lastwar-research-trees/guides/calendar.html" rel="nofollow noopener">Last War Event Calendar — OWOW SKYNET</a> — community calendar tool, 2026, EN, Tier C (interactive server-time-to-local converter tool)</li><li><a href="https://lootbar.gg/blog/en/last-war-survival-guide-to-sky-battlefront.html" rel="nofollow noopener">Last War Sky Battlefront Guide — Lootbar</a> — Lootbar, 2026, EN, Tier C (WebSearch excerpt — <strong>10 tokens per personal chest</strong>, 500 tokens alliance chest, 50 tokens/day max)</li><li><a href="https://tap-guides.com/2025/10/24/last-war-survival-sky-battlefront-guid/" rel="nofollow noopener">Sky Battlefront Event Guide — Tap Guides</a> — Tap Guides, 2025-10, EN, Tier C (WebSearch excerpt — corroborates 10-token personal chest threshold + 15-token daily-login income)</li><li><a href="https://lastwarhandbook.com/guides/warzone-duel-guide" rel="nofollow noopener">Last War Warzone Duel Guide — Last War Handbook</a> — Last War Handbook, 2026, EN, Tier B (search excerpt — <strong>Warm-up Matches use combined alliance strength; League Matches add past placement</strong>)</li><li>[How does [Alliance Duel] matchmaking work? — Last War Support (Zendesk)](https://firstfungroup.zendesk.com/hc/en-us/articles/39666072353683-How-does-Alliance-Duel-matchmaking-work) — First Fun (publisher), 2026, EN, Tier A (search-indexed; direct fetch 403)</li><li><a href="https://www.packsify.com/blogs/last-war-survival-alliance-guide" rel="nofollow noopener">How Alliance Leaders Build Winning Alliances — Packsify</a> — Packsify, 2026, EN, Tier B (WebSearch excerpt — <strong>raw alliance power hides inactives</strong>; Strongest-Hero-Power rank is the truer metric; roster-cull discipline is the real winning factor)</li><li><a href="https://www.lastwargame.online/en/doomsday-event/" rel="nofollow noopener">Doomsday event guide — LastWar.online</a> — LastWar.online, 2026, EN, Tier B (WebSearch excerpt — <strong>Doom Walker L200/210/220 after S1 off-season, L230/240/250 after S2 off-season</strong>; odd/even week-parity rotation with Zombie Invasion/Rampage)</li><li><a href="https://lastwarhandbook.com/guides/f2p-progression-mastery" rel="nofollow noopener">Last War F2P Progression Mastery Guide — Last War Handbook</a> — Last War Handbook, 2026, EN, Tier B (search excerpt — <strong>55–75 diamonds/day = 385–525/week F2P baseline</strong>; 300–360 Coins/6-day Glittering cycle; 8–10 cycles per full Mythic Blueprint)</li><li><a href="https://lastwarhandbook.com/guides/f2p-officer-progression-guide" rel="nofollow noopener">Last War F2P Officer Progression Guide — Last War Handbook</a> — Last War Handbook, 2026, EN, Tier B (search excerpt — <strong>5-hero focus &gt; 15-hero spread</strong>; principle underlies every F2P event-priority call)</li><li><a href="https://lw-spy.com/blog/last-war-truck-plunder-guide/" rel="nofollow noopener">Last War Truck Plunder Guide — LW Spy</a> — LW Spy, 2026, EN, Tier B (WebSearch excerpt — <strong>six-refresh rule</strong> for UR truck near-certainty; Reindeer Sleds = highest-priority truck type; Exclusive Weapon Shards = single most-valuable truck reward)</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/ghost-ops-guide.html" rel="nofollow noopener">Last War Ghost Ops Guide — LDShop</a> — LDShop, 2026, EN, Tier B (WebSearch excerpt — <strong>prefer Exclusive Weapon Shards over UR shards</strong> in Ghost Ops selection)</li><li><a href="https://lastwarhandbook.com/guides/arena-system-master-guide" rel="nofollow noopener">Last War Arena System Master Guide — Last War Handbook</a> — Last War Handbook, 2026, EN, Tier B (search excerpt — <strong>3 arenas: 3v3 Brawl / Storm Arena (2-week rotation) / Apex Arena (Top 200 by hero power)</strong>; daily 3-thumbs-up = highest-ROI F2P 30-second habit)</li><li><a href="https://www.lastwarvault.com/guides/general/server-timeline-guide/" rel="nofollow noopener">Server Timeline &amp; Week-by-Week Roadmap — Last War Vault</a> — Last War Vault, 2026, EN, Tier B (WebFetch — <strong>Zombie Siege = Week 3 unlock, Alliance Duel = Week 4 unlock</strong>, Season 1 migration ~Day 70)</li><li><a href="https://www.bluestacks.com/blog/game-guides/last-warsurvival-game/lws-recurring-events-guide-en.html" rel="nofollow noopener">Bluestacks Recurring Events Guide — bluestacks.com</a> — Bluestacks, 2026, EN, Tier C (WebFetch — recurring event catalog with per-event rewards + F2P notes)</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/apex-arena.html">Apex Arena — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/3v3-brawl.html">3v3 Brawl — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/winter-storm-battlefield.html">Winter Storm Battlefield — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/desert-storm-battlefield.html">Desert Storm Battlefield — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-duel-vs.html">Alliance Duel VS — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -150,5 +197,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

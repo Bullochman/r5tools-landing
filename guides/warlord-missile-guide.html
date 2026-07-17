@@ -7,6 +7,9 @@
 <meta name="description" content="Everything about the Warlord Missile — S2 25×25 blast, S3 35×35 upgrade, 3-minute intercept window, and the 10-tile Furnace clearance rule.">
 <meta name="keywords" content="Warlord Missile guide — S2 25×25, S3 35×35, Last War guide, LWS R5, alliance strategy">
 <link rel="canonical" href="https://r5tools.io/guides/warlord-missile-guide.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/warlord-missile-guide.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/warlord-missile-guide.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/warlord-missile-guide.html">
 <meta property="og:title" content="Warlord Missile guide — S2 25×25, S3 35×35 | R5TOOLS.IO">
 <meta property="og:description" content="Everything about the Warlord Missile — S2 25×25 blast, S3 35×35 upgrade, 3-minute intercept window, and the 10-tile Furnace clearance rule.">
 <meta property="og:type" content="article">
@@ -99,10 +102,45 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+<!-- BEGIN r5tools:seo:howto v1 -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"Warlord Missile guide — S2 25×25, S3 35×35","description":"Everything about the Warlord Missile — S2 25×25 blast, S3 35×35 upgrade, 3-minute intercept window, and the 10-tile Furnace clearance rule.","step":[{"@type":"HowToStep","position":1,"name":"Step 1","text":"Do not kill your highest-level Wanderer / Doom Walker before the map transition — first-kill coal reward only pays out post-transition (a level-180 Wanderer paid ~200,000 coal in one community report). Stack radar missions pre-season so they can be cleared for coal on Day 1. [dcinside gall/12212, 2026-07-14; lastwartutorial.com, 2026-07-14]","url":"https://r5tools.io/guides/warlord-missile-guide.html#step-1"},{"@type":"HowToStep","position":2,"name":"Step 2","text":"R4 or R5 deploys the Alliance Furnace on a Level-1 territory as close to the intended hive center as possible. The furnace requires up to 20 reinforcements to activate — get every online member to garrison it immediately. [lastwartutorial.com, 2026-07-14]","url":"https://r5tools.io/guides/warlord-missile-guide.html#step-2"},{"@type":"HowToStep","position":3,"name":"Step 3","text":"Reposition the hive if the server's drop location is too crowded, too close to hostiles, or too far from the seasonal targets you want (weaker members near the furnace; stronger members on the outer ring). Use the free Assembly Point-shift trick. [lastwar-tutorial.com teleporter, 2026-07-14]","url":"https://r5tools.io/guides/warlord-missile-guide.html#step-3"},{"@type":"HowToStep","position":4,"name":"Step 4","text":"Every member: build High-Heat Furnace + first Titanium Alloy Factory + turn on the \"auto-activate in blizzard\" toggle on the High-Heat Furnace so Week-1 blizzards do not surprise a member who's asleep. [lastwarguide.net Season 2, 2026-07-14]","url":"https://r5tools.io/guides/warlord-missile-guide.html#step-4"},{"@type":"HowToStep","position":5,"name":"Step 5","text":"Do not park bases directly on the Alliance Furnace tile — position at least 5 tiles away to stay outside the 25×25 Warlord Missile blast radius when war rounds start in Week 4. Place the Assembly Point near the furnace but also outside that radius so evicted bases have a safe return tile. [lastwar-guide.org Season 2 Week 4, 2026-07-15]","url":"https://r5tools.io/guides/warlord-missile-guide.html#step-5"},{"@type":"HowToStep","position":6,"name":"Step 6","text":"Capture the first Level-1 dig site immediately. The season's first alliance capture MUST be a Level-1 dig site; every subsequent capture then must be adjacent to existing alliance territory. This drives the \"expanding outward from the corner\" pattern. [lastwartutorial.com Ultimate Strategy Guide, 2026-07-14]","url":"https://r5tools.io/guides/warlord-missile-guide.html#step-6"}],"image":"https://r5tools.io/static/og-image.png"}</script>
+<!-- END r5tools:seo:howto v1 -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/guides/warlord-missile-guide.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -136,7 +174,19 @@ td { color: var(--text-dim); }
 <p><strong>Warlord Missile:</strong> high-level attackers can launch a <strong>Warlord Missile</strong> at an enemy Alliance Furnace:</p>
 <ul><li><strong>3-minute (180-second) preparation window</strong> after launch during which the Warlord&#x27;s own base is revealed to the entire server via world-chat broadcast and the Warlord enters &quot;War Fever&quot; status. [lastwar-tutorial.com Rare Earth War, 2026-07-15; lastwar-tutorial.com Ultimate Strategy Guide, 2026-07-15]</li><li><strong>Launch can be attempted during both the Preparation Stage and the Combat Stage</strong> of a war round, not only during the 30-minute Prep. [lastwar-tutorial.com Ultimate Strategy Guide, 2026-07-15]</li><li>Impact zone: <strong>25×25 tile grid</strong> (&quot;Contaminated Land&quot;) in Season 2 that lasts <strong>1 hour</strong>, during which bases inside cannot activate shields. Furnace takes <strong>30,000 durability damage</strong> on a successful impact. [lastwar-tutorial.com Rare Earth War, 2026-07-15]</li><li><strong>Season 3 blast size expansion (added 2026-07-16):</strong> Season 3 Golden Kingdom / Spice Wars / Faction Duel expands the same Warlord Missile mechanic to a <strong>35×35 tile blast</strong>. Season 2 remains 25×25. Any downstream Warlord Missile simulator tool that spans multiple seasons must key blast size off the current season. [lastwarhandbook.com Season 3 Spice Wars &amp; Faction Duel Complete Guide search-excerpt 2026-07-16 Tier B; direct fetch 403]</li><li>Multiple Warlords from allied attacker alliances can queue simultaneous missiles at the same furnace. [lastwar-tutorial.com Rare Earth War, 2026-07-15]</li></ul>
 <p><strong>Close-perimeter defender ping — the mechanic the KB was missing.</strong> On successful impact, <strong>every base inside the 25×25 blast area is forcibly relocated to a random position on the map</strong> — except the Warlord&#x27;s own base if it happens to be inside the radius. This is the &quot;close-perimeter ping&quot; observed in community reports: defenders reinforcing the Alliance Furnace do not merely lose their shield — the game <strong>physically evicts them from their reinforcement position</strong>, forcing the furnace to be re-reinforced under fire while defenders find their new (often deep-frozen) landing tiles, shield up, and teleport back. Reinforcement squads inside the furnace itself are not evicted (they are inside the building, not on a tile), but any base staged next to the furnace to launch counter-rallies is displaced. Shields are also blocked inside the Contaminated Land for the full 1-hour duration, so re-shielding at the random landing tile is possible but re-shielding at any tile inside the 25×25 zone is not. [lastwar-tutorial.com Rare Earth War, 2026-07-15; lastwarguide.net Season 2, 2026-07-15]</p>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/guides/type-counter-triangle.html">Type counter triangle — Tank / Aircraft / Missile</a></li>
+    <li><a href="https://r5tools.io/guides/alliance-furnace-guide.html">Alliance Furnace guide — coal budget, radius, overdrive</a></li>
+    <li><a href="https://r5tools.io/guides/legendary-recruitment-strategy.html">Legendary Recruitment strategy — 1% UR / 0.14% single-hero</a></li>
+    <li><a href="https://r5tools.io/guides/how-to-plan-season-2-landing.html">How to plan Season 2 Polar Storm landing</a></li>
+    <li><a href="https://r5tools.io/guides/rare-soil-war-strategy.html">Rare Soil War strategy — the S2 blizzard-and-plunder guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -150,5 +200,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<!-- [REVIEW-NEEDED] Spanish translation pending native-speaker review. Contact evanjones@mdr.net before publishing. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Confianza y Seguridad &middot; R5TOOLS.IO</title>
+  <meta name="description" content="Quien opera r5tools.io, nuestra postura de seguridad, practicas de datos y como reportar bugs. Una pagina para R5s escepticos." />
+  <link rel="canonical" href="https://r5tools.io/es/trust.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/trust.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/trust.html" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/trust.html" />
+  <link rel="alternate" hreflang="pt" href="https://r5tools.io/pt/trust.html" />
+  <link rel="alternate" hreflang="es" href="https://r5tools.io/es/trust.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/trust.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c9a961'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-size='52' font-weight='700' fill='%230a0e1a'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#0a0e1a; --panel:#0d1424; --border:rgba(255,255,255,0.08); --accent:#c9a961; --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.65; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 40px 24px; }
+    h1 { font-size: 32px; margin: 0 0 6px; color: var(--accent); }
+    .lede { color: var(--text-mute); margin: 0 0 32px; font-size: 14px; }
+    h2 { font-size: 20px; color: var(--accent); margin: 40px 0 10px; }
+    h3 { font-size: 15px; color: var(--text); margin: 18px 0 4px; }
+    p, li { color: var(--text-dim); font-size: 14.5px; }
+    ul { padding-left: 22px; }
+    a { color: var(--accent); }
+    strong { color: var(--text); }
+    footer { margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-mute); font-size: 12px; }
+    footer a { text-decoration: none; margin: 0 8px; }
+    .nav { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .nav a { color: var(--text-dim); text-decoration: none; font-size: 12px; }
+    .langs { display: flex; gap: 8px; }
+    .langs a { padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; }
+    .langs a.active { color: var(--accent); border-color: var(--accent); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 20px 0; }
+    .card { padding: 18px 20px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; }
+    .card h3 { margin-top: 0; color: var(--accent); font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
+    .card p { margin: 6px 0 0; font-size: 13.5px; }
+    .callout { padding: 14px 18px; background: rgba(201,169,97,0.08); border: 1px solid rgba(201,169,97,0.25); border-radius: 8px; margin: 12px 0; }
+    .safe { padding: 14px 18px; background: rgba(80,200,120,0.06); border: 1px solid rgba(80,200,120,0.3); border-radius: 8px; margin: 12px 0; }
+    .safe strong { color: rgb(120, 220, 150); }
+    .who { display: flex; gap: 20px; align-items: center; padding: 20px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin: 12px 0; flex-wrap: wrap; }
+    .who-photo { width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #8a6d3b); display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700; color: var(--bg); flex-shrink: 0; }
+    .who-details h3 { margin: 0 0 4px; color: var(--accent); font-size: 18px; text-transform: none; letter-spacing: 0; }
+    .who-details p { margin: 3px 0; }
+    .disclaimer { padding: 12px 16px; background: rgba(255,80,80,0.06); border: 1px solid rgba(255,80,80,0.25); border-radius: 8px; margin: 20px 0; font-size: 13px; }
+    .bounty-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13.5px; }
+    .bounty-table th, .bounty-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; color: var(--text-dim); }
+    .bounty-table th { background: rgba(201,169,97,0.06); color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <a href="/es/">&larr; r5tools.io</a>
+      <div class="langs">
+        <a href="/trust.html">EN</a>
+        <a href="/ko/trust.html">KR</a>
+        <a href="/ja/trust.html">JP</a>
+        <a href="/pt/trust.html">PT</a>
+        <a href="/es/trust.html" class="active">ES</a>
+      </div>
+    </div>
+
+    <h1>Confianza y Seguridad</h1>
+    <p class="lede">Todo lo que un R5 necesita para decidir si nos confia los datos de su alianza. En una pagina.</p>
+
+    <div class="disclaimer"><strong>No es asesoria legal.</strong> Los hechos aqui son nuestros compromisos actuales; la version ejecutable esta en <a href="/es/terms.html">Terminos</a> y <a href="/es/privacy.html">Privacidad</a>.</div>
+
+    <h2>Quien esta detras de r5tools.io</h2>
+    <div class="who">
+      <div class="who-photo">EJ</div>
+      <div class="who-details">
+        <h3>Evan Jones</h3>
+        <p>Desarrollador independiente, Alabama, EE.UU.</p>
+        <p>R5 de una alianza activa en Warzone 2007.</p>
+        <p>Contacto: <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a></p>
+        <p>Discord: disponible en el servidor comunitario (link abajo).</p>
+      </div>
+    </div>
+    <p>No soy una empresa. Soy un desarrollador que juega LWS y se canso de manejar la alianza con hojas de calculo. Si algo se rompe, me envias correo directamente.</p>
+
+    <h2>No-afiliacion con el estudio del juego</h2>
+    <div class="callout">
+      <p><strong>r5tools.io NO es el juego.</strong> No somos Last War Games, First Fun, Century Games ni socios. No tenemos acceso interno. No recibimos patch notes por adelantado. No representamos al publisher de ninguna forma.</p>
+      <p>Todos los nombres in-game, stats y screenshots son usados para ayudarte a planear en torno al juego. Es uso justo nominativo bajo la ley de copyright de EE.UU. Si un titular de derechos discrepa, escuchamos inmediatamente &mdash; correo arriba.</p>
+    </div>
+
+    <h2>Postura de seguridad (lo que NO tocamos)</h2>
+    <div class="safe">
+      <p><strong>Nunca te pedimos credenciales in-game.</strong> Ni usuario. Ni contrasena. Ni token de sesion. Nada que pueda iniciar sesion en tu cuenta. Si alguna pagina de r5tools lo pide, cierra la pestana y avisanos &mdash; es phishing usando nuestro nombre.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>Sin automatizacion</h3>
+        <p>No clicamos, tocamos ni enviamos nada al juego en tu nombre. Nuestras herramientas son calculadoras y planificadores, no bots.</p>
+      </div>
+      <div class="card">
+        <h3>Sin lectura de memoria</h3>
+        <p>No leemos memoria del juego, trafico de red ni portapapeles de tu dispositivo. Todo lo que sabemos viene de datos que pegas o subes.</p>
+      </div>
+      <div class="card">
+        <h3>Sin violacion de ToS</h3>
+        <p>Nada de lo que hacemos viola los Terminos de LWS hasta donde sabemos. Somos, a lo mucho, una hoja de calculo con UI.</p>
+      </div>
+      <div class="card">
+        <h3>Fotos quedan locales</h3>
+        <p>Profile Studio procesa 100% en tu navegador. Las fotos nunca tocan nuestros servidores.</p>
+      </div>
+      <div class="card">
+        <h3>Cifrado en transito</h3>
+        <p>TLS 1.2 o superior en todos lados. Codigos de acceso almacenados como hashes.</p>
+      </div>
+      <div class="card">
+        <h3>Puedes borrar todo</h3>
+        <p>Envianos correo con tu codigo y limpiamos en 30 dias &mdash; usualmente en 24 horas.</p>
+      </div>
+    </div>
+
+    <h2>Resumen de practicas de datos</h2>
+    <ul>
+      <li>Recopilamos el minimo necesario para operar la herramienta.</li>
+      <li>No vendemos tus datos. Nunca. A nadie.</li>
+      <li>No usamos tus datos para publicidad.</li>
+      <li>Respetamos derechos GDPR, CCPA y PIPA globalmente.</li>
+      <li>Detalles: <a href="/es/privacy.html">Politica de Privacidad</a>.</li>
+    </ul>
+
+    <h2>Programa de bug bounty</h2>
+    <p>Si encuentras una vulnerabilidad de seguridad, avisanos antes que a Internet. Somos operacion solo y tomamos los reportes en serio.</p>
+
+    <h3>Como reportar</h3>
+    <ul>
+      <li>Correo a <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a> con asunto "Security".</li>
+      <li>Incluye: que encontraste, como reproducir y (si quieres) nombre/handle para el hall of fame.</li>
+      <li>Por favor no divulgues publicamente hasta que confirmemos correccion.</li>
+    </ul>
+
+    <h3>En alcance</h3>
+    <ul>
+      <li>Bugs de autenticacion o sesion en r5tools.io y access-codes.r5tools.io.</li>
+      <li>Formas de leer datos subidos por otra alianza.</li>
+      <li>XSS, SQL injection, SSRF, IDOR en nuestros origenes.</li>
+      <li>Bypasses de verificacion de codigo de acceso.</li>
+    </ul>
+
+    <h3>Fuera de alcance</h3>
+    <ul>
+      <li>Servicios de terceros (reporta al vendor: Stripe, Cloudflare, GitHub Pages, Railway).</li>
+      <li>Rate limit o brute-force sin prueba de concepto.</li>
+      <li>Cabeceras ausentes sin exploit.</li>
+      <li>Vulnerabilidades que requieren acceso fisico al dispositivo.</li>
+    </ul>
+
+    <h3>Rangos de bounty</h3>
+    <table class="bounty-table">
+      <thead><tr><th>Severidad</th><th>Ejemplo</th><th>Recompensa</th></tr></thead>
+      <tbody>
+        <tr><td>Critical</td><td>Toma completa de cuenta, leer roster de otra alianza</td><td>$250 + Hall of Fame</td></tr>
+        <tr><td>High</td><td>Bypass de permisos, XSS almacenado en herramienta paga</td><td>$100 + Hall of Fame</td></tr>
+        <tr><td>Medium</td><td>XSS reflejado, filtracion sensible sin PII</td><td>$50 + Hall of Fame</td></tr>
+        <tr><td>Low / Informativo</td><td>Cabecera ausente, disclosure no explotable</td><td>Hall of Fame</td></tr>
+      </tbody>
+    </table>
+    <p>Bounties pagados via PayPal, Wise o Stripe. Montos son pagos de buena voluntad, no un programa juridicamente vinculante &mdash; pero nunca hemos dejado colgado a un reportero valido y no vamos a empezar.</p>
+
+    <h2>Roadmap y estado</h2>
+    <ul>
+      <li>Roadmap publico: <a href="/roadmap.html">/roadmap.html</a>.</li>
+      <li>Estado en vivo: <a href="/status.html">/status.html</a>.</li>
+      <li>Changelog/decisiones: enlazado desde el roadmap.</li>
+    </ul>
+
+    <h2>Comunidad</h2>
+    <ul>
+      <li>Discord: <a href="https://discord.gg/r5tools" target="_blank" rel="noopener">discord.gg/r5tools</a>.</li>
+      <li>Lista de espera para nuevas funciones: <a href="/es/waitlist.html">/es/waitlist.html</a>.</li>
+    </ul>
+
+    <h2>Enlaces legales rapidos</h2>
+    <ul>
+      <li><a href="/es/terms.html">Terminos de Servicio</a></li>
+      <li><a href="/es/privacy.html">Politica de Privacidad</a> (GDPR + CCPA + PIPA)</li>
+      <li><a href="/es/refund.html">Politica de Reembolsos</a></li>
+    </ul>
+
+    <footer>
+      <a href="/es/">Inicio</a> &middot; <a href="/es/terms.html">Terminos</a> &middot; <a href="/es/privacy.html">Privacidad</a> &middot; <a href="/es/refund.html">Reembolsos</a> &middot; <a href="/es/trust.html">Confianza</a> &middot; <a href="mailto:evanjones@mdr.net">Contacto</a>
+    </footer>
+  </div>
+</body>
+</html>

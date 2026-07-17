@@ -7,6 +7,9 @@
 <meta name="description" content="The morning-of-blizzard freeze-risk sweep — ambient bands, threshold temps, per-member coal cushion, and how to auto-alert Discord.">
 <meta name="keywords" content="Freeze risk warning dashboard — the S2 R5 morning checklist, Last War guide, LWS R5, alliance strategy">
 <link rel="canonical" href="https://r5tools.io/guides/freeze-risk-warning-dashboard.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/freeze-risk-warning-dashboard.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/freeze-risk-warning-dashboard.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/freeze-risk-warning-dashboard.html">
 <meta property="og:title" content="Freeze risk warning dashboard — the S2 R5 morning checklist | R5TOOLS.IO">
 <meta property="og:description" content="The morning-of-blizzard freeze-risk sweep — ambient bands, threshold temps, per-member coal cushion, and how to auto-alert Discord.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/guides/freeze-risk-warning-dashboard.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -134,7 +169,19 @@ td { color: var(--text-dim); }
 <p><strong>Design implication for LWS suite tools:</strong> Season-2-only tools (Heat Simulator, Coal Burn Calculator, Freeze-Risk Dashboard) do NOT trivially generalize to S3 (curse mechanic) or S4 (light mechanic). A generic &quot;seasonal survival threshold&quot; abstraction would need to model per-season the <em>what-goes-below-what</em> logic (S2: temperature, S3: curse, S4: light). Cross-season KB articles for S3+ live in separate files (see <em>07-future-seasons</em> for the roadmap).</p>
 <h3>Freeze mechanics</h3>
 <div class="tbl-wrap"><table><thead><tr><th>Threshold</th><th>Value</th></tr></thead><tbody><tr><td>Freeze trigger</td><td>Base temp <strong>&lt; -20 °C</strong> for <strong>5 continuous minutes</strong></td></tr><tr><td>Frozen state effects</td><td>No rally · no teleport · no relocation · no shield inside Contaminated Land</td></tr><tr><td>Thaw trigger</td><td>Base temp <strong>&gt; -20 °C</strong> for <strong>5 continuous minutes</strong></td></tr><tr><td>Safe ally-heating ceiling</td><td><strong>≈ +38 °C</strong></td></tr><tr><td>Fire-damage risk threshold</td><td><strong>≥ +40 °C</strong></td></tr></tbody></table></div>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/guides/">Last War R5 guides — every planning topic</a></li>
+    <li><a href="https://r5tools.io/guides/how-to-plan-season-2-landing.html">How to plan Season 2 Polar Storm landing</a></li>
+    <li><a href="https://r5tools.io/guides/rare-soil-war-strategy.html">Rare Soil War strategy — the S2 blizzard-and-plunder guide</a></li>
+    <li><a href="https://r5tools.io/guides/alliance-furnace-guide.html">Alliance Furnace guide — coal budget, radius, overdrive</a></li>
+    <li><a href="https://r5tools.io/guides/coal-budget-calculator-guide.html">Coal budget calculator — how much coal do I actually need?</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -148,5 +195,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

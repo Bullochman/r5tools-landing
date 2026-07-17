@@ -7,6 +7,9 @@
 <meta name="description" content="Kimberly in Last War: Survival — Season 1 Tank UR — AoE Energy-damage carry, the 2026 meta anchor for Tank rally comps. Skills, best pairings, F2P priority.">
 <meta name="keywords" content="Kimberly, Last War hero, LWS, UR, Tank, hero build, hero guide">
 <link rel="canonical" href="https://r5tools.io/heroes/kimberly.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/heroes/kimberly.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/heroes/kimberly.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/heroes/kimberly.html">
 <meta property="og:title" content="Kimberly — Last War hero build (UR Tank) | R5TOOLS.IO">
 <meta property="og:description" content="Kimberly in Last War: Survival — Season 1 Tank UR — AoE Energy-damage carry, the 2026 meta anchor for Tank rally comps. Skills, best pairings, F2P priority.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/heroes/kimberly.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -145,7 +180,19 @@ td { color: var(--text-dim); }
 <ul><li>Lucius / Carlie / Morrison / Schuyler / DVA — Carlie is &quot;the only Aircraft-type tank and makes the formation viable&quot;; DVA &quot;runs at full Aircraft formation bonus in this lineup, producing her highest effective output&quot; [ldshop.gg aircraft-hero-skills, 2026]. <strong>Note</strong>: Kimberly is NOT part of this comp — she&#x27;s a Tank. Common newbie confusion because her Barrage Strike visual looks aerial.</li></ul>
 <h3>Quick facts</h3>
 <ul><li><strong>Type:</strong> Tank</li><li><strong>Rarity:</strong> UR</li><li><strong>Squad slot preference:</strong> front row</li><li><strong>Recommended:</strong> see F2P investment priority table in the <a href="/heroes/" rel="nofollow noopener">Heroes hub</a>.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/heroes/gump.html">Gump — Last War hero build (SR Tank)</a></li>
+    <li><a href="https://r5tools.io/heroes/murphy.html">Murphy — Last War hero build (UR Tank)</a></li>
+    <li><a href="https://r5tools.io/heroes/stetmann.html">Stetmann — Last War hero build (UR Tank)</a></li>
+    <li><a href="https://r5tools.io/heroes/williams.html">Williams — Last War hero build (UR Tank)</a></li>
+    <li><a href="https://r5tools.io/heroes/loki.html">Loki — Last War hero build (SR Tank)</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -159,5 +206,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

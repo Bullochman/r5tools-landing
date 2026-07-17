@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>시즌 2 랜딩 치트시트 — 무료 — R5TOOLS.IO</title>
+  <meta name="description" content="시즌 2 랜딩 치트시트 — 7페이지 무료 PDF. 모든 얼라이언스가 놓치는 4개 좌표, 본부 레벨별 티어 배정, 랠리 리더 배치, 첫 72시간 건설 순서, 그리고 R5만 아는 8가지 경고. 조건 없음." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://r5tools.io/ko/cheat-sheet.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/cheat-sheet.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/cheat-sheet.html" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/cheat-sheet.html" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/cheat-sheet.html" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/cheat-sheet.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/cheat-sheet.html" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="시즌 2 랜딩 치트시트 — 무료 — R5TOOLS.IO" />
+  <meta property="og:description" content="얼음 맵의 첫 72시간을 위한 R5-대-R5 플레이북. 7페이지, 무료, 조건 없음." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/ko/cheat-sheet.html" />
+  <meta property="og:image" content="https://r5tools.io/static/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961; --accent-hover: #d9b871;
+      --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+      --success: #8ae0a3; --danger: #e88a4a;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans KR", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased; line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 96px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 24px;
+    }
+    .brand { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600; }
+    .lang-toggle {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px; text-decoration: none;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero {
+      text-align: center; padding: 40px 12px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero .kicker {
+      display: inline-block; padding: 4px 12px; border: 1px solid var(--border-accent);
+      color: var(--accent); background: var(--panel);
+      border-radius: 14px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.02em;
+      line-height: 1.2; margin: 0 0 16px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .sub {
+      font-size: 17px; color: var(--text-dim); max-width: 640px; margin: 0 auto 12px;
+    }
+    .hero .attrib { font-size: 13px; color: var(--text-mute); margin-top: 8px; }
+
+    .grab {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      margin: 40px 0;
+    }
+    @media (max-width: 760px) {
+      .grab { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 30px; }
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+    }
+    .card h2 {
+      color: var(--accent); font-size: 12px; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 600; margin: 0 0 12px;
+    }
+    .card p { color: var(--text-dim); font-size: 14px; margin: 0 0 16px; }
+    .form-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .form-row input {
+      flex: 1; padding: 12px 14px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 14px; font-family: inherit; outline: none;
+    }
+    .form-row input:focus { border-color: var(--accent); }
+    .form-row button {
+      padding: 12px 18px; background: var(--accent); color: var(--bg);
+      border: 0; border-radius: 8px; font-weight: 600; font-size: 14px;
+      cursor: pointer; font-family: inherit;
+    }
+    .form-row button:hover { background: var(--accent-hover); }
+    .form-status { min-height: 18px; font-size: 12px; color: var(--text-mute); margin-bottom: 12px; }
+    .form-status.ok { color: var(--success); }
+    .form-status.warn { color: var(--danger); }
+    .download-btn {
+      display: block; width: 100%; text-align: center;
+      padding: 16px 20px; background: transparent;
+      border: 2px solid var(--accent); color: var(--accent);
+      border-radius: 8px; font-weight: 700; font-size: 16px;
+      cursor: pointer; text-decoration: none;
+    }
+    .download-btn.primary { background: var(--accent); color: var(--bg); }
+    .download-btn.primary:hover { background: var(--accent-hover); }
+    .download-mini { font-size: 11px; color: var(--text-mute); text-align: center; margin-top: 8px; }
+
+    .preview {
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; text-align: center;
+    }
+    .preview .pdf-mock {
+      background: linear-gradient(135deg, #0a0e1a 0%, #12192c 100%);
+      border: 1px solid var(--border-accent); border-radius: 6px;
+      padding: 32px 16px; margin: 0 auto 16px; max-width: 280px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .pdf-mock .band { height: 3px; background: var(--accent); width: 60%; margin: 0 auto 12px; }
+    .pdf-mock .title { color: var(--accent); font-size: 15px; font-weight: 700; margin: 0 0 6px; }
+    .pdf-mock .subtitle { color: var(--text-mute); font-size: 10px; margin: 0 0 20px; }
+    .pdf-mock .attr { color: var(--text-dim); font-size: 9px; letter-spacing: 0.05em; margin-top: 24px; }
+    .preview .meta { color: var(--text-mute); font-size: 12px; margin-top: 12px; }
+
+    .whats-inside { margin: 40px 0; }
+    .whats-inside h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .toc {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;
+    }
+    .toc-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .toc-item .num {
+      color: var(--accent); font-weight: 700; font-family: ui-monospace, monospace;
+      font-size: 14px; min-width: 28px;
+    }
+    .toc-item .body { flex: 1; }
+    .toc-item .body strong { color: var(--text); font-size: 14px; display: block; margin-bottom: 4px; }
+    .toc-item .body span { color: var(--text-mute); font-size: 12px; }
+
+    .testimonials { margin: 48px 0; }
+    .testimonials h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .test-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+    }
+    .test-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .test-card blockquote {
+      margin: 0; color: var(--text-dim); font-size: 14px;
+      font-style: italic; line-height: 1.7;
+    }
+    .test-card .author {
+      color: var(--text-mute); font-size: 12px; margin-top: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .test-card .author .r5-tag {
+      color: var(--accent); background: rgba(201,169,97,0.08);
+      padding: 2px 8px; border-radius: 10px; font-size: 10px; letter-spacing: 0.05em;
+    }
+    .test-card.placeholder blockquote { color: var(--text-mute); font-style: normal; }
+
+    .built-by {
+      background: var(--panel-2); border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 20px 24px; text-align: center; margin: 32px 0;
+    }
+    .built-by strong { color: var(--accent); }
+    .built-by p { margin: 0; color: var(--text-dim); font-size: 14px; }
+
+    .cta {
+      background: linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 36px 28px; text-align: center; margin: 48px 0 0;
+    }
+    .cta h2 {
+      color: var(--accent); font-size: 22px; margin: 0 0 12px;
+      text-transform: none; letter-spacing: normal; font-weight: 600;
+    }
+    .cta p { color: var(--text-dim); font-size: 15px; margin: 0 0 24px; }
+    .cta .code {
+      display: inline-block; padding: 4px 14px; background: var(--bg);
+      border: 1px solid var(--border-accent); border-radius: 6px;
+      color: var(--accent); font-family: ui-monospace, monospace;
+      font-size: 13px; letter-spacing: 0.05em; margin: 0 6px;
+    }
+    .cta .btn {
+      display: inline-block; padding: 14px 32px; background: var(--accent);
+      color: var(--bg); border-radius: 8px; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.02em; font-size: 15px;
+    }
+    .cta .btn:hover { background: var(--accent-hover); color: var(--bg); }
+
+    footer {
+      margin-top: 60px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-mute); font-size: 12px; text-align: center;
+    }
+    footer a { color: var(--text-dim); }
+    footer a:hover { color: var(--accent); }
+  </style>
+
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      var COLLECTOR = 'https://access-codes.r5tools.io/api/analytics/event';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        COLLECTOR = 'http://127.0.0.1:8791/api/analytics/event';
+      }
+      window.r5Track = function (event, extra) {
+        var payload = Object.assign({
+          event: event, page: location.pathname,
+          lang: document.documentElement.lang || 'ko', ts: Date.now()
+        }, extra || {});
+        try { window.dataLayer.push(payload); } catch (e) {}
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(COLLECTOR, JSON.stringify(payload));
+          } else {
+            fetch(COLLECTOR, {
+              method: 'POST', mode: 'no-cors', keepalive: true,
+              body: JSON.stringify(payload)
+            }).catch(function () {});
+          }
+        } catch (e) {}
+      };
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="/ko/" class="brand">R5TOOLS.IO</a>
+      <a href="/cheat-sheet.html" class="lang-toggle">English →</a>
+    </header>
+
+    <section class="hero">
+      <div class="kicker">무료 리드 마그넷 · 7페이지 · PDF</div>
+      <h1><span class="accent">시즌 2 랜딩</span> 치트시트</h1>
+      <p class="sub">완전 무료, 조건 없음. 모든 얼라이언스가 놓치는 4개 좌표, 본부 레벨별 티어 배정, 랠리 리더 배치, 첫 72시간 건설 순서, 그리고 R5만 아는 8가지 경고.</p>
+      <p class="attrib">Warzone 2007 현역 R5가 작성. 얼라이언스 내부에서 자유롭게 배포하세요.</p>
+    </section>
+
+    <div class="grab">
+      <div class="card">
+        <h2>PDF 받기</h2>
+        <p>새 도구(동결 리스크, 석탄 소비, 도시 점령 플래너)를 출시할 때 알림을 받고 싶으시면 이메일을 남겨주세요. 아니면 그냥 다운로드 — 게이트 없음.</p>
+        <form id="emailForm" onsubmit="return submitEmail(event)">
+          <div class="form-row">
+            <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" />
+            <button type="submit" id="sendBtn">보내기</button>
+          </div>
+        </form>
+        <div class="form-status" id="formStatus"></div>
+        <a href="../marketing/lead-magnets/season-2-landing-cheat-sheet-ko.pdf"
+           class="download-btn primary"
+           id="downloadBtn"
+           download
+           onclick="onDownload()">치트시트 다운로드 →</a>
+        <div class="download-mini">PDF · ~90 KB · 7페이지 · 인쇄 가능</div>
+      </div>
+
+      <div class="preview" aria-hidden="true">
+        <div class="pdf-mock">
+          <div class="band"></div>
+          <div class="title">시즌 2 랜딩 치트시트</div>
+          <div class="subtitle">폴라 스톰 · 얼음 맵 · 희토 전쟁</div>
+          <div style="height: 8px; background: var(--accent); margin: 24px auto; width: 40%;"></div>
+          <div class="attr">R5TOOLS.IO  ·  2026</div>
+        </div>
+        <div class="meta">표지 · 6페이지 콘텐츠 · QR이 있는 뒷표지</div>
+      </div>
+    </div>
+
+    <section class="whats-inside">
+      <h2>수록 내용</h2>
+      <div class="toc">
+        <div class="toc-item"><div class="num">01</div><div class="body"><strong>모든 얼라이언스가 놓치는 4개 좌표</strong><span>화로 타일 · 집결지 · 랠리 리더 앵커 · 폴백 링</span></div></div>
+        <div class="toc-item"><div class="num">02</div><div class="body"><strong>본부 레벨별 랜딩 티어</strong><span>본부 레벨에 따른 배치, "가장 약한 사람이 가장 가까이" 원칙</span></div></div>
+        <div class="toc-item"><div class="num">03</div><div class="body"><strong>랠리 리더 배치</strong><span>3초 창 · 워로드 미사일 지오메트리 · 25×25 폭발 · 72시간 쿨다운</span></div></div>
+        <div class="toc-item"><div class="num">04</div><div class="body"><strong>첫 72시간 건설 순서</strong><span>석탄, 티타늄, 희토 비율 · 동맹 화로 20명 지원 게이트</span></div></div>
+        <div class="toc-item"><div class="num">05</div><div class="body"><strong>"이러면 망합니다" 체크리스트</strong><span>현역 R5만 아는 8가지 경고 · 브래킷 점프부터 세이프타임 혼란까지</span></div></div>
+        <div class="toc-item"><div class="num">06</div><div class="body"><strong>랜딩 플래너 도구 티저</strong><span>리퍼럴 보너스 QR + $30 얼라이언스 가격 + RONY-FREE 코드</span></div></div>
+      </div>
+    </section>
+
+    <section class="built-by">
+      <p><strong>Warzone 2007 현역 R5가 제작</strong> — 시트의 모든 수치는 R5TOOLS.IO 라스트 워 지식 베이스에서 가져왔습니다 (22개 출처 교차 확인, KR 출처 4개 포함).</p>
+    </section>
+
+    <section class="testimonials">
+      <h2>R5들이 말합니다</h2>
+      <div class="test-grid">
+        <div class="test-card placeholder">
+          <blockquote>"후기 자리 — Warzone 2007 얼라이언스 R5, 티어 표가 매주 반복되던 동결 붕괴를 어떻게 막았는지."</blockquote>
+          <div class="author"><span>— 이름 미공개</span><span class="r5-tag">R5 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>"후기 자리 — 건설 순서를 사용해 1주 차 끝까지 티타늄 공장 4개를 완성한 R4."</blockquote>
+          <div class="author"><span>— 이름 미공개</span><span class="r5-tag">R4 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>"후기 자리 — KR 얼라이언스 리더, dcinside 갤이 힘들게 알아낸 모든 것과 이 시트가 얼마나 잘 맞는지."</blockquote>
+          <div class="author"><span>— 이름 미공개</span><span class="r5-tag">R5 · KR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>도움이 됐다면, 얼라이언스 전체 도구를 잠금 해제하세요</h2>
+      <p>랜딩 플래너 도구는 100명 전원에게 앵커 기준 특정 타일을 배정하고, Discord용 라벨 PNG를 내보내며, Day 1 이전에 멤버별 동결 리스크 점수를 생성합니다. 8개 도구 모두 포함.</p>
+      <p><strong>얼라이언스 전체 $30</strong>. 파운딩 기간 동안 코드 <span class="code">RONY-FREE</span>로 무료 이용.</p>
+      <a href="/refer.html?ref=CHEATSHEET" class="btn">전체 도구 보기 →</a>
+    </section>
+
+    <footer>
+      <p><a href="/ko/">← r5tools.io</a>  ·  <a href="/cheat-sheet.html">English</a>  ·  <a href="/refer.html">리퍼럴</a>  ·  <a href="/privacy.html">개인정보</a></p>
+      <p>© 2026 R5TOOLS.IO · First Fun 또는 Century Games와 제휴 관계 아님</p>
+    </footer>
+  </div>
+
+  <script>
+    window.r5Track('cheat_sheet_page_view');
+
+    function onDownload() {
+      window.r5Track('cheat_sheet_downloaded', { format: 'pdf', lang: 'ko' });
+      return true;
+    }
+
+    function submitEmail(ev) {
+      ev.preventDefault();
+      var email = (document.getElementById('emailInput').value || '').trim();
+      var status = document.getElementById('formStatus');
+      if (!email || email.indexOf('@') < 0) {
+        status.textContent = '유효한 이메일을 입력하세요.';
+        status.className = 'form-status warn';
+        return false;
+      }
+      status.textContent = '전송 중…';
+      status.className = 'form-status';
+
+      var API_BASE = 'https://access-codes.r5tools.io';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        API_BASE = 'http://127.0.0.1:8791';
+      }
+      fetch(API_BASE + '/api/register-email', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'cheat-sheet-ko', ref: 'CHEATSHEET' })
+      }).then(function (r) {
+        return r.json().catch(function () { return { ok: r.ok }; });
+      }).then(function (body) {
+        if (body && (body.ok === true || body.ok === undefined)) {
+          status.textContent = '완료 — 치트시트가 지금 다운로드됩니다.';
+          status.className = 'form-status ok';
+          window.r5Track('cheat_sheet_email_captured', { source: 'cheat-sheet-ko' });
+          setTimeout(function () { document.getElementById('downloadBtn').click(); }, 250);
+        } else {
+          status.textContent = '서버 오류가 있었지만 PDF는 여전히 받을 수 있습니다. 아래 다운로드 버튼을 클릭하세요.';
+          status.className = 'form-status warn';
+        }
+      }).catch(function () {
+        status.textContent = '서버에 연결할 수 없지만 PDF는 여전히 받을 수 있습니다. 아래 다운로드 버튼을 클릭하세요.';
+        status.className = 'form-status warn';
+      });
+      return false;
+    }
+  </script>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

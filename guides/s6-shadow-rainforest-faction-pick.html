@@ -7,6 +7,9 @@
 <meta name="description" content="The Season 6 faction pick is permanent for the season. Deepwood/Wetland/Great River tradeoffs, permanent City Destruction risk, and the 4v4 matchup math.">
 <meta name="keywords" content="S6 Shadow Rainforest faction pick — Deepwood vs Wetland, Last War guide, LWS R5, alliance strategy">
 <link rel="canonical" href="https://r5tools.io/guides/s6-shadow-rainforest-faction-pick.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/s6-shadow-rainforest-faction-pick.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/s6-shadow-rainforest-faction-pick.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/s6-shadow-rainforest-faction-pick.html">
 <meta property="og:title" content="S6 Shadow Rainforest faction pick — Deepwood vs Wetland | R5TOOLS.IO">
 <meta property="og:description" content="The Season 6 faction pick is permanent for the season. Deepwood/Wetland/Great River tradeoffs, permanent City Destruction risk, and the 4v4 matchup math.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/guides/s6-shadow-rainforest-faction-pick.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -162,7 +197,19 @@ td { color: var(--text-dim); }
 <ul><li><strong>Alliance Pacts</strong> — 7-day non-aggression treaties between same-faction alliances. Prevent City Destruction. Share adjacency benefits and open joint communication channels for up to <strong>200 members</strong>. Make faction selection load-bearing.</li><li><strong>Faction Technology</strong> — faction-wide research tree unlocked via Stronghold donations, applies buffs to all faction members after individual contribution thresholds met.</li><li><strong>War Merit economy</strong> — earned via kills, captures, reinforcements, donations, rankings. Tiers Bronze → Elite with corresponding daily stipends and stat bonuses. War Merit Shop trades.</li><li><strong>Fungus Institute</strong> (max ~L60) — enhances Virus Resistance (analog to Optoelectronic Lab / Curse Research Lab).</li><li><strong>Spore Factory</strong> (max L30) — produces Spores.</li><li><strong>Sanctuary timer buff:</strong> doubled from 10 → 20 minutes (occupies 1/3 of the 60-minute attack window). Sources call this a &quot;stealth change&quot; that significantly restricts strategic flexibility.</li><li><strong>Alliance Skill cooldowns:</strong> 3–6 days.</li><li><strong>Card meta shift:</strong> the popular &quot;4+1 hybrid squad strategy&quot; was removed from Global Expedition, forcing pure Tank / Missile / Aircraft formations backed by attribute-specific Tactics Cards.</li><li><strong>Beneath the Ruins</strong> <em>(added 2026-07-15)</em> — Season 6&#x27;s dedicated minigame, launched in TWO phases [Cpt Hedgehog Beneath the Ruins, 2026-07-15; TheGamesEdge Beneath the Ruins Guide, 2026-07-15]:</li><li><strong>Solo Mode (Week 1 Day 2+):</strong> descending-platformer challenge. Guide your character downward through an ever-deepening stage, avoiding hazards. <strong>1 new stage unlocks per day.</strong> Missed days stack — play back-to-back to catch up. Platform types: Regular (safe), Crumbly (breaks after ~1 sec), Spike (1 HP damage on landing — avoid at low HP), Travelators (moving belts — go with the flow, fighting them costs time). HP regenerates when standing on safe platforms. Only left/right movement. Reward: <strong>Rainforest Mushrooms</strong> (larger on later stages), plus season-exclusive gifts.</li><li><strong>PvP Duel Mode (Week 2+):</strong> competitive descent against another commander, same stage simultaneously, first to bottom wins. No HP regeneration. Entry paid in <strong>War Merit deposit up to 500 (or 1,500 with Season Skill)</strong>. Rewards up to <strong>3,000 War Merit per match</strong> [TheGamesEdge, 2026-07-15]. Wager spirit similar to S5&#x27;s High Noon Duel.</li><li><strong>Global Expedition — new dedicated building &amp; schedule</strong> <em>(added 2026-07-15)</em> — moved out of the Alert Tower into a new dedicated <strong>Expedition Base</strong> building [LDShop S6 Global Expedition Guide, 2026-07-15]. Three GE rounds per season, each <strong>14 days long</strong> (roughly Weeks 2, 4, 6 of the main season). Named Awakening Shards drop at rank thresholds — one of the best regular free shard sources in the game.</li></ul>
 <p><strong>New seasonal resources:</strong> | Resource | Purpose | Source | |---|---|---| | <strong>Spore</strong> | Fungus Institute construction/upgrades; converts to Profession EXP at season end | Various | | <strong>Rainforest Mushroom</strong> | Spore Factory construction; primary progression resource | Various | | <strong>War Merit</strong> | War Merit Shop purchases | Kills, captures, reinforcements, donations, rankings | | <strong>(Named/Universal Awakening Shards)</strong> | Hero Awakening | See above |</p>
 <p><strong>Ancestral Temple / Faction Duel Finale (Week 7):</strong> All-out battle between Deepwood and Wetland for control of the Ancestral Temple and Central Area. Winner takes <strong>30,000,000 Influence Points</strong> toward faction ranking (no individual alliance/commander points). All commanders in your warzone are locked to the Ancestral Temple and your designated Strategic Area once battle begins.</p>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/guides/rare-soil-war-strategy.html">Rare Soil War strategy — the S2 blizzard-and-plunder guide</a></li>
+    <li><a href="https://r5tools.io/guides/altar-conquest-planner-s6.html">Altar conquest planner — Season 6 Tuesday altars</a></li>
+    <li><a href="https://r5tools.io/guides/alliance-furnace-guide.html">Alliance Furnace guide — coal budget, radius, overdrive</a></li>
+    <li><a href="https://r5tools.io/guides/hive-formation-guide.html">Hive formation guide — MG grid, Stronghold, Megahive</a></li>
+    <li><a href="https://r5tools.io/guides/legendary-recruitment-strategy.html">Legendary Recruitment strategy — 1% UR / 0.14% single-hero</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -176,5 +223,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

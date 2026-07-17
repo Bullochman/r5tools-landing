@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Season 2 Landing Cheat Sheet — Free — R5TOOLS.IO</title>
+  <meta name="description" content="The Season 2 Landing Cheat Sheet — a free 7-page R5-to-R5 playbook covering the 4 coordinates every alliance botches, HQ-level tier assignments, rally leader placement, first 72-hour build order, and the 8 warnings only R5s know. No strings — download the PDF." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://r5tools.io/cheat-sheet.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/cheat-sheet.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/cheat-sheet.html" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/cheat-sheet.html" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/cheat-sheet.html" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/cheat-sheet.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/cheat-sheet.html" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="Season 2 Landing Cheat Sheet — Free — R5TOOLS.IO" />
+  <meta property="og:description" content="R5-to-R5 playbook for the Frozen map's opening 72 hours. 7 pages, free, no strings." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/cheat-sheet.html" />
+  <meta property="og:image" content="https://r5tools.io/static/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --success: #8ae0a3;
+      --danger: #e88a4a;
+      --cold: #5eb8ff;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased; line-height: 1.55;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 96px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 24px;
+    }
+    .brand { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600; }
+    .lang-toggle {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px; text-decoration: none;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      text-align: center; padding: 40px 12px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero .kicker {
+      display: inline-block; padding: 4px 12px; border: 1px solid var(--border-accent);
+      color: var(--accent); background: var(--panel);
+      border-radius: 14px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 42px; font-weight: 600; letter-spacing: -0.02em;
+      line-height: 1.15; margin: 0 0 16px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .sub {
+      font-size: 17px; color: var(--text-dim); max-width: 640px;
+      margin: 0 auto 12px;
+    }
+    .hero .attrib {
+      font-size: 13px; color: var(--text-mute); margin-top: 8px;
+    }
+
+    /* Two-col — form + preview */
+    .grab {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      margin: 40px 0;
+    }
+    @media (max-width: 760px) {
+      .grab { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 32px; }
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+    }
+    .card h2 {
+      color: var(--accent); font-size: 12px; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 600; margin: 0 0 12px;
+    }
+    .card p { color: var(--text-dim); font-size: 14px; margin: 0 0 16px; }
+
+    .form-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .form-row input {
+      flex: 1; padding: 12px 14px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 14px; font-family: inherit;
+      outline: none;
+    }
+    .form-row input:focus { border-color: var(--accent); }
+    .form-row button {
+      padding: 12px 18px; background: var(--accent);
+      color: var(--bg); border: 0; border-radius: 8px;
+      font-weight: 600; font-size: 14px; cursor: pointer;
+      font-family: inherit;
+    }
+    .form-row button:hover { background: var(--accent-hover); }
+    .form-status { min-height: 18px; font-size: 12px; color: var(--text-mute); margin-bottom: 12px; }
+    .form-status.ok { color: var(--success); }
+    .form-status.warn { color: var(--danger); }
+
+    .download-btn {
+      display: block; width: 100%; text-align: center;
+      padding: 16px 20px; background: transparent;
+      border: 2px solid var(--accent); color: var(--accent);
+      border-radius: 8px; font-weight: 700; font-size: 16px;
+      cursor: pointer; text-decoration: none; letter-spacing: 0.02em;
+      transition: background 120ms;
+    }
+    .download-btn:hover { background: var(--accent); color: var(--bg); }
+    .download-btn.primary { background: var(--accent); color: var(--bg); }
+    .download-btn.primary:hover { background: var(--accent-hover); }
+    .download-mini { font-size: 11px; color: var(--text-mute); text-align: center; margin-top: 8px; }
+
+    /* preview */
+    .preview {
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; text-align: center;
+    }
+    .preview .pdf-mock {
+      background: linear-gradient(135deg, #0a0e1a 0%, #12192c 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 6px;
+      padding: 32px 16px;
+      margin: 0 auto 16px;
+      max-width: 280px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .pdf-mock .band {
+      height: 3px; background: var(--accent); width: 60%;
+      margin: 0 auto 12px;
+    }
+    .pdf-mock .title {
+      color: var(--accent); font-size: 15px; font-weight: 700;
+      margin: 0 0 6px;
+    }
+    .pdf-mock .subtitle {
+      color: var(--text-mute); font-size: 10px; margin: 0 0 20px;
+    }
+    .pdf-mock .attr {
+      color: var(--text-dim); font-size: 9px; letter-spacing: 0.05em;
+      margin-top: 24px;
+    }
+    .preview .meta {
+      color: var(--text-mute); font-size: 12px; margin-top: 12px;
+    }
+
+    /* toc */
+    .whats-inside {
+      margin: 40px 0;
+    }
+    .whats-inside h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .toc {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .toc-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .toc-item .num {
+      color: var(--accent); font-weight: 700; font-family: ui-monospace, monospace;
+      font-size: 14px; min-width: 28px;
+    }
+    .toc-item .body { flex: 1; }
+    .toc-item .body strong { color: var(--text); font-size: 14px; display: block; margin-bottom: 4px; }
+    .toc-item .body span { color: var(--text-mute); font-size: 12px; }
+
+    /* testimonials */
+    .testimonials {
+      margin: 48px 0;
+    }
+    .testimonials h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .test-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .test-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .test-card blockquote {
+      margin: 0; color: var(--text-dim); font-size: 14px;
+      font-style: italic; line-height: 1.6;
+    }
+    .test-card .author {
+      color: var(--text-mute); font-size: 12px; margin-top: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .test-card .author .r5-tag {
+      color: var(--accent); background: rgba(201,169,97,0.08);
+      padding: 2px 8px; border-radius: 10px; font-size: 10px; letter-spacing: 0.05em;
+    }
+    .test-card.placeholder blockquote {
+      color: var(--text-mute); font-style: normal;
+    }
+
+    /* built-by strip */
+    .built-by {
+      background: var(--panel-2); border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 20px 24px;
+      text-align: center; margin: 32px 0;
+    }
+    .built-by strong { color: var(--accent); }
+    .built-by p { margin: 0; color: var(--text-dim); font-size: 14px; }
+
+    /* CTA bottom */
+    .cta {
+      background: linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 36px 28px;
+      text-align: center; margin: 48px 0 0;
+    }
+    .cta h2 {
+      color: var(--accent); font-size: 22px; margin: 0 0 12px;
+      text-transform: none; letter-spacing: normal; font-weight: 600;
+    }
+    .cta p { color: var(--text-dim); font-size: 15px; margin: 0 0 24px; }
+    .cta .code {
+      display: inline-block; padding: 4px 14px; background: var(--bg);
+      border: 1px solid var(--border-accent); border-radius: 6px;
+      color: var(--accent); font-family: ui-monospace, monospace;
+      font-size: 13px; letter-spacing: 0.05em;
+      margin: 0 6px;
+    }
+    .cta .btn {
+      display: inline-block; padding: 14px 32px; background: var(--accent);
+      color: var(--bg); border-radius: 8px; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.02em; font-size: 15px;
+    }
+    .cta .btn:hover { background: var(--accent-hover); color: var(--bg); }
+
+    footer {
+      margin-top: 60px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-mute); font-size: 12px; text-align: center;
+    }
+    footer a { color: var(--text-dim); }
+    footer a:hover { color: var(--accent); }
+  </style>
+
+  <script>
+    // ---- analytics: match the pattern the analytics agent is setting up
+    // Fires cheat_sheet_page_view immediately, cheat_sheet_email_captured on
+    // opt-in submit, and cheat_sheet_downloaded on any PDF link click.
+    // Uses window.dataLayer (GTM) if present; also POSTs to the r5tools
+    // analytics collector so it works whether GTM ships or not.
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      var COLLECTOR = 'https://access-codes.r5tools.io/api/analytics/event';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        COLLECTOR = 'http://127.0.0.1:8791/api/analytics/event';
+      }
+      window.r5Track = function (event, extra) {
+        var payload = Object.assign({
+          event: event,
+          page: location.pathname,
+          lang: document.documentElement.lang || 'en',
+          ts: Date.now()
+        }, extra || {});
+        try { window.dataLayer.push(payload); } catch (e) {}
+        try {
+          // fire-and-forget beacon; no CORS preflight needed for text/plain
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(COLLECTOR, JSON.stringify(payload));
+          } else {
+            fetch(COLLECTOR, {
+              method: 'POST',
+              mode: 'no-cors',
+              keepalive: true,
+              body: JSON.stringify(payload)
+            }).catch(function () {});
+          }
+        } catch (e) { /* best-effort */ }
+      };
+    })();
+  </script>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+<!-- BEGIN r5tools:seo:softwareapp v1 -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"R5TOOLS.IO Cheat Sheet","url":"https://r5tools.io/cheat-sheet.html","description":"Season 2 (Polar Storm) one-page R5 cheat sheet — furnace, hive, freeze, capture priorities.","applicationCategory":"GameApplication","applicationSubCategory":"Strategy game companion tool","operatingSystem":"Web","image":"https://r5tools.io/static/og-image.png","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"},"offers":{"@type":"Offer","price":"0.00","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://r5tools.io/#pricing","description":"Warzone 2007 members unlock the full suite free via code RONY-FREE."}}</script>
+<!-- END r5tools:seo:softwareapp v1 -->
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="/" class="brand">R5TOOLS.IO</a>
+      <a href="/ko/cheat-sheet.html" class="lang-toggle">한국어 →</a>
+    </header>
+
+    <section class="hero">
+      <div class="kicker">Free lead magnet · 7 pages · PDF</div>
+      <h1>The <span class="accent">Season 2 Landing</span> Cheat Sheet</h1>
+      <p class="sub">Free, no strings. The 4 coordinates every alliance botches, HQ-level tier assignments, rally leader placement, the first-72-hour build order, and 8 warnings only R5s know.</p>
+      <p class="attrib">Written by an active R5 in Warzone 2007. Distribute freely inside your alliance.</p>
+    </section>
+
+    <div class="grab">
+      <div class="card">
+        <h2>Get the PDF</h2>
+        <p>Drop your email if you'd like a follow-up when we ship new tools (Freeze-Risk, Coal Burn, City Capture Planner). Or skip and download directly — no gate.</p>
+        <form id="emailForm" onsubmit="return submitEmail(event)">
+          <div class="form-row">
+            <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" />
+            <button type="submit" id="sendBtn">Send</button>
+          </div>
+        </form>
+        <div class="form-status" id="formStatus"></div>
+        <a href="marketing/lead-magnets/season-2-landing-cheat-sheet.pdf"
+           class="download-btn primary"
+           id="downloadBtn"
+           download
+           onclick="onDownload()">Download the cheat sheet →</a>
+        <div class="download-mini">PDF · ~40 KB · 7 pages · print-ready</div>
+      </div>
+
+      <div class="preview" aria-hidden="true">
+        <div class="pdf-mock">
+          <div class="band"></div>
+          <div class="title">The Season 2 Landing Cheat Sheet</div>
+          <div class="subtitle">Polar Storm · Frozen Map · Rare Soil War</div>
+          <div style="height: 8px; background: var(--accent); margin: 24px auto; width: 40%;"></div>
+          <div class="attr">R5TOOLS.IO  ·  2026</div>
+        </div>
+        <div class="meta">Cover · 6 content pages · Back cover with QR</div>
+      </div>
+    </div>
+
+    <section class="whats-inside">
+      <h2>What's inside</h2>
+      <div class="toc">
+        <div class="toc-item"><div class="num">01</div><div class="body"><strong>The 4 coordinates every alliance botches</strong><span>Furnace tile · Assembly · rally leader anchors · fallback ring</span></div></div>
+        <div class="toc-item"><div class="num">02</div><div class="body"><strong>HQ-level → landing tier</strong><span>Who lands where based on HQ, with the counterintuitive "weakest closest" rule</span></div></div>
+        <div class="toc-item"><div class="num">03</div><div class="body"><strong>Rally leader placement</strong><span>The 3-second window · Warlord Missile geometry · 25×25 blast · 72h cooldown</span></div></div>
+        <div class="toc-item"><div class="num">04</div><div class="body"><strong>First-72-hour build order</strong><span>Coal, titanium, rare soil ratios · alliance furnace 20-reinforcement gate</span></div></div>
+        <div class="toc-item"><div class="num">05</div><div class="body"><strong>The "you're screwed if" checklist</strong><span>8 warnings that only active R5s know · from bracket-jumping to safe-time confusion</span></div></div>
+        <div class="toc-item"><div class="num">06</div><div class="body"><strong>Landing Planner tool teaser</strong><span>QR to the referral bonus + $30 alliance pricing + RONY-FREE code</span></div></div>
+      </div>
+    </section>
+
+    <section class="built-by">
+      <p><strong>Built by an active R5 in Warzone 2007</strong> — every number in this sheet is sourced from the R5TOOLS.IO Last War Knowledge Base (22 sources cross-checked, including 4 KR sources).</p>
+    </section>
+
+    <section class="testimonials">
+      <h2>What R5s are saying</h2>
+      <div class="test-grid">
+        <div class="test-card placeholder">
+          <blockquote>"Testimonial placeholder — R5 from a Warzone 2007 alliance describing how the tier table stopped their weekly freeze cascade."</blockquote>
+          <div class="author"><span>— name pending</span><span class="r5-tag">R5 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>"Testimonial placeholder — an R4 who used the build order to hit 4 Titanium factories by end of Week 1."</blockquote>
+          <div class="author"><span>— name pending</span><span class="r5-tag">R4 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>"Testimonial placeholder — KR alliance leader talking about how the sheet lined up with everything dcinside gall had figured out the hard way."</blockquote>
+          <div class="author"><span>— 이름 미공개</span><span class="r5-tag">R5 · KR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>If this helped, unlock the full toolkit for your alliance</h2>
+      <p>The Landing Planner tool assigns every one of your 100 members a specific tile, exports a labeled PNG for Discord, and generates a Freeze-Risk score per member before Day 1 even starts. All 8 tools included.</p>
+      <p><strong>$30 total for the whole alliance</strong>. Use code <span class="code">RONY-FREE</span> for free access during founding period.</p>
+      <a href="/refer.html?ref=CHEATSHEET" class="btn">See the full toolkit →</a>
+    </section>
+
+    <footer>
+      <p><a href="/">← r5tools.io</a>  ·  <a href="/ko/cheat-sheet.html">한국어</a>  ·  <a href="/refer.html">Refer &amp; Earn</a>  ·  <a href="/privacy.html">Privacy</a></p>
+      <p>© 2026 R5TOOLS.IO · Not affiliated with First Fun or Century Games</p>
+    </footer>
+  </div>
+
+  <script>
+    // fire page-view on load
+    window.r5Track('cheat_sheet_page_view');
+
+    // download click handler
+    function onDownload() {
+      window.r5Track('cheat_sheet_downloaded', { format: 'pdf', lang: 'en' });
+      return true; // let the <a download> fire
+    }
+
+    function submitEmail(ev) {
+      ev.preventDefault();
+      var email = (document.getElementById('emailInput').value || '').trim();
+      var status = document.getElementById('formStatus');
+      if (!email || email.indexOf('@') < 0) {
+        status.textContent = 'Enter a valid email.';
+        status.className = 'form-status warn';
+        return false;
+      }
+      status.textContent = 'Sending…';
+      status.className = 'form-status';
+
+      var API_BASE = 'https://access-codes.r5tools.io';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        API_BASE = 'http://127.0.0.1:8791';
+      }
+      // Same POST endpoint the unlock form uses.
+      fetch(API_BASE + '/api/register-email', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'cheat-sheet', ref: 'CHEATSHEET' })
+      }).then(function (r) {
+        return r.json().catch(function () { return { ok: r.ok }; });
+      }).then(function (body) {
+        if (body && (body.ok === true || body.ok === undefined)) {
+          status.textContent = "Got it — cheat sheet's downloading now.";
+          status.className = 'form-status ok';
+          window.r5Track('cheat_sheet_email_captured', { source: 'cheat-sheet' });
+          // trigger the PDF download automatically
+          setTimeout(function () {
+            var a = document.getElementById('downloadBtn');
+            a.click();
+          }, 250);
+        } else {
+          // graceful degrade: PDF still available via download button
+          status.textContent = "Something went wrong on our end — but the PDF is still yours. Click the download button below.";
+          status.className = 'form-status warn';
+        }
+      }).catch(function () {
+        // graceful degrade
+        status.textContent = "Couldn't reach the server — but the PDF is still yours. Click the download button below.";
+        status.className = 'form-status warn';
+      });
+      return false;
+    }
+  </script>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

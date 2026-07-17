@@ -1,0 +1,119 @@
+{
+  "_comment_source": "r5tools.io launch thread — 12 tweets, Tuesday 8:15 PM ET post window. Char limit 280 assumed. Media paths are absolute so Typefully's file-picker resolves them regardless of import working dir. TODO media items are placeholders — swap in the real asset (see media/*.TODO) before importing.",
+  "_comment_schema": "Typefully's public import format at the time of this draft accepts { thread: [{text, media[], delay_after_seconds}] }. If the current import UI diverges, this file also reads cleanly as a manual reference; each entry maps to one composer field.",
+  "thread_title": "r5tools.io — 8-tool launch thread",
+  "scheduled_at_hint": "Tuesday 20:15 America/New_York",
+  "default_delay_between_tweets_seconds": 35,
+  "thread": [
+    {
+      "position": 1,
+      "text": "Built 8 tools that make our alliance win every Season 2 event. Here's how they work — thread down.\n\nLanding planner. Heat sim. Coal calc. Freeze risk. Roster extract. City cap scheduler. Season timeline. Hive grid.\n\nFree with code RONY-FREE at r5tools.io\n\n#LastWarSurvival",
+      "char_count": 272,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-01-hero-mosaic.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 2,
+      "text": "1/ Landing Planner.\n\nPaste your roster. Pick your Assembly Point tile. Tool spits out coordinates for every member — R5+titled R4s on Ring 1, everyone else auto-placed by power. Zero 3x3 gaps (every gap is a teleport pad for enemies).\n\nReplaces the Google Sheet.",
+      "char_count": 262,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-02-landing-planner.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 3,
+      "text": "2/ Heat Simulator.\n\nType your Alliance Furnace level + coordinates. Overlay your hive. Tool shows the exact tiles your radius covers and — critically — the tiles that will freeze first when the -70C Week 4 blizzard hits.\n\nTurns \"I think we're fine\" into a screenshot.",
+      "char_count": 267,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-03-heat-simulator.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 4,
+      "text": "3/ Coal Burn Calculator.\n\nL20 Alliance Furnace burns 1,440 coal/min normal, 5,760/min overdrive. Every HHF in your alliance overdrives simultaneously during a severe blizzard. Your total burn is 20-40x what most R5s budget for.\n\nCalc does the math for your roster.",
+      "char_count": 264,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-04-coal-burn.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 5,
+      "text": "4/ Freeze Risk Dashboard.\n\nFor every member: current tile temp + HHF output + AF radius coverage, then probability they freeze in the next scheduled blizzard.\n\nRed = will freeze. Yellow = borderline. Green = safe.\n\nR5s pin the red list in alliance chat and the reds fix it fast.",
+      "char_count": 278,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-05-freeze-risk.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 6,
+      "text": "5/ Roster Extractor.\n\nScreen-record your alliance member list on your phone (30 sec). Drop the mp4 into r5tools.io. OCR pulls every member name + power + rank into a CSV in about 2 minutes.\n\nNo account. No email. Works today.\n\nr5tools.io",
+      "char_count": 237,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-06-roster-diagram.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 7,
+      "text": "6/ City Capture Planner.\n\nSeason 2 caps you at 2 city captures per day, 36-hour post-cap protection window. Miss the window and you overlap protections and waste a slot.\n\nPlanner schedules your 6-city + 4-dig-site campaign across the season. R5 sets targets, tool sequences.",
+      "char_count": 274,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-07-city-capture.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 8,
+      "text": "7/ Season Timeline.\n\nOne screen: every VS Day theme (Mon-Sat), every Marshal's Guard slot, every blizzard tier per week, every Rare Soil War stage transition. Overlaid with your alliance's local reset time.\n\nOfficers stop asking \"when is Enemy Buster this week.\"",
+      "char_count": 262,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-08-season-timeline.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 9,
+      "text": "8/ Hive Grid Manager.\n\nThe one that started this suite. Multi-alliance mega-hives (up to 6 color-coded). Missile threat sim — models a Warlord Missile launch and shows which of your bases evict on impact.\n\nCorner-stack silos, plan Ring 1 mud coverage, done.",
+      "char_count": 257,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-09-hive-missile-mock.png"
+      ],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 10,
+      "text": "Quick pause — I'm not a studio.\n\nR5 of RONY in WZ 2007. Built r5tools.io because our officer team was doing landing coords in a shared Sheet for the 4th season in a row and I lost patience.\n\nEvery tool solves a problem I hit in my own alliance first.",
+      "char_count": 250,
+      "media": [],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 11,
+      "text": "Pricing:\n\nFree tier — real. Landing, heat, coal, freeze, city cap, timeline, hive grid all work with no code.\n\n$10 personal — historical roster tracking + Discord PNG exports.\n\n$30 alliance — whole alliance forever. First 10 alliances only, then $50.\n\nNo subscription.",
+      "char_count": 268,
+      "media": [],
+      "delay_after_seconds": 35
+    },
+    {
+      "position": 12,
+      "text": "That's the suite. 8 tools, 7 languages (EN/KR/ES/PT/JA/DE/FR), built by an active R5.\n\nTry it: r5tools.io — paste RONY-FREE at checkout.\n\nReply with which tool your alliance would use first. I'll answer every one.\n\n#LastWarSurvival",
+      "char_count": 231,
+      "media": [
+        "/Users/evanjones/claudecode/r5tools/r5tools-landing/marketing/SEND-TODAY/twitter-launch-thread/media/tweet-12-homepage-hero.png"
+      ],
+      "delay_after_seconds": 0
+    }
+  ],
+  "post_thread_actions": [
+    "Pin position 1 immediately after position 12 posts",
+    "From KR alliance account, quote-retweet position 1 with KR body from kr-translation-thread.md tweet 1",
+    "Reply to every reply on positions 1-12 within 4 hours of launch",
+    "At H+24, quote-retweet the highest-engagement middle tweet with a follow-up observation"
+  ]
+}

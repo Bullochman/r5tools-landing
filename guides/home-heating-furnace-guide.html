@@ -7,6 +7,9 @@
 <meta name="description" content="HHF L30 burns ~240 coal/min normal and ~960 coal/min overdrive. Full stockpile math for 3-hour overdrive windows and blizzard weeks.">
 <meta name="keywords" content="Home Heating Furnace guide — HHF L30 coal math, Last War guide, LWS R5, alliance strategy">
 <link rel="canonical" href="https://r5tools.io/guides/home-heating-furnace-guide.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/home-heating-furnace-guide.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/home-heating-furnace-guide.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/home-heating-furnace-guide.html">
 <meta property="og:title" content="Home Heating Furnace guide — HHF L30 coal math | R5TOOLS.IO">
 <meta property="og:description" content="HHF L30 burns ~240 coal/min normal and ~960 coal/min overdrive. Full stockpile math for 3-hour overdrive windows and blizzard weeks.">
 <meta property="og:type" content="article">
@@ -99,10 +102,45 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+<!-- BEGIN r5tools:seo:howto v1 -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"Home Heating Furnace guide — HHF L30 coal math","description":"HHF L30 burns ~240 coal/min normal and ~960 coal/min overdrive. Full stockpile math for 3-hour overdrive windows and blizzard weeks.","step":[{"@type":"HowToStep","position":1,"name":"Step 1","text":"Do not kill your highest-level Wanderer / Doom Walker before the map transition — first-kill coal reward only pays out post-transition (a level-180 Wanderer paid ~200,000 coal in one community report). Stack radar missions pre-season so they can be cleared for coal on Day 1. [dcinside gall/12212, 2026-07-14; lastwartutorial.com, 2026-07-14]","url":"https://r5tools.io/guides/home-heating-furnace-guide.html#step-1"},{"@type":"HowToStep","position":2,"name":"Step 2","text":"R4 or R5 deploys the Alliance Furnace on a Level-1 territory as close to the intended hive center as possible. The furnace requires up to 20 reinforcements to activate — get every online member to garrison it immediately. [lastwartutorial.com, 2026-07-14]","url":"https://r5tools.io/guides/home-heating-furnace-guide.html#step-2"},{"@type":"HowToStep","position":3,"name":"Step 3","text":"Reposition the hive if the server's drop location is too crowded, too close to hostiles, or too far from the seasonal targets you want (weaker members near the furnace; stronger members on the outer ring). Use the free Assembly Point-shift trick. [lastwar-tutorial.com teleporter, 2026-07-14]","url":"https://r5tools.io/guides/home-heating-furnace-guide.html#step-3"},{"@type":"HowToStep","position":4,"name":"Step 4","text":"Every member: build High-Heat Furnace + first Titanium Alloy Factory + turn on the \"auto-activate in blizzard\" toggle on the High-Heat Furnace so Week-1 blizzards do not surprise a member who's asleep. [lastwarguide.net Season 2, 2026-07-14]","url":"https://r5tools.io/guides/home-heating-furnace-guide.html#step-4"},{"@type":"HowToStep","position":5,"name":"Step 5","text":"Do not park bases directly on the Alliance Furnace tile — position at least 5 tiles away to stay outside the 25×25 Warlord Missile blast radius when war rounds start in Week 4. Place the Assembly Point near the furnace but also outside that radius so evicted bases have a safe return tile. [lastwar-guide.org Season 2 Week 4, 2026-07-15]","url":"https://r5tools.io/guides/home-heating-furnace-guide.html#step-5"},{"@type":"HowToStep","position":6,"name":"Step 6","text":"Capture the first Level-1 dig site immediately. The season's first alliance capture MUST be a Level-1 dig site; every subsequent capture then must be adjacent to existing alliance territory. This drives the \"expanding outward from the corner\" pattern. [lastwartutorial.com Ultimate Strategy Guide, 2026-07-14]","url":"https://r5tools.io/guides/home-heating-furnace-guide.html#step-6"}],"image":"https://r5tools.io/static/og-image.png"}</script>
+<!-- END r5tools:seo:howto v1 -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/guides/home-heating-furnace-guide.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -133,7 +171,19 @@ td { color: var(--text-dim); }
 <p>A &quot;safe ally heating limit&quot; of roughly <strong>+38 °C</strong> is referenced as the cutoff before <strong>fire damage risk begins around +40 °C</strong>, meaning heating too aggressively can flip from freeze protection into over-heat penalty. [lastwar-guide.org Week 4 guide]</p>
 <p>The <strong>Week 4 -70 °C blizzard runs concurrently with the opening of the Rare Soil War</strong> — this is the most dangerous single event in the season and dictates most alliances&#x27; furnace budgets. [lastwar-guide.org]</p>
 <p>The High-Heat Furnace exposes an <strong>&quot;auto-activate in blizzard&quot;</strong> toggle that automatically switches the furnace on (and to overdrive if configured) when a blizzard begins. Recommended to enable Day 1. [lastwarguide.net]</p>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/guides/coal-budget-calculator-guide.html">Coal budget calculator — how much coal do I actually need?</a></li>
+    <li><a href="https://r5tools.io/guides/alliance-furnace-guide.html">Alliance Furnace guide — coal budget, radius, overdrive</a></li>
+    <li><a href="https://r5tools.io/guides/legendary-recruitment-strategy.html">Legendary Recruitment strategy — 1% UR / 0.14% single-hero</a></li>
+    <li><a href="https://r5tools.io/guides/blood-night-strategy-s4.html">Blood Night strategy — Season 4 defense in 3 windows</a></li>
+    <li><a href="https://r5tools.io/guides/alliance-duel-optimization.html">Alliance Duel optimization — the VS Day phase-stack playbook</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -147,5 +197,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

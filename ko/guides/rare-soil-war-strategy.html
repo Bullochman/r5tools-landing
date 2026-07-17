@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>희귀 토양 전쟁 전략 — the S2 blizzard-and-plunder 가이드 | R5TOOLS.IO</title>
+<meta name="description" content="희귀 토양 전쟁 is the 시즌 2 flagship faction war. Force asymmetry, combat duration, plunder rules, and the R5 pre-declaration checklist.">
+<meta name="keywords" content="희귀 토양 전쟁 전략 — the S2 blizzard-and-plunder 가이드, 라스트 워 가이드, 라워 R5, 얼라이언스 전략">
+<link rel="canonical" href="https://r5tools.io/ko/guides/rare-soil-war-strategy.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/rare-soil-war-strategy.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/rare-soil-war-strategy.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/rare-soil-war-strategy.html">
+<meta property="og:title" content="희귀 토양 전쟁 전략 — the S2 blizzard-and-plunder 가이드 | R5TOOLS.IO">
+<meta property="og:description" content="희귀 토양 전쟁 is the 시즌 2 flagship faction war. Force asymmetry, combat duration, plunder rules, and the R5 pre-declaration checklist.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/ko/guides/rare-soil-war-strategy.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="희귀 토양 전쟁 전략 — the S2 blizzard-and-plunder 가이드 | R5TOOLS.IO">
+<meta name="twitter:description" content="희귀 토양 전쟁 is the 시즌 2 flagship faction war. Force asymmetry, combat duration, plunder rules, and the R5 pre-declaration checklist.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "희귀 토양 전쟁 전략 — the S2 blizzard-and-plunder 가이드", "description": "희귀 토양 전쟁 is the 시즌 2 flagship faction war. Force asymmetry, combat duration, plunder rules, and the R5 pre-declaration checklist.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/guides/rare-soil-war-strategy.html", "inLanguage": "ko"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "가이드", "item": "https://r5tools.io/guides/"}, {"@type": "ListItem", "position": 3, "name": "희귀 토양 전쟁 전략 — the S2 blizzard-and-plunder 가이드", "item": "https://r5tools.io/guides/rare-soil-war-strategy.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+    <a href="https://r5tools.io/guides/rare-soil-war-strategy.html" hreflang="en" rel="alternate" style="border-color:#c9a961;color:#c9a961;">EN</a>
+<a href="https://r5tools.io/">홈</a>
+  <a href="https://roster.r5tools.io/">로스터 추출기</a>
+  <a href="https://hive.r5tools.io/">하이브 플래너</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">홈</a> › <a href="/guides/">가이드</a> › <span>희귀 토양 전쟁 strategy — the S2 blizzard-and-plunder guide</span></nav>
+  <h1>희귀 토양 전쟁 strategy — the S2 blizzard-and-plunder guide</h1>
+  <p style="font-size:12px;color:var(--text-mute);margin:4px 0 12px;padding:6px 10px;border-left:2px solid var(--accent);background:var(--panel);border-radius:4px;">자동 번역되었습니다. <a href="https://r5tools.io/guides/rare-soil-war-strategy.html" style="color:var(--text-dim);text-decoration:underline;">영문 원본 보기 →</a></p>
+
+  <p class="lede">희귀 토양 전쟁 is the 시즌 2 flagship faction war. Force asymmetry, combat duration, plunder rules, and the R5 pre-declaration checklist.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">하이브 플래너</a><a href="https://roster.r5tools.io/">로스터 추출기</a><a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a><a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a><a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a><a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a><a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a><a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a></div>
+  <div class="cta-card">
+    <h3>이 코드로 무료 체험 <code>RONY-FREE</code></h3>
+    <p>R5TOOLS.IO의 모든 플래너는 워존 2007 소속 얼라이언스 회원에게 즉시 잠금 해제됩니다 — 가입 불필요, 결제 불필요.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">우리 얼라이언스 잠금 해제 →</a>
+  </div>
+  <article>
+    <p>라스트 워: 서바이벌&#x27;s calendar is a stack of overlapping loops: a <strong>daily</strong> loop (무기 경쟁, six 4-hour phases), a <strong>weekly</strong> loop (얼라이언스 듀얼 VS Mon–Sat, plus rotating 좀비 시즈, 고스트 옵스, 프론트라인 브레이크스루, Bounty Hunter, Desert Storm), a <strong>bi-weekly</strong> loop (둠스데이, 좀비 인베이전, General&#x27;s Trial), and the <strong>seasonal</strong> loop (8-week 시즌 with a mid-season 수도/왕국 대 왕국-equivalent war — 희귀 토양 전쟁 in S2 (see <em>06-season-2-frozen</em>), 향신료 전쟁 in S3, 코퍼 War in S4, 골드vein / 골드en Palace in S5, faction war in S6 (see <em>07-future-seasons</em>)). Between seasons the map opens up for off-season cross-server PvP (미티어라이트 아이언 워, 스카이 배틀프론트). Serious 얼라이언스s stack VS Day themes on top of matching 무기 경쟁 phases to score the same action twice, and reserve their biggest resource dumps for Friday (총동원) and Saturday (Enemy Buster). Preparation — pre-staged construction/research, hoarded speedups, badge stockpiles, and shielded inactive members — decides more of these events than any in-battle skill. Most timers run on <strong>server time (00:00 reset)</strong>; PvP windows are typically 12:00–22:00 server time. 라워 does not currently ship a single &quot;왕국 대 왕국&quot; event by that exact name — the closest analogs are <strong>season-scoped 얼라이언스 wars</strong> (희토 / 향신료 / 코퍼 / 골드vein) and the off-season <strong>스카이 배틀프론트</strong> and <strong>미티어라이트 아이언 워</strong>, which are the game&#x27;s true inter-server PvP moments.</p>
+<ol><li><strong>Daily</strong>: 무기 경쟁 (24 h split into six 4-hour phases), Bosses Code, radar tasks, 둠 워커s on active days, hero-shard daily rotations.</li><li><strong>Weekly</strong>: 얼라이언스 듀얼 (VS, Mon–Sat), 고스트 옵스 (Thursday windows), 좀비 시즈 (once every 1–2 weeks), 데저트 스톰 배틀필드 (Fri), 프론트라인 브레이크스루 (Sun), Bounty Hunter (rotating), the Hot Deal / 반짝이는 시장 cycles.</li><li><strong>Bi-weekly</strong>: 좀비 인베이전 (glacieradon post-S2), 둠스데이 (Sun), General&#x27;s Trial (4-day window), Bounty Hunter alternating cycles.</li><li><strong>시즌al</strong>: 8-week season with a locked schedule of week-by-week unlocks that culminates in a mid-to-late season &quot;big war&quot; (희토 / 향신료 / 코퍼 / 골드vein 골드en Palace / faction war in S6). Between seasons: 스카이 배틀프론트 and 미티어라이트 아이언 워 fill the gap.</li></ol>
+<div class="tbl-wrap"><table><thead><tr><th>Day</th><th>Theme</th><th>Victory Pts</th><th>Primary scoring actions</th></tr></thead><tbody><tr><td>Mon</td><td>레이더 훈련</td><td>1</td><td>레이더 tasks (~25k pts each), stamina (~300/each), hero EXP, drone combat data, gathering</td></tr><tr><td>Tue</td><td>기지 확장</td><td>2</td><td>Construction speedups (~120/min), building power increases, trade trucks (legendary ~200k), secret tasks (legendary ~150k), armament materials</td></tr><tr><td>Wed</td><td>과학의 시대</td><td>2</td><td>연맹 기술 speedups, tech power, valor badges (~600/badge), drone component chests</td></tr><tr><td>Thu</td><td>영웅 훈련</td><td>2</td><td>엘리트 recruits (~3,750/each), hero shards (전설 20k / 에픽 7k / 레어 2k), skill medals (~20/each), exclusive weapon shards</td></tr><tr><td>Fri</td><td>총동원</td><td>2</td><td>훈련 speedups (~122/min), troop training (levels 1–10 = 46–258 pts), building + research speedups</td></tr><tr><td>Sat</td><td>Enemy Buster</td><td><strong>4</strong></td><td>Killing rival-얼라이언스 troops (level 1–10 = 25–138 pts, <strong>5x multiplier vs rival</strong>), killing other 얼라이언스s&#x27; troops (5–28 pts), speedups</td></tr></tbody></table></div>
+<ul><li><strong>S1 둠스데이</strong>: 수도 Conquest (weeks 2, 4, 6 pre-season windows) + weekly 수도 rotation among top 3 얼라이언스s (RPX/OTL/UYL cycle, historically 8h Fridays 9am CST though modern schedule may differ per server).</li><li><strong>S2 시즌 2 (폴라 스톰)</strong>: <strong>희귀 토양 전쟁</strong> — 4-week faction war (weeks 4–7) between 반군 vs 헌병대 factions, top 200 얼라이언스s split 100/100 across 8 워존s. Fight days Wednesday + Saturday, roles alternate weekly.</li><li><strong>S3 골든 킹덤</strong>: <strong>향신료 전쟁</strong> — Wed/Sat fights between Scarlet Legion and 골드en Tribe factions. Week 7 is the Invasion Right Contest (Days 1–6 accumulate points; Day 7 수도 War with +10 M 향신료 for holder).</li><li><strong>S4 에버나이트 아일</strong>: <strong>코퍼 War</strong> (faction war analog).</li><li><strong>S5 와일드 웨스트</strong>: <strong>골드vein War</strong> + <strong>골드en Palace Conquest</strong> — 골드en Palace attackable Saturdays of weeks 5, 6, 7 at 13:00 server time for 1-hour windows. Only 얼라이언스s with adjacent L10 은행 요새 or L10 도시 can attack. First to 100% capture wins; both defender and 골드en Palace can garrison up to 100 squads. Reward tier: ~42k Honor 연맹 코인 from main chests (3M pts) + 6–10k Honor 연맹 코인 from kill leaderboards.</li><li><strong>S6 그림자 열대우림 / 잃어버린 열대우림</strong> (April 2026 launch): 도시 파괴 system + Faction 테크 + Pacts + staggered 히어로 각성 (킴벌리 Wk1, DVA Wk3, <strong>테슬라 Wk5</strong> per LDShop / Cpt-Hedge / majority live-season reporting; Lootbar&#x27;s Wk6 claim is the outlier, cross-referenced <em>02-heroes</em> + <em>12-progression</em> + <em>13-meta-competitive</em>). Faction selection at season start is strategically decisive.</li></ul>
+<ul><li><strong>Preparation</strong> = weeks 1–3 of a season (grow cities, unlock buildings, form pacts)</li><li><strong>Ranking</strong> = points accumulated all season for 희토 / 향신료 / 코퍼 stockpiles + weekly 무기 경쟁 + weekly VS</li><li><strong>Free Attack / Battle</strong> = the Wed/Sat fight-day windows during 희토 / 향신료 War weeks and the 골드en-Palace/수도 windows</li></ul>
+<h3>희귀 토양 전쟁 — S2 flagship faction war</h3>
+<p>희귀 토양 전쟁 (also translated 희토 War) is S2&#x27;s dominant war content, weeks 4–7.</p>
+<p><strong>Faction split:</strong> Top 200 얼라이언스s by 희토 stockpile split into <strong>반군 vs 헌병대</strong> in Week 3. 워존 voted into a faction via the Faction Awards event; 100 얼라이언스s per faction across 8 워존s (4/4 split).</p>
+<p><strong>8 total combat days</strong> across 4 weeks: Wednesdays + Saturdays. Roles alternate weekly:</p>
+<ul><li>Wk 4: Gendarmerie defender Wed / attacker Sat</li><li>Wk 5: Gendarmerie attacker Wed / defender Sat</li><li>Wk 6: Gendarmerie defender Wed / attacker Sat</li><li>Wk 7: Gendarmerie attacker Wed / defender Sat</li></ul>
+<p><strong>War phases:</strong></p>
+<ol><li><strong>Declaration (24 h):</strong> 얼라이언스s declare war (max 3 attackers per target, same ranking group only)</li><li><strong>Invitation:</strong> defenders invite 1–2 allied 얼라이언스s based on attacker count</li><li><strong>Preparation (30 min):</strong> furnace becomes non-teleportable</li><li><strong>전술 War:</strong> duration varies:</li></ol>
+<ul><li><strong>40 min</strong> — equal forces</li><li><strong>30 min</strong> — outnumbered defender</li><li><strong>20 min</strong> — attackers have 2+ 얼라이언스 advantage</li></ul>
+<ol><li><strong>Resolution:</strong> rewards distributed; attackers plunder 희토 from defenders</li></ol>
+<p><strong>Attacker mechanic:</strong> troops attack the <strong>furnace&#x27;s durability only after all defenders in the furnace are defeated</strong>. 화로 loot: up to <strong>20% of enemy stockpile</strong> normally, up to <strong>30% during Showdown</strong> phase. Multi-얼라이언스 attack splits reward by furnace-damage contribution.</p>
+<p><strong>워로드 미사일:</strong> special unit fires after <strong>180-second countdown</strong>, deals <strong>30,000 damage</strong>, contaminates a <strong>25×25 field radius</strong>, randomly teleports all bases in that radius (except 워로드 bases themselves).</p>
+<p><strong>Defense rewards:</strong> outnumbered defenders receive <strong>doubled or tripled rewards</strong> on successful defense. Optimal defensive placements are four map corners + bottom-center behind mountains.</p>
+<p>희귀 토양 전쟁 (also translated 희토 War) is S2&#x27;s dominant war content, weeks 4–7.</p>
+<p><strong>Faction split:</strong> Top 200 얼라이언스s by 희토 stockpile split into <strong>반군 vs 헌병대</strong> in Week 3. 워존 voted into a faction via the Faction Awards event; 100 얼라이언스s per faction across 8 워존s (4/4 split).</p>
+<p><strong>War phases:</strong></p>
+<ol><li><strong>Declaration (24 h):</strong> 얼라이언스s declare war (max 3 attackers per target, same ranking group only)</li><li><strong>Invitation:</strong> defenders invite 1–2 allied 얼라이언스s based on attacker count</li><li><strong>Preparation (30 min):</strong> furnace becomes non-teleportable</li><li><strong>전술 War:</strong> duration varies:</li></ol>
+<ul><li><strong>40 min</strong> — equal forces</li><li><strong>30 min</strong> — outnumbered defender</li><li><strong>20 min</strong> — attackers have 2+ 얼라이언스 advantage</li></ul>
+<ol><li><strong>Resolution:</strong> rewards distributed; attackers plunder 희토 from defenders</li></ol>
+<p>Every event schedule in this article uses &quot;server time.&quot; That baseline is <strong>UTC-2</strong> [lastwarhandbook.com/guides/time-zone-guide via search excerpt, 2026-07-15, 티어 B; lastwarhandbook.com/guides/event-calendar-reset-times search excerpt, 2026-07-15, 티어 B]. 워존 do not each run on their own local time — the entire game shares one server-time clock so cross-server VS matches, 희귀 토양 전쟁 fight windows, and 스카이 배틀프론트 can co-schedule.</p>
+  </article>
+  <div class="cta-card">
+    <h3>얼라이언스 채팅에 바로 공유</h3>
+    <p>R5TOOLS.IO의 모든 플래너는 Discord용 PNG, 로스터 CSV, 공유 링크로 즉시 내보낼 수 있습니다.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">지금 무료로 시작 →</a>
+  </div>
+  <footer class="foot">
+  <p>다음 툴 세트의 일부입니다: <a href="https://r5tools.io/">R5TOOLS.IO</a> 라스트 워: 서바이벌 얼라이언스 도구.
+     팬 제작 · 퍼스트펀 / Century Games와 무관합니다.
+     <a href="https://r5tools.io/terms.html">이용약관</a> · <a href="https://r5tools.io/privacy.html">개인정보처리방침</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">베타 · 피드백</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>라스트 워 시즌 1 크림슨 플레이그 가이드 | R5TOOLS.IO</title>
+<meta name="description" content="시즌 1 (둠스데이) — the original 48-day zombie-plague 시즌 with 부패자 보스es, virus mechanics, and the 메이슨 SSR→UR promotion. R5 기획 도구, coo…">
+<meta name="keywords" content="라스트 워 시즌 1, 크림슨 플레이그, 라워 시즌 1, R5 기획, 얼라이언스 전략">
+<link rel="canonical" href="https://r5tools.io/ko/seasons/s1-crimson-plague.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/seasons/s1-crimson-plague.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/seasons/s1-crimson-plague.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/seasons/s1-crimson-plague.html">
+<meta property="og:title" content="라스트 워 시즌 1 크림슨 플레이그 가이드 | R5TOOLS.IO">
+<meta property="og:description" content="시즌 1 (둠스데이) — the original 48-day zombie-plague 시즌 with 부패자 보스es, virus mechanics, and the 메이슨 SSR→UR promotion. R5 기획 도구, coo…">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/ko/seasons/s1-crimson-plague.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="라스트 워 시즌 1 크림슨 플레이그 가이드 | R5TOOLS.IO">
+<meta name="twitter:description" content="시즌 1 (둠스데이) — the original 48-day zombie-plague 시즌 with 부패자 보스es, virus mechanics, and the 메이슨 SSR→UR promotion. R5 기획 도구, coo…">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "시즌 1: <span class='accent'>크림슨 플레이그</span>", "description": "시즌 1 (둠스데이) — the original 48-day zombie-plague 시즌 with 부패자 보스es, virus mechanics, and the 메이슨 SSR→UR promotion. R5 기획 도구, coo…", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/seasons/s1-crimson-plague.html", "inLanguage": "ko"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "시즌", "item": "https://r5tools.io/seasons/"}, {"@type": "ListItem", "position": 3, "name": "S1 크림슨 플레이그", "item": "https://r5tools.io/seasons/s1-crimson-plague.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+    <a href="https://r5tools.io/seasons/s1-crimson-plague.html" hreflang="en" rel="alternate" style="border-color:#c9a961;color:#c9a961;">EN</a>
+<a href="https://r5tools.io/">홈</a>
+  <a href="https://roster.r5tools.io/">로스터 추출기</a>
+  <a href="https://hive.r5tools.io/">하이브 플래너</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">홈</a> › <a href="/seasons/">시즌</a> › <span>S1 크림슨 플레이그</span></nav>
+  <h1>시즌 1: <span class='accent'>크림슨 플레이그</span></h1>
+  <p style="font-size:12px;color:var(--text-mute);margin:4px 0 12px;padding:6px 10px;border-left:2px solid var(--accent);background:var(--panel);border-radius:4px;">자동 번역되었습니다. <a href="https://r5tools.io/seasons/s1-crimson-plague.html" style="color:var(--text-dim);text-decoration:underline;">영문 원본 보기 →</a></p>
+
+  <p class="lede">시즌 1 (둠스데이) — the original 48-day zombie-plague season with 부패자 보스es, virus mechanics, and the 메이슨 SSR→UR promotion.</p>
+  <div class="tools-row"><a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a><a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a><a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비 계산기</a><a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a><a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a><a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a><a href="https://hive.r5tools.io/">하이브 플래너</a></div>
+  <div class="cta-card">
+    <h3>이 코드로 무료 체험 <code>RONY-FREE</code></h3>
+    <p>R5TOOLS.IO의 모든 플래너는 워존 2007 소속 얼라이언스 회원에게 즉시 잠금 해제됩니다 — 가입 불필요, 결제 불필요.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">우리 얼라이언스 잠금 해제 →</a>
+  </div>
+  <article>
+    <h3>시즌 1 — The 크림슨 플레이그 (a.k.a. &quot;둠스데이&quot;)</h3>
+<p><strong>Last researched:</strong> 2026-07-15 <strong>Sources consulted:</strong> 28 (22 original + 6 added in 2026-07-15 pass; see <em>sources</em>) <strong>KR sources included:</strong> ✓ <strong>Completeness:</strong> comprehensive</p>
+<h4>Release history (real-world dates)</h4>
+<p>시즌 1 first went live on <strong>May 13, 2025</strong> on server range <strong>S101-S196</strong>, per 퍼스트펀 Group&#x27;s official Facebook announcement (referenced in a &quot;running for&quot; community post at facebook.com/lastwarsurvival) [facebook.com/lastwarsurvival post 399609049726381, 2025-05-13, via search 2026-07-15 — 티어 A official social post]. Subsequent server groups roll into 시즌 1 on a staggered schedule as newer 워존s age past the ~90-100-day pre-season eligibility threshold; no consolidated public rollout calendar exists (filed to open-questions). The KB-derivable rule of thumb: any 워존 whose founding date is &gt;~120 days old is either in-시즌-1 or has already progressed past it. See LW Atlas (<code>lwatlas.com</code>) and 농장Ops (<code>lastwar.farm</code>) for live per-server 시즌 status queries.</p>
+<p>---</p>
+<blockquote><strong>Terminology alert.</strong> Community shorthand — especially inside 얼라이언스 chat and on YouTube — often calls 시즌 1 &quot;둠스데이.&quot; That is misleading. <strong>The official season title is &quot;The 크림슨 플레이그.&quot;</strong> In-game, &quot;둠스데이&quot; is a separate, permanent, bi-weekly <em>event</em> (둠 워커 랠리) that has nothing to do with the 시즌 1 map or ministries. The two overlap thematically (post-apocalyptic, viruses, &quot;doom&quot; enemies), which is why the term stuck. This article covers the <em>season</em>. See <em>09-events</em> for the standalone 둠스데이 event.</blockquote>
+<p>---</p>
+<h4>TL;DR</h4>
+<p>시즌 1 (officially <strong>&quot;The 크림슨 플레이그&quot;</strong>) is 라스트 워: 서바이벌&#x27;s first competitive season — a <strong>48-day</strong> virus-themed campaign preceded by a <strong>2-week Pre-시즌</strong> and followed by a <strong>~4-5 week Celebration phase</strong>. The map, called the <strong>Land of Fog and Rain</strong>, is grouped into <strong>8 워존s/servers</strong> competing for a central prize called the <strong>종말의 도시</strong> (a level-7 super-capitol) which unlocks on Day 28. All player power is gated behind a new stat — <strong>바이러스 저항 (VR)</strong> — which is grown almost exclusively by upgrading the <strong>바이러스 연구소</strong> (max +10,000 across 30 levels). Without enough 바이러스 저항 (VR), damage output can drop by 60-99% and incoming damage can be inflated by up to 900%, making the stat mandatory for city/stronghold captures and 파멸의 정예 kills. 얼라이언스 ranking is decided by <strong>얼라이언스 영향력 포인트</strong> accumulated from held cities (100k–1M each depending on level 1-6), culminating in the cross-워존 <strong>8강 토너먼트 tournament</strong> in weeks 5-7 (see <em>13-meta-competitive</em> for the tournament tier structure). Small 얼라이언스s that cannot compete for city ranks may permanently switch to <strong>건설자 연맹</strong> mode in weeks 4-7 to trade cities-and-glory for stable construction rewards.</p>
+<p>The term &quot;둠스데이&quot; that 얼라이언스 chats use for 시즌 1 is a misnomer inherited from the &quot;파멸의 정예&quot; / &quot;둠 워커&quot; enemy family. Official name: <strong>The 크림슨 플레이그</strong>. Known KR name: <strong>크림슨 플레이그 (시즌 1)</strong>.</p>
+<p>---</p>
+<h4>Core mechanics</h4>
+<h5>1. 시즌 structure and duration</h5>
+<p>시즌 1 runs on this cadence, in order:</p>
+<ol><li><strong>Pre-시즌 — 2 weeks.</strong> Preview mechanics, 시즌 Boost bonus display, 시즌 Preview (unlock story tiles by hitting daily goals), and a <strong>Pre-시즌 수도 Conquest on Day 6 of Week 2</strong>. During pre-season 수도 Conquest, <em>any 얼라이언스 can join without needing adjacent land</em> — this is intentionally more open than the mid-season 수도 rules.</li><li><strong>전술 시즌 — 8 weekly cycles</strong> (~56 days; theriagames reports 48 days — a ~1-week disagreement possibly reflecting a patch or &quot;active content&quot; vs &quot;wind-down&quot; terminology drift; see also <em>06-season-2-frozen</em> for the same S2 disagreement). All seasonal buildings, resources, virus mechanics and territory-capture rules are live.</li><li><strong>Celebration Phase — ~4-5 weeks.</strong> Black Market 이벤트 (28 days), Bingo Task (Week 1), Champion Duel tournament, and Black Market Cash weekly challenges (Weeks 2-4). 시즌al buildings and their power bonuses are <strong>removed</strong> at the end of Celebration; permanent rewards (medals, hero shards, exclusive weapon activations) stay.</li></ol>
+<p>The season repeats mission &quot;weeks&quot; internally: each mission has a start day and a mission goal that unlocks a delayed number of days later. The whole 8-week schedule is server-time synchronised across all 8 워존s in a group so that 워존-vs-워존 events line up.</p>
+<h5>2. The map — Land of Fog and Rain</h5>
+<p>The map is a <strong>virus-infested world</strong> where every city, stronghold, and strategic tile begins under the control of the <strong>Crimson Legion</strong> (the NPC faction). 얼라이언스s spawn at map edges in 하이브s; the center of the map is the endgame prize (종말의 도시, level 7). Everything must be re-captured from the Legion.</p>
+<p><strong>Territory types:</strong></p>
+<ul><li><strong>요새s</strong> (level 1 only) — the entry-level territory. Guarded by a <strong>오염자</strong> (a new NPC mini-boss). Adjacency to at least one Stronghold you own is required to declare on Cities.</li><li><strong>Cities, levels 1 through 6.</strong> Levels unlock on a schedule (see numbers table). Each city has a &quot;durability&quot; that scales with level and generates 얼라이언스 영향력 포인트 while held.</li><li><strong>종말의 도시</strong> (level 7, map centre) — the former capital of the world, now Legion-held. 해금s on Day 28. Same rules as 수도 Capture but 8-hour contest.</li><li><strong>검은땅 (검은땅 in KR).</strong> PvP zones where cross-워존 attack is permitted (on foreign 워존s every day; on your own 워존 only on Saturdays).</li><li><strong>얼라이언스 Outposts.</strong> Placed on foreign 워존s during 서버 원정 (Week 3+). Max 4 outposts per 얼라이언스, one per foreign 워존. Construction-protected on placement.</li></ul>
+<h5>3. 수도 도시 — 종말의 도시</h5>
+<p>The 수도 from base-game (the 얼라이언스-controlled capital where ministries and hats are assigned) rolls forward into 시즌 1: <strong>the 얼라이언스 holding the 수도 before 시즌 1 starts retains it and keeps all Ministry access for the first 28 days.</strong> After Day 28 the 수도 becomes contestable again under a modified ruleset that requires holding an adjacent level-6 city or a bordering stronghold.</p>
+<p>At map centre sits the <strong>종말의 도시</strong>, a level-7 super-capitol. Rules for contesting it:</p>
+<ul><li>해금s Day 28</li><li>3-day protection removal delay (Week 4 mission goal)</li><li>Contest window: <strong>8 hours</strong></li><li>Victory: <strong>first 얼라이언스 to hold 4 cumulative hours</strong> wins, or highest cumulative hold-time at the buzzer</li><li>Winner gains access to bordering territory chains</li><li>Only 얼라이언스s that hold <strong>level-6 cities</strong> may participate (adjacency requirement)</li></ul>
+<h5>4. Strongholds, Cities and capture rules</h5>
+<p><strong>Daily capture limits (own 워존, before 서버 원정):</strong></p>
+<ul><li>Strongholds: <strong>2/day</strong>, across all 워존s combined</li><li>Cities: <strong>2/day</strong> (on your home 워존 in week 1-3)</li></ul>
+<p><strong>Once 서버 원정 opens (Week 3, Day 16):</strong></p>
+<ul><li>Cities may be declared <strong>only on Thursdays and Saturdays</strong> (&quot;declaration days&quot;) — this applies to both home 워존 and foreign 워존s alike</li><li>랠리-based attacks still consume the daily limit; unsuccessful attacks do not consume a capture slot</li></ul>
+<p><strong>Maximum territory held:</strong></p>
+<ul><li>Strongholds base cap: <strong>3</strong></li><li>+1 stronghold slot per level-1 through level-5 city captured</li><li>+2 stronghold slots per level-6 city captured</li><li>Cities: <strong>4 max on home 워존 + 4 across foreign 워존s = 8 total</strong></li></ul>
+<p>Example: an 얼라이언스 holding 3× lvl-4 cities + 1× lvl-6 city can hold 3 + 3 + 2 = <strong>8 strongholds</strong>.</p>
+<p><strong>Protection status:</strong></p>
+<ul><li>Strongholds: <strong>36 hours</strong> after successful capture</li><li>Cities: <strong>7 days</strong> after successful capture — protection expires at 12:00 server time on the 6th day. Protection persists even if the city is abandoned mid-window.</li><li>스왑 tactic (KR discovery): swap a city on Thursday → protection expires next Thursday; swap Saturday → next Saturday. Used for locking down protection windows the week before season end.</li></ul>
+<p><strong>Adjacency and declaration:</strong></p>
+<ul><li>Your 얼라이언스 territory must be <em>connected via owned Strongholds</em> to the target 도시</li><li>Exception: the 수도 and 종말의 도시 can bridge to adjacent territories without a Stronghold chain</li><li>War declaration duration: <strong>1 hour</strong> from posting</li></ul>
+<p><strong>Casualties / virus damage:</strong></p>
+<ul><li>병력 are infected during city sieges regardless of resistance</li><li>If your 바이러스 저항 (VR) is below the city&#x27;s virus strength, damage is reduced 60% (mild gap) to 99% (critical gap)</li><li>Enemy damage to you scales up: +375% (mild gap) up to +900% (critical gap)</li></ul>
+<h5>5. 바이러스 저항 (VR) — the master stat</h5>
+<p><strong>바이러스 저항 (VR) is the single most important stat in 시즌 1.</strong> Every other seasonal system — 직업, 유전자 재조합, territory captures — exists to build 바이러스 저항 (VR) faster.</p>
+<ul><li><strong>Only</strong> source of 바이러스 저항 (VR): <strong>바이러스 연구소 (VRI)</strong>, max level 30, total contribution ranging +100 to +500 per level, cap <strong>+10,000</strong>.</li><li>시즌 Pass adds +250 바이러스 저항 (VR) (7-day buff, repeatable weekly).</li><li>Battle bonuses from 직업s and 유전자 재조합 add more resistance.</li></ul>
+<p><strong>Damage penalty for insufficient resistance</strong> (published by cpt-hedge &amp; ldshop.gg calculators): | Resistance gap | Damage dealt | Damage taken | |----------------|--------------|--------------| | Meets/exceeds required | Normal | Normal | | Small gap | −60% | +375% | | Critical gap | −99% | +900% |</p>
+<p><strong>Confirmed 2026-07-15.</strong> The −60% / −99% dmg-dealt and +375% / +900% dmg-taken numbers are now cross-sourced from a 티어 B guide walking through a concrete example (바이러스 저항 (VR) 350 vs 500 required = &quot;damage drops by 60%&quot; and &quot;monster damage +375%&quot;; larger critical gap escalates to &quot;99% penalty&quot; and &quot;up to 900% incoming damage&quot;) [ldshop.gg/blog/last-war-survival/season-1-virus-guide.html via search excerpt, 2026-07-15]. Same damage curve is shared across 시즌 1–5 per lastwarhandbook.com/guides/season-1-virus-infection-guide (search excerpt, 2026-07-15) — the resistance <em>values</em> required change per season but the reduction math is a shared shared function. Previously KB-flagged as weakly-sourced (cpt-hedge 403); now upgraded to two 티어 B independent confirmations.</p>
+<p>For 랠리 leaders attacking strongholds: <strong>only the leader&#x27;s resistance is checked</strong>. If the leader is under-resistant, the entire 랠리&#x27;s damage drops to zero and casualties are massive. This is why R5/R4 얼라이언스s usually front-load VRI upgrades on their 랠리 leaders.</p>
+<h5>6. Virus / infection system</h5>
+<p><strong>RA Virus Stacks</strong> are the infection meter: 0 to 100.</p>
+<ul><li><strong>Thresholds at 1, 20, 40, 60, 80 stacks</strong> activate progressive debuffs (reduced damage, increased casualties, morale penalties).</li><li><strong>100 stacks:</strong> base explodes after a countdown, damaging and infecting other bases in the immediate blast radius.</li><li><strong>Infection sources:</strong> attacking infected zombies above your resistance, attacking 오염자s (auto-infect regardless of resistance), attacking 파멸의 정예 (giant scorpions), being attacked by other infected bases, weather.</li><li><strong>Treatment:</strong> allied players use 면역 단백질 to cure you (airplane mechanic). Curing another player earns gene fragments.</li></ul>
+<h5>7. Weather system</h5>
+<p>The Land of Fog and Rain cycles through <strong>7 weather types</strong>, applying real-time buffs and debuffs to all commanders. A weather report shows odds of future conditions.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Weather</th><th>효과</th></tr></thead><tbody><tr><td>Sunny</td><td>+30% 직업 EXP from kills</td></tr><tr><td>Rainbow</td><td>패시브 직업 EXP gain</td></tr><tr><td>Light Rain</td><td>No virus stack accumulation</td></tr><tr><td>Foggy</td><td>+1 virus stack per interval to all commanders</td></tr><tr><td>Acid Rain</td><td>Automatic virus stack accumulation (~every 5 min)</td></tr><tr><td>Windy</td><td>−30% marching speed</td></tr><tr><td>(Clear/neutral)</td><td>Baseline</td></tr></tbody></table></div>
+<h5>8. 직업 Hall (Careers)</h5>
+<p>A one-time-per-season choice between <strong>엔지니어</strong> and <strong>전쟁 리더</strong>.</p>
+<ul><li><strong>엔지니어:</strong> construction/research/production bonuses (economy-facing). Preferred by farm accounts and by big-하이브 R5s who want steady buildout.</li><li><strong>전쟁 리더:</strong> combat/랠리 bonuses. Preferred by main-account 랠리 leaders.</li></ul>
+<p>Two skill columns:</p>
+<ul><li><strong>Left (blue) — permanent</strong> skills carried across seasons</li><li><strong>Right (green) — seasonal</strong> skills that <strong>reset at season end</strong></li></ul>
+<p>시즌 스킬s unlock at levels <strong>1, 5, 10, 15, 20, 25, 30, 35, 40</strong> (9 tiers). Includes <strong>농장 베테랑</strong> (raises daily 직업-XP-from-zombies cap from 75k → 150k) and the <strong>Viral Offense</strong> function (allows spreading virus offensively).</p>
+<h5>9. New seasonal buildings</h5>
+<div class="tbl-wrap"><table><thead><tr><th>건물</th><th>Purpose</th><th>Levels</th><th>메모</th></tr></thead><tbody><tr><td>바이러스 연구소 (VRI)</td><td>바이러스 저항 (VR)</td><td>1-30</td><td>+100 to +500/level, cap +10,000</td></tr><tr><td>단백질 농장</td><td>면역 단백질 income</td><td>1-30</td><td>+720/level; max 5 farms; Nth farm unlocks after (N-1)th hits a threshold; 5th farm needs 시즌 Pass</td></tr><tr><td>Military Base — 탱크</td><td>+1% 탱크 HP/Atk/Def per level</td><td>1-30</td><td>해금s Week 3</td></tr><tr><td>Military Base — 항공기</td><td>+1% 항공기 HP/Atk/Def per level</td><td>1-30</td><td>해금s Week 3</td></tr><tr><td>Military Base — 미사일</td><td>+1% 미사일 HP/Atk/Def per level</td><td>1-30</td><td>해금s Week 3</td></tr></tbody></table></div>
+<p>All seasonal buildings are <strong>removed at end of Celebration</strong>, along with their power bonuses.</p>
+<h5>10. 시즌al resources</h5>
+<p>Three currencies (they don&#x27;t survive the season):</p>
+<ul><li><strong>면역 단백질</strong> — from 단백질 농장s → upgrades VRI + Military Bases + used to cure allies</li><li><strong>돌연변이 결정</strong> — from zombie kills + events → upgrades 단백질 농장s + Military Bases</li><li><strong>유전자 조각s (유전자 조각)</strong> — 6 types (I–VI); dropped by 파멸의 정예, from curing allies, and from 유전자 조각 Collector event → used in <strong>유전자 재조합</strong></li></ul>
+<p><strong>유전자 재조합 event:</strong></p>
+<ul><li>Duration 47 days (starts Day 3 of Week 1)</li><li>6 fragment types, exchanged with allies to complete sets</li><li>Recombination pool: <strong>starts at 10</strong>, regenerates <strong>+1 every 2 hours</strong>, cap <strong>30</strong></li><li>Payout: 돌연변이 결정s + buffs</li></ul>
+<h5>11. 서버 원정 &amp; cross-server war</h5>
+<p><strong>워존 grouping:</strong> 8 servers per 시즌 1 group, competing simultaneously.</p>
+<p><strong>Timeline:</strong></p>
+<ul><li><strong>Week 3, Day 16</strong> — 서버 원정 opens; 얼라이언스s can place outposts on foreign 워존s (max 4 per 얼라이언스, 1 per foreign 워존). Outposts open at Stronghold levels 2, 4, 6 or 8.</li><li><strong>Week 4, Day 1</strong> — 워존 Declaration mission starts; first 수도 Declaration of War happens end of Week 4.</li><li><strong>Week 5-7 — 8강 토너먼트</strong>, the flagship cross-server tournament (see below).</li></ul>
+<p><strong>Kill rules by day of week:</strong></p>
+<ul><li><strong>Every day:</strong> attack anyone in contaminated land of <em>foreign</em> 워존s</li><li><strong>Saturdays:</strong> always PvP-open across all 워존s (bases and squads attackable everywhere) with cross-워존 teleportation</li><li><strong>Thursdays and Saturdays:</strong> 도시 war declarations allowed (both home and foreign 워존s once 원정 opens)</li></ul>
+<h5>12. 8강 토너먼트 (S1 tournament, Weeks 5-7)</h5>
+<p>The 시즌 1 endgame. Officially documented on the Last War support site (퍼스트펀 Group).</p>
+<ul><li>3 rounds spanning Weeks 5-7</li><li><strong>8 워존s per bracket</strong> — single-elimination, no consolation round for losing 워존s [confirmed 2026-07-15 via firstfungroup.zendesk.com/hc/en-us/articles/44659758784147-S1-Infinite-Octagon search excerpt (티어 A official — direct fetch 403); corroborated by theriagames.com 시즌 1 calendar via search 2026-07-15]. The &quot;Octagon&quot; name is not decorative — it lite랠리 refers to the 8-워존 bracket. Previously KB-flagged as &quot;inferred from bracket size&quot; — now upgraded to 티어 A confirmation from the official 퍼스트펀 support article.</li><li>서버s are grouped by 워존 영향력 포인트 (highest-ranked group is the &quot;골드en Bracket&quot;)</li><li>Each round: two servers duel; winner is decided by <strong>Bonus 연맹 코인</strong> accumulated over the round</li><li>Winning 워존 earns bulk 워존 영향력 포인트</li><li><strong>얼라이언스-side bonus</strong> (if 얼라이언스 total 영향력 포인트 &gt; 10,000,000,000 = 10 billion):</li><li>1 round won: +250,000 얼라이언스 influence pts</li><li>2 rounds won: +500,000</li><li>3 rounds won: +1,500,000</li></ul>
+<h5>13. 얼라이언스 Ranking &amp; Rewards</h5>
+<p><strong>8 reward tiers, ranked by 얼라이언스 영향력 포인트 at season end</strong> (source: lastwargame.online/season1-rewards):</p>
+<div class="tbl-wrap"><table><thead><tr><th>티어</th><th>Requirement</th></tr></thead><tbody><tr><td>1</td><td>Rank #1 in 워존 + ≥5,000,000 influence</td></tr><tr><td>2</td><td>≥5,000,000 influence + 2× Lvl-6 cities held</td></tr><tr><td>3</td><td>≥4,000,000 influence + 1× Lvl-6 city held</td></tr><tr><td>4</td><td>≥3,000,000 influence</td></tr><tr><td>5</td><td>≥2,000,000 influence</td></tr><tr><td>6</td><td>≥1,500,000 influence</td></tr><tr><td>7</td><td>≥500,000 influence</td></tr><tr><td>8</td><td>워존 rank 1-999 (any active 얼라이언스)</td></tr></tbody></table></div>
+<p><strong>Per-tier distribution — 100 rewards split as:</strong></p>
+<ul><li>얼라이언스 연맹장 (R5): 1</li><li>Tacticians (R4): 4</li><li>Core 멤버: 15</li><li>엘리트 멤버: 30</li><li>Valued 멤버: 50</li></ul>
+<p>R5 distributes based on individual contribution (territory captures, days active, VS-day performance).</p>
+<p><strong>워존-side rewards</strong> — 8 servers earn additional per-member rewards scaled by total 워존 points. Even lower-ranked 얼라이언스s on a high-performing 워존 earn something.</p>
+<p>시즌 currency: <strong>시즌 Merit 훈장</strong> → dedicated 시즌 Store (permanent-value shards, chief gear pieces, boosters).</p>
+<h5>14. 건설자 연맹 (opt-out mode, Weeks 4-7)</h5>
+<p>For 얼라이언스s that realistically cannot compete for city rankings, <strong>건설자 연맹 mode</strong> opens Week 4. Switching to 건설자 연맹 is <strong>irreversible for the rest of the season</strong>.</p>
+<ul><li><strong>Trade:</strong> give up 도시 Race + Influence ranking + top decoration (God of Judgment) + 시즌 Merit 훈장s</li><li><strong>Gain:</strong> stable donation-driven construction rewards (buildings you donate materials to → 얼라이언스-wide hero buffs + shard rewards)</li><li><strong>Audience:</strong> small 얼라이언스s, mid-tier 얼라이언스s, casual/off-timezone 얼라이언스s, migrant 얼라이언스s</li><li><strong>Choose window:</strong> Weeks 4-7 (can switch anytime in that range)</li></ul>
+<h5>15. Landing patterns &amp; 하이브 placement (시즌 1 practice)</h5>
+<p>시즌 1 하이브 placement is the single highest-leverage pre-season decision by R5. Formal community consensus:</p>
+<ol><li><strong>Land near the 얼라이언스&#x27;s target level-6 city</strong> — the endgame trophy for tier 1-3 rewards. Ideally within 1-2 stronghold-hops.</li><li><strong>Space bases tightly</strong> — 돕기 reaches every base within a small radius; 좀비 시즈 reinforcements arrive in time; Desert Storm participation is available to the full roster; 워존 결투 defensive perimeter is cohesive.</li><li><strong>Avoid landing directly adjacent to the strongest hostile 얼라이언스</strong> — 시즌 1 daily-kill windows on Saturdays make 하이브-on-하이브 borders violent.</li><li><strong>Reserve interior slots for R5/R4 랠리 leaders</strong> — they should be flanked by farm accounts so incoming attackers hit farms first.</li><li><strong>하이브 compliance:</strong> members leaving the 하이브 without R5 approval get one warning then removal. Compliance is tracked like VS-day participation.</li></ol>
+<p><strong>No published &quot;canonical coordinate&quot; list exists</strong> — the map is randomised per 워존 group. 얼라이언스 R5s pre-plan 하이브 shape (see the <strong>얼라이언스 하이브 Grid Manager</strong> tool the user has built) then anchor on the corresponding coordinates once the map is revealed.</p>
+<h5>16. 베테랑 / Prestige / Eternal War</h5>
+<p><strong>연맹 기술 finding:</strong> the terms &quot;veteran mode,&quot; &quot;prestige mode,&quot; and &quot;eternal war&quot; <strong>do not appear in any official 라스트 워: 서바이벌 documentation for 시즌 1</strong>. They may be community-invented shorthand from other games (Last Shelter: Survival&#x27;s &quot;둠스데이&quot; event has an &quot;eternal war&quot; mode; Last War is a different game).</p>
+<ul><li><strong>농장 베테랑</strong> exists but is a 직업 skill (raises the daily 직업 XP cap from zombies from 75k to 150k), not a game mode.</li><li><strong>No 시즌 1 replay / prestige / veteran-tier progression</strong> was found in any tier-A or tier-B source. Once 시즌 1 ends and Celebration passes, the world transitions to 시즌 2 (시즌 2 / 폴라 스톰). 시즌 then run <strong>1 → 2 → 3 (골든 킹덤) → 4 (에버나이트 아일) → 5 (와일드 웨스트) → 6 (잃어버린 열대우림)</strong> chronologically per server.</li><li><strong>Whether servers replay 시즌 1 after 시즌 6, or whether &quot;eternal war&quot; refers to a post-S6 endgame:</strong> unconfirmed — filed to open questions.</li></ul>
+<p>Some sources hint that once a 워존 hits the top season, it repeats the current season on a rolling basis, but this was not verifiable from primary sources.</p>
+<p>---</p>
+<h4>Numbers / formulas / tables</h4>
+<h5>16.1 도시 level unlock schedule</h5>
+<div class="tbl-wrap"><table><thead><tr><th>Day</th><th>Content unlocked</th></tr></thead><tbody><tr><td>Day 1</td><td>시즌 begins; 요새s capturable; VRI + 단백질 농장 active</td></tr><tr><td>Day 3</td><td>Level 1 Cities capturable; 유전자 재조합 event starts</td></tr><tr><td>Day 4</td><td>킴벌리&#x27;s 전용 무기 (미사일 Shadow) unlock</td></tr><tr><td>Day 7</td><td>Level 2 Cities capturable</td></tr><tr><td>Day 10</td><td>Level 3 Cities capturable</td></tr><tr><td>Day 14</td><td>Level 4 Cities capturable</td></tr><tr><td>Day 16 (Wk 3)</td><td>서버 원정 opens; outposts placeable; Military Bases unlock</td></tr><tr><td>Day 17</td><td>Level 5 Cities capturable</td></tr><tr><td>Day 21</td><td>Level 6 Cities capturable</td></tr><tr><td>Day 22 (Wk 4 Day 1)</td><td>워존 Declaration mission starts</td></tr><tr><td>Day 25 (Wk 4 Day 4)</td><td>종말의 도시 mission starts</td></tr><tr><td>Day 28</td><td>수도 capture window opens; 종말의 도시 contestable</td></tr><tr><td>Day 29+ (Wk 5)</td><td>8강 토너먼트 round 1</td></tr><tr><td>Day 36+ (Wk 6)</td><td>8강 토너먼트 round 2</td></tr><tr><td>Day 43+ (Wk 7)</td><td>8강 토너먼트 round 3</td></tr><tr><td>Day 48</td><td>시즌 end</td></tr></tbody></table></div>
+<h5>16.2 영향력 포인트 per city level (per city per second-tier day, ranking currency)</h5>
+<div class="tbl-wrap"><table><thead><tr><th>도시 level</th><th>얼라이언스 영향력 포인트</th></tr></thead><tbody><tr><td>Lvl 1</td><td>100,000</td></tr><tr><td>Lvl 2</td><td>200,000</td></tr><tr><td>Lvl 3</td><td>300,000</td></tr><tr><td>Lvl 4</td><td>400,000</td></tr><tr><td>Lvl 5</td><td>500,000</td></tr><tr><td>Lvl 6</td><td>1,000,000</td></tr><tr><td>종말의 도시 (Lvl 7)</td><td>Undocumented in public sources — filed to Open Questions</td></tr></tbody></table></div>
+<p><em>연맹 코인 are retained only while the city is held. Losing a city means losing its point contribution to the season-end tally.</em></p>
+<h5>16.3 바이러스 저항 (VR) targets</h5>
+<div class="tbl-wrap"><table><thead><tr><th>Objective</th><th>Approx. VR needed</th></tr></thead><tbody><tr><td>Attack Lvl-1 zombies safely</td><td>~300</td></tr><tr><td>Attack Lvl-1 Stronghold</td><td>~1,500-2,000 (build ASAP week 1)</td></tr><tr><td>Attack Lvl-3 city</td><td>~4,000-5,000</td></tr><tr><td>Attack Lvl-6 city</td><td>~8,000-10,000</td></tr><tr><td>VRI cap (max Lvl 30)</td><td>+10,000</td></tr></tbody></table></div>
+<p><em>(Exact per-tile requirements are visible in-game via tile-info tooltip; public tables are approximate and vary by patch.)</em></p>
+<h5>16.4 Virus stack thresholds</h5>
+<div class="tbl-wrap"><table><thead><tr><th>Stacks</th><th>효과</th></tr></thead><tbody><tr><td>1</td><td>Initial debuff applied</td></tr><tr><td>20</td><td>Increased debuff</td></tr><tr><td>40</td><td>More severe debuff</td></tr><tr><td>60</td><td>Major penalty (damage output cut, casualties up)</td></tr><tr><td>80</td><td>Near-fatal state</td></tr><tr><td>100</td><td>Base explodes on countdown; blast infects adjacent bases</td></tr></tbody></table></div>
+<h5>16.5 Daily capture limits summary</h5>
+<div class="tbl-wrap"><table><thead><tr><th>Territory</th><th>Limit/day</th><th>메모</th></tr></thead><tbody><tr><td>Strongholds</td><td>2</td><td>Across all 워존s combined</td></tr><tr><td>Cities (own 워존)</td><td>2</td><td>Wk 1-3 anytime; Wk 4+ Thu/Sat only</td></tr><tr><td>Cities (foreign 워존)</td><td>Shared with above 2/day</td><td>Thu/Sat only, requires outpost connection</td></tr><tr><td>War declaration duration</td><td>1 hour</td><td>From posting</td></tr><tr><td>도시 protection after capture</td><td>7 days</td><td>Expires at 12:00 server time</td></tr><tr><td>Stronghold protection</td><td>36 hours</td><td>After capture</td></tr><tr><td>Abandonment cooldown</td><td>5 days</td><td>Abandoning 얼라이언스 can&#x27;t recapture; others can</td></tr></tbody></table></div>
+<h5>16.6 워존 결투 bonus (Wk 4)</h5>
+<p>For 얼라이언스s with ≥1,000,000 얼라이언스 영향력 포인트 participating in 워존 결투:</p>
+<ul><li>1 win: +250,000 얼라이언스 influence points</li><li>2 wins: +500,000</li><li>3 wins: +1,500,000</li></ul>
+<h5>16.7 8강 토너먼트 bonus (Wk 5-7)</h5>
+<p>For 얼라이언스s with ≥10,000,000,000 (10 billion) 얼라이언스 영향력 포인트:</p>
+<ul><li>1 round won: +250,000</li><li>2 rounds won: +500,000</li><li>3 rounds won: +1,500,000</li></ul>
+<h5>16.8 오염자 / 파멸의 정예 key facts</h5>
+<ul><li><strong>오염자</strong> guards each 요새. Attacking always infects you regardless of resistance. Deals massive damage if your VR is under its virus level.</li><li><strong>파멸의 정예</strong> (giant infected scorpions) roam contaminated land — big Genetic 조각 drops. 랠리 required; leader&#x27;s VR is checked.</li><li><strong>둠 워커</strong> — the boss from the <em>standalone 둠스데이 event</em> (not S1-specific), 4h spawns on event days, first-kill reward claimable up to 3× per event.</li></ul>
+<h5>16.8b Pumpkin Cauldron base skin (S1-tied premium cosmetic)</h5>
+<p><strong>Clarification 2026-07-15.</strong> The KB previously flagged Pumpkin Cauldron as a possible pre-season event of unknown mechanics (open-question #5). It is now confirmed to be a <strong>legendary base skin</strong>, not a mechanic-event. Verified via the official 라스트 워: 서바이벌 X/Twitter beginner&#x27;s-guide post on 시즌 Boost base skins [x.com/lastwarsurvival status 1922480680744976704, 2025-05-14, 티어 A official — &quot;시즌 1 — Pumpkin Cauldron: Increases virus stack limit!&quot;] and the Last War wiki entry [lastwar.wiki/customizations/pumpkin-cauldron, 티어 B, 2026-07-15 search excerpt].</p>
+<ul><li><strong>유형:</strong> 전설 base skin (시즌-1-themed Halloween cosmetic)</li><li><strong>시즌 Boost effect:</strong> Increases virus stack limit — <strong>permanent +50 virus stack limit</strong> (so your base can absorb 150 stacks instead of the base 100 before the explosion countdown triggers)</li><li><strong>해금s:</strong> the Virus Surge active base skill</li><li><strong>Social mechanic:</strong> any commander who &quot;likes&quot; your base earns a Pumpkin Gift (5 speedups)</li><li><strong>Price:</strong> premium bundle; historically reached up to ~$400 USD (Halloween 2025 promotion)</li></ul>
+<p>Interaction: the +50 stack ceiling essentially raises the point at which infection-based self-destruct becomes a risk, which is enormously valuable during multi-day 검은땅 pushes where accumulating stacks is unavoidable. See §6 (virus/infection system) for baseline 100-stack ceiling behavior — Pumpkin Cauldron users effectively play by a 150-stack ceiling on all thresholds through the season.</p>
+<h5>16.9 킴벌리 전용 무기 (미사일 Shadow, S1 debut)</h5>
+<ul><li>해금s Day 4 Week 1</li><li>Requires 킴벌리 at 5-star</li><li>Activation cost: 50 shards</li><li>Max level: 30</li><li>Battle Pass provides 70 shards (activation + Lvl 2)</li></ul>
+<h5>16.10 Recombination pool</h5>
+<ul><li>성ts at 10</li><li>+1 recombination every 2 hours</li><li>Cap 30</li></ul>
+<h5>16.11 시즌 1 formation meta (community consensus, 2025-2026)</h5>
+<p>The KB previously listed a formation-meta gap (open-question #8). Now backed by cross-source community consensus [packsify.com/blogs/best-squad-lineup-in-last-war-survival-game, 2026 update, 티어 C; allclash.com/best-team-formations-lineups-in-last-war-survival-game, 2025 update, 티어 C; ldshop.gg/blog/last-war-survival/season-1-hero-recommendations.html, 티어 B; all via search 2026-07-15].</p>
+<p><strong>Master rule</strong> — RPS triangle <strong>항공기 &gt; 탱크 &gt; 미사일 &gt; 항공기</strong> per <em>01-core-gameplay</em>. Full 5-hero same-type squad grants <strong>+20% squad-wide stat bonus</strong>, which is why mono-type formations dominate over mixed.</p>
+<p><strong>Early-game S1 meta — 탱크 squad</strong> (~Week 1 through Day ~60-70):</p>
+<ul><li>머피 + 윌리엄스 + 킴벌리 + 스테트만 + 마샬</li><li>Rationale: 킴벌리 is the highest-DPS early-game hero (S1 미사일 Shadow debut Wk1 D4 makes her even stronger from day 4). 머피 + 윌리엄스 absorb hits so 킴벌리 + 스테트만 DPS survives. 마샬 adds attack-speed buffs.</li><li>Fits S1&#x27;s early-game because virus resistance is still low across the server → tank frontline soaks 오염자 damage during Stronghold captures.</li></ul>
+<p><strong>Mid-to-late-game S1 meta — 항공기 squad</strong> (~Day 70+):</p>
+<ul><li>루시우스 + 칼리 + DVA + 모리슨 + 스카일러</li><li>Rationale: as the server matures and most 얼라이언스s default to tanks (because tanks dominate early PvE too), the RPS counter is aircraft. Full-aircraft squad picks up +20% mono-bonus AND the +20% RPS advantage vs tanks = ~44% multiplicative damage edge.</li><li>DVA is called out as S-tier &quot;fits every meta.&quot; 테슬라 is the equivalent for the 미사일 line.</li></ul>
+<p><strong>Counter-pick — 미사일 squad</strong> (situational, ~Day 60+ if server is aircraft-dominated):</p>
+<ul><li>Anchored by 테슬라; specific 5-hero list varies by roster availability.</li><li>Only run this if scouting confirms your 워존&#x27;s top 얼라이언스s have gone all-aircraft; otherwise the meta stays tank/aircraft.</li></ul>
+<p><strong>S1-specific twist not present in the general formation guides:</strong> 랠리 leaders in S1 must <strong>also</strong> meet the Stronghold/도시&#x27;s 바이러스 저항 (VR) requirement or the 랠리 deals ~0 damage (see §5). So the &quot;best formation&quot; for the leader isn&#x27;t purely DPS-optimal — it&#x27;s DPS-optimal <em>given</em> the leader has stacked enough VRI to clear the resistance gate. 농장 accounts often run the &quot;correct&quot; formation for pure PvE, while 랠리 leaders bias toward whichever hero-comp lets them survive the resistance-gap damage penalty.</p>
+<p>---</p>
+<h4>KR ↔ EN terminology</h4>
+<div class="tbl-wrap"><table><thead><tr><th>한국어</th><th>영어</th><th>메모</th></tr></thead><tbody><tr><td>시즌 1 / 시즌1</td><td>시즌 1</td><td></td></tr><tr><td>크림슨 플레이그</td><td>크림슨 플레이그</td><td>Official S1 title</td></tr><tr><td>둠스데이 (isolated event)</td><td>둠스데이 event</td><td>Standalone bi-weekly event — NOT the 시즌 1 name in official docs, though used colloquially</td></tr><tr><td>검은땅</td><td>검은땅 / 검은땅</td><td>PvP-open infected zone</td></tr><tr><td>요새</td><td>Stronghold / 요새</td><td>Level 1 only in 시즌 1</td></tr><tr><td>도시</td><td>도시</td><td>Levels 1-6</td></tr><tr><td>수도</td><td>수도 / 수도</td><td>The ministry-holding capital</td></tr><tr><td>종말의 도시</td><td>종말의 도시</td><td>Level 7 endgame capital</td></tr><tr><td>바이러스 저항</td><td>바이러스 저항 (VR)</td><td>The master S1 stat</td></tr><tr><td>바이러스 연구소</td><td>바이러스 연구소 (VRI)</td><td>Only source of VR</td></tr><tr><td>단백질 농장</td><td>단백질 농장</td><td>면역 단백질 income</td></tr><tr><td>면역 단백질</td><td>면역 단백질</td><td>시즌 resource</td></tr><tr><td>돌연변이 결정</td><td>돌연변이 결정</td><td>시즌 resource</td></tr><tr><td>유전자 조각</td><td>유전자 조각 / 유전자 조각</td><td>6 types (I–VI)</td></tr><tr><td>유전자 재조합</td><td>유전자 재조합</td><td>조각-trading event</td></tr><tr><td>오염자</td><td>오염자</td><td>Stronghold NPC guard</td></tr><tr><td>파멸의 정예</td><td>파멸의 정예</td><td>Infected giant scorpions</td></tr><tr><td>종말의 도보자</td><td>둠 워커</td><td>Bi-weekly event boss (not S1-exclusive)</td></tr><tr><td>서버 원정</td><td>서버 원정</td><td>Cross-server war (Wk 3+)</td></tr><tr><td>워존 결투</td><td>워존 결투</td><td>Wk 4 tournament</td></tr><tr><td>8강 토너먼트</td><td>8강 토너먼트</td><td>Wk 5-7 grand tournament</td></tr><tr><td>건설자 연맹</td><td>건설자 연맹</td><td>Opt-out mode (Wk 4-7)</td></tr><tr><td>내각</td><td>내각</td><td>수도 cabinet slots</td></tr><tr><td>대통령</td><td>대통령</td><td>Winner of 수도 Conquest</td></tr><tr><td>전초기지</td><td>Outpost</td><td>Foreign-워존 landing pad</td></tr><tr><td>선전포고</td><td>선포권</td><td>1-hour timer to gather</td></tr><tr><td>스왑</td><td>스왑</td><td>Trade cities to lock protection windows</td></tr><tr><td>벨튀</td><td>벨튀</td><td>Attacking a stronghold to bait recapture</td></tr><tr><td>집결 공생방</td><td>랠리 symbiosis room</td><td>얼라이언스 tech required for attacks</td></tr><tr><td>주둔 공생방</td><td>방어군 symbiosis room</td><td>얼라이언스 tech required for defense</td></tr><tr><td>공성마스터</td><td>공성마스터</td><td>스킬 giving 6x damage at level 5</td></tr><tr><td>목/토요일</td><td>Thursday/Saturday</td><td>War-declaration days once 원정 opens</td></tr><tr><td>최전선</td><td>전열</td><td>Common term for war-front tiles</td></tr><tr><td>라워갤</td><td>라워 gallery</td><td>한국어 DCInside community for 라워</td></tr></tbody></table></div>
+<p>---</p>
+<h4>Interaction with other systems</h4>
+<ul><li><em>08-얼라이언스-systems</em> — 시즌 1 하이브 placement decisions and the shift into the &quot;Land of Fog and Rain&quot; map. The user&#x27;s own <em>라워_얼라이언스_Ops_Center</em> → <strong>얼라이언스 하이브 Grid Manager</strong> is designed specifically for pre-season 하이브 planning and is used against 시즌 1 layouts.</li><li><em>06-season-2-frozen</em> — 시즌 2 (폴라 스톰) is the direct successor. Different mechanic (frost vs virus), same territorial structure.</li><li><em>02-heroes</em> — 킴벌리&#x27;s 전용 무기 (미사일 Shadow) debuts in S1 Wk 1 Day 4; 메이슨 UR Upgrade begins Week 2; DVA and 테슬라 전용 무기s rotate through Battle Pass slots. 히어로 picks pivot around who can hold-up-in-Contaminated-Land.</li><li><em>03-chief</em> — Base building continues in parallel; 시즌 1 adds VRI + 단백질 농장s + Military Bases (removed at Celebration end).</li><li><em>08-얼라이언스-systems</em> — 내각 carry forward from base game; 수도 Conquest during Pre-시즌 is the first 얼라이언스-vs-얼라이언스 event of the season. 워존 결투 + 8강 토너먼트 are cross-server extensions.</li><li><em>04-squads-combat</em> — 랠리 leader&#x27;s 바이러스 저항 (VR) gate is a 시즌-1-specific rule that changes 랠리 leader selection (usually highest-VRI R5 or R4 instead of highest-power).</li><li><em>03-chief</em> — 직업 Hall is a 시즌 1 introduction. 엔지니어 vs 전쟁 리더 choice is once per season.</li><li><em>09-events</em> — 유전자 재조합, Clean-up Operation, 유전자 조각 Collector, Blood Red Legion, 도시 Clash, UR Upgrade, and 건설자 연맹 are all 시즌-1 events. The <strong>standalone 둠스데이 event</strong> is a permanent bi-weekly ritual and does NOT come and go with the season.</li><li><em>11-monetization</em> — 시즌 Pass (unlocks 5th 단백질 농장, +250 VR, +30% march speed, 7-day duration), Battle Passes for exclusive weapons.</li><li><em>13-meta-competitive</em> — 8-tier 얼라이언스 ranking + 워존 ranking define the meta competitive structure for the season.</li><li><em>15-glossary</em> — Master EN↔KR glossary; the 시즌 1-specific rows above should be merged there.</li></ul>
+<p>---</p>
+<h4>Open questions</h4>
+<p>Gaps and unresolved items that could not be fully verified from primary sources (also appended to <code>open-questions.md</code>):</p>
+<ol><li><strong>Does &quot;eternal war,&quot; &quot;veteran mode,&quot; or &quot;prestige mode&quot; exist?</strong> <strong>Still unconfirmed as of 2026-07-15 research pass.</strong> No official documentation surfaced across a targeted search including &quot;eternal war,&quot; &quot;veteran mode,&quot; &quot;prestige,&quot; and &quot;season replay after 시즌 6&quot; [search 2026-07-15 returned only 시즌 6 잃어버린 열대우림 / 그림자 열대우림 guides with no post-S6 continuation content]. As of the KB last-pass date, only 시즌 1-6 (크림슨 플레이그, 시즌 2/폴라 스톰, 골든 킹덤, 에버나이트 아일, 와일드 웨스트, 잃어버린 열대우림/그림자 열대우림) are documented. 시즌 6&#x27;s post-content mechanics (워 메리트, 히어로 각성) do not reference a 시즌-1 replay pathway. <strong>Working hypothesis:</strong> the terms are Last-Shelter-Survival vocabulary bleeding into 라워 얼라이언스 chat. Confirm/refute when 시즌 7 or first-server-past-S6 content surfaces.</li><li><strong>종말의 도시 influence-point value.</strong> Public sources confirm the level-6 cities give 1M, but the level-7 Apocalypse figure is <strong>still not published as of 2026-07-15</strong>. Reconfirmed: targeted search returned zero sources listing a Level-7 city-of-Apocalypse point value. Likely 2M+ but unverified.</li><li><strong>Exact virus-resistance requirement per city level.</strong> Only visible in-game via tile tooltip; no public authoritative table.</li><li><strong>Does 시즌 1 replay after 시즌 6?</strong> Some KR community chatter suggests high-tier servers may cycle back to earlier seasons; no 퍼스트펀 / official confirmation found. <strong>Still open 2026-07-15.</strong></li><li>~~<strong>Pumpkin Cauldron.</strong>~~ <strong>RESOLVED 2026-07-15.</strong> Now confirmed as a legendary base skin (Halloween-tied 시즌 Boost) that adds +50 to the virus stack limit and unlocks the Virus Surge active skill — NOT a pre-season event mechanic. See §16.8b for details. Sources: official x.com/lastwarsurvival post 1922480680744976704 + lastwar.wiki/customizations/pumpkin-cauldron.</li><li><strong>워존 count.</strong> &quot;8 워존s per group&quot; is inferred from the 8-server-competition framing and the 8강 토너먼트 bracket size, but not explicitly stated in a tier-A source. <strong>Reconfirmed as inferred-only 2026-07-15</strong> — community trackers (LW Atlas, 농장Ops) group servers by 워존 but don&#x27;t publish the fixed-8 grouping rule.</li><li><strong>NPC city buffs / stronghold buffs beyond 오염자.</strong> Sources confirm 오염자 + polluter guard types (Polluter Guard tanks, Polluter Shooter missiles, Polluter Butcher aircraft) but do not list the buffs / debuffs each NPC applies during defense.</li><li>~~<strong>편성 meta specifically for 시즌 1.</strong>~~ <strong>RESOLVED 2026-07-15.</strong> Community consensus now cross-sourced. See §16.11. 탱크 meta early (머피/윌리엄스/킴벌리/스테트만/마샬), 항공기 meta from Day ~70+ (루시우스/칼리/DVA/모리슨/스카일러), 미사일 as situational counter (테슬라-anchored). Sources: packsify.com/blogs/best-squad-lineup + allclash.com/best-team-formations-lineups + ldshop.gg/blog/last-war-survival/season-1-hero-recommendations.</li><li><strong>&quot;둠스데이&quot; community usage.</strong> 얼라이언스 chats routinely call 시즌 1 &quot;둠스데이&quot; but no official Chinese/한국어/영어 source uses &quot;둠스데이&quot; as the season&#x27;s proper title. Origin of the shorthand: undetermined (likely from 둠 워커 / 파멸의 정예 / cinematic tie-in with the standalone 둠스데이 event).</li><li><strong>NEW: 뽑기ing launch schedule per server range.</strong> Confirmed May 13, 2025 for S101-S196 (see release-history block at top). But no consolidated public rollout calendar documents which server ranges got 시즌 1 in which subsequent months. LW Atlas + 농장Ops let you query per-server but do not publish a global rollout doc. Filed to open-questions.</li></ol>
+<p>---</p>
+<h4>Sources</h4>
+<p>Reliability: <strong>A</strong> = official developer/publisher; <strong>B</strong> = high-quality community wiki with citations; <strong>C</strong> = individual guide writer/blog; <strong>D</strong> = forum post / reddit / YouTube.</p>
+<ul><li><a href="https://www.lastwartutorial.com/ultimate-war-rules-guide-for-season-1/" rel="nofollow noopener">Last War Tutorial — Ultimate War Rules 가이드 for 시즌 1</a> — 2026, tier B — used for stronghold/city rules, capture limits, protection.</li><li><a href="https://www.lastwartutorial.com/season-1-the-crimson-plague/" rel="nofollow noopener">Last War Tutorial — 시즌 1: The 크림슨 플레이그 overview</a> — 2026, tier B — used for map, resources, mechanics summary.</li><li><a href="https://www.lastwartutorial.com/season-1-week-1/" rel="nofollow noopener">Last War Tutorial — 시즌 1 Week 1</a> — 2026, tier B — used for Wk1 missions, 유전자 재조합, 킴벌리 weapon.</li><li><a href="https://www.lastwartutorial.com/season-1-week-4/" rel="nofollow noopener">Last War Tutorial — 시즌 1 Week 4</a> — 2026, tier B — used for 워존 Declaration, 종말의 도시.</li><li><a href="https://www.lastwartutorial.com/season-1-week-5/" rel="nofollow noopener">Last War Tutorial — 시즌 1 Week 5</a> — 2026, tier B — used for 8강 토너먼트 timing.</li><li><a href="https://www.lastwartutorial.com/season-1-pre-season/" rel="nofollow noopener">Last War Tutorial — 시즌 1 Pre-시즌</a> — 2026, tier B — used for Pre-시즌 structure, 수도 Conquest.</li><li><a href="https://www.lastwartutorial.com/season-1-celebration/" rel="nofollow noopener">Last War Tutorial — 시즌 1 Celebration</a> — 2026, tier B — used for Celebration phase (Black Market, Bingo, Champion Duel).</li><li><a href="https://www.lastwartutorial.com/doomsday/" rel="nofollow noopener">Last War Tutorial — 둠스데이 standalone event</a> — 2026, tier B — used to disambiguate 둠스데이 event vs 시즌 1.</li><li><a href="https://lastwarhandbook.com/guides/season-1-guide" rel="nofollow noopener">Last War Handbook — 시즌 1 가이드</a> — 2026, tier B — cross-checked with lastwartutorial (fetched via search snippet; direct fetch blocked).</li><li><a href="https://lastwarhandbook.com/guides/season-1-territory-capture-guide" rel="nofollow noopener">Last War Handbook — 시즌 1 Territory Capture 가이드</a> — 2026, tier B — cross-check for capture rules (via search snippet).</li><li><a href="https://lastwarhandbook.com/guides/season-1-virus-infection-guide" rel="nofollow noopener">Last War Handbook — 시즌 1 Virus &amp; Infection 가이드</a> — 2026, tier B — VRI mechanics (via search snippet).</li><li><a href="https://lastwarhandbook.com/guides/season-1-profession-system" rel="nofollow noopener">Last War Handbook — 시즌 1 직업 System</a> — 2026, tier B — 엔지니어 vs 전쟁 리더 (via search snippet).</li><li><a href="https://lastwarhandbook.com/guides/warzone-duel-server-war-guide" rel="nofollow noopener">Last War Handbook — 워존 결투 서버 War 가이드</a> — 2026, tier B — cross-server war rules.</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/season-1-overview.html" rel="nofollow noopener">LDShop — 시즌 1 Overview</a> — 2026, tier B — resources, virus, professions, buildings, weather.</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/season-1-virus-guide.html" rel="nofollow noopener">LDShop — 시즌 1 Virus 가이드</a> — 2026, tier B (via search snippet).</li><li><a href="https://www.lastwargame.online/en/season1-map/" rel="nofollow noopener">Lastwargame.online — 시즌 1 map</a> — 2026, tier B — Apocalypse 도시, NPC types (Polluter Guard/Shooter/Butcher).</li><li><a href="https://www.lastwargame.online/en/season1-whats-new/" rel="nofollow noopener">Lastwargame.online — 시즌 1 what&#x27;s new</a> — 2026, tier B — weather, buildings, professions, resistance penalties.</li><li><a href="https://www.lastwargame.online/en/season1-tips/" rel="nofollow noopener">Lastwargame.online — 시즌 1 tips</a> — 2026, tier B — VRI priority, 파멸의 정예 tactics.</li><li><a href="https://www.lastwargame.online/en/season1-rewards/" rel="nofollow noopener">Lastwargame.online — 시즌 1 rewards</a> — 2026, tier B — 8 reward tiers, distribution structure.</li><li><a href="https://www.lastwargame.online/en/game-season-1/" rel="nofollow noopener">Lastwargame.online — 시즌 1 가이드 (game-season-1)</a> — 2026, tier B — events summary.</li><li><a href="https://www.lastwargame.online/en/doomsday-event/" rel="nofollow noopener">Lastwargame.online — 둠스데이 event</a> — 2026, tier B — confirms 둠스데이 is a separate event.</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/44659758784147-S1-Infinite-Octagon" rel="nofollow noopener">퍼스트펀 Group support — S1 8강 토너먼트</a> — 2026, tier A (official) — 8강 토너먼트 details.</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/44729112658323-Season-1-Builder-Alliance" rel="nofollow noopener">퍼스트펀 Group support — 시즌 1 건설자 연맹</a> — 2026, tier A (official).</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/44710611930003--Warzone-Expedition-Strategy-Guide" rel="nofollow noopener">퍼스트펀 Group support — 서버 원정 Strategy 가이드</a> — 2026, tier A (official) — cross-server war.</li><li><a href="https://lastwarvault.com/guides/season-1/builder-alliance-guide/" rel="nofollow noopener">Last War Vault — 건설자 연맹 가이드 (시즌 1)</a> — 2026, tier B — 건설자 연맹 trade-offs.</li><li><a href="https://lastwar-guide.org/season-1/last-war-season-1-guide-virus-resistance-map-conquest" rel="nofollow noopener">Lastwar-guide.org — Quick 시즌 1 가이드</a> — 2026, tier C — VR + territory rules cross-check.</li><li><a href="https://cpt-hedge.com/calculators/virus-resistance" rel="nofollow noopener">Cpt Hedgehog — 바이러스 저항 (VR) Calculator</a> — 2026, tier B — VR damage penalty (60-99% dmg dealt, +375-900% dmg taken).</li><li><a href="https://www.lootbar.com/blog/en/last-war-pvp-formations-alliance-capital-guide.html" rel="nofollow noopener">Lootbar — PvP 편성s &amp; 수도 가이드</a> — 2026, tier C — formation principles.</li><li><a href="https://www.packsify.com/blogs/last-war-survival-alliance-guide" rel="nofollow noopener">Packsify — 얼라이언스 가이드</a> — 2026, tier C — 하이브 placement guidance.</li><li><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=28907" rel="nofollow noopener">DCInside 라워 Minor Gallery — 시즌1 R4/R5 요새&amp;도시 점령 정보</a> — 2024, tier D (KR community) — 한국어-side stronghold/city rules, swap tactics, R4/R5 strategy.</li><li><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=40189" rel="nofollow noopener">DCInside 라워 Minor Gallery — 시즌1 땅따먹기 룰 설명</a> — 2024, tier D — KR players&#x27; summary of territory rules.</li><li><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=7466" rel="nofollow noopener">DCInside 라워 Minor Gallery — 시즌1 도시편 공략</a> — 2024-07-23, tier D — 한국어 end-of-S1 city guide, siege math (100 dmg base, 공성마스터 lvl5 → 6× = 600, +100/flag × 5 = +500 → 11-hit equivalent).</li></ul>
+<h5>Added 2026-07-15 pass</h5>
+<ul><li><a href="https://www.facebook.com/lastwarsurvival/posts/greetings-commanders-our-season-1-the-crimson-plague-event-has-been-running-for-/399609049726381/" rel="nofollow noopener">퍼스트펀 Group — 라스트 워: 서바이벌 official Facebook post 399609049726381</a> — 2025-05-13, tier A (official developer social) — anchors the concrete May 13, 2025 launch date for server range S101-S196.</li><li><a href="https://x.com/lastwarsurvival/status/1922480680744976704" rel="nofollow noopener">라스트 워: 서바이벌 official X post 1922480680744976704 — 시즌 Boost Base Feature beginner&#x27;s guide</a> — 2025-05-14, tier A (official) — confirms Pumpkin Cauldron&#x27;s 시즌 1 virus-stack-limit boost.</li><li><a href="https://lastwar.wiki/customizations/pumpkin-cauldron/" rel="nofollow noopener">Last War Wiki — Pumpkin Cauldron customization</a> — 2026-07-15 (accessed), tier B — Pumpkin Cauldron skin description including +50 virus stack limit, Virus Surge skill, Pumpkin Gift social mechanic, historical price up to ~$400.</li><li><a href="https://www.packsify.com/blogs/best-squad-lineup-in-last-war-survival-game" rel="nofollow noopener">Packsify — Best 편성 Setup in 라스트 워: 서바이벌 (2026)</a> — 2026, tier C — early-game vs mid-game formation shift, S1-relevant hero rosters.</li><li><a href="https://www.allclash.com/best-team-formations-lineups-in-last-war-survival-game/" rel="nofollow noopener">Allclash — Best Team 편성s / Lineups (2025, includes S5 teams)</a> — 2025, tier C — cross-checked 탱크 / 항공기 / 미사일 mono-squad mechanic (+20% same-type bonus, +20% RPS bonus).</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/season-1-hero-recommendations.html" rel="nofollow noopener">LDShop — 시즌 1 히어로 Recommendations</a> — 2026, tier B — 시즌 1 hero picks including 킴벌리 early-DPS priority.</li></ul>
+  </article>
+  <div class="cta-card">
+    <h3>얼라이언스 채팅에 바로 공유</h3>
+    <p>R5TOOLS.IO의 모든 플래너는 Discord용 PNG, 로스터 CSV, 공유 링크로 즉시 내보낼 수 있습니다.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">지금 무료로 시작 →</a>
+  </div>
+  <footer class="foot">
+  <p>다음 툴 세트의 일부입니다: <a href="https://r5tools.io/">R5TOOLS.IO</a> 라스트 워: 서바이벌 얼라이언스 도구.
+     팬 제작 · 퍼스트펀 / Century Games와 무관합니다.
+     <a href="https://r5tools.io/terms.html">이용약관</a> · <a href="https://r5tools.io/privacy.html">개인정보처리방침</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">베타 · 피드백</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

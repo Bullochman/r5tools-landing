@@ -7,6 +7,9 @@
 <meta name="description" content="Every recurring event in Last War: Survival — Alliance Duel, Rare Soil War, Zombie Siege, Ghost Ops, Doomsday, Wanted Bosses, and more. R5 planning schedule.">
 
 <link rel="canonical" href="https://r5tools.io/events/">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/index.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/index.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/index.html">
 <meta property="og:title" content="Last War events — full weekly + seasonal schedule | R5TOOLS.IO">
 <meta property="og:description" content="Every recurring event in Last War: Survival — Alliance Duel, Rare Soil War, Zombie Siege, Ghost Ops, Doomsday, Wanted Bosses, and more. R5 planning schedule.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/index.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -125,7 +160,19 @@ td { color: var(--text-dim); }
   <article>
     <h3>Every recurring event</h3>
 <ul><li><a href="/events/arms-race.html" rel="nofollow noopener"><strong>Arms Race</strong></a> — The daily backbone — 5 daily-rotating task-router chests worth ~50% of daily reward income.</li><li><a href="/events/alliance-duel-vs.html" rel="nofollow noopener"><strong>Alliance Duel VS</strong></a> — The weekly backbone — 6-day scored VS-Day event with alliance vs alliance matchmaking above top-32 warzone gate.</li><li><a href="/events/vs-days.html" rel="nofollow noopener"><strong>VS Days</strong></a> — Weekly Alliance Duel VS competition — the phase-stack optimizer&#x27;s target.</li><li><a href="/events/kvk.html" rel="nofollow noopener"><strong>KvK</strong></a> — Cross-server war — LWS ships this as Cross-Server War Rally, not the traditional KvK.</li><li><a href="/events/zombie-siege.html" rel="nofollow noopener"><strong>Zombie Siege</strong></a> — Coop zombie wave defense — L1 base wave, harder tiers per season.</li><li><a href="/events/zombie-invasion.html" rel="nofollow noopener"><strong>Zombie Invasion</strong></a> — Bi-weekly world-boss farm.</li><li><a href="/events/zombie-rush.html" rel="nofollow noopener"><strong>Zombie Rush</strong></a> — 5v5 team boss battle, bi-weekly Sundays.</li><li><a href="/events/zombie-cataclysm.html" rel="nofollow noopener"><strong>Zombie Cataclysm</strong></a> — Alternate name/mode of the Sunday 5v5 team boss battle.</li><li><a href="/events/doomsday.html" rel="nofollow noopener"><strong>Doomsday</strong></a> — Bi-weekly Sunday Doom Walker rush — Season 1 flagship event still present in later seasons.</li><li><a href="/events/ghost-ops.html" rel="nofollow noopener"><strong>Ghost Ops</strong></a> — Thursday hero-shard hunt event.</li><li><a href="/events/desert-storm-battlefield.html" rel="nofollow noopener"><strong>Desert Storm Battlefield</strong></a> — Friday 30-minute PvP — 15 buildings capturable per side.</li><li><a href="/events/winter-storm-battlefield.html" rel="nofollow noopener"><strong>Winter Storm Battlefield</strong></a> — 5v5 arena mode with a new 2026 point-based reward system.</li><li><a href="/events/alliance-exercise.html" rel="nofollow noopener"><strong>Alliance Exercise</strong></a> — 30-minute alliance tank rally — the entry-level rally practice.</li><li><a href="/events/generals-trial.html" rel="nofollow noopener"><strong>General&#x27;s Trial</strong></a> — 4-day bi-weekly single-squad-power PvE gauntlet.</li><li><a href="/events/frontline-breakthrough.html" rel="nofollow noopener"><strong>Frontline Breakthrough</strong></a> — 5-level Sunday roguelike PvE.</li><li><a href="/events/wanted-bosses.html" rel="nofollow noopener"><strong>Wanted Bosses</strong></a> — Weekly Codes 39/64/87 rotation — hero-type-buffed boss damage race.</li><li><a href="/events/bounty-hunter.html" rel="nofollow noopener"><strong>Bounty Hunter</strong></a> — Bullet-shooting redemption event.</li><li><a href="/events/glittering-market.html" rel="nofollow noopener"><strong>Glittering Market</strong></a> — Hot Deal cycle — approximately monthly, 6-day windows.</li><li><a href="/events/meteorite-iron-war.html" rel="nofollow noopener"><strong>Meteorite Iron War</strong></a> — Off-season cross-server PvP over meteorite iron.</li><li><a href="/events/sky-battlefront.html" rel="nofollow noopener"><strong>Sky Battlefront</strong></a> — Off-season alliance airship war — 7-day event.</li><li><a href="/events/rare-soil-war.html" rel="nofollow noopener"><strong>Rare Soil War</strong></a> — Season 2 flagship faction war — blizzard-and-plunder mechanic.</li><li><a href="/events/spice-wars.html" rel="nofollow noopener"><strong>Spice Wars</strong></a> — Season 3 flagship — 100–600/hr spice per city, 30% steal cap, Wed/Sat war days weeks 4–8.</li><li><a href="/events/copper-wars.html" rel="nofollow noopener"><strong>Copper Wars</strong></a> — Season 4 flagship — 8-round 15% cap, Wed/Sat weeks 4–7.</li><li><a href="/events/high-noon.html" rel="nofollow noopener"><strong>High Noon</strong></a> — Season 5 Bank event — 15k/day cap, Wed/Sat war days.</li><li><a href="/events/altar-conquest.html" rel="nofollow noopener"><strong>Altar Conquest</strong></a> — Season 6 Tuesday altar contest — max 3 held per faction, 100% capture required.</li><li><a href="/events/alliance-duel-warm-up.html" rel="nofollow noopener"><strong>Alliance Duel Warm-up Match</strong></a> — New 2026-07 pre-league match variant — practice vs matchmaking.</li><li><a href="/events/alliance-duel-league.html" rel="nofollow noopener"><strong>Alliance Duel League Match</strong></a> — Scored competitive Alliance Duel with matchmaking above top-32 warzone gate.</li><li><a href="/events/top-commander.html" rel="nofollow noopener"><strong>Top Commander Sprint</strong></a> — One-time server-launch 7-day sprint.</li><li><a href="/events/strongest-commander.html" rel="nofollow noopener"><strong>Strongest Commander</strong></a> — Server-launch celebration event, top-commander companion.</li><li><a href="/events/anniversary.html" rel="nofollow noopener"><strong>Anniversary Celebration</strong></a> — Yearly celebration cycle with retention rewards and returning-hero banners.</li><li><a href="/events/new-year.html" rel="nofollow noopener"><strong>New Year Celebration</strong></a> — Recurring seasonal celebration event stack.</li><li><a href="/events/storm-arena.html" rel="nofollow noopener"><strong>Storm Arena</strong></a> — Arena ecosystem — Apex Arena / 3v3 Brawl companion mode.</li><li><a href="/events/apex-arena.html" rel="nofollow noopener"><strong>Apex Arena</strong></a> — Top-tier arena ladder for individual chiefs.</li><li><a href="/events/3v3-brawl.html" rel="nofollow noopener"><strong>3v3 Brawl</strong></a> — 3-squad arena mode within the Storm Arena ecosystem.</li><li><a href="/events/ministry-assignments.html" rel="nofollow noopener"><strong>Ministry Assignments</strong></a> — Season 1 President-appointed cabinet slots — Ministry buffs matter across every mode.</li><li><a href="/events/capital-war.html" rel="nofollow noopener"><strong>Capital War</strong></a> — Season 1 flagship — Capitol Conquest chooses the President who assigns Ministries.</li><li><a href="/events/capitol-conquest.html" rel="nofollow noopener"><strong>Capitol Conquest</strong></a> — Alternate name for Capital War — Season 1 finale.</li><li><a href="/events/season-battle-pass.html" rel="nofollow noopener"><strong>Season Battle Pass</strong></a> — Recurring per-season battle pass — hero-shard milestone track.</li><li><a href="/events/growth-pass.html" rel="nofollow noopener"><strong>Growth Pass</strong></a> — Recurring general-progression battle pass — daily/weekly resource + shard track.</li><li><a href="/events/awakening-battle-pass.html" rel="nofollow noopener"><strong>Awakening Battle Pass</strong></a> — Season 6 hero-Awakening battle pass — ~70 shards per awakening week.</li><li><a href="/events/exclusive-weapon-pass.html" rel="nofollow noopener"><strong>Exclusive Weapon Battle Pass</strong></a> — Seasons 1–5 — ~50 EW shards per pass, unlock-in-window.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/ghost-ops.html">Ghost Ops — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/wanted-bosses.html">Wanted Bosses — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/rare-soil-war.html">Rare Soil War — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/zombie-siege.html">Zombie Siege — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-duel-vs.html">Alliance Duel VS — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -139,5 +186,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

@@ -1,0 +1,25 @@
+[Unit]
+Description=r5tools Discord scheduled-announcement bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bitnami
+WorkingDirectory=/opt/r5tools-discord-bot
+EnvironmentFile=/etc/r5tools-discord-bot.env
+ExecStart=/usr/bin/python3 /opt/r5tools-discord-bot/bot.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/opt/r5tools-discord-bot/logs/bot.log
+StandardError=append:/opt/r5tools-discord-bot/logs/bot.log
+
+# Harden — no need for write access outside the bot dir
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/r5tools-discord-bot
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

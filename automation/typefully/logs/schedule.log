@@ -1,0 +1,44 @@
+2026-07-17 05:37:37,212 INFO calendar: Built calendar: 30 days successfully parsed
+2026-07-17 05:37:37,212 WARNING calendar: Day 1 SKIPPED (over 280 chars, actual=281): Did you know: Alliance Furnace becomes non-teleportable during the 30-min Rare Soil War prep phase. 
+2026-07-17 05:37:37,212 WARNING calendar: Day 4 SKIPPED (over 280 chars, actual=289): Warlord Missile: 180-second countdown, 25×25 blast, randomly teleports every base in range except th
+2026-07-17 05:37:37,212 WARNING calendar: Day 6 SKIPPED (over 280 chars, actual=282): Analyzed 500 alliances' Season 2 finish position vs their Week 4 coal reserve at RSW opening. ⏎  ⏎ A
+2026-07-17 05:37:37,212 WARNING calendar: Day 9 SKIPPED (over 280 chars, actual=306): R4 War Coordinator DM'd this last night: ⏎  ⏎ "Rally slot 6 keeps getting frozen mid-flight." ⏎  ⏎ P
+2026-07-17 05:37:37,212 WARNING calendar: Day 14 SKIPPED (over 280 chars, actual=292): Pulled OCR data from 200+ alliance roster videos submitted to r5tools.io this week. ⏎  ⏎ Median alli
+2026-07-17 05:37:37,212 WARNING calendar: Day 20 SKIPPED (over 280 chars, actual=287): Marshal's Guard is a 30-min rally marathon vs 5 NPC tanks on a 3×3 platform at your hive center. ⏎  
+2026-07-17 05:37:37,212 WARNING calendar: Day 23 SKIPPED (over 280 chars, actual=309): Cross-checked 50 top-100 warzone alliances on VS Day 6 wins vs use of a landing planner tool (any to
+2026-07-17 05:37:37,212 WARNING calendar: Day 25 SKIPPED (over 280 chars, actual=308): Corner missile silo stacks: multiple planners recommend clustering silos at hive corners, not spread
+2026-07-17 05:37:37,212 INFO calendar: 22 / 30 items passed length validation
+2026-07-17 05:37:37,212 INFO calendar: DRY  Day 02  2026-07-23 19:15 CT  [170 chars] 0 media  What's your worst LWS coal-burn horror story? ⏎  ⏎ Reply with the moment your alliance ran dry mid-b
+2026-07-17 05:37:37,212 INFO calendar: DRY  Day 03  2026-07-24 19:15 CT  [273 chars] 1 media  Real example from an RONY officer this morning: "We think we have enough coal for Week 4." ⏎  ⏎ Ran 
+2026-07-17 05:37:37,212 INFO calendar: DRY  Day 05  2026-07-26 19:15 CT  [264 chars] 0 media  If you're still planning Season 2 landing in a Google Sheet, this is your sign. ⏎  ⏎ r5tools.io — 11
+2026-07-17 05:37:37,212 INFO calendar: DRY  Day 07  2026-07-28 19:15 CT  [170 chars] 0 media  R5s and R4s — one question: what's the single most time-sucking coordination task in your alliance? 
+2026-07-17 05:37:37,212 INFO calendar: DRY  Day 08  2026-07-29 19:15 CT  [239 chars] 0 media  High-Heat Furnace has an "auto-activate in blizzard" toggle. Every member should turn it on Day 1. ⏎
+2026-07-17 05:37:37,212 INFO calendar: DRY  Day 10  2026-07-31 19:15 CT  [262 chars] 0 media  VS Day 6 (Enemy Buster) rewards stack with Arms Race Radar phase. If your War Coordinator schedules 
+2026-07-17 05:37:37,212 INFO calendar: DRY  Day 11  2026-08-01 19:15 CT  [142 chars] 0 media  R5s: how much time did you personally spend on alliance admin last week? ⏎  ⏎ I'll go first: 6 hours
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 12  2026-08-02 19:15 CT  [271 chars] 0 media  RONY-FREE unlocks every tool at r5tools.io for Warzone 2007 alliances. Free, no email, no card. ⏎  ⏎
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 13  2026-08-03 19:15 CT  [250 chars] 0 media  Coal Burn Calc rule of thumb: budget 173k coal per member per severe-blizzard overdrive event. Not t
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 15  2026-08-05 19:15 CT  [271 chars] 0 media  Rare Soil War: 20% enemy stockpile plunder cap normally, 30% during Showdown phase. ⏎  ⏎ If you're t
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 16  2026-08-06 19:15 CT  [266 chars] 0 media  Officer meeting question: "Should we cap city 5 this week or next?" ⏎  ⏎ City Capture Planner: this 
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 17  2026-08-07 19:15 CT  [158 chars] 0 media  Landing Planner users — post a screenshot of your Ring 1 layout. I'll roast (constructively) the top
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 18  2026-08-08 19:15 CT  [278 chars] 0 media  Free alliance-relocation trick (built into Season 2): shift the Assembly Point, every member re-tele
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 19  2026-08-09 19:15 CT  [253 chars] 0 media  The Alliance Founding tier ($30, whole alliance forever) is at 8/10 sold as of tonight. ⏎  ⏎ After #
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 21  2026-08-11 19:15 CT  [226 chars] 0 media  KR alliance R5 messaged this yesterday: "우리 얼라이언스에서 이 도구 정말 유용해요" ⏎ ("Our alliance really finds thes
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 22  2026-08-12 19:15 CT  [223 chars] 0 media  Blizzard severity by week (Season 2): ⏎ Weeks 1-2: -30°C ⏎ Week 3: -50°C ⏎ Week 4+: -70°C, 3 hours l
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 24  2026-08-14 19:15 CT  [226 chars] 0 media  Reply with the last dumb thing your R5 (or you, if you're R5) did in-game. ⏎  ⏎ Mine: deployed AF on
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 26  2026-08-16 19:15 CT  [221 chars] 0 media  Alliance Founding tier: 9/10 sold. Last slot at $30 before it becomes $50 forever. ⏎  ⏎ If your alli
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 27  2026-08-17 19:15 CT  [227 chars] 0 media  R5s send Alliance Mail to R4s only on VS Day 6 morning to keep the pin fresh. R1-R3 get it 4h later.
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 28  2026-08-18 19:15 CT  [184 chars] 0 media  R5s: if you could delete one feature from LWS, what would it be? ⏎  ⏎ I'll go first: the "Frozen sta
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 29  2026-08-19 19:15 CT  [274 chars] 0 media  Real Freeze Risk Dashboard readout from an alliance this morning: ⏎  ⏎ 3 red (will freeze Week 4) ⏎ 
+2026-07-17 05:37:37,213 INFO calendar: DRY  Day 30  2026-08-20 19:15 CT  [222 chars] 0 media  30 days of r5tools.io content. Numbers so far: ⏎  ⏎ - X alliances signed up ⏎ - X mp4s OCR'd into ro
+2026-07-17 05:37:37,213 INFO calendar: DRY RUN complete. Rerun without --dry-run to schedule.
+2026-07-17 05:39:03,625 INFO calendar: Built calendar: 30 days successfully parsed
+2026-07-17 05:39:03,625 INFO calendar: Filter --days=8-14 -> 7 items remaining
+2026-07-17 05:39:03,625 WARNING calendar: Day 9 SKIPPED (over 280 chars, actual=306): R4 War Coordinator DM'd this last night: ⏎  ⏎ "Rally slot 6 keeps getting frozen mid-flight." ⏎  ⏎ P
+2026-07-17 05:39:03,625 WARNING calendar: Day 14 SKIPPED (over 280 chars, actual=292): Pulled OCR data from 200+ alliance roster videos submitted to r5tools.io this week. ⏎  ⏎ Median alli
+2026-07-17 05:39:03,625 INFO calendar: 5 / 7 items passed length validation
+2026-07-17 05:39:03,625 INFO calendar: DRY  Day 08  2026-07-29 19:15 CT  [239 chars] 0 media  High-Heat Furnace has an "auto-activate in blizzard" toggle. Every member should turn it on Day 1. ⏎
+2026-07-17 05:39:03,625 INFO calendar: DRY  Day 10  2026-07-31 19:15 CT  [262 chars] 0 media  VS Day 6 (Enemy Buster) rewards stack with Arms Race Radar phase. If your War Coordinator schedules 
+2026-07-17 05:39:03,625 INFO calendar: DRY  Day 11  2026-08-01 19:15 CT  [142 chars] 0 media  R5s: how much time did you personally spend on alliance admin last week? ⏎  ⏎ I'll go first: 6 hours
+2026-07-17 05:39:03,626 INFO calendar: DRY  Day 12  2026-08-02 19:15 CT  [271 chars] 0 media  RONY-FREE unlocks every tool at r5tools.io for Warzone 2007 alliances. Free, no email, no card. ⏎  ⏎
+2026-07-17 05:39:03,626 INFO calendar: DRY  Day 13  2026-08-03 19:15 CT  [250 chars] 0 media  Coal Burn Calc rule of thumb: budget 173k coal per member per severe-blizzard overdrive event. Not t
+2026-07-17 05:39:03,626 INFO calendar: DRY RUN complete. Rerun without --dry-run to schedule.

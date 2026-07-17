@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>R5TOOLS.IO Blog — LWS meta + tool walkthroughs</title>
+<meta name="description" content="Weekly LWS meta, event breakdowns, and R5-to-R5 tool walkthroughs.">
+<link rel="canonical" href="https://r5tools.io/blog/">
+<meta property="og:title" content="R5TOOLS.IO Blog">
+<meta property="og:description" content="Weekly LWS meta, event breakdowns, and R5-to-R5 tool walkthroughs.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://r5tools.io/blog/">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<link rel="alternate" type="application/rss+xml" title="R5TOOLS.IO Blog" href="/blog/feed.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"R5TOOLS.IO Blog","description":"Weekly Last War: Survival meta, event breakdowns, alliance case studies, and R5-to-R5 tool walkthroughs from the R5TOOLS.IO team.","url":"https://r5tools.io/blog/","inLanguage":"en"}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg:#0a0e1a; --panel:#0d1424; --panel-2:#12192c;
+  --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.3);
+  --accent:#c9a961; --accent-hover:#d9b871;
+  --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290;
+  --live:#8ae0a3; --soon:#e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+.wrap { max-width: 820px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px; letter-spacing:0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 36px; line-height:1.15; letter-spacing:-0.01em; margin: 6px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p, li { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+.meta { font-size:12px; color: var(--text-mute); letter-spacing:0.05em; text-transform:uppercase;
+  margin: 0 0 4px; }
+.byline { font-size:13px; color: var(--text-dim); margin: 4px 0 24px; }
+.byline .dot { color: var(--text-mute); margin: 0 6px; }
+.tag { display:inline-block; font-size:11px; padding: 2px 10px; margin: 0 4px 4px 0;
+  background: var(--panel); border:1px solid var(--border); border-radius:14px; color: var(--text-dim);
+  text-decoration:none; letter-spacing:0.04em; }
+.tag:hover { border-color: var(--accent); color: var(--accent); }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left; vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.related { margin: 48px 0 20px; }
+.related h2 { border-bottom:1px solid var(--border); padding-bottom:8px; }
+.related-list { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px; }
+.related-card { background: var(--panel); border:1px solid var(--border); border-radius:10px;
+  padding: 14px 16px; text-decoration:none; color: var(--text); display:block; }
+.related-card:hover { border-color: var(--accent); }
+.related-card .rc-date { font-size:11px; color: var(--text-mute); letter-spacing:0.05em; text-transform:uppercase; }
+.related-card .rc-title { font-size:14px; color: var(--text); margin-top:4px; font-weight:600; line-height:1.35; }
+.newsletter-widget { margin: 40px 0 20px; padding: 20px 22px; background: var(--panel);
+  border:1px solid var(--border-accent); border-radius:12px; }
+.newsletter-widget h3 { color: var(--accent); font-size:15px; margin:0 0 6px; letter-spacing:0.06em;
+  text-transform:uppercase; }
+.newsletter-widget p { color: var(--text); font-size:14px; margin: 0 0 12px; }
+.newsletter-widget form { display:flex; gap:8px; flex-wrap:wrap; }
+.newsletter-widget input[type=email] { flex:1; min-width:200px; padding: 9px 12px;
+  background: var(--panel-2); border:1px solid var(--border); color: var(--text);
+  border-radius:8px; font-size:14px; font-family:inherit; }
+.newsletter-widget input[type=email]:focus { outline:none; border-color: var(--accent); }
+.newsletter-widget button { padding: 9px 18px; background: var(--accent); color:#000;
+  border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:14px; }
+.newsletter-widget button:hover { background: var(--accent-hover); }
+.newsletter-widget .status { margin-top:8px; font-size:13px; color: var(--text-dim); min-height:1em; }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+
+.post-list { list-style:none; padding:0; margin: 24px 0; display:grid; gap: 16px; }
+.post-item { background: var(--panel); border:1px solid var(--border); border-radius:12px;
+  padding: 20px 22px; transition: border-color 0.15s; }
+.post-item:hover { border-color: var(--accent); }
+.post-item .pi-date { font-size:11px; color: var(--text-mute); letter-spacing:0.06em;
+  text-transform:uppercase; }
+.post-item .pi-title { font-size: 20px; margin: 6px 0 8px; }
+.post-item .pi-title a { color: var(--text); text-decoration:none; }
+.post-item .pi-title a:hover { color: var(--accent); }
+.post-item .pi-desc { color: var(--text-dim); font-size:14px; margin: 0 0 10px; }
+.post-item .pi-tags .tag { font-size:10px; }
+.pager { display:flex; justify-content:space-between; margin: 32px 0; font-size:14px; }
+.pager a { color: var(--accent); text-decoration:none; }
+.pager .empty { color: var(--text-mute); }
+</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+  <a href="/">Home</a>
+  <a href="/blog/">Blog</a>
+  <a href="https://roster.r5tools.io/">Roster Extractor</a>
+  <a href="https://hive.r5tools.io/">Hive Planner</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Sim</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>Blog</span></nav>
+  <h1>R5TOOLS.IO Blog</h1>
+  <p class="lede">Weekly LWS meta, event breakdowns, and R5-to-R5 tool walkthroughs.</p>
+  <aside class="newsletter-widget">
+  <h3>Get one email a week</h3>
+  <p>New tools, meta reads, and LWS math — no spam, one-click unsubscribe.</p>
+  <form onsubmit="return r5tSubscribeNewsletter(event, this)">
+    <input type="email" name="email" required placeholder="Your email" autocomplete="email">
+    <button type="submit">Subscribe</button>
+  </form>
+  <div class="status" data-done="Subscribed — check your inbox."></div>
+</aside>
+<script>
+function r5tSubscribeNewsletter(ev, form){
+  ev.preventDefault();
+  var email = form.email.value.trim();
+  if (!email) return false;
+  var status = form.parentElement.querySelector('.status');
+  status.textContent = '...';
+  fetch('https://access-codes.r5tools.io/api/drip/subscribe', {
+    method:'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({email: email, lang: 'en', tag: 'newsletter'})
+  }).then(function(r){return r.json();})
+    .then(function(j){
+      status.textContent = status.dataset.done;
+      if (window.r5t && window.r5t.track) window.r5t.track('newsletter_subscribe', {lang:'en'});
+    })
+    .catch(function(){ status.textContent = 'Error — try again in a moment.'; });
+  return false;
+}
+</script>
+  <ul class="post-list">
+  <li class="post-item"><div class="pi-date">2026-07-22</div><h2 class="pi-title"><a href="/blog/2026/07/warlord-missile-math.html">Warlord Missile — the intercept-vs-absorb math that decides every rally</a></h2><p class="pi-desc">3 minutes to impact. 25×25 blast. 30,000 durability damage. Here&#x27;s the full intercept-vs-absorb decision tree that no other guide publishes.</p><div class="pi-tags"><a class="tag" href="/blog/?tag=warlord-missile">warlord-missile</a><a class="tag" href="/blog/?tag=alliance-strategy">alliance-strategy</a><a class="tag" href="/blog/?tag=week-4">week-4</a><a class="tag" href="/blog/?tag=officer-playbook">officer-playbook</a></div></li><li class="post-item"><div class="pi-date">2026-07-20</div><h2 class="pi-title"><a href="/blog/2026/07/landing-coords-r5s-miss.html">The Season 2 landing coordinates every R5 gets wrong</a></h2><p class="pi-desc">Everyone thinks the map corner is the safe landing spot. It&#x27;s actually the second-worst tile for week-3 Warlord Missile pressure. Here&#x27;s the coordinate math with charts.</p><div class="pi-tags"><a class="tag" href="/blog/?tag=season-2">season-2</a><a class="tag" href="/blog/?tag=landing">landing</a><a class="tag" href="/blog/?tag=hive">hive</a><a class="tag" href="/blog/?tag=warlord-missile">warlord-missile</a><a class="tag" href="/blog/?tag=alliance-strategy">alliance-strategy</a></div></li><li class="post-item"><div class="pi-date">2026-07-18</div><h2 class="pi-title"><a href="/blog/2026/07/season-2-week-1-coal-budget.html">Season 2 week 1 — the coal budget every R5 gets wrong on day 1</a></h2><p class="pi-desc">The Alliance Furnace at L20 burns 1,440 coal/min normal, 5,760/min overdrive. Here&#x27;s the week-1 reserve number nobody publishes: 117,000 coal per officer, minimum.</p><div class="pi-tags"><a class="tag" href="/blog/?tag=season-2">season-2</a><a class="tag" href="/blog/?tag=week-1">week-1</a><a class="tag" href="/blog/?tag=coal">coal</a><a class="tag" href="/blog/?tag=alliance-strategy">alliance-strategy</a></div></li><li class="post-item"><div class="pi-date">2026-07-17</div><h2 class="pi-title"><a href="/blog/2026/07/launching-r5tools.html">Launching r5tools — why we stopped running our alliance on a Google Sheet</a></h2><p class="pi-desc">Our WZ 2007 alliance was burning 3-4 hours per season on landing coordination inside a Google Sheet. So I built the whole planning suite in a month. Here&#x27;s what shipped.</p><div class="pi-tags"><a class="tag" href="/blog/?tag=founding-story">founding-story</a><a class="tag" href="/blog/?tag=alliance-strategy">alliance-strategy</a><a class="tag" href="/blog/?tag=tool-walkthrough">tool-walkthrough</a></div></li>
+  </ul>
+  <nav class="pager"><span class="empty">← Newer posts</span><span class="empty">Older posts →</span></nav>
+  <footer class="foot">
+  <p>Part of the <a href='https://r5tools.io/'>R5TOOLS.IO</a> Last War: Survival alliance toolkit. Fan-made · unaffiliated with First Fun / Century Games. <a href='https://r5tools.io/terms.html'>Terms</a> · <a href='https://r5tools.io/privacy.html'>Privacy</a>.</p>
+  </footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

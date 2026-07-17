@@ -7,6 +7,9 @@
 <meta name="description" content="Winter Storm Battlefield in Last War: Survival. 5v5 arena mode with a new 2026 point-based reward system.">
 <meta name="keywords" content="Winter Storm Battlefield, Last War event, LWS, R5 alliance planning">
 <link rel="canonical" href="https://r5tools.io/events/winter-storm-battlefield.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/winter-storm-battlefield.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/winter-storm-battlefield.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/winter-storm-battlefield.html">
 <meta property="og:title" content="Winter Storm Battlefield — Last War event guide | R5TOOLS.IO">
 <meta property="og:description" content="Winter Storm Battlefield in Last War: Survival. 5v5 arena mode with a new 2026 point-based reward system.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/winter-storm-battlefield.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -141,7 +176,19 @@ td { color: var(--text-dim); }
 <ul><li><em>02-heroes</em> — Alliance Duel Thursday is the day hero shards are spent for max scoring. Ghost Ops on Thursday drops shards for heroes not in Tavern (Lucius, Morrison, Adam, Williams, Schuyler, McGregor, Stetmann, Fiona). Hero Awakening in Season 6 turns weekly-event Awakening Shard yields into a leaderboard race. Kimberly&#x27;s Barrage Strike is the single most-cited Zombie Siege skill.</li><li><em>03-chief</em> and <em>04-squads-combat</em> — Enemy Buster (VS Saturday) is where Chief gear + squad power decides how many rally kills you can convert. Combat skill spikes matter most in Desert Storm, Winter Storm, and season-war fight days.</li><li><em>05-season-1-crimson-plague</em> — Capitol Conquest is a S1 pre-season event (Day 6 of Pre-Season Wk 2, up to 4 hours). Weekly Capital rotation historically used a 3-alliance cycle (RPX/OTL/UYL) with 4/2/2-hour splits.</li><li><em>06-season-2-frozen</em> — Rare Soil War is <em>the</em> Season 2 event stack: Rebels vs Gendarmerie faction split, Wed/Sat fight days weeks 4–7, warlord missiles, alliance furnace 20%/30% plunder cap. Season length affects when Glacieradon becomes accessible.</li><li><em>07-future-seasons</em> — Spice Wars (S3), Copper War (S4), Goldvein War + Golden Palace (S5), S6 Shadow Rainforest faction war with City Destruction. Same faction/attacker rotation cadence; different flavor resources.</li><li><em>12-progression</em> — event-earned Skill Medals / Blueprints / Awakening Shards feed the six progression tracks; Arms Race is the primary Skill Medal source (up to 8,000/day).</li><li><em>08-alliance-systems</em> — Alliance Exercise 5% R5/priority-R4 rally bonus; Zombie Siege 48h alliance-membership requirement; Ghost Ops assist limits; Desert Storm&#x27;s top-32 alliance rank floor; Rare Soil War declaration group matching (same-ranking only).</li><li><em>10-economy</em> — Speedups are the master resource across every scoring event. Save 1-min speedups for their matching Arms Race phases + VS Days. Diamonds for shields (~1,500 for 8h) are the highest-ROI PvP-day spend.</li><li><em>11-monetization</em> — Glittering Market (Mythic Gear Blueprints, 3,000 coins to clear), Custom Weekly Pass, Special Training Pass, Drone Training Pass, Hero Growth Pass — all Hot Deal rotations. New Year Battle Pass + Anniversary bundles are the two largest monetization windows per year.</li><li><em>13-meta-competitive</em> — Alliance Duel League tier + Rare Soil / Spice / Goldvein leaderboards are the meta-competitive surface. Sky Battlefront and Meteorite Iron War fill the off-season leaderboard void.</li><li><em>14-ui-reference</em> — Event Hub is the master calendar; Arms Race dashboard shows current phase; Alliance Duel dashboard shows Day theme + point tally; Capitol UI shows Ministry application queue.</li><li><em>15-glossary</em> — full glossary of all event names in EN + KR feeds from this article.</li></ul>
 <p><strong>Resolved 2026-07-15 (deep-research pass 2):</strong></p>
 <ul><li>✅ #5 Doomsday level unlocks by server age — resolved: pre-S1 Levels 1-190; S1 off-season adds L200/210/220; S2 off-season adds L230/240/250 (lastwargame.online). Extrapolation to S3+ is inferred pattern, not confirmed.</li><li>✅ #12 Sky Battlefront individual donation thresholds — resolved to <strong>10 tokens per personal chest</strong>; max 50 tokens/day earnable (5 chests/day ceiling).</li><li>✅ #13 Winter Storm Honor Points cap per week — <strong>resolved and outdated</strong>: system changed from 10,000-per-3-wins to new <strong>16,500-total-across-6-chests point system</strong>, first chest at 45k pts, final at 450k pts. KB updated in-place.</li><li>✅ #15 Alliance Duel matchmaking algorithm — resolved: <strong>Warm-up Matches = combined alliance member strength (total power)</strong>; <strong>League Matches = alliance strength + past league placement</strong>. Article updated.</li><li>⚠ #2 + #11 Foundation Day — <strong>still no primary source</strong> after KR-language search targeted at &quot;창립기념일 서버 오픈 이벤트.&quot; KR-language namu.wiki does not document a &quot;Foundation Day&quot; event either. Likely conclusion: this is <em>not</em> an LWS event name; probable confusion with either the New Year Celebration Points system (already documented) or the server-launch Top Commander event. Downgraded from &quot;open question&quot; to &quot;likely-not-an-event.&quot;</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/desert-storm-battlefield.html">Desert Storm Battlefield — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/storm-arena.html">Storm Arena — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/3v3-brawl.html">3v3 Brawl — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/apex-arena.html">Apex Arena — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/new-year.html">New Year Celebration — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -155,5 +202,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

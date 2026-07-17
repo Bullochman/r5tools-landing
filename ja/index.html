@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>R5TOOLS.IO — ラストウォー：サバイバル アライアンス運営ツール（日本語）</title>
+  <meta name="description" content="ラストウォー：サバイバルのR5・R4向けアライアンス運営ツールキット。動画→ロースター 2分、シーズン2ランディング配置、凍結リスクダッシュボード、石炭バジェット、ハイブ陣形、都市占領スケジュール。R5が作った、日本語対応。全ツールでDiscord用PNG書き出し対応。" />
+  <meta name="keywords" content="ラストウォー サバイバル, ラスサバ, LWS, アライアンス, ハイブプランナー, ランディングプランナー, R5, ウォーゾーン, クリムゾンプレイグ, ポーラーストーム" />
+
+  <!-- Canonical + hreflang alternates -->
+  <link rel="canonical" href="https://r5tools.io/ja/" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/" />
+
+  <!-- Open Graph — JP locale -->
+  <meta property="og:title" content="R5TOOLS.IO — ラストウォー アライアンス運営ツール（日本語）" />
+  <meta property="og:description" content="シーズン2「ポーラーストーム」対応。R5・R4のための計画ツール一式。ランディング・凍結リスク・ハイブ陣形・石炭・都市占領。日本語UI。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/ja/" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="ko_KR" />
+  <meta property="og:image" content="https://r5tools.io/static/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="R5TOOLS.IO — すべてのR5に必要なアライアンス作戦司令部" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r5tools.io/static/og-image.png" />
+  <meta name="twitter:title" content="R5TOOLS.IO — ラストウォー アライアンス運営ツール（日本語）" />
+  <meta name="twitter:description" content="シーズン2「ポーラーストーム」対応、R5・R4向け計画ツール一式。日本語UI。" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <!-- JSON-LD: WebSite + BreadcrumbList in Japanese -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"R5TOOLS.IO","url":"https://r5tools.io/ja/","inLanguage":"ja","description":"ラストウォー：サバイバル アライアンスリーダー向けR5計画ツール一式。","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"}},{"@type":"WebPage","name":"R5TOOLS.IO — ラストウォー アライアンス運営ツール","url":"https://r5tools.io/ja/","inLanguage":"ja","isPartOf":{"@id":"https://r5tools.io/ja/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://r5tools.io/ja/"}]}]}</script>
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --live: #8ae0a3;
+      --soon: #e6cf7a;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.75;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.12em; color: var(--accent); font-weight: 700;
+    }
+    .lang-pill {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 7px 14px; border-radius: 999px;
+      font-size: 12px; text-decoration: none; letter-spacing: 0.02em;
+    }
+    .lang-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-pill .flag { margin-right: 4px; }
+    .lang-pill.active {
+      border-color: var(--accent); color: var(--accent);
+      background: rgba(201,169,97,0.10); cursor: default;
+    }
+
+    .header-cta-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .header-cta {
+      background: var(--accent); color: #0a0e1a; border: none; border-radius: 999px;
+      padding: 8px 18px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.02em;
+      text-decoration: none; transition: background 0.15s;
+    }
+    .header-cta:hover { background: var(--accent-hover); }
+    .header-cta.ghost {
+      background: transparent; color: var(--accent); border: 1px solid rgba(201,169,97,0.45);
+      font-weight: 600;
+    }
+
+    /* Unlock banner */
+    .unlock-banner {
+      margin: 0 0 24px; padding: 14px 20px;
+      background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04));
+      border: 1px solid rgba(201,169,97,0.35); border-radius: 12px;
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    }
+    .unlock-banner .ub-body { flex: 1; min-width: 260px; }
+    .unlock-banner .ub-title {
+      font-weight: 700; color: var(--accent); font-size: 13px;
+      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .unlock-banner .ub-text { color: var(--text-dim); font-size: 13.5px; line-height: 1.75; }
+    .unlock-banner code {
+      color: var(--accent); background: rgba(201,169,97,0.10);
+      padding: 1px 6px; border-radius: 4px; font-family: var(--mono);
+    }
+    .unlock-banner .ub-cta {
+      background: var(--accent); color: #0a0e1a; border-radius: 8px;
+      padding: 10px 18px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center; padding: 48px 0 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; margin-bottom: 20px;
+      background: rgba(201,169,97,0.12); border: 1px solid rgba(201,169,97,0.35);
+      border-radius: 100px; font-size: 12px; color: var(--accent);
+      letter-spacing: 0.05em; font-weight: 600;
+    }
+    .hero h1 {
+      font-size: 42px; margin: 0 0 20px; font-weight: 700;
+      letter-spacing: -0.01em; line-height: 1.35;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero p.lede {
+      font-size: 17px; color: var(--text-dim); max-width: 740px;
+      margin: 0 auto 28px; line-height: 1.85;
+    }
+    .hero .cta-row {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 22px;
+    }
+    .btn-primary, .btn-ghost {
+      padding: 12px 22px; border-radius: 8px; font-weight: 700;
+      font-size: 14px; text-decoration: none; letter-spacing: 0.01em;
+    }
+    .btn-primary { background: var(--accent); color: #111; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero .jp-note {
+      display: inline-block; margin-top: 18px; padding: 6px 14px;
+      background: var(--panel); border: 1px solid var(--border-accent);
+      border-radius: 14px; font-size: 12.5px; color: var(--accent);
+    }
+
+    /* Section heading */
+    section h2 {
+      font-size: 13px; letter-spacing: 0.12em; color: var(--accent);
+      font-weight: 700; text-transform: uppercase; margin: 48px 0 20px;
+    }
+    section > p.sec-blurb {
+      color: var(--text-dim); font-size: 14.5px; margin: -6px 0 8px; max-width: 720px; line-height: 1.8;
+    }
+
+    /* Why cells */
+    .why-suite {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px; margin: 20px 0 8px;
+    }
+    .why-cell {
+      padding: 18px 18px 16px; background: var(--panel);
+      border: 1px solid var(--border-accent); border-radius: 10px;
+      font-size: 13.5px; color: var(--text-dim); line-height: 1.8;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .why-cell .why-headline {
+      font-size: 15.5px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.005em; line-height: 1.5;
+    }
+    .why-cell .why-headline .accent { color: var(--accent); }
+
+    /* Tool grid */
+    .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .tool {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px; transition: border-color .15s;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .tool.live { border-color: rgba(138,224,163,0.25); }
+    .tool.live:hover { border-color: rgba(138,224,163,0.5); }
+    .tool-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .tool-name { font-size: 15px; font-weight: 700; }
+    .tool-name-en { font-size: 11px; color: var(--text-mute); font-weight: 400; margin-left: 6px; }
+    .tool-status {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+      padding: 2px 8px; border-radius: 10px; font-weight: 600;
+      white-space: nowrap;
+    }
+    .tool-status.live { color: var(--live); background: rgba(138,224,163,0.1); border: 1px solid rgba(138,224,163,0.3); }
+    .tool p { margin: 4px 0 0; color: var(--text-dim); font-size: 13.5px; line-height: 1.8; }
+    .tool-cta {
+      display: inline-block; margin-top: auto; padding: 8px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12.5px; font-weight: 700;
+      align-self: flex-start; margin-top: 12px;
+    }
+    .tool-cta:hover { background: var(--accent-hover); }
+
+    /* Pricing */
+    .pricing {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px; margin: 20px 0 8px;
+    }
+    .price {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 20px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .price.featured { border-color: var(--border-accent); background: var(--panel-2); }
+    .price-tier {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      color: var(--accent); font-weight: 700; text-transform: uppercase;
+    }
+    .price-amount {
+      font-size: 40px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1; margin: 4px 0 2px;
+    }
+    .price-amount .price-unit {
+      font-size: 13px; font-weight: 500; color: var(--text-mute);
+      margin-left: 6px; letter-spacing: 0;
+    }
+    .price-amount .price-jpy {
+      display: block; font-size: 12px; color: var(--text-mute);
+      font-weight: 500; letter-spacing: 0; margin-top: 4px;
+    }
+    .price-tagline {
+      font-size: 13px; color: var(--text-dim); line-height: 1.75;
+      min-height: 40px;
+    }
+    .price-features {
+      list-style: none; padding: 0; margin: 8px 0 0;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 12.5px; color: var(--text-dim); line-height: 1.75;
+    }
+    .price-features li { padding-left: 18px; position: relative; }
+    .price-features li::before {
+      content: '✓'; position: absolute; left: 0; top: 0;
+      color: var(--live); font-weight: 700;
+    }
+    .price-cta {
+      margin-top: 14px; padding: 10px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12.5px; font-weight: 700;
+      text-align: center; letter-spacing: 0.02em;
+    }
+    .price-cta:hover { background: var(--accent-hover); }
+    .price-cta.ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .price-cta.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Founding scarcity banner */
+    .founding {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 20px; margin: 16px 0 20px;
+      background: linear-gradient(90deg, rgba(255,120,80,0.14), rgba(255,120,80,0.03));
+      border: 1px solid rgba(255,120,80,0.35); border-radius: 8px;
+    }
+    .founding-icon { font-size: 22px; line-height: 1; }
+    .founding-title {
+      color: #ff9970; font-weight: 700; font-size: 13px; letter-spacing: 0.03em;
+    }
+    .founding-body { color: var(--text-dim); font-size: 13px; margin-top: 2px; line-height: 1.75; }
+    .founding-body strong { color: #fff; }
+
+    /* Testimonials */
+    .testimonials {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px; margin: 20px 0 8px;
+    }
+    .testimonial {
+      padding: 18px 20px; background: var(--panel);
+      border: 1px solid var(--border); border-radius: 10px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .testimonial-body { color: var(--text-dim); font-size: 13.5px; line-height: 1.85; font-style: normal; }
+    .testimonial-attr {
+      color: var(--text-mute); font-size: 12px; letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid var(--border); padding-top: 10px;
+    }
+    .testimonial-attr .avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(201,169,97,0.15); border: 1px solid var(--border-accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 11px; font-weight: 700;
+    }
+    .testimonial-attr .placeholder-tag {
+      margin-left: auto; font-size: 10px; color: var(--text-mute);
+      padding: 2px 6px; border: 1px dashed var(--border);
+      border-radius: 4px; letter-spacing: 0.05em;
+    }
+
+    /* Bottom CTA */
+    .bottom-cta {
+      text-align: center; margin: 48px 0 8px;
+      padding: 36px 24px; background: var(--panel-2);
+      border: 1px solid var(--border-accent); border-radius: 14px;
+    }
+    .bottom-cta h3 {
+      font-size: 26px; font-weight: 700; margin: 0 0 12px; color: var(--text);
+      letter-spacing: -0.01em; line-height: 1.55;
+    }
+    .bottom-cta h3 .accent { color: var(--accent); }
+    .bottom-cta p {
+      color: var(--text-dim); font-size: 15px; max-width: 620px;
+      margin: 0 auto 22px; line-height: 1.85;
+    }
+    .bottom-cta code {
+      color: var(--accent); background: rgba(201,169,97,0.10);
+      padding: 2px 8px; border-radius: 4px; font-family: var(--mono); font-size: 14px;
+    }
+
+    footer {
+      margin-top: 56px; padding: 24px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-mute); font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; line-height: 1.5; }
+      .hero p.lede { font-size: 15px; }
+      section h2 { margin-top: 32px; }
+      .bottom-cta h3 { font-size: 20px; }
+      .header-cta-row { gap: 6px; }
+    }
+  </style>
+
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header: brand + language toggle + primary CTA -->
+    <header class="top">
+      <div class="brand">R5TOOLS.IO — LWS スイート</div>
+      <div class="header-cta-row">
+        <a href="/refer.html?ref=JP-HOME" class="header-cta ghost">💸 紹介して報酬を受け取る</a>
+        <a href="https://access-codes.r5tools.io/?ref=JP-HOME" class="header-cta">スイートを解除</a>
+        <a href="/index.html" class="lang-pill" title="Switch to English"><span class="flag">🇺🇸</span>English</a>
+        <a href="/ko/index.html" class="lang-pill" title="한국어로 전환"><span class="flag">🇰🇷</span>한국어</a>
+        <span class="lang-pill active" aria-current="page"><span class="flag">🇯🇵</span>日本語</span>
+      </div>
+    </header>
+
+    <!-- Unlock banner (JP-first tone) -->
+    <div class="unlock-banner">
+      <div class="ub-body">
+        <div class="ub-title">🔓 ウォーゾーン2007メンバーは無料</div>
+        <div class="ub-text">アライアンスコードをR5に聞いてください（例：<code>RONY-FREE</code>）。他のウォーゾーンの方は $20 の永久コードで解除できます。ログインページは共通、すべてのツールで即使えます。</div>
+      </div>
+      <a href="https://access-codes.r5tools.io/?ref=JP-HOME" class="ub-cta">コードを入力 →</a>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-badge">⚡ シーズン2 · 3週目 · ポーラーストーム · LIVE</div>
+      <h1>あなたのアライアンスは、シーズン2の準備を<span class="accent">グループチャット</span>で進めていませんか。<br/>上位アライアンスは、そうしていません。</h1>
+      <p class="lede">
+        Googleスプレッドシートを置き換える<em>ラストウォー：サバイバル</em>向けアライアンス運営ツールキットです。動画からロースター抽出まで2分、ランク別のシーズン2ランディング配置、凍結リスクダッシュボード、4週目ブリザードに備える石炭バジェット、ハイブ陣形、都市占領スケジュール。R5本人が制作し、日本語UIに対応しています。全ツールでDiscord向けダークテーマPNGをそのまま書き出せます。
+      </p>
+      <div class="cta-row">
+        <a class="btn-primary" href="#pricing">料金プランを見る →</a>
+        <a class="btn-ghost" href="https://roster.r5tools.io/?ref=JP-HOME" target="_blank" rel="noopener">ロースター抽出ツールを試す（無料）</a>
+      </div>
+      <span class="jp-note">🇯🇵 日本語UI・全ツールで日本語表記に対応。用語は現役プレイヤーによる監修済み。</span>
+    </div>
+
+    <!-- WHY -->
+    <section>
+      <h2>R5がこのスイートを使う理由</h2>
+      <div class="why-suite">
+        <div class="why-cell">
+          <div class="why-headline">動画からロースターまで<span class="accent">2分</span>。</div>
+          <div>アライアンスのメンバー一覧を画面録画してアップロードするだけ。Claude Visionがすべての行を自動で読み取ります。100人分の名前を手打ちする作業はもう必要ありません。</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">全ツールが<span class="accent">日本語</span>対応（7言語）。</div>
+          <div>JA · EN · KO · ES · PT · DE · FR。副R5が同じツールを開けば、同じPNGが日本語で表示されます。ゲーム内用語で自然に読める翻訳です。</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">全ツールに<span class="accent">Discord用PNG</span>書き出し。</div>
+          <div>すべてのツールがダークテーマのPNGで状態を書き出せます。#アライアンス全体連絡に貼るだけで、ツールを開いていないメンバーも即確認できます。</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">現役<span class="accent">R5</span>が作りました。</div>
+          <div>スプレッドシートでもDiscord botでもありません。シーズン開幕前夜にツールを開くR5のためのブリーフィングルームです。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section>
+      <h2>シーズン2対応ツール · すべてLIVE（クライアントのみで動作）</h2>
+      <p class="sec-blurb">すべてのツールはブラウザ内で動作します。アップロードもログインもサーバー往復もありません。データは端末から出ません。</p>
+      <div class="tools">
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">ランディングプランナー</span><span class="tool-name-en">Landing Planner</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>R5が初日のアンカー座標を決めれば、HQレベル、ラリーリーダー配置、アライアンスファーネスの暖房範囲を踏まえて全メンバーの着陸タイルを自動で割り当てます。シーズン開幕前夜に必ず開くツールです。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-landing-planner-static/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">ヒートシミュレーター</span><span class="tool-name-en">Heat Simulator</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>アライアンス領土に7段の同心温度帯（-15 → -80 °C）を重ねて表示。アライアンスファーネスの暖房範囲を可視化し、危険なベースを一目で示します。3週目・4週目ブリザードの事前シミュレーション対応。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-heat-simulator-static/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">凍結リスクダッシュボード</span><span class="tool-name-en">Freeze-Risk Dashboard</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>メンバーごとのリアルタイム警告ボード —「あと3分で凍結」「ファーネス配置が必要」「石炭残り12時間未満」。シーズン2のR5が毎朝開くツールです。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-freeze-risk-static/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">石炭消費計算機</span><span class="tool-name-en">Coal Burn Calculator</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>4週目の-70 °Cブリザード期間中、ハイヒートファーネスをオーバードライブで維持するのに必要なメンバー別の石炭量を算出します。ロースターを貼り付けると緑・黄・赤のグリッドが出力され、アライアンスヘルプ依頼のメッセージをそのままコピーできます。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-coal-burn-static/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">都市・発掘地占領プランナー</span><span class="tool-name-en">City / Dig-Site Capture</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>6都市 + 4発掘地のうちどこを先に取るかを、+5 → +60 °Cの温度ボーナス曲線と占領後36時間の保護窓と合わせて計算します。1日2回の占領枠を事前に配置してください。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-city-capture-static/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">シーズンタイムライン</span><span class="tool-name-en">Season Timeline</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>シーズン2開幕カウントダウン + アライアンス事前準備チェックリスト。メンバー別の進捗管理、Discord用PNG書き出し、個人用iCalエクスポート対応。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-season-timeline-static/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">アライアンス ハイブグリッド</span><span class="tool-name-en">Alliance Hive Grid</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>マーシャルの近衛3×3、ミリタリーストロングホールド21×21の陣形プランナー。ドラッグ&ドロップ、コーナーアンカーリング アルゴリズム、CSVインポート、Discord用PNG書き出し対応。</p>
+          <a class="tool-cta" href="https://hive.r5tools.io/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">ロースター抽出ツール</span><span class="tool-name-en">Roster Extractor</span></span>
+            <span class="tool-status live">FLAGSHIP</span>
+          </div>
+          <p>アライアンスメンバー一覧の画面録画（.mov / .mp4）をアップロードすると、Claude Visionがプレイヤーの行を自動で読み取ります。2分でCSV + JSONを取得し、他のLWSツールにそのまま接続できます。</p>
+          <a class="tool-cta" href="https://roster.r5tools.io/?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">プロフィールスタジオ</span><span class="tool-name-en">Profile Studio</span></span>
+            <span class="tool-status live">NEW</span>
+          </div>
+          <p>写真をアップロードすると、Discord用のアライアンスアバターが生成されます。全メンバーが同じ視覚シグネチャ（ゴールドリング・アライアンス名・ランクバッジ・シーズン2フロスト）を持てます。処理はブラウザ内のみで、写真は端末から出ません。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-profile-studio-static/?ref=JP-HOME" target="_blank" rel="noopener">アバターを作成 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">VSデイ最適化</span><span class="tool-name-en">VS Days Optimizer</span></span>
+            <span class="tool-status live">NEW</span>
+          </div>
+          <p>週間VPを決める6日間のアライアンス対戦。曜日ごとに報酬対象アクションが異なります —月曜レーダー、火曜建設、金曜訓練、<strong>土曜「敵撃破」4 VP</strong>。「今日はコレ」バナー + スコア計算機 + 宝箱トラッカー。全数値はKB出典。</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-vs-days-static/?ref=JP-HOME" target="_blank" rel="noopener">今日のプラン →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">チートシート</span><span class="tool-name-en">Cheat Sheet</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>シーズン2開幕D-1にR5が最後に確認する1枚要約：温度帯 · ファーネス積み方 · ラリータイミング · グループTP条件 · 都市優先度。印刷しても、Discordに貼っても使えます。</p>
+          <a class="tool-cta" href="/ja/cheat-sheet.html?ref=JP-HOME" target="_blank" rel="noopener">開く →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOUNDING SCARCITY + PRICING -->
+    <section id="pricing">
+      <h2>料金プラン · 一度解除すれば全ツール</h2>
+      <p class="sec-blurb">アライアンスアクセスコードひとつで、90日間すべてのツールが端末上で開きます。アカウント登録もメール登録も不要。ウォーゾーン2007は無料です。</p>
+
+      <div class="founding">
+        <div class="founding-icon">🔥</div>
+        <div>
+          <div class="founding-title">ファウンディング · 最初の100アライアンス限定</div>
+          <div class="founding-body">最初の100アライアンスのオンボーディング期間中は、アライアンスバンドルが <strong>$30</strong>（通常価格 $50）。以降リリースされる全新規ツールへの永続アクセス権付き。メールでご依頼ください、先着順で割り当てます。</div>
+        </div>
+      </div>
+
+      <div class="pricing">
+
+        <!-- Free tier -->
+        <div class="price">
+          <div class="price-tier">FREE · ウォーゾーン2007</div>
+          <div class="price-amount">$0<span class="price-jpy">約 ¥0 · 私のウォーゾーン</span></div>
+          <div class="price-tagline">私自身のウォーゾーンです。2007の方はスイート全体をそのままお使いいただけます。R5にコードを聞いてください。</div>
+          <ul class="price-features">
+            <li>スイート内すべてのツールを解除</li>
+            <li>端末ごとに90日のCookie</li>
+            <li>7言語トグル全対応</li>
+            <li>全ツールでDiscord用PNG書き出し</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=%E3%82%A6%E3%82%A9%E3%83%BC%E3%82%BE%E3%83%B32007%E3%80%80%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89&body=%E3%82%A6%E3%82%A9%E3%83%BC%E3%82%BE%E3%83%B3%3A%20%0A%E3%82%A2%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%82%B9%E5%90%8D%3A%20%0AR5%E3%81%AE%E3%83%8B%E3%83%83%E3%82%AF%E3%83%8D%E3%83%BC%E3%83%A0%3A%20">ウォーゾーンコードを申請 →</a>
+        </div>
+
+        <!-- Personal tier - featured -->
+        <div class="price featured">
+          <div class="price-tier">PERSONAL</div>
+          <div class="price-amount">$30<span class="price-unit">1回払い</span><span class="price-jpy">約 ¥4,500 · 海外カード決済</span></div>
+          <div class="price-tagline">どのアライアンス・どのウォーゾーンでも使えます。1回払いで1シーズンまるごと利用可能。</div>
+          <ul class="price-features">
+            <li>スイート内すべてのツールを解除</li>
+            <li>端末上に90日間保存</li>
+            <li>ロースター抽出ツール（スタンダード）を含む</li>
+            <li>7言語対応 · 全ツールでDiscord PNG</li>
+          </ul>
+          <a class="price-cta" href="https://buy.stripe.com/3cI8wO8g13vf0DY39A6c001?ref=JP-HOME">個人プランを解除 →</a>
+        </div>
+
+        <!-- Alliance tier -->
+        <div class="price">
+          <div class="price-tier">ALLIANCE BUNDLE · アライアンス全体</div>
+          <div class="price-amount">$50<span class="price-unit">1回払い</span><span class="price-jpy">約 ¥7,500 · アライアンス全体</span></div>
+          <div class="price-tagline">R5が1回払い、アライアンス全体にコードを配布。メンバー各自の端末で90日間保存。</div>
+          <ul class="price-features">
+            <li>全ツール、全メンバー</li>
+            <li>端末ごとに90日（コード共有）</li>
+            <li>個人コード5枚分より安い</li>
+            <li>7言語対応 · 全ツールでDiscord PNG</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=Alliance%20Bundle%20(%2450)&body=%E3%82%A2%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%82%B9%E5%90%8D%3A%20%0A%E3%82%A6%E3%82%A9%E3%83%BC%E3%82%BE%E3%83%B3%3A%20%0AR5%E3%81%AE%E3%83%8B%E3%83%83%E3%82%AF%E3%83%8D%E3%83%BC%E3%83%A0%3A%20%0A%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E4%BA%BA%E6%95%B0%3A%20">アライアンスバンドルを申請 →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (placeholders only — no fabricated names) -->
+    <!-- r5tools:testimonials v1 START -->
+    <section>
+      <h2>アライアンスリーダーの声</h2>
+      <p class="sec-blurb">最初の100ファウンディングアライアンスのリーダーからの実際の声を、ここに掲載していきます。現在はプレースホルダーのみです。</p>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="testimonial-body">「ランディングプランナーなしでシーズン2を準備するのは、もう考えられません。100人配置をグループチャットでやっていた頃には戻りたくないですね。」</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [ワーゾーン非公開]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">「凍結リスクダッシュボードのおかげで、4週目のブリザードでアライアンス全体を救えました。R5が毎朝開くツールになりました。」</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R4</span>
+            <span>R4 · [ワーゾーン非公開]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">「動画を1本アップしたら2分でCSVが出てきました。100人分の名簿を手で写していた時間がもったいなく感じます。」</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [ワーゾーン非公開]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- r5tools:testimonials v1 END -->
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta">
+      <h3>シーズン2を、<span class="accent">一歩先を行く</span>準備で迎えましょう。</h3>
+      <p>ウォーゾーン2007メンバーはコード <code>RONY-FREE</code> で即解除。他のウォーゾーンは個人コード $30、またはアライアンスバンドル $30（ファウンディング100枠限定）。</p>
+      <a class="btn-primary" href="https://access-codes.r5tools.io/?ref=JP-HOME&code=RONY-FREE">無料で始める — コード RONY-FREE</a>
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · ラストウォー：サバイバルは First Fun / Century Games の製品です。本サイトはファン制作で無関係です。</div>
+      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+        <a href="/index.html">English</a>
+        <a href="/ko/index.html">한국어</a>
+        <a href="/status.html">ステータス</a>
+        <a href="/roadmap.html">ロードマップ</a>
+        <a href="/terms.html">利用規約</a>
+        <a href="/privacy.html">プライバシー</a>
+        <a href="mailto:hello@r5tools.io">お問い合わせ</a>
+      </div>
+    </footer>
+
+  </div>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

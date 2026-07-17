@@ -14,6 +14,13 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="R5TOOLS.IO — the alliance ops center every R5 needs" />
+  <link rel="canonical" href="https://r5tools.io/" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://r5tools.io/static/og-image.png" />
   <meta name="twitter:title" content="R5TOOLS.IO — LWS alliance toolkit" />
@@ -290,6 +297,42 @@
       font-family: var(--mono);
     }
 
+    /* Testimonials */
+    .testimonials {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px; margin: 20px 0 8px;
+    }
+    .testimonial {
+      padding: 18px 20px; background: var(--panel);
+      border: 1px solid var(--border); border-radius: 10px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .testimonial-body { color: var(--text-dim); font-size: 13.5px; line-height: 1.7; font-style: italic; }
+    .testimonial-attr {
+      color: var(--text-mute); font-size: 12px; letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid var(--border); padding-top: 10px;
+    }
+    .testimonial-attr .avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(201,169,97,0.15); border: 1px solid var(--border-accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 11px; font-weight: 700;
+    }
+    .testimonial-attr .placeholder-tag {
+      margin-left: auto; font-size: 10px; color: var(--text-mute);
+      padding: 2px 6px; border: 1px dashed var(--border);
+      border-radius: 4px; letter-spacing: 0.05em;
+    }
+    .testimonial-attr .verified {
+      margin-left: auto; font-size: 10px; color: #3fb950;
+      padding: 2px 6px; border: 1px solid rgba(63,185,80,0.35);
+      border-radius: 4px; letter-spacing: 0.05em; font-weight: 600;
+    }
+    .testimonial .stars {
+      color: var(--accent); font-size: 12px; letter-spacing: 2px;
+    }
+
     footer {
       margin-top: 64px; padding: 24px 0; border-top: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
@@ -306,6 +349,40 @@
   </style>
   <script src="lws-countdown.js" defer></script>
   <script defer src="static/lws-track.js"></script>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+<!-- BEGIN r5tools:seo:softwareapp v1 -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"R5TOOLS.IO","url":"https://r5tools.io/","description":"A suite of planning tools for Last War: Survival alliance leaders (R5s / R4s). Season 2 landing coordination, temperature / freeze risk, coal budgets, hive formations, city capture priorities, and more. EN + KR.","applicationCategory":"GameApplication","applicationSubCategory":"Strategy game companion tool","operatingSystem":"Web","image":"https://r5tools.io/static/og-image.png","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"},"offers":{"@type":"Offer","price":"0.00","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://r5tools.io/#pricing","description":"Warzone 2007 members unlock the full suite free via code RONY-FREE."},"featureList":["Hive Planner","Landing Planner","Heat Simulator","Freeze Risk Dashboard","Coal Burn Calculator","City Capture Planner","Roster Extractor","Season Timeline"]}</script>
+<!-- END r5tools:seo:softwareapp v1 -->
 </head>
 <body>
   <div class="wrap">
@@ -313,6 +390,7 @@
     <header class="top">
       <div class="brand" data-i18n="brand">R5TOOLS.IO — LWS SUITE</div>
       <div style="display: flex; gap: 10px; align-items: center">
+        <a href="/refer.html" data-i18n="referNavBtn" style="background: transparent; color: var(--accent); border: 1px solid rgba(201,169,97,0.45); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 12px; letter-spacing: 0.03em; text-decoration: none;">💸 Refer &amp; Earn</a>
         <a href="https://access-codes.r5tools.io/" data-i18n="signInBtn" style="background: var(--accent); color: #0a0e1a; border: none; border-radius: 999px; padding: 8px 18px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.03em; text-decoration: none; transition: background 0.15s">Unlock the suite</a>
         <select class="lang-toggle" id="langToggle" aria-label="Language">
           <option value="en">EN — English</option>
@@ -988,6 +1066,40 @@
 
       </div>
     </section>
+
+    <!-- TESTIMONIALS (placeholders only — no fabricated names) -->
+    <!-- r5tools:testimonials v1 START -->
+    <section>
+      <h2 data-i18n="secTestimonialsHeading">WHAT R5s SAY</h2>
+      <p class="sec-blurb" data-i18n="secTestimonialsBlurb">Real testimonials from the first 100 founding-alliance R5s will appear here. Right now these are placeholders.</p>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="testimonial-body">"Can't imagine planning Season 2 without the Landing Planner anymore. Not going back to arranging 100 members in a group chat."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [warzone withheld]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">"Freeze-Risk Dashboard saved my whole alliance during the Week-4 blizzard. It's the tool the R5 opens every morning."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R4</span>
+            <span>R4 · [warzone withheld]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">"Uploaded one video, had a CSV in two minutes. The hours I spent copying names by hand feel like a waste now."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [warzone withheld]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- r5tools:testimonials v1 END -->
 
     <section>
       <h2 data-i18n="secPhilosophy">HOW THIS SUITE IS DIFFERENT</h2>
@@ -2126,5 +2238,30 @@
     });
   })();
   </script>
+
+  <!-- Referral attribution: if any r5tools.io URL is visited with ?ref=R5-XXX-YYYY,
+       tag the visitor so an eventual paid unlock credits the referrer. See /refer.html. -->
+  <script>
+  (function () {
+    try {
+      var qs = new URLSearchParams(location.search || '');
+      var ref = (qs.get('ref') || '').trim().toUpperCase();
+      if (!/^R5-[A-Z0-9]{1,16}-[A-Z0-9]{4}$/.test(ref)) return;
+      var API_BASE = 'https://access-codes.r5tools.io';
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        API_BASE = 'http://127.0.0.1:8791';
+      }
+      fetch(API_BASE + '/api/refer/attribute', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ref: ref, path: location.pathname }),
+      }).catch(function () { /* fire-and-forget */ });
+    } catch (e) { /* no-op */ }
+  })();
+  </script>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

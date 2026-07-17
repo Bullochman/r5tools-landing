@@ -7,6 +7,9 @@
 <meta name="description" content="Stronghold in Last War: Survival. General-purpose 21×21 corner-first defensive formation used across S1/S2/S5/S6/S7.">
 <meta name="keywords" content="Stronghold, Last War building, LWS Chief guide, R5 planning">
 <link rel="canonical" href="https://r5tools.io/buildings/stronghold.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/buildings/stronghold.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/buildings/stronghold.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/buildings/stronghold.html">
 <meta property="og:title" content="Stronghold — Last War building guide | R5TOOLS.IO">
 <meta property="og:description" content="Stronghold in Last War: Survival. General-purpose 21×21 corner-first defensive formation used across S1/S2/S5/S6/S7.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/buildings/stronghold.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -139,7 +174,19 @@ td { color: var(--text-dim); }
 <p>A Last War: Survival alliance is a 100-player cooperative unit built on a five-rank hierarchy (R5 → R1), a shared research tree paid in coin and diamond donations, a construction/research &quot;help&quot; mechanic that shaves seconds-to-hours off every teammate&#x27;s timers, and a geographic clustering pattern (&quot;the hive&quot;) that is the substrate for every alliance-level event and defense. The most rewarding alliance activity outside PvP is Marshal&#x27;s Guard (Alliance Exercise), a 30-minute rally-marathon against five NPC tanks positioned inside a 3×3-tile event platform at the center of the hive (the <em>LWS_Alliance_Ops_Center</em> Hive Grid Manager plans this layout); the largest capturable seasonal objective is the 21×21-tile Military Stronghold, and Ring 1 members must sit against its outer mud to deny enemy landing zones. Alliance Duel (VS) is the recurring 6-day cross-server tournament (Mon–Sat, first to 7 victory points wins) that pairs with the Arms Race event and is the primary way alliances compete for server-level status. R5 assigns the four titled R4 slots — Warlord, Recruiter, Muse, Butler — and in Season 6 these titles gate the four alliance skills (Serpent Breath, Snake Barrier, Night Army, Thunder Feathers). The R4 cap starts at 8 and rises to 10 at Alliance Gift Level 10.</p>
 <p>The &quot;hive&quot; is the geographic clustering of alliance bases around alliance buildings (turrets, flag) and event objects (Marshal&#x27;s Guard platform, Military Stronghold). Hive discipline is one of the most-ignored and most-consequential alliance rules — a scattered alliance loses defensive reinforcement coverage, march-time-limited events like Marshal&#x27;s Guard, and Zombie Siege reinforcement chains.</p>
 <ul><li>Player HQ / city: <strong>2×2 tiles</strong> per base footprint (per hive-planner tools; note some sources treat member &quot;cells&quot; as 3×3 in planner UIs where one cell = one base + 1-tile buffer).</li><li>Marshal&#x27;s Guard platform: <strong>3×3 tiles</strong> (1 event cell).</li><li>Alliance Center (world building placement varies; the on-base structure is 5-tile-footprint per planners): <strong>5×5 tiles</strong>.</li><li>Missile silo (turret/rocket world object): <strong>4×4 tiles</strong>.</li><li>Military Stronghold seasonal fortress: <strong>21×21 tiles</strong> (a 7-cell × 7-cell block in a 3-tile-per-cell planner grid).</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/buildings/headquarters.html">Headquarters (HQ) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/farm.html">Farm — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/lighthouse.html">Lighthouse (S4) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/hospital.html">Hospital — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/bank.html">Bank (S5) — Last War building guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -153,5 +200,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

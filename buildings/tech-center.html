@@ -7,6 +7,9 @@
 <meta name="description" content="Tech Center in Last War: Survival. Runs the research queue. Second Tech Center unlocks dual research queue.">
 <meta name="keywords" content="Tech Center, Last War building, LWS Chief guide, R5 planning">
 <link rel="canonical" href="https://r5tools.io/buildings/tech-center.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/buildings/tech-center.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/buildings/tech-center.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/buildings/tech-center.html">
 <meta property="og:title" content="Tech Center — Last War building guide | R5TOOLS.IO">
 <meta property="og:description" content="Tech Center in Last War: Survival. Runs the research queue. Second Tech Center unlocks dual research queue.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/buildings/tech-center.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -128,7 +163,19 @@ td { color: var(--text-dim); }
 <ol><li><strong><a href="https://www.lastwartutorial.com/professions-engineer-and-war-leader/" rel="nofollow noopener">LastWarTutorial — Professions: Engineer and War Leader</a></strong> — Fetched 2026-07-14. Full skill list with per-level effects, cooldowns, and unlock levels for both professions. <strong>Tier B</strong>. Most complete single source for skill data.</li><li><strong><a href="https://www.lastwartutorial.com/season-6-professions/" rel="nofollow noopener">LastWarTutorial — Season 6 Professions</a></strong> — Fetched 2026-07-14. Season 6 seasonal-skill list, cap of 100, Buddy Fortify vs Wall Fortify variance. <strong>Tier B</strong>.</li><li><strong><a href="https://www.lastwartutorial.com/vip-program/" rel="nofollow noopener">LastWarTutorial — VIP Program</a></strong> — Fetched 2026-07-14. Complete VIP 1–18 cumulative point table + benefit summary. <strong>Tier B</strong>.</li><li><strong><a href="https://www.lastwartutorial.com/gears/" rel="nofollow noopener">LastWarTutorial — Gears</a></strong> — Fetched 2026-07-14. 4-slot list, rarity chain, Gear Factory Lv 20 → 5-star, blueprint rules. <strong>Tier B</strong>.</li><li><strong><a href="https://www.lastwargame.online/en/professions-in-last-war/" rel="nofollow noopener">LastWarGame.online — Professions in Last War</a></strong> — Fetched 2026-07-14. Season cap table (40/70/100), skill point extras (10/season cap, 10,000 XP conversion), priority tier system. <strong>Tier C</strong>.</li><li><strong><a href="https://www.lastwargame.online/en/heroes-exclusive-weapons/" rel="nofollow noopener">LastWarGame.online — Hero Exclusive Weapons</a></strong> — Fetched 2026-07-14 (via Cpt Hedgehog cross-ref). Unlock cost 50 named shards, Lv 20 = 1,130 shards, 15-hero release cadence. <strong>Tier C</strong>.</li><li><strong><a href="https://cpt-hedge.com/guides/exclusive-weapons" rel="nofollow noopener">Cpt Hedgehog&#x27;s Battle HQ — Exclusive Weapons Guide</a></strong> — Fetched 2026-07-14 (fetch 403 direct; content via search excerpt). Level range shard-cost table, 7.5% Attack/HP/Def milestone at Lv 20. <strong>Tier B</strong>.</li><li><strong><a href="https://cpt-hedge.com/guides/season-6-profession-skills" rel="nofollow noopener">Cpt Hedgehog — Season 6 Profession Skills</a></strong> — Fetched 2026-07-14 (via search excerpt). 21 seasonal skills, 44 skill points, unlock every 5 levels. <strong>Tier B</strong>.</li><li><strong><a href="https://www.lootbar.com/blog/en/lw-survival-season-4-professions-skills-choosing-prioritizing.html" rel="nofollow noopener">Lootbar — LWS Season 4 Professions &amp; Skills</a></strong> — Fetched 2026-07-14. 16 Season 4 seasonal skills, respec limitations, phase-based recommendations. <strong>Tier C</strong>. ⚠ pre-patch (2026-04-ish; Season 4).</li><li><strong><a href="https://www.lootbar.com/blog/en/last-war-survival-research-guide-tech-tree-priority-order.html" rel="nofollow noopener">Lootbar — Research Guide / Tech Tree Priority</a></strong> — Fetched 2026-07-14 (via search excerpt). Tech tree branches (Development/Economy/Alliance Duel/Special Forces/Defense Fortifications). <strong>Tier C</strong>.</li><li><strong><a href="https://lastwarvault.com/guides/general/profession-system-guide/" rel="nofollow noopener">LastWarVault — Profession System Guide</a></strong> — Fetched 2026-07-14. Engineer as recommended default, HQ 25 unlock, Season 1 cap 40 → Season 3 cap 100. <strong>Tier B</strong>.</li><li><strong><a href="https://www.packsify.com/blogs/last-war-survival-gear-guide" rel="nofollow noopener">Packsify — Last War Gear Guide (Tank / Air / Missile Priority)</a></strong> — Fetched 2026-07-14. Slot priority by role, Refined Iron Module + Superalloy chain, Legendary Lv 40 4-star prerequisite for Mythic, 10 blueprints per Mythic. <strong>Tier B</strong>.</li><li><strong><a href="https://www.packsify.com/blogs/last-war-survival-vip-points-showdown" rel="nofollow noopener">Packsify — VIP Points Showdown</a></strong> — Fetched 2026-07-14. VIP 6 = permanent second builder = single most impactful milestone; VIP 18 = 12.5% hero HP/ATK/DEF + custom base skin. <strong>Tier C</strong>.</li><li><strong><a href="https://www.packsify.com/blogs/last-war-survival-research-guide-what-to-prioritize" rel="nofollow noopener">Packsify — Research Priority Guide</a></strong> — Fetched 2026-07-14. Complete tech tree branch structure; Development / Economy always run, Special Forces = T10 path. <strong>Tier B</strong>.</li><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/last-war-vip-guide.html" rel="nofollow noopener">Ldshop — Last War VIP Guide All 18 Levels</a></strong> — Fetched 2026-07-14 (403 direct; content via search excerpts). VIP permanence, VIP 8 Agent Shirley, VIP 11 +50% construction. <strong>Tier C</strong>.</li><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/war-leader-guide.html" rel="nofollow noopener">Ldshop — Ultimate War Leader Guide</a></strong> — Fetched 2026-07-14 (403 direct; content via search excerpt). Warlord skill categories + priority order. <strong>Tier C</strong>.</li><li><strong><a href="https://www.joytify.com/blog/en-ph/others-last-war-survival-ultimate-war-leader/" rel="nofollow noopener">Joytify — Ultimate War Leader Guide</a></strong> — Fetched 2026-07-14. Phase 1/2/3 point allocation strategy for Warlord. <strong>Tier C</strong>.</li><li><strong><a href="https://www.bluestacks.com/blog/game-guides/last-warsurvival-game/lws-gear-guide-en.html" rel="nofollow noopener">BlueStacks — LWS Gear Guide EN</a></strong> — Fetched 2026-07-14. 5-rarity ladder, Lv-40 cap + 5-star ceiling, Gear Factory Lv 20 requirement, Honor Point → Legendary Blueprint rule. <strong>Tier C</strong>.</li><li><strong><a href="https://www.bluestacks.com/ko/blog/game-guides/last-warsurvival-game/lws-gear-guide-ko.html" rel="nofollow noopener">BlueStacks — LWS Gear Guide KR (사령관 장비)</a></strong> — Fetched 2026-07-14. Confirms 4-slot / 5-star / GF 20 numbers in KR terminology. <strong>Tier C</strong>. <strong>KR source</strong>.</li><li><strong><a href="https://www.bluestacks.com/ko/blog/game-guides/last-warsurvival-game/lws-tips-tricks-ko.html" rel="nofollow noopener">BlueStacks — LWS Tips &amp; Tricks KR</a></strong> — Fetched 2026-07-14. Core KR terms: 총사령관, 본부, VIP 레벨, 영웅 장비, 훈장, 부대. <strong>Tier C</strong>. <strong>KR source</strong>.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-skill-medal-guide/" rel="nofollow noopener">Theriagames — Skill Medal Guide</a></strong> — Fetched 2026-07-14. Arms Race daily cap 8,000 medals, hero-skill cost table (UR/SSR/SR), UR promotion 100% refund. <strong>Tier C</strong>.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-valor-badge-guide/" rel="nofollow noopener">Theriagames — Valor Badge Guide</a></strong> — Fetched 2026-07-14. Valor Badge sources (Alliance Duel 50–400/chest, Warzone ~200) + Tech Center research costs (50 → 20,000+). <strong>Tier C</strong>.</li><li><strong><a href="https://lastwarhandbook.com/guides/power-calculation-complete" rel="nofollow noopener">Last War Handbook — Power Calculation</a></strong> — Fetched 2026-07-14 (403 direct; content via search excerpt). Chief power source weights, TCP combat-effective formula, daily-growth ranges by stage. <strong>Tier B</strong>. (Handbook consistently 403s WebFetch but appears in search excerpts; treated as B based on stated data-source depth.)</li><li><strong><a href="https://lastwarvault.com/guides/general/mythic-gear-upgrade-guide/" rel="nofollow noopener">LastWarVault — Mythic Gear Upgrade Order</a></strong> — Fetched 2026-07-15. DPS-first Mythic upgrade order (Gun→Chip→Radar→Armor), Murphy-Radar interrupt rule, squad-specific primary heroes (Kimberly/DVA/Tesla/Fiona), F2P timeline (~day 100+ first Mythic Gun), Mythic Radar 30% crit-damage-reduction figure. <strong>Tier B</strong>.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-mythic-gear-blueprint-guide/" rel="nofollow noopener">Theriagames — Mythic Gear Blueprint Guide</a></strong> — Fetched 2026-07-15. Ammo Bonanza 2-week cadence, 600-bullet top bracket = 10 Mythic Blueprints, F2P needs ~3.5 Bonanza cycles per Mythic push, $5 pack &quot;best value&quot; during Bonanza windows, Honor Shop unlocks at HQ 20. <strong>Tier C</strong>.</li><li><strong><a href="https://www.lootbar.com/blog/en/last-war-gear-guide-upgrade-priority-and-mythic-strategy.html" rel="nofollow noopener">Lootbar — Gear Upgrade Priority and Mythic Strategy</a></strong> — Fetched 2026-07-15. Survivability-first Mythic upgrade order (Radar→Armor→Gun→Chip), Mythic Chip ~7,200 flat ATK + 15% hero ATK, Mythic Gun +15% hero ATK, &quot;team that stays alive longer deals more damage&quot; rationale. <strong>Tier C</strong>. (Provides the counter-argument to the Vault/Handbook DPS-first camp.)</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-superalloy-guide/" rel="nofollow noopener">Theriagames — Superalloy Guide</a></strong> — Fetched 2026-07-15. Full 5-tier craft chain (Screw → Refined Iron Module → Superalloy → Synthetic Resin → epic gear), 4:1 ratio at every tier. <strong>Tier C</strong>.</li><li><strong><a href="https://www.lastwargame.online/en/hero-gear-in-last-war-survival-game/" rel="nofollow noopener">LastWarGame.online — Hero Gear in Last War Survival</a></strong> — Fetched 2026-07-15. Extended 5-tier chain into Dielectric Ceramic for Legendary crafting, per-piece 5★ cost totals (749.2M Coins / 500k Ore / 6,000 Ceramic / 50 Legendary + 10 Mythic Blueprints), ~47-day Legendary-craft feasibility from 5 workshops. <strong>Tier C</strong>.</li><li><strong><a href="https://ashmasters.org/gear-upgrade-guide" rel="nofollow noopener">Ashmasters — Gear Crafting &amp; Upgrade Guide</a></strong> — Fetched 2026-07-15. Complete per-stage cost table Lv 0 → 5★ Mythic (Gold, Ore, Ceramic, Blueprints); confirms 2★/4★ as major stat-spike thresholds. <strong>Tier C</strong>. Most granular per-stage cost breakdown found.</li></ol>
 <div class="tbl-wrap"><table><thead><tr><th>Speedup type</th><th>Applies to</th><th>Best use timing</th></tr></thead><tbody><tr><td><strong>Universal / Generic</strong></td><td><em>anything</em></td><td>Save for the highest-value queue during Arms Race scoring windows</td></tr><tr><td><strong>Construction / Building</strong></td><td>building upgrades only</td><td>Arms Race Base Building phase + Alliance Duel construction day</td></tr><tr><td><strong>Research</strong></td><td>Tech Center queues</td><td>Arms Race Tech Research phase + AD research day</td></tr><tr><td><strong>Training</strong></td><td>Barracks / Missile / Aircraft queues</td><td>Arms Race Unit Progression phase + <strong>AD Day 5</strong> (4× point multiplier)</td></tr><tr><td><strong>Healing</strong></td><td>Hospital / ICU / Emergency Center queues</td><td>Rarely — use Alliance Help instead. Save for post-VS-cleanup</td></tr><tr><td><strong>Hero Advancement / Skill Medal</strong></td><td>hero level, skill medal use</td><td>Arms Race Hero Advancement phase — <strong>NOT</strong> during Alliance Duel (AD does not score hero adv)</td></tr></tbody></table></div>
 <p><strong>Trees.</strong> LWS groups alliance tech under the Tech Center, split into branches. The high-priority branches most alliances iterate on are:</p>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/buildings/emergency-center.html">Emergency Center (ICU) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-center.html">Alliance Center — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-center-hive-s3.html">Alliance Center Hive (S3) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-center-hive-s4.html">Alliance Center Hive (S4) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/aircraft-center.html">Aircraft Center — Last War building guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -142,5 +189,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

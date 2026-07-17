@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="es-419">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>R5TOOLS.IO — Kit de alianza para Last War: Survival (Español)</title>
+  <meta name="description" content="Kit de planificación para R5 y R4 de Last War: Survival. Video → roster en 2 minutos, aterrizaje de la Temporada 2, tablero de riesgo de congelamiento, presupuesto de carbón, formación de colmena y captura de ciudades. Español LatAm primero, PNG para Discord en todas las herramientas." />
+  <meta name="keywords" content="last war survival, LWS, alianza, colmena, planificador de aterrizaje, R5, warzone, plaga carmesí, tormenta polar" />
+
+  <!-- Canonical + hreflang alternates -->
+  <link rel="canonical" href="https://r5tools.io/es/" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/" />
+
+  <!-- Open Graph — ES-419 locale -->
+  <meta property="og:title" content="R5TOOLS.IO — Kit de alianza de Last War (Español)" />
+  <meta property="og:description" content="Herramientas de planificación para la Temporada 2 Tormenta Polar. Aterrizaje · riesgo de congelamiento · colmena · carbón · captura de ciudades. Español LatAm primero." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/es/" />
+  <meta property="og:locale" content="es_MX" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="pt_BR" />
+  <meta property="og:image" content="https://r5tools.io/static/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="R5TOOLS.IO — el centro de operaciones que todo R5 necesita" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r5tools.io/static/og-image.png" />
+  <meta name="twitter:title" content="R5TOOLS.IO — Kit de alianza de Last War (Español)" />
+  <meta name="twitter:description" content="Herramientas para la Temporada 2. Español LatAm primero." />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <!-- JSON-LD: WebSite + BreadcrumbList in Spanish -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"R5TOOLS.IO","url":"https://r5tools.io/es/","inLanguage":"es-419","description":"Herramientas de planificación R5 para líderes de alianza de Last War: Survival.","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"}},{"@type":"WebPage","name":"R5TOOLS.IO — Kit de alianza de Last War","url":"https://r5tools.io/es/","inLanguage":"es-419","isPartOf":{"@id":"https://r5tools.io/es/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://r5tools.io/es/"}]}]}</script>
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --live: #8ae0a3;
+      --soon: #e6cf7a;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.14em; color: var(--accent); font-weight: 700;
+    }
+    .lang-pill {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 7px 14px; border-radius: 999px;
+      font-size: 12px; text-decoration: none; letter-spacing: 0.02em;
+    }
+    .lang-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-pill .flag { margin-right: 4px; }
+
+    .header-cta-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .header-cta {
+      background: var(--accent); color: #0a0e1a; border: none; border-radius: 999px;
+      padding: 8px 18px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.02em;
+      text-decoration: none; transition: background 0.15s;
+    }
+    .header-cta:hover { background: var(--accent-hover); }
+    .header-cta.ghost {
+      background: transparent; color: var(--accent); border: 1px solid rgba(201,169,97,0.45);
+      font-weight: 600;
+    }
+
+    /* Unlock banner */
+    .unlock-banner {
+      margin: 0 0 24px; padding: 14px 20px;
+      background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04));
+      border: 1px solid rgba(201,169,97,0.35); border-radius: 12px;
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    }
+    .unlock-banner .ub-body { flex: 1; min-width: 260px; }
+    .unlock-banner .ub-title {
+      font-weight: 700; color: var(--accent); font-size: 13px;
+      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .unlock-banner .ub-text { color: var(--text-dim); font-size: 13.5px; line-height: 1.55; }
+    .unlock-banner code {
+      color: var(--accent); background: rgba(201,169,97,0.10);
+      padding: 1px 6px; border-radius: 4px; font-family: var(--mono);
+    }
+    .unlock-banner .ub-cta {
+      background: var(--accent); color: #0a0e1a; border-radius: 8px;
+      padding: 10px 18px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center; padding: 48px 0 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; margin-bottom: 20px;
+      background: rgba(201,169,97,0.12); border: 1px solid rgba(201,169,97,0.35);
+      border-radius: 100px; font-size: 12px; color: var(--accent);
+      letter-spacing: 0.05em; font-weight: 600;
+    }
+    .hero h1 {
+      font-size: 42px; margin: 0 0 20px; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.25;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero p.lede {
+      font-size: 17.5px; color: var(--text-dim); max-width: 720px;
+      margin: 0 auto 28px; line-height: 1.7;
+    }
+    .hero .cta-row {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 22px;
+    }
+    .btn-primary, .btn-ghost {
+      padding: 12px 22px; border-radius: 8px; font-weight: 700;
+      font-size: 14px; text-decoration: none; letter-spacing: 0.01em;
+    }
+    .btn-primary { background: var(--accent); color: #111; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero .kr-note {
+      display: inline-block; margin-top: 18px; padding: 6px 14px;
+      background: var(--panel); border: 1px solid var(--border-accent);
+      border-radius: 14px; font-size: 12.5px; color: var(--accent);
+    }
+
+    /* Section heading */
+    section h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 700; text-transform: uppercase; margin: 48px 0 20px;
+    }
+    section > p.sec-blurb {
+      color: var(--text-dim); font-size: 14.5px; margin: -6px 0 8px; max-width: 720px; line-height: 1.65;
+    }
+
+    /* Why cells */
+    .why-suite {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px; margin: 20px 0 8px;
+    }
+    .why-cell {
+      padding: 18px 18px 16px; background: var(--panel);
+      border: 1px solid var(--border-accent); border-radius: 10px;
+      font-size: 13.5px; color: var(--text-dim); line-height: 1.65;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .why-cell .why-headline {
+      font-size: 15.5px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.005em; line-height: 1.4;
+    }
+    .why-cell .why-headline .accent { color: var(--accent); }
+
+    /* Tool grid */
+    .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .tool {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px; transition: border-color .15s;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .tool.live { border-color: rgba(138,224,163,0.25); }
+    .tool.live:hover { border-color: rgba(138,224,163,0.5); }
+    .tool-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .tool-name { font-size: 15px; font-weight: 700; }
+    .tool-name-en { font-size: 11px; color: var(--text-mute); font-weight: 400; margin-left: 6px; }
+    .tool-status {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+      padding: 2px 8px; border-radius: 10px; font-weight: 600;
+      white-space: nowrap;
+    }
+    .tool-status.live { color: var(--live); background: rgba(138,224,163,0.1); border: 1px solid rgba(138,224,163,0.3); }
+    .tool p { margin: 4px 0 0; color: var(--text-dim); font-size: 13.5px; line-height: 1.65; }
+    .tool-cta {
+      display: inline-block; margin-top: auto; padding: 8px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12.5px; font-weight: 700;
+      align-self: flex-start; margin-top: 12px;
+    }
+    .tool-cta:hover { background: var(--accent-hover); }
+
+    /* Pricing */
+    .pricing {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px; margin: 20px 0 8px;
+    }
+    .price {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 20px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .price.featured { border-color: var(--border-accent); background: var(--panel-2); }
+    .price-tier {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      color: var(--accent); font-weight: 700; text-transform: uppercase;
+    }
+    .price-amount {
+      font-size: 40px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1; margin: 4px 0 2px;
+    }
+    .price-amount .price-unit {
+      font-size: 13px; font-weight: 500; color: var(--text-mute);
+      margin-left: 6px; letter-spacing: 0;
+    }
+    .price-amount .price-mxn {
+      display: block; font-size: 12px; color: var(--text-mute);
+      font-weight: 500; letter-spacing: 0; margin-top: 4px;
+    }
+    .price-tagline {
+      font-size: 13px; color: var(--text-dim); line-height: 1.6;
+      min-height: 40px;
+    }
+    .price-features {
+      list-style: none; padding: 0; margin: 8px 0 0;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 12.5px; color: var(--text-dim); line-height: 1.6;
+    }
+    .price-features li { padding-left: 18px; position: relative; }
+    .price-features li::before {
+      content: '✓'; position: absolute; left: 0; top: 0;
+      color: var(--live); font-weight: 700;
+    }
+    .price-cta {
+      margin-top: 14px; padding: 10px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12.5px; font-weight: 700;
+      text-align: center; letter-spacing: 0.02em;
+    }
+    .price-cta:hover { background: var(--accent-hover); }
+    .price-cta.ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .price-cta.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Founding scarcity banner */
+    .founding {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 20px; margin: 16px 0 20px;
+      background: linear-gradient(90deg, rgba(255,120,80,0.14), rgba(255,120,80,0.03));
+      border: 1px solid rgba(255,120,80,0.35); border-radius: 8px;
+    }
+    .founding-icon { font-size: 22px; line-height: 1; }
+    .founding-title {
+      color: #ff9970; font-weight: 700; font-size: 13px; letter-spacing: 0.03em;
+    }
+    .founding-body { color: var(--text-dim); font-size: 13px; margin-top: 2px; line-height: 1.55; }
+    .founding-body strong { color: #fff; }
+
+    /* Testimonials */
+    .testimonials {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px; margin: 20px 0 8px;
+    }
+    .testimonial {
+      padding: 18px 20px; background: var(--panel);
+      border: 1px solid var(--border); border-radius: 10px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .testimonial-body { color: var(--text-dim); font-size: 13.5px; line-height: 1.7; font-style: italic; }
+    .testimonial-attr {
+      color: var(--text-mute); font-size: 12px; letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid var(--border); padding-top: 10px;
+    }
+    .testimonial-attr .avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(201,169,97,0.15); border: 1px solid var(--border-accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 11px; font-weight: 700;
+    }
+    .testimonial-attr .placeholder-tag {
+      margin-left: auto; font-size: 10px; color: var(--text-mute);
+      padding: 2px 6px; border: 1px dashed var(--border);
+      border-radius: 4px; letter-spacing: 0.05em;
+    }
+
+    /* Bottom CTA */
+    .bottom-cta {
+      text-align: center; margin: 48px 0 8px;
+      padding: 36px 24px; background: var(--panel-2);
+      border: 1px solid var(--border-accent); border-radius: 14px;
+    }
+    .bottom-cta h3 {
+      font-size: 26px; font-weight: 700; margin: 0 0 12px; color: var(--text);
+      letter-spacing: -0.01em; line-height: 1.35;
+    }
+    .bottom-cta h3 .accent { color: var(--accent); }
+    .bottom-cta p {
+      color: var(--text-dim); font-size: 15px; max-width: 600px;
+      margin: 0 auto 22px; line-height: 1.65;
+    }
+    .bottom-cta code {
+      color: var(--accent); background: rgba(201,169,97,0.10);
+      padding: 2px 8px; border-radius: 4px; font-family: var(--mono); font-size: 14px;
+    }
+
+    /* SEO index */
+    .seo-index {
+      margin-top: 48px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .seo-index h3 {
+      font-size: 11px; letter-spacing: 0.14em; color: var(--text-mute);
+      font-weight: 600; text-transform: uppercase; margin: 24px 0 10px;
+    }
+    .seo-index a {
+      color: var(--text-dim); text-decoration: none;
+      display: inline-block; margin: 3px 6px 3px 0; padding: 5px 11px;
+      border: 1px solid var(--border); border-radius: 20px; font-size: 12.5px;
+    }
+    .seo-index a:hover { border-color: var(--accent); color: var(--accent); }
+
+    footer {
+      margin-top: 56px; padding: 24px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-mute); font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 30px; }
+      .hero p.lede { font-size: 15px; }
+      section h2 { margin-top: 32px; }
+      .bottom-cta h3 { font-size: 21px; }
+      .header-cta-row { gap: 6px; }
+    }
+  </style>
+
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header: brand + language pill + primary CTA -->
+    <header class="top">
+      <div class="brand">R5TOOLS.IO — SUITE LWS</div>
+      <div class="header-cta-row">
+        <a href="/refer.html?ref=ES-HOME" class="header-cta ghost">💸 Refiere y gana</a>
+        <a href="https://access-codes.r5tools.io/?ref=ES-HOME" class="header-cta">Desbloquear suite</a>
+        <a href="/index.html" class="lang-pill" title="Switch to English"><span class="flag">🇺🇸</span>English</a>
+      </div>
+    </header>
+
+    <!-- Unlock banner (ES-419 tone) -->
+    <div class="unlock-banner">
+      <div class="ub-body">
+        <div class="ub-title">🔓 Warzone 2007 es gratis</div>
+        <div class="ub-text">Pídele el código de alianza a tu R5 (ej. <code>RONY-FREE</code>). Otras warzones se desbloquean con el código vitalicio de $20 — la misma página de login, disponible al instante en todas las herramientas.</div>
+      </div>
+      <a href="https://access-codes.r5tools.io/?ref=ES-HOME" class="ub-cta">Ingresar código →</a>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-badge">⚡ Temporada 2 · Semana 3 · Tormenta Polar · EN VIVO</div>
+      <h1>Tu alianza está preparando la Temporada 2 <span class="accent">en el grupo de WhatsApp</span>.<br/>Las alianzas top no hacen eso.</h1>
+      <p class="lede">
+        El kit de alianza que reemplaza la hoja de Google para <em>Last War: Survival</em>. Video → roster en 2 minutos, aterrizaje de la Temporada 2 por tier, tablero de riesgo de congelamiento, presupuesto de carbón para la ventisca de la semana 4, formación de colmena, agenda de captura de ciudades. Hecho por un R5 activo, con español LatAm en primer lugar. Todas las herramientas exportan PNG dark theme directo al Discord.
+      </p>
+      <div class="cta-row">
+        <a class="btn-primary" href="#pricing">Ver planes →</a>
+        <a class="btn-ghost" href="https://roster.r5tools.io/?ref=ES-HOME" target="_blank" rel="noopener">Probar el extractor de roster gratis</a>
+      </div>
+      <span class="kr-note">🇲🇽🇨🇴🇦🇷 R5 y R4 de LatAm primero — cada herramienta se revisa en español.</span>
+    </div>
+
+    <!-- WHY -->
+    <section>
+      <h2>Por qué los R5 usan este kit</h2>
+      <div class="why-suite">
+        <div class="why-cell">
+          <div class="why-headline">Del video al roster en <span class="accent">2 minutos</span>.</div>
+          <div>Graba la pantalla con la lista de miembros de la alianza y súbela. Claude Vision lee cada línea solo. Se acabó teclear 100 nombres en la hoja de cálculo.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">Español LatAm <span class="accent">primero</span> — 7 idiomas.</div>
+          <div>ES · EN · PT · KR · JA · DE · FR. Cuando el R4 abre la misma herramienta, sale el mismo PNG en español. Términos del juego revisados, sin errores de traducción automática.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">PNG para <span class="accent">Discord</span> en toda herramienta.</div>
+          <div>Cada herramienta exporta el estado en PNG dark theme. Lo pegas en #avisos-alianza y hasta los miembros que no tienen la herramienta lo ven al instante.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">Hecho por un <span class="accent">R5</span> activo.</div>
+          <div>No es hoja de cálculo, no es bot de Discord. Es la sala de briefing para el R5 que abre la herramienta la noche antes de que arranque la temporada.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section>
+      <h2>Herramientas de la Temporada 2 · EN VIVO (solo cliente)</h2>
+      <p class="sec-blurb">Todo corre en tu navegador. Sin subir nada al servidor, sin login, sin ida y vuelta. Tus datos no salen de tu dispositivo.</p>
+      <div class="tools">
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Planificador de aterrizaje</span><span class="tool-name-en">Landing Planner</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>El R5 fija la coordenada ancla del día 1 y la herramienta asigna el tile de aterrizaje de cada miembro tomando en cuenta el nivel del HQ, la posición de los líderes de rally y la zona de calor del horno de la alianza. Es la herramienta que abrimos la víspera de la temporada.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-landing-planner-static/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Simulador de calor</span><span class="tool-name-en">Heat Simulator</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>Superpón 7 anillos concéntricos de temperatura (-15 → -80 °C) sobre el territorio de la alianza. Muestra la zona de calor del horno y marca las bases en riesgo. Trae modo de simulación previa para las ventiscas de las semanas 3 y 4.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-heat-simulator-static/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Tablero de riesgo de congelamiento</span><span class="tool-name-en">Freeze-Risk Dashboard</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>Tablero de riesgo en tiempo real por miembro — "se congela en 3 min", "necesita horno", "carbón por menos de 12 h". La herramienta que el R5 abre cada día en la Temporada 2.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-freeze-risk-static/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Calculadora de quema de carbón</span><span class="tool-name-en">Coal Burn Calculator</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>Cuánto carbón necesita cada miembro para mantener el horno en overdrive durante la ventisca de -70 °C de la semana 4. Pega el roster, sale un grid verde/amarillo/rojo, más el mensaje listo para pedir ayuda en el chat de alianza.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-coal-burn-static/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Planificador de captura de ciudad / sitio</span><span class="tool-name-en">City / Dig-Site Capture</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>Cuál de las 6 ciudades y 4 sitios de excavación tomar primero — calcula el bono de temperatura +5 → +60 °C y la ventana de 36 h de protección poscaptura. Programa las dos capturas del día con anticipación.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-city-capture-static/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Cronología de la temporada</span><span class="tool-name-en">Season Timeline</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>Cuenta regresiva para la Temporada 2 + checklist de preparación de la alianza. Rastrea progreso por miembro, exporta PNG para Discord e iCal para tu calendario personal.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-season-timeline-static/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Grid de colmena de alianza</span><span class="tool-name-en">Alliance Hive Grid</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>Planificador de la guardia 3×3 del mariscal y de la formación 21×21 del stronghold militar. Arrastrar y soltar, algoritmo de anillo de ancla en las esquinas, importación CSV, exportación PNG para Discord.</p>
+          <a class="tool-cta" href="https://hive.r5tools.io/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Extractor de roster</span><span class="tool-name-en">Roster Extractor</span></span>
+            <span class="tool-status live">FLAGSHIP</span>
+          </div>
+          <p>Sube la grabación de pantalla (.mov / .mp4) de la lista de miembros de la alianza y Claude Vision lee cada línea de jugador. En 2 minutos recibes CSV + JSON, listos para conectar con cualquier otra herramienta LWS.</p>
+          <a class="tool-cta" href="https://roster.r5tools.io/?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Studio de perfil</span><span class="tool-name-en">Profile Studio</span></span>
+            <span class="tool-status live">NEW</span>
+          </div>
+          <p>Sube una foto y recibe un avatar de alianza para Discord. Todos los miembros quedan con la misma firma visual (anillo dorado · nombre de la alianza · badge de rango · frost de la Temporada 2). Se procesa solo en el navegador — tu foto no sale del dispositivo.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-profile-studio-static/?ref=ES-HOME" target="_blank" rel="noopener">Hacer mi avatar →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Optimizador de VS Days</span><span class="tool-name-en">VS Days Optimizer</span></span>
+            <span class="tool-status live">NEW</span>
+          </div>
+          <p>El duelo semanal de 6 días entre alianzas que decide el VP. Cada día premia una acción distinta — lunes radar, martes construcción, viernes entrenamiento, <strong>sábado 4 VP por kill enemiga</strong>. Banner "hoy es X, haz esto" + calculadora de puntos + rastreador de cofres. Cada número tiene fuente en la KB.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-vs-days-static/?ref=ES-HOME" target="_blank" rel="noopener">Plan de hoy →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">Cheat sheet</span><span class="tool-name-en">Cheat Sheet</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>El resumen de una página que el R5 lee la víspera de la Temporada 2: rangos de temperatura · stack de hornos · timing de rally · condiciones de TP en grupo · prioridad de ciudades. Se puede imprimir o pegar en el Discord.</p>
+          <a class="tool-cta" href="/es/cheat-sheet.html?ref=ES-HOME" target="_blank" rel="noopener">Abrir →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOUNDING SCARCITY + PRICING -->
+    <section id="pricing">
+      <h2>Planes · un desbloqueo, todas las herramientas</h2>
+      <p class="sec-blurb">Un solo Alliance Access Code abre todas las herramientas en tu dispositivo por 90 días. Sin cuenta, sin correo. Warzone 2007 es gratis.</p>
+
+      <div class="founding">
+        <div class="founding-icon">🔥</div>
+        <div>
+          <div class="founding-title">Alianza Fundadora · solo las primeras 100 alianzas</div>
+          <div class="founding-body">Durante el onboarding de las primeras 100 alianzas, el bundle sale por <strong>$30</strong> (normal $50). Incluye acceso vitalicio a toda herramienta nueva que lancemos después. Pídelo por correo — orden de llegada.</div>
+        </div>
+      </div>
+
+      <div class="pricing">
+
+        <!-- Free tier -->
+        <div class="price">
+          <div class="price-tier">FREE · WARZONE 2007</div>
+          <div class="price-amount">$0<span class="price-mxn">~MX$0 · mi warzone</span></div>
+          <div class="price-tagline">Warzone 2007 es la mía. Si estás ahí, usas la suite completa. Pídele el código a tu R5.</div>
+          <ul class="price-features">
+            <li>Todas las herramientas de la suite desbloqueadas</li>
+            <li>Cookie de 90 días por dispositivo</li>
+            <li>7 idiomas en el toggle</li>
+            <li>PNG para Discord en toda herramienta</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=C%C3%B3digo%20Warzone%202007&body=Warzone%3A%20%0AAlianza%3A%20%0ANick%20del%20R5%3A%20">Pedir código de warzone →</a>
+        </div>
+
+        <!-- Personal tier - featured -->
+        <div class="price featured">
+          <div class="price-tier">PERSONAL</div>
+          <div class="price-amount">$10<span class="price-unit">pago único</span><span class="price-mxn">~MX$180 · cobrado en dólares (tarjeta internacional)</span></div>
+          <div class="price-tagline">Sirve para cualquier alianza, cualquier warzone. Pagas una vez y usas toda la temporada.</div>
+          <ul class="price-features">
+            <li>Todas las herramientas de la suite desbloqueadas</li>
+            <li>Dura 90 días en tu dispositivo</li>
+            <li>Extractor de roster (Standard) incluido</li>
+            <li>7 idiomas · PNG para Discord</li>
+          </ul>
+          <a class="price-cta" href="https://buy.stripe.com/3cI8wO8g13vf0DY39A6c001?ref=ES-HOME">Desbloqueo personal →</a>
+        </div>
+
+        <!-- Alliance tier -->
+        <div class="price">
+          <div class="price-tier">BUNDLE DE ALIANZA · LA ALIANZA ENTERA</div>
+          <div class="price-amount">$50<span class="price-unit">pago único</span><span class="price-mxn">~MX$900 · alianza entera (tarjeta internacional)</span></div>
+          <div class="price-tagline">El R5 paga una vez y reparte el código a la alianza entera. Cada miembro dura 90 días en su dispositivo.</div>
+          <ul class="price-features">
+            <li>Todas las herramientas, todos los miembros</li>
+            <li>90 días por dispositivo (código compartido)</li>
+            <li>Sale más barato que 5 códigos personales</li>
+            <li>7 idiomas · PNG para Discord</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=Alliance%20Bundle%20(%2450)&body=Alianza%3A%20%0AWarzone%3A%20%0ANick%20del%20R5%3A%20%0AN%C3%BAmero%20de%20miembros%3A%20">Pedir bundle de alianza →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (placeholders only — no fabricated names) -->
+    <section>
+      <h2>Testimonios de líderes de alianza</h2>
+      <p class="sec-blurb">Testimonios reales de las 100 primeras alianzas fundadoras aparecen aquí. Por ahora, solo marcadores.</p>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="testimonial-body">"Ya no me imagino preparar la Temporada 2 sin el planificador de aterrizaje. ¿Volver a repartir 100 posiciones en el grupo de WhatsApp? Ni de broma."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [warzone reservada]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">"El tablero de riesgo de congelamiento nos salvó la alianza en la ventisca de la semana 4. Se volvió la primera pestaña que abre el R5 en la mañana."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R4</span>
+            <span>R4 · [warzone reservada]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">"Subí un video y en 2 minutos ya tenía el CSV. El tiempo que perdí tecleando 100 nombres a mano no vuelve."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [warzone reservada]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta">
+      <h3>Arranca la Temporada 2 <span class="accent">un paso adelante</span>.</h3>
+      <p>Warzone 2007 se desbloquea al instante con el código <code>RONY-FREE</code>. Otras warzones: código personal $10 o bundle de alianza $30 (solo las 100 primeras fundadoras).</p>
+      <a class="btn-primary" href="https://access-codes.r5tools.io/?ref=ES-HOME&code=RONY-FREE">Comenzar gratis — código RONY-FREE</a>
+    </div>
+
+    <!-- SEO INDEX (Spanish labels, EN URLs) -->
+    <div class="seo-index">
+      <h3>Temporadas (Seasons)</h3>
+      <a href="/seasons/">Índice de temporadas</a>
+      <a href="/seasons/s1-crimson-plague.html">S1 Plaga Carmesí</a>
+      <a href="/seasons/s2-polar-storm.html">S2 Tormenta Polar</a>
+      <a href="/seasons/s3-golden-kingdom.html">S3 Reino Dorado</a>
+      <a href="/seasons/s4-evernight-isle.html">S4 Isla de la Noche Eterna</a>
+      <a href="/seasons/s5-wild-west.html">S5 Viejo Oeste</a>
+      <a href="/seasons/s6-shadow-rainforest.html">S6 Selva de las Sombras</a>
+
+      <h3>Héroes (Heroes)</h3>
+      <a href="/heroes/">Índice de héroes</a>
+      <a href="/heroes/kimberly.html">Kimberly</a>
+      <a href="/heroes/dva.html">DVA</a>
+      <a href="/heroes/tesla.html">Tesla</a>
+      <a href="/heroes/marshall.html">Marshall</a>
+      <a href="/heroes/mason.html">Mason</a>
+      <a href="/heroes/violet.html">Violet</a>
+
+      <h3>Warzones · Guías · Eventos · Edificios · Glosario</h3>
+      <a href="/warzones/">Índice de warzones</a>
+      <a href="/guides/">Guías</a>
+      <a href="/events/">Eventos</a>
+      <a href="/buildings/">Edificios</a>
+      <a href="/glossary/">Glosario (EN)</a>
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · Last War: Survival es de First Fun / Century Games. Este sitio es hecho por fans y no tiene afiliación.</div>
+      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+        <a href="/index.html">English</a>
+        <a href="/pt/">Português</a>
+        <a href="/ko/">한국어</a>
+        <a href="/status.html">Status</a>
+        <a href="/roadmap.html">Roadmap</a>
+        <a href="/terms.html">Términos</a>
+        <a href="/privacy.html">Privacidad</a>
+        <a href="mailto:hello@r5tools.io">Contacto</a>
+      </div>
+    </footer>
+
+  </div>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

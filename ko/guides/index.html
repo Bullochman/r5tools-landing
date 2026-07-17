@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>라스트 워 R5 가이드 — 모든 주제 | R5TOOLS.IO</title>
+<meta name="description" content="Every R5TOOLS.IO 가이드 — landing coordinates, freeze risk, 하이브 formation, hero builds, 이벤트 optimization, and 시즌 전략.">
+
+<link rel="canonical" href="https://r5tools.io/ko/guides/index.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/guides/index.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/guides/index.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/guides/index.html">
+<meta property="og:title" content="라스트 워 R5 가이드 — 모든 주제 | R5TOOLS.IO">
+<meta property="og:description" content="Every R5TOOLS.IO 가이드 — landing coordinates, freeze risk, 하이브 formation, hero builds, 이벤트 optimization, and 시즌 전략.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/ko/guides/index.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="라스트 워 R5 가이드 — 모든 주제 | R5TOOLS.IO">
+<meta name="twitter:description" content="Every R5TOOLS.IO 가이드 — landing coordinates, freeze risk, 하이브 formation, hero builds, 이벤트 optimization, and 시즌 전략.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "R5TOOLS.IO <span class='accent'>가이드 인덱스</span>", "description": "Every R5TOOLS.IO 가이드 — landing coordinates, freeze risk, 하이브 formation, hero builds, 이벤트 optimization, and 시즌 전략.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/guides/", "inLanguage": "ko"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "가이드", "item": "https://r5tools.io/guides/"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+    <a href="https://r5tools.io/guides/index.html" hreflang="en" rel="alternate" style="border-color:#c9a961;color:#c9a961;">EN</a>
+<a href="https://r5tools.io/">홈</a>
+  <a href="https://roster.r5tools.io/">로스터 추출기</a>
+  <a href="https://hive.r5tools.io/">하이브 플래너</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">홈</a> › <span>가이드</span></nav>
+  <h1>R5TOOLS.IO <span class='accent'>가이드 인덱스</span></h1>
+  <p style="font-size:12px;color:var(--text-mute);margin:4px 0 12px;padding:6px 10px;border-left:2px solid var(--accent);background:var(--panel);border-radius:4px;">자동 번역되었습니다. <a href="https://r5tools.io/guides/index.html" style="color:var(--text-dim);text-decoration:underline;">영문 원본 보기 →</a></p>
+
+  <p class="lede">시즌 시작 전날 밤 R5 또는 R4가 열어보는 모든 기획 주제.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">하이브 플래너</a><a href="https://roster.r5tools.io/">로스터 추출기</a><a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a><a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a><a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a><a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a><a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a><a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a></div>
+  <div class="cta-card">
+    <h3>이 코드로 무료 체험 <code>RONY-FREE</code></h3>
+    <p>R5TOOLS.IO의 모든 플래너는 워존 2007 소속 얼라이언스 회원에게 즉시 잠금 해제됩니다 — 가입 불필요, 결제 불필요.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">우리 얼라이언스 잠금 해제 →</a>
+  </div>
+  <article>
+    <h3>Every R5TOOLS.IO guide</h3>
+<ul><li><a href="/guides/how-to-plan-season-2-landing.html" rel="nofollow noopener"><strong>How to plan 시즌 2 폴라 스톰 landing</strong></a> — The 20-minute landing plan every R5 runs the night before 시즌 2 opens — 얼라이언스 화로 radius, ring assignments, freeze-risk sweep, and the mistakes that lose the day.</li><li><a href="/guides/rare-soil-war-strategy.html" rel="nofollow noopener"><strong>희귀 토양 전쟁 strategy — the S2 blizzard-and-plunder guide</strong></a> — 희귀 토양 전쟁 is the 시즌 2 flagship faction war. Force asymmetry, combat duration, plunder rules, and the R5 pre-declaration checklist.</li><li><a href="/guides/coal-budget-calculator-guide.html" rel="nofollow noopener"><strong>석탄 budget calculator — how much coal do I actually need?</strong></a> — The full coal math for 시즌 2 — 개인 난로 L30 vs 얼라이언스 화로 L20, overdrive windows, and the 117k number that surprises every R5.</li><li><a href="/guides/hive-formation-guide.html" rel="nofollow noopener"><strong>하이브 formation guide — MG grid, Stronghold, Mega하이브</strong></a> — Every 하이브 shape used in 라워 — MG 3×3 grid, Stronghold 21×21, S3 5×5 AC 하이브, S4 11×11 compound, S6 8-ring mega하이브 with faction pact.</li><li><a href="/guides/roster-management-tips.html" rel="nofollow noopener"><strong>얼라이언스 roster management — rank rules, R4 직책s, kick rules</strong></a> — How R5s actually run rosters — R4 직책 assignments, HQ minimums, dead-account kicks, and the roster-extractor workflow that replaces the daily screenshot.</li><li><a href="/guides/alliance-duel-optimization.html" rel="nofollow noopener"><strong>얼라이언스 듀얼 optimization — the VS Day phase-stack playbook</strong></a> — The 6-day 얼라이언스 듀얼 VS scoring math — per-day phase weights, 워존 top-32 gate, and how to phase-stack for the League Match.</li><li><a href="/guides/vs-days-schedule.html" rel="nofollow noopener"><strong>VS 데이 schedule — 라워 얼라이언스 듀얼 weekly calendar</strong></a> — The full VS 데이 weekly schedule — daily phase, primary scoring event, and how to plan spending and troop training around each phase.</li><li><a href="/guides/kimberly-build-guide.html" rel="nofollow noopener"><strong>킴벌리 build guide — 각성, Barrage Strike, meta comp</strong></a> — Every 2026 킴벌리 build — 각성 Priceless Resolve, Barrage Strike II→III, 명예의 벽 +0.50% Attack, and where to slot her in the meta 랠리 comp.</li><li><a href="/guides/mason-ssr-to-ur-promotion.html" rel="nofollow noopener"><strong>메이슨 SSR→UR promotion — is it worth it?</strong></a> — The 메이슨 promotion math — 975 SSR + 1,600 UR shards, medal refund, farm sources at Normal 4-3, and why he&#x27;s the only universally-endorsed promotion.</li><li><a href="/guides/wall-of-honor-guide.html" rel="nofollow noopener"><strong>명예의 벽 guide — the best long-term 무과금 system</strong></a> — 명예의 벽 is the extra-shards-keep-helping system. 해금 requirements, per-hero bonuses, promotion refund rules, and 무과금 shard-dump discipline.</li><li><a href="/guides/f2p-hero-priority.html" rel="nofollow noopener"><strong>무과금 hero priority — who to build first in Last War</strong></a> — The Wardawgg/Packsify/LDShop 2026 무과금 priority order — 킴벌리 → 마샬 → DVA → 머피 → 메이슨, and why to squad-focus one comp before spreading.</li><li><a href="/guides/meta-squad-2026.html" rel="nofollow noopener"><strong>2026 meta squad — 윌리엄스 / 킴벌리 / DVA / 스카일러 / 마샬</strong></a> — The 2026 competitive 랠리 comp — front-center 윌리엄스 positioning, aircraft-pair burst window, 스카일러 18% CDR, and 마샬 global ATK amplifier.</li><li><a href="/guides/warlord-missile-guide.html" rel="nofollow noopener"><strong>워로드 미사일 guide — S2 25×25, S3 35×35</strong></a> — Everything about the 워로드 미사일 — S2 25×25 blast, S3 35×35 upgrade, 3-minute intercept window, and the 10-tile 화로 clearance rule.</li><li><a href="/guides/alliance-furnace-guide.html" rel="nofollow noopener"><strong>얼라이언스 화로 guide — coal budget, radius, overdrive</strong></a> — The 얼라이언스 화로 covers the 얼라이언스 heat zone. L1 vs L20 radius, coal burn rates, overdrive activation, and how to sequence upgrades.</li><li><a href="/guides/home-heating-furnace-guide.html" rel="nofollow noopener"><strong>개인 난로 guide — HHF L30 coal math</strong></a> — HHF L30 burns ~240 coal/min normal and ~960 coal/min overdrive. Full stockpile math for 3-hour overdrive windows and blizzard weeks.</li><li><a href="/guides/freeze-risk-warning-dashboard.html" rel="nofollow noopener"><strong>Freeze risk warning dashboard — the S2 R5 morning checklist</strong></a> — The morning-of-blizzard freeze-risk sweep — ambient bands, threshold temps, per-member coal cushion, and how to auto-alert Discord.</li><li><a href="/guides/blood-night-strategy-s4.html" rel="nofollow noopener"><strong>블러드 나이트 strategy — 시즌 4 defense in 3 windows</strong></a> — 블러드 나이트 rotates 3 daily windows (02:30 / 10:30 / 18:30). 등대 power, Divine Tree support, Stage-3 +500 durability warning.</li><li><a href="/guides/spice-wars-planner-s3.html" rel="nofollow noopener"><strong>향신료 전쟁 planner — 시즌 3 city capture schedule</strong></a> — 향신료 전쟁 runs Wed/Sat weeks 4–8. 도시 spice-per-hour tables (100-600), 30% steal cap, sandworm-range risk, and Wk3.D6 Pyramid War prep.</li><li><a href="/guides/copper-wars-planner-s4.html" rel="nofollow noopener"><strong>구리 전쟁 planner — 시즌 4 8-round 15% cap</strong></a> — 구리 전쟁 is 8 rounds of 15% per-round steal cap. Round schedule, city copper income, and dig-stronghold priority.</li><li><a href="/guides/bank-planner-s5.html" rel="nofollow noopener"><strong>Bank planner — 시즌 5 하이눈 15k/day cap</strong></a> — 시즌 5 Banks cap 4→12 members. L1-6 unlock Wk1, L7-10 unlock Wk4. 하이눈 15k/day cap, 5-day terms, 얼라이언스 세이프 타임 windows.</li><li><a href="/guides/altar-conquest-planner-s6.html" rel="nofollow noopener"><strong>제단 conquest planner — 시즌 6 Tuesday altars</strong></a> — 시즌 6 has 5 altars (Cobra/Echo/Gust/Feather/트리헤이븐). Tuesday-only contests, max 3 held per faction, 100% capture required, 20-min 성역.</li><li><a href="/guides/hero-awakening-schedule.html" rel="nofollow noopener"><strong>히어로 각성 schedule — S6 Week 1/3/5 rotation</strong></a> — The 시즌 6 각성 rollout — 킴벌리 Week 1 (Priceless Resolve), DVA Week 3 (성red Ace), 테슬라 Week 5/6 (Vortex Resonance chain lightning).</li><li><a href="/guides/chief-gear-guide.html" rel="nofollow noopener"><strong>치프 gear guide — 4 slots + mythic + weapon aura</strong></a> — The chief gear system — 4 slots, mythic tier, deterministic (tier, level, star, weapon-aura), and the substats/gear-set-bonus questions the KB confirmed are absent.</li><li><a href="/guides/vip-level-roi.html" rel="nofollow noopener"><strong>VIP level ROI — 1 through 18 point thresholds</strong></a> — The VIP 1-18 point system, 2026 monetization overhaul, pop-up removal, and where VIP thresholds actually pay off vs where they&#x27;re a trap.</li><li><a href="/guides/legendary-recruitment-strategy.html" rel="nofollow noopener"><strong>전설 모집 strategy — 1% UR / 0.14% single-hero</strong></a> — The Advanced/전설 모집 math — 1% pool UR rate but only ~0.14% for a specific rate-up hero. The 100-ticket stockpile rule and when to fire.</li><li><a href="/guides/hero-recruitment-ticket-guide.html" rel="nofollow noopener"><strong>히어로 모집 ticket guide — basic, elite, premium, legendary</strong></a> — Every recruit ticket type in 라워 — pull rates, when to spend, when to hoard, and the 무과금 discipline that separates 5★ 킴벌리 at month 6 from month 12.</li><li><a href="/guides/t11-troops-guide.html" rel="nofollow noopener"><strong>T11 troops guide — when to unlock, cost, timing</strong></a> — T11 troop unlock — HQ prereqs, tech-tree cost, per-troop-type training time, and whether the T11 power jump justifies the delay past T10.</li><li><a href="/guides/type-counter-triangle.html" rel="nofollow noopener"><strong>상성 triangle — 탱크 / 항공기 / 미사일</strong></a> — The rock-paper-scissors backbone of 라워 combat — 탱크 &gt; 미사일, 미사일 &gt; 항공기, 항공기 &gt; 탱크 at ±20%. 랠리 counter-planning by type.</li><li><a href="/guides/squad-formation-bonus.html" rel="nofollow noopener"><strong>편성 formation bonus — mono-type +20%, 4+1 마샬 hybrid</strong></a> — The formation math — pure mono-type +20% primary stats, 4+1 마샬 hybrid retains ~35% of the bonus, mixed 3-2 gets zero.</li><li><a href="/guides/arms-race-daily-guide.html" rel="nofollow noopener"><strong>무기 경쟁 daily guide — 5-task rotation, task router</strong></a> — 무기 경쟁 is the daily backbone — ~50% of daily income. Task rotation, radar priority, and the 무과금 task-router that never misses a milestone chest.</li><li><a href="/guides/ghost-ops-thursday-guide.html" rel="nofollow noopener"><strong>고스트 옵스 guide — Thursday hero shard hunt</strong></a> — 고스트 옵스 is the Thursday hero-shard event. Wave rules, per-hero rate-up, and how to time your ticket burn.</li><li><a href="/guides/desert-storm-friday-guide.html" rel="nofollow noopener"><strong>데저트 스톰 배틀필드 — Friday 30-min PvP</strong></a> — Desert Storm runs 30 minutes every Friday. 15 buildings, per-building point values, and the R4 hunting-pack tactic that farms both points and kills.</li><li><a href="/guides/doomsday-sunday-guide.html" rel="nofollow noopener"><strong>둠스데이 guide — the Sunday 둠 워커 rush</strong></a> — 둠스데이 is the bi-weekly Sunday 둠 워커 rush. Wave prep, ministry buffs, and how to coordinate the pull-and-kite pattern.</li><li><a href="/guides/wanted-bosses-codes-guide.html" rel="nofollow noopener"><strong>Wanted Bosses guide — Codes 39, 64, 87 rotation</strong></a> — The Wanted Bosses weekly rotation — Codes 39/64/87 hero-type-buffed damage races. Mon-Sat schedule and the per-boss ideal comp.</li><li><a href="/guides/age-of-oil-runway.html" rel="nofollow noopener"><strong>Age of 오일 runway — HQ 35, 시즌 1 late-game</strong></a> — The Age of 오일 extension pushed HQ to 35 and hero cap to 175. Full runway, tech tree, and the 무과금 hold-your-speedups bank.</li><li><a href="/guides/season-battle-pass-guide.html" rel="nofollow noopener"><strong>시즌 Battle Pass guide — free vs advanced vs premium tiers</strong></a> — The 시즌 Battle Pass tiers — free / advanced / premium — with hero-shard milestone tracks and which tier actually pays back the $20.</li><li><a href="/guides/f2p-officer-progression.html" rel="nofollow noopener"><strong>무과금 officer progression — the 12-month roadmap</strong></a> — The 무과금 R4 officer roadmap — HQ pacing, hero priority, blueprint discipline, ticket hoarding, and the season-goal checkpoints.</li><li><a href="/guides/cross-server-war-rally.html" rel="nofollow noopener"><strong>크로스서버 전쟁 랠리 — what 라워 actually calls 왕국 대 왕국</strong></a> — The 왕국 대 왕국/크로스서버 전쟁 랠리 guide — 워존 matchmaking, top-32 gate, and per-server declaration windows.</li><li><a href="/guides/season-transitions-celebration-week.html" rel="nofollow noopener"><strong>시즌 transitions — 축하 주간 checklist</strong></a> — The 2-week 축하 주간 between seasons — Black Market shard dump, VS Day banking, roster pruning, and the S-next lookahead.</li><li><a href="/guides/wounded-vs-killed-vs-fainted.html" rel="nofollow noopener"><strong>부상 vs killed vs fainted — 라워 troop-loss rules</strong></a> — The 라워 troop-loss cascade — wounded goes to 병원, overflow goes to 응급 센터 (ICU)/응급 센터 at HQ 22, and killed is only the final overflow.</li><li><a href="/guides/alliance-help-efficiency.html" rel="nofollow noopener"><strong>돕기 efficiency — 10/50/100/200/300 tier ladder</strong></a> — The 돕기 daily ladder is 10/50/100/200/300 tiers. Why ≥300/day is the source-backed floor and how to enforce it on lazy R1s.</li><li><a href="/guides/total-power-composition.html" rel="nofollow noopener"><strong>Total power composition — where does 100M actually come from?</strong></a> — Total power breakdown — troops, buildings, heroes, gear, research, chief skills, and 명예의 벽. Which levers actually move the number.</li><li><a href="/guides/season-1-corruptor-bosses-guide.html" rel="nofollow noopener"><strong>시즌 1 부패자 보스es — virus mechanics</strong></a> — 시즌 1 부패자 보스es and virus stacks — SAFE 0-40 / DANGER 41-70 / IMMINENT 71-99 / DOOMED 100, per-member &#x27;Doomed in&#x27; formula.</li><li><a href="/guides/season-1-antivirus-guide.html" rel="nofollow noopener"><strong>시즌 1 antivirus — consumption rate, 명예의 벽 refund</strong></a> — Antivirus consumption rate, per-member stockpile targets, and the 명예의 벽 refund rules for 시즌 1.</li><li><a href="/guides/s6-shadow-rainforest-faction-pick.html" rel="nofollow noopener"><strong>S6 그림자 열대우림 faction pick — Deepwood vs Wetland</strong></a> — The 시즌 6 faction pick is permanent for the season. Deepwood/Wetland/Great River tradeoffs, permanent 도시 파괴 risk, and the 4v4 matchup math.</li><li><a href="/guides/s7-unnamed-leaks.html" rel="nofollow noopener"><strong>시즌 7 leaks — August 2026 launch tracker</strong></a> — Every S7 leak we&#x27;ve tracked — YouTube signals, T12 troop possibility, and what R5s should stockpile during 축하 주간.</li><li><a href="/guides/coordinates-for-season-2-landing.html" rel="nofollow noopener"><strong>시즌 2 landing coordinates — free by 워존</strong></a> — The coordinate sheet R5s ask for the night before S2 — 얼라이언스 화로 anchor by 워존 tier, member spawn radius, and the misplaced-leader alert.</li><li><a href="/guides/discord-export-png-formatting.html" rel="nofollow noopener"><strong>Discord export PNG formatting — R5TOOLS.IO share sheets</strong></a> — How R5TOOLS.IO PNG exports embed 얼라이언스 name, 워존, season week, and coordinates — the same dark-theme framing across every tool.</li></ul>
+  </article>
+  <div class="cta-card">
+    <h3>얼라이언스 채팅에 바로 공유</h3>
+    <p>R5TOOLS.IO의 모든 플래너는 Discord용 PNG, 로스터 CSV, 공유 링크로 즉시 내보낼 수 있습니다.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">지금 무료로 시작 →</a>
+  </div>
+  <footer class="foot">
+  <p>다음 툴 세트의 일부입니다: <a href="https://r5tools.io/">R5TOOLS.IO</a> 라스트 워: 서바이벌 얼라이언스 도구.
+     팬 제작 · 퍼스트펀 / Century Games와 무관합니다.
+     <a href="https://r5tools.io/terms.html">이용약관</a> · <a href="https://r5tools.io/privacy.html">개인정보처리방침</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">베타 · 피드백</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

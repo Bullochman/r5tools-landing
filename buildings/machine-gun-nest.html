@@ -7,6 +7,9 @@
 <meta name="description" content="MG (Machine Gun) Nest in Last War: Survival. Individual member 3×3 defensive slot; used in every hive-grid layout.">
 <meta name="keywords" content="MG (Machine Gun) Nest, Last War building, LWS Chief guide, R5 planning">
 <link rel="canonical" href="https://r5tools.io/buildings/machine-gun-nest.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/buildings/machine-gun-nest.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/buildings/machine-gun-nest.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/buildings/machine-gun-nest.html">
 <meta property="og:title" content="MG (Machine Gun) Nest — Last War building guide | R5TOOLS.IO">
 <meta property="og:description" content="MG (Machine Gun) Nest in Last War: Survival. Individual member 3×3 defensive slot; used in every hive-grid layout.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/buildings/machine-gun-nest.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -128,7 +163,19 @@ td { color: var(--text-dim); }
 <p><strong>Auto-fill / Auto-Rally interaction.</strong> Garrison Defenders effectively double as &quot;auto-fill donors&quot; for Marshal&#x27;s Guard — the 30-second auto-fill kicks in on offline teammates&#x27; garrisoned troops, so a Defender who keeps a full reinforcement stack in Ring 1 leaders&#x27; Alliance Centers is contributing to every MG rally launched from those bases even while asleep [lastwargame.online/en/alliance-exercise-2/ Tier B].</p>
 <div class="tbl-wrap"><table><thead><tr><th>Dimension</th><th>Game titles (4)</th><th>Ministry roles (4)</th></tr></thead><tbody><tr><td>Assigned by</td><td>R5 in Alliance UI</td><td>R5/R4 socially (Discord, spreadsheet)</td></tr><tr><td>Enforced by</td><td>Game (skill activation gate)</td><td>Alliance culture only</td></tr><tr><td>Slots</td><td>Exactly 4 (Warlord, Recruiter, Muse, Butler)</td><td>Flexible (War Coord, Recruit Ofc, Diplomacy Ofc, Event Coord)</td></tr><tr><td>Mechanical bonus</td><td>+5% MG rally damage (titled R4)</td><td>none</td></tr><tr><td>S6 skill gate</td><td>✓ (one per title)</td><td>✗</td></tr><tr><td>Overlap allowed</td><td>Same R4 may hold Warlord title + War Coord ministry</td><td>✓</td></tr><tr><td>Total R4 cap</td><td>8 default / 10 at Gift L10</td><td>Same R4 pool</td></tr></tbody></table></div>
 <ul><li><strong><em>02-heroes</em></strong> — hero level is the primary driver of march size, which determines how many troops you contribute per rally join. Shirley (VIP 8 survivor) is the only survivor that directly scales march size.</li><li><strong><em>03-chief</em></strong> — HQ 10 unlocks alliance joining; HQ 16 unlocks President title assignment; HQ 31+ + Base Expansion research unlocks Alliance Center 31–35.</li><li><strong><em>04-squads-combat</em></strong> — rally troop cap and join-under-leader-stats mechanics live here; alliance officer +5%/+2.5% buffs modify per-rally damage.</li><li><strong><em>05-season-1-crimson-plague</em></strong> — Military Stronghold, capital, warzone capture rules originate here.</li><li><strong><em>06-season-2-frozen</em></strong> — Age of Oil unlock and post-S2 alliance tech branches; Alliance Furnace deployment is R4/R5-gated.</li><li><strong><em>07-future-seasons</em></strong> — S6 (Shadow Rainforest) Alliance Skills, Alliance Pact, Altars, Faction/Server groups of 4. S3+ also evolves the Ministry / titled-slot mechanic that gates S6 skills.</li><li><strong><em>12-progression</em></strong> — alliance-tech contribution feeds one of the six power tracks; second-Tech-Center payoff is amplified by alliance help.</li><li><strong><em>13-meta-competitive</em></strong> — the four titled R4 slots (Warlord / Recruiter / Muse / Butler) gate the four S6 Alliance Skills — the assignment decision is the biggest single R5 lever in mid-2026.</li><li><strong><em>09-events</em></strong> — Marshal&#x27;s Guard cadence, VS Days schedule, Arms Race pairing.</li><li><strong><em>10-economy</em></strong> — alliance coin regen, diamond donation escalation, contribution points, Alliance Store item costs and priority.</li><li><strong><em>11-monetization</em></strong> — Premium Gifts drop when any member buys an alliance-gift-tagged pack; VIP 8 unlocks Shirley (march size).</li><li><strong><em>14-ui-reference</em></strong> — Alliance Assembly Point marker; alliance chat + mail UI; hive planner tools.</li><li><strong><em>15-glossary</em></strong> — R1/R2/R3/R4/R5, VS, MG, hive, mud, ring, TP, RC.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/buildings/headquarters.html">Headquarters (HQ) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/stronghold.html">Stronghold — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-center-hive-s3.html">Alliance Center Hive (S3) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-center-hive-s4.html">Alliance Center Hive (S4) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/">Last War buildings — every base building explained</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -142,5 +189,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

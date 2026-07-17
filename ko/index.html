@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>R5TOOLS.IO — 라스트 워: 서바이벌 얼라이언스 도구 (한국어)</title>
+  <meta name="description" content="라스트 워: 서바이벌 R5·R4를 위한 얼라이언스 기획 툴킷. 영상 → 로스터 2분, 시즌 2 랜딩 배치, 동결 리스크 대시보드, 석탄 예산, 하이브 대형, 도시 점령 스케줄. 한국어 우선, 모든 툴에서 디스코드 PNG 내보내기 지원." />
+  <meta name="keywords" content="라스트 워 서바이벌, LWS, 얼라이언스, 하이브 플래너, 랜딩 플래너, R5, 워존, 크림슨 플레이그, 폴라 스톰" />
+
+  <!-- Canonical + hreflang alternates (PRESERVED from prior /ko/index.html) -->
+  <link rel="canonical" href="https://r5tools.io/ko/" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/" />
+
+  <!-- Open Graph — KR locale -->
+  <meta property="og:title" content="R5TOOLS.IO — 라스트 워 얼라이언스 툴킷 (한국어)" />
+  <meta property="og:description" content="시즌 2 폴라 스톰 대비 R5·R4 기획 도구 모음. 랜딩 · 동결 리스크 · 하이브 대형 · 석탄 · 도시 점령. 한국어 우선." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/ko/" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:image" content="https://r5tools.io/static/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="R5TOOLS.IO — 모든 R5에게 필요한 얼라이언스 오퍼레이션 센터" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r5tools.io/static/og-image.png" />
+  <meta name="twitter:title" content="R5TOOLS.IO — 라스트 워 얼라이언스 툴킷 (한국어)" />
+  <meta name="twitter:description" content="시즌 2 폴라 스톰 대비 R5·R4 기획 도구 모음. 한국어 우선." />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <!-- JSON-LD: WebSite + BreadcrumbList in Korean -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"R5TOOLS.IO","url":"https://r5tools.io/ko/","inLanguage":"ko","description":"라스트 워: 서바이벌 얼라이언스 리더를 위한 R5 기획 도구 모음.","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"}},{"@type":"WebPage","name":"R5TOOLS.IO — 라스트 워 얼라이언스 툴킷","url":"https://r5tools.io/ko/","inLanguage":"ko","isPartOf":{"@id":"https://r5tools.io/ko/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://r5tools.io/ko/"}]}]}</script>
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --live: #8ae0a3;
+      --soon: #e6cf7a;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: "Noto Sans KR", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.14em; color: var(--accent); font-weight: 700;
+    }
+    .lang-pill {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 7px 14px; border-radius: 999px;
+      font-size: 12px; text-decoration: none; letter-spacing: 0.02em;
+    }
+    .lang-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-pill .flag { margin-right: 4px; }
+
+    .header-cta-row { display: flex; gap: 10px; align-items: center; }
+    .header-cta {
+      background: var(--accent); color: #0a0e1a; border: none; border-radius: 999px;
+      padding: 8px 18px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.02em;
+      text-decoration: none; transition: background 0.15s;
+    }
+    .header-cta:hover { background: var(--accent-hover); }
+    .header-cta.ghost {
+      background: transparent; color: var(--accent); border: 1px solid rgba(201,169,97,0.45);
+      font-weight: 600;
+    }
+
+    /* Unlock banner */
+    .unlock-banner {
+      margin: 0 0 24px; padding: 14px 20px;
+      background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04));
+      border: 1px solid rgba(201,169,97,0.35); border-radius: 12px;
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    }
+    .unlock-banner .ub-body { flex: 1; min-width: 260px; }
+    .unlock-banner .ub-title {
+      font-weight: 700; color: var(--accent); font-size: 13px;
+      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .unlock-banner .ub-text { color: var(--text-dim); font-size: 13.5px; line-height: 1.55; }
+    .unlock-banner code {
+      color: var(--accent); background: rgba(201,169,97,0.10);
+      padding: 1px 6px; border-radius: 4px; font-family: var(--mono);
+    }
+    .unlock-banner .ub-cta {
+      background: var(--accent); color: #0a0e1a; border-radius: 8px;
+      padding: 10px 18px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center; padding: 48px 0 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; margin-bottom: 20px;
+      background: rgba(201,169,97,0.12); border: 1px solid rgba(201,169,97,0.35);
+      border-radius: 100px; font-size: 12px; color: var(--accent);
+      letter-spacing: 0.05em; font-weight: 600;
+    }
+    .hero h1 {
+      font-size: 42px; margin: 0 0 20px; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.25;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero p.lede {
+      font-size: 17.5px; color: var(--text-dim); max-width: 720px;
+      margin: 0 auto 28px; line-height: 1.7;
+    }
+    .hero .cta-row {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 22px;
+    }
+    .btn-primary, .btn-ghost {
+      padding: 12px 22px; border-radius: 8px; font-weight: 700;
+      font-size: 14px; text-decoration: none; letter-spacing: 0.01em;
+    }
+    .btn-primary { background: var(--accent); color: #111; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero .kr-note {
+      display: inline-block; margin-top: 18px; padding: 6px 14px;
+      background: var(--panel); border: 1px solid var(--border-accent);
+      border-radius: 14px; font-size: 12.5px; color: var(--accent);
+    }
+
+    /* Section heading */
+    section h2 {
+      font-size: 13px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 700; text-transform: uppercase; margin: 48px 0 20px;
+    }
+    section > p.sec-blurb {
+      color: var(--text-dim); font-size: 14.5px; margin: -6px 0 8px; max-width: 720px; line-height: 1.65;
+    }
+
+    /* Why cells */
+    .why-suite {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px; margin: 20px 0 8px;
+    }
+    .why-cell {
+      padding: 18px 18px 16px; background: var(--panel);
+      border: 1px solid var(--border-accent); border-radius: 10px;
+      font-size: 13.5px; color: var(--text-dim); line-height: 1.65;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .why-cell .why-headline {
+      font-size: 15.5px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.005em; line-height: 1.4;
+    }
+    .why-cell .why-headline .accent { color: var(--accent); }
+
+    /* Tool grid */
+    .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .tool {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px; transition: border-color .15s;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .tool.live { border-color: rgba(138,224,163,0.25); }
+    .tool.live:hover { border-color: rgba(138,224,163,0.5); }
+    .tool-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .tool-name { font-size: 15px; font-weight: 700; }
+    .tool-name-en { font-size: 11px; color: var(--text-mute); font-weight: 400; margin-left: 6px; }
+    .tool-status {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+      padding: 2px 8px; border-radius: 10px; font-weight: 600;
+      white-space: nowrap;
+    }
+    .tool-status.live { color: var(--live); background: rgba(138,224,163,0.1); border: 1px solid rgba(138,224,163,0.3); }
+    .tool p { margin: 4px 0 0; color: var(--text-dim); font-size: 13.5px; line-height: 1.65; }
+    .tool-cta {
+      display: inline-block; margin-top: auto; padding: 8px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12.5px; font-weight: 700;
+      align-self: flex-start; margin-top: 12px;
+    }
+    .tool-cta:hover { background: var(--accent-hover); }
+
+    /* Pricing */
+    .pricing {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px; margin: 20px 0 8px;
+    }
+    .price {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 20px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .price.featured { border-color: var(--border-accent); background: var(--panel-2); }
+    .price-tier {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      color: var(--accent); font-weight: 700; text-transform: uppercase;
+    }
+    .price-amount {
+      font-size: 40px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1; margin: 4px 0 2px;
+    }
+    .price-amount .price-unit {
+      font-size: 13px; font-weight: 500; color: var(--text-mute);
+      margin-left: 6px; letter-spacing: 0;
+    }
+    .price-amount .price-krw {
+      display: block; font-size: 12px; color: var(--text-mute);
+      font-weight: 500; letter-spacing: 0; margin-top: 4px;
+    }
+    .price-tagline {
+      font-size: 13px; color: var(--text-dim); line-height: 1.6;
+      min-height: 40px;
+    }
+    .price-features {
+      list-style: none; padding: 0; margin: 8px 0 0;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 12.5px; color: var(--text-dim); line-height: 1.6;
+    }
+    .price-features li { padding-left: 18px; position: relative; }
+    .price-features li::before {
+      content: '✓'; position: absolute; left: 0; top: 0;
+      color: var(--live); font-weight: 700;
+    }
+    .price-cta {
+      margin-top: 14px; padding: 10px 14px;
+      background: var(--accent); color: #111; text-decoration: none;
+      border-radius: 6px; font-size: 12.5px; font-weight: 700;
+      text-align: center; letter-spacing: 0.02em;
+    }
+    .price-cta:hover { background: var(--accent-hover); }
+    .price-cta.ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .price-cta.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Founding scarcity banner */
+    .founding {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 20px; margin: 16px 0 20px;
+      background: linear-gradient(90deg, rgba(255,120,80,0.14), rgba(255,120,80,0.03));
+      border: 1px solid rgba(255,120,80,0.35); border-radius: 8px;
+    }
+    .founding-icon { font-size: 22px; line-height: 1; }
+    .founding-title {
+      color: #ff9970; font-weight: 700; font-size: 13px; letter-spacing: 0.03em;
+    }
+    .founding-body { color: var(--text-dim); font-size: 13px; margin-top: 2px; line-height: 1.55; }
+    .founding-body strong { color: #fff; }
+
+    /* Testimonials */
+    .testimonials {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px; margin: 20px 0 8px;
+    }
+    .testimonial {
+      padding: 18px 20px; background: var(--panel);
+      border: 1px solid var(--border); border-radius: 10px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .testimonial-body { color: var(--text-dim); font-size: 13.5px; line-height: 1.7; font-style: italic; }
+    .testimonial-attr {
+      color: var(--text-mute); font-size: 12px; letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid var(--border); padding-top: 10px;
+    }
+    .testimonial-attr .avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(201,169,97,0.15); border: 1px solid var(--border-accent);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 11px; font-weight: 700;
+    }
+    .testimonial-attr .placeholder-tag {
+      margin-left: auto; font-size: 10px; color: var(--text-mute);
+      padding: 2px 6px; border: 1px dashed var(--border);
+      border-radius: 4px; letter-spacing: 0.05em;
+    }
+
+    /* Bottom CTA */
+    .bottom-cta {
+      text-align: center; margin: 48px 0 8px;
+      padding: 36px 24px; background: var(--panel-2);
+      border: 1px solid var(--border-accent); border-radius: 14px;
+    }
+    .bottom-cta h3 {
+      font-size: 26px; font-weight: 700; margin: 0 0 12px; color: var(--text);
+      letter-spacing: -0.01em; line-height: 1.35;
+    }
+    .bottom-cta h3 .accent { color: var(--accent); }
+    .bottom-cta p {
+      color: var(--text-dim); font-size: 15px; max-width: 600px;
+      margin: 0 auto 22px; line-height: 1.65;
+    }
+    .bottom-cta code {
+      color: var(--accent); background: rgba(201,169,97,0.10);
+      padding: 2px 8px; border-radius: 4px; font-family: var(--mono); font-size: 14px;
+    }
+
+    /* SEO index (preserved, moved lower) */
+    .seo-index {
+      margin-top: 48px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .seo-index h3 {
+      font-size: 11px; letter-spacing: 0.14em; color: var(--text-mute);
+      font-weight: 600; text-transform: uppercase; margin: 24px 0 10px;
+    }
+    .seo-index a {
+      color: var(--text-dim); text-decoration: none;
+      display: inline-block; margin: 3px 6px 3px 0; padding: 5px 11px;
+      border: 1px solid var(--border); border-radius: 20px; font-size: 12.5px;
+    }
+    .seo-index a:hover { border-color: var(--accent); color: var(--accent); }
+
+    footer {
+      margin-top: 56px; padding: 24px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-mute); font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 30px; }
+      .hero p.lede { font-size: 15px; }
+      section h2 { margin-top: 32px; }
+      .bottom-cta h3 { font-size: 21px; }
+      .header-cta-row { gap: 6px; }
+    }
+  </style>
+
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Header: brand + language pill + primary CTA -->
+    <header class="top">
+      <div class="brand">R5TOOLS.IO — LWS 스위트</div>
+      <div class="header-cta-row">
+        <a href="/refer.html?ref=KR-HOME" class="header-cta ghost">💸 추천하고 리워드 받기</a>
+        <a href="https://access-codes.r5tools.io/?ref=KR-HOME" class="header-cta">스위트 잠금 해제</a>
+        <a href="/index.html" class="lang-pill" title="Switch to English"><span class="flag">🇺🇸</span>English</a>
+      </div>
+    </header>
+
+    <!-- Unlock banner (KR-first tone) -->
+    <div class="unlock-banner">
+      <div class="ub-body">
+        <div class="ub-title">🔓 워존 2007 멤버는 무료</div>
+        <div class="ub-text">R5에게 얼라이언스 코드를 요청하세요 (예: <code>RONY-FREE</code>). 다른 워존은 $20 평생 코드로 전환됩니다 — 같은 로그인 페이지, 모든 툴에서 즉시 사용 가능합니다.</div>
+      </div>
+      <a href="https://access-codes.r5tools.io/?ref=KR-HOME" class="ub-cta">코드 입력 →</a>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-badge">⚡ 시즌 2 · 3주차 · 폴라 스톰 · 라이브</div>
+      <h1>당신의 얼라이언스는 시즌 2를 <span class="accent">단톡방에서</span> 준비하고 있습니다.<br/>상위권 얼라이언스는 그러지 않습니다.</h1>
+      <p class="lede">
+        구글 시트를 대체하는 <em>라스트 워: 서바이벌</em> 얼라이언스 툴킷입니다. 영상 → 로스터 2분, 등급별 시즌 2 랜딩 배치, 동결 리스크 대시보드, 4주차 블리자드 대비 석탄 예산, 하이브 대형, 도시 점령 스케줄. R5가 직접 만들었고, 한국어를 1순위로 지원합니다. 모든 툴에서 디스코드용 다크 테마 PNG를 바로 내보낼 수 있습니다.
+      </p>
+      <div class="cta-row">
+        <a class="btn-primary" href="#pricing">요금제 보기 →</a>
+        <a class="btn-ghost" href="https://roster.r5tools.io/?ref=KR-HOME" target="_blank" rel="noopener">로스터 추출기 무료 체험</a>
+      </div>
+      <span class="kr-note">🇰🇷 한국 R5·R4 우선 지원 — 모든 도구는 한국어로 먼저 검수됩니다.</span>
+    </div>
+
+    <!-- WHY -->
+    <section>
+      <h2>왜 R5들이 이 툴킷을 씁니까</h2>
+      <div class="why-suite">
+        <div class="why-cell">
+          <div class="why-headline">영상에서 로스터까지 <span class="accent">2분</span>.</div>
+          <div>얼라이언스 멤버 목록을 화면 녹화하고 업로드만 하세요. Claude Vision이 모든 줄을 자동으로 읽습니다. 이제 스프레드시트에 100명 이름을 손으로 옮겨 적을 필요가 없습니다.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">한국어 <span class="accent">우선</span> — 7개 언어 지원.</div>
+          <div>KR · EN · ES · PT · JA · DE · FR. 얼라이언스 부R5가 같은 도구를 열면 같은 PNG가 한글로 표시됩니다. 번역 오탈자 없는 게임 용어로 검수되었습니다.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">모든 툴에 <span class="accent">디스코드 PNG</span> 내보내기.</div>
+          <div>모든 도구는 상태를 다크 테마 PNG로 내보냅니다. #얼라이언스-공지에 붙여넣으면 툴이 없는 멤버도 바로 확인할 수 있습니다.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-headline">실전 <span class="accent">R5</span>가 만들었습니다.</div>
+          <div>스프레드시트도, 디스코드 봇도 아닙니다. 시즌 개막 전날 밤 도구를 여는 R5를 위한 브리핑 룸입니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section>
+      <h2>시즌 2 도구 · 라이브 (클라이언트 전용)</h2>
+      <p class="sec-blurb">모든 도구는 브라우저에서 실행됩니다. 업로드도, 로그인도, 서버 왕복도 없습니다. 데이터는 기기에서 벗어나지 않습니다.</p>
+      <div class="tools">
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">랜딩 플래너</span><span class="tool-name-en">Landing Planner</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>R5가 1일차 앵커 좌표를 정하면, HQ 레벨·랠리 리더 배치·얼라이언스 화로 온기 구역까지 감안해 모든 멤버의 착륙 타일을 자동 배정합니다. 시즌 개막 전날에 반드시 여는 도구입니다.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-landing-planner-static/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">히트 시뮬레이터</span><span class="tool-name-en">Heat Simulator</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>얼라이언스 영토 위에 7개 동심 온도대(-15 → -80 °C)를 겹쳐 봅니다. 얼라이언스 화로의 온기 구역을 표시하고, 위험 베이스를 한눈에 표시합니다. 3·4주차 블리자드 사전 시뮬레이션 모드 지원.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-heat-simulator-static/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">동결 리스크 대시보드</span><span class="tool-name-en">Freeze-Risk Dashboard</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>멤버별 실시간 리스크 보드 — "3분 내 동결", "화로 배치 필요", "석탄 12시간 미만". 시즌 2에 R5가 매일 여는 도구입니다.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-freeze-risk-static/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">석탄 소모 계산기</span><span class="tool-name-en">Coal Burn Calculator</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>4주차 -70 °C 블리자드 기간 동안 하이히트 화로를 오버드라이브로 유지하기 위한 멤버별 석탄 소요량. 로스터를 붙여넣으면 초록/노랑/빨강 그리드가 나오고, 얼라이언스 도움 요청 문구를 바로 복사할 수 있습니다.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-coal-burn-static/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">도시·발굴지 점령 플래너</span><span class="tool-name-en">City / Dig-Site Capture</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>6개 도시 + 4개 발굴지 중 어디를 먼저 잡을지, +5 → +60 °C 온도 보너스 곡선과 점령 후 36시간 보호창을 함께 계산합니다. 하루 2회 점령을 미리 배치하세요.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-city-capture-static/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">시즌 타임라인</span><span class="tool-name-en">Season Timeline</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>시즌 2 개막 카운트다운 + 얼라이언스 사전 준비 체크리스트. 멤버별 진행률 추적, 디스코드 PNG 내보내기, 개인 캘린더 iCal 내보내기.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-season-timeline-static/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">얼라이언스 하이브 그리드</span><span class="tool-name-en">Alliance Hive Grid</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>마샬의 근위 3×3, 밀리터리 스트롱홀드 21×21 대형 플래너. 드래그 앤 드롭, 코너 앵커 링 알고리즘, CSV 임포트, 디스코드 PNG 내보내기 지원.</p>
+          <a class="tool-cta" href="https://hive.r5tools.io/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">로스터 추출기</span><span class="tool-name-en">Roster Extractor</span></span>
+            <span class="tool-status live">FLAGSHIP</span>
+          </div>
+          <p>얼라이언스 멤버 목록 화면 녹화(.mov / .mp4)를 업로드하면 Claude Vision이 자동으로 모든 플레이어 줄을 읽습니다. 2분 만에 CSV + JSON을 받아 다른 모든 LWS 툴에 그대로 연결하세요.</p>
+          <a class="tool-cta" href="https://roster.r5tools.io/?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">프로필 스튜디오</span><span class="tool-name-en">Profile Studio</span></span>
+            <span class="tool-status live">NEW</span>
+          </div>
+          <p>사진을 업로드하면 디스코드용 얼라이언스 아바타가 만들어집니다. 모든 멤버가 같은 시각 시그니처(골드 링·얼라이언스 이름·등급 뱃지·시즌 2 프로스트)를 갖게 됩니다. 브라우저에서만 처리되며 사진은 기기 밖으로 나가지 않습니다.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-profile-studio-static/?ref=KR-HOME" target="_blank" rel="noopener">내 아바타 만들기 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">VS 데이 최적화</span><span class="tool-name-en">VS Days Optimizer</span></span>
+            <span class="tool-status live">NEW</span>
+          </div>
+          <p>주간 VP를 결정하는 6일 얼라이언스 듀얼. 요일마다 다른 액션이 보상됩니다 — 월요일 레이더, 화요일 건설, 금요일 훈련, <strong>토요일 적 처치 4 VP</strong>. "오늘은 X, 이걸 하세요" 배너 + 점수 계산기 + 상자 추적기. 모든 수치는 KB 출처.</p>
+          <a class="tool-cta" href="https://bullochman.github.io/lws-vs-days-static/?ref=KR-HOME" target="_blank" rel="noopener">오늘의 플랜 →</a>
+        </div>
+
+        <div class="tool live">
+          <div class="tool-head">
+            <span><span class="tool-name">치트 시트</span><span class="tool-name-en">Cheat Sheet</span></span>
+            <span class="tool-status live">LIVE</span>
+          </div>
+          <p>시즌 2 개막 D-1에 R5가 마지막으로 보는 한 장짜리 요약: 온도대 · 화로 스택 · 랠리 타이밍 · 그룹 TP 조건 · 도시 우선순위. 인쇄해도 되고 디스코드에 붙여도 됩니다.</p>
+          <a class="tool-cta" href="/cheat-sheet.html?ref=KR-HOME" target="_blank" rel="noopener">열기 →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOUNDING SCARCITY + PRICING -->
+    <section id="pricing">
+      <h2>요금제 · 한 번 잠금 해제로 모든 툴</h2>
+      <p class="sec-blurb">Alliance Access Code 하나로 90일 동안 기기에서 모든 툴이 열립니다. 계정도, 이메일도 필요 없습니다. 워존 2007은 무료입니다.</p>
+
+      <div class="founding">
+        <div class="founding-icon">🔥</div>
+        <div>
+          <div class="founding-title">파운딩 얼라이언스 · 첫 100개 얼라이언스 한정</div>
+          <div class="founding-body">첫 100개 얼라이언스 온보딩 기간 동안 얼라이언스 번들이 <strong>$30</strong> (정가 $50). 이후 출시되는 모든 신규 툴에 대한 평생 접근권 포함. 이메일로 요청하시면 선착순 배정합니다.</div>
+        </div>
+      </div>
+
+      <div class="pricing">
+
+        <!-- Free tier -->
+        <div class="price">
+          <div class="price-tier">FREE · 워존 2007</div>
+          <div class="price-amount">$0<span class="price-krw">약 0원 · 내 워존</span></div>
+          <div class="price-tagline">제 워존입니다. 2007에 계시면 전체 스위트를 그대로 쓰실 수 있습니다. R5에게 코드를 요청하세요.</div>
+          <ul class="price-features">
+            <li>스위트 내 모든 툴 잠금 해제</li>
+            <li>기기당 90일 쿠키</li>
+            <li>7개 언어 토글 전부</li>
+            <li>모든 툴에서 디스코드 PNG 내보내기</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=%EC%9B%8C%EC%A1%B4%202007%20%EC%95%A1%EC%84%B8%EC%8A%A4%20%EC%BD%94%EB%93%9C&body=%EC%9B%8C%EC%A1%B4%3A%20%0A%EC%96%BC%EB%9D%BC%EC%9D%B4%EC%96%B8%EC%8A%A4%3A%20%0AR5%20%EB%8B%89%EB%84%A4%EC%9E%84%3A%20">워존 코드 요청 →</a>
+        </div>
+
+        <!-- Personal tier - featured -->
+        <div class="price featured">
+          <div class="price-tier">PERSONAL</div>
+          <div class="price-amount">$10<span class="price-unit">1회 결제</span><span class="price-krw">약 ₩14,000 · 국제 카드 결제</span></div>
+          <div class="price-tagline">어느 얼라이언스든, 어느 워존이든. 한 번 결제하면 한 시즌 내내 사용합니다.</div>
+          <ul class="price-features">
+            <li>스위트 내 모든 툴 잠금 해제</li>
+            <li>기기에서 90일 유지</li>
+            <li>로스터 추출기 (스탠다드) 포함</li>
+            <li>7개 언어 · 모든 툴에서 디스코드 PNG</li>
+          </ul>
+          <a class="price-cta" href="https://buy.stripe.com/3cI8wO8g13vf0DY39A6c001?ref=KR-HOME">개인 잠금 해제 →</a>
+        </div>
+
+        <!-- Alliance tier -->
+        <div class="price">
+          <div class="price-tier">ALLIANCE BUNDLE · 얼라이언스 전체</div>
+          <div class="price-amount">$50<span class="price-unit">1회 결제</span><span class="price-krw">약 ₩70,000 · 얼라이언스 전체</span></div>
+          <div class="price-tagline">R5가 한 번 결제하고 얼라이언스 전체에 코드를 배포합니다. 멤버마다 기기에서 90일 유지.</div>
+          <ul class="price-features">
+            <li>모든 툴, 모든 멤버</li>
+            <li>기기당 90일 (코드 공유)</li>
+            <li>개인 코드 5장보다 저렴</li>
+            <li>7개 언어 · 모든 툴에서 디스코드 PNG</li>
+          </ul>
+          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=Alliance%20Bundle%20(%2450)&body=%EC%96%BC%EB%9D%BC%EC%9D%B4%EC%96%B8%EC%8A%A4%3A%20%0A%EC%9B%8C%EC%A1%B4%3A%20%0AR5%20%EB%8B%89%EB%84%A4%EC%9E%84%3A%20%0A%EB%A9%A4%EB%B2%84%20%EC%88%98%3A%20">얼라이언스 번들 요청 →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (placeholders only — no fabricated names) -->
+    <!-- r5tools:testimonials v1 START -->
+    <section>
+      <h2>얼라이언스 리더 후기</h2>
+      <p class="sec-blurb">첫 100개 파운딩 얼라이언스 리더들의 실제 후기가 여기에 표시됩니다. 지금은 자리 표시만 되어 있습니다.</p>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="testimonial-body">"랜딩 플래너 없이 시즌 2를 준비하는 건 이제 상상이 안 됩니다. 100명 배치를 단톡방에서 하던 시절로 돌아가고 싶지 않네요."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [워존 미공개]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">"동결 리스크 대시보드가 4주차 블리자드 때 얼라이언스 전체를 살렸습니다. R5가 매일 아침 여는 도구가 됐어요."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R4</span>
+            <span>R4 · [워존 미공개]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-body">"영상 하나 올리니까 2분 만에 CSV가 나오네요. 100명 명단을 손으로 옮기던 시간이 아깝습니다."</div>
+          <div class="testimonial-attr">
+            <span class="avatar">R5</span>
+            <span>R5 · [워존 미공개]</span>
+            <span class="placeholder-tag">PLACEHOLDER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- r5tools:testimonials v1 END -->
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta">
+      <h3>지금 시즌 2를 <span class="accent">한 발 앞서</span> 준비하세요.</h3>
+      <p>워존 2007 멤버는 코드 <code>RONY-FREE</code>로 즉시 잠금 해제. 다른 워존은 개인 코드 $10 또는 얼라이언스 번들 $30 (파운딩 100개 한정).</p>
+      <a class="btn-primary" href="https://access-codes.r5tools.io/?ref=KR-HOME&code=RONY-FREE">무료로 시작하기 — 코드 RONY-FREE</a>
+    </div>
+
+    <!-- SEO INDEX (preserved links from prior /ko/index.html — kept for internal linking + crawlers) -->
+    <div class="seo-index">
+      <h3>시즌 (Seasons)</h3>
+      <a href="/ko/seasons/">시즌 인덱스</a>
+      <a href="/ko/seasons/s1-crimson-plague.html">S1 크림슨 플레이그</a>
+      <a href="/ko/seasons/s2-polar-storm.html">S2 폴라 스톰</a>
+      <a href="/ko/seasons/s3-golden-kingdom.html">S3 골든 킹덤</a>
+      <a href="/ko/seasons/s4-evernight-isle.html">S4 에버나이트 아일</a>
+      <a href="/ko/seasons/s5-wild-west.html">S5 와일드 웨스트</a>
+      <a href="/ko/seasons/s6-shadow-rainforest.html">S6 그림자 열대우림</a>
+
+      <h3>히어로 (Heroes)</h3>
+      <a href="/ko/heroes/">히어로 인덱스</a>
+      <a href="/ko/heroes/kimberly.html">Kimberly (킴벌리)</a>
+      <a href="/ko/heroes/dva.html">DVA (디바)</a>
+      <a href="/ko/heroes/tesla.html">Tesla (테슬라)</a>
+      <a href="/ko/heroes/marshall.html">Marshall (마샬)</a>
+      <a href="/ko/heroes/mason.html">Mason (메이슨)</a>
+      <a href="/ko/heroes/violet.html">Violet (바이올렛)</a>
+
+      <h3>워존 · 가이드 · 이벤트 · 건물 · 용어집</h3>
+      <a href="/ko/warzones/">워존 인덱스</a>
+      <a href="/ko/guides/">가이드</a>
+      <a href="/ko/events/">이벤트</a>
+      <a href="/ko/buildings/">건물</a>
+      <a href="/ko/glossary/">용어집 (한↔영)</a>
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · 라스트 워: 서바이벌은 First Fun / Century Games 제품입니다. 이 사이트는 팬 제작이며 무관합니다.</div>
+      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+        <a href="/index.html">English</a>
+        <a href="/status.html">상태</a>
+        <a href="/roadmap.html">로드맵</a>
+        <a href="/terms.html">이용약관</a>
+        <a href="/privacy.html">개인정보처리방침</a>
+        <a href="mailto:hello@r5tools.io">문의</a>
+      </div>
+    </footer>
+
+  </div>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>과학 센터 — 라스트 워 건물 가이드 | R5TOOLS.IO</title>
+<meta name="description" content="과학 센터 — 라스트 워: 서바이벌. Runs the research queue. Second 과학 센터 unlocks dual research queue.">
+<meta name="keywords" content="과학 센터, 라스트 워 건물, 라워 치프 가이드, R5 기획">
+<link rel="canonical" href="https://r5tools.io/ko/buildings/tech-center.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/buildings/tech-center.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/buildings/tech-center.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/buildings/tech-center.html">
+<meta property="og:title" content="과학 센터 — 라스트 워 건물 가이드 | R5TOOLS.IO">
+<meta property="og:description" content="과학 센터 — 라스트 워: 서바이벌. Runs the research queue. Second 과학 센터 unlocks dual research queue.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/ko/buildings/tech-center.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="과학 센터 — 라스트 워 건물 가이드 | R5TOOLS.IO">
+<meta name="twitter:description" content="과학 센터 — 라스트 워: 서바이벌. Runs the research queue. Second 과학 센터 unlocks dual research queue.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "과학 센터", "description": "과학 센터 — 라스트 워: 서바이벌. Runs the research queue. Second 과학 센터 unlocks dual research queue.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/buildings/tech-center.html", "inLanguage": "ko"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "건물", "item": "https://r5tools.io/buildings/"}, {"@type": "ListItem", "position": 3, "name": "과학 센터", "item": "https://r5tools.io/buildings/tech-center.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+    <a href="https://r5tools.io/buildings/tech-center.html" hreflang="en" rel="alternate" style="border-color:#c9a961;color:#c9a961;">EN</a>
+<a href="https://r5tools.io/">홈</a>
+  <a href="https://roster.r5tools.io/">로스터 추출기</a>
+  <a href="https://hive.r5tools.io/">하이브 플래너</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">시즌 타임라인</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">히트 시뮬레이터</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">동결 리스크</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">도시 점령</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">홈</a> › <a href="/buildings/">건물</a> › <span>과학 센터</span></nav>
+  <h1>과학 센터</h1>
+  <p style="font-size:12px;color:var(--text-mute);margin:4px 0 12px;padding:6px 10px;border-left:2px solid var(--accent);background:var(--panel);border-radius:4px;">자동 번역되었습니다. <a href="https://r5tools.io/buildings/tech-center.html" style="color:var(--text-dim);text-decoration:underline;">영문 원본 보기 →</a></p>
+
+  <p class="lede">Runs the research queue. Second 과학 센터 unlocks dual research queue.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">하이브 플래너</a><a href="https://bullochman.github.io/lws-coal-burn-static/">석탄 소비</a><a href="https://bullochman.github.io/lws-landing-planner-static/">랜딩 플래너</a></div>
+  <div class="cta-card">
+    <h3>이 코드로 무료 체험 <code>RONY-FREE</code></h3>
+    <p>R5TOOLS.IO의 모든 플래너는 워존 2007 소속 얼라이언스 회원에게 즉시 잠금 해제됩니다 — 가입 불필요, 결제 불필요.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">우리 얼라이언스 잠금 해제 →</a>
+  </div>
+  <article>
+    <ul><li><strong>Avatar frames</strong> — Cosmetic frames on the player avatar. Sources include 시즌 events, Console Contest (S6 champion frames), Faction War ranks, monthly pass, and the 골드 Brick Radiance event. Frames are largely time-limited (often 7-day expiries on competition rewards).</li><li><strong>Titles / 치프 tags</strong> — Awarded through event rankings (e.g. 얼라이언스 듀얼 VS top rankers), faction leadership positions, and top-100 킬 이벤트 rankers on a server. No published &quot;collector list.&quot;</li><li><strong>용맹 배지s</strong> — Not a title. This is a <strong>tech-research currency</strong> for the 과학 센터&#x27;s 얼라이언스 듀얼, 특수부대 (T10 path), Intercity Truck, Siege Warfare, and Defense Fortification research trees. Sources: 얼라이언스 듀얼 VS event chests (50→400 badges), 워존 VS victories (~200), 반짝이는 시장. Costs range from 50 badges (early nodes) to 20,000+ (late 특수부대). This is what most EN &quot;chief badge&quot; search results actually surface.</li><li><strong>스킬 훈장s</strong> — Not chief-owned; <strong>hero-owned</strong> currency used to level hero skills. Sourced primarily from 무기 경쟁 (up to 8,000/day at gold-chest ceiling). 스킬 medals <strong>refund fully</strong> when a hero is UR-promoted (SSR → UR), enabling free re-allocation.</li></ul>
+<div class="tbl-wrap"><table><thead><tr><th>한국어</th><th>영어</th><th>메모</th></tr></thead><tbody><tr><td>총사령관 / 사령관</td><td>치프 / 총사령관 / 워로드 (player character)</td><td>Player term used in game menus and cutscenes</td></tr><tr><td>본부</td><td>HQ / 본부</td><td>The player&#x27;s central building; the master gate</td></tr><tr><td>직업</td><td>직업</td><td>엔지니어 vs 전쟁 리더 system</td></tr><tr><td>엔지니어 / 기술자</td><td>엔지니어</td><td>Development profession</td></tr><tr><td>전쟁 리더 / 총사령관(전투)</td><td>전쟁 리더 / 워로드</td><td>Combat profession</td></tr><tr><td>외교관</td><td>외교관</td><td>Locked third profession, no skill tree yet</td></tr><tr><td>스킬 포인트</td><td>스킬 포인트</td><td>직업-tree currency</td></tr><tr><td>전직 증명서</td><td>전직 증명서</td><td>Switch profession item</td></tr><tr><td>직업 스킬 초기화 서적</td><td>직업 스킬 초기화 서적</td><td>Reset points, keep profession</td></tr><tr><td>시즌 스킬</td><td>시즌 스킬</td><td>Right-column tree, auto-refunds at season end</td></tr><tr><td>영웅</td><td>히어로</td><td>Party unit; NOT the player</td></tr><tr><td>영웅 장비</td><td>영웅 장비</td><td>The 4-slot per-hero gear</td></tr><tr><td>무기 (캐논/레일건)</td><td>무기 (무기 / 무기)</td><td>Gun slot</td></tr><tr><td>칩</td><td>칩</td><td>칩 slot</td></tr><tr><td>장갑</td><td>장갑</td><td>장갑 slot</td></tr><tr><td>레이더</td><td>레이더</td><td>레이더 slot</td></tr><tr><td>승급 도면</td><td>승급 도면</td><td>Mythic promotion currency</td></tr><tr><td>나사</td><td>나사</td><td>Base craft material</td></tr><tr><td>정제된 강철 모듈</td><td>정제된 강철 모듈</td><td>4 나사s</td></tr><tr><td>초합금</td><td>초합금</td><td>4 정제된 강철 모듈s; 레어-tier gear-craft resource</td></tr><tr><td>합성수지</td><td>Synthetic Resin</td><td>4 초합금s; 에픽-tier gear-craft resource</td></tr><tr><td>유전체 세라믹</td><td>Dielectric Ceramic</td><td>4 Synthetic Resins; 전설-craft + all star upgrades</td></tr><tr><td>장비 공장</td><td>장비 공장</td><td>건물; Lv 20 unlocks Mythic + 5-star</td></tr><tr><td>자재 공방</td><td>재료 공방</td><td>나사 production building</td></tr><tr><td>VIP 등급</td><td>VIP 등급</td><td>1–18 permanent tier</td></tr><tr><td>VIP 포인트</td><td>VIP 포인트</td><td>누적 currency for level</td></tr><tr><td>VIP 타임</td><td>VIP 타임</td><td>Timed activation of temporary VIP stat bonuses</td></tr><tr><td>전용 무기</td><td>전용 무기</td><td>히어로-specific EW system</td></tr><tr><td>파편 / 조각</td><td>조각 / 조각</td><td>전용 무기 shards</td></tr><tr><td>명예 상점</td><td>Honor Shop</td><td>전설 blueprints source</td></tr><tr><td>훈장</td><td>훈장s</td><td>Umbrella; usually 스킬 훈장s</td></tr><tr><td>스킬 훈장</td><td>스킬 훈장</td><td>히어로-skill upgrade currency</td></tr><tr><td>용맹 배지</td><td>용맹 배지</td><td>과학 센터 advanced-research currency</td></tr><tr><td>무기고 확장</td><td>무기 경쟁</td><td>Daily 6-phase event; primary 스킬 훈장 source</td></tr><tr><td>전투력 / 파워</td><td>Power / 전투력</td><td>Combined progression score</td></tr><tr><td>연맹</td><td>얼라이언스</td><td>Guild</td></tr><tr><td>부대</td><td>편성 / 편성</td><td>5-hero party</td></tr><tr><td>아바타 프레임</td><td>아바타 프레임</td><td>Cosmetic frame around avatar</td></tr><tr><td>시즌 패스</td><td>시즌 Pass</td><td>Battle pass</td></tr><tr><td>자원</td><td>자원</td><td>식량 / 철 / 골드 / 오일</td></tr><tr><td>골드</td><td>골드</td><td>자원</td></tr><tr><td>광석</td><td>광석</td><td>Gear upgrade material</td></tr><tr><td>빠른 생산</td><td>빠른 생산</td><td>엔지니어 skill</td></tr><tr><td>부대 동원</td><td>부대 동원</td><td>워로드 skill</td></tr><tr><td>팀 스트라이크</td><td>팀 스트라이크</td><td>워로드&#x27;s 랠리-damage skill</td></tr><tr><td>급성 치료</td><td>급성 치료</td><td>워로드 hospital-heal skill</td></tr><tr><td>신속 귀환</td><td>신속 귀환</td><td>워로드 teleport-return skill</td></tr><tr><td>위장</td><td>위장</td><td>워로드 info-hide skill</td></tr><tr><td>공성 강화</td><td>공성 강화</td><td>워로드 siege-damage skill</td></tr></tbody></table></div>
+<ol><li><strong><a href="https://www.lastwartutorial.com/professions-engineer-and-war-leader/" rel="nofollow noopener">LastWarTutorial — 직업s: 엔지니어 and 전쟁 리더</a></strong> — Fetched 2026-07-14. Full skill list with per-level effects, cooldowns, and unlock levels for both professions. <strong>티어 B</strong>. Most complete single source for skill data.</li><li><strong><a href="https://www.lastwartutorial.com/season-6-professions/" rel="nofollow noopener">LastWarTutorial — 시즌 6 직업s</a></strong> — Fetched 2026-07-14. 시즌 6 seasonal-skill list, cap of 100, Buddy Fortify vs 방벽 Fortify variance. <strong>티어 B</strong>.</li><li><strong><a href="https://www.lastwartutorial.com/vip-program/" rel="nofollow noopener">LastWarTutorial — VIP Program</a></strong> — Fetched 2026-07-14. Complete VIP 1–18 cumulative point table + benefit summary. <strong>티어 B</strong>.</li><li><strong><a href="https://www.lastwartutorial.com/gears/" rel="nofollow noopener">LastWarTutorial — Gears</a></strong> — Fetched 2026-07-14. 4-slot list, rarity chain, 장비 공장 Lv 20 → 5-star, blueprint rules. <strong>티어 B</strong>.</li><li><strong><a href="https://www.lastwargame.online/en/professions-in-last-war/" rel="nofollow noopener">LastWarGame.online — 직업s in Last War</a></strong> — Fetched 2026-07-14. 시즌 cap table (40/70/100), skill point extras (10/season cap, 10,000 XP conversion), priority tier system. <strong>티어 C</strong>.</li><li><strong><a href="https://www.lastwargame.online/en/heroes-exclusive-weapons/" rel="nofollow noopener">LastWarGame.online — 히어로 전용 무기s</a></strong> — Fetched 2026-07-14 (via Cpt Hedgehog cross-ref). 해금 cost 50 named shards, Lv 20 = 1,130 shards, 15-hero release cadence. <strong>티어 C</strong>.</li><li><strong><a href="https://cpt-hedge.com/guides/exclusive-weapons" rel="nofollow noopener">Cpt Hedgehog&#x27;s Battle HQ — 전용 무기s 가이드</a></strong> — Fetched 2026-07-14 (fetch 403 direct; content via search excerpt). Level range shard-cost table, 7.5% Attack/HP/Def milestone at Lv 20. <strong>티어 B</strong>.</li><li><strong><a href="https://cpt-hedge.com/guides/season-6-profession-skills" rel="nofollow noopener">Cpt Hedgehog — 시즌 6 직업 스킬s</a></strong> — Fetched 2026-07-14 (via search excerpt). 21 seasonal skills, 44 skill points, unlock every 5 levels. <strong>티어 B</strong>.</li><li><strong><a href="https://www.lootbar.com/blog/en/lw-survival-season-4-professions-skills-choosing-prioritizing.html" rel="nofollow noopener">Lootbar — 라워 시즌 4 직업s &amp; 스킬s</a></strong> — Fetched 2026-07-14. 16 시즌 4 seasonal skills, respec limitations, phase-based recommendations. <strong>티어 C</strong>. ⚠ pre-patch (2026-04-ish; 시즌 4).</li><li><strong><a href="https://www.lootbar.com/blog/en/last-war-survival-research-guide-tech-tree-priority-order.html" rel="nofollow noopener">Lootbar — 연맹 기술 가이드 / 테크 Tree Priority</a></strong> — Fetched 2026-07-14 (via search excerpt). 테크 tree branches (Development/Economy/얼라이언스 듀얼/특수부대/Defense Fortifications). <strong>티어 C</strong>.</li><li><strong><a href="https://lastwarvault.com/guides/general/profession-system-guide/" rel="nofollow noopener">LastWarVault — 직업 System 가이드</a></strong> — Fetched 2026-07-14. 엔지니어 as recommended default, HQ 25 unlock, 시즌 1 cap 40 → 시즌 3 cap 100. <strong>티어 B</strong>.</li><li><strong><a href="https://www.packsify.com/blogs/last-war-survival-gear-guide" rel="nofollow noopener">Packsify — Last War Gear 가이드 (탱크 / Air / 미사일 Priority)</a></strong> — Fetched 2026-07-14. Slot priority by role, 정제된 강철 모듈 + 초합금 chain, 전설 Lv 40 4-star prerequisite for Mythic, 10 blueprints per Mythic. <strong>티어 B</strong>.</li><li><strong><a href="https://www.packsify.com/blogs/last-war-survival-vip-points-showdown" rel="nofollow noopener">Packsify — VIP 포인트 Showdown</a></strong> — Fetched 2026-07-14. VIP 6 = permanent second builder = single most impactful milestone; VIP 18 = 12.5% hero HP/ATK/DEF + custom base skin. <strong>티어 C</strong>.</li><li><strong><a href="https://www.packsify.com/blogs/last-war-survival-research-guide-what-to-prioritize" rel="nofollow noopener">Packsify — 연맹 기술 Priority 가이드</a></strong> — Fetched 2026-07-14. Complete tech tree branch structure; Development / Economy always run, 특수부대 = T10 path. <strong>티어 B</strong>.</li><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/last-war-vip-guide.html" rel="nofollow noopener">Ldshop — Last War VIP 가이드 All 18 Levels</a></strong> — Fetched 2026-07-14 (403 direct; content via search excerpts). VIP permanence, VIP 8 Agent 셜리, VIP 11 +50% construction. <strong>티어 C</strong>.</li><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/war-leader-guide.html" rel="nofollow noopener">Ldshop — Ultimate 전쟁 리더 가이드</a></strong> — Fetched 2026-07-14 (403 direct; content via search excerpt). 워로드 skill categories + priority order. <strong>티어 C</strong>.</li><li><strong><a href="https://www.joytify.com/blog/en-ph/others-last-war-survival-ultimate-war-leader/" rel="nofollow noopener">Joytify — Ultimate 전쟁 리더 가이드</a></strong> — Fetched 2026-07-14. Phase 1/2/3 point allocation strategy for 워로드. <strong>티어 C</strong>.</li><li><strong><a href="https://www.bluestacks.com/blog/game-guides/last-warsurvival-game/lws-gear-guide-en.html" rel="nofollow noopener">BlueStacks — 라워 Gear 가이드 EN</a></strong> — Fetched 2026-07-14. 5-rarity ladder, Lv-40 cap + 5-star ceiling, 장비 공장 Lv 20 requirement, Honor Point → 전설 Blueprint rule. <strong>티어 C</strong>.</li><li><strong><a href="https://www.bluestacks.com/ko/blog/game-guides/last-warsurvival-game/lws-gear-guide-ko.html" rel="nofollow noopener">BlueStacks — 라워 Gear 가이드 KR (사령관 장비)</a></strong> — Fetched 2026-07-14. Confirms 4-slot / 5-star / GF 20 numbers in KR terminology. <strong>티어 C</strong>. <strong>KR source</strong>.</li><li><strong><a href="https://www.bluestacks.com/ko/blog/game-guides/last-warsurvival-game/lws-tips-tricks-ko.html" rel="nofollow noopener">BlueStacks — 라워 Tips &amp; Tricks KR</a></strong> — Fetched 2026-07-14. Core KR terms: 총사령관, 본부, VIP 레벨, 영웅 장비, 훈장, 부대. <strong>티어 C</strong>. <strong>KR source</strong>.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-skill-medal-guide/" rel="nofollow noopener">Theriagames — 스킬 훈장 가이드</a></strong> — Fetched 2026-07-14. 무기 경쟁 daily cap 8,000 medals, hero-skill cost table (UR/SSR/SR), UR promotion 100% refund. <strong>티어 C</strong>.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-valor-badge-guide/" rel="nofollow noopener">Theriagames — 용맹 배지 가이드</a></strong> — Fetched 2026-07-14. 용맹 배지 sources (얼라이언스 듀얼 50–400/chest, 워존 ~200) + 과학 센터 research costs (50 → 20,000+). <strong>티어 C</strong>.</li><li><strong><a href="https://lastwarhandbook.com/guides/power-calculation-complete" rel="nofollow noopener">Last War Handbook — Power Calculation</a></strong> — Fetched 2026-07-14 (403 direct; content via search excerpt). 치프 power source weights, TCP combat-effective formula, daily-growth ranges by stage. <strong>티어 B</strong>. (Handbook consistently 403s WebFetch but appears in search excerpts; treated as B based on stated data-source depth.)</li><li><strong><a href="https://lastwarvault.com/guides/general/mythic-gear-upgrade-guide/" rel="nofollow noopener">LastWarVault — Mythic Gear Upgrade Order</a></strong> — Fetched 2026-07-15. DPS-first Mythic upgrade order (Gun→칩→레이더→장갑), 머피-레이더 interrupt rule, squad-specific primary heroes (킴벌리/DVA/테슬라/피오나), 무과금 timeline (~day 100+ first Mythic Gun), Mythic 레이더 30% crit-damage-reduction figure. <strong>티어 B</strong>.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-mythic-gear-blueprint-guide/" rel="nofollow noopener">Theriagames — Mythic Gear Blueprint 가이드</a></strong> — Fetched 2026-07-15. 애모 보난자 2-week cadence, 600-bullet top bracket = 10 Mythic Blueprints, 무과금 needs ~3.5 Bonanza cycles per Mythic push, $5 pack &quot;best value&quot; during Bonanza windows, Honor Shop unlocks at HQ 20. <strong>티어 C</strong>.</li><li><strong><a href="https://www.lootbar.com/blog/en/last-war-gear-guide-upgrade-priority-and-mythic-strategy.html" rel="nofollow noopener">Lootbar — Gear Upgrade Priority and Mythic Strategy</a></strong> — Fetched 2026-07-15. Survivability-first Mythic upgrade order (레이더→장갑→Gun→칩), Mythic 칩 ~7,200 flat ATK + 15% hero ATK, Mythic Gun +15% hero ATK, &quot;team that stays alive longer deals more damage&quot; rationale. <strong>티어 C</strong>. (Provides the counter-argument to the Vault/Handbook DPS-first camp.)</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-superalloy-guide/" rel="nofollow noopener">Theriagames — 초합금 가이드</a></strong> — Fetched 2026-07-15. Full 5-tier craft chain (나사 → 정제된 강철 모듈 → 초합금 → Synthetic Resin → epic gear), 4:1 ratio at every tier. <strong>티어 C</strong>.</li><li><strong><a href="https://www.lastwargame.online/en/hero-gear-in-last-war-survival-game/" rel="nofollow noopener">LastWarGame.online — 히어로 Gear in 라스트 워 서바이벌</a></strong> — Fetched 2026-07-15. Extended 5-tier chain into Dielectric Ceramic for 전설 crafting, per-piece 5★ cost totals (749.2M 골드s / 500k 광석 / 6,000 Ceramic / 50 전설 + 10 Mythic Blueprints), ~47-day 전설-craft feasibility from 5 workshops. <strong>티어 C</strong>.</li><li><strong><a href="https://ashmasters.org/gear-upgrade-guide" rel="nofollow noopener">Ashmasters — Gear Crafting &amp; Upgrade 가이드</a></strong> — Fetched 2026-07-15. Complete per-stage cost table Lv 0 → 5★ Mythic (골드, 광석, Ceramic, Blueprints); confirms 2★/4★ as major stat-spike thresholds. <strong>티어 C</strong>. Most granular per-stage cost breakdown found.</li></ol>
+<div class="tbl-wrap"><table><thead><tr><th>Speedup type</th><th>Applies to</th><th>Best use timing</th></tr></thead><tbody><tr><td><strong>Universal / Generic</strong></td><td><em>anything</em></td><td>Save for the highest-value queue during 무기 경쟁 scoring windows</td></tr><tr><td><strong>Construction / 건물</strong></td><td>building upgrades only</td><td>무기 경쟁 Base 건물 phase + 얼라이언스 듀얼 construction day</td></tr><tr><td><strong>연맹 기술</strong></td><td>과학 센터 queues</td><td>무기 경쟁 테크 연맹 기술 phase + AD research day</td></tr><tr><td><strong>훈련</strong></td><td>병영 / 미사일 / 항공기 queues</td><td>무기 경쟁 Unit Progression phase + <strong>AD Day 5</strong> (4× point multiplier)</td></tr><tr><td><strong>Healing</strong></td><td>병원 / 응급 센터 (ICU) / 응급 센터 queues</td><td>레어ly — use 돕기 instead. Save for post-VS-cleanup</td></tr><tr><td><strong>히어로 Advancement / 스킬 훈장</strong></td><td>hero level, skill medal use</td><td>무기 경쟁 히어로 Advancement phase — <strong>NOT</strong> during 얼라이언스 듀얼 (AD does not score hero adv)</td></tr></tbody></table></div>
+<p><strong>Trees.</strong> 라워 groups 얼라이언스 tech under the 과학 센터, split into branches. The high-priority branches most 얼라이언스s iterate on are:</p>
+  </article>
+  <div class="cta-card">
+    <h3>얼라이언스 채팅에 바로 공유</h3>
+    <p>R5TOOLS.IO의 모든 플래너는 Discord용 PNG, 로스터 CSV, 공유 링크로 즉시 내보낼 수 있습니다.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">지금 무료로 시작 →</a>
+  </div>
+  <footer class="foot">
+  <p>다음 툴 세트의 일부입니다: <a href="https://r5tools.io/">R5TOOLS.IO</a> 라스트 워: 서바이벌 얼라이언스 도구.
+     팬 제작 · 퍼스트펀 / Century Games와 무관합니다.
+     <a href="https://r5tools.io/terms.html">이용약관</a> · <a href="https://r5tools.io/privacy.html">개인정보처리방침</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">베타 · 피드백</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

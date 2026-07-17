@@ -1,0 +1,14 @@
+2026-07-17T05:37:35-0500 [INFO] Sitemap: /Users/evanjones/claudecode/r5tools/r5tools-landing/sitemap.xml mtime=1784282937.932432
+2026-07-17T05:37:35-0500 [INFO] Parsed 1398 sitemap entries
+2026-07-17T05:37:35-0500 [INFO] --full: submitting all 1398 URLs to IndexNow
+2026-07-17T05:37:35-0500 [INFO] [dry-run] GET https://www.google.com/ping?sitemap=https%3A%2F%2Fr5tools.io%2Fsitemap.xml
+2026-07-17T05:37:35-0500 [INFO] [dry-run] GET https://www.bing.com/webmaster/ping.aspx?siteMap=https%3A%2F%2Fr5tools.io%2Fsitemap.xml
+2026-07-17T05:37:35-0500 [INFO] [dry-run] POST https://api.indexnow.org/indexnow batch=1398 urls first='https://r5tools.io/'
+2026-07-17T05:37:35-0500 [INFO] Done.
+2026-07-17T05:37:36-0500 [INFO] Sitemap: /Users/evanjones/claudecode/r5tools/r5tools-landing/sitemap.xml mtime=1784282937.932432
+2026-07-17T05:37:36-0500 [INFO] Parsed 1398 sitemap entries
+2026-07-17T05:37:37-0500 [INFO] Recent (<= 24h): 1390 URLs
+2026-07-17T05:37:37-0500 [INFO] [dry-run] GET https://www.google.com/ping?sitemap=https%3A%2F%2Fr5tools.io%2Fsitemap.xml
+2026-07-17T05:37:37-0500 [INFO] [dry-run] GET https://www.bing.com/webmaster/ping.aspx?siteMap=https%3A%2F%2Fr5tools.io%2Fsitemap.xml
+2026-07-17T05:37:37-0500 [INFO] [dry-run] POST https://api.indexnow.org/indexnow batch=1390 urls first='https://r5tools.io/'
+2026-07-17T05:37:37-0500 [INFO] Done.

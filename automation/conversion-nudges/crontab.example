@@ -1,0 +1,50 @@
+# r5tools conversion-nudge cron.
+#
+# Install on the same host that runs the time-based drip send_drip.py cron
+# (they share the drip_subscribers.jsonl and unsubscribe suppression list, so
+# co-locating them avoids cross-host consistency issues).
+#
+# Copy the appropriate lines into your existing crontab (`crontab -e`) or
+# save as /etc/cron.d/r5tools-nudges (system cron; add a MAILTO= line at the
+# top so failures land in your inbox).
+#
+# ENV: the wrapper `run.sh` below sets SMTP_*, SERVER_SECRET, FROM_EMAIL,
+# etc. from a .env file so the crontab itself carries no secrets.
+
+# ---------------------------------------------------------------
+# HOURLY — real send
+# Cron runs at :07 past each hour so it doesn't collide with
+# send_drip.py's :00 slot (avoids double-SMTP-connect + easier to
+# distinguish in logs).
+# ---------------------------------------------------------------
+7 * * * * cd /home/evan/r5tools-landing/automation/conversion-nudges && ./run.sh --send >> logs/cron.log 2>&1
+
+# ---------------------------------------------------------------
+# DAILY 06:00 — dry-run digest to stdout for review
+# Useful for spotting misconfigured triggers before they fire.
+# ---------------------------------------------------------------
+0 6 * * * cd /home/evan/r5tools-landing/automation/conversion-nudges && ./run.sh --dry-run > logs/daily-dry-run.log 2>&1
+
+# ---------------------------------------------------------------
+# WEEKLY (Sun 03:15) — rotate the pending queue so old nudges don't
+# linger. Server /api/nudge/pending only surfaces entries from the
+# last 48h anyway, but keeping the file small avoids tail-read cost.
+# ---------------------------------------------------------------
+15 3 * * 0 cd /home/evan/r5tools-landing/automation/conversion-nudges && tail -n 5000 logs/nudge-pending.jsonl > logs/nudge-pending.tmp && mv logs/nudge-pending.tmp logs/nudge-pending.jsonl
+
+# ---------------------------------------------------------------
+# EXAMPLE run.sh (drop next to trigger_engine.py, chmod +x)
+# ---------------------------------------------------------------
+#   #!/usr/bin/env bash
+#   set -euo pipefail
+#   cd "$(dirname "$0")"
+#   set -a
+#   [ -f .env ] && . .env
+#   set +a
+#   exec python3 trigger_engine.py "$@"
+# ---------------------------------------------------------------
+#
+# INVOCATION SUMMARY
+#   python3 trigger_engine.py --send        # real
+#   python3 trigger_engine.py --dry-run     # print what would send
+#   python3 trigger_engine.py --dry-run --only high_usage_free   # debug one trigger

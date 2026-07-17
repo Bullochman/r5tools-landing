@@ -7,6 +7,9 @@
 <meta name="description" content="Season 1 (Doomsday) — the original 48-day zombie-plague season with Corruptor Bosses, virus mechanics, and the Mason SSR→UR promotion. R5 planning tools, coo…">
 <meta name="keywords" content="Last War Season 1, Crimson Plague, LWS Season 1, R5 planning, Alliance strategy">
 <link rel="canonical" href="https://r5tools.io/seasons/s1-crimson-plague.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/seasons/s1-crimson-plague.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/seasons/s1-crimson-plague.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/seasons/s1-crimson-plague.html">
 <meta property="og:title" content="Last War Season 1 Crimson Plague guide | R5TOOLS.IO">
 <meta property="og:description" content="Season 1 (Doomsday) — the original 48-day zombie-plague season with Corruptor Bosses, virus mechanics, and the Mason SSR→UR promotion. R5 planning tools, coo…">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/seasons/s1-crimson-plague.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -271,7 +306,19 @@ td { color: var(--text-dim); }
 <ul><li><a href="https://www.lastwartutorial.com/ultimate-war-rules-guide-for-season-1/" rel="nofollow noopener">Last War Tutorial — Ultimate War Rules Guide for Season 1</a> — 2026, tier B — used for stronghold/city rules, capture limits, protection.</li><li><a href="https://www.lastwartutorial.com/season-1-the-crimson-plague/" rel="nofollow noopener">Last War Tutorial — Season 1: The Crimson Plague overview</a> — 2026, tier B — used for map, resources, mechanics summary.</li><li><a href="https://www.lastwartutorial.com/season-1-week-1/" rel="nofollow noopener">Last War Tutorial — Season 1 Week 1</a> — 2026, tier B — used for Wk1 missions, Genetic Recombination, Kimberly weapon.</li><li><a href="https://www.lastwartutorial.com/season-1-week-4/" rel="nofollow noopener">Last War Tutorial — Season 1 Week 4</a> — 2026, tier B — used for Warzone Declaration, City of Apocalypse.</li><li><a href="https://www.lastwartutorial.com/season-1-week-5/" rel="nofollow noopener">Last War Tutorial — Season 1 Week 5</a> — 2026, tier B — used for Infinite Octagon timing.</li><li><a href="https://www.lastwartutorial.com/season-1-pre-season/" rel="nofollow noopener">Last War Tutorial — Season 1 Pre-Season</a> — 2026, tier B — used for Pre-Season structure, Capitol Conquest.</li><li><a href="https://www.lastwartutorial.com/season-1-celebration/" rel="nofollow noopener">Last War Tutorial — Season 1 Celebration</a> — 2026, tier B — used for Celebration phase (Black Market, Bingo, Champion Duel).</li><li><a href="https://www.lastwartutorial.com/doomsday/" rel="nofollow noopener">Last War Tutorial — Doomsday standalone event</a> — 2026, tier B — used to disambiguate Doomsday event vs Season 1.</li><li><a href="https://lastwarhandbook.com/guides/season-1-guide" rel="nofollow noopener">Last War Handbook — Season 1 Guide</a> — 2026, tier B — cross-checked with lastwartutorial (fetched via search snippet; direct fetch blocked).</li><li><a href="https://lastwarhandbook.com/guides/season-1-territory-capture-guide" rel="nofollow noopener">Last War Handbook — Season 1 Territory Capture Guide</a> — 2026, tier B — cross-check for capture rules (via search snippet).</li><li><a href="https://lastwarhandbook.com/guides/season-1-virus-infection-guide" rel="nofollow noopener">Last War Handbook — Season 1 Virus &amp; Infection Guide</a> — 2026, tier B — VRI mechanics (via search snippet).</li><li><a href="https://lastwarhandbook.com/guides/season-1-profession-system" rel="nofollow noopener">Last War Handbook — Season 1 Profession System</a> — 2026, tier B — Engineer vs War Leader (via search snippet).</li><li><a href="https://lastwarhandbook.com/guides/warzone-duel-server-war-guide" rel="nofollow noopener">Last War Handbook — Warzone Duel Server War Guide</a> — 2026, tier B — cross-server war rules.</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/season-1-overview.html" rel="nofollow noopener">LDShop — Season 1 Overview</a> — 2026, tier B — resources, virus, professions, buildings, weather.</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/season-1-virus-guide.html" rel="nofollow noopener">LDShop — Season 1 Virus Guide</a> — 2026, tier B (via search snippet).</li><li><a href="https://www.lastwargame.online/en/season1-map/" rel="nofollow noopener">Lastwargame.online — Season 1 map</a> — 2026, tier B — Apocalypse City, NPC types (Polluter Guard/Shooter/Butcher).</li><li><a href="https://www.lastwargame.online/en/season1-whats-new/" rel="nofollow noopener">Lastwargame.online — Season 1 what&#x27;s new</a> — 2026, tier B — weather, buildings, professions, resistance penalties.</li><li><a href="https://www.lastwargame.online/en/season1-tips/" rel="nofollow noopener">Lastwargame.online — Season 1 tips</a> — 2026, tier B — VRI priority, Doom Elite tactics.</li><li><a href="https://www.lastwargame.online/en/season1-rewards/" rel="nofollow noopener">Lastwargame.online — Season 1 rewards</a> — 2026, tier B — 8 reward tiers, distribution structure.</li><li><a href="https://www.lastwargame.online/en/game-season-1/" rel="nofollow noopener">Lastwargame.online — Season 1 Guide (game-season-1)</a> — 2026, tier B — events summary.</li><li><a href="https://www.lastwargame.online/en/doomsday-event/" rel="nofollow noopener">Lastwargame.online — Doomsday event</a> — 2026, tier B — confirms Doomsday is a separate event.</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/44659758784147-S1-Infinite-Octagon" rel="nofollow noopener">First Fun Group support — S1 Infinite Octagon</a> — 2026, tier A (official) — Infinite Octagon details.</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/44729112658323-Season-1-Builder-Alliance" rel="nofollow noopener">First Fun Group support — Season 1 Builder Alliance</a> — 2026, tier A (official).</li><li><a href="https://firstfungroup.zendesk.com/hc/en-us/articles/44710611930003--Warzone-Expedition-Strategy-Guide" rel="nofollow noopener">First Fun Group support — Warzone Expedition Strategy Guide</a> — 2026, tier A (official) — cross-server war.</li><li><a href="https://lastwarvault.com/guides/season-1/builder-alliance-guide/" rel="nofollow noopener">Last War Vault — Builder Alliance Guide (Season 1)</a> — 2026, tier B — Builder Alliance trade-offs.</li><li><a href="https://lastwar-guide.org/season-1/last-war-season-1-guide-virus-resistance-map-conquest" rel="nofollow noopener">Lastwar-guide.org — Quick Season 1 Guide</a> — 2026, tier C — VR + territory rules cross-check.</li><li><a href="https://cpt-hedge.com/calculators/virus-resistance" rel="nofollow noopener">Cpt Hedgehog — Virus Resistance Calculator</a> — 2026, tier B — VR damage penalty (60-99% dmg dealt, +375-900% dmg taken).</li><li><a href="https://www.lootbar.com/blog/en/last-war-pvp-formations-alliance-capital-guide.html" rel="nofollow noopener">Lootbar — PvP Formations &amp; Capital Guide</a> — 2026, tier C — formation principles.</li><li><a href="https://www.packsify.com/blogs/last-war-survival-alliance-guide" rel="nofollow noopener">Packsify — Alliance Guide</a> — 2026, tier C — hive placement guidance.</li><li><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=28907" rel="nofollow noopener">DCInside LWS Minor Gallery — 시즌1 R4/R5 요새&amp;도시 점령 정보</a> — 2024, tier D (KR community) — Korean-side stronghold/city rules, swap tactics, R4/R5 strategy.</li><li><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=40189" rel="nofollow noopener">DCInside LWS Minor Gallery — 시즌1 땅따먹기 룰 설명</a> — 2024, tier D — KR players&#x27; summary of territory rules.</li><li><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=7466" rel="nofollow noopener">DCInside LWS Minor Gallery — 시즌1 도시편 공략</a> — 2024-07-23, tier D — Korean end-of-S1 city guide, siege math (100 dmg base, Siege Master lvl5 → 6× = 600, +100/flag × 5 = +500 → 11-hit equivalent).</li></ul>
 <h5>Added 2026-07-15 pass</h5>
 <ul><li><a href="https://www.facebook.com/lastwarsurvival/posts/greetings-commanders-our-season-1-the-crimson-plague-event-has-been-running-for-/399609049726381/" rel="nofollow noopener">First Fun Group — Last War: Survival official Facebook post 399609049726381</a> — 2025-05-13, tier A (official developer social) — anchors the concrete May 13, 2025 launch date for server range S101-S196.</li><li><a href="https://x.com/lastwarsurvival/status/1922480680744976704" rel="nofollow noopener">Last War: Survival official X post 1922480680744976704 — Season Boost Base Feature beginner&#x27;s guide</a> — 2025-05-14, tier A (official) — confirms Pumpkin Cauldron&#x27;s Season 1 virus-stack-limit boost.</li><li><a href="https://lastwar.wiki/customizations/pumpkin-cauldron/" rel="nofollow noopener">Last War Wiki — Pumpkin Cauldron customization</a> — 2026-07-15 (accessed), tier B — Pumpkin Cauldron skin description including +50 virus stack limit, Virus Surge skill, Pumpkin Gift social mechanic, historical price up to ~$400.</li><li><a href="https://www.packsify.com/blogs/best-squad-lineup-in-last-war-survival-game" rel="nofollow noopener">Packsify — Best Squad Setup in Last War: Survival (2026)</a> — 2026, tier C — early-game vs mid-game formation shift, S1-relevant hero rosters.</li><li><a href="https://www.allclash.com/best-team-formations-lineups-in-last-war-survival-game/" rel="nofollow noopener">Allclash — Best Team Formations / Lineups (2025, includes S5 teams)</a> — 2025, tier C — cross-checked Tank / Aircraft / Missile mono-squad mechanic (+20% same-type bonus, +20% RPS bonus).</li><li><a href="https://www.ldshop.gg/blog/last-war-survival/season-1-hero-recommendations.html" rel="nofollow noopener">LDShop — Season 1 Hero Recommendations</a> — 2026, tier B — Season 1 hero picks including Kimberly early-DPS priority.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/seasons/">Last War Survival — every season, one guide index</a></li>
+    <li><a href="https://r5tools.io/seasons/s7-unnamed.html">Last War Season 7 Season 7 guide</a></li>
+    <li><a href="https://r5tools.io/seasons/s3-golden-kingdom.html">Last War Season 3 Golden Kingdom guide</a></li>
+    <li><a href="https://r5tools.io/seasons/s5-wild-west.html">Last War Season 5 Wild West guide</a></li>
+    <li><a href="https://r5tools.io/seasons/s4-evernight-isle.html">Last War Season 4 Evernight Isle guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -285,5 +332,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

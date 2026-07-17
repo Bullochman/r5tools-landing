@@ -1,0 +1,67 @@
+<!--
+  HERO VARIANT A — "Problem-first"
+  Angle:  Lead with the pain the R5 is already feeling (losing S2 events),
+          then name-drop the three specific gaps r5tools fixes. High
+          emotional charge, but only lands with R5s who ALREADY feel
+          Season 2 is going poorly. Best channel: Discord DMs to R5s of
+          alliances outside the top-10 leaderboard.
+
+  Drop-in: paste the entire <div class="hero"> block into index.html at
+           the current hero site (line ~347). Preserves the existing
+           class structure so the site-wide CSS still applies. All copy
+           uses data-i18n keys so the KR override in the i18n dictionary
+           picks it up automatically — the KR strings for this variant
+           are added to the i18n block below the hero.
+
+  Variant ID: 'a' — the ab-hero-switcher.js in this directory reads
+           ?variant=a and swaps the live hero for this block, and fires
+           analytics event ab_hero_assigned {variant: 'a'}.
+-->
+
+<!-- ===== ENGLISH HERO (variant A) ===== -->
+<div class="hero" data-hero-variant="a">
+  <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;margin-bottom:18px;background:rgba(255,120,80,0.14);border:1px solid rgba(255,120,80,0.42);border-radius:100px;font-size:12px;color:#ff9970;letter-spacing:0.05em;font-weight:600" data-i18n="heroA_Badge">⚠ SEASON 2 · WEEK 3 · MOST ALLIANCES ARE UNDERWATER</div>
+
+  <h1 data-i18n="heroA_Title">
+    Your alliance keeps losing Season 2 events.<br/>
+    r5tools fixes the <span class="accent">3 things</span> you're missing.
+  </h1>
+
+  <p data-i18n="heroA_Body">
+    <strong style="color:var(--text)">1. Landing chaos</strong> — nobody agrees where to drop, half the alliance ends up in Freeze Zone 5.
+    <strong style="color:var(--text)">2. Coal starvation</strong> — the Week-4 blizzard hits and 30% of your R4s go dark.
+    <strong style="color:var(--text)">3. Roster drift</strong> — you don't actually know who's active, who's carrying weight, who quit last week.
+    <br/><br/>
+    Eight tools. One <em>Last War: Survival</em> planning suite. Built by an active R5 — not a corporation. English + Korean + 5 more languages.
+  </p>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px">
+    <a class="price-cta" href="#pricing" style="text-decoration:none" data-i18n="heroA_Cta1" data-track-cta="variant-a-primary">Stop losing events — $30 for the whole alliance →</a>
+    <a class="price-cta ghost" href="https://roster.r5tools.io/" target="_blank" rel="noopener" style="text-decoration:none" data-i18n="heroA_Cta2" data-track-cta="variant-a-secondary">Try Roster Extractor free</a>
+  </div>
+
+  <span class="kr-note" style="margin-top:16px" data-i18n="heroA_KrNote">🇰🇷 워존 2007 멤버는 코드 <code style="background:transparent;color:inherit">RONY-FREE</code>로 무료 이용 · Warzone 2007 members: free with code RONY-FREE</span>
+
+  <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
+</div>
+
+<!-- ===== I18N DICTIONARY ADDITIONS (paste into the existing i18n block per language) ===== -->
+<!--
+  EN:
+    heroA_Badge:  '⚠ SEASON 2 · WEEK 3 · MOST ALLIANCES ARE UNDERWATER',
+    heroA_Title:  'Your alliance keeps losing Season 2 events.<br/>r5tools fixes the <span class="accent">3 things</span> you\'re missing.',
+    heroA_Body:   '<strong>1. Landing chaos</strong> — nobody agrees where to drop, half the alliance ends up in Freeze Zone 5. <strong>2. Coal starvation</strong> — the Week-4 blizzard hits and 30% of your R4s go dark. <strong>3. Roster drift</strong> — you don\'t actually know who\'s active, who\'s carrying weight, who quit last week.<br/><br/>Eight tools. One <em>Last War: Survival</em> planning suite. Built by an active R5 — not a corporation. English + Korean + 5 more languages.',
+    heroA_Cta1:   'Stop losing events — $30 for the whole alliance →',
+    heroA_Cta2:   'Try Roster Extractor free',
+    heroA_KrNote: '🇰🇷 워존 2007 멤버는 코드 RONY-FREE로 무료 이용 · Warzone 2007 members: free with code RONY-FREE'
+
+  KO (natural-voice, R5-to-R5 tone — NOT literal):
+    heroA_Badge:  '⚠ 시즌 2 · 3주차 · 대부분 연맹이 무너지는 중',
+    heroA_Title:  '이번 시즌 2, 이벤트마다 계속 지고 있죠?<br/>이유는 <span class="accent">딱 3가지</span>. r5tools가 해결합니다.',
+    heroA_Body:   '<strong>1. 착륙이 엉망</strong> — 어디 내릴지 합의가 안 돼서 절반이 냉동 5구역에 갇힘. <strong>2. 석탄 부족</strong> — 4주차 블리자드 오면 R4의 30%가 조용해짐. <strong>3. 명단 관리 실패</strong> — 누가 활동 중인지, 누가 기여 중인지, 누가 지난주에 나갔는지 모름.<br/><br/>8개의 도구. 하나의 <em>라스트워: 서바이벌</em> 기획 세트. 회사가 아니라, 실제로 플레이하는 R5가 만듦. 한국어 + 영어 + 5개 언어.',
+    heroA_Cta1:   '이벤트 승리 시작하기 — 연맹 전체 $30 →',
+    heroA_Cta2:   '로스터 추출기 무료 체험',
+    heroA_KrNote: '🇰🇷 워존 2007이시면 RONY-FREE 코드로 무료. R5에게 문의하세요.'
+-->
+</content>
+</invoke>

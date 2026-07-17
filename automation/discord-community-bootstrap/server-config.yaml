@@ -1,0 +1,351 @@
+# r5tools Community Discord — full server structure
+#
+# Consumed by setup-server.py (idempotent).
+# Every category / channel / role is keyed by name — running the script twice
+# looks up by name and updates in place rather than duplicating.
+#
+# COLOR reference (hex → int is computed in code):
+#   red        = #E74C3C
+#   gold       = #F1C40F
+#   orange     = #E67E22
+#   purple     = #9B59B6
+#   blue       = #3498DB
+#   green      = #2ECC71
+#   grey       = #95A5A6
+#   dark_grey  = #34495E
+#   default    = #99AAB5
+
+server:
+  name: "r5tools"
+  # Community Server features to enable. Requires DISCORD verification level
+  # LOW at minimum + email-verified members. See README.md for manual toggles.
+  community_features:
+    verification_level: "medium"        # off | low | medium | high | very_high
+    default_notifications: "only_mentions"
+    explicit_content_filter: "all_members"
+    system_channel: "welcome"
+    rules_channel: "rules"
+    updates_channel: "changelog"
+    afk_channel: null
+    afk_timeout_seconds: 3600
+
+# ---------------------------------------------------------------------------
+# ROLES — order in this file = display order in Discord (top = highest).
+# Bot's own role auto-created by Discord on invite; we skip creating it here.
+# ---------------------------------------------------------------------------
+roles:
+  - name: "Founder"
+    color: "#E74C3C"        # red — Evan only
+    hoist: true
+    mentionable: true
+    permissions_preset: "admin"
+    notes: "Evan only. Full server perms."
+
+  - name: "Moderator"
+    color: "#2ECC71"        # green
+    hoist: true
+    mentionable: true
+    permissions_preset: "mod"
+    notes: "Trusted volunteers. Mod perms, not server settings."
+
+  - name: "Founding"
+    color: "#F1C40F"        # gold — first 10 Founding-tier alliance R5s
+    hoist: true
+    mentionable: true
+    permissions_preset: "member"
+    notes: "One per Founding-Alliance R5. Access to #founding-tier-only."
+
+  - name: "R5"
+    color: "#E67E22"        # orange
+    hoist: true
+    mentionable: true
+    permissions_preset: "member"
+    notes: "Verified R5. Access to #r5-officers."
+
+  - name: "R4"
+    color: "#9B59B6"        # purple
+    hoist: false
+    mentionable: true
+    permissions_preset: "member"
+    notes: "Verified R4/officer. Read-only into #r5-officers."
+
+  - name: "Alliance Member"
+    color: "#3498DB"        # blue — R3 and below
+    hoist: false
+    mentionable: true
+    permissions_preset: "member"
+    notes: "Verified alliance member."
+
+  - name: "Paid"
+    color: "#F1C40F"        # gold (same visual bucket as Founding)
+    hoist: false
+    mentionable: false
+    permissions_preset: "member"
+    notes: "Personal-tier ($10) buyer, verified via Stripe email."
+
+  - name: "Free"
+    color: "#95A5A6"        # grey — default assigned on join
+    hoist: false
+    mentionable: false
+    permissions_preset: "restricted"
+    notes: "Default role on join. Can only see welcome + rules until they accept rules."
+
+  - name: "Bot"
+    color: "#34495E"        # dark grey — bottom of hierarchy
+    hoist: false
+    mentionable: false
+    permissions_preset: "bot"
+    notes: "Bots and integrations."
+
+# ---------------------------------------------------------------------------
+# CATEGORIES → CHANNELS
+# Channel types: text | announcement | forum | voice
+# Permission overwrites are declared per-channel; setup-server.py resolves
+# role names against roles[] above.
+# ---------------------------------------------------------------------------
+categories:
+  # ─────────── 📌 START HERE
+  - name: "📌 START HERE"
+    position: 0
+    channels:
+      - name: "welcome"
+        type: "text"
+        topic: "New here? Read #rules, then grab your role. See DM for onboarding."
+        slowmode: 10
+        overwrites:
+          "@everyone": { view: true, send: false, add_reactions: false, read_history: true }
+          "Free":      { view: true, send: false }
+          "Moderator": { view: true, send: true, manage_messages: true }
+          "Founder":   { view: true, send: true, manage_messages: true }
+
+      - name: "rules"
+        type: "text"
+        topic: "React ✅ to accept the rules. React 🇺🇸/🇰🇷/🇯🇵 to pick your language."
+        slowmode: 0
+        overwrites:
+          "@everyone": { view: true, send: false, add_reactions: true, read_history: true }
+          "Free":      { view: true, send: false, add_reactions: true }
+          "Moderator": { view: true, send: true, manage_messages: true }
+          "Founder":   { view: true, send: true, manage_messages: true }
+
+      - name: "announcements"
+        type: "announcement"
+        topic: "r5tools updates only. No member chat. Silent unless critical."
+        overwrites:
+          "@everyone":       { view: true, send: false, add_reactions: true }
+          "Free":            { view: false }
+          "Alliance Member": { view: true, send: false, add_reactions: true }
+          "R4":              { view: true, send: false, add_reactions: true }
+          "R5":              { view: true, send: false, add_reactions: true }
+          "Founding":        { view: true, send: false, add_reactions: true }
+          "Paid":            { view: true, send: false, add_reactions: true }
+          "Moderator":       { view: true, send: true }
+          "Founder":         { view: true, send: true, mention_everyone: true }
+
+      - name: "changelog"
+        type: "text"
+        topic: "Auto-posts from r5tools-landing repo commits. Silent."
+        overwrites:
+          "@everyone":       { view: false }
+          "Free":            { view: false }
+          "Alliance Member": { view: true, send: false }
+          "R4":              { view: true, send: false }
+          "R5":              { view: true, send: false }
+          "Founding":        { view: true, send: false }
+          "Paid":            { view: true, send: false }
+          "Moderator":       { view: true, send: true }
+          "Founder":         { view: true, send: true }
+          "Bot":             { view: true, send: true }
+
+  # ─────────── 🛠️ TOOL SUPPORT
+  - name: "🛠️ TOOL SUPPORT"
+    position: 1
+    channels:
+      - name: "tools-help"
+        type: "text"
+        topic: "General 'how do I use X' questions. Any tool. Evan + volunteers reply."
+        slowmode: 3
+        overwrites:
+          "@everyone":       { view: false }
+          "Free":            { view: false }
+          "Alliance Member": { view: true, send: true }
+          "R4":              { view: true, send: true }
+          "R5":              { view: true, send: true }
+          "Founding":        { view: true, send: true }
+          "Paid":            { view: true, send: true }
+          "Moderator":       { view: true, send: true, manage_messages: true }
+          "Founder":         { view: true, send: true, manage_messages: true }
+
+      - name: "bug-reports"
+        type: "forum"
+        topic: "Report bugs. Template: what tool / what happened / expected / screenshot / warzone."
+        overwrites:
+          "@everyone":       { view: false }
+          "Alliance Member": { view: true, send: true, create_public_threads: true }
+          "R4":              { view: true, send: true, create_public_threads: true }
+          "R5":              { view: true, send: true, create_public_threads: true }
+          "Founding":        { view: true, send: true, create_public_threads: true }
+          "Paid":            { view: true, send: true, create_public_threads: true }
+          "Moderator":       { view: true, send: true, manage_messages: true, manage_threads: true }
+          "Founder":         { view: true, send: true, manage_messages: true, manage_threads: true }
+
+      - name: "feature-requests"
+        type: "forum"
+        topic: "New tool ideas + enhancements. React ✅ upvote / 🚧 in-progress / ❌ won't fix."
+        overwrites:
+          "@everyone":       { view: false }
+          "Alliance Member": { view: true, send: true, create_public_threads: true }
+          "R4":              { view: true, send: true, create_public_threads: true }
+          "R5":              { view: true, send: true, create_public_threads: true }
+          "Founding":        { view: true, send: true, create_public_threads: true }
+          "Paid":            { view: true, send: true, create_public_threads: true }
+          "Moderator":       { view: true, send: true, manage_threads: true }
+          "Founder":         { view: true, send: true, manage_threads: true }
+
+  # ─────────── 🌍 LANGUAGE
+  - name: "🌍 LANGUAGE"
+    position: 2
+    channels:
+      - name: "kr-community"
+        type: "text"
+        topic: "한국어 채널. WZ 2007 / 한국 얼라이언스 위주. 자유롭게 얘기하세요."
+        slowmode: 3
+        overwrites:
+          "@everyone":       { view: false }
+          "Alliance Member": { view: true, send: true }
+          "R4":              { view: true, send: true }
+          "R5":              { view: true, send: true }
+          "Founding":        { view: true, send: true }
+          "Paid":            { view: true, send: true }
+          "Moderator":       { view: true, send: true, manage_messages: true }
+          "Founder":         { view: true, send: true, manage_messages: true }
+
+      - name: "jp-community"
+        type: "text"
+        topic: "日本語チャンネル。将来のJPアライアンス向け。"
+        slowmode: 3
+        overwrites:
+          "@everyone":       { view: false }
+          "Alliance Member": { view: true, send: true }
+          "R4":              { view: true, send: true }
+          "R5":              { view: true, send: true }
+          "Founding":        { view: true, send: true }
+          "Paid":            { view: true, send: true }
+          "Moderator":       { view: true, send: true, manage_messages: true }
+          "Founder":         { view: true, send: true, manage_messages: true }
+
+  # ─────────── 🏆 R5 LOUNGE (private)
+  - name: "🏆 R5 LOUNGE"
+    position: 3
+    channels:
+      - name: "r5-officers"
+        type: "text"
+        topic: "R5 + R4 officer coordination. Cross-warzone strategy, alliance mergers, CSW."
+        slowmode: 0
+        overwrites:
+          "@everyone":       { view: false }
+          "Free":            { view: false }
+          "Alliance Member": { view: false }
+          "R4":              { view: true, send: false, read_history: true }   # R4 = read-only
+          "R5":              { view: true, send: true }
+          "Founding":        { view: true, send: true }
+          "Moderator":       { view: true, send: true, manage_messages: true }
+          "Founder":         { view: true, send: true, manage_messages: true }
+
+      - name: "r5-verify-queue"
+        type: "text"
+        topic: "Mod-only queue for R5/R4/Founding role verification screenshots."
+        overwrites:
+          "@everyone":  { view: false }
+          "Moderator":  { view: true, send: true, manage_messages: true }
+          "Founder":    { view: true, send: true, manage_messages: true }
+          "Bot":        { view: true, send: true }
+
+      - name: "founding-tier-only"
+        type: "text"
+        topic: "Founding-alliance R5s only. Roadmap voting, early features, direct Evan access."
+        slowmode: 0
+        overwrites:
+          "@everyone":  { view: false }
+          "R5":         { view: false }
+          "Founding":   { view: true, send: true }
+          "Moderator":  { view: true, send: false }   # mods CAN see (transparency) but don't chat
+          "Founder":    { view: true, send: true }
+
+  # ─────────── 🗣️ COMMUNITY
+  - name: "🗣️ COMMUNITY"
+    position: 4
+    channels:
+      - name: "general"
+        type: "text"
+        topic: "Casual chat. English default. Any tool talk welcome."
+        slowmode: 2
+        overwrites:
+          "@everyone":       { view: false }
+          "Alliance Member": { view: true, send: true }
+          "R4":              { view: true, send: true }
+          "R5":              { view: true, send: true }
+          "Founding":        { view: true, send: true }
+          "Paid":            { view: true, send: true }
+          "Moderator":       { view: true, send: true, manage_messages: true }
+          "Founder":         { view: true, send: true, manage_messages: true, mention_everyone: true }
+
+      - name: "off-topic"
+        type: "text"
+        topic: "Non-LWS chatter. Memes, life stuff, other games."
+        slowmode: 5
+        overwrites:
+          "@everyone":       { view: false }
+          "Alliance Member": { view: true, send: true }
+          "R4":              { view: true, send: true }
+          "R5":              { view: true, send: true }
+          "Founding":        { view: true, send: true }
+          "Paid":            { view: true, send: true }
+          "Moderator":       { view: true, send: true, manage_messages: true }
+          "Founder":         { view: true, send: true, manage_messages: true }
+
+  # ─────────── 🔐 STAFF
+  - name: "🔐 STAFF"
+    position: 5
+    channels:
+      - name: "staff-general"
+        type: "text"
+        topic: "Private mod chat."
+        overwrites:
+          "@everyone": { view: false }
+          "Moderator": { view: true, send: true }
+          "Founder":   { view: true, send: true }
+
+      - name: "mod-log"
+        type: "text"
+        topic: "Auto-log of mod actions (kicks, bans, mutes, role changes)."
+        overwrites:
+          "@everyone": { view: false }
+          "Moderator": { view: true, send: true }
+          "Founder":   { view: true, send: true }
+          "Bot":       { view: true, send: true }
+
+  # ─────────── 🎤 VOICE
+  - name: "🎤 VOICE"
+    position: 6
+    channels:
+      - name: "General Voice"
+        type: "voice"
+        overwrites:
+          "@everyone":       { view: false, connect: false }
+          "Alliance Member": { view: true, connect: true, speak: true }
+          "R4":              { view: true, connect: true, speak: true }
+          "R5":              { view: true, connect: true, speak: true }
+          "Founding":        { view: true, connect: true, speak: true }
+          "Paid":            { view: true, connect: true, speak: true }
+          "Moderator":       { view: true, connect: true, speak: true, mute_members: true, move_members: true }
+          "Founder":         { view: true, connect: true, speak: true, mute_members: true, move_members: true }
+
+      - name: "R5 Voice"
+        type: "voice"
+        overwrites:
+          "@everyone": { view: false, connect: false }
+          "R5":        { view: true, connect: true, speak: true }
+          "Founding":  { view: true, connect: true, speak: true }
+          "Moderator": { view: true, connect: true, speak: true }
+          "Founder":   { view: true, connect: true, speak: true, mute_members: true, move_members: true }

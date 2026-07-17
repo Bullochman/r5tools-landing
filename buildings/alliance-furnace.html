@@ -7,6 +7,9 @@
 <meta name="description" content="Alliance Furnace in Last War: Survival. Season 2 — alliance-scale heat source. Radius scales L1 (5 tiles) to L20 (10 tiles).">
 <meta name="keywords" content="Alliance Furnace, Last War building, LWS Chief guide, R5 planning">
 <link rel="canonical" href="https://r5tools.io/buildings/alliance-furnace.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/buildings/alliance-furnace.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/buildings/alliance-furnace.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/buildings/alliance-furnace.html">
 <meta property="og:title" content="Alliance Furnace — Last War building guide | R5TOOLS.IO">
 <meta property="og:description" content="Alliance Furnace in Last War: Survival. Season 2 — alliance-scale heat source. Radius scales L1 (5 tiles) to L20 (10 tiles).">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/buildings/alliance-furnace.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -138,7 +173,19 @@ td { color: var(--text-dim); }
 <p><strong>Close-perimeter defender ping — the mechanic the KB was missing.</strong> On successful impact, <strong>every base inside the 25×25 blast area is forcibly relocated to a random position on the map</strong> — except the Warlord&#x27;s own base if it happens to be inside the radius. This is the &quot;close-perimeter ping&quot; observed in community reports: defenders reinforcing the Alliance Furnace do not merely lose their shield — the game <strong>physically evicts them from their reinforcement position</strong>, forcing the furnace to be re-reinforced under fire while defenders find their new (often deep-frozen) landing tiles, shield up, and teleport back. Reinforcement squads inside the furnace itself are not evicted (they are inside the building, not on a tile), but any base staged next to the furnace to launch counter-rallies is displaced. Shields are also blocked inside the Contaminated Land for the full 1-hour duration, so re-shielding at the random landing tile is possible but re-shielding at any tile inside the 25×25 zone is not. [lastwar-tutorial.com Rare Earth War, 2026-07-15; lastwarguide.net Season 2, 2026-07-15]</p>
 <p><strong>Defensive positioning consequence.</strong> Because the 25×25 ping evicts everyone in the blast area, the standard defense guidance is: <strong>park every base at least 5 tiles from the Alliance Furnace tile</strong> (outside the 25×25 blast when centered on the furnace, which corresponds to roughly a ring 5-12 tiles out depending on furnace footprint). The Assembly Point should be placed near the furnace <strong>but outside the missile blast radius</strong> so evicted defenders have a reliable return tile to shield up and teleport back from. [lastwar-guide.org Season 2 Week 4, 2026-07-15]</p>
 <ol><li><strong>Week-1 speed matters more than late-season power spikes.</strong> An alliance that deploys its Alliance Furnace and captures its first L1 Dig Site within Hour 12 of Day 1 will out-accumulate an alliance that spends Week 1 optimizing before its first capture — even if the second alliance ends up with more combat power in Week 6.</li><li><strong>Rare Soil War plunder is worth less than steady-state production.</strong> A successful 20% plunder of an enemy&#x27;s stockpile <em>shifts</em> soil between alliances but does not create new soil; over 8 weeks, the alliance that spends less time attacking and more time farming captured territory typically wins.</li><li><strong>Do not over-capture into a higher bracket you cannot defend.</strong> Rare Soil War brackets (Ranks 1-10, 11-20, 21-30, 31-50) are set by stockpile — capturing extra cities can promote you into a tougher bracket where you get plundered more than you can produce. [lastwarhandbook.com Season 2 Guide, 2026-07-15]</li></ol>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/buildings/alliance-center.html">Alliance Center — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-center-hive-s3.html">Alliance Center Hive (S3) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/alliance-center-hive-s4.html">Alliance Center Hive (S4) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/home-heating-furnace.html">Home Heating Furnace — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/">Last War buildings — every base building explained</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -152,5 +199,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

@@ -1,0 +1,107 @@
+# Screenshot targets for weekly capture run.
+# Each entry:
+#   url              (required)
+#   name             (required, filename stem)
+#   viewport         [width, height]   default [1440, 900]
+#   wait_for_selector  CSS selector to wait for  default 'body'
+#   wait_after_ms    extra settle delay (ms)     default 800
+#   hover_selector   optional element to hover before shot
+#   click_selector   optional element to click before shot
+#   full_page        also capture full-page shot default true
+#   viewport_only    skip the full-page shot     default false
+
+# ---------- Landing pages ----------
+- url: https://r5tools.io/
+  name: homepage-hero
+  wait_for_selector: h1
+
+- url: https://r5tools.io/ko/
+  name: homepage-ko-hero
+  wait_for_selector: h1
+
+- url: https://r5tools.io/refer.html
+  name: refer
+
+- url: https://r5tools.io/cheat-sheet.html
+  name: cheat-sheet
+
+- url: https://r5tools.io/waitlist.html
+  name: waitlist
+
+- url: https://r5tools.io/faq.html
+  name: faq
+
+- url: https://r5tools.io/leaderboard.html
+  name: leaderboard
+
+- url: https://r5tools.io/roadmap.html
+  name: roadmap
+
+- url: https://r5tools.io/status.html
+  name: status
+
+# ---------- Tools (subdomains) ----------
+- url: https://hive.r5tools.io/
+  name: hive-grid
+  wait_after_ms: 1500
+
+- url: https://roster.r5tools.io/
+  name: roster
+  wait_after_ms: 1500
+
+- url: https://access-codes.r5tools.io/
+  name: access-codes
+  wait_after_ms: 1500
+
+# ---------- Tools (bullochman.github.io static) ----------
+- url: https://bullochman.github.io/lws-city-capture-static/
+  name: city-capture
+  wait_after_ms: 1500
+
+- url: https://bullochman.github.io/lws-coal-burn-static/
+  name: coal-burn
+  wait_after_ms: 1500
+
+- url: https://bullochman.github.io/lws-freeze-risk-static/
+  name: freeze-risk
+  wait_after_ms: 1500
+
+- url: https://bullochman.github.io/lws-heat-simulator-static/
+  name: heat-simulator
+  wait_after_ms: 1500
+
+- url: https://bullochman.github.io/lws-landing-planner-static/
+  name: landing-planner
+  wait_after_ms: 1500
+
+- url: https://bullochman.github.io/lws-profile-studio-static/
+  name: profile-studio
+  wait_after_ms: 1500
+
+- url: https://bullochman.github.io/lws-season-timeline-static/
+  name: season-timeline
+  wait_after_ms: 1500
+
+- url: https://bullochman.github.io/lws-vs-days-static/
+  name: vs-days
+  wait_after_ms: 1500
+
+# ---------- SEO index pages ----------
+- url: https://r5tools.io/seasons/
+  name: seo-seasons-index
+
+- url: https://r5tools.io/heroes/
+  name: seo-heroes-index
+
+- url: https://r5tools.io/warzones/
+  name: seo-warzones-index
+
+# ---------- SEO detail pages (representative) ----------
+- url: https://r5tools.io/heroes/scarlett.html
+  name: seo-hero-scarlett
+
+- url: https://r5tools.io/warzones/warzone-1050.html
+  name: seo-warzone-1050
+
+- url: https://r5tools.io/seasons/s1-crimson-plague.html
+  name: seo-season-s1

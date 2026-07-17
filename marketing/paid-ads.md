@@ -57,14 +57,14 @@ Before spending a single dollar:
 - H1: `LWS Alliance Tools — Free Trial` (28)
 - H2: `Code RONY-FREE = 30 Days` (25)
 - H3: `Built by an Active R5` (23)
-- D1: `Landing, heat, coal, freeze, roster — 8 tools, 7 languages, PNG-ready for Discord.` (89)
+- D1: `Landing, heat, coal, freeze, roster — 11 tools, 7 languages, PNG-ready for Discord.` (90)
 - D2: `Skip the group chat. Plan Season 2 in 10 minutes. Free trial with code RONY-FREE.` (86)
 - Path: `/tools` `/free`
 - Final URL: `https://r5tools.io/?utm_source=google&utm_medium=cpc&utm_campaign=ag1_lws_tools&utm_content=ad1a_free`
 
 **Ad 1B — Price / value hook**
 - H1: `$30 Alliance-Wide Access` (25)
-- H2: `8 LWS Planning Tools` (22)
+- H2: `11 LWS Planning Tools` (21)
 - H3: `One-Time, No Subscription` (25)
 - D1: `Personal $10 · Alliance $50 · Premium roster review +$5. One payment, all seasons.` (88)
 - D2: `Built by an active R5. Works in EN + KR + 5 more languages. Discord-ready exports.` (87)
@@ -144,14 +144,14 @@ Before spending a single dollar:
 - H1: `라스트워 얼라이언스 도구` (13)
 - H2: `RONY-FREE 코드로 무료 체험` (15)
 - H3: `현역 R5가 만들었습니다` (12)
-- D1: `랜딩, 열지도, 석탄, 동결, 로스터 — 8개 도구, 7개 언어, 디스코드용 PNG 지원.` (46)
+- D1: `랜딩, 열지도, 석탄, 동결, 로스터 — 11개 도구, 7개 언어, 디스코드용 PNG 지원.` (47)
 - D2: `단톡방 대신 10분 만에 시즌 2를 계획하세요. RONY-FREE 코드로 무료 체험.` (43)
 - Path: `/도구` `/무료`
 - Final URL: `https://r5tools.io/?utm_source=google&utm_medium=cpc&utm_campaign=ag3_kr&utm_content=ad3a_free`
 
 **Ad 3B — Price / value hook (KR)**
 - H1: `얼라이언스 전체 $30` (11)
-- H2: `LWS 계획 도구 8개` (10)
+- H2: `LWS 계획 도구 11개` (11)
 - H3: `일회성 결제, 구독 없음` (13)
 - D1: `개인 $10 · 얼라이언스 $50 · 로스터 프리미엄 +$5. 한 번 결제, 모든 시즌.` (44)
 - D2: `현역 R5가 제작. 한국어 우선 지원. 디스코드 PNG 내보내기 제공.` (35)
@@ -248,7 +248,7 @@ Before spending a single dollar:
 
 **Copy:**
 
-> Primary text: `The Google Sheet is killing your alliance. 94 members. Half the ranks wrong. Nobody knows who's actually the top rally leader. r5tools.io ships 8 planning tools built by an active R5. Free trial: RONY-FREE.`
+> Primary text: `The Google Sheet is killing your alliance. 94 members. Half the ranks wrong. Nobody knows who's actually the top rally leader. r5tools.io ships 11 planning tools built by an active R5. Free trial: RONY-FREE.`
 > Headline: `Stop losing S2 to alliances with tools`
 > Description: `$10 personal, $50 alliance-wide.`
 > CTA: `Learn More`
@@ -263,7 +263,7 @@ Each card 1080×1080, dark theme, one tool screenshot + one-line benefit.
 | 2 | Landing Planner ring diagram | `Landing planned in 10 minutes` | `Rank-tier rings. Ministry warnings included.` |
 | 3 | Heat Simulator concentric bands | `Season 2 freeze survival` | `Know who's at -20°C before Wk3 blizzards.` |
 | 4 | Coal Burn Calculator chart | `L20 overdrive = 117k coal` | `Budget before Wk3. Not during.` |
-| 5 | r5tools.io landing hero | `Try free: RONY-FREE` | `8 tools. 7 languages. One-time payment.` |
+| 5 | r5tools.io landing hero | `Try free: RONY-FREE` | `11 tools. 7 languages. One-time payment.` |
 
 **Post copy (single):**
 > `Eight planning tools your R5 doesn't have. Built by an active R5 for R5s. Free trial with code RONY-FREE — no card required.`
@@ -344,7 +344,7 @@ Same split-screen visual as Creative 2. All Korean copy.
 > `The Freeze Risk Dashboard at r5tools.io flags this 4+ days ahead. Free with warzone 2007 code or code RONY-FREE for anyone else.`
 
 **Template C — Google Sheet complaints:**
-> `Same. That's why we shipped r5tools.io — one CSV upload, 8 planning tools consume it. Free trial: RONY-FREE.`
+> `Same. That's why we shipped r5tools.io — one CSV upload, 11 planning tools consume it. Free trial: RONY-FREE.`
 
 **Rules for using these:**
 - Only reply to tweets where the pain-point is genuine and the tweeter is active (posted this week).
@@ -399,7 +399,7 @@ Current hero is Variant A. Deploy Variant B + C as A/B via `?v=b` / `?v=c` query
 
 **Variant A (current, control):**
 > Headline: `Your alliance is planning Season 2 in a group chat`
-> Sub: `Stop. Here are 8 tools that fix it.`
+> Sub: `Stop. Here are 11 tools that fix it.`
 
 **Variant B (loss-aversion):**
 > Headline: `Stop losing S2 to alliances with tools`
@@ -407,7 +407,7 @@ Current hero is Variant A. Deploy Variant B + C as A/B via `?v=b` / `?v=c` query
 
 **Variant C (pain-first / spreadsheet):**
 > Headline: `The Google Sheet is killing your alliance`
-> Sub: `Try this instead. 8 tools, one CSV, ten minutes to plan a season.`
+> Sub: `Try this instead. 11 tools, one CSV, ten minutes to plan a season.`
 
 ### A/B measurement
 

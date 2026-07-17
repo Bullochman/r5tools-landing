@@ -71,7 +71,7 @@ Peer-to-peer cold DM playbook. R5s trust other R5s more than any ad. Every DM he
 >
 > Built a planning tool suite last couple weeks — landing coords, heat/coal, city capture, roster power tracking. If your R5 is still doing landing coords in a Google Sheet or Discord pins, show them this — it'll save your officer team 2-3 hours per season kickoff.
 >
-> Alliance Bundle $30 covers your whole alliance forever (first 10 alliances — will go to $50 after). If your R5 says yes, code goes to every member; no per-seat headache.
+> Alliance Founding $30 covers your whole alliance forever (first 10 alliances only — base Alliance Bundle is $50 after). If your R5 says yes, code goes to every member; no per-seat headache.
 >
 > Free tier's real — landing planner + heat sim + city capture all work with no code. The $30 unlocks historical roster tracking + Discord PNG exports across all tools.
 >

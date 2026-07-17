@@ -7,6 +7,9 @@
 <meta name="description" content="Barracks in Last War: Survival. Trains Warrior/Infantry troops. HQ-gated T-tier troop unlock.">
 <meta name="keywords" content="Barracks, Last War building, LWS Chief guide, R5 planning">
 <link rel="canonical" href="https://r5tools.io/buildings/barracks.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/buildings/barracks.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/buildings/barracks.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/buildings/barracks.html">
 <meta property="og:title" content="Barracks — Last War building guide | R5TOOLS.IO">
 <meta property="og:description" content="Barracks in Last War: Survival. Trains Warrior/Infantry troops. HQ-gated T-tier troop unlock.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/buildings/barracks.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -129,7 +164,19 @@ td { color: var(--text-dim); }
 <ul><li><strong>VIP Level (1–18)</strong> — permanent, earned via VIP Points. Milestones unlock new store slots, extra march queues, extra Barracks, better login rewards.</li><li><strong>VIP Time</strong> — consumable buff (activated by ticks earned via top-up, packs, monthly pass, and small diamond purchase). Percent bonuses only apply while ticking down.</li></ul>
 <div class="tbl-wrap"><table><thead><tr><th>VIP Level</th><th>Key economy unlock</th></tr></thead><tbody><tr><td>VIP 6</td><td>+10% construction, +5% march speed</td></tr><tr><td><strong>VIP 8</strong></td><td><strong>+20% Food / Iron / Gold production</strong>, +10% march speed</td></tr><tr><td><strong>VIP 11</strong></td><td><strong>+50% construction speed, +15% research speed</strong>; unlocks universal-piece purchases in Diamond Store</td></tr><tr><td>VIP 14+</td><td>Extra march queue, additional Barracks slot</td></tr><tr><td>VIP 18</td><td>Unique skin, capstone bonuses</td></tr></tbody></table></div>
 <ul><li><strong>Development</strong> — construction speed, research speed, Fast Builder, Research Enhancement, Extra Barracks. Badge-free, run continuously.</li><li><strong>Economy</strong> — resource output (food/iron/coin), gathering speed, storage cap. Badge-free, run continuously.</li><li><strong>Alliance Duel / VS Duel</strong> — raises the point-gain and chest-tier rewards you personally get from VS Days. Costs Valor Badges. This is the <em>first</em> Valor Badge sink because higher chest tiers make future badges cheaper.</li><li><strong>Special Forces</strong> — the T10 troop path. Bottom node is Unit X. Requires four gatekeeper prereqs (HP Boost III, Attack Boost III, Defense Boost III, Unit X research itself) totalling &gt;500 million coins.</li><li><strong>Age of Oil</strong> — post-Season-2 late-game branch, gated behind Base Expansion research and HQ 31+.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/buildings/headquarters.html">Headquarters (HQ) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/farm.html">Farm — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/hospital.html">Hospital — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/lighthouse.html">Lighthouse (S4) — Last War building guide</a></li>
+    <li><a href="https://r5tools.io/buildings/tank-center.html">Tank Center — Last War building guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -143,5 +190,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

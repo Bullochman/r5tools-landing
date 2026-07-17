@@ -7,6 +7,9 @@
 <meta name="description" content="Exclusive Weapon Battle Pass in Last War: Survival. Seasons 1–5 — ~50 EW shards per pass, unlock-in-window.">
 <meta name="keywords" content="Exclusive Weapon Battle Pass, Last War event, LWS, R5 alliance planning">
 <link rel="canonical" href="https://r5tools.io/events/exclusive-weapon-pass.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/events/exclusive-weapon-pass.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/events/exclusive-weapon-pass.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/events/exclusive-weapon-pass.html">
 <meta property="og:title" content="Exclusive Weapon Battle Pass — Last War event guide | R5TOOLS.IO">
 <meta property="og:description" content="Exclusive Weapon Battle Pass in Last War: Survival. Seasons 1–5 — ~50 EW shards per pass, unlock-in-window.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/events/exclusive-weapon-pass.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -137,7 +172,19 @@ td { color: var(--text-dim); }
 <h3>16.9 Kimberly Exclusive Weapon (Rocket Shadow, S1 debut)</h3>
 <ul><li>Unlocks Day 4 Week 1</li><li>Requires Kimberly at 5-star</li><li>Activation cost: 50 shards</li><li>Max level: 30</li><li>Battle Pass provides 70 shards (activation + Lvl 2)</li></ul>
 <ul><li><em>08-alliance-systems</em> — Season 1 hive placement decisions and the shift into the &quot;Land of Fog and Rain&quot; map. The user&#x27;s own <em>LWS_Alliance_Ops_Center</em> → <strong>Alliance Hive Grid Manager</strong> is designed specifically for pre-season hive planning and is used against Season 1 layouts.</li><li><em>06-season-2-frozen</em> — Season 2 (Polar Storm) is the direct successor. Different mechanic (frost vs virus), same territorial structure.</li><li><em>02-heroes</em> — Kimberly&#x27;s Exclusive Weapon (Rocket Shadow) debuts in S1 Wk 1 Day 4; Mason UR Upgrade begins Week 2; DVA and Tesla Exclusive Weapons rotate through Battle Pass slots. Hero picks pivot around who can hold-up-in-Contaminated-Land.</li><li><em>03-chief</em> — Base building continues in parallel; Season 1 adds VRI + Protein Farms + Military Bases (removed at Celebration end).</li><li><em>08-alliance-systems</em> — Ministries carry forward from base game; Capitol Conquest during Pre-Season is the first alliance-vs-alliance event of the season. Warzone Duel + Infinite Octagon are cross-server extensions.</li><li><em>04-squads-combat</em> — Rally leader&#x27;s Virus Resistance gate is a Season-1-specific rule that changes rally leader selection (usually highest-VRI R5 or R4 instead of highest-power).</li><li><em>03-chief</em> — Profession Hall is a Season 1 introduction. Engineer vs War Leader choice is once per season.</li><li><em>09-events</em> — Genetic Recombination, Clean-up Operation, Serum Collector, Blood Red Legion, City Clash, UR Upgrade, and Builder Alliance are all Season-1 events. The <strong>standalone Doomsday event</strong> is a permanent bi-weekly ritual and does NOT come and go with the season.</li><li><em>11-monetization</em> — Season Pass (unlocks 5th Protein Farm, +250 VR, +30% march speed, 7-day duration), Battle Passes for exclusive weapons.</li><li><em>13-meta-competitive</em> — 8-tier alliance ranking + Warzone ranking define the meta competitive structure for the season.</li><li><em>15-glossary</em> — Master EN↔KR glossary; the Season 1-specific rows above should be merged there.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/events/season-battle-pass.html">Season Battle Pass — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/awakening-battle-pass.html">Awakening Battle Pass — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/growth-pass.html">Growth Pass — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/alliance-duel-vs.html">Alliance Duel VS — Last War event guide</a></li>
+    <li><a href="https://r5tools.io/events/doomsday.html">Doomsday — Last War event guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -151,5 +198,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

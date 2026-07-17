@@ -7,6 +7,9 @@
 <meta name="description" content="Every Last War: Survival community term with Korean and English translations — heroes, buildings, ranks, events, and R5 slang.">
 
 <link rel="canonical" href="https://r5tools.io/glossary/">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/glossary/index.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/glossary/index.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/glossary/index.html">
 <meta property="og:title" content="Last War glossary — every KR ↔ EN term | R5TOOLS.IO">
 <meta property="og:description" content="Every Last War: Survival community term with Korean and English translations — heroes, buildings, ranks, events, and R5 slang.">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/glossary/index.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -150,7 +185,19 @@ td { color: var(--text-dim); }
 <ul><li><a href="/glossary/shield.html" rel="nofollow noopener"><strong>Shield</strong></a> · 방어막 / 실드</li><li><a href="/glossary/newbie-shield.html" rel="nofollow noopener"><strong>Newbie Shield</strong></a> · 초보자 방어막</li><li><a href="/glossary/peace-shield.html" rel="nofollow noopener"><strong>Peace Shield</strong></a> · 평화 방어막</li><li><a href="/glossary/truce-agreement.html" rel="nofollow noopener"><strong>Truce Agreement</strong></a> · 정전 협정</li><li><a href="/glossary/war-fever.html" rel="nofollow noopener"><strong>War Fever</strong></a> · 전쟁 열풍 / 워 피버</li><li><a href="/glossary/exposed.html" rel="nofollow noopener"><strong>Exposed</strong></a> · 노출</li><li><a href="/glossary/kill-day.html" rel="nofollow noopener"><strong>Kill Day</strong></a> · 킬 데이</li><li><a href="/glossary/kill-event.html" rel="nofollow noopener"><strong>Kill Event</strong></a> · 킬 이벤트</li><li><a href="/glossary/scout.html" rel="nofollow noopener"><strong>Scout</strong></a> · 스카웃</li><li><a href="/glossary/scout-protection.html" rel="nofollow noopener"><strong>Scout Protection</strong></a> · 스카웃 방지</li><li><a href="/glossary/resource-plunder.html" rel="nofollow noopener"><strong>Resource Plunder</strong></a> · 자원 약탈</li><li><a href="/glossary/resource-protection.html" rel="nofollow noopener"><strong>Resource Protection</strong></a> · 약탈 방지 / 자원 보호</li><li><a href="/glossary/push.html" rel="nofollow noopener"><strong>Push</strong></a> · 밀치기</li><li><a href="/glossary/snipe.html" rel="nofollow noopener"><strong>Snipe</strong></a> · 스나이프</li><li><a href="/glossary/bomber.html" rel="nofollow noopener"><strong>Bomber</strong></a> · 봄버 / 폭탄</li><li><a href="/glossary/bell-strike.html" rel="nofollow noopener"><strong>Bell strike</strong></a> · 초당 강타</li></ul>
 <h4>Block 13 — Korean-only community slang</h4>
 <ul><li><a href="/glossary/lws.html" rel="nofollow noopener"><strong>LWS</strong></a> · 라워 / 라스트워</li><li><a href="/glossary/lws-gallery.html" rel="nofollow noopener"><strong>LWS Gallery</strong></a> · 라워갤</li><li><a href="/glossary/bell-ring-and-run.html" rel="nofollow noopener"><strong>Bell-ring-and-run</strong></a> · 벨튀</li><li><a href="/glossary/swap.html" rel="nofollow noopener"><strong>Swap</strong></a> · 스왑</li><li><a href="/glossary/non-aggression-pact.html" rel="nofollow noopener"><strong>Non-Aggression Pact</strong></a> · 나프 / NAP</li><li><a href="/glossary/dominator.html" rel="nofollow noopener"><strong>Dominator</strong></a> · 깔개</li><li><a href="/glossary/chumping-food.html" rel="nofollow noopener"><strong>Chumping-food</strong></a> · ㅊ밥</li><li><a href="/glossary/zombie-king.html" rel="nofollow noopener"><strong>Zombie King</strong></a> · 좀킹</li><li><a href="/glossary/waterfall-training.html" rel="nofollow noopener"><strong>Waterfall training</strong></a> · 폭포훈련</li><li><a href="/glossary/expedition.html" rel="nofollow noopener"><strong>Expedition</strong></a> · 원정</li><li><a href="/glossary/home-server.html" rel="nofollow noopener"><strong>Home server</strong></a> · 본섭</li><li><a href="/glossary/other-server.html" rel="nofollow noopener"><strong>Other server</strong></a> · 타섭</li><li><a href="/glossary/parent-server.html" rel="nofollow noopener"><strong>Parent server</strong></a> · 모섭</li><li><a href="/glossary/1st.html" rel="nofollow noopener"><strong>1st</strong></a> · 1군 / 2군 / 3군</li><li><a href="/glossary/total-spend.html" rel="nofollow noopener"><strong>Total spend</strong></a> · 총투</li><li><a href="/glossary/fish.html" rel="nofollow noopener"><strong>&quot;Fish&quot;</strong></a> · 물고기</li><li><a href="/glossary/war-declaration.html" rel="nofollow noopener"><strong>War Declaration</strong></a> · 선포권</li><li><a href="/glossary/enhancement-stone.html" rel="nofollow noopener"><strong>Enhancement stone</strong></a> · 강화석</li><li><a href="/glossary/tech.html" rel="nofollow noopener"><strong>Tech</strong></a> · 테크</li><li><a href="/glossary/medal.html" rel="nofollow noopener"><strong>Medal</strong></a> · 훈장</li><li><a href="/glossary/star-plucking.html" rel="nofollow noopener"><strong>Star-plucking</strong></a> · 별털이</li><li><a href="/glossary/promotion-tournament.html" rel="nofollow noopener"><strong>Promotion tournament</strong></a> · 승급전</li><li><a href="/glossary/sniping.html" rel="nofollow noopener"><strong>Sniping</strong></a> · 저격</li><li><a href="/glossary/sprinkling.html" rel="nofollow noopener"><strong>Sprinkling</strong></a> · 뿌리기</li><li><a href="/glossary/ji-o-le-gi.html" rel="nofollow noopener"><strong>&quot;Ji-o-le-gi&quot;</strong></a> · 지오르기</li><li><a href="/glossary/game-know-well.html" rel="nofollow noopener"><strong>Game-know-well</strong></a> · 겜잘알</li><li><a href="/glossary/newbie.html" rel="nofollow noopener"><strong>Newbie</strong></a> · 뉴비</li><li><a href="/glossary/returning-player.html" rel="nofollow noopener"><strong>Returning player</strong></a> · 복귀 유저</li><li><a href="/glossary/whale.html" rel="nofollow noopener"><strong>Whale</strong></a> · 정상 유저</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/glossary/season-1.html">Season 1 — LWS term (Season)</a></li>
+    <li><a href="https://r5tools.io/glossary/season-2.html">Season 2 — LWS term (Season)</a></li>
+    <li><a href="https://r5tools.io/glossary/lws.html">LWS — LWS term (Slang)</a></li>
+    <li><a href="https://r5tools.io/glossary/season-3.html">Season 3 — LWS term (Season)</a></li>
+    <li><a href="https://r5tools.io/glossary/season-5.html">Season 5 — LWS term (Season)</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -164,5 +211,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

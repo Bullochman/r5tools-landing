@@ -7,6 +7,9 @@
 <meta name="description" content="Season 2 (Frozen / Polar Storm) — the temperature season with Alliance Furnace, freeze mechanics, coal economy, Rare Soil War, and Warlord Missiles. R5 plann…">
 <meta name="keywords" content="Last War Season 2, Polar Storm, LWS Season 2, R5 planning, Alliance strategy">
 <link rel="canonical" href="https://r5tools.io/seasons/s2-polar-storm.html">
+<link rel="alternate" hreflang="en" href="https://r5tools.io/seasons/s2-polar-storm.html">
+<link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/seasons/s2-polar-storm.html">
+<link rel="alternate" hreflang="x-default" href="https://r5tools.io/seasons/s2-polar-storm.html">
 <meta property="og:title" content="Last War Season 2 Polar Storm guide | R5TOOLS.IO">
 <meta property="og:description" content="Season 2 (Frozen / Polar Storm) — the temperature season with Alliance Furnace, freeze mechanics, coal economy, Rare Soil War, and Warlord Missiles. R5 plann…">
 <meta property="og:type" content="article">
@@ -99,10 +102,42 @@ td { color: var(--text-dim); }
   .wrap { padding: 16px 14px 96px; }
 }
 </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  // Plausible — cookieless, one line. Domain read from config.
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true;
+    p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
 </head>
 <body>
 <nav class="suite-nav" aria-label="R5TOOLS.IO suite">
-  <a href="https://r5tools.io/">Home</a>
+    <a href="https://r5tools.io/ko/seasons/s2-polar-storm.html" hreflang="ko" rel="alternate" style="border-color:#c9a961;color:#c9a961;">한국어</a>
+<a href="https://r5tools.io/">Home</a>
   <a href="https://roster.r5tools.io/">Roster Extractor</a>
   <a href="https://hive.r5tools.io/">Hive Planner</a>
   <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
@@ -288,7 +323,19 @@ td { color: var(--text-dim); }
 <ul><li><strong><a href="https://www.lastwartutorial.com/season-2-polar-storm/" rel="nofollow noopener">Season 2 – Polar Storm: Frozen Map, Temperature System, Rare Soil, and Alliance Strategy</a></strong> — Last War Tutorial, 2026 update. <strong>Tier B</strong>. Deepest numerical source: heat outputs, coal costs, virus resistance curves.</li><li><strong><a href="https://www.lastwartutorial.com/season-2-week-1/" rel="nofollow noopener">Season 2 – Week 1 – Missions and events</a></strong> — Last War Tutorial. <strong>Tier B</strong>. Cold Wave Alert, mission objectives, city unlock schedule.</li><li><strong><a href="https://www.lastwartutorial.com/season-2-the-ultimate-strategy-guide-for-season-2-growth-captures-and-war/" rel="nofollow noopener">Season 2 – The Ultimate Strategy Guide for Season 2 Growth, Captures and War</a></strong> — Last War Tutorial. <strong>Tier B</strong>. Rare Soil War stages, VR by dig site, Warlord Missile.</li><li><strong><a href="https://lastwar-tutorial.com/en/season-2/" rel="nofollow noopener">Last War season 2 guide and tips</a></strong> — lastwar-tutorial.com, 2026. <strong>Tier B</strong>. Temperature zones, Tower of Victory, Village Station, city capture max.</li><li><strong><a href="https://medievalfun.com/last-war-season-2-beginners-guide/" rel="nofollow noopener">Last War Season 2 Beginner&#x27;s Guide for Week 1</a></strong> — Medieval Fun, 2026. <strong>Tier C</strong>. L19 High-Heat Furnace example, 50/day donation cap.</li><li><strong><a href="https://lastwarguide.net/en/seasons/season-2" rel="nofollow noopener">Season 2 Last War: new features and winning strategies</a></strong> — lastwarguide.net. <strong>Tier B</strong>. Alliance Furnace deployment rules, ON/OFF/Overdrive/auto controls, Titanium Alloy Factory Weekly Pass 5th slot, blizzard duration 3h.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-season-2-polar-storm/" rel="nofollow noopener">Last War Survival Season 2 Polar Storm Guide</a></strong> — theriagames.com. <strong>Tier C</strong>. 48-day / 5-week season length, Thermal Map toggle description.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-high-heat-furnace-guide/" rel="nofollow noopener">Last War Survival High Heat Furnace Guide</a></strong> — theriagames.com. <strong>Tier B</strong>. Full L1–L30 heat curve, VR curve, titanium/power cost for L30.</li><li><strong><a href="https://theriagames.com/guide/last-war-survival-titanium-alloy-factory-guide/" rel="nofollow noopener">Last War Survival Titanium Alloy Factory Guide</a></strong> — theriagames.com. <strong>Tier B</strong>. Full L1–L30 coal upgrade cost table, +720/hr per level, factory chain unlock rules.</li><li><strong><a href="https://lastwarhandbook.com/guides/season-2-temperature-guide" rel="nofollow noopener">Last War Season 2 Temperature: Blizzard &amp; Heat Management</a></strong> — Last War Handbook. <strong>Tier B</strong>. (Fetched via search snippet; direct fetch 403.) Blizzard week-by-week severity, thermal map description.</li><li><strong><a href="https://lastwarhandbook.com/guides/season-2-guide" rel="nofollow noopener">Last War Season 2 Guide (2026): Polar Storm Full Strategy</a></strong> — Last War Handbook. <strong>Tier B</strong>. (Search snippet only.)</li><li><strong><a href="https://www.bluestacks.com/blog/game-guides/last-warsurvival-game/lws-season-2-guide-en.html" rel="nofollow noopener">Season 2 Guide for Last War: Survival Game – Key Features and New Mechanics Explained</a></strong> — BlueStacks. <strong>Tier C</strong>. Overview of climate system, alliance furnace concept.</li><li><strong><a href="https://www.bluestacks.com/ko/blog/game-guides/last-warsurvival-game/lws-season-2-guide-ko.html" rel="nofollow noopener">라스트 워: 서바이벌 시즌 2 가이드 – 핵심 및 새로운 메커니즘</a></strong> — BlueStacks KR. <strong>Tier C</strong>. Korean-language mechanics summary.</li><li><strong><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=12212" rel="nofollow noopener">시즌2 초반부 가이드 - 라스트 워 마이너 갤러리</a></strong> — DC Inside LWS gallery. <strong>Tier C</strong>. Korean community: 200k coal for L180 Wanderer, map transition timing, ally rally temperature share.</li><li><strong><a href="https://gall.dcinside.com/mgallery/board/view/?id=lwsmobile&amp;no=30737" rel="nofollow noopener">시즌2 알려달라는 글이있어서 써봄</a></strong> — DC Inside LWS. <strong>Tier C</strong>. Resource swap (mutation crystals → coal, protein → titanium), scout temp raise, factory unlock at L15.</li><li><strong><a href="https://www.lootbar.com/blog/en/last-war-season2-guide.html" rel="nofollow noopener">Last War Survival Season 2 Guide: Growth, Capture and More</a></strong> — LootBar. <strong>Tier C</strong>. Rare Soil, dig site 100% in 4h rule, cap limits.</li><li><strong><a href="https://lastwar-guide.org/season-2/last-war-season-2-week-4-guide" rel="nofollow noopener">The Best Guide to Last War Survival Season 2 Week 4</a></strong> — lastwar-guide.org. <strong>Tier C</strong>. Week 4 -70 °C mechanics, Warlord Missile 5-tile safe distance, Glacieradon → Nuclear Furnace preview, Firebomb 9×9/+10 °C.</li><li><strong><a href="https://heaven-guardian.com/last-war-tower-of-victory-guide-boost-stats-city-temp/" rel="nofollow noopener">Last War: Tower of Victory Guide</a></strong> — heaven-guardian.com. <strong>Tier C</strong>. Tower of Victory +5 °C cap at L3, stat boosts L1–L7.</li><li><strong><a href="https://lastwar-tutorial.com/en/teleporter/" rel="nofollow noopener">Last War teleporter and free teleportation explained</a></strong> — lastwar-tutorial.com. <strong>Tier B</strong>. Free grouping teleport rules, 5-min cross-server cooldown, alliance Assembly Point free-move trick.</li><li><strong><a href="https://namu.wiki/w/%EB%9D%BC%EC%8A%A4%ED%8A%B8%20%EC%9B%8C:%20%EC%84%9C%EB%B0%94%EC%9D%B4%EB%B2%8C" rel="nofollow noopener">Last War: Survival - 나무위키</a></strong> — Namuwiki (KR). <strong>Tier C</strong>. (Fetch 403; referenced as landmark KR wiki for triangulation.)</li></ul>
 <p><strong>Added 2026-07-15 (research pass 2):</strong></p>
 <ul><li><strong><a href="https://www.lastwartutorial.com/season-2-week-5/" rel="nofollow noopener">Season 2 – Week 5 – Cold Wave Alert -90, Turn on Nuclear Furnace</a></strong> — Last War Tutorial. <strong>Tier B</strong>. Nuclear Furnace reactivation: 10 sends/day × 5 stamina; Glacieradon 5 attacks/day × 10 stamina + ~1%/4h progress erosion; -90 blizzard; 1M coal warzone side-goal; per-server start-day randomization Mon/Tue/Thu observed.</li><li><strong><a href="https://www.lastwartutorial.com/season-2-week-4/" rel="nofollow noopener">Season 2 – Week 4 – Cold Wave Alert -70, Rare Soil War, Nuclear Furnace</a></strong> — Last War Tutorial. <strong>Tier B</strong>. Nuclear Furnace L7 city unlock Wk4 Day 6+12h; 10-city / 10-dig-site warzone captures for reward chests.</li><li><strong><a href="https://lastwarhandbook.com/guides/rare-soil-war-season2-guide" rel="nofollow noopener">Season 2 Rare Soil War: Faction Strategy, Brackets &amp; Defence Guide</a></strong> — Last War Handbook. <strong>Tier B</strong> (via search excerpt; direct fetch 403). Wed/Sat attacker/defender rotation, cumulative-soil ranking, bracket rules.</li><li><strong><a href="https://lastwarhandbook.com/guides/season-2-guide" rel="nofollow noopener">Last War Season 2 Guide (2026): Polar Storm Full Strategy</a></strong> — Last War Handbook. <strong>Tier B</strong>. F2P ranking is cumulative-accumulation-not-hold; early L2 dig site &gt; late L6 city; bracket promotion warning.</li><li><strong><a href="https://lastwarvault.com/guides/season-2/timeline-guide/" rel="nofollow noopener">Season 2 Timeline &amp; Week-by-Week Roadmap</a></strong> — Last War Vault. <strong>Tier B</strong>. Season length &quot;roughly 8-10 weeks&quot; — reconciles the prior 48d/5w vs 8w contradiction (detailed timeline paywalled behind supporter tier).</li><li><strong><a href="https://www.lastwartutorial.com/season-3-golden-kingdom/" rel="nofollow noopener">Season 3 Golden Kingdom Ultimate Strategy Guide</a></strong> — Last War Tutorial. <strong>Tier B</strong>. Cross-season reference: S3 exists (Mithril / Sacred Water / Curse Resistance / Scarlet Legion vs Golden Tribe).</li><li><strong><a href="https://lastwarhandbook.com/guides/season-4-guide" rel="nofollow noopener">Last War Season 4 Guide (2026): Evernight Isle</a></strong> — Last War Handbook. <strong>Tier B</strong>. Cross-season reference: S4 single-warzone faction season (Lighthouse + Zombie Generators; Kage no Sato vs Koubutai).</li><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/s5-wild-west-guide.html" rel="nofollow noopener">Season 5 Wild West Guide</a></strong> — LDShop. <strong>Tier B</strong>. Cross-season reference: S5 introduces Alliance Safe Time (S2 lacks this).</li><li><strong><a href="https://cpt-hedge.com/guides/season-6-ultimate-guide" rel="nofollow noopener">Season 6 Lost Rainforest Ultimate Guide</a></strong> — Cpt Hedgehog. <strong>Tier A</strong> (via search excerpt; 403). Cross-season reference: S6 mega-map faction cooperation model.</li></ul>
-  </article>
+  <!-- BEGIN r5tools:seo:related v1 -->
+<section class="related" aria-label="Related pages" style="margin:40px 0 12px;padding:18px 20px;background:var(--panel,#0d1424);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:10px">
+  <h3 style="margin:0 0 10px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent,#c9a961)">Related</h3>
+  <ul style="margin:0;padding-left:20px;color:var(--text-dim,#a8b0c0);font-size:14px;line-height:1.8">
+    <li><a href="https://r5tools.io/seasons/">Last War Survival — every season, one guide index</a></li>
+    <li><a href="https://r5tools.io/seasons/s7-unnamed.html">Last War Season 7 Season 7 guide</a></li>
+    <li><a href="https://r5tools.io/seasons/s5-wild-west.html">Last War Season 5 Wild West guide</a></li>
+    <li><a href="https://r5tools.io/seasons/s1-crimson-plague.html">Last War Season 1 Crimson Plague guide</a></li>
+    <li><a href="https://r5tools.io/seasons/s3-golden-kingdom.html">Last War Season 3 Golden Kingdom guide</a></li>
+  </ul>
+</section>
+<!-- END r5tools:seo:related v1 -->
+</article>
   <div class="cta-card">
     <h3>Bring this into your alliance chat</h3>
     <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
@@ -302,5 +349,9 @@ td { color: var(--text-dim); }
 </footer>
 </div>
 <a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
 </body>
 </html>

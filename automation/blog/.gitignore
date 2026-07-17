@@ -1,0 +1,13 @@
+# Cross-post state — auto-generated, per-machine
+crosspost-state.json
+
+# Logs
+logs/*.jsonl
+logs/*.log
+
+# Local config overrides
+cross-post-config.local.yaml
+cross-post-config.local.json
+
+# Optional weekly extras — hand-curated per-week, do not track
+newsletter/digest-extras.json

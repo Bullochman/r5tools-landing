@@ -1,0 +1,17 @@
+# r5tools weekly screenshot capture — crontab example
+#
+# Install:  crontab -e   then paste the block below.
+# Times are UTC when the machine is set to UTC; adjust if local.
+#
+# Sunday 04:00 UTC — capture, compare, regenerate gallery.
+# One line so the whole pipeline runs atomically and the log goes to logs/cron.log.
+
+0 4 * * 0 cd /Users/evanjones/claudecode/r5tools/r5tools-landing/automation/screenshots && /usr/bin/env python3 capture.py >> logs/cron.log 2>&1 && /usr/bin/env python3 compare.py >> logs/cron.log 2>&1 && /usr/bin/env python3 gallery.py >> logs/cron.log 2>&1
+
+# If you use a venv, replace `/usr/bin/env python3` with the venv's python, e.g.:
+# /Users/evanjones/claudecode/r5tools/.venv/bin/python
+#
+# To notify on visual regressions, set the webhook once at the top of your crontab:
+# SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
+# or:
+# DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/XXX/YYY

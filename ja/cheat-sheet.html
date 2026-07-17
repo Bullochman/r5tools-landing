@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>シーズン2 ランディング チートシート — 無料 — R5TOOLS.IO</title>
+  <meta name="description" content="シーズン2 ランディング チートシート — 7ページの無料PDF。すべてのアライアンスが見落とす4座標、HQレベル別のティア割り当て、ラリーリーダー配置、最初の72時間のビルド順、そしてR5だけが知る8つの警告。条件なし。" />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://r5tools.io/ja/cheat-sheet.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/cheat-sheet.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/cheat-sheet.html" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/cheat-sheet.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/cheat-sheet.html" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="シーズン2 ランディング チートシート — 無料 — R5TOOLS.IO" />
+  <meta property="og:description" content="凍結マップの最初の72時間のためのR5-to-R5プレイブック。7ページ、無料、条件なし。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/ja/cheat-sheet.html" />
+  <meta property="og:image" content="https://r5tools.io/static/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961; --accent-hover: #d9b871;
+      --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+      --success: #8ae0a3; --danger: #e88a4a;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased; line-height: 1.75;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 96px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 24px; flex-wrap: wrap; gap: 8px;
+    }
+    .brand { font-size: 12px; letter-spacing: 0.14em; color: var(--accent); font-weight: 700; }
+    .lang-toggle {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px; text-decoration: none;
+      margin-left: 6px;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero {
+      text-align: center; padding: 40px 12px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero .kicker {
+      display: inline-block; padding: 4px 12px; border: 1px solid var(--border-accent);
+      color: var(--accent); background: var(--panel);
+      border-radius: 14px; font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 36px; font-weight: 700; letter-spacing: -0.01em;
+      line-height: 1.45; margin: 0 0 16px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .sub {
+      font-size: 16px; color: var(--text-dim); max-width: 680px; margin: 0 auto 12px; line-height: 1.85;
+    }
+    .hero .attrib { font-size: 13px; color: var(--text-mute); margin-top: 8px; }
+
+    .grab {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      margin: 40px 0;
+    }
+    @media (max-width: 760px) {
+      .grab { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 26px; line-height: 1.55; }
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+    }
+    .card h2 {
+      color: var(--accent); font-size: 12px; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 700; margin: 0 0 12px;
+    }
+    .card p { color: var(--text-dim); font-size: 14px; margin: 0 0 16px; line-height: 1.8; }
+    .form-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .form-row input {
+      flex: 1; padding: 12px 14px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-size: 14px; font-family: inherit; outline: none;
+    }
+    .form-row input:focus { border-color: var(--accent); }
+    .form-row button {
+      padding: 12px 18px; background: var(--accent); color: var(--bg);
+      border: 0; border-radius: 8px; font-weight: 700; font-size: 14px;
+      cursor: pointer; font-family: inherit;
+    }
+    .form-row button:hover { background: var(--accent-hover); }
+    .form-status { min-height: 18px; font-size: 12px; color: var(--text-mute); margin-bottom: 12px; }
+    .form-status.ok { color: var(--success); }
+    .form-status.warn { color: var(--danger); }
+    .download-btn {
+      display: block; width: 100%; text-align: center;
+      padding: 16px 20px; background: transparent;
+      border: 2px solid var(--accent); color: var(--accent);
+      border-radius: 8px; font-weight: 700; font-size: 16px;
+      cursor: pointer; text-decoration: none;
+    }
+    .download-btn.primary { background: var(--accent); color: var(--bg); }
+    .download-btn.primary:hover { background: var(--accent-hover); }
+    .download-mini { font-size: 11px; color: var(--text-mute); text-align: center; margin-top: 8px; }
+
+    .preview {
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; text-align: center;
+    }
+    .preview .pdf-mock {
+      background: linear-gradient(135deg, #0a0e1a 0%, #12192c 100%);
+      border: 1px solid var(--border-accent); border-radius: 6px;
+      padding: 32px 16px; margin: 0 auto 16px; max-width: 280px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .pdf-mock .band { height: 3px; background: var(--accent); width: 60%; margin: 0 auto 12px; }
+    .pdf-mock .title { color: var(--accent); font-size: 15px; font-weight: 700; margin: 0 0 6px; }
+    .pdf-mock .subtitle { color: var(--text-mute); font-size: 10px; margin: 0 0 20px; }
+    .pdf-mock .attr { color: var(--text-dim); font-size: 9px; letter-spacing: 0.05em; margin-top: 24px; }
+    .preview .meta { color: var(--text-mute); font-size: 12px; margin-top: 12px; }
+
+    .whats-inside { margin: 40px 0; }
+    .whats-inside h2 {
+      font-size: 13px; letter-spacing: 0.12em; color: var(--accent);
+      font-weight: 700; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .toc {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;
+    }
+    .toc-item {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .toc-item .num {
+      color: var(--accent); font-weight: 700; font-family: ui-monospace, monospace;
+      font-size: 14px; min-width: 28px;
+    }
+    .toc-item .body { flex: 1; }
+    .toc-item .body strong { color: var(--text); font-size: 14px; display: block; margin-bottom: 4px; }
+    .toc-item .body span { color: var(--text-mute); font-size: 12px; line-height: 1.7; }
+
+    .testimonials { margin: 48px 0; }
+    .testimonials h2 {
+      font-size: 13px; letter-spacing: 0.12em; color: var(--accent);
+      font-weight: 700; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .test-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+    }
+    .test-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .test-card blockquote {
+      margin: 0; color: var(--text-dim); font-size: 14px;
+      font-style: normal; line-height: 1.85;
+    }
+    .test-card .author {
+      color: var(--text-mute); font-size: 12px; margin-top: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .test-card .author .r5-tag {
+      color: var(--accent); background: rgba(201,169,97,0.08);
+      padding: 2px 8px; border-radius: 10px; font-size: 10px; letter-spacing: 0.05em;
+    }
+    .test-card.placeholder blockquote { color: var(--text-mute); }
+
+    .built-by {
+      background: var(--panel-2); border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 20px 24px; text-align: center; margin: 32px 0;
+    }
+    .built-by strong { color: var(--accent); }
+    .built-by p { margin: 0; color: var(--text-dim); font-size: 14px; line-height: 1.85; }
+
+    .cta {
+      background: linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px; padding: 36px 28px; text-align: center; margin: 48px 0 0;
+    }
+    .cta h2 {
+      color: var(--accent); font-size: 22px; margin: 0 0 12px;
+      text-transform: none; letter-spacing: normal; font-weight: 700; line-height: 1.55;
+    }
+    .cta p { color: var(--text-dim); font-size: 15px; margin: 0 0 24px; line-height: 1.85; }
+    .cta .code {
+      display: inline-block; padding: 4px 14px; background: var(--bg);
+      border: 1px solid var(--border-accent); border-radius: 6px;
+      color: var(--accent); font-family: ui-monospace, monospace;
+      font-size: 13px; letter-spacing: 0.05em; margin: 0 6px;
+    }
+    .cta .btn {
+      display: inline-block; padding: 14px 32px; background: var(--accent);
+      color: var(--bg); border-radius: 8px; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.02em; font-size: 15px;
+    }
+    .cta .btn:hover { background: var(--accent-hover); color: var(--bg); }
+
+    footer {
+      margin-top: 60px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-mute); font-size: 12px; text-align: center;
+    }
+    footer a { color: var(--text-dim); }
+    footer a:hover { color: var(--accent); }
+  </style>
+
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      var COLLECTOR = 'https://access-codes.r5tools.io/api/analytics/event';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        COLLECTOR = 'http://127.0.0.1:8791/api/analytics/event';
+      }
+      window.r5Track = function (event, extra) {
+        var payload = Object.assign({
+          event: event, page: location.pathname,
+          lang: document.documentElement.lang || 'ja', ts: Date.now()
+        }, extra || {});
+        try { window.dataLayer.push(payload); } catch (e) {}
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(COLLECTOR, JSON.stringify(payload));
+          } else {
+            fetch(COLLECTOR, {
+              method: 'POST', mode: 'no-cors', keepalive: true,
+              body: JSON.stringify(payload)
+            }).catch(function () {});
+          }
+        } catch (e) {}
+      };
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="/ja/" class="brand">R5TOOLS.IO</a>
+      <div>
+        <a href="/cheat-sheet.html" class="lang-toggle">English →</a>
+        <a href="/ko/cheat-sheet.html" class="lang-toggle">한국어 →</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="kicker">無料リードマグネット · 7ページ · PDF</div>
+      <h1><span class="accent">シーズン2 ランディング</span> チートシート</h1>
+      <p class="sub">完全無料、条件なし。すべてのアライアンスが見落とす4座標、HQレベル別のティア割り当て、ラリーリーダー配置、最初の72時間のビルド順、そしてR5だけが知る8つの警告。</p>
+      <p class="attrib">ウォーゾーン2007の現役R5が執筆。アライアンス内で自由に配布してください。</p>
+    </section>
+
+    <div class="grab">
+      <div class="card">
+        <h2>PDFを取得</h2>
+        <p>新ツール（凍結リスク、石炭消費、都市占領プランナー）のリリース通知をご希望の方は、メールアドレスをご登録ください。不要な方はそのままダウンロード可能です — ゲートはありません。</p>
+        <form id="emailForm" onsubmit="return submitEmail(event)">
+          <div class="form-row">
+            <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" />
+            <button type="submit" id="sendBtn">送信</button>
+          </div>
+        </form>
+        <div class="form-status" id="formStatus"></div>
+        <a href="../marketing/lead-magnets/season-2-landing-cheat-sheet.pdf"
+           class="download-btn primary"
+           id="downloadBtn"
+           download
+           onclick="onDownload()">チートシートをダウンロード →</a>
+        <div class="download-mini">PDF · 約 90 KB · 7ページ · 印刷可能</div>
+      </div>
+
+      <div class="preview" aria-hidden="true">
+        <div class="pdf-mock">
+          <div class="band"></div>
+          <div class="title">シーズン2 ランディング チートシート</div>
+          <div class="subtitle">ポーラーストーム · 凍結マップ · レアアース戦争</div>
+          <div style="height: 8px; background: var(--accent); margin: 24px auto; width: 40%;"></div>
+          <div class="attr">R5TOOLS.IO  ·  2026</div>
+        </div>
+        <div class="meta">表紙 · 本文6ページ · QR付きの裏表紙</div>
+      </div>
+    </div>
+
+    <section class="whats-inside">
+      <h2>収録内容</h2>
+      <div class="toc">
+        <div class="toc-item"><div class="num">01</div><div class="body"><strong>すべてのアライアンスが見落とす4座標</strong><span>ファーネスタイル · 集結地点 · ラリーリーダー アンカー · フォールバック リング</span></div></div>
+        <div class="toc-item"><div class="num">02</div><div class="body"><strong>HQレベル別ランディング ティア</strong><span>HQレベルに応じた配置、「弱い者ほど中心近く」の原則</span></div></div>
+        <div class="toc-item"><div class="num">03</div><div class="body"><strong>ラリーリーダー配置</strong><span>3秒ウィンドウ · ウォーロード ミサイルのジオメトリ · 25×25 爆発 · 72時間クールダウン</span></div></div>
+        <div class="toc-item"><div class="num">04</div><div class="body"><strong>最初の72時間のビルド順</strong><span>石炭、チタン、レアアースの比率 · アライアンス ファーネス20人ヘルプ ゲート</span></div></div>
+        <div class="toc-item"><div class="num">05</div><div class="body"><strong>「これやると詰みます」チェックリスト</strong><span>現役R5だけが知る8つの警告 · ブラケット ジャンプからセーフタイム混乱まで</span></div></div>
+        <div class="toc-item"><div class="num">06</div><div class="body"><strong>ランディング プランナー ツールの紹介</strong><span>紹介ボーナスQR + $30 アライアンス価格 + RONY-FREEコード</span></div></div>
+      </div>
+    </section>
+
+    <section class="built-by">
+      <p><strong>ウォーゾーン2007の現役R5が制作</strong> — シート内のすべての数値は R5TOOLS.IO ラストウォー ナレッジベースから取得（22の出典と相互確認、JP出典を含む）。</p>
+    </section>
+
+    <section class="testimonials">
+      <h2>R5の声</h2>
+      <div class="test-grid">
+        <div class="test-card placeholder">
+          <blockquote>「レビュー掲載枠 — ウォーゾーン2007のアライアンスR5が、ティア表で毎週繰り返していた凍結崩壊をどう止めたか。」</blockquote>
+          <div class="author"><span>— 名前非公開</span><span class="r5-tag">R5 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>「レビュー掲載枠 — ビルド順を使って1週目の終わりまでにチタン工場4基を完成させたR4。」</blockquote>
+          <div class="author"><span>— 名前非公開</span><span class="r5-tag">R4 · WZ2007</span></div>
+        </div>
+        <div class="test-card placeholder">
+          <blockquote>「レビュー掲載枠 — JPアライアンス リーダー、日本のプレイヤーコミュニティで蓄積された知見とこのシートがどれだけ一致しているか。」</blockquote>
+          <div class="author"><span>— 名前非公開</span><span class="r5-tag">R5 · JP</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>役に立ったら、アライアンス全体のツールも解除しませんか</h2>
+      <p>ランディング プランナー ツールは100人全員にアンカー基準で個別タイルを割り当て、Discord用ラベル付きPNGを書き出し、Day 1前にメンバー別の凍結リスクスコアを生成します。8ツールすべて込み。</p>
+      <p><strong>アライアンス全体 $30</strong>。ファウンディング期間中はコード <span class="code">RONY-FREE</span> で無料利用可能。</p>
+      <a href="/refer.html?ref=CHEATSHEET-JP" class="btn">全ツールを見る →</a>
+    </section>
+
+    <footer>
+      <p><a href="/ja/">← r5tools.io</a>  ·  <a href="/cheat-sheet.html">English</a>  ·  <a href="/ko/cheat-sheet.html">한국어</a>  ·  <a href="/refer.html?ref=CHEATSHEET-JP">紹介プログラム</a>  ·  <a href="/privacy.html">プライバシー</a></p>
+      <p>© 2026 R5TOOLS.IO · First Fun / Century Games とは無関係</p>
+    </footer>
+  </div>
+
+  <script>
+    window.r5Track('cheat_sheet_page_view');
+
+    function onDownload() {
+      window.r5Track('cheat_sheet_downloaded', { format: 'pdf', lang: 'ja' });
+      return true;
+    }
+
+    function submitEmail(ev) {
+      ev.preventDefault();
+      var email = (document.getElementById('emailInput').value || '').trim();
+      var status = document.getElementById('formStatus');
+      if (!email || email.indexOf('@') < 0) {
+        status.textContent = '有効なメールアドレスを入力してください。';
+        status.className = 'form-status warn';
+        return false;
+      }
+      status.textContent = '送信中…';
+      status.className = 'form-status';
+
+      var API_BASE = 'https://access-codes.r5tools.io';
+      if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+        API_BASE = 'http://127.0.0.1:8791';
+      }
+      fetch(API_BASE + '/api/register-email', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'cheat-sheet-ja', ref: 'CHEATSHEET-JP' })
+      }).then(function (r) {
+        return r.json().catch(function () { return { ok: r.ok }; });
+      }).then(function (body) {
+        if (body && (body.ok === true || body.ok === undefined)) {
+          status.textContent = '完了 — チートシートが今ダウンロードされます。';
+          status.className = 'form-status ok';
+          window.r5Track('cheat_sheet_email_captured', { source: 'cheat-sheet-ja' });
+          setTimeout(function () { document.getElementById('downloadBtn').click(); }, 250);
+        } else {
+          status.textContent = 'サーバーエラーが発生しましたが、PDFは引き続きダウンロード可能です。下のダウンロードボタンをクリックしてください。';
+          status.className = 'form-status warn';
+        }
+      }).catch(function () {
+        status.textContent = 'サーバーに接続できませんが、PDFは引き続きダウンロード可能です。下のダウンロードボタンをクリックしてください。';
+        status.className = 'form-status warn';
+      });
+      return false;
+    }
+  </script>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

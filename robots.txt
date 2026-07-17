@@ -3,5 +3,32 @@
 
 User-agent: *
 Allow: /
+Allow: /api/founding-count
+Disallow: /private/
+Disallow: /staging/
+Disallow: /.session-recovery/
+Disallow: /marketing/
+Disallow: /scripts/
+Disallow: /automation/private/
+Crawl-delay: 1
+
+# Google + Bing: crawl-delay is ignored, but the Allow/Disallow list is honored.
+User-agent: Googlebot
+Allow: /
+Allow: /api/founding-count
+Disallow: /private/
+Disallow: /staging/
+Disallow: /.session-recovery/
+Disallow: /marketing/
+Disallow: /scripts/
+
+User-agent: Bingbot
+Allow: /
+Allow: /api/founding-count
+Disallow: /private/
+Disallow: /staging/
+Disallow: /.session-recovery/
+Disallow: /marketing/
+Disallow: /scripts/
 
 Sitemap: https://r5tools.io/sitemap.xml

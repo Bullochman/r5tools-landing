@@ -1,0 +1,194 @@
+<!doctype html>
+<!-- [REVIEW-NEEDED] Korean translation pending native-speaker review. Contact evanjones@mdr.net before publishing. -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>신뢰 및 보안 · R5TOOLS.IO</title>
+  <meta name="description" content="r5tools.io 운영자, 보안 태세, 데이터 처리 관행, 버그 신고 방법. 신중한 R5를 위한 한 페이지 요약." />
+  <link rel="canonical" href="https://r5tools.io/ko/trust.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/trust.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/trust.html" />
+  <link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/trust.html" />
+  <link rel="alternate" hreflang="pt" href="https://r5tools.io/pt/trust.html" />
+  <link rel="alternate" hreflang="es" href="https://r5tools.io/es/trust.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/trust.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c9a961'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-size='52' font-weight='700' fill='%230a0e1a'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#0a0e1a; --panel:#0d1424; --border:rgba(255,255,255,0.08); --accent:#c9a961; --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: "Noto Sans KR", system-ui, -apple-system, sans-serif; line-height: 1.65; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 40px 24px; }
+    h1 { font-size: 32px; margin: 0 0 6px; color: var(--accent); }
+    .lede { color: var(--text-mute); margin: 0 0 32px; font-size: 14px; }
+    h2 { font-size: 20px; color: var(--accent); margin: 40px 0 10px; }
+    h3 { font-size: 15px; color: var(--text); margin: 18px 0 4px; }
+    p, li { color: var(--text-dim); font-size: 14.5px; }
+    ul { padding-left: 22px; }
+    a { color: var(--accent); }
+    strong { color: var(--text); }
+    footer { margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-mute); font-size: 12px; }
+    footer a { text-decoration: none; margin: 0 8px; }
+    .nav { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .nav a { color: var(--text-dim); text-decoration: none; font-size: 12px; }
+    .langs { display: flex; gap: 8px; }
+    .langs a { padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; }
+    .langs a.active { color: var(--accent); border-color: var(--accent); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 20px 0; }
+    .card { padding: 18px 20px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; }
+    .card h3 { margin-top: 0; color: var(--accent); font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase; }
+    .card p { margin: 6px 0 0; font-size: 13.5px; }
+    .callout { padding: 14px 18px; background: rgba(201,169,97,0.08); border: 1px solid rgba(201,169,97,0.25); border-radius: 8px; margin: 12px 0; }
+    .safe { padding: 14px 18px; background: rgba(80,200,120,0.06); border: 1px solid rgba(80,200,120,0.3); border-radius: 8px; margin: 12px 0; }
+    .safe strong { color: rgb(120, 220, 150); }
+    .who { display: flex; gap: 20px; align-items: center; padding: 20px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin: 12px 0; flex-wrap: wrap; }
+    .who-photo { width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #8a6d3b); display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700; color: var(--bg); flex-shrink: 0; }
+    .who-details h3 { margin: 0 0 4px; color: var(--accent); font-size: 18px; text-transform: none; letter-spacing: 0; }
+    .who-details p { margin: 3px 0; }
+    .disclaimer { padding: 12px 16px; background: rgba(255,80,80,0.06); border: 1px solid rgba(255,80,80,0.25); border-radius: 8px; margin: 20px 0; font-size: 13px; }
+    .bounty-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13.5px; }
+    .bounty-table th, .bounty-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; color: var(--text-dim); }
+    .bounty-table th { background: rgba(201,169,97,0.06); color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav">
+      <a href="/ko/">&larr; r5tools.io</a>
+      <div class="langs">
+        <a href="/trust.html">EN</a>
+        <a href="/ko/trust.html" class="active">KR</a>
+        <a href="/ja/trust.html">JP</a>
+        <a href="/pt/trust.html">PT</a>
+        <a href="/es/trust.html">ES</a>
+      </div>
+    </div>
+
+    <h1>신뢰 및 보안</h1>
+    <p class="lede">연맹 데이터를 저희에게 맡길지 R5가 판단하는 데 필요한 모든 것. 한 페이지에 담았습니다.</p>
+
+    <div class="disclaimer"><strong>법률 자문이 아닙니다.</strong> 본 페이지의 내용은 현재의 약속이며, 강제력 있는 버전은 <a href="/ko/terms.html">이용약관</a> 및 <a href="/ko/privacy.html">개인정보</a>에 있습니다.</div>
+
+    <h2>운영자</h2>
+    <div class="who">
+      <div class="who-photo">EJ</div>
+      <div class="who-details">
+        <h3>Evan Jones</h3>
+        <p>독립 개발자, 미국 앨라배마주.</p>
+        <p>Warzone 2007의 활성 연맹 R5.</p>
+        <p>연락처: <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a></p>
+        <p>디스코드: 커뮤니티 서버에서 확인 가능(아래 링크).</p>
+      </div>
+    </div>
+    <p>저는 회사가 아닙니다. LWS를 하는 현직 개발자이며 스프레드시트로 연맹을 운영하는 데 지쳐서 이 도구를 만들었습니다. 문제가 생기면 저에게 직접 이메일 주시면 됩니다.</p>
+
+    <h2>게임 스튜디오와의 무관성</h2>
+    <div class="callout">
+      <p><strong>r5tools.io는 게임이 아닙니다.</strong> 저희는 Last War Games, First Fun, Century Games 또는 그 어떤 파트너도 아닙니다. 내부자 접근 권한이 없습니다. 사전 패치 노트를 받지 않습니다. 어떤 식으로도 게임 퍼블리셔를 대표하지 않습니다.</p>
+      <p>모든 인게임 이름, 유닛 스탯, 스크린샷은 여러분이 게임 주변에서 기획하는 것을 돕기 위해 사용됩니다. 이는 미국 저작권법상 명시적 공정 사용입니다. 권리 보유자가 이의를 제기하시면 즉시 경청하겠습니다 &mdash; 위 이메일.</p>
+    </div>
+
+    <h2>보안 태세 (저희가 건드리지 않는 것)</h2>
+    <div class="safe">
+      <p><strong>저희는 절대 게임 계정 정보를 요구하지 않습니다.</strong> 아이디도, 비밀번호도, 세션 토큰도. 계정에 로그인할 수 있는 어떠한 것도. r5tools 페이지가 그런 것을 묻는다면 탭을 닫고 이메일 주세요 &mdash; 저희 이름을 사칭한 피싱입니다.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>자동화 없음</h3>
+        <p>여러분을 대신해서 게임을 클릭하거나 탭하거나 무언가를 전송하지 않습니다. 저희 도구는 계산기이자 기획 도구이지, 봇이 아닙니다.</p>
+      </div>
+      <div class="card">
+        <h3>메모리 읽기 없음</h3>
+        <p>여러분 기기의 게임 메모리, 네트워크 트래픽, 클립보드를 읽지 않습니다. 저희가 아는 모든 것은 여러분이 붙여넣거나 업로드한 데이터에서 옵니다.</p>
+      </div>
+      <div class="card">
+        <h3>이용약관 위반 없음</h3>
+        <p>저희가 아는 한 LWS 이용약관을 위반하는 것은 없습니다. 저희는 기껏해야 UI가 있는 스프레드시트입니다.</p>
+      </div>
+      <div class="card">
+        <h3>사진은 로컬에 유지</h3>
+        <p>프로필 스튜디오는 100% 브라우저에서 처리합니다. 사진은 저희 서버에 닿지 않습니다.</p>
+      </div>
+      <div class="card">
+        <h3>전송 중 암호화</h3>
+        <p>모든 곳에서 TLS 1.2 이상. 액세스 코드는 평문이 아닌 해시로 저장됩니다.</p>
+      </div>
+      <div class="card">
+        <h3>언제든 삭제 가능</h3>
+        <p>연맹 코드와 함께 이메일 주시면 30일 이내에 삭제합니다 &mdash; 보통 24시간 이내에.</p>
+      </div>
+    </div>
+
+    <h2>데이터 처리 요약</h2>
+    <ul>
+      <li>서비스 운영에 꼭 필요한 최소 데이터만 수집합니다.</li>
+      <li>데이터를 판매하지 않습니다. 결코. 누구에게도.</li>
+      <li>데이터를 광고에 사용하지 않습니다.</li>
+      <li>GDPR, CCPA, PIPA 정보주체 권리를 전 세계적으로 존중합니다.</li>
+      <li>상세: <a href="/ko/privacy.html">개인정보 처리방침</a>.</li>
+    </ul>
+
+    <h2>버그 바운티 프로그램</h2>
+    <p>보안 취약점을 발견하시면 인터넷에 알리기 전에 저희에게 알려주세요. 저희는 1인 개발이며 보안 보고를 진지하게 받아들입니다.</p>
+
+    <h3>신고 방법</h3>
+    <ul>
+      <li>제목 "Security"로 <a href="mailto:evanjones@mdr.net">evanjones@mdr.net</a>에 이메일.</li>
+      <li>포함할 내용: 발견한 것, 재현 방법, (원하시면) 명예의 전당 등록용 이름/핸들.</li>
+      <li>수정 확인 전까지는 공개 공개하지 말아주세요.</li>
+    </ul>
+
+    <h3>범위 내</h3>
+    <ul>
+      <li>r5tools.io 및 access-codes.r5tools.io의 인증 또는 세션 버그.</li>
+      <li>다른 연맹의 업로드된 데이터를 읽는 방법.</li>
+      <li>저희 오리진에서의 XSS, SQL 인젝션, SSRF, IDOR.</li>
+      <li>액세스 코드 권한 확인 우회.</li>
+    </ul>
+
+    <h3>범위 외</h3>
+    <ul>
+      <li>제3자 서비스(Stripe, Cloudflare, GitHub Pages, Railway는 벤더에 직접 신고).</li>
+      <li>PoC 없는 속도 제한 또는 무차별 대입 보고.</li>
+      <li>익스플로잇 없는 누락된 보안 헤더.</li>
+      <li>사용자 기기에 대한 물리적 접근이 필요한 취약점.</li>
+    </ul>
+
+    <h3>바운티 등급</h3>
+    <table class="bounty-table">
+      <thead><tr><th>심각도</th><th>예시</th><th>보상</th></tr></thead>
+      <tbody>
+        <tr><td>Critical</td><td>완전한 계정 탈취, 다른 연맹의 로스터 읽기</td><td>250달러 + 명예의 전당</td></tr>
+        <tr><td>High</td><td>권한 우회, 유료 도구에 저장된 XSS</td><td>100달러 + 명예의 전당</td></tr>
+        <tr><td>Medium</td><td>반사된 XSS, PII 없는 민감 정보 누출</td><td>50달러 + 명예의 전당</td></tr>
+        <tr><td>Low / 정보성</td><td>누락된 헤더, 익스플로잇 불가 공개</td><td>명예의 전당</td></tr>
+      </tbody>
+    </table>
+    <p>바운티는 PayPal, Wise 또는 Stripe로 지급됩니다. 금액은 법적 구속력이 없는 선의의 지불이지만, 저희는 유효한 신고자를 저버린 적이 없으며 앞으로도 그렇지 않을 것입니다.</p>
+
+    <h2>로드맵 및 상태</h2>
+    <ul>
+      <li>공개 로드맵: <a href="/roadmap.html">/roadmap.html</a> &mdash; 이번 달, 다음 달, 그 이후 출시 예정.</li>
+      <li>실시간 상태: <a href="/status.html">/status.html</a> &mdash; 최근 가동 시간, 현재 알려진 문제.</li>
+      <li>변경 로그 / 결정: 로드맵에서 링크.</li>
+    </ul>
+
+    <h2>커뮤니티</h2>
+    <ul>
+      <li>디스코드: <a href="https://discord.gg/r5tools" target="_blank" rel="noopener">discord.gg/r5tools</a> (초대 필요 시 이메일 주세요).</li>
+      <li>신기능 대기자 명단: <a href="/ko/waitlist.html">/ko/waitlist.html</a>.</li>
+    </ul>
+
+    <h2>법률 빠른 링크</h2>
+    <ul>
+      <li><a href="/ko/terms.html">이용약관</a></li>
+      <li><a href="/ko/privacy.html">개인정보 처리방침</a> (GDPR + CCPA + PIPA)</li>
+      <li><a href="/ko/refund.html">환불 정책</a></li>
+    </ul>
+
+    <footer>
+      <a href="/ko/">홈</a> &middot; <a href="/ko/terms.html">이용약관</a> &middot; <a href="/ko/privacy.html">개인정보</a> &middot; <a href="/ko/refund.html">환불</a> &middot; <a href="/ko/trust.html">신뢰</a> &middot; <a href="mailto:evanjones@mdr.net">문의</a>
+    </footer>
+  </div>
+</body>
+</html>

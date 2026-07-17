@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Write a testimonial · r5tools.io</title>
+  <link rel="icon" type="image/png" href="/static/favicon.png" />
+  <meta name="theme-color" content="#0f1216" />
+  <style>
+    :root{
+      --bg:#0b0d10; --panel:#121620; --panel-2:#151a25; --text:#e8ecf3;
+      --text-dim:#a9b1c1; --text-mute:#6f7891; --accent:#c9a961;
+      --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.35);
+      --success:#3fb950; --danger:#f85149;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"SF Pro Text","Inter",Roboto,sans-serif;font-size:15px;line-height:1.6}
+    .wrap{max-width:640px;margin:40px auto;padding:0 20px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+    .brand{font-weight:700;letter-spacing:.05em;color:var(--accent);text-decoration:none;font-size:14px}
+    .lang-switch{display:flex;gap:6px;font-size:12px}
+    .lang-switch a{color:var(--text-mute);text-decoration:none;padding:4px 8px;border:1px solid var(--border);border-radius:6px}
+    .lang-switch a.active,.lang-switch a:hover{color:var(--accent);border-color:var(--border-accent)}
+    h1{font-size:26px;margin:0 0 8px}
+    .lede{color:var(--text-dim);margin:0 0 24px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px}
+    label{display:block;font-size:13px;font-weight:600;letter-spacing:.03em;margin:16px 0 6px}
+    .hint{color:var(--text-mute);font-size:12px;font-weight:400;margin-left:8px}
+    textarea,input[type=text],input[type=number],select{
+      width:100%;background:var(--panel-2);color:var(--text);
+      border:1px solid var(--border);border-radius:8px;
+      padding:11px 12px;font:inherit;font-size:14px;
+    }
+    textarea{min-height:130px;resize:vertical;line-height:1.55}
+    textarea:focus,input:focus,select:focus{outline:none;border-color:var(--border-accent);box-shadow:0 0 0 3px rgba(201,169,97,0.10)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:520px){.row{grid-template-columns:1fr}}
+    .char-count{color:var(--text-mute);font-size:12px;text-align:right;margin-top:4px}
+    .char-count.warn{color:var(--danger)}
+    .stars{display:flex;gap:6px;margin-top:6px}
+    .star{cursor:pointer;font-size:26px;color:var(--text-mute);user-select:none;transition:transform .1s}
+    .star:hover,.star.filled{color:var(--accent)}
+    .star:active{transform:scale(1.2)}
+    .rating-label{color:var(--text-mute);font-size:12px;margin-top:4px;min-height:16px}
+    .consent{display:flex;gap:12px;align-items:flex-start;margin:18px 0 8px;
+      padding:14px;background:var(--panel-2);border:1px solid var(--border);border-radius:8px}
+    .consent input[type=checkbox]{margin-top:3px;width:16px;height:16px;accent-color:var(--accent);flex-shrink:0}
+    .consent label{margin:0;font-weight:400;font-size:13px;color:var(--text-dim);line-height:1.55}
+    .consent label strong{color:var(--text)}
+    button{
+      width:100%;margin-top:20px;padding:14px 16px;background:var(--accent);color:#0b0d10;
+      font:inherit;font-size:15px;font-weight:700;letter-spacing:.02em;
+      border:none;border-radius:8px;cursor:pointer;transition:background .1s
+    }
+    button:hover{background:#dcbc76}
+    button:disabled{opacity:.5;cursor:not-allowed}
+    .note{color:var(--text-mute);font-size:12px;margin-top:16px;line-height:1.55}
+    .note a{color:var(--accent)}
+    .msg{padding:14px 16px;border-radius:8px;margin:16px 0;display:none}
+    .msg.error{display:block;background:rgba(248,81,73,0.10);color:var(--danger);border:1px solid rgba(248,81,73,0.35)}
+    .msg.success{display:block;background:rgba(63,185,80,0.10);color:var(--success);border:1px solid rgba(63,185,80,0.35)}
+    .thank{text-align:center;padding:40px 20px}
+    .thank h1{font-size:32px;color:var(--accent)}
+    .thank .credit{margin:16px 0;padding:20px;background:var(--panel);border:1px dashed var(--border-accent);border-radius:10px}
+    .thank .credit strong{color:var(--accent);font-size:20px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="/">R5TOOLS.IO</a>
+      <div class="lang-switch">
+        <a href="?lang=en" data-lang="en" class="active">EN</a>
+        <a href="?lang=ko" data-lang="ko">한국어</a>
+        <a href="?lang=ja" data-lang="ja">日本語</a>
+        <a href="?lang=pt" data-lang="pt">PT</a>
+        <a href="?lang=es" data-lang="es">ES</a>
+      </div>
+    </header>
+
+    <div id="form-view">
+      <h1 data-i18n="title">Write a testimonial</h1>
+      <p class="lede" data-i18n="lede">You've been using r5tools long enough to have an opinion — thanks for sharing it. Everything below (except email verification) will be public on <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> if you opt in.</p>
+
+      <div class="card">
+        <div id="msg" class="msg"></div>
+        <form id="testimonial-form" autocomplete="off">
+          <input type="hidden" name="user" id="user-hash" />
+          <input type="hidden" name="submitted_at" id="submitted-at" />
+          <input type="hidden" name="page_open_at" id="page-open-at" />
+
+          <label data-i18n="lblQuote">
+            Your quote
+            <span class="hint" data-i18n="hintQuote">— max 500 chars, plain text</span>
+          </label>
+          <textarea name="quote" id="quote" maxlength="500" required
+            data-i18n-placeholder="phQuote"
+            placeholder="What did r5tools change about how your alliance runs?"></textarea>
+          <div class="char-count"><span id="quote-count">0</span> / 500</div>
+
+          <div class="row">
+            <div>
+              <label data-i18n="lblName">
+                Name or R5 handle
+                <span class="hint" data-i18n="hintName">— shown publicly</span>
+              </label>
+              <input type="text" name="name" id="name" maxlength="60" required
+                data-i18n-placeholder="phName" placeholder="e.g. RONY-R5 or Evan" />
+            </div>
+            <div>
+              <label data-i18n="lblWarzone">
+                Warzone #
+                <span class="hint" data-i18n="hintWarzone">— optional</span>
+              </label>
+              <input type="number" name="warzone" id="warzone" min="1" max="9999"
+                placeholder="2007" />
+            </div>
+          </div>
+
+          <label data-i18n="lblRole">Your role in the alliance</label>
+          <select name="role" id="role" required>
+            <option value="" data-i18n="roleChoose">Choose one…</option>
+            <option value="R5">R5</option>
+            <option value="R4">R4</option>
+            <option value="member" data-i18n="roleMember">Member</option>
+          </select>
+
+          <label data-i18n="lblRating">Rating <span class="hint" data-i18n="hintRating">— optional, helps the aggregate</span></label>
+          <div class="stars" id="stars">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <div class="rating-label" id="rating-label"></div>
+          <input type="hidden" name="rating" id="rating" value="" />
+
+          <div class="consent">
+            <input type="checkbox" name="consent" id="consent" required />
+            <label for="consent" data-i18n="consent">
+              <strong>I allow r5tools.io to display this testimonial</strong> on the website and on social media, with attribution to the name I provided above. I can ask for it to be removed at any time by replying to any r5tools email.
+            </label>
+          </div>
+
+          <button type="submit" id="submit-btn" data-i18n="btnSubmit">Submit</button>
+          <p class="note" data-i18n="note">
+            Every displayed testimonial is verified against paid-user records where possible.
+            Low-star or refund-related feedback goes straight to Evan for personal handling, not to the public wall.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <div id="thank-view" class="thank" style="display:none">
+      <h1 data-i18n="thankTitle">Thank you.</h1>
+      <p data-i18n="thankBody">Your testimonial is with the moderator. If it clears, it'll appear on <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> within 24 hours.</p>
+      <div class="credit">
+        <div data-i18n="creditLabel">As a thank-you for taking the time:</div>
+        <strong>$5 credit</strong> <span data-i18n="creditNote">added to your referral balance.</span>
+      </div>
+      <p><a href="/" style="color:var(--accent)" data-i18n="backHome">← Back to r5tools.io</a></p>
+    </div>
+  </div>
+
+<script>
+  var I18N = {
+    en: {
+      title: "Write a testimonial",
+      lede: 'You\'ve been using r5tools long enough to have an opinion — thanks for sharing it. Everything below (except email verification) will be public on <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> if you opt in.',
+      lblQuote: "Your quote", hintQuote: "— max 500 chars, plain text",
+      phQuote: "What did r5tools change about how your alliance runs?",
+      lblName: "Name or R5 handle", hintName: "— shown publicly",
+      phName: "e.g. RONY-R5 or Evan",
+      lblWarzone: "Warzone #", hintWarzone: "— optional",
+      lblRole: "Your role in the alliance", roleChoose: "Choose one…", roleMember: "Member",
+      lblRating: "Rating", hintRating: "— optional, helps the aggregate",
+      consent: "<strong>I allow r5tools.io to display this testimonial</strong> on the website and on social media, with attribution to the name I provided above. I can ask for it to be removed at any time by replying to any r5tools email.",
+      btnSubmit: "Submit",
+      note: "Every displayed testimonial is verified against paid-user records where possible. Low-star or refund-related feedback goes straight to Evan for personal handling, not to the public wall.",
+      thankTitle: "Thank you.",
+      thankBody: 'Your testimonial is with the moderator. If it clears, it\'ll appear on <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> within 24 hours.',
+      creditLabel: "As a thank-you for taking the time:", creditNote: "added to your referral balance.",
+      backHome: "← Back to r5tools.io",
+      rateLabels: ["","Terrible","Not great","OK","Good","Best DME tools I've used"],
+      errShort: "Please write a bit more — at least 40 characters.",
+      errConsent: "Consent is required to display on the site.",
+      errRole: "Pick your role.",
+      errNetwork: "Network error. Try again in a moment."
+    },
+    ko: {
+      title: "후기 작성",
+      lede: 'R5tools를 충분히 써보셨으니 의견이 생기셨을 겁니다 — 나눠주셔서 감사합니다. 동의하시면 아래 내용(이메일 확인 제외)이 <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a>에 공개됩니다.',
+      lblQuote: "후기 내용", hintQuote: "— 최대 500자",
+      phQuote: "R5tools 덕분에 얼라이언스 운영에서 어떤 점이 달라졌나요?",
+      lblName: "이름 또는 R5 닉네임", hintName: "— 공개 표시됨",
+      phName: "예: RONY-R5 혹은 Evan",
+      lblWarzone: "워존 번호", hintWarzone: "— 선택",
+      lblRole: "얼라이언스 내 역할", roleChoose: "선택하세요…", roleMember: "멤버",
+      lblRating: "별점", hintRating: "— 선택, 평균 점수 계산에 사용",
+      consent: "<strong>이 후기를 r5tools.io 웹사이트와 SNS에 공개</strong>하는 것에 동의합니다. 위에 입력한 이름으로 표시됩니다. 어느 이메일에나 답장하여 언제든 삭제 요청할 수 있습니다.",
+      btnSubmit: "제출",
+      note: "표시되는 모든 후기는 가능한 경우 유료 사용자 기록과 대조하여 인증됩니다. 낮은 별점이나 환불 관련 피드백은 공개 게시판이 아닌 Evan에게 직접 전달됩니다.",
+      thankTitle: "감사합니다.",
+      thankBody: '후기가 모더레이터에게 전달되었습니다. 승인되면 24시간 이내에 <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a>에 표시됩니다.',
+      creditLabel: "시간을 내주신 감사의 표시로:", creditNote: "추천 잔액에 적립되었습니다.",
+      backHome: "← r5tools.io로 돌아가기",
+      rateLabels: ["","최악","별로","보통","좋음","이만한 도구 없음"],
+      errShort: "조금 더 자세히 써주세요 — 최소 40자.",
+      errConsent: "공개 동의가 필요합니다.",
+      errRole: "역할을 선택해주세요.",
+      errNetwork: "네트워크 오류. 잠시 후 다시 시도해주세요."
+    },
+    ja: {
+      title: "レビューを書く",
+      lede: 'r5toolsを十分に使ったので、意見があるはずです — 共有していただきありがとうございます。同意すれば、以下の内容（メール確認を除く）は <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> に公開されます。',
+      lblQuote: "レビュー内容", hintQuote: "— 最大500文字",
+      phQuote: "r5toolsによってアライアンス運営で何が変わりましたか？",
+      lblName: "名前またはR5ハンドル", hintName: "— 公開表示",
+      phName: "例: RONY-R5 または Evan",
+      lblWarzone: "ウォーゾーン番号", hintWarzone: "— 任意",
+      lblRole: "アライアンス内の役割", roleChoose: "選択…", roleMember: "メンバー",
+      lblRating: "評価", hintRating: "— 任意、平均に反映されます",
+      consent: "<strong>このレビューをr5tools.ioのウェブサイトとSNSに表示</strong>することに同意します。上記の名前で表示されます。どのr5toolsメールに返信しても、いつでも削除を依頼できます。",
+      btnSubmit: "送信",
+      note: "表示されるすべてのレビューは、可能な限り有料ユーザー記録と照合して認証されます。低評価または返金関連のフィードバックは、公開ボードではなくEvanに直接届きます。",
+      thankTitle: "ありがとうございます。",
+      thankBody: 'レビューはモデレーターに届きました。承認されれば、24時間以内に <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> に表示されます。',
+      creditLabel: "お時間を頂いたお礼として:", creditNote: "リファラル残高に加算されました。",
+      backHome: "← r5tools.ioに戻る",
+      rateLabels: ["","最悪","いまいち","普通","良い","これ以上ない"],
+      errShort: "もう少し詳しく — 最低40文字。",
+      errConsent: "公開の同意が必要です。",
+      errRole: "役割を選択してください。",
+      errNetwork: "ネットワークエラー。少ししてから再試行してください。"
+    },
+    pt: {
+      title: "Escreva um depoimento",
+      lede: 'Você já usa r5tools o suficiente para ter uma opinião — obrigado por compartilhar. Se você concordar, tudo abaixo (exceto verificação de email) será público em <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a>.',
+      lblQuote: "Seu depoimento", hintQuote: "— máx. 500 caracteres",
+      phQuote: "O que r5tools mudou no funcionamento da sua aliança?",
+      lblName: "Nome ou handle R5", hintName: "— exibido publicamente",
+      phName: "ex: RONY-R5 ou Evan",
+      lblWarzone: "Warzone #", hintWarzone: "— opcional",
+      lblRole: "Seu papel na aliança", roleChoose: "Escolha…", roleMember: "Membro",
+      lblRating: "Avaliação", hintRating: "— opcional, alimenta a média",
+      consent: "<strong>Autorizo r5tools.io a exibir este depoimento</strong> no site e nas redes sociais, com atribuição ao nome que forneci acima. Posso pedir a remoção a qualquer momento respondendo a qualquer email do r5tools.",
+      btnSubmit: "Enviar",
+      note: "Todo depoimento exibido é verificado contra registros de usuários pagos quando possível. Feedback com baixa avaliação ou relacionado a reembolso vai direto para o Evan, não para o mural público.",
+      thankTitle: "Obrigado.",
+      thankBody: 'Seu depoimento está com o moderador. Se for aprovado, aparecerá em <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> em 24 horas.',
+      creditLabel: "Como agradecimento pelo tempo:", creditNote: "adicionado ao seu saldo de indicação.",
+      backHome: "← Voltar para r5tools.io",
+      rateLabels: ["","Péssimo","Ruim","OK","Bom","Melhores ferramentas que já usei"],
+      errShort: "Escreva um pouco mais — pelo menos 40 caracteres.",
+      errConsent: "O consentimento é obrigatório para exibir no site.",
+      errRole: "Escolha seu papel.",
+      errNetwork: "Erro de rede. Tente novamente em instantes."
+    },
+    es: {
+      title: "Escribe un testimonio",
+      lede: 'Ya usas r5tools lo suficiente como para tener una opinión — gracias por compartirla. Si aceptas, todo lo de abajo (excepto la verificación de email) será público en <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a>.',
+      lblQuote: "Tu testimonio", hintQuote: "— máx. 500 caracteres",
+      phQuote: "¿Qué cambió r5tools en cómo funciona tu alianza?",
+      lblName: "Nombre o handle R5", hintName: "— mostrado públicamente",
+      phName: "ej: RONY-R5 o Evan",
+      lblWarzone: "Warzone #", hintWarzone: "— opcional",
+      lblRole: "Tu rol en la alianza", roleChoose: "Elige…", roleMember: "Miembro",
+      lblRating: "Valoración", hintRating: "— opcional, alimenta la media",
+      consent: "<strong>Autorizo a r5tools.io a mostrar este testimonio</strong> en el sitio web y en redes sociales, con atribución al nombre que proporcioné arriba. Puedo pedir que se elimine en cualquier momento respondiendo a cualquier email de r5tools.",
+      btnSubmit: "Enviar",
+      note: "Cada testimonio mostrado se verifica contra los registros de usuarios pagos cuando es posible. Los comentarios de baja valoración o relacionados con reembolsos van directamente a Evan, no al muro público.",
+      thankTitle: "Gracias.",
+      thankBody: 'Tu testimonio está con el moderador. Si es aprobado, aparecerá en <a href="/testimonials.html" style="color:var(--accent)">testimonials.html</a> en 24 horas.',
+      creditLabel: "Como agradecimiento por el tiempo:", creditNote: "añadido a tu saldo de referidos.",
+      backHome: "← Volver a r5tools.io",
+      rateLabels: ["","Pésimo","Malo","Bien","Bueno","Las mejores que he usado"],
+      errShort: "Escribe un poco más — al menos 40 caracteres.",
+      errConsent: "Se requiere consentimiento para mostrar en el sitio.",
+      errRole: "Elige tu rol.",
+      errNetwork: "Error de red. Intenta de nuevo en un momento."
+    }
+  };
+
+  function detectLang(){
+    var q = new URLSearchParams(location.search).get("lang");
+    if (q && I18N[q]) return q;
+    var b = (navigator.language || "en").slice(0,2).toLowerCase();
+    return I18N[b] ? b : "en";
+  }
+
+  var LANG = detectLang();
+  var T = I18N[LANG];
+
+  function applyI18n(){
+    document.documentElement.lang = LANG;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n"); if (T[k]) el.innerHTML = T[k];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+      var k = el.getAttribute("data-i18n-placeholder"); if (T[k]) el.setAttribute("placeholder", T[k]);
+    });
+    document.querySelectorAll(".lang-switch a").forEach(function(a){
+      a.classList.toggle("active", a.getAttribute("data-lang") === LANG);
+    });
+  }
+
+  // stash open-time for the min-time-on-page anti-spam check
+  document.getElementById("page-open-at").value = String(Date.now());
+  document.getElementById("user-hash").value = new URLSearchParams(location.search).get("user") || "";
+
+  applyI18n();
+
+  // Quote char counter + validation styling
+  var quote = document.getElementById("quote");
+  var counter = document.getElementById("quote-count");
+  quote.addEventListener("input", function(){
+    counter.textContent = String(quote.value.length);
+    counter.parentElement.classList.toggle("warn", quote.value.length > 480);
+  });
+
+  // Stars
+  var starEls = Array.from(document.querySelectorAll("#stars .star"));
+  var ratingInput = document.getElementById("rating");
+  var ratingLabel = document.getElementById("rating-label");
+  function paintStars(val){
+    starEls.forEach(function(s){ s.classList.toggle("filled", Number(s.dataset.value) <= val); });
+    ratingLabel.textContent = val ? T.rateLabels[val] || "" : "";
+  }
+  starEls.forEach(function(s){
+    s.addEventListener("mouseenter", function(){ paintStars(Number(s.dataset.value)); });
+    s.addEventListener("click", function(){
+      ratingInput.value = s.dataset.value;
+      paintStars(Number(s.dataset.value));
+    });
+  });
+  document.getElementById("stars").addEventListener("mouseleave", function(){
+    paintStars(Number(ratingInput.value) || 0);
+  });
+
+  // Submit
+  var form = document.getElementById("testimonial-form");
+  var msg = document.getElementById("msg");
+  var btn = document.getElementById("submit-btn");
+
+  function fail(text){
+    msg.textContent = text;
+    msg.className = "msg error";
+    msg.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    msg.className = "msg"; msg.textContent = "";
+
+    var q = quote.value.trim();
+    if (q.length < 40) return fail(T.errShort);
+    if (!document.getElementById("consent").checked) return fail(T.errConsent);
+    if (!document.getElementById("role").value) return fail(T.errRole);
+
+    document.getElementById("submitted-at").value = new Date().toISOString();
+
+    var payload = Object.fromEntries(new FormData(form).entries());
+    payload.rating = payload.rating ? Number(payload.rating) : null;
+    payload.warzone = payload.warzone ? Number(payload.warzone) : null;
+    payload.lang = LANG;
+    payload.time_on_page_ms = Date.now() - Number(payload.page_open_at || Date.now());
+
+    btn.disabled = true; btn.textContent = "...";
+    fetch("/api/testimonials/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function(r){
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function(){
+        document.getElementById("form-view").style.display = "none";
+        document.getElementById("thank-view").style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      })
+      .catch(function(){
+        btn.disabled = false; btn.textContent = T.btnSubmit;
+        fail(T.errNetwork);
+      });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+2026-07-17 05:37:26,309 INFO launch-thread: Launch thread scheduling target: 2026-07-21T20:15:00-04:00 (UTC: 2026-07-22T00:15:00+00:00)
+2026-07-17 05:37:26,309 INFO launch-thread: Preflighting 12 tweets...
+2026-07-17 05:37:26,309 INFO launch-thread:   T01: 272 chars, 1 media (OK)
+2026-07-17 05:37:26,309 INFO launch-thread:   T02: 262 chars, 1 media (OK)
+2026-07-17 05:37:26,309 INFO launch-thread:   T03: 267 chars, 1 media (OK)
+2026-07-17 05:37:26,309 INFO launch-thread:   T04: 264 chars, 1 media (OK)
+2026-07-17 05:37:26,309 INFO launch-thread:   T05: 278 chars, 1 media (OK)
+2026-07-17 05:37:26,309 INFO launch-thread:   T06: 237 chars, 1 media (OK)
+2026-07-17 05:37:26,309 INFO launch-thread:   T07: 274 chars, 1 media (OK)
+2026-07-17 05:37:26,310 INFO launch-thread:   T08: 262 chars, 1 media (OK)
+2026-07-17 05:37:26,310 INFO launch-thread:   T09: 257 chars, 1 media (OK)
+2026-07-17 05:37:26,310 INFO launch-thread:   T10: 250 chars, 0 media (OK)
+2026-07-17 05:37:26,310 INFO launch-thread:   T11: 268 chars, 0 media (OK)
+2026-07-17 05:37:26,310 INFO launch-thread:   T12: 231 chars, 1 media (OK)
+2026-07-17 05:37:26,310 INFO launch-thread: DRY RUN — would create thread with 12 tweets scheduled at 2026-07-21T20:15:00-04:00
+2026-07-17 05:37:26,310 INFO launch-thread:   T01 [272 chars] Built 8 tools that make our alliance win every Season 2 event. Here's how they work — thread down. ⏎  ⏎   [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T02 [262 chars] 1/ Landing Planner. ⏎  ⏎ Paste your roster. Pick your Assembly Point tile. Tool spits out coordinates fo  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T03 [267 chars] 2/ Heat Simulator. ⏎  ⏎ Type your Alliance Furnace level + coordinates. Overlay your hive. Tool shows th  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T04 [264 chars] 3/ Coal Burn Calculator. ⏎  ⏎ L20 Alliance Furnace burns 1,440 coal/min normal, 5,760/min overdrive. Eve  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T05 [278 chars] 4/ Freeze Risk Dashboard. ⏎  ⏎ For every member: current tile temp + HHF output + AF radius coverage, th  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T06 [237 chars] 5/ Roster Extractor. ⏎  ⏎ Screen-record your alliance member list on your phone (30 sec). Drop the mp4 i  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T07 [274 chars] 6/ City Capture Planner. ⏎  ⏎ Season 2 caps you at 2 city captures per day, 36-hour post-cap protection   [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T08 [262 chars] 7/ Season Timeline. ⏎  ⏎ One screen: every VS Day theme (Mon-Sat), every Marshal's Guard slot, every bli  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T09 [257 chars] 8/ Hive Grid Manager. ⏎  ⏎ The one that started this suite. Multi-alliance mega-hives (up to 6 color-cod  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread:   T10 [250 chars] Quick pause — I'm not a studio. ⏎  ⏎ R5 of RONY in WZ 2007. Built r5tools.io because our officer team wa
+2026-07-17 05:37:26,310 INFO launch-thread:   T11 [268 chars] Pricing: ⏎  ⏎ Free tier — real. Landing, heat, coal, freeze, city cap, timeline, hive grid all work with
+2026-07-17 05:37:26,310 INFO launch-thread:   T12 [231 chars] That's the suite. 8 tools, 7 languages (EN/KR/ES/PT/JA/DE/FR), built by an active R5. ⏎  ⏎ Try it: r5too  [+1 media]
+2026-07-17 05:37:26,310 INFO launch-thread: DRY RUN complete. Rerun without --dry-run to schedule.
+2026-07-17 05:39:06,574 INFO launch-thread: Launch thread scheduling target: 2026-07-22T09:00:00-05:00 (UTC: 2026-07-22T14:00:00+00:00)
+2026-07-17 05:39:06,574 INFO launch-thread: Preflighting 12 tweets...
+2026-07-17 05:39:06,574 INFO launch-thread:   T01: 272 chars, 1 media (OK)
+2026-07-17 05:39:06,574 INFO launch-thread:   T02: 262 chars, 1 media (OK)
+2026-07-17 05:39:06,574 INFO launch-thread:   T03: 267 chars, 1 media (OK)
+2026-07-17 05:39:06,574 INFO launch-thread:   T04: 264 chars, 1 media (OK)
+2026-07-17 05:39:06,574 INFO launch-thread:   T05: 278 chars, 1 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread:   T06: 237 chars, 1 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread:   T07: 274 chars, 1 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread:   T08: 262 chars, 1 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread:   T09: 257 chars, 1 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread:   T10: 250 chars, 0 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread:   T11: 268 chars, 0 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread:   T12: 231 chars, 1 media (OK)
+2026-07-17 05:39:06,575 INFO launch-thread: DRY RUN — would create thread with 12 tweets scheduled at 2026-07-22T09:00:00-05:00
+2026-07-17 05:39:06,575 INFO launch-thread:   T01 [272 chars] Built 8 tools that make our alliance win every Season 2 event. Here's how they work — thread down. ⏎  ⏎   [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T02 [262 chars] 1/ Landing Planner. ⏎  ⏎ Paste your roster. Pick your Assembly Point tile. Tool spits out coordinates fo  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T03 [267 chars] 2/ Heat Simulator. ⏎  ⏎ Type your Alliance Furnace level + coordinates. Overlay your hive. Tool shows th  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T04 [264 chars] 3/ Coal Burn Calculator. ⏎  ⏎ L20 Alliance Furnace burns 1,440 coal/min normal, 5,760/min overdrive. Eve  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T05 [278 chars] 4/ Freeze Risk Dashboard. ⏎  ⏎ For every member: current tile temp + HHF output + AF radius coverage, th  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T06 [237 chars] 5/ Roster Extractor. ⏎  ⏎ Screen-record your alliance member list on your phone (30 sec). Drop the mp4 i  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T07 [274 chars] 6/ City Capture Planner. ⏎  ⏎ Season 2 caps you at 2 city captures per day, 36-hour post-cap protection   [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T08 [262 chars] 7/ Season Timeline. ⏎  ⏎ One screen: every VS Day theme (Mon-Sat), every Marshal's Guard slot, every bli  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T09 [257 chars] 8/ Hive Grid Manager. ⏎  ⏎ The one that started this suite. Multi-alliance mega-hives (up to 6 color-cod  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread:   T10 [250 chars] Quick pause — I'm not a studio. ⏎  ⏎ R5 of RONY in WZ 2007. Built r5tools.io because our officer team wa
+2026-07-17 05:39:06,575 INFO launch-thread:   T11 [268 chars] Pricing: ⏎  ⏎ Free tier — real. Landing, heat, coal, freeze, city cap, timeline, hive grid all work with
+2026-07-17 05:39:06,575 INFO launch-thread:   T12 [231 chars] That's the suite. 8 tools, 7 languages (EN/KR/ES/PT/JA/DE/FR), built by an active R5. ⏎  ⏎ Try it: r5too  [+1 media]
+2026-07-17 05:39:06,575 INFO launch-thread: DRY RUN complete. Rerun without --dry-run to schedule.

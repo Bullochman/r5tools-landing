@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="es-419">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Refiere &amp; gana — R5TOOLS.IO</title>
+  <meta name="description" content="Todo usuario de R5TOOLS.IO recibe un código de referido único. Compártelo y gana parte de los ingresos por cada desbloqueo pago que traigas." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="canonical" href="https://r5tools.io/es/refer.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/refer.html" />
+  <link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/refer.html" />
+  <link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/refer.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/refer.html" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="Refiere &amp; gana — R5TOOLS.IO" />
+  <meta property="og:description" content="Comparte tu código único. Gana parte de los ingresos por cada desbloqueo pago que traigas." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/es/refer.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961; --accent-hover: #d9b871;
+      --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+      --success: #8ae0a3; --warn: #e88a4a;
+    }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.55; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+    header.top { display: flex; justify-content: space-between; align-items: center; padding: 8px 0 32px; }
+    .brand { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600; text-decoration: none; }
+    .brand:hover { color: var(--accent-hover); }
+    .lang-toggle { background: var(--panel); border: 1px solid var(--border); color: var(--text-dim); padding: 6px 14px; border-radius: 16px; font-size: 12px; text-decoration: none; }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .suite-nav { display: flex; flex-wrap: wrap; gap: 10px 18px; padding: 12px 16px; margin: 0 0 32px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; font-size: 12.5px; }
+    .suite-nav a { color: var(--text-dim); text-decoration: none; }
+    .suite-nav a:hover { color: var(--accent); }
+    .suite-nav .sep { color: var(--text-mute); }
+    .page-title { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 12px 0 8px; }
+    .page-title .accent { color: var(--accent); }
+    .page-sub { color: var(--text-dim); font-size: 15px; max-width: 720px; margin: 0 0 28px; }
+    .login-card, .refer-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .login-card h2, .refer-card h2 { margin: 0 0 8px; font-size: 20px; font-weight: 600; color: var(--accent); }
+    .login-card p { color: var(--text-dim); font-size: 14px; margin: 6px 0 18px; }
+    .email-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .email-row input { flex: 1 1 220px; min-width: 0; padding: 12px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); font-size: 15px; font-family: inherit; }
+    .email-row input:focus { outline: none; border-color: var(--accent); }
+    .btn { background: var(--accent); color: #0a0e1a; padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap; border: none; cursor: pointer; font-family: inherit; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn.secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--border); }
+    .btn.secondary:hover { border-color: var(--accent); color: var(--accent); background: var(--panel-2); }
+    .code-block { background: var(--panel-2); border: 1px solid var(--border-accent); border-radius: 10px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 16px 0 20px; }
+    .code-block .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; word-break: break-all; }
+    .code-block .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .link-block { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; color: var(--text-dim); word-break: break-all; margin-bottom: 16px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0 24px; }
+    .stat { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .stat .label { font-size: 10.5px; letter-spacing: 0.12em; color: var(--text-mute); text-transform: uppercase; margin-bottom: 6px; }
+    .stat .value { font-size: 24px; font-weight: 700; color: var(--text); }
+    .stat.earnings .value { color: var(--success); }
+    .stat.owed .value { color: var(--warn); }
+    .share-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .share-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; cursor: pointer; font-family: inherit; }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .share-btn .icon { font-size: 15px; line-height: 1; }
+    .how { margin-top: 32px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; }
+    .how h3 { margin: 0 0 14px; font-size: 16px; color: var(--accent); }
+    .how ol { margin: 0; padding-left: 20px; color: var(--text-dim); font-size: 14px; }
+    .how li { margin-bottom: 8px; }
+    .how .fine { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border); font-size: 12px; color: var(--text-mute); }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #0a0e1a; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .18s; z-index: 100; }
+    .toast.show { opacity: 1; }
+    footer { margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--border); display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: space-between; color: var(--text-mute); font-size: 12px; }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .hidden { display: none !important; }
+    .status-note { color: var(--text-mute); font-size: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin-top: 8px; }
+    .status-note.warn { color: var(--warn); }
+    .status-note.ok { color: var(--success); }
+    @media (max-width: 640px) { .page-title { font-size: 26px; } .code-block .code { font-size: 17px; } }
+  </style>
+<!-- r5tools:analytics v1 START -->
+<script src="/analytics-config.js"></script>
+<script>
+  (function () {
+    var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+    if (!id) return;
+    var s = document.createElement("script");
+    s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+  })();
+  (function () {
+    var cfg = window.R5T_ANALYTICS || {};
+    if (!cfg.plausibleDomain) return;
+    var p = document.createElement("script");
+    p.defer = true; p.setAttribute("data-domain", cfg.plausibleDomain);
+    p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+    document.head.appendChild(p);
+    window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+  })();
+</script>
+<script src="/analytics.js" defer></script>
+<!-- r5tools:analytics v1 END -->
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="/es/" class="brand">R5TOOLS.IO — SUITE LWS</a>
+      <a href="/refer.html" class="lang-toggle">English →</a>
+    </header>
+
+    <nav class="suite-nav">
+      <a href="/es/">Inicio</a>
+      <span class="sep">·</span>
+      <a href="/roadmap.html">Roadmap</a>
+      <span class="sep">·</span>
+      <a href="/leaderboard.html">Ranking</a>
+      <span class="sep">·</span>
+      <a href="https://roster.r5tools.io/">Extractor de roster</a>
+      <span class="sep">·</span>
+      <a href="https://hive.r5tools.io/">Planificador de colmena</a>
+      <span class="sep">·</span>
+      <a href="https://chat.r5tools.io/">KB Chat</a>
+    </nav>
+
+    <h1 class="page-title">Comparte R5TOOLS. <span class="accent">Gana en cada desbloqueo.</span></h1>
+    <p class="page-sub">
+      Todo usuario recibe un código de referido único. Compártelo con tu alianza, en Discord, en WhatsApp, en Reddit — por cada desbloqueo pago que venga de tu link, te ganas <b><span id="revSharePct">25</span>%</b>. Pagos manuales por PayPal / Wise (sin integración de pago por ahora — solo una planilla limpia).
+    </p>
+
+    <section id="loginCard" class="login-card hidden">
+      <h2>Entra con tu correo para obtener tu código</h2>
+      <p>Usamos magic link — sin contraseña. Si ya desbloqueaste con código anónimo, igual necesitas entrar con correo para participar del programa de referidos (así te acreditamos las ganancias).</p>
+      <div class="email-row">
+        <input id="emailInput" type="email" placeholder="tu@ejemplo.com" autocomplete="email" />
+        <button class="btn" id="sendLinkBtn">Enviar magic link</button>
+      </div>
+      <div id="loginStatus" class="status-note"></div>
+    </section>
+
+    <section id="referCard" class="refer-card hidden">
+      <h2>Tu código de referido</h2>
+      <div class="code-block">
+        <div class="code" id="codeDisplay">R5-…</div>
+        <div class="actions">
+          <button class="btn secondary" id="copyCodeBtn">Copiar código</button>
+        </div>
+      </div>
+
+      <div style="color: var(--text-dim); font-size: 13px; margin-bottom: 6px;">Tu link de compartir:</div>
+      <div class="link-block" id="linkDisplay">https://r5tools.io/?ref=…</div>
+
+      <div class="share-row">
+        <button class="share-btn" id="copyLinkBtn"><span class="icon">📋</span> Copiar link</button>
+        <a class="share-btn" id="shareDiscord" href="#" target="_blank" rel="noopener"><span class="icon">💬</span> Discord</a>
+        <a class="share-btn" id="shareX" href="#" target="_blank" rel="noopener"><span class="icon">𝕏</span> X (Twitter)</a>
+        <a class="share-btn" id="shareReddit" href="#" target="_blank" rel="noopener"><span class="icon">🔗</span> Reddit</a>
+        <a class="share-btn" id="shareWhats" href="#" target="_blank" rel="noopener"><span class="icon">🟢</span> WhatsApp</a>
+        <button class="share-btn" id="shareNative" style="display:none"><span class="icon">📤</span> Compartir…</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat"><div class="label">Clics</div><div class="value" id="statClicks">0</div></div>
+        <div class="stat"><div class="label">Conversiones</div><div class="value" id="statConversions">0</div></div>
+        <div class="stat earnings"><div class="label">Total ganado</div><div class="value" id="statEarned">$0.00</div></div>
+        <div class="stat owed"><div class="label">Saldo pendiente</div><div class="value" id="statOwed">$0.00</div></div>
+      </div>
+
+      <div class="status-note" id="referStatus"></div>
+
+      <div style="margin-top:14px;">
+        <button class="btn secondary" id="refreshBtn">Actualizar estadísticas</button>
+        <button class="btn secondary" id="logoutBtn">Salir</button>
+      </div>
+    </section>
+
+    <section class="how">
+      <h3>Cómo funciona</h3>
+      <ol>
+        <li><b>Entra</b> con tu correo para que podamos acreditarte.</li>
+        <li><b>Comparte tu código o link</b> donde quieras — Discord, WhatsApp, Reddit, X, chat de alianza.</li>
+        <li>Toda persona que abra r5tools.io por tu link queda taggeada por <b>30 días</b>. Si compra un desbloqueo pago en esa ventana, te llevas <b><span class="howPct">25</span>%</b> del bruto.</li>
+        <li>Los pagos son <b>manuales</b> — todas las semanas corro el CSV y pago a cada referido por PayPal / Wise. Sin mínimo, sin trampas de calendario.</li>
+      </ol>
+      <div class="fine">
+        Atribución first-touch (quien taggeó al visitante primero se lleva el crédito). Autorreferido bloqueado. La planilla es auditable — si quieres ver tus filas, avisa.
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · Kit hecho por fans. Sin vínculo con First Fun / Century Games.</div>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <a href="/es/">Inicio</a>
+        <a href="/roadmap.html">Roadmap</a>
+        <a href="/terms.html">Términos</a>
+        <a href="/privacy.html">Privacidad</a>
+      </div>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast">¡Copiado!</div>
+
+  <script>
+    var API_BASE = 'https://access-codes.r5tools.io';
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      API_BASE = 'http://127.0.0.1:8791';
+    }
+    var SHARE_TEXT = 'Uso R5TOOLS.IO para llevar mi alianza en Last War: Survival — extracción de roster, planificación de colmena, quema de carbón, todo. Hay tier gratis:';
+    var TOAST_COPIED = '¡Copiado!';
+
+    var STATE = { code: null, email: null, stats: null, revSharePct: 25 };
+    function $(id) { return document.getElementById(id); }
+    function toast(msg) { var t = $('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show'); }, 1400); }
+    function copy(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }
+    function fmtDollars(cents) { var d = (cents || 0) / 100; return '$' + d.toFixed(2); }
+    function shareUrl() { if (!STATE.code) return 'https://r5tools.io/es/'; return 'https://r5tools.io/es/?ref=' + encodeURIComponent(STATE.code); }
+    function shareText() { return SHARE_TEXT + ' ' + shareUrl(); }
+    function apiGet(path) { return fetch(API_BASE + path, { credentials: 'include' }).then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); }); }
+    function apiPost(path, body) { return fetch(API_BASE + path, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) }).then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); }); }
+
+    function renderLoggedIn() {
+      $('loginCard').classList.add('hidden');
+      $('referCard').classList.remove('hidden');
+      if (window.r5t) window.r5t.track('refer_page_view', { state: 'logged_in', code: STATE.code, lang: 'es' });
+      $('codeDisplay').textContent = STATE.code;
+      $('linkDisplay').textContent = shareUrl();
+      var s = STATE.stats || {};
+      $('statClicks').textContent = String(s.clicks || 0);
+      $('statConversions').textContent = String(s.conversions || 0);
+      $('statEarned').textContent = fmtDollars(s.earnings_cents || 0);
+      $('statOwed').textContent = fmtDollars(STATE.unpaidCents || 0);
+      $('revSharePct').textContent = String(STATE.revSharePct);
+      var howPcts = document.querySelectorAll('.howPct');
+      for (var i = 0; i < howPcts.length; i++) howPcts[i].textContent = String(STATE.revSharePct);
+      renderShareLinks();
+    }
+    function renderLoggedOut() {
+      $('loginCard').classList.remove('hidden');
+      $('referCard').classList.add('hidden');
+      if (window.r5t) window.r5t.track('refer_page_view', { state: 'logged_out', lang: 'es' });
+    }
+    function renderShareLinks() {
+      var url = shareUrl();
+      var text = shareText();
+      $('shareDiscord').href = 'https://discord.com/channels/@me';
+      $('shareDiscord').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (window.r5t) window.r5t.track('refer_share_click', { channel: 'discord', code: STATE.code, lang: 'es' });
+        copy(text).then(function () { toast('Copiado — pega en Discord'); window.open('https://discord.com/channels/@me', '_blank', 'noopener'); });
+      }, { once: true });
+      $('shareX').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+      $('shareX').addEventListener('click', function () { if (window.r5t) window.r5t.track('refer_share_click', { channel: 'x', code: STATE.code, lang: 'es' }); });
+      $('shareReddit').href = 'https://www.reddit.com/submit?title=' + encodeURIComponent('R5TOOLS.IO — Kit para Last War: Survival') + '&url=' + encodeURIComponent(url);
+      $('shareReddit').addEventListener('click', function () { if (window.r5t) window.r5t.track('refer_share_click', { channel: 'reddit', code: STATE.code, lang: 'es' }); });
+      $('shareWhats').href = 'https://wa.me/?text=' + encodeURIComponent(text);
+      $('shareWhats').addEventListener('click', function () { if (window.r5t) window.r5t.track('refer_share_click', { channel: 'whatsapp', code: STATE.code, lang: 'es' }); });
+      if (navigator.share) {
+        var btn = $('shareNative');
+        btn.style.display = 'inline-flex';
+        btn.addEventListener('click', function () {
+          if (window.r5t) window.r5t.track('refer_share_click', { channel: 'native', code: STATE.code, lang: 'es' });
+          navigator.share({ title: 'R5TOOLS.IO', text: text, url: url }).catch(function () {});
+        });
+      }
+    }
+    function loadMe() {
+      return apiGet('/api/refer/me').then(function (r) {
+        if (r.status === 200 && r.body && r.body.ok) {
+          STATE.code = r.body.referral_code;
+          STATE.email = r.body.email;
+          STATE.stats = r.body.stats;
+          STATE.unpaidCents = r.body.unpaid_cents || 0;
+          STATE.paidCents = r.body.paid_cents || 0;
+          STATE.revSharePct = r.body.rev_share_pct || 25;
+          renderLoggedIn();
+        } else {
+          renderLoggedOut();
+        }
+      }).catch(function () { renderLoggedOut(); });
+    }
+    (function attributeIfNeeded() {
+      var qs = new URLSearchParams(location.search || '');
+      var ref = (qs.get('ref') || '').trim().toUpperCase();
+      if (!ref) return;
+      apiPost('/api/refer/attribute', { ref: ref, path: location.pathname }).catch(function () {});
+    })();
+    $('sendLinkBtn').addEventListener('click', function () {
+      var email = ($('emailInput').value || '').trim();
+      if (!email || email.indexOf('@') < 0) {
+        $('loginStatus').textContent = 'Ingresa un correo válido.';
+        $('loginStatus').className = 'status-note warn';
+        return;
+      }
+      $('loginStatus').textContent = 'Enviando link…';
+      $('loginStatus').className = 'status-note';
+      apiPost('/api/register-email', { email: email }).then(function (r) {
+        if (r.body && r.body.ok) {
+          $('loginStatus').innerHTML = 'Magic link enviado a <b>' + email + '</b>. Haz clic y vuelve aquí.';
+          $('loginStatus').className = 'status-note ok';
+        } else {
+          $('loginStatus').textContent = 'Hubo un error. Intenta de nuevo en un momento.';
+          $('loginStatus').className = 'status-note warn';
+        }
+      }).catch(function () {
+        $('loginStatus').textContent = 'No pudimos hablar con el servidor. Intenta de nuevo en un momento.';
+        $('loginStatus').className = 'status-note warn';
+      });
+    });
+    $('emailInput') && $('emailInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); $('sendLinkBtn').click(); }
+    });
+    $('copyCodeBtn').addEventListener('click', function () {
+      if (!STATE.code) return;
+      if (window.r5t) window.r5t.track('refer_copy_code', { code: STATE.code, lang: 'es' });
+      copy(STATE.code).then(function () { toast(TOAST_COPIED); });
+    });
+    $('copyLinkBtn').addEventListener('click', function () {
+      if (window.r5t) window.r5t.track('refer_copy_code', { kind: 'link', code: STATE.code, lang: 'es' });
+      copy(shareUrl()).then(function () { toast(TOAST_COPIED); });
+    });
+    $('refreshBtn').addEventListener('click', loadMe);
+    $('logoutBtn').addEventListener('click', function () {
+      apiPost('/api/logout', {}).finally(loadMe);
+    });
+    loadMe();
+  </script>
+
+<!-- BEGIN founding-widget-inject -->
+<script src="/founding-widget.js" defer></script>
+<!-- END founding-widget-inject -->
+</body>
+</html>

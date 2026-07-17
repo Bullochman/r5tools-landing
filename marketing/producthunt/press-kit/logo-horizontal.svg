@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" width="900" height="220">
+  <!-- Background: r5tools.io dark navy -->
+  <rect width="900" height="220" fill="#0a0e1a"/>
+  <!-- Left: R5 badge (concentric rings like the site's thermal map, gold like --accent) -->
+  <g transform="translate(110, 110)">
+    <circle r="92" fill="none" stroke="#c9a961" stroke-width="3" opacity="0.30"/>
+    <circle r="70" fill="none" stroke="#c9a961" stroke-width="2.5" opacity="0.50"/>
+    <circle r="50" fill="none" stroke="#c9a961" stroke-width="2" opacity="0.75"/>
+    <circle r="34" fill="#c9a961"/>
+    <text y="14" text-anchor="middle" font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="38" font-weight="800" fill="#0a0e1a" letter-spacing="-1">R5</text>
+  </g>
+  <!-- Wordmark -->
+  <text x="240" y="118" font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="62" font-weight="800" fill="#e8ebf3" letter-spacing="-1">R5TOOLS<tspan fill="#c9a961">.IO</tspan></text>
+  <!-- Tagline -->
+  <text x="242" y="158" font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500" fill="#8892a6" letter-spacing="2">LAST WAR: SURVIVAL &#183; ALLIANCE SUITE</text>
+</svg>
