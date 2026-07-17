@@ -1839,6 +1839,11 @@
       // ?lang=xx URL override (useful for direct shareable links)
       var urlMatch = /[?&]lang=([a-z]{2})\b/i.exec(location.search);
       if (urlMatch && SUPPORTED.indexOf(urlMatch[1].toLowerCase()) !== -1) return urlMatch[1].toLowerCase();
+      // Shared `lws_lang` preference set by any sibling r5tools.io tool.
+      try {
+        var stored = localStorage.getItem('lws_lang');
+        if (stored && SUPPORTED.indexOf(stored) !== -1) return stored;
+      } catch (e) { /* private mode */ }
       var raw = (navigator.language || 'en').toLowerCase();
       // strip region: en-US → en, pt-BR → pt, zh-Hant → zh
       var base = raw.split('-')[0];
@@ -1865,6 +1870,10 @@
     }
     document.getElementById('langToggle').addEventListener('change', function (e) {
       lang = e.target.value;
+      // Persist so sibling tools pick it up (only en/ko round-trip; others
+      // still get English on tools that don't ship those dictionaries yet).
+      try { localStorage.setItem('lws_lang', lang); } catch (_) {}
+      try { window.dispatchEvent(new CustomEvent('lws:lang-changed', { detail: { lang: lang } })); } catch (_) {}
       apply();
     });
     apply();
