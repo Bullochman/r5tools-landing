@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 · R5TOOLS.IO</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c9a961'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-size='52' font-weight='700' fill='%230a0e1a'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#0a0e1a; --panel:#0d1424; --border:rgba(255,255,255,0.08); --accent:#c9a961; --text:#e6e8ee; --text-dim:#a8b0c0; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .wrap { max-width: 620px; padding: 40px 24px; text-align: center; }
+    .code { font-size: 96px; font-weight: 800; color: var(--accent); line-height: 1; margin: 0 0 8px; letter-spacing: -0.04em; }
+    h1 { font-size: 22px; margin: 0 0 12px; }
+    p { color: var(--text-dim); font-size: 14.5px; line-height: 1.6; margin: 0 0 24px; }
+    .actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    a.btn { padding: 10px 18px; background: var(--accent); color: #0a0e1a; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 13px; }
+    a.btn.ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+    a.btn:hover { opacity: 0.9; }
+    .tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 24px; }
+    .tools a { padding: 10px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-dim); font-size: 12.5px; }
+    .tools a:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="code">404</div>
+    <h1>That page doesn't exist.</h1>
+    <p>You landed on <span style="color:var(--accent);font-family:ui-monospace,monospace"><span id="wanted"></span></span> — not a real path. Here's what does exist:</p>
+    <div class="actions">
+      <a class="btn" href="/">← Back to r5tools.io</a>
+      <a class="btn ghost" href="mailto:hello@r5tools.io?subject=Broken%20link">Report broken link</a>
+    </div>
+    <div class="tools">
+      <a href="https://roster.r5tools.io">Roster Extractor</a>
+      <a href="https://hive.r5tools.io">Hive Grid</a>
+      <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+      <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Simulator</a>
+      <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+      <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+      <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+      <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+      <a href="https://bullochman.github.io/lws-profile-studio-static/">Profile Studio</a>
+      <a href="https://bullochman.github.io/lws-vs-days-static/">VS Days</a>
+      <a href="https://chat.r5tools.io">KB Chat</a>
+    </div>
+  </div>
+  <script>document.getElementById('wanted').textContent = window.location.pathname;</script>
+</body>
+</html>

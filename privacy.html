@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy · R5TOOLS.IO</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c9a961'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-size='52' font-weight='700' fill='%230a0e1a'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#0a0e1a; --panel:#0d1424; --border:rgba(255,255,255,0.08); --accent:#c9a961; --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.65; }
+    .wrap { max-width: 780px; margin: 0 auto; padding: 40px 24px; }
+    h1 { font-size: 28px; margin: 0 0 6px; color: var(--accent); }
+    .lede { color: var(--text-mute); margin: 0 0 32px; font-size: 13px; }
+    h2 { font-size: 18px; color: var(--accent); margin: 32px 0 8px; }
+    p, li { color: var(--text-dim); font-size: 14.5px; }
+    ul { padding-left: 22px; }
+    a { color: var(--accent); }
+    strong { color: var(--text); }
+    footer { margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-mute); font-size: 12px; }
+    footer a { text-decoration: none; margin: 0 8px; }
+    .nav { margin-bottom: 24px; }
+    .nav a { color: var(--text-dim); text-decoration: none; font-size: 12px; }
+    .callout { padding: 14px 18px; background: rgba(201,169,97,0.08); border: 1px solid rgba(201,169,97,0.25); border-radius: 8px; margin: 12px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav"><a href="/">← r5tools.io</a></div>
+    <h1>Privacy Policy</h1>
+    <p class="lede">Last updated: July 2026. Short version: <strong>we don't collect what we don't need</strong>. Long version below.</p>
+
+    <div class="callout"><strong>TL;DR:</strong> Your roster data + Discord webhooks stay private. We don't sell anything. Photos in Profile Studio never leave your device. Analytics are aggregate + IP-masked.</div>
+
+    <h2>What we collect</h2>
+    <ul>
+      <li><strong>Access-code redemptions</strong> — which code you entered, when, from which tool. Stored in a per-code counter.</li>
+      <li><strong>IP address</strong> — masked to last-octet-x for analytics; unmasked briefly for rate limiting (auto-forgotten after 1 hour).</li>
+      <li><strong>Browser language</strong> — for auto-toggling UI language.</li>
+      <li><strong>Country</strong> — inferred from IP via Cloudflare's CF-IPCountry header, only for analytics ("how many R5s from KR are using this today").</li>
+      <li><strong>Roster data</strong> — CSVs you upload to Roster Extractor. Stored per <em>alliance signature</em> (SHA-256 hash of your R5 name + top 8 members), separate from IP. Never shared with other alliances.</li>
+      <li><strong>Discord webhook URLs</strong> you paste — stored server-side under your alliance access code so sibling tools can auto-sync. Never exposed to other alliances.</li>
+      <li><strong>Support request contents</strong> — the text you type in the 💡 Feature Request modal. Forwarded to Evan's Discord + stored server-side by reference ID.</li>
+    </ul>
+
+    <h2>What we DON'T collect</h2>
+    <ul>
+      <li>Real names</li>
+      <li>Email addresses (unless you explicitly use the email-magic-link login path)</li>
+      <li>Phone numbers</li>
+      <li>Payment card info — Stripe handles that; we only see the tier + code minted</li>
+      <li>Screenshots or photos beyond the specific tool you're using (Profile Studio processes 100% in your browser — never uploads)</li>
+      <li>Any in-game credentials (username, password, session token)</li>
+    </ul>
+
+    <h2>Cookies</h2>
+    <ul>
+      <li><strong>lws_unlock_code</strong> — your access code, cross-subdomain on .r5tools.io, 90-day expiry. HttpOnly, Secure, SameSite=Lax.</li>
+      <li><strong>lws_email_session</strong> — HMAC-signed session token if you used email magic-link auth. 90-day expiry.</li>
+      <li>No third-party trackers, no Google Analytics, no Facebook Pixel, no advertising cookies. Ever.</li>
+    </ul>
+
+    <h2>localStorage</h2>
+    <ul>
+      <li><strong>lws_discord_webhook</strong> — your alliance's Discord webhook URL (per-tool origin).</li>
+      <li><strong>lws_support_requests</strong> — list of ref IDs of your support requests, so the widget can show status without needing an account.</li>
+      <li><strong>lws_alliance_roster</strong> — cached CSV of your latest extracted roster, for cross-tool carry-through.</li>
+      <li><strong>lws_current_warzone</strong> — your warzone selection.</li>
+      <li>You can clear all of this at any time via your browser's Clear Site Data option.</li>
+    </ul>
+
+    <h2>Sharing with third parties</h2>
+    <ul>
+      <li><strong>Stripe</strong> — handles all payment processing. We never see card details.</li>
+      <li><strong>Anthropic (Claude API)</strong> — the KB Chat + Roster Extractor call the Claude API. Anthropic sees the KB context + your questions / roster frame images, subject to Anthropic's data usage policy (they don't train on API traffic by default).</li>
+      <li><strong>Cloudflare</strong> — DNS + edge for r5tools.io. Standard edge logs.</li>
+      <li><strong>Railway</strong> — hosting for our backend. Standard server logs.</li>
+      <li><strong>GitHub Pages</strong> — hosting for the static tools. Standard access logs.</li>
+      <li>That's it. No advertisers. No data brokers. No re-sale.</li>
+    </ul>
+
+    <h2>Your rights</h2>
+    <ul>
+      <li>Delete your data: email <a href="mailto:hello@r5tools.io">hello@r5tools.io</a> with your alliance access code. We'll wipe the roster snapshots + webhook + support tickets tied to it within 7 days.</li>
+      <li>Export your data: same email. We'll send you a JSON dump of everything tied to your code.</li>
+      <li>Correct wrong data: use the tool's Edit UI (Roster Extractor lets you edit rows before saving).</li>
+    </ul>
+
+    <h2>Children</h2>
+    <p>This tool is for players of a mobile military strategy game. It's not designed for children under 13. If we discover data belonging to a child under 13 we delete it.</p>
+
+    <h2>Changes</h2>
+    <p>Material changes to this policy get in-tool notification 7 days before taking effect. Current version always at <a href="https://r5tools.io/privacy.html">r5tools.io/privacy.html</a>.</p>
+
+    <h2>Contact</h2>
+    <p><a href="mailto:hello@r5tools.io">hello@r5tools.io</a> — usually answered within a few hours.</p>
+
+    <footer>
+      <a href="/">Home</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:hello@r5tools.io">Contact</a>
+    </footer>
+  </div>
+</body>
+</html>
