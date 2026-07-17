@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>자주 묻는 질문 — R5TOOLS.IO</title>
+  <meta name="description" content="R5TOOLS.IO에 대해 가장 많이 묻는 20개 질문 — 가격, 환불, 추천 프로그램, 로스터 추출기, 안전, 데이터 처리. 한국어 · 영어 지원." />
+  <meta name="robots" content="index,follow" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/faq.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/faq.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/faq.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="자주 묻는 질문 — R5TOOLS.IO" />
+  <meta property="og:description" content="R5TOOLS.IO의 20개 자주 묻는 질문에 대한 답변. 가격, 환불, 안전, 데이터, 추천, 한국어 지원." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/ko/faq.html" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="twitter:card" content="summary" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --live: #8ae0a3;
+      --warn: #e88a4a;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: "Noto Sans KR", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600;
+      text-decoration: none;
+    }
+    .brand:hover { color: var(--accent-hover); }
+    .nav-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .lang-btn {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 7px 14px; border-radius: 999px;
+      font-size: 12px; text-decoration: none; font-family: inherit;
+    }
+    .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(201,169,97,0.10); }
+    .signin-btn {
+      background: var(--accent); color: #0a0e1a;
+      border: none; border-radius: 999px; padding: 8px 18px;
+      font-weight: 700; font-size: 12.5px; letter-spacing: 0.03em;
+      text-decoration: none;
+    }
+    .signin-btn:hover { background: var(--accent-hover); }
+
+    h1.page-title {
+      font-size: 32px; font-weight: 600; letter-spacing: -0.01em;
+      margin: 12px 0 6px;
+    }
+    h1.page-title .accent { color: var(--accent); }
+    .page-sub { color: var(--text-dim); font-size: 15px; max-width: 720px; margin: 0 0 32px; }
+
+    .toc {
+      display: flex; flex-wrap: wrap; gap: 8px 16px;
+      padding: 14px 18px; margin: 0 0 32px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 12.5px;
+    }
+    .toc a { color: var(--text-dim); text-decoration: none; }
+    .toc a:hover { color: var(--accent); }
+
+    section.cat { margin-bottom: 32px; }
+    h2.cat-head {
+      font-size: 12px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600;
+      margin: 0 0 14px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-accent);
+    }
+
+    details.q {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; margin-bottom: 10px;
+      transition: border-color 0.15s;
+    }
+    details.q:hover { border-color: var(--border-accent); }
+    details.q[open] { border-color: var(--border-accent); background: var(--panel-2); }
+    details.q summary {
+      list-style: none;
+      padding: 16px 22px 16px 20px;
+      cursor: pointer;
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px; font-weight: 600; color: var(--text);
+      line-height: 1.5;
+    }
+    details.q summary::-webkit-details-marker { display: none; }
+    details.q summary::before {
+      content: '+'; color: var(--accent); font-family: var(--mono);
+      font-size: 18px; line-height: 1.1; font-weight: 400;
+      flex-shrink: 0;
+    }
+    details.q[open] summary::before { content: '−'; }
+    details.q .q-num {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-mute); font-weight: 500;
+      letter-spacing: 0.06em; flex-shrink: 0;
+      padding-top: 3px;
+    }
+    details.q .q-body {
+      padding: 0 22px 20px 44px;
+      color: var(--text-dim); font-size: 14px; line-height: 1.75;
+    }
+    details.q .q-body p { margin: 0 0 12px; }
+    details.q .q-body p:last-child { margin-bottom: 0; }
+    details.q .q-body ul, details.q .q-body ol {
+      margin: 6px 0 12px; padding-left: 22px;
+    }
+    details.q .q-body li { margin-bottom: 6px; }
+    details.q .q-body a { color: var(--accent); text-decoration: none; }
+    details.q .q-body a:hover { text-decoration: underline; }
+    details.q .q-body strong { color: var(--text); }
+    details.q .q-body code {
+      background: rgba(201,169,97,0.10); color: var(--accent);
+      padding: 1px 6px; border-radius: 4px;
+      font-family: var(--mono); font-size: 12.5px;
+    }
+    details.q .q-body .evan-flag {
+      display: inline-block; background: rgba(232,138,74,0.14);
+      border: 1px solid rgba(232,138,74,0.45);
+      color: var(--warn); padding: 2px 8px; border-radius: 4px;
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .cta-block {
+      margin-top: 40px; padding: 24px 26px;
+      background: var(--panel); border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+    }
+    .cta-block .cta-text { flex: 1; min-width: 240px; }
+    .cta-block h3 {
+      margin: 0 0 4px; font-size: 16px; color: var(--accent); font-weight: 600;
+    }
+    .cta-block p { margin: 0; color: var(--text-dim); font-size: 13.5px; }
+    .cta-block .cta-btn {
+      background: var(--accent); color: #0a0e1a;
+      padding: 10px 20px; border-radius: 8px;
+      font-weight: 700; font-size: 13px;
+      text-decoration: none; white-space: nowrap;
+    }
+    .cta-block .cta-btn:hover { background: var(--accent-hover); }
+
+    footer {
+      margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-mute); font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      h1.page-title { font-size: 24px; }
+      details.q summary { font-size: 14px; padding: 14px 18px 14px 16px; }
+      details.q .q-body { padding: 0 18px 18px 40px; font-size: 13.5px; }
+    }
+  </style>
+  <script src="/analytics-config.js"></script>
+  <script>
+    (function () {
+      var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+      if (!id) return;
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+    })();
+    (function () {
+      var cfg = window.R5T_ANALYTICS || {};
+      if (!cfg.plausibleDomain) return;
+      var p = document.createElement("script");
+      p.defer = true;
+      p.setAttribute("data-domain", cfg.plausibleDomain);
+      p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+      document.head.appendChild(p);
+      window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <a href="/" class="brand">R5TOOLS.IO — LWS 스위트</a>
+      <div class="nav-actions">
+        <a href="/faq.html" class="lang-btn">EN</a>
+        <a href="/ko/faq.html" class="lang-btn active">한국어</a>
+        <a href="https://access-codes.r5tools.io/" class="signin-btn">잠금해제</a>
+      </div>
+    </header>
+
+    <h1 class="page-title">자주 묻는 <span class="accent">질문.</span></h1>
+    <p class="page-sub">R5·R4 여러분이 가장 많이 물어보시는 20개 질문입니다. 없으시면 어느 페이지든 💡 피드백 버튼을 누르시거나 <a href="mailto:hello@r5tools.io" style="color:var(--accent)">hello@r5tools.io</a> 로 메일 주세요 — 보통 당일 답변드립니다.</p>
+
+    <nav class="toc" aria-label="목차">
+      <a href="#getting-started">시작하기</a>
+      <a href="#pricing">가격 및 환불</a>
+      <a href="#referral">추천 프로그램</a>
+      <a href="#international">한국어 · 국제화</a>
+      <a href="#technical">기술 문제</a>
+      <a href="#trust">신뢰 및 안전</a>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="getting-started">
+      <h2 class="cat-head">시작하기</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q1</span><span>R5TOOLS가 뭔가요?</span></summary>
+        <div class="q-body">
+          <p>R5TOOLS.IO는 <em>Last War: Survival</em> 얼라이언스 R5·R4를 위한 <strong>11개 계획 도구 모음</strong>입니다. 대부분의 얼라이언스가 여전히 사용 중인 "구글 시트 + 디스코드 PDF" 워크플로우를 대체해 드립니다. 대표 도구는 <strong>로스터 추출기</strong>로, 얼라이언스 멤버 목록을 90초간 화면 녹화해서 업로드하시면 Claude 비전 AI가 모든 행을 CSV로 자동 변환해 드립니다 (약 2분 소요).</p>
+          <p>CSV가 생성되면 나머지 모든 도구 — 랜딩 플래너, 열지도 시뮬레이터, 동결 위험 대시보드, 석탄 계산기, 도시 점령 스케줄, 시즌 타임라인, 하이브 그리드, 프로필 스튜디오, VS 데이 최적화, KB 챗 — 이 모두 그 CSV를 그대로 사용합니다. 7개 언어 지원 (한국어 우선), 모든 도구가 디스코드용 PNG 내보내기 지원. 현직 R5가 직접 만들었습니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q2</span><span>어떻게 잠금해제 하나요?</span></summary>
+        <div class="q-body">
+          <p><a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> 에 접속해서 코드를 입력하시면 됩니다. 한 번 입력하면 90일간 그 기기의 모든 도구가 잠금해제됩니다. 세 가지 방법:</p>
+          <ol>
+            <li><strong>무료 — 워존 2007 멤버:</strong> R5에게 <code>RONY-FREE</code> 코드를 요청하세요 (실질적으로 어느 워존이든 사용 가능).</li>
+            <li><strong>$10 개인 요금제:</strong> Stripe로 1회 결제, 개인용 전체 도구 사용.</li>
+            <li><strong>$50 얼라이언스 번들</strong> (또는 <strong>$30 파운딩 — 얼라이언스 10곳 한정</strong>): R5가 1회 결제 후 코드를 얼라이언스 전체에 공유.</li>
+          </ol>
+          <p>쿠키를 지우거나 새 기기에서 사용하실 때는 같은 코드를 다시 입력하시면 됩니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q3</span><span>RONY-FREE가 뭔가요?</span></summary>
+        <div class="q-body">
+          <p><code>RONY-FREE</code>는 RONY 얼라이언스 멤버와 Evan이 직접 초대한 한국어 사용자를 위한 <strong>주 무료 코드</strong>입니다. 시스템상 워존 2007로 표시되지만 실제로는 어디서든 사용 가능합니다. <a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> 에 입력하시면 90일간 11개 도구 전체를 그 기기에서 사용하실 수 있습니다.</p>
+          <p>얼라이언스 내 다른 분이 이미 쓰고 계시다면 그분께 여쭤보세요 — 같은 코드로 얼라이언스 전체가 사용 가능합니다. RONY 소속이 아니더라도 기존 멤버가 안내해 드렸다면 자유롭게 사용하셔도 됩니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q4</span><span>설치할 것이 있나요?</span></summary>
+        <div class="q-body">
+          <p><strong>없습니다.</strong> 모든 도구가 브라우저에서 바로 실행됩니다. 앱, 다운로드, 빌드 과정 전부 없습니다. KB 챗과 로스터 추출기만 서버(Claude API)를 호출하고, 나머지 9개 도구는 완전히 클라이언트 측에서 작동합니다 — 여러분의 로스터 CSV는 명시적으로 업로드하지 않는 한 여러분 기기에서 벗어나지 않습니다. <code>r5tools.io</code>를 즐겨찾기에 추가하시면 끝입니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q5</span><span>스마트폰에서도 작동하나요?</span></summary>
+        <div class="q-body">
+          <p>대부분의 도구는 작동합니다. 데스크톱과 iOS의 Chrome, Safari에서 테스트합니다. 로스터 추출기는 아이폰 <code>.mov</code>와 안드로이드 <code>.mp4</code> 화면 녹화를 지원합니다 — 대부분의 R5분들은 스마트폰 하나로 전체 과정을 진행하십니다. 무거운 계획 도구(열지도, 하이브 그리드)는 화면이 넓은 태블릿이나 노트북이 편합니다. Firefox도 보통 잘 작동합니다. 구형 안드로이드는 기기마다 다릅니다 — 문제가 있으시면 페이지 하단의 💡 피드백 버튼으로 브라우저 정보와 함께 알려주세요.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="pricing">
+      <h2 class="cat-head">가격 및 환불</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q6</span><span>$10 / $30 / $50이 각각 뭘 제공하나요?</span></summary>
+        <div class="q-body">
+          <ul>
+            <li><strong>$10 개인 (1회 결제):</strong> 11개 도구 전체를 개인 1명이 90일간 사용. 로스터 추출기 표준판 포함.</li>
+            <li><strong>$30 얼라이언스 파운딩 (얼라이언스 10곳 한정, 이후 $50):</strong> 얼라이언스 전체가 코드 하나를 공유. <strong>평생 신규 도구 무료 사용 추가.</strong> 10자리 한정.</li>
+            <li><strong>$50 얼라이언스 번들 (1회 결제):</strong> 파운딩과 동일한 얼라이언스 공유 방식, 평생 혜택만 제외. 5명이 개인 코드 각자 사는 것보다 저렴.</li>
+            <li><strong>+$5 로스터 추출기 프리미엄:</strong> 애드온. Claude 2차 감사 실행 — 94/94 완벽 정확도 보장.</li>
+          </ul>
+          <p>전부 1회 결제입니다. 구독 아님, 자동 갱신 아님.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q7</span><span>환불되나요?</span></summary>
+        <div class="q-body">
+          <p>가능합니다 (<a href="/terms.html">terms.html</a> 기준):</p>
+          <ul>
+            <li><strong>결제 후 24시간 이내, 코드 미사용:</strong> 무조건 전액 환불. <a href="mailto:hello@r5tools.io">hello@r5tools.io</a> 로 메일 주세요.</li>
+            <li><strong>코드 이미 사용:</strong> 환불 불가. 단, 저희 측 문제로 도구가 48시간 이상 연속 다운된 경우 예외.</li>
+            <li><strong>얼라이언스 분쟁:</strong> 얼라이언스가 해체되어도 결제한 R5에게 환불하지 않습니다. 대신 코드를 후속 얼라이언스에 넘겨주실 수 있습니다.</li>
+          </ul>
+          <p>저희는 1인 개발 팀입니다. 솔직하게 사정 말씀해 주시면 대부분 협의해 드립니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q8</span><span>파운딩 요금제는 왜 마감되나요?</span></summary>
+        <div class="q-body">
+          <p>파운딩 요금제는 <strong>가장 먼저 참여하는 얼라이언스 10곳</strong>을 위한 평생 특가입니다: $30 1회 결제 (정가 $50 대비) + <strong>앞으로 나올 모든 신규 도구 평생 무료</strong>. 이 10명의 R5가 저희 제품이 계속 개발할 가치가 있다는 것을 검증해 주시는 분들이고, 이분들의 결제금이 향후 6개월간의 개발을 지원합니다.</p>
+          <p>10곳이 채워지면 파운딩은 가격 카드상 마감됩니다. 실시간 남은 자리는 <a href="/#pricing">r5tools.io#pricing</a> 에서 확인하실 수 있습니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q9</span><span>얼라이언스가 비용을 나눠 낼 수 있나요?</span></summary>
+        <div class="q-body">
+          <p>가능합니다 — 정확히 그 방식으로 설계된 것이 얼라이언스 번들($50)과 파운딩($30)입니다. <strong>R5 한 분이 1회 결제하시고, 그 코드를 얼라이언스 전원에게 공유하시면 됩니다.</strong> 각 멤버가 <a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> 에서 같은 코드를 입력하면 그 기기에서 90일간 사용 가능합니다. 흔한 사례:</p>
+          <ul>
+            <li>R5가 결제 후 얼라이언스 자금에서 정산.</li>
+            <li>임원 5명이 $50을 균등 분담 (1인당 $10).</li>
+            <li>상위 파워 4명이 $10씩 분담해 번들 구매.</li>
+          </ul>
+          <p>Stripe 결제 시 메모란도 사용 가능하니 개인 코드를 선물로 드리셔도 됩니다.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="referral">
+      <h2 class="cat-head">추천 프로그램</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q10</span><span>제 추천 코드는 어떻게 받나요?</span></summary>
+        <div class="q-body">
+          <p><a href="/refer.html">r5tools.io/refer.html</a> 로 접속하셔서 이메일로 로그인하세요 — 매직 링크 방식이라 비밀번호가 없습니다. 로그인하시면 여러분 전용 코드(<code>R5-닉네임-A7K3</code> 형식)와 공유 링크를 확인하실 수 있습니다. 이미 익명 코드로 잠금해제하셨더라도, 추천 프로그램 참여는 이메일 로그인이 별도로 필요합니다 — 그래야 수익을 정확히 여러분께 크레딧해 드릴 수 있습니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q11</span><span>언제 정산 받나요?</span></summary>
+        <div class="q-body">
+          <p>정산은 <strong>수동</strong>입니다 — Evan이 매주 CSV를 뽑아 PayPal 또는 CashApp로 각 추천인께 지급합니다. <strong>최소 금액 없음, 스케줄 눈치 게임 없음, 크레딧 회수 없음.</strong> 추천 링크를 통해 30일 이내에 유료 결제가 발생하면 <strong>총액의 25%</strong>를 크레딧해 드립니다 (first-touch 기준 — 먼저 태그된 사람이 획득). 자기 추천은 차단됩니다. 원장은 확인 가능 — hello@r5tools.io 로 요청하시면 여러분의 행을 보내드립니다.</p>
+          <p><span class="evan-flag">EVAN — 결정 필요</span> 한국 추천인 정산 방법 (PayPal · Wise · 계좌이체?)과 최소 지급 금액 결정 필요.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q12</span><span>YouTube · TikTok · 트위치에서 r5tools를 홍보해도 되나요?</span></summary>
+        <div class="q-body">
+          <p>당연히 됩니다 — 오히려 환영합니다. 추천 링크(<code>r5tools.io?ref=R5-닉네임-XXXX</code>)를 설명란에 넣으시면 30일 이내 구매자에 대해 25% 크레딧됩니다. 지침:</p>
+          <ul>
+            <li>r5tools가 First Fun · Last War: Survival과 제휴 관계라고 주장하지 마세요 — fan-made 도구입니다.</li>
+            <li>저희가 하지 않는 것을 약속하지 마세요 (예: "밴 절대 없음 보장", "자동 플레이" — 게임 자동화는 하지 않습니다).</li>
+            <li>저희 도구 화면 녹화는 자유롭게 가능. 게임 자체 녹화는 First Fun의 ToS와 여러분 간의 문제입니다.</li>
+          </ul>
+          <p><span class="evan-flag">EVAN — 결정 필요</span> 검증된 크리에이터(구독자 X명 이상)에게 더 높은 rev share를 주는 크리에이터 프로그램을 정식화할지 결정 필요.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="international">
+      <h2 class="cat-head">한국어 · 국제화</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q13</span><span>한국어 지원되나요?</span></summary>
+        <div class="q-body">
+          <p>네, 완벽 지원합니다. 저희는 <strong>한국어를 1순위 언어</strong>로 개발했습니다 (영어보다 우선). 모든 도구, 랜딩 페이지, PNG 내보내기까지 100% 한글화되어 있고, 워존 2007 한국어 사용자가 주 사용자층입니다. RONY(우군 얼라이언스) R5가 무료 코드 <code>RONY-FREE</code>를 배포하고 있으니 R5에게 요청하세요. 카톡·디스코드 어디서든 코드 공유 가능합니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q14</span><span>한국어와 영어 외 다른 언어도 지원하나요?</span></summary>
+        <div class="q-body">
+          <p>네 — <strong>첫날부터 7개 언어</strong>: 한국어 · English · Español (스페인어) · Português (포르투갈어 브라질) · 日本語 (일본어) · Deutsch (독일어) · Français (프랑스어). 페이지 우측 상단에서 전환하실 수 있습니다. 모든 도구, 모든 버튼, 내보내는 모든 디스코드 PNG가 선택하신 언어로 렌더링됩니다.</p>
+          <p>번역은 가능한 한 원어민 R5가, 나머지는 Claude Sonnet 4.6 + 사람 검수로 진행되었습니다. 어색한 부분이 있으면 💡 피드백 버튼으로 알려주세요 — 몇 시간 내에 수정합니다.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="technical">
+      <h2 class="cat-head">기술 문제</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q15</span><span>도구가 안 열려요 · 오류가 나요.</span></summary>
+        <div class="q-body">
+          <p>먼저 세 가지 빠른 해결책:</p>
+          <ol>
+            <li><strong>강력 새로고침:</strong> Cmd+Shift+R (맥) 또는 Ctrl+F5 (윈도우) — "고장났다"는 신고의 대부분은 캐시된 낡은 JS 때문입니다.</li>
+            <li><strong>코드 재입력:</strong> 쿠키는 90일 후 만료됩니다. <a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> 에서 다시 입력하세요.</li>
+            <li><strong>다른 브라우저 시도:</strong> Chrome, Safari에서 테스트합니다. Firefox도 보통 잘 됩니다. 구형 안드로이드와 앱 내 브라우저(디스코드, 인스타)는 편차가 큽니다.</li>
+          </ol>
+          <p>여전히 안 되시면 💡 <strong>피드백 보내기</strong> 버튼을 눌러주세요 — 도구 이름, 브라우저, 참조 ID와 함께 Evan의 디스코드로 즉시 전달됩니다. 긴급 문제는 빨강 표시되어 <code>@here</code> 알림이 갑니다. 상태 페이지: <a href="/status.html">r5tools.io/status.html</a>.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q16</span><span>로스터는 어떻게 가져오나요?</span></summary>
+        <div class="q-body">
+          <p><strong>로스터 추출기</strong> (<a href="https://roster.r5tools.io/">roster.r5tools.io</a>)를 사용하세요. 3단계:</p>
+          <ol>
+            <li>게임에서 얼라이언스 멤버 목록을 여세요. iOS · Android 화면 녹화 시작. R5부터 R1까지 천천히 스크롤 (100명 얼라이언스 기준 약 90초). 녹화 중지.</li>
+            <li>생성된 <code>.mov</code> 또는 <code>.mp4</code> 파일을 업로드.</li>
+            <li>Claude 비전이 모든 행을 자동 판독합니다. 약 2분 내에 CSV + JSON 완성. API 비용 약 $0.45.</li>
+          </ol>
+          <p>이 CSV가 나머지 모든 도구의 입력이 됩니다. 완벽한 정확도가 필요하시면 <strong>로스터 추출기 프리미엄 (+$5)</strong>을 추가하시면 2차 감사로 94/94 정확도를 보장해 드립니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q17</span><span>여러 기기에서 사용할 수 있나요?</span></summary>
+        <div class="q-body">
+          <p>네. 쿠키가 기기별이라 노트북, 스마트폰, 태블릿에서 각각 잠금해제하시면 각 기기가 각자 90일 쿠키를 갖게 됩니다. 좌석 제한 없음. 얼라이언스 번들 · 파운딩 코드는 명시적으로 얼라이언스 전체 기기 공유 목적입니다. 개인 $10 코드는 원래 1명용이지만 기기 잠금은 없습니다 — 신뢰 기반입니다.</p>
+          <p><span class="evan-flag">EVAN — 결정 필요</span> 기기당 · 계정당 제한을 둘지 결정 필요. 현재 codes.json에는 제한이 없음.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="trust">
+      <h2 class="cat-head">신뢰 및 안전</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q18</span><span>Last War: Survival · First Fun과 관계가 있나요?</span></summary>
+        <div class="q-body">
+          <p><strong>아니요.</strong> R5TOOLS.IO는 <strong>팬 제작 독립 도구 모음</strong>입니다. First Fun Group, Century Games, <em>Last War: Survival</em> 과 어떤 형태의 제휴, 승인, 라이선스 관계도 없습니다. 모든 상표와 게임명은 각 소유자의 재산입니다. 저희가 이 도구들을 만든 이유는 오직 저희가 게임을 하고 이런 도구가 필요했기 때문입니다. First Fun이 어떤 변경을 요구하시면 즉시 응할 것입니다. 전체 면책 조항: <a href="/terms.html">terms.html</a>.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q19</span><span>이거 쓰면 계정 밴 당하나요?</span></summary>
+        <div class="q-body">
+          <p>0% 리스크를 보장할 수는 없습니다 (정직한 누구도 그럴 수 없습니다). 하지만 저희 도구는 First Fun ToS의 안전한 쪽에 남도록 설계되어 있습니다:</p>
+          <ul>
+            <li><strong>어떤 게임 내 액션도 자동화하지 않습니다.</strong> 자동 플레이 없음, 자동 공격 없음, 봇 이동 없음, 패킷 인젝션 없음, 게임 클라이언트 수정 없음.</li>
+            <li><strong>저희는 계획 도구입니다 — 여러분이 직접 실행하십니다.</strong> 화면 녹화도 여러분이 수동으로 하시고, 저희는 랜딩 계획, 석탄 계산, 하이브 배치 등을 저희 쪽에서 도와드립니다. 실제 실행은 여러분이 게임 내에서 수동으로 하십니다.</li>
+            <li><strong>여러분의 게임 계정 정보를 절대 취급하지 않습니다.</strong> 로그인 정보 요구 없음. 저희가 대신 로그인할 수 없음.</li>
+          </ul>
+          <p>다만: LWS ToS는 "부당 이득을 제공하는" 서드파티 도구를 금지합니다. 구글 시트, 석탄 계산기, 하이브 배치도 같은 계획 도구는 LWS 커뮤니티에서 광범위하게 사용되고 있고 (저희가 아는 한) 이로 인한 밴 사례는 없습니다. 저희는 이를 계속 모니터링하며 ToS 해석이 바뀌면 업데이트할 것입니다.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q20</span><span>제 데이터는 어떻게 처리하나요?</span></summary>
+        <div class="q-body">
+          <p>간단 요약 (전체 정책: <a href="/privacy.html">r5tools.io/privacy.html</a>):</p>
+          <ul>
+            <li><strong>여러분의 로스터 CSV</strong>는 "얼라이언스 시그니처"(R5 이름 + 상위 8명 멤버의 SHA-256 해시) 기준으로 저장되며, IP와 분리됩니다. <strong>다른 얼라이언스와 절대 공유 안 함. 판매 안 함. 모델 학습에 사용 안 함.</strong></li>
+            <li><strong>디스코드 웹훅 URL</strong>은 여러분의 액세스 코드 하에 저장되어 자매 도구 간 자동 동기화됨. 다른 얼라이언스에 노출 없음.</li>
+            <li><strong>분석 데이터</strong>는 집계 + IP 마스킹(마지막 옥텟 0으로). Plausible(쿠키 없음)과 선택적 GA4(<code>anonymize_ip: true</code>, 광고 개인화 없음) 사용.</li>
+            <li><strong>제3자 처리자:</strong> Stripe(결제), Anthropic(KB 챗 · 로스터 추출기용 Claude API), Cloudflare(CDN · 엣지). 이게 전부. 광고주 없음, 데이터 브로커 없음.</li>
+            <li><strong>삭제 요청권:</strong> hello@r5tools.io 로 액세스 코드와 함께 메일 주시면 7일 이내에 로스터 스냅샷, 웹훅, 지원 티켓을 삭제합니다.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <div class="cta-block">
+      <div class="cta-text">
+        <h3>답변이 없으신 질문이 있나요?</h3>
+        <p>어느 도구 페이지든 💡 <strong>피드백 보내기</strong> 버튼을 누르시거나 <a href="mailto:hello@r5tools.io" style="color:var(--accent)">hello@r5tools.io</a> 로 메일 주세요. 당일 답변드립니다.</p>
+      </div>
+      <a href="mailto:hello@r5tools.io?subject=r5tools.io%20%EC%A7%88%EB%AC%B8" class="cta-btn">지원 메일 →</a>
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · Last War: Survival은 First Fun · Century Games의 제품입니다. 이 사이트는 팬 제작이며 관련 없습니다.</div>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <a href="/">홈</a>
+        <a href="/roadmap.html">로드맵</a>
+        <a href="/status.html">상태</a>
+        <a href="/terms.html">약관</a>
+        <a href="/privacy.html">개인정보</a>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>

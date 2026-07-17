@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>FAQ — R5TOOLS.IO</title>
+  <meta name="description" content="Frequently asked questions about R5TOOLS.IO — pricing, refunds, referral program, Roster Extractor, safety, and data handling. English + Korean." />
+  <meta name="robots" content="index,follow" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/faq.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/ko/faq.html" />
+  <link rel="alternate" hreflang="x-default" href="https://r5tools.io/faq.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="FAQ — R5TOOLS.IO" />
+  <meta property="og:description" content="Answers to the 20 most common questions about R5TOOLS.IO. Pricing, refunds, safety, data, referrals, Korean support." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/faq.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --live: #8ae0a3;
+      --warn: #e88a4a;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600;
+      text-decoration: none;
+    }
+    .brand:hover { color: var(--accent-hover); }
+    .nav-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .lang-btn {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 7px 14px; border-radius: 999px;
+      font-size: 12px; text-decoration: none; font-family: inherit;
+    }
+    .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(201,169,97,0.10); }
+    .signin-btn {
+      background: var(--accent); color: #0a0e1a;
+      border: none; border-radius: 999px; padding: 8px 18px;
+      font-weight: 700; font-size: 12.5px; letter-spacing: 0.03em;
+      text-decoration: none;
+    }
+    .signin-btn:hover { background: var(--accent-hover); }
+
+    h1.page-title {
+      font-size: 36px; font-weight: 600; letter-spacing: -0.02em;
+      margin: 12px 0 6px;
+    }
+    h1.page-title .accent { color: var(--accent); }
+    .page-sub { color: var(--text-dim); font-size: 15px; max-width: 720px; margin: 0 0 32px; }
+
+    .toc {
+      display: flex; flex-wrap: wrap; gap: 8px 16px;
+      padding: 14px 18px; margin: 0 0 32px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 12.5px;
+    }
+    .toc a { color: var(--text-dim); text-decoration: none; }
+    .toc a:hover { color: var(--accent); }
+
+    section.cat { margin-bottom: 32px; }
+    h2.cat-head {
+      font-size: 12px; letter-spacing: 0.14em; color: var(--accent);
+      font-weight: 600; text-transform: uppercase;
+      margin: 0 0 14px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-accent);
+    }
+
+    details.q {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; margin-bottom: 10px;
+      transition: border-color 0.15s;
+    }
+    details.q:hover { border-color: var(--border-accent); }
+    details.q[open] { border-color: var(--border-accent); background: var(--panel-2); }
+    details.q summary {
+      list-style: none;
+      padding: 16px 22px 16px 20px;
+      cursor: pointer;
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px; font-weight: 600; color: var(--text);
+      line-height: 1.4;
+    }
+    details.q summary::-webkit-details-marker { display: none; }
+    details.q summary::before {
+      content: '+'; color: var(--accent); font-family: var(--mono);
+      font-size: 18px; line-height: 1.1; font-weight: 400;
+      flex-shrink: 0;
+    }
+    details.q[open] summary::before { content: '−'; }
+    details.q .q-num {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-mute); font-weight: 500;
+      letter-spacing: 0.06em; flex-shrink: 0;
+      padding-top: 3px;
+    }
+    details.q .q-body {
+      padding: 0 22px 20px 44px;
+      color: var(--text-dim); font-size: 14px; line-height: 1.65;
+    }
+    details.q .q-body p { margin: 0 0 12px; }
+    details.q .q-body p:last-child { margin-bottom: 0; }
+    details.q .q-body ul, details.q .q-body ol {
+      margin: 6px 0 12px; padding-left: 22px;
+    }
+    details.q .q-body li { margin-bottom: 6px; }
+    details.q .q-body a { color: var(--accent); text-decoration: none; }
+    details.q .q-body a:hover { text-decoration: underline; }
+    details.q .q-body strong { color: var(--text); }
+    details.q .q-body code {
+      background: rgba(201,169,97,0.10); color: var(--accent);
+      padding: 1px 6px; border-radius: 4px;
+      font-family: var(--mono); font-size: 12.5px;
+    }
+    details.q .q-body .evan-flag {
+      display: inline-block; background: rgba(232,138,74,0.14);
+      border: 1px solid rgba(232,138,74,0.45);
+      color: var(--warn); padding: 2px 8px; border-radius: 4px;
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .cta-block {
+      margin-top: 40px; padding: 24px 26px;
+      background: var(--panel); border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+    }
+    .cta-block .cta-text { flex: 1; min-width: 240px; }
+    .cta-block h3 {
+      margin: 0 0 4px; font-size: 16px; color: var(--accent); font-weight: 600;
+    }
+    .cta-block p { margin: 0; color: var(--text-dim); font-size: 13.5px; }
+    .cta-block .cta-btn {
+      background: var(--accent); color: #0a0e1a;
+      padding: 10px 20px; border-radius: 8px;
+      font-weight: 700; font-size: 13px;
+      text-decoration: none; white-space: nowrap;
+    }
+    .cta-block .cta-btn:hover { background: var(--accent-hover); }
+
+    footer {
+      margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-mute); font-size: 12px; flex-wrap: wrap; gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      h1.page-title { font-size: 26px; }
+      details.q summary { font-size: 14px; padding: 14px 18px 14px 16px; }
+      details.q .q-body { padding: 0 18px 18px 40px; font-size: 13.5px; }
+    }
+  </style>
+  <script src="/analytics-config.js"></script>
+  <script>
+    (function () {
+      var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
+      if (!id) return;
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
+    })();
+    (function () {
+      var cfg = window.R5T_ANALYTICS || {};
+      if (!cfg.plausibleDomain) return;
+      var p = document.createElement("script");
+      p.defer = true;
+      p.setAttribute("data-domain", cfg.plausibleDomain);
+      p.src = cfg.plausibleScriptUrl || "https://plausible.io/js/script.js";
+      document.head.appendChild(p);
+      window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <a href="/" class="brand">R5TOOLS.IO — LWS SUITE</a>
+      <div class="nav-actions">
+        <a href="/faq.html" class="lang-btn active">EN</a>
+        <a href="/ko/faq.html" class="lang-btn">한국어</a>
+        <a href="https://access-codes.r5tools.io/" class="signin-btn">Unlock the suite</a>
+      </div>
+    </header>
+
+    <h1 class="page-title">Frequently asked <span class="accent">questions.</span></h1>
+    <p class="page-sub">The 20 questions R5s and R4s ask us most. If yours isn't here, hit the 💡 Send feedback button on any page or email <a href="mailto:hello@r5tools.io" style="color:var(--accent)">hello@r5tools.io</a> — we usually reply the same day.</p>
+
+    <nav class="toc" aria-label="Table of contents">
+      <a href="#getting-started">Getting Started</a>
+      <a href="#pricing">Pricing &amp; Refunds</a>
+      <a href="#referral">Referral &amp; Affiliate</a>
+      <a href="#international">KR / International</a>
+      <a href="#technical">Technical</a>
+      <a href="#trust">Trust &amp; Safety</a>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="getting-started">
+      <h2 class="cat-head">Getting Started</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q1</span><span>What is r5tools?</span></summary>
+        <div class="q-body">
+          <p>R5TOOLS.IO is a suite of <strong>11 planning tools</strong> built for R5s and R4s of <em>Last War: Survival</em> alliances. It replaces the Google Sheet + Discord PDF workflow that most alliances still use. The flagship is the <strong>Roster Extractor</strong> — record a 90-second screen recording of your alliance member list, upload the video, and Claude vision converts every row into a CSV in about two minutes.</p>
+          <p>Once your roster is CSV, every other tool in the suite consumes it: Landing Planner, Heat Simulator, Freeze-Risk Dashboard, Coal Burn Calculator, City Capture Planner, Season Timeline, Hive Grid Manager, Profile Studio, VS Days Optimizer, and the KB Chat. Every tool speaks 7 languages (Korean first). Every tool exports its state as a dark-theme PNG sized for Discord. Built by an active R5.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q2</span><span>How do I unlock?</span></summary>
+        <div class="q-body">
+          <p>Go to <a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> and enter your code. That single code unlocks every tool in the suite for 90 days on your device. Three ways to get in:</p>
+          <ol>
+            <li><strong>Free — Warzone 2007 members:</strong> ask your R5 for <code>RONY-FREE</code> (works from any warzone in practice).</li>
+            <li><strong>$10 Personal:</strong> one-time payment via Stripe, unlocks the full suite for one player.</li>
+            <li><strong>$50 Alliance Bundle</strong> (or <strong>$30 Founding — first 10 alliances only</strong>): R5 pays once and shares the code with the whole alliance.</li>
+          </ol>
+          <p>If you clear cookies or use a new device, just re-enter the code.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q3</span><span>What does RONY-FREE do?</span></summary>
+        <div class="q-body">
+          <p><code>RONY-FREE</code> is the primary free access code for RONY alliance members and Korean-speaking players Evan has personally invited. It's tagged as Warzone 2007 in our system but works from anywhere in practice — we don't hard-enforce warzone. Enter it at <a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> and you get the full 11-tool suite for 90 days on that device.</p>
+          <p>If someone in your alliance is using it, ask them — the same code works for the whole alliance. If you're not in RONY but were sent here by an existing member, you're welcome to use it too.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q4</span><span>Do I need to install anything?</span></summary>
+        <div class="q-body">
+          <p><strong>No.</strong> Every tool runs in your browser. No app, no download, no build step. The KB Chat and Roster Extractor call our server (which hits the Claude API for you); the other 9 tools run entirely client-side — your roster CSV stays on your device unless you explicitly upload it. Bookmarking <code>r5tools.io</code> is enough.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q5</span><span>Does this work on my phone?</span></summary>
+        <div class="q-body">
+          <p>Yes for most tools. We test on Chrome and Safari on desktop and iOS. The Roster Extractor accepts iPhone <code>.mov</code> and Android <code>.mp4</code> screen recordings — most R5s do the whole flow from their phone. The heavier planning tools (Heat Simulator, Hive Grid Manager) work better on a tablet or laptop because of screen real estate. Firefox usually works. Older Android builds vary — if a tool breaks on your device, hit the 💡 Send feedback button on any page and tell us the browser + version.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="pricing">
+      <h2 class="cat-head">Pricing &amp; Refunds</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q6</span><span>What does $10 / $30 / $50 actually get me?</span></summary>
+        <div class="q-body">
+          <ul>
+            <li><strong>$10 Personal (one-time):</strong> Full 11-tool suite for one player, 90 days per device, includes the standard Roster Extractor.</li>
+            <li><strong>$30 Alliance Founding (first 10 alliances only, then $50):</strong> Full suite for your whole alliance — share one code with every member. <strong>Plus lifetime access to every new tool I ship.</strong> Only 10 slots at $30.</li>
+            <li><strong>$50 Alliance Bundle (one-time):</strong> Same alliance-wide sharing as Founding, without the lifetime bonus. Cheaper than 5× Personal codes.</li>
+            <li><strong>+$5 Roster Extractor Premium:</strong> Add-on that runs a second-pass Claude audit — guaranteed 94/94 row accuracy.</li>
+          </ul>
+          <p>Payments are one-time. No subscription. No auto-renewal.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q7</span><span>Can I get a refund?</span></summary>
+        <div class="q-body">
+          <p>Yes, within limits (from <a href="/terms.html">terms.html</a>):</p>
+          <ul>
+            <li><strong>Within 24 hours of purchase, before you've redeemed:</strong> full refund, no questions asked. Email <a href="mailto:hello@r5tools.io">hello@r5tools.io</a>.</li>
+            <li><strong>Code already redeemed:</strong> no refund, except if we caused &gt;48h continuous downtime of the tool you bought for.</li>
+            <li><strong>Alliance disputes:</strong> if your alliance disbands, we don't refund the R5 who bought — the code can be handed to a successor alliance.</li>
+          </ul>
+          <p>We're a solo-dev shop. Ask honestly and we'll usually work with you.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q8</span><span>What's the Founding tier and why does it end?</span></summary>
+        <div class="q-body">
+          <p>The Founding tier is a permanent-lifetime deal for the <strong>first 10 alliances</strong> that buy in: $30 one-time (vs $50 for the regular Alliance Bundle) AND lifetime access to every new tool the suite ever ships. It exists because those first 10 R5s are validating that the suite is worth building further — their bet funds the next 6 months of development.</p>
+          <p>Once 10 alliances claim it, the Founding tier closes at the visible pricing card level. Check the live counter on the pricing card at <a href="/#pricing">r5tools.io#pricing</a>.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q9</span><span>Can my alliance split the cost?</span></summary>
+        <div class="q-body">
+          <p>Yes — that's literally how Alliance Bundle ($50) and Alliance Founding ($30) work. <strong>One R5 pays once, then shares the code with every member.</strong> Each member enters that same code at <a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> and unlocks the full suite on their device for 90 days. Common patterns:</p>
+          <ul>
+            <li>R5 pays and expenses it to alliance funds.</li>
+            <li>5 officers split $50 evenly (~$10 each).</li>
+            <li>The 4 top-power players chip in $10 apiece.</li>
+          </ul>
+          <p>You can also gift a Personal $10 code — Stripe checkout accepts a note.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="referral">
+      <h2 class="cat-head">Referral &amp; Affiliate</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q10</span><span>How do I get my referral code?</span></summary>
+        <div class="q-body">
+          <p>Go to <a href="/refer.html">r5tools.io/refer.html</a> and sign in with your email — we send a magic link (no password). Once you're in, you'll see your unique code (looks like <code>R5-YOURNAME-A7K3</code>) plus a shareable link. If you already unlocked with an anonymous access code, you still need to sign in with email to enter the referral program — that's how we credit your earnings to you specifically.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q11</span><span>When do I get paid?</span></summary>
+        <div class="q-body">
+          <p>Payouts are <strong>manual</strong> — Evan runs a CSV export weekly and PayPal or CashApp each referrer. <strong>No minimums, no schedule games, no clawbacks.</strong> You earn <strong>25% of gross</strong> on every paid unlock attributed to your link within a 30-day cookie window (first-touch attribution — first tagger wins). Self-referrals are blocked. Ledger is human-verifiable — email hello@r5tools.io and ask to see your rows.</p>
+          <p><span class="evan-flag">EVAN — decide</span> Preferred payout method (PayPal only, CashApp only, or ask the referrer)? And is there a minimum payout amount before you cut a check, or truly zero?</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q12</span><span>Can I promote r5tools on YouTube / TikTok / Twitch?</span></summary>
+        <div class="q-body">
+          <p>Yes — please do. Use your referral link (<code>r5tools.io?ref=R5-YOURNAME-XXXX</code>) in the description and viewers who buy in the next 30 days credit you 25%. Guidelines:</p>
+          <ul>
+            <li>Don't claim r5tools is affiliated with First Fun / Last War: Survival — it's a fan-made tool.</li>
+            <li>Don't promise things we don't do (e.g. "guaranteed no ban" or "auto-plays for you" — we don't automate gameplay).</li>
+            <li>Screen recordings of the tools are fine; recording of the <em>game</em> itself is between you and First Fun's ToS.</li>
+          </ul>
+          <p><span class="evan-flag">EVAN — decide</span> Do you want to formalize a creator program (higher rev share for verified creators with &gt;X subs)?</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="international">
+      <h2 class="cat-head">KR / International</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q13</span><span>한국어 지원되나요? (Do you support Korean?)</span></summary>
+        <div class="q-body">
+          <p>네, 완전 지원됩니다. We built the suite <strong>Korean-first</strong>, English second. Every tool, landing page, and Discord PNG export is fully localized. Warzone 2007 Korean speakers are our primary audience. RONY R5 distributes the free code <code>RONY-FREE</code> — ask your R5.</p>
+          <p>The full Korean-language FAQ is at <a href="/ko/faq.html">r5tools.io/ko/faq.html</a> — everything Q1-Q20 answered in 한국어.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q14</span><span>Do you support other languages besides English and Korean?</span></summary>
+        <div class="q-body">
+          <p>Yes — <strong>7 languages total from day one</strong>: Korean (한국어) · English · Spanish (Español) · Portuguese (Português BR) · Japanese (日本語) · German (Deutsch) · French (Français). Toggle in the top-right of any page. Every tool, every button, every exported Discord PNG renders in your chosen language.</p>
+          <p>Translations were done by native-speaker R5s where possible and Claude Sonnet 4.6 elsewhere with human review. If a translation reads wrong in your language, hit 💡 Send feedback — we fix it inside a few hours.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="technical">
+      <h2 class="cat-head">Technical</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q15</span><span>The tool is broken / not loading / gives me an error.</span></summary>
+        <div class="q-body">
+          <p>Three fast fixes to try first:</p>
+          <ol>
+            <li><strong>Hard refresh:</strong> Cmd+Shift+R (Mac) or Ctrl+F5 (Windows) — most "broken" reports are stale cached JS.</li>
+            <li><strong>Re-enter your code:</strong> cookies expire at 90 days. Visit <a href="https://access-codes.r5tools.io/">access-codes.r5tools.io</a> and re-enter.</li>
+            <li><strong>Try a different browser:</strong> we test Chrome and Safari. Firefox usually works. Older Android + in-app browsers (Discord, Instagram) are hit-or-miss.</li>
+          </ol>
+          <p>If it's still broken, hit the 💡 <strong>Send feedback</strong> button on any page — it forwards your report to Evan's Discord with the tool name, browser, and a reference ID. Urgent issues get flagged in red and Evan gets a <code>@here</code> ping. Status page: <a href="/status.html">r5tools.io/status.html</a>.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q16</span><span>How do I import my roster?</span></summary>
+        <div class="q-body">
+          <p>Use the <strong>Roster Extractor</strong> at <a href="https://roster.r5tools.io/">roster.r5tools.io</a>. Three steps:</p>
+          <ol>
+            <li>Open your alliance member list in the game. Start iOS or Android screen recording. Slowly scroll from R5 down to R1 (about 90 seconds for a 100-player alliance). Stop.</li>
+            <li>Upload the resulting <code>.mov</code> or <code>.mp4</code>.</li>
+            <li>Claude vision reads every row automatically. CSV + JSON in about 2 minutes, cost to us is ~$0.45 in API calls.</li>
+          </ol>
+          <p>The CSV feeds every other tool in the suite. For alliances where every row must be perfect, add <strong>Roster Extractor Premium (+$5)</strong> which runs a second-pass audit for 94/94 accuracy.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q17</span><span>Can I use this on multiple devices?</span></summary>
+        <div class="q-body">
+          <p>Yes. The cookie is per-device — so if you unlock on your laptop AND your phone AND your tablet, you re-enter the same code on each and each device gets its own 90-day cookie. There's no seat limit enforced. Alliance Bundle / Founding codes are explicitly meant to be shared across the whole alliance's devices. Personal $10 codes are meant for one player but the code isn't locked to one device — we trust you.</p>
+          <p><span class="evan-flag">EVAN — decide</span> Is there any per-device or per-account cap we want to enforce? Right now the codes.json has no device limit.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="cat" id="trust">
+      <h2 class="cat-head">Trust &amp; Safety</h2>
+
+      <details class="q">
+        <summary><span class="q-num">Q18</span><span>Is this affiliated with Last War: Survival or First Fun?</span></summary>
+        <div class="q-body">
+          <p><strong>No.</strong> R5TOOLS.IO is a <strong>fan-made, independent</strong> tool suite. We are not affiliated with, endorsed by, or licensed by First Fun Group, Century Games, or <em>Last War: Survival</em>. Every trademark and game name belongs to their respective owners. We built these tools because we play the game and needed them — nothing more. If First Fun ever asks us to change something, we will. See <a href="/terms.html">terms.html</a> for the full disclaimer.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q19</span><span>Will my account get banned for using this?</span></summary>
+        <div class="q-body">
+          <p>We can't guarantee zero risk (nobody honestly can), but we've designed the suite to stay safely on the right side of First Fun's ToS:</p>
+          <ul>
+            <li><strong>We do not automate any in-game action.</strong> No auto-play, no auto-attack, no bot movement, no packet injection, no game-client modification.</li>
+            <li><strong>We are import-only + planning tools.</strong> You screen-record the game manually. We help you plan a landing, calculate coal burn, or lay out a hive on our side — you execute in-game manually.</li>
+            <li><strong>We never touch your game account credentials.</strong> We never ask for your login. We can't log in for you.</li>
+          </ul>
+          <p>That said: LWS ToS forbids third-party tools that "provide unfair advantage." Planning tools like Google Sheets, coal-burn calculators, and hive-layout diagrams are ubiquitous in the LWS community and (to our knowledge) have not resulted in bans. We monitor this and will update if the ToS interpretation changes.</p>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><span class="q-num">Q20</span><span>How do you handle my data?</span></summary>
+        <div class="q-body">
+          <p>Short version (full policy at <a href="/privacy.html">r5tools.io/privacy.html</a>):</p>
+          <ul>
+            <li><strong>Your roster CSV</strong> is stored per an "alliance signature" (SHA-256 hash of R5 name + top 8 members), separate from your IP. <strong>Never shared with other alliances. Never sold. Never used to train models.</strong></li>
+            <li><strong>Discord webhook URLs</strong> you paste for exports are stored under your access code — sibling tools auto-sync. Never exposed to other alliances.</li>
+            <li><strong>Analytics</strong> are aggregate + IP-masked (last octet zeroed). Plausible (cookieless) and optionally GA4 with <code>anonymize_ip: true</code>, no ad-personalization.</li>
+            <li><strong>Third-party processors:</strong> Stripe (payments), Anthropic (Claude API for KB Chat + Roster Extractor), Cloudflare (CDN + edge). That's it. No advertisers, no data brokers.</li>
+            <li><strong>Right to delete:</strong> email hello@r5tools.io with your access code — we wipe within 7 days.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <div class="cta-block">
+      <div class="cta-text">
+        <h3>Question not answered?</h3>
+        <p>Hit the 💡 <strong>Send feedback</strong> button on any tool page, or email <a href="mailto:hello@r5tools.io" style="color:var(--accent)">hello@r5tools.io</a>. We reply the same day.</p>
+      </div>
+      <a href="mailto:hello@r5tools.io?subject=r5tools.io%20support%20question" class="cta-btn">Email support →</a>
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · Last War: Survival is a First Fun / Century Games product. This site is fan-made and unaffiliated.</div>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <a href="/">Home</a>
+        <a href="/roadmap.html">Roadmap</a>
+        <a href="/status.html">Status</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
