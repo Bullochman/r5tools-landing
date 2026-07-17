@@ -357,6 +357,11 @@
       <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
     </div>
 
+    <!-- Public activity ticker — populated by /api/analytics/public every 60s. Hidden until we have data. -->
+    <div id="activityTicker" style="display:none;margin:24px auto 8px;padding:10px 16px;background:rgba(201,169,97,0.06);border:1px solid rgba(201,169,97,0.20);border-radius:100px;font-size:13px;color:var(--text-dim);text-align:center;max-width:760px;line-height:1.5">
+      <span id="activityTickerText"></span>
+    </div>
+
     <section>
       <h2 data-i18n="secWhy">WHY R5s USE THIS SUITE</h2>
       <div class="why-suite">
@@ -1728,5 +1733,89 @@
   <!-- LWS_Seasons warzone selector — reads local data/*.json, later CDN --><script src="seasons-lib.js" defer></script>
   <script src="https://chat.r5tools.io/widget.js" defer></script>
   <script src="static/lws-support.js" defer></script>
+
+  <!-- Purchase-click tracking + public activity ticker (relies on lws-track.js loaded above). -->
+  <script>
+  (function () {
+    'use strict';
+    // 1) Wire every [data-track-tier] CTA — fire purchase_click before nav.
+    function wirePurchaseClicks() {
+      var nodes = document.querySelectorAll('[data-track-tier]');
+      for (var i = 0; i < nodes.length; i++) {
+        (function (el) {
+          if (el.__lwsTrackWired) return;
+          el.__lwsTrackWired = true;
+          el.addEventListener('click', function () {
+            try {
+              var tier = el.getAttribute('data-track-tier') || '';
+              var href = el.getAttribute('href') || '';
+              if (window.LWSTrack && LWSTrack.event) {
+                LWSTrack.event('purchase_click', 'landing', {
+                  tier: tier,
+                  href_host: (function () {
+                    try { return href ? new URL(href, location.href).host : ''; }
+                    catch (e) { return ''; }
+                  })(),
+                });
+              }
+            } catch (e) { /* swallow — never block navigation */ }
+          });
+        })(nodes[i]);
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wirePurchaseClicks, { once: true });
+    } else {
+      wirePurchaseClicks();
+    }
+
+    // 2) Public activity ticker. Polls /api/analytics/public every 60s.
+    //    Only renders when there's any recent activity (avoids zero-state).
+    var TICKER_URL = 'https://access-codes.r5tools.io/api/analytics/public';
+    var tickerEl = document.getElementById('activityTicker');
+    var tickerText = document.getElementById('activityTickerText');
+
+    function renderTicker(data) {
+      if (!tickerEl || !tickerText || !data) return;
+      var alliances = Number(data.alliances_active_last_hour || 0);
+      var views = Number(data.page_views_last_hour || 0);
+      var rosters = Number(data.rosters_extracted_today || 0);
+      var unlocks = Number(data.unlocks_today || 0);
+      if (alliances === 0 && views === 0 && rosters === 0 && unlocks === 0) {
+        tickerEl.style.display = 'none';
+        return;
+      }
+      var parts = [];
+      if (alliances > 0) {
+        parts.push('🌍 <strong style="color:var(--accent)">' + alliances +
+                   '</strong> R5' + (alliances === 1 ? '' : 's') + ' active in the last hour');
+      } else if (views > 0) {
+        parts.push('👀 <strong style="color:var(--accent)">' + views +
+                   '</strong> tool view' + (views === 1 ? '' : 's') + ' in the last hour');
+      }
+      if (rosters > 0) {
+        parts.push('<strong style="color:var(--accent)">' + rosters +
+                   '</strong> alliance' + (rosters === 1 ? '' : 's') + ' onboarded today');
+      }
+      if (unlocks > 0) {
+        parts.push('<strong style="color:var(--accent)">' + unlocks +
+                   '</strong> unlock' + (unlocks === 1 ? '' : 's') + ' today');
+      }
+      tickerText.innerHTML = parts.join(' · ');
+      tickerEl.style.display = 'block';
+    }
+
+    function pollTicker() {
+      try {
+        fetch(TICKER_URL, { credentials: 'omit', cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(renderTicker)
+          .catch(function () { /* swallow */ });
+      } catch (e) { /* swallow */ }
+    }
+    pollTicker();
+    setInterval(pollTicker, 60 * 1000);
+  })();
+  </script>
 </body>
 </html>
