@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Roadmap — R5TOOLS.IO</title>
+  <meta name="description" content="What we're building next for the R5TOOLS.IO Last War: Survival alliance toolkit. Recommendations regenerate weekly from real usage." />
+  <meta name="robots" content="index,follow" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --prio-high: #e88a4a;
+      --prio-medium: #6b8eea;
+      --prio-low: #8892a0;
+      --impact-bg: rgba(255,255,255,0.05);
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 64px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 32px;
+    }
+    .brand { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600; text-decoration: none; }
+    .brand:hover { color: var(--accent-hover); }
+    .lang-toggle {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 6px 28px 6px 14px; border-radius: 16px;
+      cursor: pointer; font-size: 12px;
+      font-family: inherit;
+      appearance: none; -webkit-appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--text-dim) 50%),
+                        linear-gradient(135deg, var(--text-dim) 50%, transparent 50%);
+      background-position: right 12px top 12px, right 8px top 12px;
+      background-size: 4px 4px, 4px 4px;
+      background-repeat: no-repeat;
+    }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-toggle:focus { outline: none; border-color: var(--accent); }
+
+    /* Suite nav — matches the tool suite-nav pattern */
+    .suite-nav {
+      display: flex; flex-wrap: wrap; gap: 10px 18px;
+      padding: 12px 16px; margin: 0 0 32px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 12.5px;
+    }
+    .suite-nav a { color: var(--text-dim); text-decoration: none; }
+    .suite-nav a:hover { color: var(--accent); }
+    .suite-nav .sep { color: var(--text-mute); }
+
+    .page-title {
+      font-size: 32px; font-weight: 600; letter-spacing: -0.02em;
+      margin: 12px 0 8px;
+    }
+    .page-title .accent { color: var(--accent); }
+    .page-sub {
+      color: var(--text-dim); font-size: 15px; max-width: 720px;
+      margin: 0 0 8px;
+    }
+    .page-meta {
+      color: var(--text-mute); font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      margin-bottom: 32px;
+    }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color .15s;
+      min-height: 140px;
+    }
+    .card:hover { border-color: var(--border-accent); }
+    .card .head {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px; border-radius: 999px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .badge.prio-high { background: rgba(232,138,74,0.15); color: var(--prio-high); border: 1px solid rgba(232,138,74,0.35); }
+    .badge.prio-medium { background: rgba(107,142,234,0.14); color: var(--prio-medium); border: 1px solid rgba(107,142,234,0.35); }
+    .badge.prio-low { background: rgba(136,146,160,0.14); color: var(--prio-low); border: 1px solid rgba(136,146,160,0.35); }
+
+    .card .title {
+      font-size: 16px; font-weight: 600; color: var(--accent);
+      letter-spacing: -0.01em; line-height: 1.35;
+      margin: 0;
+    }
+    .impact-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 6px;
+      background: var(--impact-bg); border: 1px solid var(--border);
+      font-size: 11.5px; color: var(--text-dim); font-weight: 500;
+      align-self: flex-start;
+      margin-top: auto;
+    }
+    .impact-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-mute); display: inline-block; }
+    .impact-chip[data-impact="revenue"] .dot { background: #8ae0a3; }
+    .impact-chip[data-impact="retention"] .dot { background: #c9a961; }
+    .impact-chip[data-impact="growth"] .dot { background: #6b8eea; }
+    .impact-chip[data-impact="quality"] .dot { background: #b088e0; }
+
+    .empty {
+      grid-column: 1 / -1;
+      background: var(--panel); border: 1px dashed var(--border);
+      border-radius: 10px; padding: 40px 20px;
+      text-align: center; color: var(--text-dim);
+    }
+    .error {
+      grid-column: 1 / -1;
+      background: rgba(232,138,74,0.06); border: 1px solid rgba(232,138,74,0.30);
+      border-radius: 10px; padding: 20px;
+      color: var(--text-dim);
+    }
+
+    .foot-note {
+      margin-top: 44px;
+      padding: 20px 22px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-dim);
+      font-size: 13.5px;
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .foot-note a.cta {
+      background: var(--accent); color: #0a0e1a;
+      padding: 8px 16px; border-radius: 6px;
+      font-weight: 700; font-size: 12.5px;
+      text-decoration: none; white-space: nowrap;
+    }
+    .foot-note a.cta:hover { background: var(--accent-hover); }
+
+    footer {
+      margin-top: 48px; padding: 24px 0;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      justify-content: space-between;
+      color: var(--text-mute); font-size: 12px;
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .page-title { font-size: 26px; }
+      .card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <a href="/" class="brand" data-i18n="brand">R5TOOLS.IO — LWS SUITE</a>
+      <select class="lang-toggle" id="langToggle" aria-label="Language">
+        <option value="en">EN — English</option>
+        <option value="ko">KO — 한국어</option>
+      </select>
+    </header>
+
+    <nav class="suite-nav">
+      <a href="/" data-i18n="navHome">Home</a>
+      <span class="sep">·</span>
+      <a href="https://roster.r5tools.io/">Roster Extractor</a>
+      <span class="sep">·</span>
+      <a href="https://hive.r5tools.io/">Hive Planner</a>
+      <span class="sep">·</span>
+      <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+      <span class="sep">·</span>
+      <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing</a>
+      <span class="sep">·</span>
+      <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat</a>
+      <span class="sep">·</span>
+      <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+      <span class="sep">·</span>
+      <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+      <span class="sep">·</span>
+      <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+    </nav>
+
+    <h1 class="page-title" data-i18n="pageTitle">What we're <span class="accent">building next</span></h1>
+    <p class="page-sub" data-i18n="pageSub">Every week, real usage data from the suite is fed to an AI advisor that recommends what to ship next. This is the sanitized public feed. Titles only — no raw metrics.</p>
+    <p class="page-meta" id="pageMeta" data-i18n-title="pageMetaLoading">Loading…</p>
+
+    <section id="roadmap-cards" class="cards" aria-live="polite">
+      <div class="empty" data-i18n="loading">Loading recommendations…</div>
+    </section>
+
+    <div class="foot-note">
+      <span data-i18n="footNote">Recommendations regenerate weekly from real usage. Missing something?</span>
+      <a href="#" class="cta js-mailto"
+         data-mailto-user="hello"
+         data-mailto-host="r5tools.io"
+         data-mailto-subject="Feature request"
+         data-mailto-body="What I want:%0A%0AWhy it matters for my alliance:%0A%0AWhich tool this fits under: "
+         data-i18n="footNoteCta">💡 Feature Request →</a>
+    </div>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · <span data-i18n="footerNote">Fan-made toolkit. Not affiliated with First Fun / Century Games.</span></div>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <a href="/" data-i18n="footerHome">Home</a>
+        <a href="/status.html" data-i18n="footerStatus">Status</a>
+        <a href="/terms.html" data-i18n="footerTerms">Terms</a>
+        <a href="/privacy.html" data-i18n="footerPrivacy">Privacy</a>
+        <a href="#" class="js-mailto" data-mailto-user="hello" data-mailto-host="r5tools.io" data-i18n="footerContact">Contact</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // ------- i18n (EN + KR, matches the landing convention) -------
+    var I18N = {
+      en: {
+        brand: 'R5TOOLS.IO — LWS SUITE',
+        navHome: 'Home',
+        pageTitle: "What we're <span class=\"accent\">building next</span>",
+        pageSub: 'Every week, real usage data from the suite is fed to an AI advisor that recommends what to ship next. This is the sanitized public feed. Titles only — no raw metrics.',
+        loading: 'Loading recommendations…',
+        empty: 'No recommendations yet. Check back next week — the advisor regenerates on Mondays.',
+        errorLoad: "Couldn't load the roadmap right now. That's on us — refresh in a minute, or ",
+        errorLoadCta: 'email us',
+        errorLoadAfter: ' and we\'ll investigate.',
+        prioHigh: 'HIGH',
+        prioMedium: 'MEDIUM',
+        prioLow: 'LOW',
+        impactRevenue: 'revenue',
+        impactRetention: 'retention',
+        impactGrowth: 'growth',
+        impactQuality: 'quality',
+        generatedAt: 'Recommendations generated ',
+        neverGenerated: 'No recommendations regenerated yet.',
+        footNote: 'Recommendations regenerate weekly from real usage. Missing something?',
+        footNoteCta: '💡 Feature Request →',
+        footerNote: 'Fan-made toolkit. Not affiliated with First Fun / Century Games.',
+        footerHome: 'Home',
+        footerStatus: 'Status',
+        footerTerms: 'Terms',
+        footerPrivacy: 'Privacy',
+        footerContact: 'Contact',
+      },
+      ko: {
+        brand: 'R5TOOLS.IO — LWS SUITE',
+        navHome: '홈',
+        pageTitle: '다음으로 <span class="accent">만들고 있는 것</span>',
+        pageSub: '매주 실제 사용 데이터를 AI 어드바이저에 입력해 다음에 무엇을 만들지 추천을 받습니다. 이 페이지는 공개용으로 정제된 목록이며, 제목만 표시됩니다 — 원시 수치는 노출되지 않습니다.',
+        loading: '로드맵을 불러오는 중…',
+        empty: '아직 추천이 없습니다. 어드바이저는 매주 월요일에 재생성됩니다. 다음 주에 다시 확인해 주세요.',
+        errorLoad: '지금은 로드맵을 불러올 수 없습니다. 저희 문제입니다 — 1분 후에 새로고침하시거나, ',
+        errorLoadCta: '이메일',
+        errorLoadAfter: '을 보내주시면 확인하겠습니다.',
+        prioHigh: '높음',
+        prioMedium: '중간',
+        prioLow: '낮음',
+        impactRevenue: '매출',
+        impactRetention: '리텐션',
+        impactGrowth: '성장',
+        impactQuality: '품질',
+        generatedAt: '추천 생성 시각 · ',
+        neverGenerated: '아직 추천이 생성된 적이 없습니다.',
+        footNote: '추천은 실제 사용 데이터로부터 매주 재생성됩니다. 빠진 기능이 있나요?',
+        footNoteCta: '💡 기능 제안 →',
+        footerNote: '팬 메이드 툴킷. First Fun / Century Games와 관련이 없습니다.',
+        footerHome: '홈',
+        footerStatus: '상태',
+        footerTerms: '이용약관',
+        footerPrivacy: '개인정보',
+        footerContact: '연락처',
+      }
+    };
+
+    function detectLang() {
+      var stored = null;
+      try { stored = localStorage.getItem('r5tools_lang'); } catch (e) {}
+      if (stored && I18N[stored]) return stored;
+      var nav = (navigator.language || 'en').toLowerCase();
+      if (nav.indexOf('ko') === 0) return 'ko';
+      return 'en';
+    }
+    var LANG = detectLang();
+
+    function T(k) {
+      return (I18N[LANG] && I18N[LANG][k]) || (I18N.en && I18N.en[k]) || k;
+    }
+
+    function applyI18n() {
+      document.documentElement.lang = LANG;
+      var nodes = document.querySelectorAll('[data-i18n]');
+      for (var i = 0; i < nodes.length; i++) {
+        var k = nodes[i].getAttribute('data-i18n');
+        nodes[i].innerHTML = T(k);
+      }
+      var titleNodes = document.querySelectorAll('[data-i18n-title]');
+      for (var j = 0; j < titleNodes.length; j++) {
+        var tk = titleNodes[j].getAttribute('data-i18n-title');
+        titleNodes[j].setAttribute('title', T(tk));
+      }
+      var sel = document.getElementById('langToggle');
+      if (sel) sel.value = LANG;
+    }
+
+    document.getElementById('langToggle').addEventListener('change', function (ev) {
+      LANG = ev.target.value;
+      try { localStorage.setItem('r5tools_lang', LANG); } catch (e) {}
+      applyI18n();
+      renderRoadmap();  // re-render cards with new priority + impact labels
+      renderMeta();
+    });
+
+    // ------- Roadmap data fetch + render -------
+    var ROADMAP_ENDPOINT = 'https://access-codes.r5tools.io/api/roadmap/public';
+    // Local-dev override (e.g. testing against a running server on port 8790)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      ROADMAP_ENDPOINT = 'http://localhost:8790/api/roadmap/public';
+    }
+
+    var STATE = { items: [], generatedAt: null, empty: true, loaded: false, error: null };
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function prioLabel(p) {
+      if (p === 'high') return T('prioHigh');
+      if (p === 'medium') return T('prioMedium');
+      return T('prioLow');
+    }
+    function impactLabel(i) {
+      if (i === 'revenue') return T('impactRevenue');
+      if (i === 'retention') return T('impactRetention');
+      if (i === 'growth') return T('impactGrowth');
+      return T('impactQuality');
+    }
+
+    function renderRoadmap() {
+      var host = document.getElementById('roadmap-cards');
+      if (!STATE.loaded) {
+        host.innerHTML = '<div class="empty">' + escapeHtml(T('loading')) + '</div>';
+        return;
+      }
+      if (STATE.error) {
+        host.innerHTML = '<div class="error">' +
+          escapeHtml(T('errorLoad')) +
+          '<a class="js-mailto" href="#" data-mailto-user="hello" data-mailto-host="r5tools.io" data-mailto-subject="Roadmap page error" style="color:var(--accent)">' +
+            escapeHtml(T('errorLoadCta')) +
+          '</a>' +
+          escapeHtml(T('errorLoadAfter')) +
+        '</div>';
+        return;
+      }
+      if (STATE.empty || !STATE.items.length) {
+        host.innerHTML = '<div class="empty">' + escapeHtml(T('empty')) + '</div>';
+        return;
+      }
+      var html = '';
+      for (var i = 0; i < STATE.items.length; i++) {
+        var it = STATE.items[i];
+        var prio = it.priority || 'medium';
+        var impact = it.estimated_impact || 'quality';
+        html += '<article class="card">' +
+          '<div class="head">' +
+            '<span class="badge prio-' + escapeHtml(prio) + '">' + escapeHtml(prioLabel(prio)) + '</span>' +
+          '</div>' +
+          '<h2 class="title">' + escapeHtml(it.title || '') + '</h2>' +
+          '<span class="impact-chip" data-impact="' + escapeHtml(impact) + '">' +
+            '<span class="dot"></span>' + escapeHtml(impactLabel(impact)) +
+          '</span>' +
+        '</article>';
+      }
+      host.innerHTML = html;
+    }
+
+    function renderMeta() {
+      var el = document.getElementById('pageMeta');
+      if (!STATE.loaded || STATE.error) {
+        el.textContent = '';
+        return;
+      }
+      if (!STATE.generatedAt) {
+        el.textContent = T('neverGenerated');
+        return;
+      }
+      try {
+        var d = new Date(STATE.generatedAt);
+        var opts = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        el.textContent = T('generatedAt') + d.toLocaleString(LANG === 'ko' ? 'ko-KR' : 'en-US', opts);
+      } catch (e) {
+        el.textContent = T('generatedAt') + STATE.generatedAt;
+      }
+    }
+
+    function fetchRoadmap() {
+      fetch(ROADMAP_ENDPOINT, { credentials: 'omit' })
+        .then(function (r) {
+          if (!r.ok) throw new Error('http_' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          STATE.items = Array.isArray(data.items) ? data.items : [];
+          STATE.generatedAt = data.generated_at || null;
+          STATE.empty = !!data.empty;
+          STATE.loaded = true;
+          STATE.error = null;
+          renderRoadmap();
+          renderMeta();
+        })
+        .catch(function (err) {
+          STATE.loaded = true;
+          STATE.error = err;
+          renderRoadmap();
+          renderMeta();
+        });
+    }
+
+    // ------- mailto click handler (Cloudflare Email Obfuscation workaround) -------
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest && ev.target.closest('a.js-mailto');
+      if (!a) return;
+      ev.preventDefault();
+      var user = a.getAttribute('data-mailto-user') || '';
+      var host = a.getAttribute('data-mailto-host') || '';
+      var subj = a.getAttribute('data-mailto-subject');
+      var body = a.getAttribute('data-mailto-body');
+      if (!user || !host) return;
+      var href = 'mailto:' + user + '@' + host;
+      var params = [];
+      if (subj) params.push('subject=' + encodeURIComponent(subj));
+      if (body) params.push('body=' + body);
+      if (params.length) href += '?' + params.join('&');
+      window.location.href = href;
+    });
+
+    // ------- Boot -------
+    applyI18n();
+    fetchRoadmap();
+  </script>
+</body>
+</html>
