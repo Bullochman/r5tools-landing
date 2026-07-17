@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hive formation guide — MG grid, Stronghold, Megahive | R5TOOLS.IO</title>
+<meta name="description" content="Every hive shape used in LWS — MG 3×3 grid, Stronghold 21×21, S3 5×5 AC hive, S4 11×11 compound, S6 8-ring megahive with faction pact.">
+<meta name="keywords" content="Hive formation guide — MG grid, Stronghold, Megahive, Last War guide, LWS R5, alliance strategy">
+<link rel="canonical" href="https://r5tools.io/guides/hive-formation-guide.html">
+<meta property="og:title" content="Hive formation guide — MG grid, Stronghold, Megahive | R5TOOLS.IO">
+<meta property="og:description" content="Every hive shape used in LWS — MG 3×3 grid, Stronghold 21×21, S3 5×5 AC hive, S4 11×11 compound, S6 8-ring megahive with faction pact.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/guides/hive-formation-guide.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hive formation guide — MG grid, Stronghold, Megahive | R5TOOLS.IO">
+<meta name="twitter:description" content="Every hive shape used in LWS — MG 3×3 grid, Stronghold 21×21, S3 5×5 AC hive, S4 11×11 compound, S6 8-ring megahive with faction pact.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Hive formation guide — MG grid, Stronghold, Megahive", "description": "Every hive shape used in LWS — MG 3×3 grid, Stronghold 21×21, S3 5×5 AC hive, S4 11×11 compound, S6 8-ring megahive with faction pact.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/guides/hive-formation-guide.html", "inLanguage": "en"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://r5tools.io/guides/"}, {"@type": "ListItem", "position": 3, "name": "Hive formation guide — MG grid, Stronghold, Megahive", "item": "https://r5tools.io/guides/hive-formation-guide.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+  <a href="https://r5tools.io/">Home</a>
+  <a href="https://roster.r5tools.io/">Roster Extractor</a>
+  <a href="https://hive.r5tools.io/">Hive Planner</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Sim</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/guides/">Guides</a> › <span>Hive formation guide — MG grid, Stronghold, Megahive</span></nav>
+  <h1>Hive formation guide — MG grid, Stronghold, Megahive</h1>
+  <p class="lede">Every hive shape used in LWS — MG 3×3 grid, Stronghold 21×21, S3 5×5 AC hive, S4 11×11 compound, S6 8-ring megahive with faction pact.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">Hive Planner</a><a href="https://roster.r5tools.io/">Roster Extractor</a><a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a><a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a><a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a><a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Simulator</a><a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a><a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a></div>
+  <div class="cta-card">
+    <h3>Try free with code <code>RONY-FREE</code></h3>
+    <p>All R5TOOLS.IO planners unlock instantly for Warzone 2007 members — no signup, no payment.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Unlock your alliance →</a>
+  </div>
+  <article>
+    <p>A Last War: Survival alliance is a 100-player cooperative unit built on a five-rank hierarchy (R5 → R1), a shared research tree paid in coin and diamond donations, a construction/research &quot;help&quot; mechanic that shaves seconds-to-hours off every teammate&#x27;s timers, and a geographic clustering pattern (&quot;the hive&quot;) that is the substrate for every alliance-level event and defense. The most rewarding alliance activity outside PvP is Marshal&#x27;s Guard (Alliance Exercise), a 30-minute rally-marathon against five NPC tanks positioned inside a 3×3-tile event platform at the center of the hive (the <em>LWS_Alliance_Ops_Center</em> Hive Grid Manager plans this layout); the largest capturable seasonal objective is the 21×21-tile Military Stronghold, and Ring 1 members must sit against its outer mud to deny enemy landing zones. Alliance Duel (VS) is the recurring 6-day cross-server tournament (Mon–Sat, first to 7 victory points wins) that pairs with the Arms Race event and is the primary way alliances compete for server-level status. R5 assigns the four titled R4 slots — Warlord, Recruiter, Muse, Butler — and in Season 6 these titles gate the four alliance skills (Serpent Breath, Snake Barrier, Night Army, Thunder Feathers). The R4 cap starts at 8 and rises to 10 at Alliance Gift Level 10.</p>
+<p><strong>Positioning.</strong> The 3×3 event platform is placed as close to the alliance hive as possible to minimize march time. Rally leaders (R5, titled R4s, top-power R3s) sit in Ring 1 against the platform. See &quot;Hive formations&quot; below.</p>
+<h3>Hive formations</h3>
+<p>The &quot;hive&quot; is the geographic clustering of alliance bases around alliance buildings (turrets, flag) and event objects (Marshal&#x27;s Guard platform, Military Stronghold). Hive discipline is one of the most-ignored and most-consequential alliance rules — a scattered alliance loses defensive reinforcement coverage, march-time-limited events like Marshal&#x27;s Guard, and Zombie Siege reinforcement chains.</p>
+<p><strong>Base and event object sizes (tiles).</strong></p>
+<ul><li>Player HQ / city: <strong>2×2 tiles</strong> per base footprint (per hive-planner tools; note some sources treat member &quot;cells&quot; as 3×3 in planner UIs where one cell = one base + 1-tile buffer).</li><li>Marshal&#x27;s Guard platform: <strong>3×3 tiles</strong> (1 event cell).</li><li>Alliance Center (world building placement varies; the on-base structure is 5-tile-footprint per planners): <strong>5×5 tiles</strong>.</li><li>Missile silo (turret/rocket world object): <strong>4×4 tiles</strong>.</li><li>Military Stronghold seasonal fortress: <strong>21×21 tiles</strong> (a 7-cell × 7-cell block in a 3-tile-per-cell planner grid).</li></ul>
+<p><strong>Marshal&#x27;s Guard hive shape.</strong></p>
+<ul><li>Center = the 3×3 event platform (1 planner cell).</li><li>Recommended surrounding grid: 10×10 cells.</li><li>Members pack tightly against the platform and each other, no gaps needed for this event.</li><li>Ring capacity ≈ ring distance × 8 (a single ring around the 3×3 center has 8 slots; 2nd ring 16; 3rd ring 24).</li><li>Strongest players (R5 → titled R4 → untitled R4 → R3 by total power) fill Ring 1 first so their rallies enjoy shorter march time.</li></ul>
+<p><strong>Military Stronghold hive shape (defensive).</strong></p>
+<p>The Stronghold is a 21×21-tile fortress surrounded by mud. Any enemy who lands within <strong>9 tiles</strong> of the mud can rally the Stronghold — so the defensive job of the hive is to occupy those tiles so densely that no enemy can teleport a 3×3 city into a gap.</p>
+<p>The convention used by the Alliance Hive Grid Manager tool (and echoed by most competitive alliances) is:</p>
+<ul><li><strong>2-tile empty gap between every pair of alliance members</strong>, in every direction, <strong>and between rings</strong>. This gap is narrow enough to deny a 3×3 enemy footprint but wide enough that a legitimate teammate can land there if needed.</li><li><strong>Corner-anchored rings</strong>: each ring is a hollow rectangular frame whose four corners are always occupied. Inner edges pack at pitch 5 tiles (3-tile member + 2-tile gap) from corner to corner. The remaining edge stub may be 1 tile — still too narrow for an enemy 3×3 to slot in.</li><li><strong>Ring capacities</strong> (100-member alliance fits comfortably in 4 rings, 128 slots total, 28 spare):</li></ul>
+<div class="tbl-wrap"><table><thead><tr><th>Ring</th><th>Distance from stronghold mud (tiles)</th><th>Slots</th></tr></thead><tbody><tr><td>1</td><td>0 (against the mud)</td><td>20</td></tr><tr><td>2</td><td>5</td><td>28</td></tr><tr><td>3</td><td>10</td><td>36</td></tr><tr><td>4</td><td>15</td><td>44</td></tr><tr><td><strong>Total</strong></td><td>—</td><td><strong>128</strong></td></tr></tbody></table></div>
+<ul><li><strong>Rank ordering</strong>: R5 &gt; titled R4 &gt; untitled R4 &gt; R3 by total power. Strongest inward. Ring 1 is where enemies land first if they crack through, so it needs the players with the fastest heal/repair and the highest defensive power.</li><li><strong>Zero 3×3 empty zones anywhere</strong>. Any 3-tile square gap is a teleport landing pad.</li></ul>
+<p><strong>Assembly Point (alliance flag).</strong> R5 sets the Alliance Assembly Point marker. Alliance Teleporter items snap you to the tile closest to that marker. All alliance members see the marker. First-time joiners auto-teleport to it. The flag is what makes teleport-into-hive one-click; move it near the current event object for whatever the alliance is coordinating that day.</p>
+<p>The &quot;hive&quot; is the geographic clustering of alliance bases around alliance buildings (turrets, flag) and event objects (Marshal&#x27;s Guard platform, Military Stronghold). Hive discipline is one of the most-ignored and most-consequential alliance rules — a scattered alliance loses defensive reinforcement coverage, march-time-limited events like Marshal&#x27;s Guard, and Zombie Siege reinforcement chains.</p>
+<ul><li>Player HQ / city: <strong>2×2 tiles</strong> per base footprint (per hive-planner tools; note some sources treat member &quot;cells&quot; as 3×3 in planner UIs where one cell = one base + 1-tile buffer).</li><li>Marshal&#x27;s Guard platform: <strong>3×3 tiles</strong> (1 event cell).</li><li>Alliance Center (world building placement varies; the on-base structure is 5-tile-footprint per planners): <strong>5×5 tiles</strong>.</li><li>Missile silo (turret/rocket world object): <strong>4×4 tiles</strong>.</li><li>Military Stronghold seasonal fortress: <strong>21×21 tiles</strong> (a 7-cell × 7-cell block in a 3-tile-per-cell planner grid).</li></ul>
+<p>The Stronghold is a 21×21-tile fortress surrounded by mud. Any enemy who lands within <strong>9 tiles</strong> of the mud can rally the Stronghold — so the defensive job of the hive is to occupy those tiles so densely that no enemy can teleport a 3×3 city into a gap.</p>
+<p>The convention used by the Alliance Hive Grid Manager tool (and echoed by most competitive alliances) is:</p>
+<div class="tbl-wrap"><table><thead><tr><th>Ring</th><th>Distance from stronghold mud (tiles)</th><th>Slots</th></tr></thead><tbody><tr><td>1</td><td>0 (against the mud)</td><td>20</td></tr><tr><td>2</td><td>5</td><td>28</td></tr><tr><td>3</td><td>10</td><td>36</td></tr><tr><td>4</td><td>15</td><td>44</td></tr><tr><td><strong>Total</strong></td><td>—</td><td><strong>128</strong></td></tr></tbody></table></div>
+<p><strong>Assembly Point (alliance flag).</strong> R5 sets the Alliance Assembly Point marker. Alliance Teleporter items snap you to the tile closest to that marker. All alliance members see the marker. First-time joiners auto-teleport to it. The flag is what makes teleport-into-hive one-click; move it near the current event object for whatever the alliance is coordinating that day.</p>
+<h3>Military Stronghold (요새) — capture rules</h3>
+<p>Season 1 seasonal building. 21×21-tile fortress guarded by NPC infected zombies scaled to the stronghold&#x27;s level.</p>
+<ul><li><strong>Capture cap:</strong> 2 Military Strongholds per alliance per day (global across all warzones).</li><li><strong>Adjacency rule:</strong> you cannot capture an isolated stronghold — you must own an adjacent stronghold or (in some warzones) an outpost connected to a Level 1 or 2 Military Stronghold.</li><li><strong>Requirement:</strong> Virus Resistance stat.</li><li><strong>Alliance stronghold cap starts at 3.</strong> Each captured city adds capacity: +1 per L1–L5 city, +2 per L6 city.</li><li><strong>Protection after capture:</strong> 36 hours.</li><li><strong>Abandon:</strong> takes 1 hour. If protection expires mid-abandon, the abandon countdown continues.</li><li><strong>Defending doesn&#x27;t consume your daily capture cap.</strong></li></ul>
+  </article>
+  <div class="cta-card">
+    <h3>Bring this into your alliance chat</h3>
+    <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Get started free →</a>
+  </div>
+  <footer class="foot">
+  <p>Part of the <a href="https://r5tools.io/">R5TOOLS.IO</a> Last War: Survival alliance toolkit.
+     Fan-made · unaffiliated with First Fun / Century Games.
+     <a href="https://r5tools.io/terms.html">Terms</a> · <a href="https://r5tools.io/privacy.html">Privacy</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trade Train (S5) — Last War building guide | R5TOOLS.IO</title>
+<meta name="description" content="Trade Train (S5) in Last War: Survival. Season 5 — cross-server trade route with alliance safe-time windows.">
+<meta name="keywords" content="Trade Train (S5), Last War building, LWS Chief guide, R5 planning">
+<link rel="canonical" href="https://r5tools.io/buildings/trade-train.html">
+<meta property="og:title" content="Trade Train (S5) — Last War building guide | R5TOOLS.IO">
+<meta property="og:description" content="Trade Train (S5) in Last War: Survival. Season 5 — cross-server trade route with alliance safe-time windows.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/buildings/trade-train.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trade Train (S5) — Last War building guide | R5TOOLS.IO">
+<meta name="twitter:description" content="Trade Train (S5) in Last War: Survival. Season 5 — cross-server trade route with alliance safe-time windows.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Trade Train (S5)", "description": "Trade Train (S5) in Last War: Survival. Season 5 — cross-server trade route with alliance safe-time windows.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/buildings/trade-train.html", "inLanguage": "en"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "Buildings", "item": "https://r5tools.io/buildings/"}, {"@type": "ListItem", "position": 3, "name": "Trade Train (S5)", "item": "https://r5tools.io/buildings/trade-train.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+  <a href="https://r5tools.io/">Home</a>
+  <a href="https://roster.r5tools.io/">Roster Extractor</a>
+  <a href="https://hive.r5tools.io/">Hive Planner</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Sim</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/buildings/">Buildings</a> › <span>Trade Train (S5)</span></nav>
+  <h1>Trade Train (S5)</h1>
+  <p class="lede">Season 5 — cross-server trade route with alliance safe-time windows.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">Hive Planner</a><a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a><a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a></div>
+  <div class="cta-card">
+    <h3>Try free with code <code>RONY-FREE</code></h3>
+    <p>All R5TOOLS.IO planners unlock instantly for Warzone 2007 members — no signup, no payment.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Unlock your alliance →</a>
+  </div>
+  <article>
+    <p><em>Last War: Survival</em> runs on an <strong>8-week seasonal treadmill</strong>: every server rotates through a fresh themed map with new resources, buildings, PvP events, and hero/weapon rollouts. Since Season 2 (Polar Storm) ended, First Fun has shipped <strong>four full seasons</strong> — S3 Golden Kingdom (Egyptian desert / Spice Wars / Curse Resistance), S4 Evernight Isle (Sakura island / Lighthouse / Blood Night), S5 Wild West (Golden Wasteland / Banks / Trade Train / merged 8-warzone map), and S6 Shadow Rainforest (faction warfare / permanent city destruction / Hero Awakening). <strong>Season 7</strong> is confirmed by community creators as launching approximately <strong>August 2026</strong> but no official theme/mechanic details have leaked publicly at the time of this research (2026-07-14). Each season introduces a new seasonal resource loop, a new PvP conflict pattern, and a designated hero for UR ascension or Awakening — and the trend from S5→S6 is toward <strong>fewer, longer war windows</strong> and <strong>permanent, high-stakes territorial outcomes</strong> rather than continuous grind (documented in <em>13-meta-competitive</em>).</p>
+<p><strong>New seasonal resources:</strong> | Resource | Purpose | Source | |---|---|---| | <strong>CrystalGold</strong> | Primary ranking currency, deposited in Banks for interest | City passive income, Bank deposits, Doom Elite first-kills, High Noon (max 15,000/day from Week 3), Trade Train whiskey trades (Week 2+) | | <strong>Coffee / Coffee Beans</strong> | Fuels Coffee Factory and Caffeine Institute upgrades | Coffee Factory production | | <strong>Whiskey</strong> | Trade Train consignment (converts to CrystalGold) | Trade Train |</p>
+<p><strong>Trade Train:</strong> A train continuously travels across the continent, stopping at multiple stations. Players consign Whiskey for CrystalGold profit — or <strong>raid competitors&#x27; trades</strong> for rewards. Introduces cross-alliance economic warfare not previously in the game.</p>
+<div class="tbl-wrap"><table><thead><tr><th>한국어</th><th>English</th><th>Notes</th></tr></thead><tbody><tr><td>시즌 3 / 골든 킹덤</td><td>Season 3 / Golden Kingdom</td><td>Egyptian desert theme</td></tr><tr><td>시즌 4 / 에버나잇 아일</td><td>Season 4 / Evernight Isle</td><td>Sakura island / darkness theme</td></tr><tr><td>시즌 5 / 와일드 웨스트</td><td>Season 5 / Wild West</td><td>Golden Wasteland / Land of Liberty</td></tr><tr><td>시즌 6 / 섀도우 레인포레스트</td><td>Season 6 / Shadow Rainforest</td><td>Also &quot;Lost Rainforest&quot; in some EN sources</td></tr><tr><td>시즌 7</td><td>Season 7</td><td>Theme unannounced (as of 2026-07-15); launch ~August 2026 per community creators</td></tr><tr><td>폐허 아래 / 폐허의 밑바닥</td><td>Beneath the Ruins</td><td>S6 dedicated minigame (Solo + Duel)</td></tr><tr><td>원정대 기지</td><td>Expedition Base</td><td>S6 new dedicated Global Expedition building (was Alert Tower)</td></tr><tr><td>사전 시즌</td><td>Pre-season</td><td>2 weeks before main season since S4</td></tr><tr><td>시즌 프리뷰</td><td>Season Preview</td><td>7-day daily challenge before main season</td></tr><tr><td>축하 주간</td><td>Celebration week</td><td>Post-season / off-season</td></tr><tr><td>파벌</td><td>Faction</td><td>S4 Kage no Sato vs Koubutai; S6 Deepwood vs Wetland</td></tr><tr><td>카게노사토</td><td>Kage no Sato</td><td>S4 Ninja Clan faction</td></tr><tr><td>코부타이</td><td>Koubutai</td><td>S4 Samurai Clan faction</td></tr><tr><td>딥우드 클랜</td><td>Deepwood Clan</td><td>S6 stag totem faction</td></tr><tr><td>웨틀랜드 클랜</td><td>Wetland Clan</td><td>S6 crocodile totem faction</td></tr><tr><td>그레이트 리버 클랜</td><td>Great River Clan</td><td>S6 neutral central faction</td></tr><tr><td>저주 저항</td><td>Curse Resistance</td><td>S3 mandatory stat</td></tr><tr><td>저주 연구실</td><td>Curse Research Lab</td><td>S3, max L30</td></tr><tr><td>사막 수호자</td><td>Desert Protector</td><td>S3 disposable elite unit</td></tr><tr><td>축복의 샘</td><td>Blessing Fountain</td><td>S3 Sacred Water producer</td></tr><tr><td>신성수</td><td>Sacred Water</td><td>S3 resource</td></tr><tr><td>미스릴</td><td>Mithril</td><td>S3 building resource</td></tr><tr><td>향신료</td><td>Spice</td><td>S3 ranking currency</td></tr><tr><td>향신료 전쟁</td><td>Spice Wars</td><td>S3 main PvP event (Weeks 4–8)</td></tr><tr><td>모래벌레 위기</td><td>Sandworm Crisis</td><td>S3 14-day event</td></tr><tr><td>파벌 대전</td><td>Faction Duel</td><td>Season-ending faction battle</td></tr><tr><td>사바이벌 캐피탈</td><td>Capitol / Capital</td><td>Central control point per season</td></tr><tr><td>등대</td><td>Lighthouse</td><td>S4 signature building</td></tr><tr><td>광전기 실험실</td><td>Optoelectronic Lab</td><td>S4, max L35, Virus Resistance</td></tr><tr><td>바이러스 저항</td><td>Virus Resistance</td><td>S4+ mandatory stat</td></tr><tr><td>전기공</td><td>Electrician</td><td>S4 profession/unit</td></tr><tr><td>오니 바이러스 (ONV)</td><td>Oni Virus (ONV)</td><td>S4 lore virus</td></tr><tr><td>오니 장군</td><td>Oni General</td><td>S4 Blood Night boss</td></tr><tr><td>블러드 나이트 강림</td><td>Blood Night Descend</td><td>S4 3×/day event</td></tr><tr><td>스톤 / 쿼츠 / 마가타마 / 코퍼</td><td>Stone / Quartz / Magatama / Copper</td><td>S4 resources</td></tr><tr><td>코퍼 전쟁</td><td>Copper Wars</td><td>S4 main PvP event</td></tr><tr><td>스시 레스토랑</td><td>Sushi Restaurant</td><td>S4 map building</td></tr><tr><td>마네키네코</td><td>Maneki-neko</td><td>S4 map artifact discovery</td></tr><tr><td>크리스탈골드</td><td>CrystalGold</td><td>S5 ranking currency</td></tr><tr><td>커피</td><td>Coffee</td><td>S5 resource</td></tr><tr><td>위스키</td><td>Whiskey</td><td>S5 Trade Train resource</td></tr><tr><td>은행 요새</td><td>Bank Stronghold</td><td>S5 signature building</td></tr><tr><td>무역 열차</td><td>Trade Train</td><td>S5 cross-alliance economy</td></tr><tr><td>카페인 학원</td><td>Caffeine Institute</td><td>S5 Virus Resistance building</td></tr><tr><td>얼라이언스 세이프 타임</td><td>Alliance Safe Time</td><td>S5+ immunity mechanic</td></tr><tr><td>하이눈</td><td>High Noon</td><td>S5 weekly shooting mini-game</td></tr><tr><td>옥타곤 클래시</td><td>Octagon Clash</td><td>S5 8-warzone shared battlefield</td></tr><tr><td>골드 프로스펙팅</td><td>Gold Prospecting</td><td>S5 pre-season match-3</td></tr><tr><td>지역 선택</td><td>Area Selection</td><td>S5 pre-season spawn choice</td></tr><tr><td>도시 파괴</td><td>City Destruction</td><td>S6 permanent removal</td></tr><tr><td>영향력 포인트</td><td>Influence Points</td><td>S6 faction ranking metric</td></tr><tr><td>제단</td><td>Altar</td><td>S6 central-zone objectives</td></tr><tr><td>조상 사원</td><td>Ancestral Temple</td><td>S6 Capitol</td></tr><tr><td>얼라이언스 협약</td><td>Alliance Pact</td><td>S6 7-day non-aggression treaty</td></tr><tr><td>워 메리트</td><td>War Merit</td><td>S6 currency</td></tr><tr><td>파벌 기술</td><td>Faction Technology</td><td>S6 shared research</td></tr><tr><td>성역</td><td>Sanctuary</td><td>S6 stealth-buffed 20-min timer</td></tr><tr><td>균류 연구소</td><td>Fungus Institute</td><td>S6 Virus Resistance building</td></tr><tr><td>포자 공장</td><td>Spore Factory</td><td>S6 Spore producer</td></tr><tr><td>영웅 각성</td><td>Hero Awakening</td><td>S6 debut mechanic</td></tr><tr><td>각성 스킬</td><td>Awakening Skill</td><td>Replaces Expertise</td></tr><tr><td>각성 파편</td><td>Awakening Shards</td><td>Named / Universal</td></tr><tr><td>코브라 결계 / 밤 군대 / 세르펜트 브레스 / 페더 라이트닝 / 트리헤이븐</td><td>Cobra Barrier / Night Army / Serpent Breath / Feather Lightning / Treehaven</td><td>S6 Alliance Skills tied to leadership roles</td></tr></tbody></table></div>
+<ul><li><strong><em>02-heroes</em></strong> — Every season promotes one SSR to UR. Since S6, three heroes per season also gain Hero Awakening. Named vs Universal Awakening Shards are the new currency; hero tier-list volatility now depends on which heroes are in the Awakening rotation.</li><li><strong><em>03-chief</em></strong> — Chief profession cap extended from 60 → 100 in S3, retained through S6. Diplomat unavailable in S3/S4 (unconfirmed if unlocked later). New seasonal skills (Sandworm Traps, Trap Landmines, Nature&#x27;s Touch, etc.) tie to season-specific PvE.</li><li><strong><em>04-squads-combat</em></strong> — Tactics Cards debuted in S4; card meta shifted hard in S6 with the removal of the 4+1 hybrid squad strategy from Global Expedition, forcing pure Tank/Missile/Aircraft formations. Curse Resistance / Virus Resistance stats are new gate mechanics for PvE damage that stack over standard stats.</li><li><strong><em>05-season-1-crimson-plague</em></strong> — S1 Crimson Plague introduced T10 troops. Season structure since S3 has become more elaborate but retains the S1 template of themed map + seasonal resources + Capitol/faction endgame.</li><li><strong><em>06-season-2-frozen</em></strong> — S2 Polar Storm was the first true themed environmental hazard (cold/heat). S3+ retained the &quot;seasonal building trinity&quot; model (resource-producer + shop-currency-producer + resistance-lab). Alliance Furnace pattern from S2 evolves into Blessing Fountain (S3) / Lighthouse (S4) / Bank Stronghold (S5) / Altars (S6). See <em>STYLE_GUIDE</em> for how the LWS_Alliance_Ops_Center suite handles seasonal building overlays.</li><li><strong><em>08-alliance-systems</em></strong> — Alliance Pacts (S6), Alliance Safe Time (S5+), and Faction Technology (S6) reshape how alliances coordinate at the meta level. Alliance city/stronghold caps evolve per season (S3 = 8/8; S4 = 6/6; S5 Bank = 4 default up to 12; S6 factional).</li><li><strong><em>09-events</em></strong> — Blood Night Descend (S4, 02:30/10:30/18:30 server), Sandworm Crisis (S3, 14 days), Spice Wars (S3, biweekly), Copper Wars (S4, Wed/Sat), Trade Train (S5), Altar Tuesdays (S6), Faction Duel (season-ending). Each season adds 2–3 new recurring events.</li><li><strong><em>10-economy</em></strong> — Season Battle Pass (~48 days, ~€11.99 Advanced / ~€23.99 Luxury) is the shipped pricing anchor since S3. Weekly Pass adds a temporary seasonal building + resources. Three exclusive weapon passes per season (Weeks 1/3/6). Hero Awakening shards are now a paid axis on top of exclusive weapons.</li><li><strong><em>14-ui-reference</em></strong> — Season transitions require map re-render, seasonal building rendering, and faction color coding (S6 Deepwood green / Wetland blue / Great River neutral). Alliance Safe Time UI added in S5.</li><li><strong><em>15-glossary</em></strong> — Every season has full KR terminology; namu.wiki maintains a running Korean-language reference. Faction names (Kage no Sato, Koubutai in S4; Deepwood/Wetland in S6) are transliterated from EN in KR sources rather than re-localized.</li></ul>
+<ul><li><strong><em>02-heroes</em></strong> — Certain SSR/UR heroes carry gathering-speed, load-capacity, or resource-production bonuses on their base skills or exclusive weapons. Kimberly, Sarah, Molly, and various season-featured heroes are commonly cited as &quot;farming leads&quot; whose exclusive-weapon L20 team-boost provides economy gain in addition to combat. The Chief profession&#x27;s Economy tree parallels this on the player side.</li><li><strong><em>03-chief</em></strong> — VIP levels, profession XP, and exclusive weapon Lv 1–30 all sit in the Chief system and directly modify economy production, gathering speed, and load capacity. VIP Time consumption pattern and VIP-8/VIP-11 milestone hunt are Chief-progression decisions.</li><li><strong><em>05-season-1-crimson-plague</em></strong> — Season 1 does not introduce new base resources; economy runs on Food/Iron/Coin only. Season medals and Season 1-specific event currencies are separate loops. Warzone Duel adds a plunder cadence but not a new resource type.</li><li><strong><em>06-season-2-frozen</em></strong> — The economy expands to include <strong>Coal, Titanium Alloy, Rare Soil</strong> for the duration of the season. High-Heat Furnace and Alliance Furnace are new Coal sinks. Rare Soil ranks alliances at season end. Off-season, only the base four resources persist.</li><li><strong><em>04-squads-combat</em></strong> — Troop tier is the primary determinant of both <strong>load capacity</strong> (for gathering and plundering) and <strong>combat casualties</strong> (which is a resource sink via healing costs). T10/T11 unlocks are gated on Oil availability from HQ 31+ and Coin availability throughout. Hospital + ICU sizes cap the food/iron/coin loss per major PvP encounter.</li><li><strong><em>08-alliance-systems</em></strong> — Alliance Tech, Alliance Store, Alliance Help, Alliance Furnace, Alliance Train, Assembly Point are all economy-adjacent. Recommended tech +20% bonus and 30 daily donations are the daily economy anchor.</li><li><strong><em>09-events</em></strong> — Arms Race, Alliance Duel, Duel VS, Mutant Spawn, Doom Elite, and monthly events are the primary speedup and diamond inflow. Speedup-hoard-then-spend-during-Arms-Race is the single largest F2P economy multiplier.</li><li><strong><em>11-monetization</em></strong> — Diamond and Gold Brick spending decisions all reduce to &quot;how many resources / speedups does this pack buy?&quot; — the economy is the denominator for every ROI calc.</li><li><strong><em>12-progression</em></strong> — Screws, Blueprints, and Ore are the crafting-side resources sitting alongside the four permanent resources; <em>12-progression</em> documents the crafting economy proper.</li><li><strong><em>07-future-seasons</em></strong> — Every season adds one new economy loop (S3 Spice, S4 Copper + Sakura, S5 Golden + Trade Train, S6 Faction currency). Off-season, only the base four resources persist.</li></ul>
+  </article>
+  <div class="cta-card">
+    <h3>Bring this into your alliance chat</h3>
+    <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Get started free →</a>
+  </div>
+  <footer class="foot">
+  <p>Part of the <a href="https://r5tools.io/">R5TOOLS.IO</a> Last War: Survival alliance toolkit.
+     Fan-made · unaffiliated with First Fun / Century Games.
+     <a href="https://r5tools.io/terms.html">Terms</a> · <a href="https://r5tools.io/privacy.html">Privacy</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+</body>
+</html>

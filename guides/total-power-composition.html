@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Total power composition — where does 100M actually come from? | R5TOOLS.IO</title>
+<meta name="description" content="Total power breakdown — troops, buildings, heroes, gear, research, chief skills, and Wall of Honor. Which levers actually move the number.">
+<meta name="keywords" content="Total power composition — where does 100M actually come from?, Last War guide, LWS R5, alliance strategy">
+<link rel="canonical" href="https://r5tools.io/guides/total-power-composition.html">
+<meta property="og:title" content="Total power composition — where does 100M actually come from? | R5TOOLS.IO">
+<meta property="og:description" content="Total power breakdown — troops, buildings, heroes, gear, research, chief skills, and Wall of Honor. Which levers actually move the number.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/guides/total-power-composition.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Total power composition — where does 100M actually come from? | R5TOOLS.IO">
+<meta name="twitter:description" content="Total power breakdown — troops, buildings, heroes, gear, research, chief skills, and Wall of Honor. Which levers actually move the number.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Total power composition — where does 100M actually come from?", "description": "Total power breakdown — troops, buildings, heroes, gear, research, chief skills, and Wall of Honor. Which levers actually move the number.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/guides/total-power-composition.html", "inLanguage": "en"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://r5tools.io/guides/"}, {"@type": "ListItem", "position": 3, "name": "Total power composition — where does 100M actually come from?", "item": "https://r5tools.io/guides/total-power-composition.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+  <a href="https://r5tools.io/">Home</a>
+  <a href="https://roster.r5tools.io/">Roster Extractor</a>
+  <a href="https://hive.r5tools.io/">Hive Planner</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Sim</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/guides/">Guides</a> › <span>Total power composition — where does 100M actually come from?</span></nav>
+  <h1>Total power composition — where does 100M actually come from?</h1>
+  <p class="lede">Total power breakdown — troops, buildings, heroes, gear, research, chief skills, and Wall of Honor. Which levers actually move the number.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">Hive Planner</a><a href="https://roster.r5tools.io/">Roster Extractor</a><a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a><a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a><a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a><a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Simulator</a><a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a><a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a></div>
+  <div class="cta-card">
+    <h3>Try free with code <code>RONY-FREE</code></h3>
+    <p>All R5TOOLS.IO planners unlock instantly for Warzone 2007 members — no signup, no payment.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Unlock your alliance →</a>
+  </div>
+  <article>
+    <p>Progression in <em>Last War: Survival</em> runs on six parallel tracks that every account works round-the-clock: <strong>hero shards → stars/skills</strong>, <strong>exclusive weapons or awakening</strong>, <strong>gear crafting → level → star → mythic</strong>, <strong>research (Tech Center trees)</strong>, <strong>chief profession (Engineer / Warlord) skill tree</strong>, and <strong>HQ-driven building/troop training</strong>. The universal shard curve is <strong>975 shards to 5★ per hero</strong> (25 / 50 / 100 / 300 / 500 stacked, per KR BlueStacks and Theria Games) — identical across R/SR/SSR/UR rarities, only the shard <em>scarcity</em> differs (see <em>02-heroes</em> for per-rarity roster). Gear runs from Rare → Epic → <strong>Legendary</strong> (crafted from 4:1 refinement chains bottoming out in <strong>192,000 Screws ≈ 47 days per Legendary</strong>) → <strong>Mythic 5★</strong> (an additional <strong>50 Legendary Blueprints + 10 Mythic Blueprints + 750M gold + 500K ore + 6,000 Dielectric Ceramic</strong> for a single piece to full 5★). Research is prioritized Development → Economy → Alliance Duel → Special Forces (the <strong>T10 unlock path</strong>, gated by four ≥500M-coin gate nodes), with a <strong>second Tech Center</strong> ($10 pack, cleared District 102) doubling throughput. The <strong>Chief profession</strong> unlocks at HQ 25 → Season 1 entry, caps at Level 40/70/100 by season, and forks Engineer (economy) vs Warlord (combat) sharing a common right-column of seasonal skills that reset each season. Season 6 replaces Exclusive Weapons with <strong>Hero Awakening</strong> for new UR heroes (Kimberly Week 1, DVA Week 3, Tesla Week 5) — the awakening skill overwrites the Expertise slot and maxes at skill level 40. Total power splits roughly <strong>30–35% Troops / 25–30% Buildings / 20–25% Research / 10–15% Heroes / 5–10% Equipment / 5–8% Alliance Tech</strong> — meaning research, buildings, and troop tiering dominate; heroes and gear are high-leverage but numerically smaller on the profile total.</p>
+<p>Every LWS account, from Day 1 to Season 6 whales, is simultaneously advancing on six independent tracks. Each track has its own resource pool, own timers, and own diminishing returns — and each one contributes to the same six-component power total. Understanding them as parallel systems (not a linear &quot;leveling&quot;) is the mental model every guide converges on:</p>
+<p>Total account power is the sum of all six with the approximate weights: <strong>Troops 30–35%, Buildings 25–30%, Research 20–25%, Heroes 10–15%, Equipment 5–10%, Alliance Tech 5–8%</strong> (Last War Handbook — Power Calculation Guide 2026; U7Buy Power Scaling Explained 2026). Effective <em>combat</em> power weights differently — Last War Handbook&#x27;s <strong>TCP = (TP × 0.5) + (HP × 0.3) + (RP × 0.15) + (EP × 0.05)</strong> formula compresses buildings and alliance tech to zero and elevates troops-and-heroes to the vast majority of what actually shows up on the battlefield.</p>
+<p>The KR moneylifeblog phrasing frames it as &quot;5 upgrades per tier&quot; — 1★ costs 5 shards each of 5 upgrades (25 total), 2★ costs 10 × 5 (50 total), 3★ costs 20 × 5 (100 total), 4★ costs 60 × 5 (300 total), 5★ costs 100 × 5 (500 total). Same number, different granularity — this matches the in-game UI which asks for a small shard count per click.</p>
+<p><strong>Upgrade curve</strong> (shards required per level; lastwar.us forum extraction): | Level range | Shards each level | Cumulative shards | |-------------|-------------------|-------------------| | Level 1 (unlock) | 50 | 50 | | Levels 2–4 | 20 | 110 | | Levels 5–9 | 40 | 310 | | Levels 10–14 | 60 | 610 | | Levels 15–19 | 100 | 1,110 | | Levels 20–24 | 150 | 1,860 | | Levels 25–30 | 200 | 3,060 (est. — Cpt Hedge quotes total-to-30 near 2,880) |</p>
+<p>Note: Cpt Hedgehog cites &quot;1,130 shards total to Level 20&quot;; lastwar.us gives 1,110. The ~20-shard delta is likely a rounding of the unlock-cost accounting. Both agree that <strong>Level 20 is the recommended first ceiling</strong> — it unlocks the +7.5% Attack/HP/Defense buff to all same-type heroes.</p>
+<p><strong>Skill cap interaction:</strong> Every 3 weapon levels adds +1 to the hero&#x27;s skill level cap, up to skill 40 total (Last War Handbook). So a UR hero&#x27;s actual accessible skill 40 requires EW ≥ 30 in parallel with skill medal investment.</p>
+<p>Total cumulative to skill 40 on a single UR skill is roughly <strong>150,000–180,000 medals</strong> by summing the level table — Theria Games doesn&#x27;t publish the sum but this is the arithmetic. Multiply by 4 skills per hero × N heroes to see why skill medals are always a bottleneck.</p>
+<p><strong>192,000 Screws / ~47 days figure sourced 2026-07-15.</strong> The keystone number is now traceable to the [Last War Handbook Gear Factory guide, search excerpt 2026-07-15, Tier B]: &quot;<em>To craft one piece of legendary gear, you will need 192,000 screws, which will take about 47 days based on screw production alone. At level 11, one Material Workshop produces 34 screws per hour, with a total daily production of 4,080 screws using 5 workshops.</em>&quot; The 4,080/day × 47 days = 191,760 screws — arithmetic checks out against the 192,000 figure. So the &quot;47 days&quot; is grounded on <strong>L11 Material Workshops</strong> — a mid-game snapshot, not endgame. Endgame players with higher-level workshops + Economy research + survivor buffs cut this timer significantly (workshops keep scaling to L30+), which is why endgame estimates of &quot;1 Legendary per week via dismantle shortcut&quot; hold. Previously KB-flagged as a keystone number lacking source; now upgraded to Tier B confirmation.</p>
+<p><strong>Total leveling cost to Level 40 per piece</strong> (lootbar):</p>
+<ul><li><strong>~28.95M Coins</strong></li><li><strong>~194,000 Upgrade Ore</strong></li></ul>
+  </article>
+  <div class="cta-card">
+    <h3>Bring this into your alliance chat</h3>
+    <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Get started free →</a>
+  </div>
+  <footer class="foot">
+  <p>Part of the <a href="https://r5tools.io/">R5TOOLS.IO</a> Last War: Survival alliance toolkit.
+     Fan-made · unaffiliated with First Fun / Century Games.
+     <a href="https://r5tools.io/terms.html">Terms</a> · <a href="https://r5tools.io/privacy.html">Privacy</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+</body>
+</html>

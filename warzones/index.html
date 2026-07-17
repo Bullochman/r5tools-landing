@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Every LWS warzone — R5 planning tools | R5TOOLS.IO</title>
+<meta name="description" content="Every Last War: Survival warzone. Set your warzone once and every R5TOOLS.IO planner tracks your active season and week automatically.">
+
+<link rel="canonical" href="https://r5tools.io/warzones/">
+<meta property="og:title" content="Every LWS warzone — R5 planning tools | R5TOOLS.IO">
+<meta property="og:description" content="Every Last War: Survival warzone. Set your warzone once and every R5TOOLS.IO planner tracks your active season and week automatically.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/warzones/">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Every LWS warzone — R5 planning tools | R5TOOLS.IO">
+<meta name="twitter:description" content="Every Last War: Survival warzone. Set your warzone once and every R5TOOLS.IO planner tracks your active season and week automatically.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Last War Survival <span class='accent'>warzone index</span>", "description": "Every Last War: Survival warzone. Set your warzone once and every R5TOOLS.IO planner tracks your active season and week automatically.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/warzones/", "inLanguage": "en"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "Warzones", "item": "https://r5tools.io/warzones/"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+  <a href="https://r5tools.io/">Home</a>
+  <a href="https://roster.r5tools.io/">Roster Extractor</a>
+  <a href="https://hive.r5tools.io/">Hive Planner</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Sim</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>Warzones</span></nav>
+  <h1>Last War Survival <span class='accent'>warzone index</span></h1>
+  <p class="lede">Set your warzone once and every R5TOOLS.IO planner tracks the season, week, and next milestone.</p>
+  
+  <div class="cta-card">
+    <h3>Try free with code <code>RONY-FREE</code></h3>
+    <p>All R5TOOLS.IO planners unlock instantly for Warzone 2007 members — no signup, no payment.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Unlock your alliance →</a>
+  </div>
+  <article>
+    <h3>Warzone index</h3>
+<p>R5TOOLS.IO builds a page per public warzone. Click your warzone below or set it once at <a href="/" rel="nofollow noopener">r5tools.io</a> and every tool tracks your active season automatically.</p>
+<p><a href="/warzones/warzone-1001.html" rel="nofollow noopener">1001</a> · <a href="/warzones/warzone-1002.html" rel="nofollow noopener">1002</a> · <a href="/warzones/warzone-1003.html" rel="nofollow noopener">1003</a> · <a href="/warzones/warzone-1004.html" rel="nofollow noopener">1004</a> · <a href="/warzones/warzone-1005.html" rel="nofollow noopener">1005</a> · <a href="/warzones/warzone-1006.html" rel="nofollow noopener">1006</a> · <a href="/warzones/warzone-1007.html" rel="nofollow noopener">1007</a> · <a href="/warzones/warzone-1008.html" rel="nofollow noopener">1008</a> · <a href="/warzones/warzone-1009.html" rel="nofollow noopener">1009</a> · <a href="/warzones/warzone-1010.html" rel="nofollow noopener">1010</a></p>
+<p><a href="/warzones/warzone-1011.html" rel="nofollow noopener">1011</a> · <a href="/warzones/warzone-1012.html" rel="nofollow noopener">1012</a> · <a href="/warzones/warzone-1013.html" rel="nofollow noopener">1013</a> · <a href="/warzones/warzone-1014.html" rel="nofollow noopener">1014</a> · <a href="/warzones/warzone-1015.html" rel="nofollow noopener">1015</a> · <a href="/warzones/warzone-1016.html" rel="nofollow noopener">1016</a> · <a href="/warzones/warzone-1017.html" rel="nofollow noopener">1017</a> · <a href="/warzones/warzone-1018.html" rel="nofollow noopener">1018</a> · <a href="/warzones/warzone-1019.html" rel="nofollow noopener">1019</a> · <a href="/warzones/warzone-1020.html" rel="nofollow noopener">1020</a></p>
+<p><a href="/warzones/warzone-1021.html" rel="nofollow noopener">1021</a> · <a href="/warzones/warzone-1022.html" rel="nofollow noopener">1022</a> · <a href="/warzones/warzone-1023.html" rel="nofollow noopener">1023</a> · <a href="/warzones/warzone-1024.html" rel="nofollow noopener">1024</a> · <a href="/warzones/warzone-1025.html" rel="nofollow noopener">1025</a> · <a href="/warzones/warzone-1026.html" rel="nofollow noopener">1026</a> · <a href="/warzones/warzone-1027.html" rel="nofollow noopener">1027</a> · <a href="/warzones/warzone-1028.html" rel="nofollow noopener">1028</a> · <a href="/warzones/warzone-1029.html" rel="nofollow noopener">1029</a> · <a href="/warzones/warzone-1030.html" rel="nofollow noopener">1030</a></p>
+<p><a href="/warzones/warzone-1031.html" rel="nofollow noopener">1031</a> · <a href="/warzones/warzone-1032.html" rel="nofollow noopener">1032</a> · <a href="/warzones/warzone-1033.html" rel="nofollow noopener">1033</a> · <a href="/warzones/warzone-1034.html" rel="nofollow noopener">1034</a> · <a href="/warzones/warzone-1035.html" rel="nofollow noopener">1035</a> · <a href="/warzones/warzone-1036.html" rel="nofollow noopener">1036</a> · <a href="/warzones/warzone-1037.html" rel="nofollow noopener">1037</a> · <a href="/warzones/warzone-1038.html" rel="nofollow noopener">1038</a> · <a href="/warzones/warzone-1039.html" rel="nofollow noopener">1039</a> · <a href="/warzones/warzone-1040.html" rel="nofollow noopener">1040</a></p>
+<p><a href="/warzones/warzone-1041.html" rel="nofollow noopener">1041</a> · <a href="/warzones/warzone-1042.html" rel="nofollow noopener">1042</a> · <a href="/warzones/warzone-1043.html" rel="nofollow noopener">1043</a> · <a href="/warzones/warzone-1044.html" rel="nofollow noopener">1044</a> · <a href="/warzones/warzone-1045.html" rel="nofollow noopener">1045</a> · <a href="/warzones/warzone-1046.html" rel="nofollow noopener">1046</a> · <a href="/warzones/warzone-1047.html" rel="nofollow noopener">1047</a> · <a href="/warzones/warzone-1048.html" rel="nofollow noopener">1048</a> · <a href="/warzones/warzone-1049.html" rel="nofollow noopener">1049</a> · <a href="/warzones/warzone-1050.html" rel="nofollow noopener">1050</a></p>
+<p><a href="/warzones/warzone-1051.html" rel="nofollow noopener">1051</a> · <a href="/warzones/warzone-1052.html" rel="nofollow noopener">1052</a> · <a href="/warzones/warzone-1053.html" rel="nofollow noopener">1053</a> · <a href="/warzones/warzone-1054.html" rel="nofollow noopener">1054</a> · <a href="/warzones/warzone-1055.html" rel="nofollow noopener">1055</a> · <a href="/warzones/warzone-1056.html" rel="nofollow noopener">1056</a> · <a href="/warzones/warzone-1057.html" rel="nofollow noopener">1057</a> · <a href="/warzones/warzone-1058.html" rel="nofollow noopener">1058</a> · <a href="/warzones/warzone-1059.html" rel="nofollow noopener">1059</a> · <a href="/warzones/warzone-1060.html" rel="nofollow noopener">1060</a></p>
+<p><a href="/warzones/warzone-1061.html" rel="nofollow noopener">1061</a> · <a href="/warzones/warzone-1062.html" rel="nofollow noopener">1062</a> · <a href="/warzones/warzone-1063.html" rel="nofollow noopener">1063</a> · <a href="/warzones/warzone-1064.html" rel="nofollow noopener">1064</a> · <a href="/warzones/warzone-1065.html" rel="nofollow noopener">1065</a> · <a href="/warzones/warzone-1066.html" rel="nofollow noopener">1066</a> · <a href="/warzones/warzone-1067.html" rel="nofollow noopener">1067</a> · <a href="/warzones/warzone-1068.html" rel="nofollow noopener">1068</a> · <a href="/warzones/warzone-1069.html" rel="nofollow noopener">1069</a> · <a href="/warzones/warzone-1070.html" rel="nofollow noopener">1070</a></p>
+<p><a href="/warzones/warzone-1071.html" rel="nofollow noopener">1071</a> · <a href="/warzones/warzone-1072.html" rel="nofollow noopener">1072</a> · <a href="/warzones/warzone-1073.html" rel="nofollow noopener">1073</a> · <a href="/warzones/warzone-1074.html" rel="nofollow noopener">1074</a> · <a href="/warzones/warzone-1075.html" rel="nofollow noopener">1075</a> · <a href="/warzones/warzone-1076.html" rel="nofollow noopener">1076</a> · <a href="/warzones/warzone-1077.html" rel="nofollow noopener">1077</a> · <a href="/warzones/warzone-1078.html" rel="nofollow noopener">1078</a> · <a href="/warzones/warzone-1079.html" rel="nofollow noopener">1079</a> · <a href="/warzones/warzone-1080.html" rel="nofollow noopener">1080</a></p>
+<p><a href="/warzones/warzone-1081.html" rel="nofollow noopener">1081</a> · <a href="/warzones/warzone-1082.html" rel="nofollow noopener">1082</a> · <a href="/warzones/warzone-1083.html" rel="nofollow noopener">1083</a> · <a href="/warzones/warzone-1084.html" rel="nofollow noopener">1084</a> · <a href="/warzones/warzone-1085.html" rel="nofollow noopener">1085</a> · <a href="/warzones/warzone-1086.html" rel="nofollow noopener">1086</a> · <a href="/warzones/warzone-1087.html" rel="nofollow noopener">1087</a> · <a href="/warzones/warzone-1088.html" rel="nofollow noopener">1088</a> · <a href="/warzones/warzone-1089.html" rel="nofollow noopener">1089</a> · <a href="/warzones/warzone-1090.html" rel="nofollow noopener">1090</a></p>
+<p><a href="/warzones/warzone-1091.html" rel="nofollow noopener">1091</a> · <a href="/warzones/warzone-1092.html" rel="nofollow noopener">1092</a> · <a href="/warzones/warzone-1093.html" rel="nofollow noopener">1093</a> · <a href="/warzones/warzone-1094.html" rel="nofollow noopener">1094</a> · <a href="/warzones/warzone-1095.html" rel="nofollow noopener">1095</a> · <a href="/warzones/warzone-1096.html" rel="nofollow noopener">1096</a> · <a href="/warzones/warzone-1097.html" rel="nofollow noopener">1097</a> · <a href="/warzones/warzone-1098.html" rel="nofollow noopener">1098</a> · <a href="/warzones/warzone-1099.html" rel="nofollow noopener">1099</a> · <a href="/warzones/warzone-1100.html" rel="nofollow noopener">1100</a></p>
+<p><a href="/warzones/warzone-1101.html" rel="nofollow noopener">1101</a> · <a href="/warzones/warzone-1102.html" rel="nofollow noopener">1102</a> · <a href="/warzones/warzone-1103.html" rel="nofollow noopener">1103</a> · <a href="/warzones/warzone-1104.html" rel="nofollow noopener">1104</a> · <a href="/warzones/warzone-1105.html" rel="nofollow noopener">1105</a> · <a href="/warzones/warzone-1106.html" rel="nofollow noopener">1106</a> · <a href="/warzones/warzone-1107.html" rel="nofollow noopener">1107</a> · <a href="/warzones/warzone-1108.html" rel="nofollow noopener">1108</a> · <a href="/warzones/warzone-1109.html" rel="nofollow noopener">1109</a> · <a href="/warzones/warzone-1110.html" rel="nofollow noopener">1110</a></p>
+<p><a href="/warzones/warzone-1111.html" rel="nofollow noopener">1111</a> · <a href="/warzones/warzone-1112.html" rel="nofollow noopener">1112</a> · <a href="/warzones/warzone-1113.html" rel="nofollow noopener">1113</a> · <a href="/warzones/warzone-1114.html" rel="nofollow noopener">1114</a> · <a href="/warzones/warzone-1115.html" rel="nofollow noopener">1115</a> · <a href="/warzones/warzone-1116.html" rel="nofollow noopener">1116</a> · <a href="/warzones/warzone-1117.html" rel="nofollow noopener">1117</a> · <a href="/warzones/warzone-1118.html" rel="nofollow noopener">1118</a> · <a href="/warzones/warzone-1119.html" rel="nofollow noopener">1119</a> · <a href="/warzones/warzone-1120.html" rel="nofollow noopener">1120</a></p>
+  </article>
+  <div class="cta-card">
+    <h3>Bring this into your alliance chat</h3>
+    <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Get started free →</a>
+  </div>
+  <footer class="foot">
+  <p>Part of the <a href="https://r5tools.io/">R5TOOLS.IO</a> Last War: Survival alliance toolkit.
+     Fan-made · unaffiliated with First Fun / Century Games.
+     <a href="https://r5tools.io/terms.html">Terms</a> · <a href="https://r5tools.io/privacy.html">Privacy</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+</body>
+</html>

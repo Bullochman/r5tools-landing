@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alliance Center — Last War building guide | R5TOOLS.IO</title>
+<meta name="description" content="Alliance Center in Last War: Survival. Controls alliance join capacity, Help cap, and hosts garrison troops.">
+<meta name="keywords" content="Alliance Center, Last War building, LWS Chief guide, R5 planning">
+<link rel="canonical" href="https://r5tools.io/buildings/alliance-center.html">
+<meta property="og:title" content="Alliance Center — Last War building guide | R5TOOLS.IO">
+<meta property="og:description" content="Alliance Center in Last War: Survival. Controls alliance join capacity, Help cap, and hosts garrison troops.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://r5tools.io/buildings/alliance-center.html">
+<meta property="og:image" content="https://r5tools.io/static/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Alliance Center — Last War building guide | R5TOOLS.IO">
+<meta name="twitter:description" content="Alliance Center in Last War: Survival. Controls alliance join capacity, Help cap, and hosts garrison troops.">
+<meta name="twitter:image" content="https://r5tools.io/static/og-image.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Alliance Center", "description": "Alliance Center in Last War: Survival. Controls alliance join capacity, Help cap, and hosts garrison troops.", "author": {"@type": "Organization", "name": "R5TOOLS.IO"}, "publisher": {"@type": "Organization", "name": "R5TOOLS.IO", "url": "https://r5tools.io"}, "image": "https://r5tools.io/static/og-image.png", "mainEntityOfPage": "https://r5tools.io/buildings/alliance-center.html", "inLanguage": "en"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://r5tools.io/"}, {"@type": "ListItem", "position": 2, "name": "Buildings", "item": "https://r5tools.io/buildings/"}, {"@type": "ListItem", "position": 3, "name": "Alliance Center", "item": "https://r5tools.io/buildings/alliance-center.html"}]}]}</script>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #0a0e1a; --panel: #0d1424; --panel-2: #12192c;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(201,169,97,0.3);
+  --accent: #c9a961; --accent-hover: #d9b871;
+  --text: #e6e8ee; --text-dim: #a8b0c0; --text-mute: #7a8290;
+  --live: #8ae0a3; --soon: #e6cf7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html,body { margin:0; padding:0; background:var(--bg); color:var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 96px; }
+.suite-nav { display:flex; gap:8px; flex-wrap:wrap; font-size:12px;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  justify-content:center; }
+.suite-nav a { color: var(--text-dim); text-decoration:none; padding: 4px 10px;
+  border:1px solid var(--border); border-radius:14px; }
+.suite-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.crumbs { font-size:12px; color: var(--text-mute); margin: 16px 0 8px;
+  letter-spacing: 0.03em; }
+.crumbs a { color: var(--text-dim); text-decoration:none; }
+.crumbs a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height:1.2; letter-spacing:-0.01em;
+  margin: 4px 0 12px; font-weight:600; }
+h1 .accent { color: var(--accent); }
+h2 { font-size:22px; margin: 40px 0 12px; color: var(--accent);
+  border-bottom:1px solid var(--border); padding-bottom:6px; font-weight:600; }
+h3 { font-size:17px; margin: 28px 0 8px; color: var(--text); font-weight:600; }
+h4 { font-size:15px; margin: 20px 0 6px; color: var(--text-dim); }
+p { color: var(--text-dim); }
+strong { color: var(--text); }
+.lede { font-size:17px; color: var(--text); margin: 10px 0 24px; }
+ul, ol { color: var(--text-dim); padding-left:22px; }
+ul li, ol li { margin: 4px 0; }
+code { background: var(--panel-2); padding:1px 5px; border-radius:3px;
+  font-family: var(--mono); font-size: 0.92em; color: var(--text); }
+pre { background: var(--panel-2); padding: 12px; border-radius:8px;
+  overflow-x:auto; border:1px solid var(--border); font-size:13px; }
+pre code { background:none; padding:0; }
+blockquote { margin: 12px 0; padding: 8px 14px; border-left:3px solid var(--accent);
+  background: var(--panel); color: var(--text-dim); }
+.tbl-wrap { overflow-x:auto; margin: 12px 0 20px; }
+table { border-collapse:collapse; width:100%; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align:left;
+  vertical-align:top; }
+th { background: var(--panel-2); color: var(--accent); font-weight:600; }
+td { color: var(--text-dim); }
+.cta-card { background: linear-gradient(135deg, rgba(201,169,97,0.12), rgba(201,169,97,0.04));
+  border:1px solid var(--border-accent); border-radius:14px; padding: 22px 24px;
+  margin: 36px 0 20px; text-align:center; }
+.cta-card h3 { color: var(--accent); font-size:18px; margin: 0 0 8px; }
+.cta-card p { margin: 0 0 14px; color: var(--text); }
+.cta-card a.btn { display:inline-block; background: var(--accent);
+  color: #000; text-decoration:none; padding: 10px 22px; border-radius:22px;
+  font-weight:600; font-size:14px; }
+.cta-card a.btn:hover { background: var(--accent-hover); }
+.tools-row { display:flex; gap:8px; flex-wrap:wrap; margin: 12px 0 20px; }
+.tools-row a { color: var(--text); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 6px 14px; text-decoration:none; font-size:13px; }
+.tools-row a:hover { border-color: var(--accent); color: var(--accent); }
+.beta-pill { position:fixed; bottom: 18px; right: 18px;
+  background: var(--panel); border:1px solid var(--border-accent);
+  color: var(--text); font-size:12px; padding: 8px 14px;
+  border-radius: 20px; text-decoration:none; z-index:50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.beta-pill:hover { border-color: var(--accent); color: var(--accent); }
+.foot { text-align:center; color: var(--text-mute); font-size:12px;
+  margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+.foot a { color: var(--text-dim); text-decoration:none; }
+.foot a:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+  .wrap { padding: 16px 14px 96px; }
+}
+</style>
+</head>
+<body>
+<nav class="suite-nav" aria-label="R5TOOLS.IO suite">
+  <a href="https://r5tools.io/">Home</a>
+  <a href="https://roster.r5tools.io/">Roster Extractor</a>
+  <a href="https://hive.r5tools.io/">Hive Planner</a>
+  <a href="https://bullochman.github.io/lws-season-timeline-static/">Season Timeline</a>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a>
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat Sim</a>
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze Risk</a>
+  <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a>
+  <a href="https://bullochman.github.io/lws-city-capture-static/">City Capture</a>
+</nav>
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/buildings/">Buildings</a> › <span>Alliance Center</span></nav>
+  <h1>Alliance Center</h1>
+  <p class="lede">Controls alliance join capacity, Help cap, and hosts garrison troops.</p>
+  <div class="tools-row"><a href="https://hive.r5tools.io/">Hive Planner</a><a href="https://bullochman.github.io/lws-coal-burn-static/">Coal Burn</a><a href="https://bullochman.github.io/lws-landing-planner-static/">Landing Planner</a></div>
+  <div class="cta-card">
+    <h3>Try free with code <code>RONY-FREE</code></h3>
+    <p>All R5TOOLS.IO planners unlock instantly for Warzone 2007 members — no signup, no payment.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Unlock your alliance →</a>
+  </div>
+  <article>
+    <p><strong>New seasonal resources:</strong> | Resource | Purpose | Source | |---|---|---| | <strong>Spice</strong> | End-of-season ranking currency | Alliance Center production, Spice Wars victories, city control | | <strong>Mithril</strong> | Upgrades Blessing Fountains and Protector&#x27;s Field | Doom Walker first blood, Desert Ruins radar missions, Mithril Plant | | <strong>Sacred Water</strong> | Upgrades Curse Research Lab | Blessing Fountains, first-time zombie kills | | <strong>Sandworm Scales</strong> | Desert Bazaar exchange currency (Protector Horns, Trap Landmine refills) | Sandworm Crisis event participation |</p>
+<p><strong>New seasonal buildings:</strong> | Building | Max Level | Function | |---|---|---| | <strong>Curse Research Lab</strong> | 30 | Increases Curse Resistance; L30 unlocks Scarlett UR ascension | | <strong>Blessing Fountain</strong> (5 variants) | 30 | Produces Sacred Water; unlocked progressively | | <strong>Altar</strong> | 30 | Buffs Desert Protector stats +0.5% per level | | <strong>Protector&#x27;s Field</strong> | — | Houses Desert Protectors (one-time-use elite units) | | <strong>Alliance Center</strong> | — | Produces Spice, provides in-range buffs, prevents Sandworm knockback |</p>
+<p><strong>Alliance Center secondary building unlocks:</strong></p>
+<ul><li>Level 5: Mithril Plant (34,560/hour)</li><li>Level 10: Exploratory Well (600 Oil/hour)</li><li>Level 15: Sacred Water Hut (8,640/hour)</li><li>Level 20: Obelisk (6 Protector Horns/hour)</li></ul>
+<p><strong>Sandworm Crisis event</strong> (14 days): Combat between alliances generates &quot;shock waves&quot;; accumulated shock waves spawn:</p>
+<ul><li><strong>Large Sandworms</strong> — knock bases outside Alliance Center range to distant map locations (forced teleport)</li><li><strong>Giant Sandworms</strong> — map-wide hazards, trapped via the Trap Landmine profession skill</li></ul>
+<p><strong>Spice Wars</strong> (Weeks 4–8): Two factions battle twice weekly across stages — Waiting → Declaration → Invitation → Preparation → War → End. Attackers can steal up to <strong>30% of enemy Spice</strong> by destroying secondary buildings (5% each) and the Alliance Center (10%).</p>
+<p><strong>New seasonal resources:</strong> | Resource | Purpose | Source | |---|---|---| | <strong>Copper</strong> | Primary war/ranking currency | City production 100–600/hour by level, Alliance Center | | <strong>Stone</strong> | Building upgrades | Doom Elites, Digging Strongholds, visitors, Stone Warehouse (40,320/h) | | <strong>Quartz</strong> | Building upgrades | Zombie kills, quests, Quartz Workshop (720/hour/workshop, 5 total workshops) | | <strong>Magatama</strong> | Seasonal shop currency | Blood Night Descend, Oni General kills, Magatama Warehouse (6/hour) |</p>
+<p><strong>Copper Wars</strong> — the main PvP event. Alliances declare on enemy Alliance Centers. Key rules change from S3: only 3 secondary buildings per Alliance Center; declaration range narrows weekly; minimum <strong>11-tile spacing between Alliance Centers</strong>.</p>
+<p><strong>Copper Wars — full mechanics</strong> [lastwartutorial (strategy guide), 2026-07-15]:</p>
+<ul><li><strong>8 total rounds</strong> across W4–W7 (2/week, Wed + Sat).</li><li>Kage no Sato starts on <strong>attack</strong>, Koubutai starts on <strong>defense</strong>. Sides <strong>alternate round-to-round</strong> — each faction ends with 4 attacking + 4 defending battles.</li><li>Declaration window: <strong>24 hours</strong> in the Declaration stage. R4+ in the attacking faction can declare on 1 target alliance in the <strong>same Copper ranking group</strong>. Up to <strong>3 attacking alliances</strong> may declare on the same target; target changeable until stage ends.</li><li><strong>Copper ranking groups:</strong> alliances sorted by copper holdings into 4 tiers (1–10, 11–20, 21–30, 31–50). The <strong>Group 1 range narrows across the season</strong>: 10 alliances (W4) → 6 (W5) → 3 (W6–W7). Concentrates matchmaking among top alliances late-season.</li><li><strong>Copper distribution formula:</strong> attackers plunder a percentage per building destroyed. Secondary buildings (Stone / Oil / Magatama Warehouse) = <strong>3% each</strong>; Alliance Center = <strong>additional 6%</strong>. <strong>Max plunder per round: 15% of defender&#x27;s Copper</strong>. Multiple attackers share the plunder proportionally by damage inflicted.</li><li><strong>Muse role redesign:</strong> the Muse alliance-skill was removed and replaced by the <strong>Tesla Coil Butler Skill</strong> — defensive ability, deployable only by the Butler during preparation and war phases.</li><li><strong>NOTE:</strong> Earlier KB draft cited &quot;30% steal&quot; (S3 Spice Wars carryover). Season 4 Copper Wars cap is <strong>15%</strong>, not 30% — a meaningful reduction from S3.</li></ul>
+<p><strong>Alliance Center placement — exact rule</strong> [lastwartutorial (strategy guide), 2026-07-15]: <strong>minimum 11-tile spacing measured center-to-center</strong> between Alliance Centers. Relocation spots are <strong>attackable during the pre-100%-completion window</strong> — a known Copper-War exploit for aggressive positioning.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Map size</td><td>13×13 (75×75 pixel squares)</td><td>heaven-guardian</td></tr><tr><td>City count</td><td>24 (Levels 1–6) vs 40 in S3</td><td>heaven-guardian</td></tr><tr><td>Digging Strongholds</td><td>6 (Stone 100–200/h)</td><td>heaven-guardian</td></tr><tr><td>Sushi Restaurants</td><td>10 (unlock Weeks 1–4)</td><td>heaven-guardian</td></tr><tr><td>Trade Post levels</td><td>1–4, unlock Week 3 Day 2</td><td>heaven-guardian</td></tr><tr><td>Blood Night times</td><td>02:30 / 10:30 / 18:30 server time</td><td>multiple</td></tr><tr><td>Blood Night duration</td><td>30 min each</td><td>multiple</td></tr><tr><td>Blood Night power drain</td><td>+18,000 / minute</td><td>heaven-guardian</td></tr><tr><td>Optoelectronic Lab max</td><td>L35</td><td>heaven-guardian</td></tr><tr><td>Generator unlock lab levels</td><td>L1, L3, L10, L15</td><td>heaven-guardian</td></tr><tr><td>Quartz Workshop output</td><td>720/hour per workshop</td><td>heaven-guardian</td></tr><tr><td>Total Quartz Workshops</td><td>5</td><td>heaven-guardian</td></tr><tr><td>Stone Warehouse (Day 7)</td><td>40,320/h</td><td>heaven-guardian</td></tr><tr><td>Oil Warehouse (Day 14)</td><td>600/h</td><td>heaven-guardian</td></tr><tr><td>Magatama Warehouse (Day 21)</td><td>6/h</td><td>heaven-guardian</td></tr><tr><td>Copper / hour by city level</td><td>100–600</td><td>heaven-guardian</td></tr><tr><td>City declaration cap</td><td>2/day</td><td>heaven-guardian</td></tr><tr><td>Max captured cities</td><td>6</td><td>heaven-guardian</td></tr><tr><td>Max captured strongholds</td><td>6</td><td>heaven-guardian</td></tr><tr><td>Min AC spacing</td><td>11 tiles</td><td>heaven-guardian</td></tr><tr><td>Trade Post contest times</td><td>Tue/Fri 12:00 server</td><td>heaven-guardian</td></tr><tr><td>Weekly Pass VR bonus</td><td>+250 Virus Resistance</td><td>heaven-guardian</td></tr><tr><td>Weekly Pass Stone bonus</td><td>20k</td><td>heaven-guardian</td></tr><tr><td>Exclusive Weapon shards / pass</td><td>70</td><td>heaven-guardian</td></tr><tr><td>Mini Maneki-neko cap</td><td>1/day</td><td>heaven-guardian</td></tr><tr><td>Large Maneki-neko daily claims</td><td>3 (max 15)</td><td>heaven-guardian</td></tr><tr><td>Lighthouse L1 → L4 VR bonus</td><td>+50 / +150 / +250 / +250</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Lighthouse L3 / L4 Morale bonus</td><td>+3% / +5%</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Lighthouse L4 requires Optoelectronic Lab</td><td>L20+</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Copper Wars rounds total</td><td>8 (W4–W7, 2/wk Wed+Sat)</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Copper Wars declaration window</td><td>24 hours</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Copper Wars max attackers/target</td><td>3</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Copper Wars secondary-building plunder</td><td>3% each (Stone/Oil/Magatama Warehouse)</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Copper Wars Alliance Center plunder</td><td>+6%</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Copper Wars max plunder per round</td><td>15%</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Copper ranking Group 1 shrinkage</td><td>10 → 6 → 3 across W4/W5/W6–W7</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Sarah UR: total shards to reclaim 5★</td><td>1,600</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Adam weapon named-shard cost</td><td>50</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>L5 cities unlock</td><td>W3 D3 (goal +12h delay)</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>L6 cities unlock</td><td>W3 D6 (goal +12h delay)</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Hunting Oni warzone goal</td><td>100 Oni</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Transfer Surge unlock</td><td>W8 D1 (runs 14 days)</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Bingo Task grand prize</td><td>1,500 Black Market Cash + Overlord items</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Black Market duration</td><td>28 days</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>Celebration span post-W8</td><td>~4 weeks</td><td>lastwartutorial 2026-07-15</td></tr><tr><td>T11 unlock HQ requirement</td><td>HQ 27+</td><td>cpt-hedge 2026-07-15</td></tr><tr><td>T11 unlock Barrack requirement</td><td>L35 (≥1)</td><td>cpt-hedge 2026-07-15</td></tr><tr><td>T11 unlock research count</td><td>4 Armament Researches at 100%</td><td>cpt-hedge 2026-07-15</td></tr></tbody></table></div>
+<ul><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/hero-awakening-guide.html" rel="nofollow noopener">Last War S6 Hero Awakening Complete Guide (LDShop)</a></strong> · 2026-07-15 search snippet (fetch 403) · ldshop.gg · Guide site · EN · Tier B (resolved Awakening cadence to W1/3/6, documented permanent removal of Awakening Bundles/Battle Passes and full F2P shift)</li><li><strong><a href="https://lastwarhandbook.com/guides/hero-awakening-star-promotion-guide" rel="nofollow noopener">Last War Hero Awakening Guide 2026 (Last War Handbook)</a></strong> · 2026-07-15 search snippet (fetch 403) · lastwarhandbook.com · Guide site · EN · Tier B (Awakening star costs, F2P strategy, W1/3/6 cadence confirmation)</li><li><strong><a href="https://cpt-hedge.com/guides/season-6-beneath-the-ruins" rel="nofollow noopener">Season 6 Beneath the Ruins Guide: Minigame, Duel Mode &amp; Rewards (Cpt Hedgehog)</a></strong> · 2026-07-15 search snippet · cpt-hedge.com · Guide site · EN · Tier B (Solo mode W1 D2 start, PvP Duel W2 start, platform types, HP mechanics)</li><li><strong><a href="https://thegamesedge.com/last-war-beneath-the-ruins-guide/" rel="nofollow noopener">Last War Beneath the Ruins Guide - Minigame Duel Mode (TheGamesEdge)</a></strong> · 2026-07-15 fetch · thegamesedge.com · Guide site · EN · Tier B (War Merit deposit 500/1500, up to 3000 War Merit per duel match)</li><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/s6-global-expedition-guide.html" rel="nofollow noopener">Last War Global Expedition Guide S6 (LDShop)</a></strong> · 2026-07-15 search snippet · ldshop.gg · Guide site · EN · Tier B (new dedicated Expedition Base building, moved out of Alert Tower, 3 rounds × 14 days)</li><li><strong><a href="https://www.ldshop.gg/blog/last-war-survival/update-guide.html" rel="nofollow noopener">Last War Update: Packs Removed, Free Rewards &amp; Full Guide (LDShop)</a></strong> · 2026-07-15 search snippet (fetch 403) · ldshop.gg · Guide site · EN · Tier B ($20/$50/$100 pop-up pack removal, Custom Weekly Pass removal, 200 EW Shards + 1,000 Valor Badges inbox compensation, &quot;slow-burn era&quot; dev messaging)</li><li><strong><a href="https://www.youtube.com/watch?v=UlHv6RwYrwI" rel="nofollow noopener">Massive Update! Packs REMOVED + HUGE Free Rewards Explained (YouTube)</a></strong> · 2026-07-15 search-only · YouTube · EN · Tier C/D (community creator; corroborates the mid-S6 pack removal wave)</li><li><strong><a href="https://www.youtube.com/watch?v=X1eHGqNLHHE" rel="nofollow noopener">Last War Removing Packs For OUR Benefit? (YouTube)</a></strong> · 2026-07-15 search-only · YouTube · EN · Tier C/D (corroborating creator commentary on monetization shift)</li><li><strong><a href="https://www.youtube.com/watch?v=yxcu0Rj34OU" rel="nofollow noopener">Huge Awakening Changes Explained, When You Can Unlock Mythic Heros in Last War (YouTube)</a></strong> · 2026-07-15 search-only · YouTube · EN · Tier C/D (F2P Awakening monetization pivot, mythic hero unlock cadence)</li><li><strong><a href="https://www.youtube.com/watch?v=71mM-FUjb90" rel="nofollow noopener">A TSW7 Leak Just Appeared and Vanished the Same Day! (YouTube)</a></strong> · 2026-07-15 search-only (video not fetched — title-only evidence) · YouTube · EN · Tier D (S7 leak reported and reportedly removed within a day; contents unindexed as of research date; <strong>strength: rumored</strong>)</li><li><strong><a href="https://wostools.net/blog/t12-exalted-troops-the-facts" rel="nofollow noopener">T12 Exalted Troops: Real Cost &amp; F2P Timeline (wostools.net)</a></strong> · 2026-07-15 search snippet · wostools.net · Guide site · EN · Tier C (Whiteout Survival T12 landed 2026-04-27 — genre precedent for LWS T12 in S7 or S8)</li><li><strong><a href="https://lastwarhandbook.com/guides/troop-tier-comparison-guide" rel="nofollow noopener">Last War Troop Tiers Compared 2026 (Last War Handbook)</a></strong> · 2026-07-15 search snippet · lastwarhandbook.com · Guide site · EN · Tier B (confirmed T11 is current LWS max as of 2026-07-15, no T12 in LWS yet)</li><li><strong><a href="https://lastwarvault.com/guides/season-6/timeline-guide/" rel="nofollow noopener">Season 6 Timeline &amp; Week-by-Week Roadmap (Last War Vault)</a></strong> · 2026-07-15 search snippet · lastwarvault.com · Guide site · EN · Tier B (S6 8-week structure confirmation: Faction war, Fishing Grounds, Sanctuaries, Altar Conquest, Outpost, Faction Duel W7 finale, W8 reward distribution)</li><li><strong><a href="https://www.lastwartutorial.com/season-3-week-1/" rel="nofollow noopener">Season 3 – Week 1 – Protector&#x27;s Field, Curse Research Lab, Blessing Fountain, Alliance Center, Purge Action, Digging Stronghold Clash, Sandworm Crisis, City Clash S3, Marshall Exclusive Weapon (lastwartutorial)</a></strong> · 2026-07-15 fetch · lastwartutorial.com · Guide site · EN · Tier B (Week 1 day-by-day unlock schedule; building priority guidance)</li><li><strong><a href="https://www.lastwartutorial.com/season-3-week-2/" rel="nofollow noopener">Season 3 – Week 2 – Oasis Project, Archaeology &amp; Digging, Return of the Dead, City Unlock 3/4, Trade Posts (lastwartutorial)</a></strong> · 2026-07-15 fetch · lastwartutorial.com · Guide site · EN · Tier B (Week 2 warzone chest goals, event start times, Desert Boss Tue/Fri 11:30 schedule)</li><li><strong><a href="https://www.lastwartutorial.com/season-3-week-3/" rel="nofollow noopener">Season 3 – Week 3 – Oasis Project, Faction Awards, Scarlett Hero Promotion UR, Worm Expert, City Unlock 5/6 (lastwartutorial)</a></strong> · 2026-07-15 fetch · lastwartutorial.com · Guide site · EN · Tier B (Faction Awards &quot;two strongest warzones&quot; rule, Scarlett UR mechanics, Level 5/6 city unlocks)</li><li><strong><a href="https://www.lastwartutorial.com/season-3-week-4/" rel="nofollow noopener">Season 3 – Week 4 – Oasis Project, Spice Wars, Pyramid War (lastwartutorial)</a></strong> · 2026-07-15 fetch · lastwartutorial.com · Guide site · EN · Tier B (Week 4 event start times, Pyramid War 36h delay, Overlord Growth Handbook)</li><li><strong><a href="https://medievalfun.com/last-war-season-3-spice-war-strategy-guide/" rel="nofollow noopener">Dominate Season 3: Your Essential Spice War Strategy Guide (MedievalFun)</a></strong> · 2026-07-15 fetch · medievalfun.com · Guide site · EN · Tier B (4-phase Spice War mechanic, 3× underdog reward multiplier, 4-pillar destruction bonuses, faction pairing to Scarlet Legion/Golden Tribe)</li><li><strong><a href="https://medievalfun.com/last-war-survival-season-3-tips-tricks/" rel="nofollow noopener">10 Key Tips to Get Ahead in Season 3 of Last War Survival (MedievalFun)</a></strong> · 2026-07-15 fetch · medievalfun.com · Guide site · EN · Tier B (community meta strategy, common mistakes, hero investment priority, 400k Mithril Desert Vaults, Double Greenification profession L35)</li><li><strong><a href="https://medievalfun.com/last-war-survival-how-to-upgrade-scarlett-to-ur-in-season-3/" rel="nofollow noopener">How to Boost Scarlett to UR in Season 3 Last War Survival (MedievalFun)</a></strong> · 2026-07-15 fetch · medievalfun.com · Guide site · EN · Tier B (Legendary Hero Badge = CRL L30 reward; Scarlett shards from CRL Individual Goals L2–L29)</li><li><strong><a href="https://medievalfun.com/last-war-survival-how-to-use-desert-protectors-defeat-sandworms/" rel="nofollow noopener">Last War: How to Use Desert Protectors and Defeat Sandworms (MedievalFun)</a></strong> · 2026-07-15 fetch · medievalfun.com · Guide site · EN · Tier B (Protector Horn Bazaar exchange rate 90 Scales = 300 units weekly, Protector&#x27;s Oath profession L50, Indomitable Will L70 10% recovery, Giant Sandworm finder-vs-kill reward differential, Sandworm rally power reqs 35M/48M)</li><li><strong><a href="https://lastwar-tutorial.com/en/season-3/" rel="nofollow noopener">Last War Season 3 Guide - &quot;Golden Empire&quot; (lastwar-tutorial)</a></strong> · 2026-07-15 fetch · lastwar-tutorial.com · Guide site · EN · Tier C (secondary S3 reference; independent phrasing of core mechanics)</li></ul>
+<p><strong>Week 1 — build-out &amp; first PvE.</strong> [lastwartutorial S3 W1, 2026-07-15]</p>
+<ul><li><strong>Day 1:</strong> Protector&#x27;s Field, Curse Research Lab, and Blessing Fountain unlock. Purge Action (7-day zombie-killing leaderboard) and Digging Stronghold Clash (13-day) launch. Sandworm Crisis 14-day event launches. <strong>Recommendation from guides: level Protector&#x27;s Field only to 10 initially — levels 11+ demand Mithril and Sacred Water needed elsewhere.</strong></li><li><strong>Day 2:</strong> Alliance Center unlocks; R4/R5 initiate repairs.</li><li><strong>Day 3 + 12h:</strong> Level 1 cities unlock for City Clash.</li><li><strong>Day 4:</strong> Marshall Exclusive Weapon 7-day battle pass opens (Tier-5 Marshall required to equip; 70 shards in pass, 50 needed for activation).</li><li><strong>Day 3:</strong> Build an Oasis event begins — a <strong>48-day long-term event</strong> running to end of season.</li><li><strong>Day 6 + 12h:</strong> Level 2 cities unlock. [lastwartutorial S3 W1, 2026-07-15]</li></ul>
+<ol><li><strong>Declaration Stage</strong> — attacking alliance R4s select defending opponents in their ranking group. <strong>Each defender faces up to 3 attackers</strong>; defender may invite up to 2 allied reinforcements.</li><li><strong>Invitation Stage</strong> — defending alliance recruits backup; reinforcement alliances vote to accept via R3 members.</li><li><strong>Preparation Stage</strong> — final organization; no strategy changes permitted afterwards.</li><li><strong>War Stage</strong> — combat. Attackers must destroy the defending Alliance Center before timer expires to plunder Spice. Defenders win if AC survives.</li></ol>
+<p><strong>Spice War economics:</strong></p>
+<ul><li>Alliance Center destroyed = attacker takes <strong>10%</strong> of defender&#x27;s Spice.</li><li>Each secondary building destroyed = attacker takes <strong>5%</strong> (4 pillars: Sacred Water Hut, Exploratory Well, Mithril Plant, Obelisk).</li><li><strong>Cap: 30% maximum per Spice War</strong> (destroy AC + 4 pillars = 10 + 4×5 = 30%). This is the origin of the &quot;30%&quot; number quoted in the main S3 section above.</li><li>Defending alliances with fewer participants receive <strong>up to 3× reward multiplier</strong> — this incentivizes defending against overwhelming odds. [medievalfun Spice War, 2026-07-15]</li></ul>
+  </article>
+  <div class="cta-card">
+    <h3>Bring this into your alliance chat</h3>
+    <p>Every R5TOOLS.IO planner exports Discord-ready PNGs, roster CSVs, and share links.</p>
+    <a class="btn" href="https://access-codes.r5tools.io" rel="noopener">Get started free →</a>
+  </div>
+  <footer class="foot">
+  <p>Part of the <a href="https://r5tools.io/">R5TOOLS.IO</a> Last War: Survival alliance toolkit.
+     Fan-made · unaffiliated with First Fun / Century Games.
+     <a href="https://r5tools.io/terms.html">Terms</a> · <a href="https://r5tools.io/privacy.html">Privacy</a>.
+  </p>
+</footer>
+</div>
+<a class="beta-pill" href="https://r5tools.io/#feedback">Beta · feedback</a>
+</body>
+</html>
