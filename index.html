@@ -545,18 +545,18 @@
             <div>
               <div style="color:#c9a961;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px" data-i18n="svgTightHive">Tight hive</div>
               <div style="color:#8ae0a3" data-i18n="svgTightBenefit1">✓ tight furnace radius reinforcements</div>
-              <div style="color:#ff8080">✗ one missile catches whole hive</div>
-              <div style="color:#8ae0a3">✓ simple to coordinate</div>
-              <div style="color:#ff8080">✗ shorter walk = easy counter</div>
-              <div style="color:#7a8290;margin-top:4px;font-size:10.5px">Best for &lt;60 members</div>
+              <div style="color:#ff8080" data-i18n="svgTightCon1">✗ one missile catches whole hive</div>
+              <div style="color:#8ae0a3" data-i18n="svgTightBenefit2">✓ simple to coordinate</div>
+              <div style="color:#ff8080" data-i18n="svgTightCon2">✗ shorter walk = easy counter</div>
+              <div style="color:#7a8290;margin-top:4px;font-size:10.5px" data-i18n="svgTightBestFor">Best for &lt;60 members</div>
             </div>
             <div>
-              <div style="color:#c9a961;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">Megahive</div>
-              <div style="color:#8ae0a3">✓ long walk-back defends furnace</div>
-              <div style="color:#8ae0a3">✓ missile hits fewer bases</div>
-              <div style="color:#ff8080">✗ gaps invite sneaks</div>
-              <div style="color:#ff8080">✗ needs disciplined 100+ alliance</div>
-              <div style="color:#7a8290;margin-top:4px;font-size:10.5px">Best for 90-100 members</div>
+              <div style="color:#c9a961;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px" data-i18n="svgMegaHive">Megahive</div>
+              <div style="color:#8ae0a3" data-i18n="svgMegaBenefit1">✓ long walk-back defends furnace</div>
+              <div style="color:#8ae0a3" data-i18n="svgMegaBenefit2">✓ missile hits fewer bases</div>
+              <div style="color:#ff8080" data-i18n="svgMegaCon1">✗ gaps invite sneaks</div>
+              <div style="color:#ff8080" data-i18n="svgMegaCon2">✗ needs disciplined 100+ alliance</div>
+              <div style="color:#7a8290;margin-top:4px;font-size:10.5px" data-i18n="svgMegaBestFor">Best for 90-100 members</div>
             </div>
           </div>
           <div class="s2-caption" data-i18n="vizMegahiveCap">
@@ -1017,8 +1017,21 @@
         svgSpreadWide: 'spread wide, long walk-back',
         svgWalk14: '~14 min walk (harder counter)',
         svgTightBenefit1: '✓ tight furnace radius reinforcements',
+        svgTightBenefit2: '✓ simple to coordinate',
+        svgTightCon1: '✗ one missile catches whole hive',
+        svgTightCon2: '✗ shorter walk = easy counter',
+        svgTightBestFor: 'Best for <60 members',
+        svgMegaBenefit1: '✓ long walk-back defends furnace',
+        svgMegaBenefit2: '✓ missile hits fewer bases',
+        svgMegaCon1: '✗ gaps invite sneaks',
+        svgMegaCon2: '✗ needs disciplined 100+ alliance',
+        svgMegaBestFor: 'Best for 90-100 members',
         activityViewsInHour: 'tool views in the last hour ·',
         activityUnlocksToday: 'unlocks today',
+        tickerR5sActive: 'R5s active in the last hour',
+        tickerToolViews: 'tool views in the last hour',
+        tickerAlliancesOnboarded: 'alliances onboarded today',
+        tickerUnlocksToday: 'unlocks today',
         secS2: 'SEASON 2 TOOLS · LIVE (client-only)',
         secPhilosophy: 'HOW THIS SUITE IS DIFFERENT',
         hivePlannerBody: "Marshall's Guard 3×3 and Military Stronghold 21×21 formation planner. Drag-and-drop, corner-anchored ring algorithm, CSV import, PNG export for Discord.",
@@ -1144,8 +1157,21 @@
         svgSpreadWide: '넓게 분산, 복귀 길음',
         svgWalk14: '이동 약 14분 (반격 어려움)',
         svgTightBenefit1: '✓ 타이트 화로 반경 지원 가능',
+        svgTightBenefit2: '✓ 조율 단순',
+        svgTightCon1: '✗ 미사일 한 방에 전체 벌집 피격',
+        svgTightCon2: '✗ 이동 거리 짧아 반격 쉬움',
+        svgTightBestFor: '60명 미만 얼라이언스에 최적',
+        svgMegaBenefit1: '✓ 긴 복귀 거리로 화로 방어 유리',
+        svgMegaBenefit2: '✓ 미사일 피격 기지 수 감소',
+        svgMegaCon1: '✗ 틈 사이로 침입 허용',
+        svgMegaCon2: '✗ 훈련된 100명 이상 얼라이언스 필요',
+        svgMegaBestFor: '90-100명 얼라이언스에 최적',
         activityViewsInHour: '지난 한 시간 동안의 도구 조회 ·',
         activityUnlocksToday: '오늘 잠금 해제',
+        tickerR5sActive: '명의 R5가 지난 한 시간 활동',
+        tickerToolViews: '건의 도구 조회 (지난 한 시간)',
+        tickerAlliancesOnboarded: '개 얼라이언스가 오늘 등록',
+        tickerUnlocksToday: '건 오늘 잠금 해제',
         secS2: '시즌 2 도구 · 스캐폴드 라이브',
         secPhilosophy: '이 스위트의 차별점',
         hivePlannerBody: '마샬 가드 3×3 및 밀리터리 스트롱홀드 21×21 대형 플래너. 드래그 앤 드롭, 코너 앵커 링 알고리즘, CSV 임포트, 디스코드용 PNG 익스포트.',
@@ -1934,21 +1960,24 @@
         tickerEl.style.display = 'none';
         return;
       }
+      // Localized ticker copy. Falls back to English if the key is missing.
+      var _dict = (typeof I18N !== 'undefined' && I18N[lang]) || {};
+      function _tk(k, fallback) { return _dict[k] || (I18N && I18N.en && I18N.en[k]) || fallback; }
       var parts = [];
       if (alliances > 0) {
         parts.push('🌍 <strong style="color:var(--accent)">' + alliances +
-                   '</strong> R5' + (alliances === 1 ? '' : 's') + ' active in the last hour');
+                   '</strong> ' + _tk('tickerR5sActive', 'R5s active in the last hour'));
       } else if (views > 0) {
         parts.push('👀 <strong style="color:var(--accent)">' + views +
-                   '</strong> tool view' + (views === 1 ? '' : 's') + ' in the last hour');
+                   '</strong> ' + _tk('tickerToolViews', 'tool views in the last hour'));
       }
       if (rosters > 0) {
         parts.push('<strong style="color:var(--accent)">' + rosters +
-                   '</strong> alliance' + (rosters === 1 ? '' : 's') + ' onboarded today');
+                   '</strong> ' + _tk('tickerAlliancesOnboarded', 'alliances onboarded today'));
       }
       if (unlocks > 0) {
         parts.push('<strong style="color:var(--accent)">' + unlocks +
-                   '</strong> unlock' + (unlocks === 1 ? '' : 's') + ' today');
+                   '</strong> ' + _tk('tickerUnlocksToday', 'unlocks today'));
       }
       tickerText.innerHTML = parts.join(' · ');
       tickerEl.style.display = 'block';
