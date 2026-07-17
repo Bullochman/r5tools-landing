@@ -318,6 +318,14 @@
       </div>
     </header>
 
+    <!-- Beta / actively improving banner -->
+    <div id="beta-banner" style="max-width: 1080px; margin: 0 auto 12px; padding: 10px 16px; background: linear-gradient(180deg, rgba(88,101,242,0.14), rgba(88,101,242,0.04)); border: 1px solid rgba(88,101,242,0.35); border-radius: 10px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-family: system-ui, -apple-system, sans-serif; font-size: 13px">
+      <span style="font-size: 15px; line-height: 1">🚧</span>
+      <span data-i18n="betaBannerBody" style="flex: 1; color: #d4d9ff; line-height: 1.4"><strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what's missing, broken, or slow, and I'll fix it.</span>
+      <a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=What%20I%20want%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" data-i18n="betaBannerCta" style="background:#5865F2;color:#fff;border-radius:6px;padding:6px 14px;font-weight:600;font-size:12.5px;text-decoration:none;white-space:nowrap">Send feedback →</a>
+      <button type="button" onclick="document.getElementById('beta-banner').style.display='none'" data-i18n-title="betaBannerDismiss" title="Dismiss" style="background:transparent;color:#7a8290;border:none;font-size:16px;cursor:pointer;padding:4px 8px">×</button>
+    </div>
+
     <!-- Access code / Sign in banner -->
     <div style="max-width: 1080px; margin: 0 auto 24px; padding: 14px 20px; background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04)); border: 1px solid rgba(201,169,97,0.35); border-radius: 12px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
       <div style="flex: 1; min-width: 260px">
