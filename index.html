@@ -330,7 +330,7 @@
     <div id="beta-banner" style="max-width: 1080px; margin: 0 auto 12px; padding: 10px 16px; background: linear-gradient(180deg, rgba(88,101,242,0.14), rgba(88,101,242,0.04)); border: 1px solid rgba(88,101,242,0.35); border-radius: 10px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-family: system-ui, -apple-system, sans-serif; font-size: 13px">
       <span style="font-size: 15px; line-height: 1">🚧</span>
       <span data-i18n="betaBannerBody" style="flex: 1; color: #d4d9ff; line-height: 1.4"><strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what's missing, broken, or slow, and I'll fix it.</span>
-      <a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=What%20I%20want%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" data-i18n="betaBannerCta" style="background:#5865F2;color:#fff;border-radius:6px;padding:6px 14px;font-weight:600;font-size:12.5px;text-decoration:none;white-space:nowrap">Send feedback →</a>
+      <a href="#" class="js-mailto" data-mailto-user="hello" data-mailto-host="r5tools.io" data-mailto-subject="r5tools.io feedback" data-mailto-body="What I want: %0AWhat's broken: %0AWhat's slow: %0AWhat I love: " data-i18n="betaBannerCta" style="background:#5865F2;color:#fff;border-radius:6px;padding:6px 14px;font-weight:600;font-size:12.5px;text-decoration:none;white-space:nowrap">Send feedback →</a>
       <button type="button" onclick="document.getElementById('beta-banner').style.display='none'" data-i18n-title="betaBannerDismiss" title="Dismiss" style="background:transparent;color:#7a8290;border:none;font-size:16px;cursor:pointer;padding:4px 8px">×</button>
     </div>
 
@@ -914,7 +914,7 @@
             <li data-i18n="priceFreeF3">All 7 language toggles</li>
             <li data-i18n="priceFreeF4">Discord PNG export on every tool</li>
           </ul>
-          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=Warzone%202007%20access%20code" data-i18n="priceFreeCta" data-track-tier="warzone-2007-free">Request warzone code</a>
+          <a class="price-cta ghost js-mailto" href="#" data-mailto-user="hello" data-mailto-host="r5tools.io" data-mailto-subject="Warzone 2007 access code" data-i18n="priceFreeCta" data-track-tier="warzone-2007-free">Request warzone code</a>
         </div>
 
         <!-- Personal tier - featured -->
@@ -942,7 +942,7 @@
             <li data-i18n="priceAllianceF3">Cheaper than 5× personal codes</li>
             <li data-i18n="priceAllianceF4">All 7 languages · Discord PNG on every tool</li>
           </ul>
-          <a class="price-cta ghost" href="mailto:hello@r5tools.io?subject=Alliance%20bundle%20($50)" data-i18n="priceAllianceCta" data-track-tier="alliance">Get alliance bundle →</a>
+          <a class="price-cta ghost js-mailto" href="#" data-mailto-user="hello" data-mailto-host="r5tools.io" data-mailto-subject="Alliance bundle ($50)" data-i18n="priceAllianceCta" data-track-tier="alliance">Get alliance bundle →</a>
         </div>
 
         <!-- Roster Extractor Premium (secondary) -->
@@ -976,7 +976,7 @@
         <a href="/status.html" data-i18n="footerStatus">Status</a>
         <a href="/terms.html" data-i18n="footerTerms">Terms</a>
         <a href="/privacy.html" data-i18n="footerPrivacy">Privacy</a>
-        <a href="mailto:hello@r5tools.io" data-i18n="footerContact">Contact</a>
+        <a href="#" class="js-mailto" data-mailto-user="hello" data-mailto-host="r5tools.io" data-i18n="footerContact">Contact</a>
       </div>
     </footer>
 
@@ -1815,6 +1815,31 @@
     }
     pollTicker();
     setInterval(pollTicker, 60 * 1000);
+  })();
+  </script>
+
+  <!-- JS mailto builder — sidesteps Cloudflare Email Obfuscation, which rewrites
+       any static mailto: href into /cdn-cgi/l/email-protection URLs that 404
+       on this zone. Building the mailto at click-time keeps clicks working
+       regardless of CF's Scrape Shield state. -->
+  <script>
+  (function () {
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest && ev.target.closest('a.js-mailto');
+      if (!a) return;
+      ev.preventDefault();
+      var user = a.getAttribute('data-mailto-user') || '';
+      var host = a.getAttribute('data-mailto-host') || '';
+      var subj = a.getAttribute('data-mailto-subject');
+      var body = a.getAttribute('data-mailto-body');
+      if (!user || !host) return;
+      var href = 'mailto:' + user + '@' + host;
+      var params = [];
+      if (subj) params.push('subject=' + encodeURIComponent(subj));
+      if (body) params.push('body=' + body); /* body already URL-encoded in data-attr */
+      if (params.length) href += '?' + params.join('&');
+      window.location.href = href;
+    });
   })();
   </script>
 </body>
