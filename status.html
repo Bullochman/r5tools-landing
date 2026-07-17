@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Status · R5TOOLS.IO</title>
+  <meta name="description" content="Live status for every tool in the R5TOOLS.IO suite. Client-side monitor — auto-refreshes every 60 seconds." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c9a961'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-size='52' font-weight='700' fill='%230a0e1a'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --ok: #67c98a;
+      --err: #e56a6a;
+      --pending: #d9b871;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 24px; gap: 12px; flex-wrap: wrap;
+    }
+    .brand {
+      font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600;
+      text-decoration: none;
+    }
+    .brand:hover { color: var(--accent-hover); }
+
+    h1 {
+      font-size: 32px; margin: 8px 0 6px; letter-spacing: -0.02em;
+    }
+    .subhead {
+      color: var(--text-dim); font-size: 14.5px; margin: 0 0 4px;
+    }
+    .lastcheck {
+      color: var(--text-mute); font-size: 12px; font-family: var(--mono);
+      margin: 0 0 24px;
+    }
+    .lastcheck strong { color: var(--text-dim); }
+
+    .summary {
+      display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .stat {
+      flex: 1; min-width: 140px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px;
+    }
+    .stat .num {
+      font-size: 26px; font-weight: 700; font-family: var(--mono);
+      letter-spacing: -0.02em;
+    }
+    .stat .lbl {
+      font-size: 11px; color: var(--text-mute);
+      letter-spacing: 0.14em; text-transform: uppercase; margin-top: 4px;
+    }
+    .stat.ok .num { color: var(--ok); }
+    .stat.err .num { color: var(--err); }
+    .stat.pending .num { color: var(--pending); }
+
+    .services {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+    }
+    .service {
+      display: grid;
+      grid-template-columns: 32px 1fr auto auto;
+      gap: 14px; align-items: center;
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+    }
+    .service:last-child { border-bottom: none; }
+    .service:hover { background: var(--panel-2); }
+
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--pending);
+      box-shadow: 0 0 8px rgba(217,184,113,0.5);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .dot.ok { background: var(--ok); box-shadow: 0 0 8px rgba(103,201,138,0.5); }
+    .dot.err { background: var(--err); box-shadow: 0 0 10px rgba(229,106,106,0.6); }
+    .dot.pending { animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .svc-name {
+      font-size: 15px; font-weight: 600;
+    }
+    .svc-name a {
+      color: var(--text); text-decoration: none;
+    }
+    .svc-name a:hover { color: var(--accent); }
+    .svc-desc {
+      font-size: 12.5px; color: var(--text-mute); margin-top: 2px;
+    }
+
+    .svc-status {
+      font-family: var(--mono); font-size: 12px;
+      padding: 4px 10px; border-radius: 12px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      color: var(--text-dim);
+      min-width: 78px; text-align: center;
+    }
+    .svc-status.ok { color: var(--ok); border-color: rgba(103,201,138,0.35); }
+    .svc-status.err { color: var(--err); border-color: rgba(229,106,106,0.4); }
+    .svc-status.pending { color: var(--pending); border-color: rgba(217,184,113,0.35); }
+
+    .svc-latency {
+      font-family: var(--mono); font-size: 11.5px; color: var(--text-mute);
+      min-width: 56px; text-align: right;
+    }
+
+    .footnote {
+      margin-top: 28px; padding: 16px 18px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim); font-size: 13.5px; line-height: 1.6;
+    }
+    .footnote strong { color: var(--text); }
+
+    .backlink {
+      display: inline-block; margin-top: 24px;
+      color: var(--accent); text-decoration: none;
+      font-size: 13px;
+    }
+    .backlink:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    .refresh-note {
+      color: var(--text-mute); font-size: 11.5px;
+      font-family: var(--mono);
+      margin-top: 6px;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 24px; }
+      .service { grid-template-columns: 24px 1fr auto; gap: 10px; padding: 12px 14px; }
+      .svc-latency { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <a class="brand" href="/">← R5TOOLS.IO</a>
+      <span style="font-size: 11px; color: var(--text-mute); font-family: var(--mono);">
+        auto-refresh · 60s
+      </span>
+    </header>
+
+    <h1>Suite status</h1>
+    <p class="subhead">Every tool in the R5TOOLS.IO suite, monitored live from your browser.</p>
+    <p class="lastcheck">Last check: <strong id="lastcheck">running…</strong> · next in <strong id="nextcheck">—</strong>s</p>
+
+    <div class="summary">
+      <div class="stat ok"><div class="num" id="stat-ok">0</div><div class="lbl">Operational</div></div>
+      <div class="stat err"><div class="num" id="stat-err">0</div><div class="lbl">Down</div></div>
+      <div class="stat pending"><div class="num" id="stat-pending">0</div><div class="lbl">Checking</div></div>
+    </div>
+
+    <div class="services" id="services"><!-- services rendered here --></div>
+
+    <div class="footnote">
+      <strong>Something red?</strong> We usually know within minutes — but a nudge helps. Send feedback via the 💡 button on any tool page, or email <a href="mailto:hello@r5tools.io" style="color:var(--accent);">hello@r5tools.io</a>. Notes: the 501 seen on some subdomains from HEAD requests is a stdlib <code>BaseHTTPServer</code> quirk — browsers use GET so all is well. This page checks each URL client-side; a failure here likely means <em>your</em> browser can't reach the tool right now.
+    </div>
+
+    <a class="backlink" href="/">← Back to R5TOOLS.IO landing</a>
+
+  </div>
+
+  <script>
+    const SERVICES = [
+      // Landing + core
+      { name: "Landing (r5tools.io)", desc: "Suite homepage, tool directory", url: "https://r5tools.io/", group: "core" },
+      { name: "KB Chat", desc: "Ask questions about LWS mechanics", url: "https://chat.r5tools.io/", group: "core" },
+      { name: "Access Codes", desc: "Unified auth/payment gate", url: "https://access-codes.r5tools.io/", group: "core" },
+
+      // Flagship + Hive on custom subdomains
+      { name: "Roster Extractor", desc: "Video → CSV member list", url: "https://roster.r5tools.io/", group: "flagship" },
+      { name: "Hive Grid Manager", desc: "Alliance formation planner", url: "https://hive.r5tools.io/", group: "flagship" },
+
+      // Season 2 static tools
+      { name: "Season Timeline", desc: "Per-week task tracker", url: "https://bullochman.github.io/lws-season-timeline-static/", group: "s2" },
+      { name: "Landing Planner", desc: "Ring assignment + rally leaders", url: "https://bullochman.github.io/lws-landing-planner-static/", group: "s2" },
+      { name: "Heat Simulator", desc: "Ambient + blizzard modeling", url: "https://bullochman.github.io/lws-heat-simulator-static/", group: "s2" },
+      { name: "Freeze Risk Dashboard", desc: "Per-member freeze countdown", url: "https://bullochman.github.io/lws-freeze-risk-static/", group: "s2" },
+      { name: "Coal Burn Calculator", desc: "AF + HHF fuel planner", url: "https://bullochman.github.io/lws-coal-burn-static/", group: "s2" },
+      { name: "City Capture Planner", desc: "Wk×Day city schedule", url: "https://bullochman.github.io/lws-city-capture-static/", group: "s2" },
+
+      // Newer / alt-season tools
+      { name: "Profile Studio", desc: "Chief loadout visualizer", url: "https://bullochman.github.io/lws-profile-studio-static/", group: "extra" },
+      { name: "VS Days Optimizer", desc: "Weekly phase stack planner", url: "https://bullochman.github.io/lws-vs-days-static/", group: "extra" },
+    ];
+
+    const REFRESH_MS = 60_000;
+    const TIMEOUT_MS = 8_000;
+
+    const svcRoot = document.getElementById('services');
+    const stateById = new Map();
+
+    function slugFor(url) {
+      return 'svc-' + url.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '');
+    }
+
+    function renderSkeleton() {
+      const html = SERVICES.map(s => {
+        const id = slugFor(s.url);
+        return `
+        <div class="service" id="${id}">
+          <div class="dot pending"></div>
+          <div>
+            <div class="svc-name"><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></div>
+            <div class="svc-desc">${s.desc}</div>
+          </div>
+          <div class="svc-status pending">checking</div>
+          <div class="svc-latency">—</div>
+        </div>`;
+      }).join('');
+      svcRoot.innerHTML = html;
+    }
+
+    async function check(svc) {
+      const id = slugFor(svc.url);
+      const el = document.getElementById(id);
+      const dot = el.querySelector('.dot');
+      const stat = el.querySelector('.svc-status');
+      const lat = el.querySelector('.svc-latency');
+
+      dot.className = 'dot pending';
+      stat.className = 'svc-status pending';
+      stat.textContent = 'checking';
+      lat.textContent = '—';
+
+      const start = performance.now();
+
+      // Use no-cors so cross-origin fetches don't reject on CORS.
+      // The response type is 'opaque' but a successful fetch resolves — that's enough
+      // to prove the URL is reachable + the TLS cert is valid + something responded.
+      // We can't read the HTTP status, but for public tool endpoints that's fine.
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+      try {
+        await fetch(svc.url, {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'no-store',
+          signal: controller.signal,
+          credentials: 'omit',
+          redirect: 'follow',
+        });
+        clearTimeout(timer);
+        const ms = Math.round(performance.now() - start);
+        dot.className = 'dot ok';
+        stat.className = 'svc-status ok';
+        stat.textContent = '✓ up';
+        lat.textContent = ms + 'ms';
+        stateById.set(id, 'ok');
+      } catch (e) {
+        clearTimeout(timer);
+        dot.className = 'dot err';
+        stat.className = 'svc-status err';
+        stat.textContent = e.name === 'AbortError' ? 'timeout' : '✗ down';
+        lat.textContent = '—';
+        stateById.set(id, 'err');
+      }
+      updateSummary();
+    }
+
+    function updateSummary() {
+      let ok = 0, err = 0, pending = 0;
+      for (const s of SERVICES) {
+        const st = stateById.get(slugFor(s.url));
+        if (st === 'ok') ok++;
+        else if (st === 'err') err++;
+        else pending++;
+      }
+      document.getElementById('stat-ok').textContent = ok;
+      document.getElementById('stat-err').textContent = err;
+      document.getElementById('stat-pending').textContent = pending;
+    }
+
+    async function runAll() {
+      const now = new Date();
+      document.getElementById('lastcheck').textContent = now.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, ' UTC');
+      // Reset counters
+      for (const s of SERVICES) stateById.set(slugFor(s.url), 'pending');
+      updateSummary();
+      // Fire all in parallel
+      await Promise.all(SERVICES.map(check));
+    }
+
+    // Countdown ticker
+    let secondsToNext = REFRESH_MS / 1000;
+    setInterval(() => {
+      secondsToNext = Math.max(0, secondsToNext - 1);
+      document.getElementById('nextcheck').textContent = secondsToNext;
+    }, 1000);
+
+    renderSkeleton();
+    runAll();
+    setInterval(() => { secondsToNext = REFRESH_MS / 1000; runAll(); }, REFRESH_MS);
+  </script>
+</body>
+</html>

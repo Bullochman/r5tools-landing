@@ -1,0 +1,7 @@
+# R5TOOLS.IO — Last War: Survival alliance tools suite
+# Fan-made · unaffiliated with First Fun / Century Games
+
+User-agent: *
+Allow: /
+
+Sitemap: https://r5tools.io/sitemap.xml
