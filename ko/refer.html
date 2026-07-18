@@ -267,6 +267,7 @@
 <!-- END r5tools:seo:softwareapp v1 -->
 </head>
 <body>
+  <a href="#content" class="skip-to-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">본문으로 건너뛰기</a>
   <div class="wrap">
     <header class="top">
       <a href="/ko/" class="brand" data-i18n="brand">R5TOOLS.IO — LWS 스위트</a>
@@ -276,7 +277,7 @@
       </select>
     </header>
 
-    <nav class="suite-nav">
+    <nav class="suite-nav" aria-label="주 탐색">
       <a href="/ko/" data-i18n="navHome">홈</a>
       <span class="sep">·</span>
       <a href="/roadmap.html" data-i18n="navRoadmap">로드맵</a>
@@ -290,6 +291,8 @@
       <a href="https://chat.r5tools.io/">KB 챗</a>
     </nav>
 
+    <main id="content">
+
     <h1 class="page-title" data-i18n="pageTitle">R5TOOLS를 공유하세요. <span class="accent">잠금해제마다 수익.</span></h1>
     <p class="page-sub" data-i18n="pageSub">
       모든 사용자에게 고유 추천 코드가 발급됩니다. 얼라이언스, 디스코드, 카톡, 레딧 — 어디든 공유하십시오. 내 링크로 발생한 모든 유료 잠금해제에 대해
@@ -301,7 +304,7 @@
       <h2 data-i18n="loginTitle">이메일로 로그인하고 내 코드를 받으십시오</h2>
       <p data-i18n="loginSub">비밀번호는 사용하지 않습니다 — 매직 링크 방식입니다. 이미 익명 코드로 잠금해제하셨더라도, 추천 프로그램에 참여하시려면 이메일로 로그인하셔야 합니다 (수익을 정확히 적립해 드리기 위함입니다).</p>
       <div class="email-row">
-        <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
+        <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" aria-label="이메일 주소" />
         <button class="btn" id="sendLinkBtn" data-i18n="sendLink">매직 링크 보내기</button>
       </div>
       <div id="loginStatus" class="status-note"></div>
@@ -372,6 +375,8 @@
     <div class="founding-note" data-i18n="foundingNote">
       <b>처음 10 얼라이언스만</b> — 얼라이언스 파운딩 번들은 <b>$30</b>로 이용 가능합니다 (정가 $50, 100 얼라이언스 온보딩 후 영구 인상). 개인 잠금해제는 <b>$10</b>, 매출 공유는 <b>25%</b>. 파운딩 시기에 추천을 유도하시면 초기 얼라이언스에게 가장 큰 수익 기회가 됩니다.
     </div>
+
+    </main>
 
     <footer>
       <div>© 2026 R5TOOLS.IO · <span data-i18n="footerNote">팬이 만든 툴킷입니다. First Fun / Century Games와는 무관합니다.</span></div>

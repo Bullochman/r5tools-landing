@@ -253,6 +253,7 @@
 <!-- END r5tools:seo:softwareapp v1 -->
 </head>
 <body>
+  <a href="#content" class="skip-to-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Skip to content</a>
   <div class="wrap">
     <header class="top">
       <a href="/" class="brand" data-i18n="brand">R5TOOLS.IO — LWS SUITE</a>
@@ -262,7 +263,7 @@
       </select>
     </header>
 
-    <nav class="suite-nav">
+    <nav class="suite-nav" aria-label="Primary">
       <a href="/" data-i18n="navHome">Home</a>
       <span class="sep">·</span>
       <a href="/roadmap.html" data-i18n="navRoadmap">Roadmap</a>
@@ -276,6 +277,8 @@
       <a href="https://chat.r5tools.io/">KB Chat</a>
     </nav>
 
+    <main id="content">
+
     <h1 class="page-title" data-i18n="pageTitle">Share R5TOOLS. <span class="accent">Earn on every unlock.</span></h1>
     <p class="page-sub" data-i18n="pageSub">
       Every user gets a unique referral code. Share it with your alliance, on Discord, on 카톡, on Reddit — any paid unlock we get from your link,
@@ -287,7 +290,7 @@
       <h2 data-i18n="loginTitle">Sign in with your email to grab your code</h2>
       <p data-i18n="loginSub">We use a magic link — no password. If you already unlocked with an anonymous code, you'll still need to sign in with email to enter the referral program (that's how we credit your earnings).</p>
       <div class="email-row">
-        <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
+        <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" aria-label="Email address" />
         <button class="btn" id="sendLinkBtn" data-i18n="sendLink">Send magic link</button>
       </div>
       <div id="loginStatus" class="status-note"></div>
@@ -354,6 +357,8 @@
         First-touch attribution wins (whoever tagged the visitor first gets the credit). Self-referrals are blocked. Ledger is human-verifiable — if you want to see your rows, ask.
       </div>
     </section>
+
+    </main>
 
     <footer>
       <div>© 2026 R5TOOLS.IO · <span data-i18n="footerNote">Fan-made toolkit. Not affiliated with First Fun / Century Games.</span></div>

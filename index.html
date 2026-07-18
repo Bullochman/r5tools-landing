@@ -385,11 +385,12 @@
 <!-- END r5tools:seo:softwareapp v1 -->
 </head>
 <body>
+  <a href="#content" class="skip-to-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Skip to content</a>
   <div class="wrap">
 
     <header class="top">
       <div class="brand" data-i18n="brand">R5TOOLS.IO — LWS SUITE</div>
-      <div style="display: flex; gap: 10px; align-items: center">
+      <nav aria-label="Primary" style="display: flex; gap: 10px; align-items: center">
         <a href="/refer.html" data-i18n="referNavBtn" style="background: transparent; color: var(--accent); border: 1px solid rgba(201,169,97,0.45); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 12px; letter-spacing: 0.03em; text-decoration: none;">💸 Refer &amp; Earn</a>
         <a href="https://access-codes.r5tools.io/" data-i18n="signInBtn" style="background: var(--accent); color: #0a0e1a; border: none; border-radius: 999px; padding: 8px 18px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.03em; text-decoration: none; transition: background 0.15s">Unlock the suite</a>
         <select class="lang-toggle" id="langToggle" aria-label="Language">
@@ -401,8 +402,10 @@
           <option value="de">DE — Deutsch</option>
           <option value="fr">FR — Français</option>
         </select>
-      </div>
+      </nav>
     </header>
+
+    <main id="content">
 
     <!-- Beta / actively improving banner -->
     <div id="beta-banner" style="max-width: 1080px; margin: 0 auto 12px; padding: 10px 16px; background: linear-gradient(180deg, rgba(88,101,242,0.14), rgba(88,101,242,0.04)); border: 1px solid rgba(88,101,242,0.35); border-radius: 10px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-family: system-ui, -apple-system, sans-serif; font-size: 13px">
@@ -1112,6 +1115,8 @@
         <div class="bullet" data-i18n="phil6"><strong>Built by an R5.</strong> These are the tools I wish I had while pre-planning my own warzone.</div>
       </div>
     </section>
+
+    </main>
 
     <footer>
       <div>© 2026 R5TOOLS.IO · <span data-i18n="footerNote">Last War: Survival is a First Fun / Century Games product. This site is fan-made and unaffiliated.</span></div>

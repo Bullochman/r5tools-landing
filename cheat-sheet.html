@@ -344,11 +344,14 @@
 <!-- END r5tools:seo:softwareapp v1 -->
 </head>
 <body>
+  <a href="#content" class="skip-to-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Skip to content</a>
   <div class="wrap">
     <header class="top">
       <a href="/" class="brand">R5TOOLS.IO</a>
       <a href="/ko/cheat-sheet.html" class="lang-toggle">한국어 →</a>
     </header>
+
+    <main id="content">
 
     <section class="hero">
       <div class="kicker">Free lead magnet · 7 pages · PDF</div>
@@ -363,7 +366,7 @@
         <p>Drop your email if you'd like a follow-up when we ship new tools (Freeze-Risk, Coal Burn, City Capture Planner). Or skip and download directly — no gate.</p>
         <form id="emailForm" onsubmit="return submitEmail(event)">
           <div class="form-row">
-            <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" />
+            <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" aria-label="Email address" />
             <button type="submit" id="sendBtn">Send</button>
           </div>
         </form>
@@ -428,6 +431,8 @@
       <p><strong>$30 total for the whole alliance</strong>. Use code <span class="code">RONY-FREE</span> for free access during founding period.</p>
       <a href="/refer.html?ref=CHEATSHEET" class="btn">See the full toolkit →</a>
     </section>
+
+    </main>
 
     <footer>
       <p><a href="/">← r5tools.io</a>  ·  <a href="/ko/cheat-sheet.html">한국어</a>  ·  <a href="/refer.html">Refer &amp; Earn</a>  ·  <a href="/privacy.html">Privacy</a></p>
