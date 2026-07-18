@@ -64,7 +64,7 @@
   }
 
   function captureRefFromUrl() {
-    var m = /[?&]ref=([A-Z0-9\-]{4,40})/i.exec(location.search);
+    var m = /[?&]ref=([A-Za-z0-9_\-]{3,64})/.exec(location.search);
     if (!m) return readCookie(CFG.refCookieName || "lws_ref");
     var code = m[1].toUpperCase();
     // Only overwrite if none set (first-touch attribution).
