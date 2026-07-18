@@ -459,14 +459,11 @@
         shareText: 'Last War: Survival 얼라이언스 운영에 R5TOOLS.IO를 씁니다 — 로스터 추출, 하이브 배치, 석탄 계산, 힘든 작업 전부. 무료 티어 있습니다:',
       }
     };
-    function detectLang() {
-      var saved = null;
-      try { saved = localStorage.getItem('lang'); } catch (e) {}
-      if (saved === 'en' || saved === 'ko') return saved;
-      var nav = (navigator.language || 'ko').toLowerCase();
-      return nav.indexOf('en') === 0 ? 'en' : 'ko';
-    }
-    var lang = detectLang();
+    // This page lives at /ko/refer.html — visitors who landed here deliberately
+    // navigated to the KR path. Default to Korean regardless of browser locale
+    // or persisted `lang` preference. If they want English, the language toggle
+    // redirects to /refer.html (see langSel change handler below).
+    var lang = 'ko';
     function applyLang() {
       var dict = I18N[lang] || I18N.ko;
       document.documentElement.setAttribute('lang', lang === 'ko' ? 'ko' : 'en');
