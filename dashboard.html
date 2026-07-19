@@ -76,6 +76,20 @@
     .kpi.warn .value { color: var(--warn); }
     .kpi .delta { font-size: 11px; color: var(--text-mute); margin-top: 6px; }
 
+    .kpi-mini {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+    }
+    .kpi-mini .label {
+      font-size: 9.5px; letter-spacing: 0.12em; color: var(--text-mute);
+      text-transform: uppercase; margin-bottom: 4px;
+    }
+    .kpi-mini .value {
+      font-size: 20px; font-weight: 700; color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-mini .delta { font-size: 10px; color: var(--text-mute); margin-top: 2px; }
+
     .row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
     }
@@ -173,6 +187,37 @@
       font-size: 14px;
     }
 
+    /* Revenue list */
+    .revenue-list { list-style: none; padding: 0; margin: 0; }
+    .revenue-list li {
+      display: grid; grid-template-columns: 1fr auto auto auto;
+      gap: 20px; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .revenue-list li:last-child { border-bottom: none; }
+    .revenue-list .tier-name {
+      color: var(--text); font-weight: 600; font-size: 13px;
+    }
+    .revenue-list .tier-desc {
+      color: var(--text-mute); font-size: 11px; font-weight: 400;
+    }
+    .revenue-list .tier-count {
+      color: var(--text-dim); font-family: ui-monospace, monospace; font-size: 13px;
+    }
+    .revenue-list .tier-price {
+      color: var(--text-mute); font-size: 12px; font-family: ui-monospace, monospace;
+    }
+    .revenue-list .tier-revenue {
+      color: var(--success); font-weight: 700; font-variant-numeric: tabular-nums;
+      font-size: 15px; text-align: right; min-width: 80px;
+    }
+    .revenue-list .tier-revenue.zero { color: var(--text-mute); font-weight: 400; }
+    .revenue-list .total-row {
+      border-top: 2px solid var(--border); margin-top: 8px; padding-top: 14px;
+    }
+    .revenue-list .total-row .tier-name { color: var(--accent); }
+    .revenue-list .total-row .tier-revenue { color: var(--accent); font-size: 20px; }
+
     footer { text-align: center; padding: 24px 0 8px; color: var(--text-mute); font-size: 11px; }
     footer a { color: var(--accent); text-decoration: none; }
     #err-banner {
@@ -198,36 +243,63 @@
     <h1>Launch traffic + site health</h1>
     <p class="subtitle">Auto-refreshes every 30 seconds. Everything on this page is real production data — no mocks.</p>
 
-    <!-- KPI TILES -->
+    <!-- KPI TILES — revenue-first now that we're making money -->
     <section class="kpi-grid">
-      <div class="kpi accent">
-        <div class="label">Total referral clicks</div>
-        <div class="value" id="kpi-total-clicks">…</div>
-        <div class="delta" id="kpi-clicks-delta">since launch</div>
+      <div class="kpi success" style="border-color: rgba(138,224,163,0.4);">
+        <div class="label">Revenue · lifetime</div>
+        <div class="value" id="kpi-revenue">$…</div>
+        <div class="delta" id="kpi-revenue-delta">across all tiers</div>
       </div>
-      <div class="kpi success">
+      <div class="kpi accent">
+        <div class="label">Paying customers</div>
+        <div class="value" id="kpi-customers">…</div>
+        <div class="delta" id="kpi-customers-delta">founding · personal · bundle</div>
+      </div>
+      <div class="kpi warn">
         <div class="label">Founding claimed</div>
         <div class="value" id="kpi-founding">…/10</div>
         <div class="delta" id="kpi-founding-delta">first 10 alliances</div>
       </div>
-      <div class="kpi warn">
+      <div class="kpi">
+        <div class="label">Total referral clicks</div>
+        <div class="value" id="kpi-total-clicks">…</div>
+        <div class="delta" id="kpi-clicks-delta">since launch</div>
+      </div>
+    </section>
+
+    <!-- SECONDARY ROW — smaller supporting tiles -->
+    <section class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+      <div class="kpi-mini">
         <div class="label">Page views last hour</div>
         <div class="value" id="kpi-pv">…</div>
-        <div class="delta">via /api/analytics/public</div>
       </div>
-      <div class="kpi">
+      <div class="kpi-mini">
         <div class="label">URLs healthy</div>
         <div class="value" id="kpi-health">…/7</div>
-        <div class="delta" id="kpi-health-delta">across subdomains</div>
+        <div class="delta" id="kpi-health-delta"></div>
+      </div>
+      <div class="kpi-mini">
+        <div class="label">Unique visitors 24h</div>
+        <div class="value" id="kpi-unique">…</div>
+      </div>
+      <div class="kpi-mini">
+        <div class="label">Total events tracked</div>
+        <div class="value" id="kpi-events">…</div>
       </div>
     </section>
 
     <!-- BIG CHART -->
     <div class="card" style="margin-bottom: 14px;">
-      <h2>Referral clicks over time <span class="hint">rolling window · updates every 30s</span></h2>
+      <h2>Activity over time <span class="hint">rolling window · updates every 30s</span></h2>
       <div class="chart-container tall">
         <canvas id="clicks-chart"></canvas>
       </div>
+    </div>
+
+    <!-- REVENUE BREAKDOWN -->
+    <div class="card" style="margin-bottom: 14px;">
+      <h2>Revenue breakdown <span class="hint">by tier · lifetime · all-time</span></h2>
+      <ul class="revenue-list" id="revenue-list"></ul>
     </div>
 
     <!-- PER-TOOL DRILLDOWN -->
@@ -418,6 +490,10 @@
     var fRes = await fetchOne(API + "/api/founding-count");
     var founding = fRes.body || { claimed: 0, cap: 10 };
 
+    // 1b. Purchases / revenue
+    var pRes = await fetchOne(API + "/api/purchases/public");
+    var purchases = pRes.body || { counts: {founding:0,personal:0,alliance_bundle:0,lifetime:0,total:0}, revenue_cents: 0 };
+
     // 2. Analytics public + drill-down
     var aRes = await fetchOne(API + "/api/analytics/public");
     var analytics = aRes.body || {};
@@ -454,12 +530,41 @@
     var healthyCount = healthResults.filter(function(h) { return h.up; }).length;
 
     // Update KPIs
+    var revDollars = (purchases.revenue_cents || 0) / 100;
+    document.getElementById("kpi-revenue").textContent = "$" + revDollars.toFixed(2);
+    document.getElementById("kpi-revenue-delta").textContent = purchases.counts.total + " total customer" + (purchases.counts.total === 1 ? "" : "s");
+    document.getElementById("kpi-customers").textContent = purchases.counts.total;
+    document.getElementById("kpi-customers-delta").textContent =
+      "F: " + purchases.counts.founding + " · P: " + purchases.counts.personal + " · B: " + purchases.counts.alliance_bundle + " · L: " + purchases.counts.lifetime;
     document.getElementById("kpi-total-clicks").textContent = totalClicks;
     document.getElementById("kpi-founding").textContent = founding.claimed + "/" + founding.cap;
     document.getElementById("kpi-founding-delta").textContent = founding.remaining + " remaining · " + (founding.closed ? "closed" : "open");
     document.getElementById("kpi-pv").textContent = analytics.page_views_last_hour || 0;
     document.getElementById("kpi-health").textContent = healthyCount + "/" + healthResults.length;
-    document.getElementById("kpi-health-delta").textContent = (healthyCount === healthResults.length) ? "all systems green" : (healthResults.length - healthyCount) + " degraded";
+    document.getElementById("kpi-health-delta").textContent = (healthyCount === healthResults.length) ? "all green" : (healthResults.length - healthyCount) + " degraded";
+    document.getElementById("kpi-unique").textContent = (drilldown.unique_ips || {})["24h"] || 0;
+    document.getElementById("kpi-events").textContent = drilldown.total_rows || 0;
+
+    // Revenue breakdown list
+    var revList = document.getElementById("revenue-list");
+    var prices = purchases.prices_cents || {};
+    var tiers = [
+      { key: "founding", name: "Founding Alliance", desc: "first 10 alliances @ $30 (then $50)", count: purchases.counts.founding, price: prices["alliance-founding"] / 100 || 30 },
+      { key: "personal", name: "Personal", desc: "individual paid unlock @ $10", count: purchases.counts.personal, price: prices["paid-personal"] / 100 || 10 },
+      { key: "alliance_bundle", name: "Alliance Bundle", desc: "post-founding whole alliance @ $50", count: purchases.counts.alliance_bundle, price: prices["alliance-bundle"] / 100 || 50 },
+      { key: "lifetime", name: "Lifetime (hidden)", desc: "one-time hidden tier @ $20", count: purchases.counts.lifetime, price: prices["lifetime"] / 100 || 20 },
+    ];
+    var rows = tiers.map(function(t) {
+      var rev = t.count * t.price;
+      return '<li>' +
+        '<div><div class="tier-name">' + t.name + '</div><div class="tier-desc">' + t.desc + '</div></div>' +
+        '<div class="tier-count">' + t.count + ' × </div>' +
+        '<div class="tier-price">$' + t.price.toFixed(2) + '</div>' +
+        '<div class="tier-revenue ' + (rev === 0 ? 'zero' : '') + '">$' + rev.toFixed(2) + '</div>' +
+      '</li>';
+    });
+    rows.push('<li class="total-row"><div class="tier-name">TOTAL LIFETIME REVENUE</div><div></div><div></div><div class="tier-revenue">$' + revDollars.toFixed(2) + '</div></li>');
+    revList.innerHTML = rows.join("");
 
     // Update per-channel list
     var codesUl = document.getElementById("codes-list");
