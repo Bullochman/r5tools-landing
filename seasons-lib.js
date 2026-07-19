@@ -291,23 +291,36 @@
     });
     function rowFor(id) {
       var wz = byId[id];
-      var sid = wz.current_season_id || 'pre-season';
-      var pretty = prettyLabels[sid] || sid;
+      var sid = wz.current_season_id; // may be null → unconfirmed
+      var isRangeInferred = wz.confirmed_by === 'range-inferred' || sid == null;
+      var pretty = sid ? (prettyLabels[sid] || sid) : (lang === 'ko' ? '시즌 미확인 — 데이터 기여 요청' : 'Season unconfirmed — help by contributing');
       var row = document.createElement('button');
       row.type = 'button';
       var isCurrent = id === currentId;
-      row.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;background:' + (isCurrent ? 'rgba(201,169,97,0.14)' : 'transparent') + ';color:#e6e8ee;border:1px solid ' + (isCurrent ? 'rgba(201,169,97,0.5)' : 'transparent') + ';border-radius:5px;font-family:inherit;font-size:13px;cursor:pointer;text-align:left;margin:2px 0;transition:background 0.1s';
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;background:' + (isCurrent ? 'rgba(201,169,97,0.14)' : 'transparent') + ';color:#e6e8ee;border:1px solid ' + (isCurrent ? 'rgba(201,169,97,0.5)' : 'transparent') + ';border-radius:5px;font-family:inherit;font-size:13px;cursor:pointer;text-align:left;margin:2px 0;transition:background 0.1s;opacity:' + (isRangeInferred ? '0.65' : '1');
       row.addEventListener('mouseenter', function () { if (!isCurrent) row.style.background = 'rgba(255,255,255,0.04)'; });
       row.addEventListener('mouseleave', function () { if (!isCurrent) row.style.background = 'transparent'; });
+      var idColor = isRangeInferred ? '#7a8290' : '#c9a961';
+      var descColor = isRangeInferred ? '#7a8290' : '#a8b0c0';
       row.innerHTML =
-        '<span style="min-width:60px;font-family:ui-monospace,monospace;color:#c9a961;font-weight:700">' + id + '</span>' +
-        '<span style="flex:1;color:#a8b0c0;font-size:12.5px">' + pretty + (wz.season_week ? ' <span style="color:#7a8290">· Wk ' + wz.season_week + '</span>' : '') + '</span>' +
-        (wz.region ? '<span style="font-size:10.5px;color:#7a8290;font-family:ui-monospace,monospace;text-transform:uppercase;letter-spacing:0.05em">' + wz.region + '</span>' : '');
-      row.dataset.searchable = (id + ' ' + (wz.region || '') + ' ' + sid).toLowerCase();
+        '<span style="min-width:60px;font-family:ui-monospace,monospace;color:' + idColor + ';font-weight:700">' + id + '</span>' +
+        '<span style="flex:1;color:' + descColor + ';font-size:12.5px' + (isRangeInferred ? ';font-style:italic' : '') + '">' + pretty + (wz.season_week ? ' <span style="color:#7a8290">· Wk ' + wz.season_week + '</span>' : '') + '</span>' +
+        (isRangeInferred ? '' : (wz.region && wz.region !== 'unknown' ? '<span style="font-size:10.5px;color:#7a8290;font-family:ui-monospace,monospace;text-transform:uppercase;letter-spacing:0.05em">' + wz.region + '</span>' : ''));
+      row.dataset.searchable = (id + ' ' + (wz.region || '') + ' ' + (sid || 'unknown')).toLowerCase();
       row.addEventListener('click', function () { fire(id); });
       return row;
     }
-    ids.forEach(function (id) { list.appendChild(rowFor(id)); });
+    // Sort: confirmed first, then range-inferred by number
+    var confirmed = ids.filter(function (id) { return byId[id].confirmed_by !== 'range-inferred'; });
+    var inferred = ids.filter(function (id) { return byId[id].confirmed_by === 'range-inferred'; });
+    confirmed.forEach(function (id) { list.appendChild(rowFor(id)); });
+    if (confirmed.length && inferred.length) {
+      var sep = document.createElement('div');
+      sep.textContent = lang === 'ko' ? '↓ 접근 가능 범위 · 시즌 미확인 (기여 환영)' : '↓ Accessible range · season unconfirmed (contribute to fill in)';
+      sep.style.cssText = 'font-size:10.5px;color:#7a8290;padding:8px 12px 4px;letter-spacing:.04em;text-transform:uppercase';
+      list.appendChild(sep);
+    }
+    inferred.forEach(function (id) { list.appendChild(rowFor(id)); });
 
     search.addEventListener('input', function () {
       var q = search.value.trim().toLowerCase();

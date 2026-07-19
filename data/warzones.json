@@ -1,72 +1,415 @@
 {
   "$schema": "https://r5tools.io/schemas/warzones-v1.json",
   "generated_at": "2026-07-19",
-  "notes": "Warzone → season lookup table. LWS runs each warzone on its own timeline (merged servers advance at different rates), so 'current season' is a per-warzone attribute, not a global one. Crowdsourced best-effort snapshot — end-users can override via the warzone selector in every tool. If a warzone isn't in this table, the tool asks the user to set it manually. Every warzone entry can carry season_start_date so tools compute countdown-to-next-season automatically.",
+  "notes": "Warzone → season lookup table. Only 3 warzones have CONFIRMED season/week data (917, 1901, 2007 via owner). Warzones 1981-2019 are listed as accessible-range (owner Warzone 2007 confirmed can access this range) but their season state is unknown — users are prompted to contribute their own warzone data. Anything outside this range needs the user to type it manually. NO FABRICATED season data.",
   "default_warzone_if_unknown": "2007",
+  "contribute_endpoint": "https://access-codes.r5tools.io/api/warzone/contribute",
   "warzones": {
     "917": {
       "id": "917",
-      "aliases": ["W917", "Warzone 917", "워존 917"],
-      "region": "na-mixed",
+      "aliases": [
+        "W917",
+        "Warzone 917"
+      ],
+      "region": "unknown",
       "current_season_id": "s2-polar-storm",
-      "season_week": 5,
-      "season_start_date": "2026-06-10",
-      "season_end_date_estimate": "2026-08-05",
-      "next_season_id": "s3-golden-kingdom",
-      "next_season_start_estimate": "2026-08-05",
-      "notes": "Observed in-game screenshot 2026-07-19 by owner. Warzone banner visible.",
+      "season_start_date": null,
+      "notes": "Confirmed by owner screenshot 2026-07-19 (Warzone #917 banner visible in-game). Season/week TBD — needs user confirmation.",
       "last_confirmed_at": "2026-07-19",
-      "confirmed_by": "screenshot"
+      "confirmed_by": "owner-screenshot"
     },
     "1901": {
       "id": "1901",
-      "aliases": ["W1901", "Warzone 1901"],
-      "region": "na-mixed",
+      "aliases": [
+        "W1901",
+        "Warzone 1901"
+      ],
+      "region": "unknown",
       "current_season_id": "s2-polar-storm",
       "season_week": 1,
-      "season_start_date": "2026-07-14",
-      "season_end_date_estimate": "2026-09-08",
-      "next_season_id": "s3-golden-kingdom",
-      "next_season_start_estimate": "2026-09-08",
-      "notes": "Observed 2026-07-19 in tool screenshot — early S2, Wk 1.",
+      "season_start_date": null,
+      "notes": "Confirmed by owner screenshot 2026-07-19 showing 'Season 2: Polar Storm · Wk 1' badge.",
       "last_confirmed_at": "2026-07-19",
-      "confirmed_by": "screenshot"
+      "confirmed_by": "owner-screenshot"
     },
     "2007": {
       "id": "2007",
-      "aliases": ["W2007", "Warzone 2007", "워존 2007"],
+      "aliases": [
+        "W2007",
+        "Warzone 2007",
+        "워존 2007"
+      ],
       "region": "kr-mixed",
       "current_season_id": "s2-polar-storm",
-      "season_week": 3,
+      "season_week": null,
       "season_start_date": "2026-07-26",
-      "season_end_date_estimate": "2026-09-20",
       "next_season_id": "s3-golden-kingdom",
-      "next_season_start_estimate": "2026-09-20",
-      "notes": "Owner's own warzone (RONY R5). Merged bucket including KR alliances. S2 starts in ~7 days per owner confirmation 2026-07-19.",
+      "notes": "Owner's own warzone (RONY R5). Merged bucket including KR alliances. S2 launch confirmed by owner 2026-07-19 as ~7d 11h out (2026-07-26).",
       "last_confirmed_at": "2026-07-19",
-      "confirmed_by": "r5"
+      "confirmed_by": "owner"
     },
-    "500":  { "id": "500",  "region": "na-mixed", "current_season_id": "s3-golden-kingdom", "season_week": 2, "notes": "Older NA warzone — likely S3 or later" },
-    "600":  { "id": "600",  "region": "na-mixed", "current_season_id": "s3-golden-kingdom", "season_week": 4 },
-    "700":  { "id": "700",  "region": "na-mixed", "current_season_id": "s3-golden-kingdom", "season_week": 6 },
-    "800":  { "id": "800",  "region": "na-mixed", "current_season_id": "s2-polar-storm",    "season_week": 8 },
-    "1000": { "id": "1000", "region": "na-mixed", "current_season_id": "s2-polar-storm",    "season_week": 7 },
-    "1200": { "id": "1200", "region": "eu-mixed", "current_season_id": "s2-polar-storm",    "season_week": 6 },
-    "1500": { "id": "1500", "region": "eu-mixed", "current_season_id": "s2-polar-storm",    "season_week": 4 },
-    "1700": { "id": "1700", "region": "kr-mixed", "current_season_id": "s2-polar-storm",    "season_week": 5 },
-    "1800": { "id": "1800", "region": "kr-mixed", "current_season_id": "s2-polar-storm",    "season_week": 3 },
-    "1900": { "id": "1900", "region": "na-mixed", "current_season_id": "s2-polar-storm",    "season_week": 2 },
-    "2000": { "id": "2000", "region": "na-mixed", "current_season_id": "s2-polar-storm",    "season_week": 3 },
-    "2100": { "id": "2100", "region": "latam-mixed", "current_season_id": "pre-season" },
-    "2200": { "id": "2200", "region": "latam-mixed", "current_season_id": "pre-season" }
+    "1981": {
+      "id": "1981",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1982": {
+      "id": "1982",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1983": {
+      "id": "1983",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1984": {
+      "id": "1984",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1985": {
+      "id": "1985",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1986": {
+      "id": "1986",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1987": {
+      "id": "1987",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1988": {
+      "id": "1988",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1989": {
+      "id": "1989",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1990": {
+      "id": "1990",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1991": {
+      "id": "1991",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1992": {
+      "id": "1992",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1993": {
+      "id": "1993",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1994": {
+      "id": "1994",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1995": {
+      "id": "1995",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1996": {
+      "id": "1996",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1997": {
+      "id": "1997",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1998": {
+      "id": "1998",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "1999": {
+      "id": "1999",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2000": {
+      "id": "2000",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2001": {
+      "id": "2001",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2002": {
+      "id": "2002",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2003": {
+      "id": "2003",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2004": {
+      "id": "2004",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2005": {
+      "id": "2005",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2006": {
+      "id": "2006",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2008": {
+      "id": "2008",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2009": {
+      "id": "2009",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2010": {
+      "id": "2010",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2011": {
+      "id": "2011",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2012": {
+      "id": "2012",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2013": {
+      "id": "2013",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2014": {
+      "id": "2014",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2015": {
+      "id": "2015",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2016": {
+      "id": "2016",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2017": {
+      "id": "2017",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2018": {
+      "id": "2018",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    },
+    "2019": {
+      "id": "2019",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "range-inferred"
+    }
   },
   "region_defaults": {
-    "kr-mixed": { "notes": "Korean-market warzones tend to launch S2 ~2 weeks ahead of NA/EU" },
-    "na-mixed": { "notes": "NA warzones on standard First Fun release cadence" },
-    "eu-mixed": { "notes": "EU warzones typically 1-3 days after NA" },
-    "latam-mixed": { "notes": "LATAM warzones follow their own late-merge cycle" },
-    "cn-mixed":  { "notes": "Chinese-market warzones (逆战:世界大战) may have region-locked events" },
-    "jp-mixed":  { "notes": "Japanese warzones" }
+    "kr-mixed": {
+      "notes": "Korean-market warzones tend to launch S2 ~2 weeks ahead of NA/EU (community heuristic, unverified)"
+    },
+    "na-mixed": {
+      "notes": "NA warzones on standard First Fun release cadence"
+    },
+    "eu-mixed": {
+      "notes": "EU warzones typically 1-3 days after NA"
+    },
+    "latam-mixed": {
+      "notes": "LATAM warzones follow their own late-merge cycle"
+    },
+    "cn-mixed": {
+      "notes": "Chinese-market warzones (逆战:世界大战) may have region-locked events"
+    },
+    "jp-mixed": {
+      "notes": "Japanese warzones"
+    }
   },
   "season_id_options": [
     "s1-crimson-plague",
