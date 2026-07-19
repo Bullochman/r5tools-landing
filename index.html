@@ -155,6 +155,7 @@
       border-radius: 10px;
       padding: 18px 16px 20px;
       display: flex; flex-direction: column;
+      align-self: start;  /* cards size to content; no dead space if some are shorter */
     }
     .s2-diagram h3 {
       margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--text);
@@ -164,7 +165,7 @@
     .s2-diagram svg { width: 100%; height: auto; display: block; margin: 4px 0 12px; }
     .s2-diagram .s2-caption {
       font-size: 12px; color: var(--text-dim); line-height: 1.5;
-      border-top: 1px solid var(--border); padding-top: 10px; margin-top: auto;
+      border-top: 1px solid var(--border); padding-top: 10px; margin-top: 12px;
     }
     .s2-diagram .s2-caption strong { color: var(--text); }
     .s2-viz-full {
@@ -758,7 +759,7 @@
             </div>
           </div>
           <div class="s2-caption" data-i18n="vizMegahiveCap">
-            The <strong>megahive</strong> pattern trades defensive density for longer <strong>walk-back time</strong> — attackers who lose the furnace fight have to march 3× farther to defend their own home base. Weaknesses: enemies sneak into interior gaps for premium spawn spots.
+            The <strong>megahive</strong> pattern trades defensive density for longer <strong>walk-back time</strong> — attackers who lose the furnace fight have to march 3× farther to defend their own home base. <strong>The gap rule:</strong> any interior empty block ≥ 3×3 tiles is a legal teleport-landing zone. An enemy who teleports into that gap lands <em>inside</em> your defensive perimeter with 0 march time to your bases — that's a "premium spawn spot." They can drop siege on your Alliance Furnace, attack adjacent members from point-blank, or park a Warlord Missile right next to your leadership. <strong>Discipline: keep every gap ≤ 2 tiles.</strong> HQ world-footprint is 2×2 tiles; a 2-tile gap between HQs (= 5-tile pitch) leaves only 2×2 or 3×2 interior blocks — too small for an enemy 3×3 landing. Megahive's problem is that spreading out makes 3×3 gaps hard to avoid.
           </div>
         </div>
 
@@ -1381,7 +1382,7 @@
         vizMissileCap: 'On impact, <strong>every base inside the 25×25 zone</strong> (except Warlords) is randomly teleported away — furnace defenders scatter and must re-reinforce under fire. Intercept during the <strong>3-minute prep window</strong> by rallying the Warlord\'s revealed base = 72h missile cooldown.',
         vizMegahiveTitle: 'Megahive vs Tight-hive · walk-back time',
         vizMegahiveKr: '',
-        vizMegahiveCap: 'The <strong>megahive</strong> pattern trades defensive density for longer <strong>walk-back time</strong> — attackers who lose the furnace fight have to march 3× farther to defend their own home base. Weaknesses: enemies sneak into interior gaps for premium spawn spots.',
+        vizMegahiveCap: 'The <strong>megahive</strong> pattern trades defensive density for longer <strong>walk-back time</strong> — attackers who lose the furnace fight have to march 3× farther to defend their own home base. <strong>The gap rule:</strong> any interior empty block ≥ 3×3 tiles is a legal teleport-landing zone. An enemy who teleports into that gap lands <em>inside</em> your defensive perimeter with 0 march time to your bases — that\'s a "premium spawn spot." They can drop siege on your Alliance Furnace, attack adjacent members from point-blank, or park a Warlord Missile right next to your leadership. <strong>Discipline: keep every gap ≤ 2 tiles.</strong> HQ world-footprint is 2×2 tiles; a 2-tile gap between HQs (= 5-tile pitch) leaves only 2×2 or 3×2 interior blocks — too small for an enemy 3×3 landing. Megahive\'s problem is that spreading out makes 3×3 gaps hard to avoid.',
         vizTimelineTitle: 'Season 2 · 8-Week Timeline (Polar Storm)',
         vizTimelineKr: '',
         vizTimelineCap: '<strong>Week 4</strong> is the pivot — the -70°C blizzard opens concurrently with the first Rare Soil War round. If your alliance hasn\'t stockpiled coal AND assembled a 20-squad furnace reinforcement roster by then, you lose your capital. Weeks 7-8 escalate to Glacieradon boss chases and the Nuclear Furnace siege at the Capitol.',
