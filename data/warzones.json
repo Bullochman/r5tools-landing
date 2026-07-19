@@ -2,13 +2,15 @@
   "$schema": "https://r5tools.io/schemas/warzones-v1.json",
   "generated_at": "2026-07-15",
   "notes": "Warzone → season lookup table. LWS runs each warzone on its own timeline (merged servers advance at different rates), so 'current season' is a per-warzone attribute, not a global one. This is a CROWDSOURCED best-effort snapshot — end-users can override via the warzone selector in every tool. If a warzone isn't in this table, the tool asks the user to set it manually.",
-
   "default_warzone_if_unknown": "2007",
-
   "warzones": {
     "2007": {
       "id": "2007",
-      "aliases": ["W2007", "Warzone 2007", "워존 2007"],
+      "aliases": [
+        "W2007",
+        "Warzone 2007",
+        "워존 2007"
+      ],
       "region": "kr-mixed",
       "current_season_id": "s2-polar-storm",
       "season_week": 3,
@@ -19,20 +21,32 @@
       "confirmed_by": "r5"
     }
   },
-
   "region_defaults": {
-    "kr-mixed": { "notes": "Korean-market warzones tend to launch S2 ~2 weeks ahead of NA/EU" },
-    "na-mixed": { "notes": "NA warzones on standard First Fun release cadence" },
-    "eu-mixed": { "notes": "EU warzones typically 1-3 days after NA" },
-    "latam-mixed": { "notes": "LATAM warzones follow their own late-merge cycle" },
-    "cn-mixed": { "notes": "Chinese-market warzones (逆战:世界大战) may have region-locked events" },
-    "jp-mixed": { "notes": "Japanese warzones" }
+    "kr-mixed": {
+      "notes": "Korean-market warzones tend to launch S2 ~2 weeks ahead of NA/EU"
+    },
+    "na-mixed": {
+      "notes": "NA warzones on standard First Fun release cadence"
+    },
+    "eu-mixed": {
+      "notes": "EU warzones typically 1-3 days after NA"
+    },
+    "latam-mixed": {
+      "notes": "LATAM warzones follow their own late-merge cycle"
+    },
+    "cn-mixed": {
+      "notes": "Chinese-market warzones (逆战:世界大战) may have region-locked events"
+    },
+    "jp-mixed": {
+      "notes": "Japanese warzones"
+    }
   },
-
   "season_id_options": [
     "s1-crimson-plague",
     "s2-polar-storm",
-    "s3-tbd",
+    "s3-golden-kingdom",
+    "s4-evernight-isle",
+    "s5-wild-west",
     "pre-season",
     "off-season"
   ]
