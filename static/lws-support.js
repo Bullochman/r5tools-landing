@@ -141,21 +141,78 @@
     return host || 'r5tools.io';
   }
 
-  var FAB_STYLE = 'position:fixed;bottom:24px;left:24px;background:#c9a961;color:#0a0e1a;border:none;border-radius:100px;padding:12px 18px;font:600 13px system-ui,-apple-system,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.4);cursor:pointer;z-index:99997;display:inline-flex;align-items:center;gap:6px';
-  var FAB_HOVER = 'background:#d9b871;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,0.5)';
+  // Compact icon by default; label appears on hover. User can dismiss to
+  // a permanently-minimized state via the tiny × in the corner — preference
+  // persists in localStorage so returning visitors don't see the label chip.
+  var FAB_MIN_STYLE = 'position:fixed;bottom:20px;left:20px;background:#c9a961;color:#0a0e1a;border:none;border-radius:50%;width:44px;height:44px;padding:0;font:16px/1 system-ui,-apple-system,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.4);cursor:pointer;z-index:99997;display:inline-flex;align-items:center;justify-content:center;transition:all .15s';
+  var FAB_EXPANDED_STYLE = 'position:fixed;bottom:20px;left:20px;background:#c9a961;color:#0a0e1a;border:none;border-radius:100px;padding:10px 16px;font:600 12.5px system-ui,-apple-system,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.4);cursor:pointer;z-index:99997;display:inline-flex;align-items:center;gap:6px;transition:all .15s';
+  var FAB_HOVER = ';background:#d9b871;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,0.5)';
+  var DISMISS_KEY = 'lws_support_fab_min_v1';
+
+  function _isMinimized() {
+    try { return localStorage.getItem(DISMISS_KEY) === '1'; } catch (e) { return false; }
+  }
+  function _setMinimized(v) {
+    try { localStorage.setItem(DISMISS_KEY, v ? '1' : '0'); } catch (e) {}
+  }
 
   function createFab() {
     if (document.getElementById('lws-support-fab')) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'lws-support-fab-wrap';
+    wrap.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:99997';
+
     var btn = document.createElement('button');
     btn.id = 'lws-support-fab';
     btn.type = 'button';
-    btn.setAttribute('style', FAB_STYLE);
-    btn.innerHTML = '<span style="font-size:16px;line-height:1">💡</span><span>' + _t('fabLabel') + '</span>';
     btn.title = _t('fabTitle');
-    btn.onmouseover = function () { btn.setAttribute('style', FAB_STYLE + ';' + FAB_HOVER); };
-    btn.onmouseout = function () { btn.setAttribute('style', FAB_STYLE); };
-    btn.onclick = openModal;
-    document.body.appendChild(btn);
+
+    // Tiny "×" corner button — persists a minimized preference in localStorage
+    var closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.setAttribute('aria-label', 'Minimize');
+    closeBtn.innerHTML = '×';
+    closeBtn.style.cssText = 'position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#0a0e1a;color:#c9a961;border:1px solid #c9a961;border-radius:50%;font:700 11px/1 system-ui;cursor:pointer;padding:0;display:none;align-items:center;justify-content:center;z-index:99998';
+    closeBtn.onclick = function (e) {
+      e.stopPropagation();
+      _setMinimized(true);
+      render();
+    };
+
+    function render() {
+      var minimized = _isMinimized();
+      // Position btn relative to wrap (0,0) — the wrap handles the fixed positioning.
+      var base = minimized
+        ? 'position:relative;background:#c9a961;color:#0a0e1a;border:none;border-radius:50%;width:44px;height:44px;padding:0;font:16px/1 system-ui,-apple-system,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.4);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s'
+        : 'position:relative;background:#c9a961;color:#0a0e1a;border:none;border-radius:100px;padding:10px 16px;font:600 12.5px system-ui,-apple-system,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.4);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s';
+      btn.setAttribute('style', base);
+      btn.innerHTML = minimized
+        ? '<span style="font-size:18px;line-height:1">💡</span>'
+        : '<span style="font-size:15px;line-height:1">💡</span><span>' + _t('fabLabel') + '</span>';
+      closeBtn.style.display = minimized ? 'none' : 'inline-flex';
+    }
+
+    btn.onmouseover = function () {
+      btn.style.background = '#d9b871';
+      btn.style.transform = 'translateY(-1px)';
+      btn.style.boxShadow = '0 6px 24px rgba(0,0,0,0.5)';
+      if (_isMinimized()) closeBtn.style.display = 'none';
+    };
+    btn.onmouseout = function () {
+      btn.style.background = '#c9a961';
+      btn.style.transform = '';
+      btn.style.boxShadow = '0 4px 16px rgba(0,0,0,0.4)';
+    };
+    btn.onclick = function () {
+      // If minimized, first click expands to full-size chip; second click opens modal.
+      // Simpler: minimized-click just opens the modal directly. UX cleaner.
+      openModal();
+    };
+
+    render();
+    wrap.appendChild(btn);
+    wrap.appendChild(closeBtn);
+    document.body.appendChild(wrap);
   }
 
   function openModal() {
