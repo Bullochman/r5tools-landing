@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LWSLineChart Demo — r5tools.io</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --panel: #0d1424;
+    --border: rgba(255,255,255,0.08);
+    --border-accent: rgba(201,169,97,0.3);
+    --text: #e6e8ee;
+    --text-dim: #a8b0c0;
+    --text-mute: #6b7280;
+    --accent: #c9a961;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+  .kicker {
+    font-size: 12px; letter-spacing: 0.16em; color: var(--accent);
+    font-weight: 600; text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 40px; line-height: 1.1; margin: 0 0 14px;
+    font-weight: 700; letter-spacing: -0.01em;
+  }
+  h1 .accent { color: var(--accent); }
+  .sub { color: var(--text-dim); font-size: 17px; max-width: 640px; margin-bottom: 40px; }
+  h2 {
+    font-size: 22px; margin: 48px 0 16px; font-weight: 600;
+    color: var(--text); letter-spacing: -0.005em;
+  }
+  h2 small { display: block; font-size: 13px; color: var(--text-mute); font-weight: 400; margin-top: 2px; letter-spacing: 0; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px;
+  }
+  pre.code {
+    background: #050810; border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 18px; overflow-x: auto; font-size: 13px;
+    color: #d0d4dc; font-family: "SF Mono", Menlo, Consolas, monospace;
+    line-height: 1.6;
+  }
+  code.inline {
+    background: rgba(255,255,255,0.06); padding: 1px 6px;
+    border-radius: 4px; font-size: 0.92em;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+  .keyword { color: #c48ae0; }
+  .string { color: #8ae0a3; }
+  .comment { color: #6b7280; font-style: italic; }
+  .footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-mute); font-size: 13px; }
+  .footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">r5tools · components</div>
+  <h1><span class="accent">LWSLineChart</span> — SVG line chart</h1>
+  <p class="sub">
+    Zero-dependency vanilla-JS SVG line chart used across r5tools.io for roster power trends and alliance leaderboards.
+    Under 260 lines, retina-crisp, dark-theme native.
+  </p>
+
+  <h2>Alliance Power Trend
+    <small>Single line · 8 snapshots · auto-scaled Y axis, rotated X labels, hover tooltip</small>
+  </h2>
+  <div class="card"><div id="chart1"></div></div>
+
+  <h2>Top 5 Alliances in Warzone 2007
+    <small>Multi-line with legend · color-coded series · shared axes</small>
+  </h2>
+  <div class="card"><div id="chart2"></div></div>
+
+  <h2>Empty state
+    <small>Graceful fallback when no data is available</small>
+  </h2>
+  <div class="card"><div id="chart3"></div></div>
+
+  <h2>How to embed</h2>
+  <pre class="code"><span class="comment">&lt;!-- 1. drop in the module (no build step) --&gt;</span>
+&lt;script src=<span class="string">"/line-chart.js"</span>&gt;&lt;/script&gt;
+
+<span class="comment">&lt;!-- 2. mount --&gt;</span>
+&lt;div id=<span class="string">"my-chart"</span>&gt;&lt;/div&gt;
+
+&lt;script&gt;
+<span class="comment">// single-line</span>
+LWSLineChart.render(document.getElementById(<span class="string">'my-chart'</span>), {
+  title: <span class="string">'Alliance Power'</span>,
+  labelX: <span class="string">'Snapshot date'</span>,
+  labelY: <span class="string">'Power'</span>,
+  series: [
+    { x: <span class="string">'2026-07-01'</span>, y: 812000000 },
+    { x: <span class="string">'2026-07-08'</span>, y: 894000000 },
+    { x: <span class="string">'2026-07-15'</span>, y: 1020000000 }
+  ]
+});
+
+<span class="comment">// multi-line with legend</span>
+LWSLineChart.renderMulti(document.getElementById(<span class="string">'my-chart'</span>), {
+  title: <span class="string">'Top alliances'</span>,
+  series: [
+    { label: <span class="string">'RONY'</span>, color: <span class="string">'#c9a961'</span>, points: [{x:1,y:100},{x:2,y:140}] },
+    { label: <span class="string">'HIVE'</span>, color: <span class="string">'#8ae0a3'</span>, points: [{x:1,y:80},{x:2,y:110}] }
+  ]
+});
+&lt;/script&gt;</pre>
+
+  <div class="footer">
+    Part of <a href="/">r5tools.io</a> · component source: <code class="inline">/line-chart.js</code>
+  </div>
+</div>
+
+<script src="/line-chart.js"></script>
+<script>
+  // Chart 1: single line — alliance power trend, 800M -> 1.2B climb
+  var snapshots = [
+    { x: '07-01', y: 812_000_000 },
+    { x: '07-04', y: 856_000_000 },
+    { x: '07-07', y: 894_000_000 },
+    { x: '07-10', y: 942_000_000 },
+    { x: '07-13', y: 998_000_000 },
+    { x: '07-16', y: 1_063_000_000 },
+    { x: '07-19', y: 1_138_000_000 },
+    { x: '07-22', y: 1_204_000_000 }
+  ];
+  LWSLineChart.render(document.getElementById('chart1'), {
+    title: 'Alliance Power Trend (last 8 snapshots)',
+    labelX: 'Snapshot date (2026)',
+    labelY: 'Total power',
+    height: 260,
+    series: snapshots
+  });
+
+  // Chart 2: top 5 alliances in Warzone 2007
+  var days = ['D1','D3','D5','D7','D9','D11','D13','D15'];
+  function mkSeries(start, growth, jitter) {
+    return days.map(function (d, i) {
+      var v = start * Math.pow(growth, i) * (1 + (Math.sin(i * 1.3 + start) * jitter));
+      return { x: d, y: Math.round(v) };
+    });
+  }
+  LWSLineChart.renderMulti(document.getElementById('chart2'), {
+    title: 'Top 5 Alliances in Warzone 2007',
+    labelX: 'Season 2 day',
+    labelY: 'Alliance power',
+    height: 300,
+    series: [
+      { label: 'RONY',  color: '#c9a961', points: mkSeries(950_000_000,  1.06, 0.02) },
+      { label: 'HIVE',  color: '#8ae0a3', points: mkSeries(880_000_000,  1.055, 0.025) },
+      { label: 'WOLF',  color: '#7fb0e6', points: mkSeries(820_000_000,  1.05, 0.03) },
+      { label: 'IRON',  color: '#e08a8a', points: mkSeries(760_000_000,  1.045, 0.025) },
+      { label: 'DAWN',  color: '#c48ae0', points: mkSeries(700_000_000,  1.04, 0.03) }
+    ]
+  });
+
+  // Chart 3: empty state
+  LWSLineChart.render(document.getElementById('chart3'), {
+    title: 'Roster power over time',
+    series: []
+  });
+</script>
+</body>
+</html>
