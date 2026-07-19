@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Alliance Flag Generator — R5TOOLS.IO</title>
+  <meta name="description" content="Generate a 400×400 PNG flag for your Last War: Survival alliance. Pick a tag, describe an emblem (crown, wolf, dragon…), download a Discord- or tool-header-ready badge in seconds." />
+  <meta name="robots" content="index,follow" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:title" content="Alliance Flag Generator — R5TOOLS.IO" />
+  <meta property="og:description" content="Free tool: turn your alliance tag + a text emblem description into a shareable 400×400 PNG. No login, runs entirely in your browser." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/alliance-flag.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="canonical" href="https://r5tools.io/alliance-flag.html" />
+
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0d1424;
+      --panel-2: #12192c;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.3);
+      --accent: #c9a961;
+      --accent-hover: #d9b871;
+      --text: #e6e8ee;
+      --text-dim: #a8b0c0;
+      --text-mute: #7a8290;
+      --success: #8ae0a3;
+      --warn: #e88a4a;
+    }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 64px; }
+
+    header.top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0 24px;
+    }
+    .brand { font-size: 12px; letter-spacing: 0.16em; color: var(--accent); font-weight: 600; text-decoration: none; }
+    .brand:hover { color: var(--accent-hover); }
+
+    .suite-nav {
+      display: flex; flex-wrap: wrap; gap: 10px 18px;
+      padding: 12px 16px; margin: 0 0 32px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 12.5px;
+    }
+    .suite-nav a { color: var(--text-dim); text-decoration: none; }
+    .suite-nav a:hover { color: var(--accent); }
+    .suite-nav .sep { color: var(--text-mute); }
+
+    .page-title { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; margin: 12px 0 8px; }
+    .page-title .accent { color: var(--accent); }
+    .page-sub { color: var(--text-dim); font-size: 15px; max-width: 780px; margin: 0 0 28px; }
+
+    .why {
+      margin-top: 40px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px;
+    }
+    .why h3 { margin: 0 0 10px; font-size: 16px; color: var(--accent); letter-spacing: 0.02em; }
+    .why p { color: var(--text-dim); font-size: 14px; margin: 8px 0; }
+    .why ul { color: var(--text-dim); font-size: 14px; padding-left: 20px; margin: 10px 0 0; }
+    .why li { margin-bottom: 6px; }
+    .why .fine {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px dashed var(--border);
+      font-size: 12px; color: var(--text-mute);
+    }
+    .why a { color: var(--accent); text-decoration: none; }
+    .why a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    footer {
+      margin-top: 48px; padding: 24px 0;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      justify-content: space-between;
+      color: var(--text-mute); font-size: 12px;
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .page-title { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#content" class="skip-to-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Skip to content</a>
+  <div class="wrap">
+    <header class="top">
+      <a href="/" class="brand">R5TOOLS.IO — LWS SUITE</a>
+    </header>
+
+    <nav class="suite-nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <span class="sep">·</span>
+      <a href="/roadmap.html">Roadmap</a>
+      <span class="sep">·</span>
+      <a href="/leaderboard.html">Leaderboard</a>
+      <span class="sep">·</span>
+      <a href="https://roster.r5tools.io/">Roster Extractor</a>
+      <span class="sep">·</span>
+      <a href="https://hive.r5tools.io/">Hive Planner</a>
+      <span class="sep">·</span>
+      <a href="https://chat.r5tools.io/">KB Chat</a>
+    </nav>
+
+    <main id="content">
+      <h1 class="page-title">Alliance Flag Generator. <span class="accent">Free. In your browser.</span></h1>
+      <p class="page-sub">
+        Type your alliance tag, describe the emblem in plain English (<i>"gold crown on dark shield"</i>, <i>"silver wolf blue moon"</i>, <i>"rust axe on tan"</i>), pick a season theme, and download a 400×400 PNG.
+        Use it as a Discord server icon, a channel header, a tool background, or a message-thread avatar for your alliance chat.
+        Everything runs client-side — no upload, no account, no watermark on the flag itself beyond a tiny <b>r5tools.io</b> credit in the corner.
+      </p>
+
+      <div id="flag-app"></div>
+
+      <section class="why">
+        <h3>Why this feature exists</h3>
+        <p>
+          The <a href="https://roster.r5tools.io/">Roster Extractor</a> pipeline is starting to produce clean per-alliance lists — full members, ranks, power tiers.
+          The natural next step: give each of those alliances a shareable brand asset they can slap onto their Discord, their internal dashboards, their VS-day recap posts.
+          Most alliances end up using a random game screenshot or a Google Image find for their icon; this is a dedicated way to spin one up in under a minute.
+        </p>
+        <p>How the emblem gets picked:</p>
+        <ul>
+          <li><b>Keyword parse.</b> The description is scanned for known nouns — <i>crown, shield, sword, star, bolt, flame, moon, sun, wolf, dragon, arrow, leaf, skull, eye, snake, phoenix, anchor, heart, axe, hammer, horse, tower</i>. First match wins.</li>
+          <li><b>Color parse.</b> Words like <i>gold, red, blue, emerald, violet, silver, onyx, rust, copper</i> get pulled in order — the first tints the emblem; on the <b>custom</b> theme the second and third tint the badge fill + ring.</li>
+          <li><b>Composition.</b> Circular badge, ring border, emblem glyph centered, alliance tag in a rounded banner underneath. Same scaffolding every time — just the colors + glyph swap.</li>
+        </ul>
+        <p class="fine">
+          v2 could swap the keyword lookup for a real DALL·E / SDXL emblem generation call (the badge chrome — ring, banner, watermark — stays the same, only the middle bitmap changes).
+          Ping <a href="mailto:hello@r5tools.io">hello@r5tools.io</a> if that's something your alliance would pay for.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div>© 2026 R5TOOLS.IO · Fan-made toolkit. Not affiliated with First Fun / Century Games.</div>
+      <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+        <a href="/">Home</a>
+        <a href="/roadmap.html">Roadmap</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/alliance-flag.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (window.AllianceFlag && typeof window.AllianceFlag.mount === 'function') {
+        window.AllianceFlag.mount('#flag-app');
+      } else {
+        document.getElementById('flag-app').innerHTML =
+          '<div style="padding:20px;border:1px solid var(--border);border-radius:10px;color:var(--warn)">Could not load /alliance-flag.js — try refreshing.</div>';
+      }
+    });
+  </script>
+</body>
+</html>
