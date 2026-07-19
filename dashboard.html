@@ -131,6 +131,48 @@
     .events-list .msg { color: var(--text-dim); }
     .events-list .highlight { color: var(--accent); font-weight: 600; }
 
+    /* Drill-down styles */
+    .range-btn {
+      background: transparent; color: var(--text-mute);
+      border: 1px solid var(--border); padding: 3px 10px; border-radius: 12px;
+      font-size: 11px; cursor: pointer; margin-left: 4px;
+      font-family: inherit;
+    }
+    .range-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .range-btn:hover:not(.active) { color: var(--accent); border-color: var(--accent); }
+    .mini-label {
+      font-size: 10px; letter-spacing: 0.14em; color: var(--text-mute);
+      text-transform: uppercase; margin-bottom: 8px; padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tools-list {
+      list-style: none; padding: 0; margin: 0; font-size: 13px;
+    }
+    .tools-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .tools-list li:last-child { border-bottom: none; }
+    .tools-list .tool-name {
+      color: var(--text-dim); font-family: ui-monospace, monospace; font-size: 12.5px;
+    }
+    .tools-list .tool-count {
+      color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums;
+    }
+    .tools-list .empty {
+      color: var(--text-mute); font-style: italic; padding: 12px 0;
+      display: block; text-align: center;
+    }
+    .drilldown-stats {
+      display: flex; gap: 24px; margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid var(--border); font-size: 12px; color: var(--text-mute);
+      flex-wrap: wrap;
+    }
+    .drilldown-stats .stat b {
+      color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums;
+      font-size: 14px;
+    }
+
     footer { text-align: center; padding: 24px 0 8px; color: var(--text-mute); font-size: 11px; }
     footer a { color: var(--accent); text-decoration: none; }
     #err-banner {
@@ -188,10 +230,32 @@
       </div>
     </div>
 
+    <!-- PER-TOOL DRILLDOWN -->
+    <div class="card" style="margin-bottom: 14px;">
+      <h2>Page/tool clicks — drill-down <span class="hint">
+        <button class="range-btn active" data-range="1h">last 1h</button>
+        <button class="range-btn" data-range="24h">last 24h</button>
+        <button class="range-btn" data-range="7d">last 7d</button>
+      </span></h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <div class="mini-label">TOP PAGES / TOOLS</div>
+          <ul class="tools-list" id="tools-list"></ul>
+        </div>
+        <div>
+          <div class="mini-label">TOP COUNTRIES</div>
+          <ul class="tools-list" id="countries-list"></ul>
+          <div class="mini-label" style="margin-top:14px">TOP LANGUAGES</div>
+          <ul class="tools-list" id="langs-list"></ul>
+        </div>
+      </div>
+      <div class="drilldown-stats" id="drilldown-stats"></div>
+    </div>
+
     <!-- TWO-UP -->
     <div class="row">
       <div class="card">
-        <h2>Per-channel clicks <span class="hint">seeded channels</span></h2>
+        <h2>Per-channel clicks <span class="hint">seeded referral channels</span></h2>
         <ul class="codes-list" id="codes-list"></ul>
       </div>
       <div class="card">
@@ -354,9 +418,13 @@
     var fRes = await fetchOne(API + "/api/founding-count");
     var founding = fRes.body || { claimed: 0, cap: 10 };
 
-    // 2. Analytics public
+    // 2. Analytics public + drill-down
     var aRes = await fetchOne(API + "/api/analytics/public");
     var analytics = aRes.body || {};
+    var dRes = await fetchOne(API + "/api/analytics");
+    var drilldown = dRes.body || {};
+    window.__drilldown = drilldown;
+    renderDrilldown();
 
     // 3. Per-channel clicks
     var codeClicks = {};
@@ -431,9 +499,67 @@
     document.getElementById("last-refresh").textContent = "updated " + new Date().toLocaleTimeString();
   }
 
+  var currentRange = "1h";
+  function renderDrilldown() {
+    var d = window.__drilldown || {};
+    var range = currentRange;
+    var toolsUl = document.getElementById("tools-list");
+    var countriesUl = document.getElementById("countries-list");
+    var langsUl = document.getElementById("langs-list");
+    var statsBox = document.getElementById("drilldown-stats");
+    if (!toolsUl) return;
+
+    var tools = (d.top_tools || {})[range] || [];
+    var countries = (d.top_countries || {})[range] || [];
+    var langs = (d.top_langs || []);  // langs is global (not per-range in API)
+    var totalHits = (d.hits || {})[range] || 0;
+    var uniqueIps = (d.unique_ips || {})[range] || 0;
+    var validHits = (d.valid_hits || {})[range] || 0;
+
+    if (tools.length) {
+      toolsUl.innerHTML = tools.map(function(row) {
+        var name = row[0], count = row[1];
+        return '<li><span class="tool-name">' + name + '</span><span class="tool-count">' + count + '</span></li>';
+      }).join("");
+    } else {
+      toolsUl.innerHTML = '<li class="empty">no clicks in this window</li>';
+    }
+
+    if (countries.length) {
+      countriesUl.innerHTML = countries.map(function(row) {
+        return '<li><span class="tool-name">' + row[0] + '</span><span class="tool-count">' + row[1] + '</span></li>';
+      }).join("");
+    } else {
+      countriesUl.innerHTML = '<li class="empty">no country data yet</li>';
+    }
+
+    if (langs.length) {
+      langsUl.innerHTML = langs.slice(0, 5).map(function(row) {
+        return '<li><span class="tool-name">' + row[0] + '</span><span class="tool-count">' + row[1] + '</span></li>';
+      }).join("");
+    } else {
+      langsUl.innerHTML = '<li class="empty">no language data yet</li>';
+    }
+
+    statsBox.innerHTML =
+      '<div class="stat">total hits <b>' + totalHits + '</b></div>' +
+      '<div class="stat">unique visitors <b>' + uniqueIps + '</b></div>' +
+      '<div class="stat">unlocked-user hits <b>' + validHits + '</b></div>' +
+      '<div class="stat">total events tracked <b>' + (d.total_rows || 0) + '</b></div>';
+  }
+
   // Bootstrap
   document.addEventListener("DOMContentLoaded", function() {
     initChart();
+    // Wire range buttons
+    document.querySelectorAll(".range-btn").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".range-btn").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        currentRange = btn.dataset.range;
+        renderDrilldown();
+      });
+    });
     // Load existing series from localStorage
     var existing = loadSeries();
     if (existing.length) updateChart(existing);
