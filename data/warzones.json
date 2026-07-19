@@ -1,10 +1,819 @@
 {
   "$schema": "https://r5tools.io/schemas/warzones-v1.json",
   "generated_at": "2026-07-19",
-  "notes": "Warzone → season lookup table. Only 3 warzones have CONFIRMED season/week data (917, 1901, 2007 via owner). Warzones 1981-2019 are listed as accessible-range (owner Warzone 2007 confirmed can access this range) but their season state is unknown — users are prompted to contribute their own warzone data. Anything outside this range needs the user to type it manually. NO FABRICATED season data.",
+  "notes": "Warzone → season lookup table. LWS has ~2400+ active warzones total (numbered sequentially from #1, one new every 2-3 days, highest observed #2847 as of 2026-07-19). Each warzone belongs to a 'Transfer Warzone Group' of 64 adjacent numbers — you can only see/transfer within your group. Confirmed groups documented so far: 485-548, 901-932, 1029-1060, 1981-2044 (owner's group). Season state is NOT published anywhere per-warzone — we crowdsource via /api/warzone/contribute. Full 2400-row DB comes from scraping cpt-hedge.com + lastwarhub.com nightly (planned v1.1). NO FABRICATED season data.",
   "default_warzone_if_unknown": "2007",
   "contribute_endpoint": "https://access-codes.r5tools.io/api/warzone/contribute",
   "warzones": {
+    "3": {
+      "id": "3",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Oldest still-live server per Cpt-Hedge snapshot Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "485": {
+      "id": "485",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "486": {
+      "id": "486",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "487": {
+      "id": "487",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "488": {
+      "id": "488",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "489": {
+      "id": "489",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "490": {
+      "id": "490",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "491": {
+      "id": "491",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "492": {
+      "id": "492",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "493": {
+      "id": "493",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "494": {
+      "id": "494",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "495": {
+      "id": "495",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "496": {
+      "id": "496",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "497": {
+      "id": "497",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "498": {
+      "id": "498",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "499": {
+      "id": "499",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "500": {
+      "id": "500",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "501": {
+      "id": "501",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "502": {
+      "id": "502",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "503": {
+      "id": "503",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "504": {
+      "id": "504",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "505": {
+      "id": "505",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "506": {
+      "id": "506",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "507": {
+      "id": "507",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "508": {
+      "id": "508",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "509": {
+      "id": "509",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "510": {
+      "id": "510",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "511": {
+      "id": "511",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "512": {
+      "id": "512",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "513": {
+      "id": "513",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "514": {
+      "id": "514",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "515": {
+      "id": "515",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "516": {
+      "id": "516",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "517": {
+      "id": "517",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "518": {
+      "id": "518",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "519": {
+      "id": "519",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "520": {
+      "id": "520",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "521": {
+      "id": "521",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "522": {
+      "id": "522",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "523": {
+      "id": "523",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "524": {
+      "id": "524",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "525": {
+      "id": "525",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "526": {
+      "id": "526",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "527": {
+      "id": "527",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "528": {
+      "id": "528",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "529": {
+      "id": "529",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "530": {
+      "id": "530",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "531": {
+      "id": "531",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "532": {
+      "id": "532",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "533": {
+      "id": "533",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "534": {
+      "id": "534",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "535": {
+      "id": "535",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "536": {
+      "id": "536",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "537": {
+      "id": "537",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "538": {
+      "id": "538",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "539": {
+      "id": "539",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "540": {
+      "id": "540",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "541": {
+      "id": "541",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "542": {
+      "id": "542",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "543": {
+      "id": "543",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "544": {
+      "id": "544",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "545": {
+      "id": "545",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "546": {
+      "id": "546",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "547": {
+      "id": "547",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "548": {
+      "id": "548",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "485-548",
+      "notes": "Transfer Warzone Group (64-wide) per lastwartutorial.com. Older server cluster.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "901": {
+      "id": "901",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "902": {
+      "id": "902",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "903": {
+      "id": "903",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "904": {
+      "id": "904",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "905": {
+      "id": "905",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "906": {
+      "id": "906",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "907": {
+      "id": "907",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "908": {
+      "id": "908",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "909": {
+      "id": "909",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "910": {
+      "id": "910",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "911": {
+      "id": "911",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "912": {
+      "id": "912",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "913": {
+      "id": "913",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "914": {
+      "id": "914",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "915": {
+      "id": "915",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "916": {
+      "id": "916",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
     "917": {
       "id": "917",
       "aliases": [
@@ -17,6 +826,566 @@
       "notes": "Confirmed by owner screenshot 2026-07-19 (Warzone #917 banner visible in-game). Season/week TBD — needs user confirmation.",
       "last_confirmed_at": "2026-07-19",
       "confirmed_by": "owner-screenshot"
+    },
+    "918": {
+      "id": "918",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "919": {
+      "id": "919",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "920": {
+      "id": "920",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "921": {
+      "id": "921",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "922": {
+      "id": "922",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "923": {
+      "id": "923",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "924": {
+      "id": "924",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "925": {
+      "id": "925",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "926": {
+      "id": "926",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "927": {
+      "id": "927",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "928": {
+      "id": "928",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "929": {
+      "id": "929",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "930": {
+      "id": "930",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "931": {
+      "id": "931",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "932": {
+      "id": "932",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "901-932",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1029": {
+      "id": "1029",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1030": {
+      "id": "1030",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1031": {
+      "id": "1031",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1032": {
+      "id": "1032",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1033": {
+      "id": "1033",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1034": {
+      "id": "1034",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1035": {
+      "id": "1035",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1036": {
+      "id": "1036",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1037": {
+      "id": "1037",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1038": {
+      "id": "1038",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1039": {
+      "id": "1039",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1040": {
+      "id": "1040",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1041": {
+      "id": "1041",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1042": {
+      "id": "1042",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1043": {
+      "id": "1043",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1044": {
+      "id": "1044",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1045": {
+      "id": "1045",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1046": {
+      "id": "1046",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1047": {
+      "id": "1047",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1048": {
+      "id": "1048",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1049": {
+      "id": "1049",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1050": {
+      "id": "1050",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1051": {
+      "id": "1051",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1052": {
+      "id": "1052",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1053": {
+      "id": "1053",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1054": {
+      "id": "1054",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1055": {
+      "id": "1055",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1056": {
+      "id": "1056",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1057": {
+      "id": "1057",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1058": {
+      "id": "1058",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1059": {
+      "id": "1059",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1060": {
+      "id": "1060",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1029-1060",
+      "notes": "Transfer Warzone Group per community docs — 32-wide due to prior merges.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1102": {
+      "id": "1102",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1104": {
+      "id": "1104",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1110": {
+      "id": "1110",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1114": {
+      "id": "1114",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1129": {
+      "id": "1129",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1154": {
+      "id": "1154",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1167": {
+      "id": "1167",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1169": {
+      "id": "1169",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited in cpt-hedge.com/servers Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1326": {
+      "id": "1326",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Has its own community hub at 1326lastwar.com Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "1764": {
+      "id": "1764",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Cited as newest in Scribd Cpt-Hedge historical snapshot Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
     },
     "1901": {
       "id": "1901",
@@ -31,6 +1400,266 @@
       "notes": "Confirmed by owner screenshot 2026-07-19 showing 'Season 2: Polar Storm · Wk 1' badge.",
       "last_confirmed_at": "2026-07-19",
       "confirmed_by": "owner-screenshot"
+    },
+    "1981": {
+      "id": "1981",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1982": {
+      "id": "1982",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1983": {
+      "id": "1983",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1984": {
+      "id": "1984",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1985": {
+      "id": "1985",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1986": {
+      "id": "1986",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1987": {
+      "id": "1987",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1988": {
+      "id": "1988",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1989": {
+      "id": "1989",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1990": {
+      "id": "1990",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1991": {
+      "id": "1991",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1992": {
+      "id": "1992",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1993": {
+      "id": "1993",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1994": {
+      "id": "1994",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1995": {
+      "id": "1995",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1996": {
+      "id": "1996",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1997": {
+      "id": "1997",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1998": {
+      "id": "1998",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "1999": {
+      "id": "1999",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2000": {
+      "id": "2000",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2001": {
+      "id": "2001",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2002": {
+      "id": "2002",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2003": {
+      "id": "2003",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2004": {
+      "id": "2004",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2005": {
+      "id": "2005",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2006": {
+      "id": "2006",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2007": {
       "id": "2007",
@@ -48,347 +1677,393 @@
       "last_confirmed_at": "2026-07-19",
       "confirmed_by": "owner"
     },
-    "1981": {
-      "id": "1981",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1982": {
-      "id": "1982",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1983": {
-      "id": "1983",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1984": {
-      "id": "1984",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1985": {
-      "id": "1985",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1986": {
-      "id": "1986",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1987": {
-      "id": "1987",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1988": {
-      "id": "1988",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1989": {
-      "id": "1989",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1990": {
-      "id": "1990",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1991": {
-      "id": "1991",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1992": {
-      "id": "1992",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1993": {
-      "id": "1993",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1994": {
-      "id": "1994",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1995": {
-      "id": "1995",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1996": {
-      "id": "1996",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1997": {
-      "id": "1997",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1998": {
-      "id": "1998",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "1999": {
-      "id": "1999",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "2000": {
-      "id": "2000",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "2001": {
-      "id": "2001",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "2002": {
-      "id": "2002",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "2003": {
-      "id": "2003",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "2004": {
-      "id": "2004",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "2005": {
-      "id": "2005",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
-    "2006": {
-      "id": "2006",
-      "region": "unknown",
-      "current_season_id": null,
-      "season_week": null,
-      "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
-    },
     "2008": {
       "id": "2008",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2009": {
       "id": "2009",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2010": {
       "id": "2010",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2011": {
       "id": "2011",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2012": {
       "id": "2012",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2013": {
       "id": "2013",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2014": {
       "id": "2014",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2015": {
       "id": "2015",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2016": {
       "id": "2016",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2017": {
       "id": "2017",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2018": {
       "id": "2018",
-      "region": "unknown",
+      "region": "kr-mixed",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
     },
     "2019": {
       "id": "2019",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2020": {
+      "id": "2020",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2021": {
+      "id": "2021",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2022": {
+      "id": "2022",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2023": {
+      "id": "2023",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2024": {
+      "id": "2024",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2025": {
+      "id": "2025",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2026": {
+      "id": "2026",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2027": {
+      "id": "2027",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2028": {
+      "id": "2028",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2029": {
+      "id": "2029",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2030": {
+      "id": "2030",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2031": {
+      "id": "2031",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2032": {
+      "id": "2032",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2033": {
+      "id": "2033",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2034": {
+      "id": "2034",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2035": {
+      "id": "2035",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2036": {
+      "id": "2036",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2037": {
+      "id": "2037",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2038": {
+      "id": "2038",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2039": {
+      "id": "2039",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2040": {
+      "id": "2040",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2041": {
+      "id": "2041",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2042": {
+      "id": "2042",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2043": {
+      "id": "2043",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2044": {
+      "id": "2044",
+      "region": "kr-mixed",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "transfer_group": "1981-2044",
+      "notes": "OWNER'S GROUP. Warzone 2007 (owner) confirmed accessible range: 1981-2019 (first 39 of the group). Full group is 64-wide.",
+      "confirmed_by": "transfer-group-inference"
+    },
+    "2245": {
+      "id": "2245",
       "region": "unknown",
       "current_season_id": null,
       "season_week": null,
       "season_start_date": null,
-      "notes": "In accessible range per owner 2026-07-19 (W2007 can see W1981-W2019). Season state unconfirmed — please contribute if you play here.",
-      "confirmed_by": "range-inferred"
+      "notes": "Cited example of APS regional cluster (APS2245) Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
+    },
+    "2847": {
+      "id": "2847",
+      "region": "unknown",
+      "current_season_id": null,
+      "season_week": null,
+      "season_start_date": null,
+      "notes": "Live server tracked by FarmOps as of 2026-07-19 — reference for high-end of active range Season state unconfirmed — please contribute if you play here.",
+      "confirmed_by": "community-cited"
     }
   },
   "region_defaults": {
@@ -419,5 +2094,8 @@
     "s5-wild-west",
     "pre-season",
     "off-season"
-  ]
+  ],
+  "total_estimated_warzones": 2400,
+  "highest_confirmed_warzone": 2847,
+  "transfer_group_size": 64
 }
