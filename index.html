@@ -2422,16 +2422,95 @@
   //   LWS_Knowledge_Base/kb/17-seasons-catalog.md   (adversarially-verified events)
   // ==============================================================
 
-  var WEEKS = [
-    { n: 1, temp: -20,  focus: 'Land · deploy furnace · coal stock',              tempKr: '' },
-    { n: 2, temp: -30,  focus: 'Alliance Furnace L1 · Cities L2-3 · Bounty Hunter #1' },
-    { n: 3, temp: -50,  focus: 'Faction Awards vote · Group TP · Cities L5-6' },
-    { n: 4, temp: -70,  focus: 'PIVOT — Rare Soil War opens · Nuclear Furnace build' },
-    { n: 5, temp: -90,  focus: 'Turn On Nuclear Furnace · Glacieradon · RSW ×2/wk' },
-    { n: 6, temp: -110, focus: 'Rare Soil Showdown (30% plunder) · RSW continues' },
-    { n: 7, temp: -130, focus: 'Faction Duel cross-warzone · Capitol contention' },
-    { n: 8, temp: null, focus: 'Season Settlement · Bingo · Champion Duel' }
-  ];
+  // ── SEASONS registry — every season has a WEEKS array + DAY_DETAIL map.
+  // Only S2 has rich day-level content (verified through owner's screenshots +
+  // 2 adversarial deep-research passes). S1/S3/S4/S5 have week-summary skeletons.
+  // Full data lives in LWS_Season_Timeline/data/season*-daily.json — mirrored
+  // here inline for landing-page render speed (no fetch).
+  var SEASONS = {
+    's1-crimson-plague': {
+      label: 'S1 · Crimson Plague',
+      shortLabel: 'S1',
+      status: 'past',
+      totalDays: 48, weekCount: 7,
+      weeks: [
+        { n: 1, temp: null, focus: 'Landing · defeat World Map zombies · alliance base captures' },
+        { n: 2, temp: null, focus: 'City Clash L1-2 · Immune Proteins currency · Mutant Crystals Day 3' },
+        { n: 3, temp: null, focus: 'Crimson Legion counter-attacks · Hero advancement · Cities L3-4' },
+        { n: 4, temp: null, focus: 'Warzone Declaration · Warzone Duel · Apocalypse City (Capitol) opens Day 28' },
+        { n: 5, temp: null, focus: 'Infinite Octagon quarterfinals · Virus Resistance research' },
+        { n: 6, temp: null, focus: 'Semifinals · Crimson Plague Warm-up event' },
+        { n: 7, temp: null, focus: 'Finals · Settlement · captures freeze · reward distribution' },
+      ],
+    },
+    's2-polar-storm': {
+      label: 'S2 · Polar Storm ⚡',
+      shortLabel: 'S2 (current)',
+      status: 'current',
+      totalDays: 56, weekCount: 8,
+      weeks: [
+        { n: 1, temp: -20,  focus: 'Land · deploy furnace · coal stock' },
+        { n: 2, temp: -30,  focus: 'Alliance Furnace L1 · Cities L2-3 · Bounty Hunter #1' },
+        { n: 3, temp: -50,  focus: 'Faction Awards vote · Group TP · Cities L5-6' },
+        { n: 4, temp: -70,  focus: 'PIVOT — Rare Soil War opens · Nuclear Furnace build' },
+        { n: 5, temp: -90,  focus: 'Turn On Nuclear Furnace · Glacieradon · RSW ×2/wk' },
+        { n: 6, temp: -110, focus: 'Rare Soil Showdown (30% plunder) · RSW continues' },
+        { n: 7, temp: -130, focus: 'Faction Duel cross-warzone · Capitol contention' },
+        { n: 8, temp: null, focus: 'Season Settlement · Bingo · Champion Duel' },
+      ],
+    },
+    's3-golden-kingdom': {
+      label: 'S3 · Golden Kingdom',
+      shortLabel: 'S3',
+      status: 'future',
+      totalDays: 56, weekCount: 8,
+      weeks: [
+        { n: 1, temp: null, focus: 'Landing in desert region · claim first Blessing Fountains' },
+        { n: 2, temp: null, focus: 'Mithril + Sacred Water harvesting begins' },
+        { n: 3, temp: null, focus: 'Digging Strongholds unlock · Faction War missions' },
+        { n: 4, temp: null, focus: 'Doom Walker boss encounters open' },
+        { n: 5, temp: null, focus: 'Mid-season escalation (details TBD)' },
+        { n: 6, temp: null, focus: 'Faction alignment consolidation' },
+        { n: 7, temp: null, focus: 'Capital siege phase' },
+        { n: 8, temp: null, focus: 'Season settlement' },
+      ],
+    },
+    's4-evernight-isle': {
+      label: 'S4 · Evernight Isle',
+      shortLabel: 'S4',
+      status: 'future',
+      totalDays: 56, weekCount: 8,
+      weeks: [
+        { n: 1, temp: null, focus: 'Landing on Sakura Isle · Nightfall Device activates' },
+        { n: 2, temp: null, focus: 'Light-vs-Darkness mechanic ramps' },
+        { n: 3, temp: null, focus: 'Cross-cluster escalation (TBD)' },
+        { n: 4, temp: null, focus: 'Mid-season pivot' },
+        { n: 5, temp: null, focus: 'Darkness intensifies (TBD)' },
+        { n: 6, temp: null, focus: 'Lighthouse defenses phase' },
+        { n: 7, temp: null, focus: 'Capitol contention' },
+        { n: 8, temp: null, focus: 'Settlement' },
+      ],
+    },
+    's5-wild-west': {
+      label: 'S5 · Wild West',
+      shortLabel: 'S5',
+      status: 'future',
+      totalDays: 56, weekCount: 8,
+      weeks: [
+        { n: 1, temp: null, focus: 'Landing in the Golden Wasteland of the Land of Liberty' },
+        { n: 2, temp: null, focus: 'Frontier mechanics ramp' },
+        { n: 3, temp: null, focus: 'Cross-cluster escalation (TBD)' },
+        { n: 4, temp: null, focus: 'Mid-season pivot' },
+        { n: 5, temp: null, focus: 'Bandit raids escalate (TBD)' },
+        { n: 6, temp: null, focus: 'Territory consolidation' },
+        { n: 7, temp: null, focus: 'Capitol contention' },
+        { n: 8, temp: null, focus: 'Settlement' },
+      ],
+    },
+  };
+
+  var currentSeasonId = 's2-polar-storm';
+  var WEEKS = SEASONS[currentSeasonId].weeks;
 
   // Per-day content — only days with real detail; others get week defaults.
   var DAY_DETAIL = {
@@ -2511,35 +2590,90 @@
 
   var selected = 1;
 
-  // Render week labels (top of rail)
-  WEEKS.forEach(function (w) {
-    var el = document.createElement('div');
-    el.className = 'stl-wk';
-    el.textContent = 'Wk ' + w.n;
-    weekLabels.appendChild(el);
+  // ── Season tab strip ──────────────────────────────────────────
+  // Inject a tab row above the rail (before the .stl-nav element) so users
+  // can switch between all 5 confirmed seasons. Tabs render dynamically from
+  // the SEASONS registry.
+  var stlWrap = document.getElementById('stlWrap');
+  var tabStrip = document.createElement('div');
+  tabStrip.className = 'stl-tabs';
+  tabStrip.style.cssText = 'display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06)';
+  Object.keys(SEASONS).forEach(function (sid) {
+    var s = SEASONS[sid];
+    var tab = document.createElement('button');
+    tab.type = 'button';
+    tab.dataset.seasonId = sid;
+    tab.textContent = s.label;
+    var isActive = sid === currentSeasonId;
+    var isCurrent = s.status === 'current';
+    tab.style.cssText = 'padding:6px 12px;background:' + (isActive ? 'rgba(201,169,97,0.22)' : 'transparent') +
+      ';color:' + (isActive ? '#c9a961' : (isCurrent ? '#e6cf7a' : '#7a8290')) +
+      ';border:1px solid ' + (isActive ? 'rgba(201,169,97,0.55)' : 'rgba(255,255,255,0.10)') +
+      ';border-radius:5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;cursor:pointer;letter-spacing:0.02em;transition:all 0.1s';
+    tab.addEventListener('click', function () { switchSeason(sid); });
+    tabStrip.appendChild(tab);
   });
+  if (stlWrap) stlWrap.insertBefore(tabStrip, stlWrap.firstChild);
 
-  // Render 56 day markers
-  for (var d = 1; d <= 56; d++) {
-    var wkIdx = Math.ceil(d / 7) - 1;
-    var weekday = ((d - 1) % 7) + 1;
-    var el = document.createElement('div');
-    el.className = 'stl-day';
-    if (weekday === 1) el.className += ' stl-week-start';
-    el.dataset.day = d;
-    el.textContent = weekday;
-    el.title = 'Day ' + d + ' · Wk ' + WEEKS[wkIdx].n + '.' + weekday;
-    // Event dot(s) if applicable
-    var detail = DAY_DETAIL[d];
-    if (detail && detail.events && detail.events.length) {
-      var dot = document.createElement('span');
-      dot.className = 'stl-event-dot ' + detail.events[0];
-      el.appendChild(dot);
-    }
-    el.addEventListener('mouseenter', (function (day) { return function () { render(day, false); }; })(d));
-    el.addEventListener('click',      (function (day) { return function () { selected = day; render(day, true); }; })(d));
-    rail.appendChild(el);
+  function switchSeason(sid) {
+    if (!SEASONS[sid]) return;
+    currentSeasonId = sid;
+    WEEKS = SEASONS[sid].weeks;
+    selected = 1;
+    // Refresh tab styling
+    Array.prototype.forEach.call(tabStrip.children, function (t) {
+      var isActive = t.dataset.seasonId === sid;
+      var isCurrent = SEASONS[t.dataset.seasonId].status === 'current';
+      t.style.background = isActive ? 'rgba(201,169,97,0.22)' : 'transparent';
+      t.style.color = isActive ? '#c9a961' : (isCurrent ? '#e6cf7a' : '#7a8290');
+      t.style.border = '1px solid ' + (isActive ? 'rgba(201,169,97,0.55)' : 'rgba(255,255,255,0.10)');
+    });
+    buildRail();
+    render(1, true);
+    if (railOuter) railOuter.scrollLeft = 0;
   }
+
+  function buildRail() {
+    var season = SEASONS[currentSeasonId];
+    var totalDays = season.totalDays;
+    var weekCount = season.weekCount;
+    // Clear + rebuild week labels
+    weekLabels.innerHTML = '';
+    season.weeks.forEach(function (w) {
+      var el = document.createElement('div');
+      el.className = 'stl-wk';
+      el.textContent = 'Wk ' + w.n;
+      weekLabels.appendChild(el);
+    });
+    // Clear + rebuild day markers
+    rail.innerHTML = '';
+    for (var d = 1; d <= totalDays; d++) {
+      var wkIdx = Math.min(Math.ceil(d / 7) - 1, weekCount - 1);
+      var weekday = ((d - 1) % 7) + 1;
+      var el = document.createElement('div');
+      el.className = 'stl-day';
+      if (weekday === 1) el.className += ' stl-week-start';
+      el.dataset.day = d;
+      el.textContent = weekday;
+      el.title = 'Day ' + d + ' · Wk ' + season.weeks[wkIdx].n + '.' + weekday;
+      // Event dot from DAY_DETAIL (S2-only for now — other seasons show week-summary only)
+      if (currentSeasonId === 's2-polar-storm') {
+        var detail = DAY_DETAIL[d];
+        if (detail && detail.events && detail.events.length) {
+          var dot = document.createElement('span');
+          dot.className = 'stl-event-dot ' + detail.events[0];
+          el.appendChild(dot);
+        }
+      }
+      (function (day) {
+        el.addEventListener('mouseenter', function () { render(day, false); });
+        el.addEventListener('click',      function () { selected = day; render(day, true); });
+      })(d);
+      rail.appendChild(el);
+    }
+  }
+
+  buildRail();
 
   function render(day, persist) {
     var wkIdx = Math.ceil(day / 7) - 1;
