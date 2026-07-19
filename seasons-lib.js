@@ -233,6 +233,96 @@
     return dict[key] || SELECTOR_STRINGS.en[key] || key;
   }
 
+  // Warzone picker — scrollable modal listing every warzone in warzones.json
+  // grouped by current season, with search + per-warzone metadata (season, week,
+  // region, countdown to next season if season_end_date_estimate known).
+  function openWarzonePicker(data, currentId, cb) {
+    var lang = getLang();
+    var dict = SELECTOR_STRINGS[lang] || SELECTOR_STRINGS.en;
+    var prettyLabels = dict.season_pretty || {};
+    var callbackFired = false;
+    function fire(result) { if (callbackFired) return; callbackFired = true; cleanup(); cb(result); }
+
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(4,7,15,0.72);backdrop-filter:blur(6px);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif';
+
+    var modal = document.createElement('div');
+    modal.setAttribute('role', 'dialog');
+    modal.style.cssText = 'background:#0d1424;border:1px solid rgba(201,169,97,0.35);border-radius:10px;padding:20px 22px;width:calc(100% - 32px);max-width:560px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.6);color:#e6e8ee';
+
+    var title = document.createElement('h3');
+    title.textContent = lang === 'ko' ? '워존 선택' : 'Pick your warzone';
+    title.style.cssText = 'margin:0 0 4px;font-size:15px;font-weight:600;color:#c9a961;letter-spacing:0.02em';
+    modal.appendChild(title);
+    var hint = document.createElement('p');
+    hint.textContent = lang === 'ko'
+      ? '데이터베이스에 있는 모든 워존 목록. 없으면 번호를 직접 입력하세요.'
+      : 'Every warzone in our DB. If yours is missing, just type its number in the input.';
+    hint.style.cssText = 'margin:0 0 12px;font-size:12px;color:#7a8290';
+    modal.appendChild(hint);
+
+    var search = document.createElement('input');
+    search.type = 'text';
+    search.placeholder = lang === 'ko' ? '워존 번호 또는 지역 검색…' : 'Search by number or region…';
+    search.style.cssText = 'width:100%;padding:9px 10px;background:#0a0e1a;color:#e6e8ee;border:1px solid #2a3444;border-radius:6px;font-family:inherit;font-size:13.5px;margin-bottom:12px';
+    modal.appendChild(search);
+
+    var list = document.createElement('div');
+    list.style.cssText = 'flex:1;overflow-y:auto;border:1px solid #1a2436;border-radius:6px;background:rgba(0,0,0,0.2);padding:4px;min-height:280px';
+    modal.appendChild(list);
+
+    var actions = document.createElement('div');
+    actions.style.cssText = 'display:flex;justify-content:flex-end;gap:8px;margin-top:14px';
+    var cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.textContent = dict.modalCancel;
+    cancelBtn.style.cssText = 'padding:8px 14px;background:transparent;color:#a8b0c0;border:1px solid #2a3444;border-radius:6px;font-family:inherit;font-size:12.5px;cursor:pointer';
+    cancelBtn.addEventListener('click', function () { fire(null); });
+    actions.appendChild(cancelBtn);
+    modal.appendChild(actions);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    // Group by season
+    var byId = data.warzones.warzones || {};
+    var ids = Object.keys(byId).sort(function (a, b) {
+      var na = parseInt(a, 10), nb = parseInt(b, 10);
+      return isNaN(na) || isNaN(nb) ? a.localeCompare(b) : na - nb;
+    });
+    function rowFor(id) {
+      var wz = byId[id];
+      var sid = wz.current_season_id || 'pre-season';
+      var pretty = prettyLabels[sid] || sid;
+      var row = document.createElement('button');
+      row.type = 'button';
+      var isCurrent = id === currentId;
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;background:' + (isCurrent ? 'rgba(201,169,97,0.14)' : 'transparent') + ';color:#e6e8ee;border:1px solid ' + (isCurrent ? 'rgba(201,169,97,0.5)' : 'transparent') + ';border-radius:5px;font-family:inherit;font-size:13px;cursor:pointer;text-align:left;margin:2px 0;transition:background 0.1s';
+      row.addEventListener('mouseenter', function () { if (!isCurrent) row.style.background = 'rgba(255,255,255,0.04)'; });
+      row.addEventListener('mouseleave', function () { if (!isCurrent) row.style.background = 'transparent'; });
+      row.innerHTML =
+        '<span style="min-width:60px;font-family:ui-monospace,monospace;color:#c9a961;font-weight:700">' + id + '</span>' +
+        '<span style="flex:1;color:#a8b0c0;font-size:12.5px">' + pretty + (wz.season_week ? ' <span style="color:#7a8290">· Wk ' + wz.season_week + '</span>' : '') + '</span>' +
+        (wz.region ? '<span style="font-size:10.5px;color:#7a8290;font-family:ui-monospace,monospace;text-transform:uppercase;letter-spacing:0.05em">' + wz.region + '</span>' : '');
+      row.dataset.searchable = (id + ' ' + (wz.region || '') + ' ' + sid).toLowerCase();
+      row.addEventListener('click', function () { fire(id); });
+      return row;
+    }
+    ids.forEach(function (id) { list.appendChild(rowFor(id)); });
+
+    search.addEventListener('input', function () {
+      var q = search.value.trim().toLowerCase();
+      Array.prototype.forEach.call(list.children, function (row) {
+        row.style.display = (!q || row.dataset.searchable.indexOf(q) !== -1) ? '' : 'none';
+      });
+    });
+
+    function cleanup() { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); document.removeEventListener('keydown', onKey); }
+    function onKey(e) { if (e.key === 'Escape') fire(null); }
+    document.addEventListener('keydown', onKey);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) fire(null); });
+    setTimeout(function () { search.focus(); }, 20);
+  }
+
   // Modal dropdown replacing the old prompt() dialogs (2026-07-19).
   // Populated from data.warzones.season_id_options, labeled from SELECTOR_STRINGS.season_pretty.
   function openSeasonModal(seasonIds, current, cb) {
@@ -338,11 +428,15 @@
       label.textContent = opts.labelText || T('warzoneLabel');
       label.style.color = '#7a8290';
 
+      var inputWrap = document.createElement('div');
+      inputWrap.style.cssText = 'display:inline-flex;align-items:stretch;position:relative';
+
       var input = document.createElement('input');
       input.type = 'text';
       input.value = current;
       input.placeholder = T('warzonePlaceholder');
-      input.style.cssText = 'width:80px;padding:4px 8px;background:#0d1424;color:#eee;border:1px solid #2a3444;border-radius:4px;font-family:ui-monospace,monospace;font-size:13px';
+      input.setAttribute('list', 'lws-warzones-datalist');
+      input.style.cssText = 'width:80px;padding:4px 8px;background:#0d1424;color:#eee;border:1px solid #2a3444;border-right:none;border-radius:4px 0 0 4px;font-family:ui-monospace,monospace;font-size:13px';
       input.addEventListener('change', function () {
         setStoredWarzone(input.value.trim());
         window.dispatchEvent(new CustomEvent('lws:warzone-changed', { detail: { warzone_id: input.value.trim() } }));
@@ -350,6 +444,43 @@
         if (typeof opts.onChange === 'function') opts.onChange(input.value.trim());
         refreshBadge();
       });
+
+      // Datalist for native autocomplete — shows all warzones in warzones.json
+      var datalist = document.getElementById('lws-warzones-datalist');
+      if (!datalist) {
+        datalist = document.createElement('datalist');
+        datalist.id = 'lws-warzones-datalist';
+        Object.keys(data.warzones.warzones || {}).sort(function (a, b) {
+          var na = parseInt(a, 10), nb = parseInt(b, 10);
+          return isNaN(na) || isNaN(nb) ? a.localeCompare(b) : na - nb;
+        }).forEach(function (wzId) {
+          var wz = data.warzones.warzones[wzId];
+          var opt = document.createElement('option');
+          opt.value = wzId;
+          var sid = wz.current_season_id || 'pre-season';
+          opt.label = wzId + ' — ' + sid + (wz.season_week ? ' Wk ' + wz.season_week : '') + (wz.region ? ' · ' + wz.region : '');
+          datalist.appendChild(opt);
+        });
+        document.body.appendChild(datalist);
+      }
+
+      var pickerBtn = document.createElement('button');
+      pickerBtn.type = 'button';
+      pickerBtn.textContent = '▾';
+      pickerBtn.setAttribute('aria-label', 'Browse all warzones');
+      pickerBtn.title = 'Browse all warzones';
+      pickerBtn.style.cssText = 'padding:4px 10px;background:rgba(201,169,97,0.14);color:#c9a961;border:1px solid #2a3444;border-radius:0 4px 4px 0;font-family:inherit;font-size:12px;cursor:pointer;line-height:1';
+      pickerBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openWarzonePicker(data, input.value.trim(), function (chosen) {
+          if (!chosen) return;
+          input.value = chosen;
+          input.dispatchEvent(new Event('change'));
+        });
+      });
+
+      inputWrap.appendChild(input);
+      inputWrap.appendChild(pickerBtn);
 
       var seasonBadge = document.createElement('span');
       seasonBadge.style.cssText = 'padding:2px 8px;background:rgba(201,169,97,0.14);color:#c9a961;border-radius:10px;font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.06em';
@@ -364,7 +495,7 @@
       refreshBadge();
 
       wrap.appendChild(label);
-      wrap.appendChild(input);
+      wrap.appendChild(inputWrap);
       wrap.appendChild(seasonBadge);
 
       if (opts.showOverrideLink !== false) {
