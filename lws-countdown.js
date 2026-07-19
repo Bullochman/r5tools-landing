@@ -17,13 +17,13 @@
 
   // ----- Config -----
   var HARDCODED_TARGET = {
-    // Season 2 Week 5 Day 3 — RSW Round (Wed+Sat rotation)
-    // Fallback / landing target. Also matches user-supplied 2026-07-24 fallback.
-    iso: '2026-07-24T00:00:00Z',
+    // Warzone 2007 Season 2 (Polar Storm) start — user-confirmed 2026-07-19
+    // to launch in approximately 7d 11h. Matches warzones.json 2007 entry.
+    iso: '2026-07-26T20:00:00Z',
     warzone: '2007',
     labels: {
-      en: 'S2 WEEK 5 · RARE SOIL WAR ROUND',
-      kr: 'S2 5주차 · 희귀토양 전쟁 라운드'
+      en: 'S2 POLAR STORM · SEASON START · WARZONE 2007',
+      kr: 'S2 폴라 스톰 · 시즌 시작 · 워존 2007'
     }
   };
 
