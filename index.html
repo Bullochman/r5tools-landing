@@ -172,6 +172,92 @@
     }
     .s2-viz-full svg { max-height: 240px; }
 
+    /* Interactive 56-day scroll timeline (v2) */
+    .stl-wrap { display: flex; flex-direction: column; gap: 10px; margin: 4px 0 12px; user-select: none; }
+    .stl-nav { display: flex; align-items: center; gap: 10px; }
+    .stl-btn {
+      background: rgba(201,169,97,0.10); color: var(--accent, #c9a961);
+      border: 1px solid rgba(201,169,97,0.35); border-radius: 6px;
+      width: 32px; height: 32px; cursor: pointer; font-family: ui-monospace, monospace;
+      font-size: 12px; transition: background .12s;
+    }
+    .stl-btn:hover { background: rgba(201,169,97,0.22); }
+    .stl-current { flex: 1; display: flex; align-items: baseline; gap: 12px; padding-left: 8px; }
+    .stl-current-day { color: var(--accent, #c9a961); font-weight: 700; font-size: 15px; font-family: ui-monospace, monospace; letter-spacing: 0.02em; }
+    .stl-current-week { color: var(--text-dim, #a8b0c0); font-size: 12px; }
+    .stl-current-temp { color: #7dd8f0; font-size: 12px; font-family: ui-monospace, monospace; margin-left: auto; padding-right: 8px; }
+    .stl-rail-outer {
+      position: relative; overflow-x: auto; overflow-y: hidden; padding: 12px 0 6px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      border-radius: 6px; scrollbar-width: thin; scrollbar-color: rgba(201,169,97,0.4) transparent;
+      cursor: grab;
+    }
+    .stl-rail-outer.dragging { cursor: grabbing; }
+    .stl-rail-outer::-webkit-scrollbar { height: 6px; }
+    .stl-rail-outer::-webkit-scrollbar-thumb { background: rgba(201,169,97,0.4); border-radius: 3px; }
+    .stl-rail-outer::-webkit-scrollbar-track { background: transparent; }
+    .stl-temp-gradient {
+      position: absolute; left: 0; right: 0; top: 6px; height: 6px; border-radius: 2px;
+      background: linear-gradient(90deg,
+        #4a9cbf 0%, #4a9cbf 12.5%,
+        #4a9cbf 12.5%, #2e6a8f 25%,
+        #7a4bbf 37.5%, #c94dbf 50%,
+        #e6cf7a 62.5%, #ff8080 75%,
+        #ff5050 87.5%, #ff5050 100%);
+      opacity: 0.8;
+    }
+    .stl-rail {
+      display: flex; gap: 3px; padding: 22px 12px 8px; min-width: max-content;
+    }
+    .stl-day {
+      flex: 0 0 auto; width: 22px; height: 46px; border-radius: 3px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      position: relative; cursor: pointer; transition: background .12s, border-color .12s, transform .12s;
+      display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px;
+      font-family: ui-monospace, monospace; font-size: 9px; color: var(--text-mute, #7a8290);
+    }
+    .stl-day:hover { background: rgba(201,169,97,0.15); border-color: rgba(201,169,97,0.5); transform: translateY(-2px); }
+    .stl-day.stl-selected { background: rgba(201,169,97,0.28); border-color: var(--accent, #c9a961); color: var(--text, #e6e8ee); font-weight: 700; }
+    .stl-day.stl-week-start { border-left: 2px solid rgba(201,169,97,0.4); margin-left: 6px; }
+    .stl-day .stl-event-dot {
+      position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .stl-day .stl-event-dot.landing { background: #8ae0a3; box-shadow: 0 0 6px #8ae0a3aa; }
+    .stl-day .stl-event-dot.faction { background: #c9a961; box-shadow: 0 0 6px #c9a961aa; }
+    .stl-day .stl-event-dot.rsw { background: #ff8080; box-shadow: 0 0 6px #ff8080aa; }
+    .stl-day .stl-event-dot.nuclear { background: #ff5050; box-shadow: 0 0 8px #ff5050cc; }
+    .stl-day .stl-event-dot.glacieradon { background: #e6cf7a; box-shadow: 0 0 6px #e6cf7aaa; }
+    .stl-day .stl-event-dot.city { background: #7dd8f0; box-shadow: 0 0 4px #7dd8f0aa; }
+    .stl-week-labels {
+      display: flex; gap: 3px; padding: 0 12px 8px;
+      font-family: ui-monospace, monospace; font-size: 10px; color: var(--text-mute, #7a8290);
+    }
+    .stl-week-labels .stl-wk { flex: 0 0 auto; width: calc(22px * 7 + 3px * 6 + 6px); text-align: center; padding-top: 4px; }
+    .stl-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px; padding: 14px 16px; min-height: 90px;
+    }
+    .stl-card-title { color: var(--accent, #c9a961); font-weight: 700; font-size: 13.5px; letter-spacing: 0.02em; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .stl-card-title .stl-temp-badge { background: rgba(125,216,240,0.15); color: #7dd8f0; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-family: ui-monospace, monospace; }
+    .stl-card-title .stl-event-badge { padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; }
+    .stl-card-title .stl-event-badge.landing { background: rgba(138,224,163,0.15); color: #8ae0a3; }
+    .stl-card-title .stl-event-badge.faction { background: rgba(201,169,97,0.15); color: #c9a961; }
+    .stl-card-title .stl-event-badge.rsw { background: rgba(255,128,128,0.15); color: #ff8080; }
+    .stl-card-title .stl-event-badge.nuclear { background: rgba(255,80,80,0.15); color: #ff5050; }
+    .stl-card-title .stl-event-badge.glacieradon { background: rgba(230,207,122,0.15); color: #e6cf7a; }
+    .stl-card-title .stl-event-badge.city { background: rgba(125,216,240,0.15); color: #7dd8f0; }
+    .stl-card-body { color: var(--text-dim, #a8b0c0); font-size: 12.5px; line-height: 1.5; }
+    .stl-card-body ul { margin: 6px 0 0; padding: 0 0 0 18px; }
+    .stl-card-body li { margin: 2px 0; }
+    .stl-card-body .stl-muted { color: var(--text-mute, #7a8290); font-size: 11.5px; font-style: italic; margin-top: 6px; }
+    .stl-hint { color: var(--text-mute, #7a8290); font-size: 10.5px; letter-spacing: 0.03em; text-align: center; padding: 2px 0; }
+    @media (max-width: 640px) {
+      .stl-day { width: 18px; height: 40px; font-size: 8px; }
+      .stl-week-labels .stl-wk { width: calc(18px * 7 + 3px * 6 + 6px); }
+      .stl-current-temp { display: none; }
+    }
+
     .bullets {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 16px; margin: 24px 0 0;
@@ -419,7 +505,7 @@
     <div style="max-width: 1080px; margin: 0 auto 24px; padding: 14px 20px; background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04)); border: 1px solid rgba(201,169,97,0.35); border-radius: 12px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
       <div style="flex: 1; min-width: 260px">
         <div data-i18n="unlockBannerTitle" style="font-weight: 700; color: var(--accent); font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px">🔓 Free for Warzone 2007 members</div>
-        <div data-i18n="unlockBannerBody" style="color: var(--text-dim); font-size: 13.5px; line-height: 1.5">Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">RONY-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.</div>
+        <div data-i18n="unlockBannerBody" style="color: var(--text-dim); font-size: 13.5px; line-height: 1.5">Ask your R5 for the alliance code, or paid $10 personal unlock — both use the same sign-in page. Works across every tool.</div>
       </div>
       <a href="https://access-codes.r5tools.io/" data-i18n="unlockBannerCta" style="background: var(--accent); color: #0a0e1a; border-radius: 8px; padding: 10px 18px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap">Enter code →</a>
     </div>
@@ -680,7 +766,37 @@
         <div class="s2-diagram s2-viz-full">
           <h3 data-i18n="vizTimelineTitle">Season 2 · 8-Week Timeline (Polar Storm)</h3>
           <div class="s2-kr" data-i18n="vizTimelineKr">시즌 2 · 8주 타임라인 (극지 폭풍)</div>
-          <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vizTimelineTitle">
+
+          <!-- Interactive 56-day scroll rail (v2 replacing static SVG) -->
+          <div class="stl-wrap" id="stlWrap">
+            <div class="stl-nav">
+              <button class="stl-btn" id="stlPrev" aria-label="Previous week" title="Previous week (or scroll horizontally / drag)">◀</button>
+              <div class="stl-current">
+                <span class="stl-current-day" id="stlCurrentDay">Day 1</span>
+                <span class="stl-current-week" id="stlCurrentWeek">Wk 1 · Landing</span>
+                <span class="stl-current-temp" id="stlCurrentTemp">-20°C</span>
+              </div>
+              <button class="stl-btn" id="stlNext" aria-label="Next week">▶</button>
+            </div>
+            <div class="stl-rail-outer" id="stlRailOuter">
+              <div class="stl-temp-gradient"></div>
+              <div class="stl-rail" id="stlRail">
+                <!-- 56 day markers rendered by JS -->
+              </div>
+              <div class="stl-week-labels" id="stlWeekLabels">
+                <!-- Wk1..Wk8 rendered by JS -->
+              </div>
+            </div>
+            <div class="stl-card" id="stlCard">
+              <!-- Hover / selected day content rendered by JS -->
+            </div>
+            <div class="stl-hint" data-i18n="vizTimelineHint">
+              Drag ← → or scroll horizontally · Click any day for details · Colored bars below = event days
+            </div>
+          </div>
+
+          <!-- ARIA-friendly fallback SVG (hidden from sighted users but keeps semantics for screen readers / no-JS) -->
+          <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vizTimelineTitle" style="display:none">
             <rect x="0" y="0" width="900" height="200" fill="#0a0e1a" rx="6"/>
             <!-- Timeline axis -->
             <line x1="40" y1="120" x2="860" y2="120" stroke="#c9a961" stroke-width="1.5"/>
@@ -707,9 +823,13 @@
               </linearGradient>
             </defs>
             <rect x="40" y="70" width="820" height="14" fill="url(#tempGrad)" rx="2"/>
-            <text x="45" y="65" fill="#4a9cbf" font-size="9" font-family="ui-monospace,monospace">-30°C (Wk 1-2)</text>
-            <text x="240" y="65" fill="#3b1160" font-size="9" font-family="ui-monospace,monospace">-50°C (Wk 3)</text>
-            <text x="360" y="65" fill="#e6cf7a" font-size="9" font-family="ui-monospace,monospace">-70°C (Wk 4+ blizzard)</text>
+            <text x="45"  y="65" fill="#4a9cbf" font-size="9" font-family="ui-monospace,monospace">-20°C</text>
+            <text x="145" y="65" fill="#4a9cbf" font-size="9" font-family="ui-monospace,monospace">-30°C</text>
+            <text x="248" y="65" fill="#7a4bbf" font-size="9" font-family="ui-monospace,monospace">-50°C</text>
+            <text x="352" y="65" fill="#c94dbf" font-size="9" font-family="ui-monospace,monospace">-70°C</text>
+            <text x="455" y="65" fill="#e6cf7a" font-size="9" font-family="ui-monospace,monospace">-90°C</text>
+            <text x="558" y="65" fill="#ff8080" font-size="9" font-family="ui-monospace,monospace">-110°C</text>
+            <text x="662" y="65" fill="#ff5050" font-size="9" font-family="ui-monospace,monospace">-130°C</text>
             <!-- Milestone bubbles above axis -->
             <g font-family="ui-monospace,monospace" font-size="9">
               <!-- Wk 1: Landing -->
@@ -1169,7 +1289,7 @@
         secLive: 'LIVE',
         signInBtn: 'Unlock the suite',
         unlockBannerTitle: '🔓 Free for Warzone 2007 members',
-        unlockBannerBody: 'Ask your R5 for the alliance code (e.g. <code style="color:#c9a961; background: rgba(201,169,97,0.10); padding: 1px 6px; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">RONY-FREE</code>) or paid $20 lifetime unlock — both use the same sign-in page. Works across every tool.',
+        unlockBannerBody: 'Ask your R5 for the alliance code, or paid $10 personal unlock — both use the same sign-in page. Works across every tool.',
         unlockBannerCta: 'Enter code →',
         betaBannerBody: '<strong style="color:#fff">Actively improving</strong> — every hour I ship new features based on R5 feedback. Tell me what\'s missing, broken, or slow, and I\'ll fix it.',
         betaBannerCta: 'Send feedback →',
@@ -2288,5 +2408,227 @@
 <!-- BEGIN founding-widget-inject -->
 <script src="/founding-widget.js" defer></script>
 <!-- END founding-widget-inject -->
+
+<!-- Season 2 interactive timeline (56-day scroll rail) ---------------- -->
+<script>
+(function () {
+  'use strict';
+  // ==============================================================
+  // 56-day interactive Season 2 Polar Storm timeline.
+  // Sources of truth (mirrored inline here for landing-page speed):
+  //   LWS_Season_Timeline/data/season2-daily.json  (week summaries + selected day details)
+  //   LWS_Season_Timeline/data/season2-strategy-tips.json  (city/dig schedule + tips)
+  //   LWS_Knowledge_Base/kb/17-seasons-catalog.md   (adversarially-verified events)
+  // ==============================================================
+
+  var WEEKS = [
+    { n: 1, temp: -20,  focus: 'Land · deploy furnace · coal stock',              tempKr: '' },
+    { n: 2, temp: -30,  focus: 'Alliance Furnace L1 · Cities L2-3 · Bounty Hunter #1' },
+    { n: 3, temp: -50,  focus: 'Faction Awards vote · Group TP · Cities L5-6' },
+    { n: 4, temp: -70,  focus: 'PIVOT — Rare Soil War opens · Nuclear Furnace build' },
+    { n: 5, temp: -90,  focus: 'Turn On Nuclear Furnace · Glacieradon · RSW ×2/wk' },
+    { n: 6, temp: -110, focus: 'Rare Soil Showdown (30% plunder) · RSW continues' },
+    { n: 7, temp: -130, focus: 'Faction Duel cross-warzone · Capitol contention' },
+    { n: 8, temp: null, focus: 'Season Settlement · Bingo · Champion Duel' }
+  ];
+
+  // Per-day content — only days with real detail; others get week defaults.
+  var DAY_DETAIL = {
+    1:  { title: 'Landing Day',
+          events: ['landing', 'city'],
+          mustDo: ['Attack little zombies for coal', 'Donate coal to Alliance Furnace', 'Recon planes to heat other members (+2)', 'Remove ice from other bases', 'Keep temps above -20°C'],
+          goals: ['Unlock individual high-heat furnace (need alloy)', 'Unlock alloy factory (need coal)', 'Build Alliance Furnace (repair by sending squads)', 'Teleport to within Alliance Furnace Range'],
+          tips: ['First Blizzard hits 7 hours after S2 starts — be inside furnace radius by then', 'Check members\' + alliance temps in the Warm Up tab'] },
+    2:  { title: 'Furnace secured',
+          events: [],
+          mustDo: ['Continue coal donation to Alliance Furnace', 'Keep individual furnace fed with alloy', 'Monitor member temps — nobody below -20°C'],
+          goals: ['All members within Alliance Furnace Range', 'Individual high-heat furnace unlocked for R4+'] },
+    3:  { title: 'First cities (L1 dig site unlocks)',
+          events: ['city'],
+          mustDo: ['Send squads to Lvl 1 cities (delayed by 12 hours)'],
+          goals: ['Own at least 1 Lvl-1 city per top-8 R4/R5'],
+          tips: ['Cities delayed 12h from unlock — plan stamina accordingly'] },
+    4:  { title: 'Murphy exclusive weapon',
+          events: [],
+          mustDo: ['Grind for Murphy exclusive-weapon path'],
+          goals: ['Complete Murphy exclusive-weapon'] },
+    6:  { title: 'Lvl 2 cities',
+          events: ['city'],
+          mustDo: ['Send squads to Lvl 2 cities (delayed by 12 hours)'],
+          goals: ['Own at least 1 Lvl-2 city per R5 + top 3 R4s'] },
+    7:  { title: 'Week 1 close',
+          events: [],
+          mustDo: ['Audit alliance heat coverage — any member below -20 gets a recon plane'],
+          goals: ['100% within furnace radius', 'Coal reserve for Wk 2 alloy push'] },
+    10: { title: 'L3 dig site unlocks', events: ['city'], mustDo: ['Send squads to Lvl 3 cities +12h'] },
+    13: { title: 'L4 dig site unlocks', events: ['city'], mustDo: ['Send squads to Lvl 4 cities +12h'] },
+    14: { title: 'Wk 2 close · Alliance Furnace L1',
+          events: [], goals: ['Alliance Furnace L1 achieved'] },
+    15: { title: 'Faction Awards vote opens',
+          events: ['faction'],
+          mustDo: ['R5/R4s vote faction (Rebels vs Gendarmerie) — determines Wk 4 RSW side'],
+          tips: ['High-Heat Furnace ≥L20 needed to qualify for faction rewards'] },
+    16: { title: 'Group TP unlocks · L5 dig site', events: ['faction', 'city'], mustDo: ['Coordinate Group TP for landing corrections'] },
+    17: { title: 'L5 dig site (verify day)', events: ['city'] },
+    20: { title: 'L6 dig site unlocks', events: ['city'] },
+    22: { title: 'PIVOT WEEK — RSW opens', events: ['rsw'],
+          mustDo: ['Rare Soil War Round 1 (Rebels vs Gendarmerie)', 'Cold Wave escalates to -70°C', '20% plunder cap active'],
+          goals: ['Survive first RSW round with coal reserves intact'],
+          tips: ['This is the pivot week — falling behind here compounds through Wk5+'] },
+    27: { title: 'RSW Round 2 (Sat pattern)', events: ['rsw'] },
+    28: { title: 'L7 Capitol unlocks +12h', events: ['city', 'nuclear'],
+          mustDo: ['Capitol becomes capturable at +12h', 'Nuclear Furnace mission opens Day 6, effective activation Day 7 + 12h'],
+          tips: ['Nuclear Furnace goal delayed 36h from mission start'] },
+    29: { title: 'Turn On Nuclear Furnace (⚠ per-server day varies)', events: ['nuclear', 'glacieradon'],
+          mustDo: ['Turn On Nuclear Furnace mission active (7 days)', '4 Glacieradons appear over 4 days — attack (5/day 10 stamina each)', 'Reactivate Furnace via troop send (5 stamina, 10/day)'],
+          tips: ['Furnace bleeds ~1% every 4h while any Glacieradon is alive', '⚠ Start day-of-week varies per server (Mon/Tue/Thu observed) — check in-game timer'] },
+    30: { title: 'Cold Wave -90°C · Glacieradon #2', events: ['glacieradon'] },
+    31: { title: 'Glacieradon #3', events: ['glacieradon'] },
+    32: { title: 'RSW Round 1 of week', events: ['rsw', 'glacieradon'] },
+    36: { title: 'Wk 6 · Rare Soil Showdown opens (30% plunder)', events: ['rsw'],
+          mustDo: ['Max coal + heat prep for 30% plunder round'],
+          tips: ['Peak coal burn week'] },
+    43: { title: 'Wk 7 · Faction Duel (cross-warzone weekend)', events: ['faction', 'rsw'],
+          mustDo: ['Coordinated cross-warzone attack', 'Final RSW round'] },
+    50: { title: 'Wk 8 · Nuclear Furnace race + Capitol siege', events: ['nuclear'],
+          mustDo: ['All-in on Capitol', 'Deny enemy Nuclear Furnace claim'] },
+    56: { title: 'Season End — Settlement',
+          events: [],
+          mustDo: ['Redeem all event currencies before reset', 'Black Market closes', 'Bingo Task ends'] }
+  };
+
+  var rail = document.getElementById('stlRail');
+  var weekLabels = document.getElementById('stlWeekLabels');
+  var railOuter = document.getElementById('stlRailOuter');
+  var card = document.getElementById('stlCard');
+  var currentDay = document.getElementById('stlCurrentDay');
+  var currentWeek = document.getElementById('stlCurrentWeek');
+  var currentTemp = document.getElementById('stlCurrentTemp');
+  var btnPrev = document.getElementById('stlPrev');
+  var btnNext = document.getElementById('stlNext');
+  if (!rail) return;
+
+  var selected = 1;
+
+  // Render week labels (top of rail)
+  WEEKS.forEach(function (w) {
+    var el = document.createElement('div');
+    el.className = 'stl-wk';
+    el.textContent = 'Wk ' + w.n;
+    weekLabels.appendChild(el);
+  });
+
+  // Render 56 day markers
+  for (var d = 1; d <= 56; d++) {
+    var wkIdx = Math.ceil(d / 7) - 1;
+    var weekday = ((d - 1) % 7) + 1;
+    var el = document.createElement('div');
+    el.className = 'stl-day';
+    if (weekday === 1) el.className += ' stl-week-start';
+    el.dataset.day = d;
+    el.textContent = weekday;
+    el.title = 'Day ' + d + ' · Wk ' + WEEKS[wkIdx].n + '.' + weekday;
+    // Event dot(s) if applicable
+    var detail = DAY_DETAIL[d];
+    if (detail && detail.events && detail.events.length) {
+      var dot = document.createElement('span');
+      dot.className = 'stl-event-dot ' + detail.events[0];
+      el.appendChild(dot);
+    }
+    el.addEventListener('mouseenter', (function (day) { return function () { render(day, false); }; })(d));
+    el.addEventListener('click',      (function (day) { return function () { selected = day; render(day, true); }; })(d));
+    rail.appendChild(el);
+  }
+
+  function render(day, persist) {
+    var wkIdx = Math.ceil(day / 7) - 1;
+    var week = WEEKS[wkIdx];
+    var detail = DAY_DETAIL[day] || {};
+    // Nav header
+    currentDay.textContent = 'Day ' + day;
+    currentWeek.textContent = 'Wk ' + week.n + ' · ' + week.focus;
+    currentTemp.textContent = week.temp != null ? week.temp + '°C' : 'endgame';
+    // Selected marker
+    if (persist) {
+      Array.prototype.forEach.call(rail.children, function (el) { el.classList.remove('stl-selected'); });
+      var target = rail.querySelector('[data-day="' + day + '"]');
+      if (target) target.classList.add('stl-selected');
+    }
+    // Card body
+    var title = detail.title || (day % 7 === 0 ? 'Wk ' + week.n + ' close' : 'Wk ' + week.n + ' Day ' + (((day - 1) % 7) + 1));
+    var eventBadges = (detail.events || []).map(function (e) {
+      var label = { landing: 'Landing', faction: 'Faction Awards', rsw: 'Rare Soil War', nuclear: 'Nuclear Furnace', glacieradon: 'Glacieradon', city: 'City / Dig unlock' }[e] || e;
+      return '<span class="stl-event-badge ' + e + '">' + label + '</span>';
+    }).join('');
+    var tempBadge = week.temp != null ? '<span class="stl-temp-badge">' + week.temp + '°C min</span>' : '';
+    var body = '';
+    if (detail.mustDo && detail.mustDo.length) {
+      body += '<div><strong style="color:var(--text,#e6e8ee)">Must do:</strong><ul>' +
+        detail.mustDo.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
+    }
+    if (detail.goals && detail.goals.length) {
+      body += '<div style="margin-top:8px"><strong style="color:var(--text,#e6e8ee)">Goals:</strong><ul>' +
+        detail.goals.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
+    }
+    if (detail.tips && detail.tips.length) {
+      body += '<div class="stl-muted">' + detail.tips.map(function (t) { return '⤿ ' + t; }).join('<br>') + '</div>';
+    }
+    if (!body) {
+      body = '<em style="color:var(--text-mute,#7a8290)">Week ' + week.n + ' focus: ' + week.focus + '</em>';
+    }
+    card.innerHTML = '<div class="stl-card-title">' + title + tempBadge + eventBadges + '</div><div class="stl-card-body">' + body + '</div>';
+  }
+
+  // Scroll wheel -> horizontal scroll
+  railOuter.addEventListener('wheel', function (e) {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      railOuter.scrollLeft += e.deltaY;
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Drag to pan
+  var dragStart = null;
+  railOuter.addEventListener('pointerdown', function (e) {
+    dragStart = { x: e.clientX, scroll: railOuter.scrollLeft };
+    railOuter.classList.add('dragging');
+    railOuter.setPointerCapture(e.pointerId);
+  });
+  railOuter.addEventListener('pointermove', function (e) {
+    if (!dragStart) return;
+    railOuter.scrollLeft = dragStart.scroll - (e.clientX - dragStart.x);
+  });
+  var endDrag = function () { dragStart = null; railOuter.classList.remove('dragging'); };
+  railOuter.addEventListener('pointerup', endDrag);
+  railOuter.addEventListener('pointercancel', endDrag);
+  railOuter.addEventListener('pointerleave', endDrag);
+
+  // Prev/Next week
+  btnPrev.addEventListener('click', function () {
+    selected = Math.max(1, selected - 7);
+    render(selected, true);
+    scrollDayIntoView(selected);
+  });
+  btnNext.addEventListener('click', function () {
+    selected = Math.min(56, selected + 7);
+    render(selected, true);
+    scrollDayIntoView(selected);
+  });
+  function scrollDayIntoView(d) {
+    var target = rail.querySelector('[data-day="' + d + '"]');
+    if (target) target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
+  // Keyboard arrows when timeline focused
+  railOuter.setAttribute('tabindex', '0');
+  railOuter.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  { selected = Math.max(1, selected - 1);  render(selected, true); scrollDayIntoView(selected); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { selected = Math.min(56, selected + 1); render(selected, true); scrollDayIntoView(selected); e.preventDefault(); }
+  });
+
+  // Initial paint
+  render(1, true);
+})();
+</script>
 </body>
 </html>
