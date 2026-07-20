@@ -1,12 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>r5tools — Live Dashboard</title>
-  <meta name="robots" content="noindex,nofollow">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Tools Dashboard — R5TOOLS.IO</title>
+  <meta name="description" content="Every r5tools.io Last War: Survival tool on one page — Landing Planner, Heat Simulator, Freeze Risk, Coal Burn, Hive Grid, Roster Extractor, and more. Open once, jump anywhere." />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+  <link rel="canonical" href="https://r5tools.io/dashboard.html" />
+
+  <!-- Access-codes shared gate + roster-freshness widget -->
+  <script src="https://access-codes.r5tools.io/lib.js" defer></script>
+  <script src="https://roster.r5tools.io/static/roster-freshness.js" defer></script>
+  <!-- Season strip widget (local same-origin) -->
+  <script src="seasons-lib.js" defer></script>
+
   <style>
     * { box-sizing: border-box; }
     :root {
@@ -14,6 +22,7 @@
       --panel: #0d1424;
       --panel-2: #12192c;
       --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(201,169,97,0.30);
       --accent: #c9a961;
       --accent-hover: #d9b871;
       --text: #e6e8ee;
@@ -25,665 +34,360 @@
     }
     html, body {
       margin: 0; padding: 0; background: var(--bg); color: var(--text);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      -webkit-font-smoothing: antialiased;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      -webkit-font-smoothing: antialiased; line-height: 1.5;
     }
-    .wrap { max-width: 1240px; margin: 0 auto; padding: 20px; }
+    code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px 20px 48px; }
 
     header.top {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 8px 0 22px; border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-    .brand { font-size: 13px; letter-spacing: 0.14em; color: var(--accent); font-weight: 600; text-decoration: none; }
-    .brand:hover { color: var(--accent-hover); }
-    .live-indicator {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(138,224,163,0.1); color: var(--success);
-      padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;
-    }
-    .live-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--success);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.3); }
-    }
-    .refresh-info { font-size: 11px; color: var(--text-mute); }
-
-    h1 { margin: 0 0 6px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
-    .subtitle { color: var(--text-dim); font-size: 13px; margin-bottom: 24px; }
-
-    .kpi-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px; margin-bottom: 24px;
-    }
-    .kpi {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 10px; padding: 18px;
-    }
-    .kpi .label {
-      font-size: 10.5px; letter-spacing: 0.14em; color: var(--text-mute);
-      text-transform: uppercase; margin-bottom: 6px;
-    }
-    .kpi .value {
-      font-size: 32px; font-weight: 700; color: var(--text); line-height: 1;
-      font-variant-numeric: tabular-nums;
-    }
-    .kpi.accent .value { color: var(--accent); }
-    .kpi.success .value { color: var(--success); }
-    .kpi.warn .value { color: var(--warn); }
-    .kpi .delta { font-size: 11px; color: var(--text-mute); margin-top: 6px; }
-
-    .kpi-mini {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 8px; padding: 12px 14px;
-    }
-    .kpi-mini .label {
-      font-size: 9.5px; letter-spacing: 0.12em; color: var(--text-mute);
-      text-transform: uppercase; margin-bottom: 4px;
-    }
-    .kpi-mini .value {
-      font-size: 20px; font-weight: 700; color: var(--text);
-      font-variant-numeric: tabular-nums;
-    }
-    .kpi-mini .delta { font-size: 10px; color: var(--text-mute); margin-top: 2px; }
-
-    .row {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
-    }
-    @media (max-width: 900px) {
-      .row { grid-template-columns: 1fr; }
-    }
-    .card {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 10px; padding: 18px;
-    }
-    .card h2 {
-      font-size: 14px; font-weight: 600; margin: 0 0 12px; color: var(--text);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .card h2 .hint { font-size: 11px; color: var(--text-mute); font-weight: 400; }
-    .chart-container { position: relative; height: 240px; }
-    .chart-container.tall { height: 320px; }
-
-    .health-list, .events-list, .codes-list {
-      list-style: none; padding: 0; margin: 0;
-      font-size: 13px;
-    }
-    .health-list li, .codes-list li {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .health-list li:last-child, .codes-list li:last-child { border-bottom: none; }
-    .health-list .status {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--text-mute); font-family: ui-monospace, monospace;
-    }
-    .health-list .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-    }
-    .dot.ok { background: var(--success); box-shadow: 0 0 8px var(--success); }
-    .dot.warn { background: var(--warn); }
-    .dot.err { background: var(--error); }
-
-    .codes-list .code-name {
-      font-family: ui-monospace, monospace; color: var(--text-dim);
-    }
-    .codes-list .code-clicks {
-      color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums;
-    }
-    .codes-list .code-clicks.zero { color: var(--text-mute); font-weight: 400; }
-
-    .events-list li {
-      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-      font-size: 12px;
-    }
-    .events-list li:last-child { border-bottom: none; }
-    .events-list .time { color: var(--text-mute); margin-right: 8px; font-family: ui-monospace, monospace; font-size: 11px; }
-    .events-list .msg { color: var(--text-dim); }
-    .events-list .highlight { color: var(--accent); font-weight: 600; }
-
-    /* Drill-down styles */
-    .range-btn {
-      background: transparent; color: var(--text-mute);
-      border: 1px solid var(--border); padding: 3px 10px; border-radius: 12px;
-      font-size: 11px; cursor: pointer; margin-left: 4px;
-      font-family: inherit;
-    }
-    .range-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-    .range-btn:hover:not(.active) { color: var(--accent); border-color: var(--accent); }
-    .mini-label {
-      font-size: 10px; letter-spacing: 0.14em; color: var(--text-mute);
-      text-transform: uppercase; margin-bottom: 8px; padding-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-    }
-    .tools-list {
-      list-style: none; padding: 0; margin: 0; font-size: 13px;
-    }
-    .tools-list li {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .tools-list li:last-child { border-bottom: none; }
-    .tools-list .tool-name {
-      color: var(--text-dim); font-family: ui-monospace, monospace; font-size: 12.5px;
-    }
-    .tools-list .tool-count {
-      color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums;
-    }
-    .tools-list .empty {
-      color: var(--text-mute); font-style: italic; padding: 12px 0;
-      display: block; text-align: center;
-    }
-    .drilldown-stats {
-      display: flex; gap: 24px; margin-top: 16px; padding-top: 14px;
-      border-top: 1px solid var(--border); font-size: 12px; color: var(--text-mute);
+      gap: 16px; padding: 4px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
       flex-wrap: wrap;
     }
-    .drilldown-stats .stat b {
-      color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums;
-      font-size: 14px;
-    }
+    .brand { font-size: 12.5px; letter-spacing: 0.16em; color: var(--accent); font-weight: 700; text-decoration: none; }
+    .brand:hover { color: var(--accent-hover); }
+    .brand .sep { color: var(--text-mute); margin: 0 8px; font-weight: 400; }
+    .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    #roster-freshness-slot { min-height: 22px; }
 
-    /* Revenue list */
-    .revenue-list { list-style: none; padding: 0; margin: 0; }
-    .revenue-list li {
-      display: grid; grid-template-columns: 1fr auto auto auto;
-      gap: 20px; align-items: center;
-      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .revenue-list li:last-child { border-bottom: none; }
-    .revenue-list .tier-name {
-      color: var(--text); font-weight: 600; font-size: 13px;
-    }
-    .revenue-list .tier-desc {
-      color: var(--text-mute); font-size: 11px; font-weight: 400;
-    }
-    .revenue-list .tier-count {
-      color: var(--text-dim); font-family: ui-monospace, monospace; font-size: 13px;
-    }
-    .revenue-list .tier-price {
-      color: var(--text-mute); font-size: 12px; font-family: ui-monospace, monospace;
-    }
-    .revenue-list .tier-revenue {
-      color: var(--success); font-weight: 700; font-variant-numeric: tabular-nums;
-      font-size: 15px; text-align: right; min-width: 80px;
-    }
-    .revenue-list .tier-revenue.zero { color: var(--text-mute); font-weight: 400; }
-    .revenue-list .total-row {
-      border-top: 2px solid var(--border); margin-top: 8px; padding-top: 14px;
-    }
-    .revenue-list .total-row .tier-name { color: var(--accent); }
-    .revenue-list .total-row .tier-revenue { color: var(--accent); font-size: 20px; }
+    h1 { margin: 4px 0 4px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .subtitle { color: var(--text-dim); font-size: 13.5px; margin-bottom: 18px; }
+    .subtitle a { color: var(--accent); text-decoration: none; }
+    .subtitle a:hover { color: var(--accent-hover); text-decoration: underline; }
 
-    footer { text-align: center; padding: 24px 0 8px; color: var(--text-mute); font-size: 11px; }
+    .strip {
+      background: var(--panel); border: 1px solid var(--border-accent);
+      border-radius: 10px; padding: 12px 16px; margin-bottom: 20px;
+      display: flex; gap: 20px; flex-wrap: wrap; align-items: center;
+      font-size: 13px; color: var(--text-dim);
+    }
+    .strip .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(201,169,97,0.10); color: var(--accent);
+      padding: 3px 10px; border-radius: 100px; font-size: 11.5px; font-weight: 600;
+      font-family: ui-monospace, monospace; letter-spacing: 0.04em;
+    }
+    .strip .strip-label { color: var(--text-mute); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; }
+
+    /* Tool grid */
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px; margin-bottom: 24px;
+    }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
+    .card:hover { border-color: var(--border-accent); transform: translateY(-1px); }
+    .card .row1 { display: flex; align-items: center; gap: 10px; }
+    .card .icon { width: 34px; height: 34px; border-radius: 8px; background: rgba(201,169,97,0.12); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .card .name { font-size: 14.5px; font-weight: 700; color: var(--text); line-height: 1.2; }
+    .card .name-kr { display: block; color: var(--text-mute); font-size: 11.5px; font-weight: 500; margin-top: 2px; letter-spacing: 0.02em; }
+    .card .hint { font-size: 12.5px; color: var(--text-dim); line-height: 1.45; min-height: 36px; }
+    .card .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .health {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--text-mute); font-family: ui-monospace, monospace;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-mute); }
+    .dot.ok  { background: var(--success); box-shadow: 0 0 6px rgba(138,224,163,0.6); }
+    .dot.err { background: var(--error); box-shadow: 0 0 6px rgba(255,85,85,0.5); }
+    .open-btn {
+      background: var(--accent); color: #0a0e1a; text-decoration: none;
+      border-radius: 6px; padding: 6px 12px; font-weight: 700; font-size: 12.5px;
+      transition: background .15s;
+    }
+    .open-btn:hover { background: var(--accent-hover); }
+
+    /* Activity panel */
+    .activity {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 18px;
+    }
+    .activity h2 {
+      font-size: 13px; font-weight: 600; margin: 0 0 12px; color: var(--text);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .activity h2 .hint { font-size: 11px; color: var(--text-mute); font-weight: 400; }
+    .activity ul { list-style: none; padding: 0; margin: 0; font-size: 13px; }
+    .activity li {
+      display: flex; gap: 12px; padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .activity li:last-child { border-bottom: none; }
+    .activity .when { color: var(--text-mute); font-family: ui-monospace, monospace; font-size: 11.5px; min-width: 90px; flex-shrink: 0; }
+    .activity .msg { color: var(--text-dim); flex: 1; }
+    .activity .msg b { color: var(--text); font-weight: 600; }
+    .activity .empty { color: var(--text-mute); font-style: italic; padding: 8px 0; }
+
+    footer { text-align: center; padding: 24px 0 8px; color: var(--text-mute); font-size: 11.5px; }
     footer a { color: var(--accent); text-decoration: none; }
-    #err-banner {
-      display: none; background: rgba(255,85,85,0.15); border: 1px solid var(--error);
-      color: var(--error); padding: 10px 14px; border-radius: 8px; margin-bottom: 14px;
-      font-size: 12px;
+
+    #signin-line { font-size: 12.5px; color: var(--text-dim); }
+    #signin-line b { color: var(--text); }
+    #signin-line a { color: var(--accent); text-decoration: none; }
+    #signin-line a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 16px 12px 32px; }
+      header.top { padding-bottom: 14px; margin-bottom: 14px; }
+      .grid { gap: 10px; grid-template-columns: 1fr; }
     }
-    #err-banner.show { display: block; }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div id="main-app" class="wrap">
+
     <header class="top">
-      <a href="/" class="brand">R5TOOLS.IO — LIVE DASHBOARD</a>
-      <div style="display:flex;gap:12px;align-items:center">
-        <span class="refresh-info" id="last-refresh">refreshing…</span>
-        <span class="live-indicator"><span class="live-dot"></span>LIVE</span>
+      <a href="/" class="brand">R5TOOLS.IO<span class="sep">·</span>DASHBOARD</a>
+      <div class="top-right">
+        <div id="roster-freshness-slot"></div>
       </div>
     </header>
 
-    <div id="err-banner"></div>
+    <h1 data-i18n="title">Your tools · 하나의 페이지</h1>
+    <p class="subtitle" id="signin-line">
+      <span data-i18n="loading">Checking your roster…</span>
+    </p>
 
-    <h1>Launch traffic + site health</h1>
-    <p class="subtitle">Auto-refreshes every 30 seconds. Everything on this page is real production data — no mocks.</p>
-
-    <!-- KPI TILES — revenue-first now that we're making money -->
-    <section class="kpi-grid">
-      <div class="kpi success" style="border-color: rgba(138,224,163,0.4);">
-        <div class="label">Revenue · lifetime</div>
-        <div class="value" id="kpi-revenue">$…</div>
-        <div class="delta" id="kpi-revenue-delta">across all tiers</div>
-      </div>
-      <div class="kpi accent">
-        <div class="label">Paying customers</div>
-        <div class="value" id="kpi-customers">…</div>
-        <div class="delta" id="kpi-customers-delta">founding · personal · bundle</div>
-      </div>
-      <div class="kpi warn">
-        <div class="label">Founding claimed</div>
-        <div class="value" id="kpi-founding">…/10</div>
-        <div class="delta" id="kpi-founding-delta">first 10 alliances</div>
-      </div>
-      <div class="kpi">
-        <div class="label">Total referral clicks</div>
-        <div class="value" id="kpi-total-clicks">…</div>
-        <div class="delta" id="kpi-clicks-delta">since launch</div>
-      </div>
-    </section>
-
-    <!-- SECONDARY ROW — smaller supporting tiles -->
-    <section class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
-      <div class="kpi-mini">
-        <div class="label">Page views last hour</div>
-        <div class="value" id="kpi-pv">…</div>
-      </div>
-      <div class="kpi-mini">
-        <div class="label">URLs healthy</div>
-        <div class="value" id="kpi-health">…/7</div>
-        <div class="delta" id="kpi-health-delta"></div>
-      </div>
-      <div class="kpi-mini">
-        <div class="label">Unique visitors 24h</div>
-        <div class="value" id="kpi-unique">…</div>
-      </div>
-      <div class="kpi-mini">
-        <div class="label">Total events tracked</div>
-        <div class="value" id="kpi-events">…</div>
-      </div>
-    </section>
-
-    <!-- BIG CHART -->
-    <div class="card" style="margin-bottom: 14px;">
-      <h2>Activity over time <span class="hint">rolling window · updates every 30s</span></h2>
-      <div class="chart-container tall">
-        <canvas id="clicks-chart"></canvas>
-      </div>
+    <!-- Season / warzone strip -->
+    <div class="strip" id="season-strip">
+      <span class="strip-label" data-i18n="stripLabel">CONTEXT</span>
+      <span class="pill" id="strip-warzone">Warzone: …</span>
+      <span class="pill" id="strip-season">Season: …</span>
+      <span class="pill" id="strip-week">Week: …</span>
+      <span class="pill" id="strip-countdown">…</span>
     </div>
 
-    <!-- REVENUE BREAKDOWN -->
-    <div class="card" style="margin-bottom: 14px;">
-      <h2>Revenue breakdown <span class="hint">by tier · lifetime · all-time</span></h2>
-      <ul class="revenue-list" id="revenue-list"></ul>
-    </div>
+    <!-- Tool grid -->
+    <section class="grid" id="tool-grid"><!-- populated by JS --></section>
 
-    <!-- PER-TOOL DRILLDOWN -->
-    <div class="card" style="margin-bottom: 14px;">
-      <h2>Page/tool clicks — drill-down <span class="hint">
-        <button class="range-btn active" data-range="1h">last 1h</button>
-        <button class="range-btn" data-range="24h">last 24h</button>
-        <button class="range-btn" data-range="7d">last 7d</button>
-      </span></h2>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <div>
-          <div class="mini-label">TOP PAGES / TOOLS</div>
-          <ul class="tools-list" id="tools-list"></ul>
-        </div>
-        <div>
-          <div class="mini-label">TOP COUNTRIES</div>
-          <ul class="tools-list" id="countries-list"></ul>
-          <div class="mini-label" style="margin-top:14px">TOP LANGUAGES</div>
-          <ul class="tools-list" id="langs-list"></ul>
-        </div>
-      </div>
-      <div class="drilldown-stats" id="drilldown-stats"></div>
-    </div>
-
-    <!-- TWO-UP -->
-    <div class="row">
-      <div class="card">
-        <h2>Per-channel clicks <span class="hint">seeded referral channels</span></h2>
-        <ul class="codes-list" id="codes-list"></ul>
-      </div>
-      <div class="card">
-        <h2>Site health <span class="hint">HTTP status per subdomain</span></h2>
-        <ul class="health-list" id="health-list"></ul>
-      </div>
-    </div>
-
-    <!-- EVENTS -->
-    <div class="card" style="margin-top: 14px;">
-      <h2>Recent events <span class="hint">last 20</span></h2>
-      <ul class="events-list" id="events-list"></ul>
+    <!-- Recent activity -->
+    <div class="activity">
+      <h2>
+        <span data-i18n="activityTitle">Recent activity · 최근 활동</span>
+        <span class="hint" id="activity-hint" data-i18n="activityHintV1">v1 placeholder — live feed in v1.1</span>
+      </h2>
+      <ul id="activity-list"></ul>
     </div>
 
     <footer>
-      Built by <a href="/">r5tools.io</a> · Data pulled from <code>access-codes.r5tools.io/api/*</code> · No auth · No cookies stored by this page
+      <span data-i18n="footer">Signed unlock lives in a cookie on this browser · </span>
+      <a href="/">r5tools.io home</a> ·
+      <a href="https://access-codes.r5tools.io/">Manage unlock</a>
     </footer>
+
   </div>
 
 <script>
-(function() {
+(function () {
   "use strict";
-  var API = "https://access-codes.r5tools.io";
-  var HOMES = "https://r5tools.io";
 
-  var CHANNELS = ["RONY-ALLIANCE","KR-DISCORD","KR-KAKAO","EN-REDDIT","X-LAUNCH","PH-LAUNCH","TIKTOK","CHEATSHEET","BLOG","NEWSLETTER"];
-  var HEALTH_URLS = [
-    ["r5tools.io", HOMES + "/?_ping=" + Date.now()],
-    ["ko homepage", HOMES + "/ko/?_ping=" + Date.now()],
-    ["ko/refer", HOMES + "/ko/refer.html?_ping=" + Date.now()],
-    ["access-codes API", API + "/api/founding-count"],
-    ["chat", "https://chat.r5tools.io/?_ping=" + Date.now()],
-    ["roster", "https://roster.r5tools.io/?_ping=" + Date.now()],
-    ["hive", "https://hive.r5tools.io/?_ping=" + Date.now()],
+  // ---------- i18n ----------
+  var LANG = (navigator.language || "en").toLowerCase().startsWith("ko") ? "ko" : "en";
+  var STR = {
+    en: {
+      title: "Your tools — one page",
+      loading: "Checking your roster…",
+      signedNoRoster: 'Signed in — no roster on file yet. <a href="https://roster.r5tools.io/" target="_blank" rel="noopener">Upload one →</a>',
+      signedR5of: 'Signed in as R5 of <b>{name}</b>',
+      signedR4of: 'Signed in as R4 of <b>{name}</b>',
+      signedMember: 'Signed in — member of <b>{name}</b>',
+      anonHint: 'Unlock a code to see your alliance context here.',
+      stripLabel: "CONTEXT",
+      activityTitle: "Recent activity",
+      activityHintV1: "v1 placeholder — dynamic feed in v1.1",
+      countdownLive: "S2 live · Wk {w}",
+      countdownPre: "S2 launches in {d}d {h}h",
+      countdownPast: "S2 complete",
+      footer: "Signed unlock lives in a cookie on this browser · ",
+      openBtn: "Open →",
+      healthUp: "up",
+      healthDown: "down",
+      healthUnknown: "?",
+      demoActivity: [
+        { when: "2h ago", msg: "<b>Roster</b> uploaded — 94 members" },
+        { when: "5h ago", msg: "<b>Landing Planner</b> · 47 tiles assigned" },
+        { when: "1d ago", msg: "<b>Coal Burn Calc</b> · budget saved" },
+        { when: "2d ago", msg: "<b>Heat Simulator</b> · L20 coverage exported" }
+      ]
+    },
+    ko: {
+      title: "내 도구 — 한 페이지에",
+      loading: "명단 확인 중…",
+      signedNoRoster: '로그인됨 — 명단 미등록. <a href="https://roster.r5tools.io/" target="_blank" rel="noopener">업로드 →</a>',
+      signedR5of: '<b>{name}</b>의 R5로 로그인됨',
+      signedR4of: '<b>{name}</b>의 R4로 로그인됨',
+      signedMember: '<b>{name}</b>의 멤버로 로그인됨',
+      anonHint: '코드를 입력하면 여기에 연맹 정보가 표시됩니다.',
+      stripLabel: "컨텍스트",
+      activityTitle: "최근 활동",
+      activityHintV1: "v1 임시 데이터 — v1.1에서 실시간 피드",
+      countdownLive: "S2 진행 · {w}주차",
+      countdownPre: "S2 시작까지 {d}일 {h}시간",
+      countdownPast: "S2 종료",
+      footer: "잠금 해제는 이 브라우저 쿠키에 저장됩니다 · ",
+      openBtn: "열기 →",
+      healthUp: "정상",
+      healthDown: "다운",
+      healthUnknown: "?",
+      demoActivity: [
+        { when: "2시간 전", msg: "<b>명단</b> 업로드 완료 — 94명" },
+        { when: "5시간 전", msg: "<b>착륙 플래너</b> · 타일 47개 배정" },
+        { when: "1일 전", msg: "<b>석탄 계산기</b> · 예산 저장" },
+        { when: "2일 전", msg: "<b>히트 시뮬레이터</b> · L20 커버리지" }
+      ]
+    }
+  };
+  function t(key) { return STR[LANG][key] || STR.en[key] || key; }
+
+  // Apply data-i18n to any static tag
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    var v = t(el.getAttribute("data-i18n"));
+    if (v) el.textContent = v;
+  });
+
+  // ---------- Tool catalog ----------
+  var TOOLS = [
+    { key: "roster",        icon: "🎬", name: "Roster Extractor",       nameKr: "명단 추출기",     hint: "Video → CSV in 2 minutes.",                     url: "https://roster.r5tools.io/" },
+    { key: "alliance-list", icon: "📋", name: "Alliance List OCR",      nameKr: "연맹 목록 OCR",   hint: "Screenshot list → structured roster.",           url: "https://roster.r5tools.io/alliance-list" },
+    { key: "landing",       icon: "🎯", name: "Landing Planner",        nameKr: "착륙 플래너",     hint: "Season 2 tile assignments by rank + power.",     url: "https://bullochman.github.io/lws-landing-planner-static/" },
+    { key: "heat",          icon: "🔥", name: "Heat Simulator",         nameKr: "히트 시뮬레이터", hint: "Furnace / temperature coverage overlay.",         url: "https://bullochman.github.io/lws-heat-simulator-static/" },
+    { key: "freeze",        icon: "❄️", name: "Freeze Risk Dashboard",  nameKr: "동결 위험판",     hint: "Week-1 freeze predictions per member.",           url: "https://bullochman.github.io/lws-freeze-risk-static/" },
+    { key: "coal",          icon: "⛏️", name: "Coal Burn Calculator",   nameKr: "석탄 계산기",     hint: "Coal budget for Week-4 blizzard.",                url: "https://bullochman.github.io/lws-coal-burn-static/" },
+    { key: "city",          icon: "🏙️", name: "City Capture Planner",   nameKr: "도시 점령 플래너", hint: "Assign city captures by power tier.",            url: "https://bullochman.github.io/lws-city-capture-static/" },
+    { key: "season",        icon: "🗓️", name: "Season Timeline",        nameKr: "시즌 타임라인",   hint: "56-day Polar Storm event calendar.",              url: "https://bullochman.github.io/lws-season-timeline-static/" },
+    { key: "hive",          icon: "🐝", name: "Hive Grid Manager",      nameKr: "하이브 관리자",   hint: "MG 3×3 / Stronghold / Megahive formations.",      url: "https://hive.r5tools.io/" },
+    { key: "vs",            icon: "⚔️", name: "VS Days Optimizer",       nameKr: "VS 데이 최적화",  hint: "6-day phase-stack scoring playbook.",              url: "https://bullochman.github.io/lws-vs-days-static/" },
+    { key: "profile",       icon: "👤", name: "Profile Studio",         nameKr: "프로필 스튜디오", hint: "Build + share your R5/officer profile.",           url: "https://bullochman.github.io/lws-profile-studio-static/" },
+    { key: "coord",         icon: "📞", name: "Coordination Directory", nameKr: "협력 디렉토리",   hint: "R5-to-R5 opt-in ping directory.",                  url: "https://access-codes.r5tools.io/coordinate" },
+    { key: "flag",          icon: "🚩", name: "Alliance Flag",          nameKr: "연맹 깃발",       hint: "400×400 alliance emblem PNG generator.",           url: "/alliance-flag.html", sameOrigin: true }
   ];
 
-  // Rolling series in localStorage — keep last 288 samples (30s * 288 = 2.4h)
-  var SERIES_KEY = "r5t_dashboard_series_v1";
-  var MAX_SAMPLES = 288;
+  // ---------- Render grid ----------
+  var grid = document.getElementById("tool-grid");
+  grid.innerHTML = TOOLS.map(function (tool) {
+    return '<div class="card" data-tool="' + tool.key + '">' +
+      '<div class="row1">' +
+        '<div class="icon">' + tool.icon + '</div>' +
+        '<div><div class="name">' + tool.name + '<span class="name-kr">' + tool.nameKr + '</span></div></div>' +
+      '</div>' +
+      '<div class="hint">' + tool.hint + '</div>' +
+      '<div class="foot">' +
+        '<span class="health" data-health="' + tool.key + '">' +
+          '<span class="dot"></span><span class="status">' + t("healthUnknown") + '</span>' +
+        '</span>' +
+        '<a class="open-btn" href="' + tool.url + '"' + (tool.sameOrigin ? '' : ' target="_blank" rel="noopener"') + '>' + t("openBtn") + '</a>' +
+      '</div>' +
+    '</div>';
+  }).join("");
 
-  function loadSeries() {
-    try {
-      var raw = localStorage.getItem(SERIES_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch (e) {}
-    return [];
-  }
-  function saveSeries(s) {
-    try {
-      localStorage.setItem(SERIES_KEY, JSON.stringify(s));
-    } catch (e) {}
-  }
-  function pushSample(sample) {
-    var s = loadSeries();
-    s.push(sample);
-    if (s.length > MAX_SAMPLES) s = s.slice(-MAX_SAMPLES);
-    saveSeries(s);
-    return s;
-  }
-
-  var eventLog = [];
-  function logEvent(msg, highlight) {
-    var t = new Date().toISOString().split("T")[1].slice(0, 8);
-    eventLog.unshift({ t: t, msg: msg, highlight: !!highlight });
-    if (eventLog.length > 20) eventLog = eventLog.slice(0, 20);
-    renderEvents();
-  }
-
-  function renderEvents() {
-    var ul = document.getElementById("events-list");
-    if (!ul) return;
-    if (!eventLog.length) {
-      ul.innerHTML = '<li style="color:var(--text-mute)">no events yet — first refresh imminent</li>';
+  // ---------- Health checks (best-effort, no-cors) ----------
+  TOOLS.forEach(function (tool) {
+    if (tool.sameOrigin) {
+      setHealth(tool.key, true, 0);
       return;
     }
-    ul.innerHTML = eventLog.map(function(e) {
-      return '<li><span class="time">' + e.t + '</span><span class="msg ' + (e.highlight ? 'highlight' : '') + '">' + e.msg + '</span></li>';
-    }).join("");
-  }
-
-  // --- Chart setup ---
-  var chart = null;
-  function initChart() {
-    var ctx = document.getElementById("clicks-chart").getContext("2d");
-    chart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: [],
-        datasets: [{
-          label: "total referral clicks",
-          data: [],
-          borderColor: "#c9a961",
-          backgroundColor: "rgba(201,169,97,0.15)",
-          borderWidth: 2.5,
-          tension: 0.25,
-          fill: true,
-          pointRadius: 2,
-          pointHoverRadius: 4,
-        }, {
-          label: "founding claimed",
-          data: [],
-          borderColor: "#8ae0a3",
-          backgroundColor: "rgba(138,224,163,0.12)",
-          borderWidth: 2,
-          tension: 0.25,
-          fill: false,
-          pointRadius: 2,
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false, animation: { duration: 300 },
-        scales: {
-          x: {
-            ticks: { color: "#a8b0c0", font: { size: 10 } },
-            grid: { color: "rgba(255,255,255,0.05)" }
-          },
-          y: {
-            beginAtZero: true,
-            ticks: { color: "#a8b0c0", font: { size: 10 }, precision: 0 },
-            grid: { color: "rgba(255,255,255,0.05)" }
-          }
-        },
-        plugins: {
-          legend: { labels: { color: "#e6e8ee", font: { size: 11 } } },
-          tooltip: { backgroundColor: "#12192c", titleColor: "#e6e8ee", bodyColor: "#c9a961" }
-        }
-      }
-    });
-  }
-
-  function updateChart(series) {
-    if (!chart) return;
-    chart.data.labels = series.map(function(s) { return s.t.slice(11, 16); });  // HH:MM
-    chart.data.datasets[0].data = series.map(function(s) { return s.clicks; });
-    chart.data.datasets[1].data = series.map(function(s) { return s.claimed; });
-    chart.update();
-  }
-
-  // --- Fetchers ---
-  async function fetchOne(url, opts) {
+    var url = tool.url + (tool.url.indexOf("?") === -1 ? "?_ping=" : "&_ping=") + Date.now();
     var t0 = performance.now();
-    var timeout = setTimeout(function() {}, 8000);
-    try {
-      var resp = await fetch(url, opts || {});
-      clearTimeout(timeout);
-      var body = null;
-      try { body = await resp.json(); } catch (e) {}
-      return { status: resp.status, body: body, ms: performance.now() - t0 };
-    } catch (e) {
-      return { status: 0, body: null, ms: performance.now() - t0, error: e.message };
-    }
-  }
-
-  async function refresh() {
-    var errBanner = document.getElementById("err-banner");
-    errBanner.classList.remove("show");
-    document.getElementById("last-refresh").textContent = "refreshing…";
-
-    // 1. Founding
-    var fRes = await fetchOne(API + "/api/founding-count");
-    var founding = fRes.body || { claimed: 0, cap: 10 };
-
-    // 1b. Purchases / revenue
-    var pRes = await fetchOne(API + "/api/purchases/public");
-    var purchases = pRes.body || { counts: {founding:0,personal:0,alliance_bundle:0,lifetime:0,total:0}, revenue_cents: 0 };
-
-    // 2. Analytics public + drill-down
-    var aRes = await fetchOne(API + "/api/analytics/public");
-    var analytics = aRes.body || {};
-    var dRes = await fetchOne(API + "/api/analytics");
-    var drilldown = dRes.body || {};
-    window.__drilldown = drilldown;
-    renderDrilldown();
-
-    // 3. Per-channel clicks
-    var codeClicks = {};
-    var totalClicks = 0;
-    var channelPromises = CHANNELS.map(function(c) {
-      return fetchOne(API + "/api/refer/stats?code=" + c).then(function(r) {
-        var n = (r.body && typeof r.body.clicks === "number") ? r.body.clicks : 0;
-        codeClicks[c] = n;
-        totalClicks += n;
-      });
-    });
-    await Promise.all(channelPromises);
-
-    // 4. Site health
-    var healthResults = [];
-    var healthPromises = HEALTH_URLS.map(function(pair) {
-      return fetchOne(pair[1], { mode: "no-cors" }).then(function(r) {
-        // no-cors gives us opaque responses (status=0) but if fetch succeeds without throwing, host is up
-        healthResults.push({ name: pair[0], up: !r.error, ms: r.ms });
-      });
-    });
-    await Promise.all(healthPromises);
-    // access-codes API is not opaque so we can trust its status
-    healthResults.forEach(function(h) {
-      if (h.name === "access-codes API") h.up = fRes.status === 200;
-    });
-    var healthyCount = healthResults.filter(function(h) { return h.up; }).length;
-
-    // Update KPIs
-    var revDollars = (purchases.revenue_cents || 0) / 100;
-    document.getElementById("kpi-revenue").textContent = "$" + revDollars.toFixed(2);
-    document.getElementById("kpi-revenue-delta").textContent = purchases.counts.total + " total customer" + (purchases.counts.total === 1 ? "" : "s");
-    document.getElementById("kpi-customers").textContent = purchases.counts.total;
-    document.getElementById("kpi-customers-delta").textContent =
-      "F: " + purchases.counts.founding + " · P: " + purchases.counts.personal + " · B: " + purchases.counts.alliance_bundle + " · L: " + purchases.counts.lifetime;
-    document.getElementById("kpi-total-clicks").textContent = totalClicks;
-    document.getElementById("kpi-founding").textContent = founding.claimed + "/" + founding.cap;
-    document.getElementById("kpi-founding-delta").textContent = founding.remaining + " remaining · " + (founding.closed ? "closed" : "open");
-    document.getElementById("kpi-pv").textContent = analytics.page_views_last_hour || 0;
-    document.getElementById("kpi-health").textContent = healthyCount + "/" + healthResults.length;
-    document.getElementById("kpi-health-delta").textContent = (healthyCount === healthResults.length) ? "all green" : (healthResults.length - healthyCount) + " degraded";
-    document.getElementById("kpi-unique").textContent = (drilldown.unique_ips || {})["24h"] || 0;
-    document.getElementById("kpi-events").textContent = drilldown.total_rows || 0;
-
-    // Revenue breakdown list
-    var revList = document.getElementById("revenue-list");
-    var prices = purchases.prices_cents || {};
-    var tiers = [
-      { key: "founding", name: "Founding Alliance", desc: "first 10 alliances @ $30 (then $50)", count: purchases.counts.founding, price: prices["alliance-founding"] / 100 || 30 },
-      { key: "personal", name: "Personal", desc: "individual paid unlock @ $10", count: purchases.counts.personal, price: prices["paid-personal"] / 100 || 10 },
-      { key: "alliance_bundle", name: "Alliance Bundle", desc: "post-founding whole alliance @ $50", count: purchases.counts.alliance_bundle, price: prices["alliance-bundle"] / 100 || 50 },
-      { key: "lifetime", name: "Lifetime (hidden)", desc: "one-time hidden tier @ $20", count: purchases.counts.lifetime, price: prices["lifetime"] / 100 || 20 },
-    ];
-    var rows = tiers.map(function(t) {
-      var rev = t.count * t.price;
-      return '<li>' +
-        '<div><div class="tier-name">' + t.name + '</div><div class="tier-desc">' + t.desc + '</div></div>' +
-        '<div class="tier-count">' + t.count + ' × </div>' +
-        '<div class="tier-price">$' + t.price.toFixed(2) + '</div>' +
-        '<div class="tier-revenue ' + (rev === 0 ? 'zero' : '') + '">$' + rev.toFixed(2) + '</div>' +
-      '</li>';
-    });
-    rows.push('<li class="total-row"><div class="tier-name">TOTAL LIFETIME REVENUE</div><div></div><div></div><div class="tier-revenue">$' + revDollars.toFixed(2) + '</div></li>');
-    revList.innerHTML = rows.join("");
-
-    // Update per-channel list
-    var codesUl = document.getElementById("codes-list");
-    codesUl.innerHTML = CHANNELS.map(function(c) {
-      var n = codeClicks[c] || 0;
-      return '<li><span class="code-name">' + c + '</span><span class="code-clicks ' + (n === 0 ? 'zero' : '') + '">' + n + '</span></li>';
-    }).join("");
-
-    // Update health list
-    var healthUl = document.getElementById("health-list");
-    healthUl.innerHTML = healthResults.map(function(h) {
-      var dot = h.up ? "ok" : "err";
-      var status = h.up ? "up · " + Math.round(h.ms) + "ms" : "down";
-      return '<li>' + h.name + '<span class="status"><span class="dot ' + dot + '"></span>' + status + '</span></li>';
-    }).join("");
-
-    // Update series + chart
-    var sample = {
-      t: new Date().toISOString(),
-      clicks: totalClicks,
-      claimed: founding.claimed,
-    };
-    var series = pushSample(sample);
-    updateChart(series);
-
-    // Track events on delta
-    var lastSample = series.length >= 2 ? series[series.length - 2] : null;
-    if (lastSample) {
-      var deltaClicks = totalClicks - lastSample.clicks;
-      var deltaClaimed = founding.claimed - lastSample.claimed;
-      if (deltaClicks > 0) logEvent("+" + deltaClicks + " referral clicks", true);
-      if (deltaClaimed > 0) logEvent("🔥 " + deltaClaimed + " NEW FOUNDING ALLIANCE CLAIMED", true);
-    } else {
-      logEvent("dashboard started · " + totalClicks + " total clicks so far");
-    }
-
-    document.getElementById("last-refresh").textContent = "updated " + new Date().toLocaleTimeString();
-  }
-
-  var currentRange = "1h";
-  function renderDrilldown() {
-    var d = window.__drilldown || {};
-    var range = currentRange;
-    var toolsUl = document.getElementById("tools-list");
-    var countriesUl = document.getElementById("countries-list");
-    var langsUl = document.getElementById("langs-list");
-    var statsBox = document.getElementById("drilldown-stats");
-    if (!toolsUl) return;
-
-    var tools = (d.top_tools || {})[range] || [];
-    var countries = (d.top_countries || {})[range] || [];
-    var langs = (d.top_langs || []);  // langs is global (not per-range in API)
-    var totalHits = (d.hits || {})[range] || 0;
-    var uniqueIps = (d.unique_ips || {})[range] || 0;
-    var validHits = (d.valid_hits || {})[range] || 0;
-
-    if (tools.length) {
-      toolsUl.innerHTML = tools.map(function(row) {
-        var name = row[0], count = row[1];
-        return '<li><span class="tool-name">' + name + '</span><span class="tool-count">' + count + '</span></li>';
-      }).join("");
-    } else {
-      toolsUl.innerHTML = '<li class="empty">no clicks in this window</li>';
-    }
-
-    if (countries.length) {
-      countriesUl.innerHTML = countries.map(function(row) {
-        return '<li><span class="tool-name">' + row[0] + '</span><span class="tool-count">' + row[1] + '</span></li>';
-      }).join("");
-    } else {
-      countriesUl.innerHTML = '<li class="empty">no country data yet</li>';
-    }
-
-    if (langs.length) {
-      langsUl.innerHTML = langs.slice(0, 5).map(function(row) {
-        return '<li><span class="tool-name">' + row[0] + '</span><span class="tool-count">' + row[1] + '</span></li>';
-      }).join("");
-    } else {
-      langsUl.innerHTML = '<li class="empty">no language data yet</li>';
-    }
-
-    statsBox.innerHTML =
-      '<div class="stat">total hits <b>' + totalHits + '</b></div>' +
-      '<div class="stat">unique visitors <b>' + uniqueIps + '</b></div>' +
-      '<div class="stat">unlocked-user hits <b>' + validHits + '</b></div>' +
-      '<div class="stat">total events tracked <b>' + (d.total_rows || 0) + '</b></div>';
-  }
-
-  // Bootstrap
-  document.addEventListener("DOMContentLoaded", function() {
-    initChart();
-    // Wire range buttons
-    document.querySelectorAll(".range-btn").forEach(function(btn) {
-      btn.addEventListener("click", function() {
-        document.querySelectorAll(".range-btn").forEach(function(b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        currentRange = btn.dataset.range;
-        renderDrilldown();
-      });
-    });
-    // Load existing series from localStorage
-    var existing = loadSeries();
-    if (existing.length) updateChart(existing);
-    renderEvents();
-    // First refresh
-    refresh().catch(function(e) {
-      var eb = document.getElementById("err-banner");
-      eb.textContent = "First refresh failed: " + e.message;
-      eb.classList.add("show");
-    });
-    // Periodic refresh
-    setInterval(function() {
-      refresh().catch(function(e) {
-        var eb = document.getElementById("err-banner");
-        eb.textContent = "Refresh error: " + e.message;
-        eb.classList.add("show");
-      });
-    }, 30000);
+    fetch(url, { mode: "no-cors", credentials: "omit", cache: "no-store" })
+      .then(function () { setHealth(tool.key, true, performance.now() - t0); })
+      .catch(function () { setHealth(tool.key, false, performance.now() - t0); });
   });
+  function setHealth(key, up, ms) {
+    var el = document.querySelector('[data-health="' + key + '"]');
+    if (!el) return;
+    var dot = el.querySelector(".dot"); var status = el.querySelector(".status");
+    dot.classList.remove("ok", "err");
+    dot.classList.add(up ? "ok" : "err");
+    status.textContent = up ? (t("healthUp") + " · " + Math.round(ms) + "ms") : t("healthDown");
+  }
+
+  // ---------- Sign-in line + roster lookup ----------
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function renderSignin(html) { document.getElementById("signin-line").innerHTML = html; }
+  var sigMatch = document.cookie.match(/(?:^|;\s*)lws_sig=([a-f0-9]{4,32})/i);
+  var sig = sigMatch ? sigMatch[1] : null;
+  if (!sig) {
+    renderSignin(t("anonHint"));
+  } else {
+    fetch("https://roster.r5tools.io/api/live-roster?sig=" + encodeURIComponent(sig), { credentials: "omit" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.exists || !(data.members || []).length) { renderSignin(t("signedNoRoster")); return; }
+        var name = data.alliance_name || data.alliance_tag || ("Alliance " + sig.slice(0,4).toUpperCase());
+        var me = (data.members || []).find(function (m) { return m.is_me || m.self; });
+        var key = "signedMember";
+        if (me && me.rank) {
+          var r = String(me.rank).toUpperCase();
+          if (r === "R5") key = "signedR5of";
+          else if (r === "R4") key = "signedR4of";
+        }
+        renderSignin(t(key).replace("{name}", escapeHtml(name)));
+      })
+      .catch(function () { renderSignin(t("signedNoRoster")); });
+  }
+
+  // ---------- Season strip (falls back to hardcoded S2 launch if lib absent) ----------
+  var S2_LAUNCH_UTC = Date.UTC(2026, 6, 26), SEASON_LEN_MS = 56 * 86400000;
+  function paintStrip(ctx) {
+    var warzone = (ctx && ctx.warzone_id) || "2007";
+    var season = (ctx && ctx.season && ctx.season.name) || "Polar Storm";
+    var week = (ctx && typeof ctx.week === "number") ? ctx.week : 0;
+    var now = Date.now(), countdown;
+    if (now < S2_LAUNCH_UTC) {
+      var ms = S2_LAUNCH_UTC - now;
+      countdown = t("countdownPre").replace("{d}", Math.floor(ms/86400000)).replace("{h}", Math.floor((ms%86400000)/3600000));
+      week = 0;
+    } else if (now < S2_LAUNCH_UTC + SEASON_LEN_MS) {
+      week = Math.floor((now - S2_LAUNCH_UTC) / (7 * 86400000)) + 1;
+      countdown = t("countdownLive").replace("{w}", week);
+    } else { countdown = t("countdownPast"); }
+    document.getElementById("strip-warzone").textContent = "Warzone: " + warzone;
+    document.getElementById("strip-season").textContent  = "Season: " + season;
+    document.getElementById("strip-week").textContent    = "Week: " + (week || "pre");
+    document.getElementById("strip-countdown").textContent = countdown;
+  }
+  function tryStrip() {
+    if (window.LWSSeasons && window.LWSSeasons.resolve) {
+      window.LWSSeasons.resolve().then(paintStrip).catch(function () { paintStrip(null); });
+    } else { paintStrip(null); }
+  }
+  window.addEventListener("DOMContentLoaded", function () { setTimeout(tryStrip, 250); });
+  window.addEventListener("lws:warzone-changed", tryStrip);
+  window.addEventListener("lws:season-changed", tryStrip);
+
+  // ---------- Activity feed (v1 placeholder → try /api/activity if it exists) ----------
+  function renderActivity(items) {
+    var ul = document.getElementById("activity-list");
+    if (!items || !items.length) {
+      ul.innerHTML = '<li class="empty">' + (LANG === "ko" ? "활동이 아직 없습니다" : "no recent activity") + '</li>';
+      return;
+    }
+    ul.innerHTML = items.slice(0, 5).map(function (row) {
+      return '<li><span class="when">' + escapeHtml(row.when) + '</span><span class="msg">' + row.msg + '</span></li>';
+    }).join("");
+  }
+  fetch("https://access-codes.r5tools.io/api/activity", { credentials: "include", cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (data && Array.isArray(data.events) && data.events.length) {
+        document.getElementById("activity-hint").textContent = LANG === "ko" ? "실시간" : "live";
+        renderActivity(data.events.map(function (e) {
+          return { when: e.when || e.ts || "", msg: escapeHtml(e.tool || "event") + " · " + escapeHtml(e.msg || e.event || "") };
+        }));
+      } else {
+        renderActivity(t("demoActivity"));
+      }
+    })
+    .catch(function () { renderActivity(t("demoActivity")); });
+
+  // ---------- Access-codes gate: wrap #main-app if no valid unlock cookie ----------
+  function tryGate() {
+    if (window.LWSAccessCodes && window.LWSAccessCodes.gate) {
+      try { window.LWSAccessCodes.gate("main-app"); } catch (e) {}
+    } else { setTimeout(tryGate, 150); }
+  }
+  window.addEventListener("load", tryGate);
 })();
 </script>
 </body>
