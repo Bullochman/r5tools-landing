@@ -41,16 +41,76 @@
     });
   }
 
+  // Master warzone directory API — canonical source. Falls back to
+  // shipped data/warzones.json if unreachable. Added 2026-07-21 to
+  // consolidate the 9 duplicate warzones.json files across static tool
+  // repos into a single crowdsource-fed endpoint.
+  var WARZONES_MASTER_API = window.LWS_WARZONES_API ||
+    'https://access-codes.r5tools.io/api/warzones/directory';
+  var WARZONES_LS_CACHE = 'r5t_warzones_cache_v1';
+  var WARZONES_TTL_MS = 24 * 60 * 60 * 1000;
+
+  function _readMasterCache() {
+    try {
+      var raw = localStorage.getItem(WARZONES_LS_CACHE);
+      if (!raw) return null;
+      var p = JSON.parse(raw);
+      if (!p || !p.ts || !p.data) return null;
+      if (Date.now() - p.ts > WARZONES_TTL_MS) return null;
+      return p.data;
+    } catch (e) { return null; }
+  }
+  function _writeMasterCache(data) {
+    try { localStorage.setItem(WARZONES_LS_CACHE, JSON.stringify({ts: Date.now(), data: data})); } catch (e) {}
+  }
+  function _masterToLegacyShape(master) {
+    // master: {warzones: [{number, season, transfer_group, ...}]}
+    // legacy: {warzones: {'2007': {id, current_season_id, transfer_group}}, default_warzone_if_unknown}
+    var out = { warzones: {}, default_warzone_if_unknown: '2007', $source: 'master-api' };
+    (master.warzones || []).forEach(function (r) {
+      var sid = null;
+      if (r.season === 1) sid = 's1-crimson-plague';
+      else if (r.season === 2) sid = 's2-polar-storm';
+      else if (r.season === 3) sid = 's3-golden-kingdom';
+      out.warzones[String(r.number)] = {
+        id: String(r.number),
+        current_season_id: sid,
+        transfer_group: r.transfer_group || null,
+        top_alliance: r.top_alliance || null,
+        confirmed_by: r.season_source || null,
+      };
+    });
+    return out;
+  }
+  function loadWarzonesFromMaster() {
+    var cached = _readMasterCache();
+    if (cached) {
+      // Fire-and-forget refresh in background
+      fetch(WARZONES_MASTER_API, { credentials: 'omit' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { if (d) _writeMasterCache(d); })
+        .catch(function () {});
+      return Promise.resolve(_masterToLegacyShape(cached));
+    }
+    return fetch(WARZONES_MASTER_API, { credentials: 'omit' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (d) { _writeMasterCache(d); return _masterToLegacyShape(d); });
+  }
+
   function loadAll() {
     if (cache.seasons && cache.warzones && (Date.now() - cache.loadedAt) < CACHE_TTL_MS) {
       return Promise.resolve(cache);
     }
-    // Prefer local same-origin fetches; only hit the CDN when it's been explicitly set.
     var seasonsUrl  = CDN_BASE ? CDN_BASE + '/seasons.json'  : 'data/seasons.json';
     var warzonesUrl = CDN_BASE ? CDN_BASE + '/warzones.json' : 'data/warzones.json';
+    var warzonesPromise = loadWarzonesFromMaster()
+      .catch(function () {
+        // Master API unreachable — fall back to same-origin file, then CDN.
+        return loadJson(warzonesUrl).catch(function () { return loadJson('data/warzones.json'); });
+      });
     return Promise.all([
       loadJson(seasonsUrl).catch(function () { return loadJson('data/seasons.json'); }),
-      loadJson(warzonesUrl).catch(function () { return loadJson('data/warzones.json'); })
+      warzonesPromise,
     ]).then(function (r) {
       cache.seasons = r[0]; cache.warzones = r[1]; cache.loadedAt = Date.now();
       return cache;

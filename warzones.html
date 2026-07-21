@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Master Warzone Directory — r5tools.io</title>
+  <meta name="description" content="All known Last War: Survival warzones — season, transfer group, top alliance, and scout captures. Crowdsourced by r5tools users." />
+  <meta property="og:title" content="Master Warzone Directory — r5tools.io" />
+  <meta property="og:description" content="Every known LWS warzone, its transfer group, and current season. Crowdsourced + confirmed." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/warzones.html" />
+  <link rel="canonical" href="https://r5tools.io/warzones.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg:#0a0e1a; --panel:#0d1424; --panel-2:#12192c;
+      --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.3);
+      --accent:#c9a961; --accent-hover:#d9b871;
+      --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290;
+      --s1:#7a8290; --s2:#c9a961; --s3:#f38ba8; --unknown:#4a5266;
+      --confirm:#8ae0a3; --inferred:#e6cf7a;
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+      -webkit-font-smoothing:antialiased; line-height:1.5; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { color:var(--accent-hover); text-decoration:underline; }
+    .wrap { max-width:1180px; margin:0 auto; padding:32px 24px; }
+    header.top { display:flex; justify-content:space-between; align-items:center;
+      padding:8px 0 24px; flex-wrap:wrap; gap:10px; }
+    .brand { font-size:12px; letter-spacing:0.16em; color:var(--accent); font-weight:600; }
+    .brand a { color:var(--accent); }
+    nav { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    nav a { color:var(--text-dim); font-size:13px; padding:6px 12px;
+      border-radius:6px; border:1px solid transparent; }
+    nav a:hover { color:var(--accent); border-color:var(--border-accent);
+      text-decoration:none; background:rgba(201,169,97,0.05); }
+    nav a.cta { background:var(--accent); color:#0a0e1a; font-weight:700;
+      border-radius:999px; padding:8px 16px; }
+    nav a.cta:hover { background:var(--accent-hover); color:#0a0e1a; }
+
+    h1 { font-size:26px; margin:8px 0 6px; color:var(--text); }
+    .subtitle { color:var(--text-dim); font-size:14px; margin-bottom:24px; }
+
+    .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+      background:var(--panel); border:1px solid var(--border); border-radius:12px;
+      padding:14px 16px; margin-bottom:16px; }
+    .controls label { font-size:12px; color:var(--text-mute); text-transform:uppercase;
+      letter-spacing:0.05em; }
+    .controls select, .controls input {
+      background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+      border-radius:8px; padding:8px 12px; font-size:13.5px; font-family:inherit;
+    }
+    .controls input[type=search] { min-width:180px; }
+    .controls .flex-grow { flex:1; }
+    .stats-strip { color:var(--text-dim); font-size:12.5px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .stats-strip strong { color:var(--accent); }
+
+    .actions { display:flex; gap:8px; }
+    button.btn { background:var(--panel-2); color:var(--text); border:1px solid var(--border-accent);
+      border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer;
+      font-family:inherit; }
+    button.btn:hover { background:rgba(201,169,97,0.08); }
+    button.btn.primary { background:var(--accent); color:#0a0e1a; border-color:var(--accent); }
+    button.btn.primary:hover { background:var(--accent-hover); }
+
+    .table-wrap { background:var(--panel); border:1px solid var(--border);
+      border-radius:12px; overflow:hidden; }
+    table { width:100%; border-collapse:collapse; font-size:13.5px; }
+    thead th { text-align:left; padding:12px 14px; background:var(--panel-2);
+      color:var(--text-mute); font-weight:600; font-size:11.5px;
+      text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid var(--border);
+      cursor:pointer; user-select:none; white-space:nowrap; }
+    thead th:hover { color:var(--accent); }
+    thead th .sort-mark { color:var(--accent); margin-left:4px; font-size:10px; }
+    tbody td { padding:10px 14px; border-bottom:1px solid var(--border); }
+    tbody tr:hover { background:rgba(201,169,97,0.03); }
+    tbody tr:last-child td { border-bottom:none; }
+    .wz-num { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-weight:600; color:var(--text); }
+    .badge-season { display:inline-block; padding:2px 8px; border-radius:999px;
+      font-size:11px; font-weight:700; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      letter-spacing:0.02em; }
+    .b-s1 { background:rgba(122,130,144,0.18); color:#c8ccd6; border:1px solid var(--s1); }
+    .b-s2 { background:rgba(201,169,97,0.15); color:var(--accent); border:1px solid var(--s2); }
+    .b-s3 { background:rgba(243,139,168,0.15); color:var(--s3); border:1px solid var(--s3); }
+    .b-unknown { background:transparent; color:var(--text-mute); border:1px dashed var(--unknown); }
+    .conf-mark { margin-left:4px; font-size:11px; }
+    .conf-confirm { color:var(--confirm); }
+    .conf-inferred { color:var(--inferred); }
+    .tg { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      color:var(--text-dim); font-size:12px; }
+    .top-alli { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      color:var(--text); font-size:12.5px; }
+    .no-data { color:var(--text-mute); font-style:italic; font-size:12px; }
+    .caps { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      color:var(--text-dim); font-size:12.5px; }
+    .caps a { color:var(--accent); }
+
+    .loading { padding:60px 20px; text-align:center; color:var(--text-mute); font-size:14px; }
+    .error { padding:20px; background:rgba(243,139,168,0.1); border:1px solid rgba(243,139,168,0.35);
+      border-radius:8px; color:#f3b1c1; font-size:13px; margin-bottom:16px; }
+
+    /* Contribute modal */
+    .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:100;
+      display:none; align-items:center; justify-content:center; padding:20px; }
+    .modal-bg.show { display:flex; }
+    .modal { background:var(--panel); border:1px solid var(--border-accent);
+      border-radius:14px; max-width:480px; width:100%; padding:24px; }
+    .modal h2 { margin:0 0 6px; color:var(--accent); font-size:18px; }
+    .modal p { color:var(--text-dim); font-size:13.5px; margin:0 0 18px; }
+    .modal .row { margin-bottom:14px; }
+    .modal label { display:block; font-size:11.5px; text-transform:uppercase;
+      letter-spacing:0.05em; color:var(--text-mute); margin-bottom:5px; }
+    .modal input, .modal select, .modal textarea {
+      width:100%; background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+      border-radius:8px; padding:9px 12px; font-size:13.5px; font-family:inherit; }
+    .modal textarea { min-height:60px; resize:vertical; }
+    .modal .row-flex { display:flex; gap:10px; }
+    .modal .row-flex > div { flex:1; }
+    .modal .btns { display:flex; gap:10px; justify-content:flex-end; margin-top:16px; }
+    .modal-close { position:absolute; top:14px; right:14px; background:transparent;
+      color:var(--text-mute); border:none; font-size:22px; cursor:pointer; }
+    .msg-ok { background:rgba(138,224,163,0.1); border:1px solid rgba(138,224,163,0.35);
+      padding:10px 12px; border-radius:8px; color:#a4e8b6; font-size:13px; }
+    .msg-err { background:rgba(243,139,168,0.1); border:1px solid rgba(243,139,168,0.35);
+      padding:10px 12px; border-radius:8px; color:#f3b1c1; font-size:13px; }
+
+    @media (max-width: 640px) {
+      thead th, tbody td { padding:8px 10px; font-size:12.5px; }
+      .controls { padding:10px; }
+      h1 { font-size:22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand"><a href="/">R5TOOLS.IO</a> · MASTER WARZONE DIRECTORY</div>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/refer.html">Refer &amp; Earn</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="https://access-codes.r5tools.io/" class="cta">Unlock the suite</a>
+      </nav>
+    </header>
+
+    <h1>Master Warzone Directory</h1>
+    <p class="subtitle">
+      All known warzones · crowdsourced by r5tools users · season inference from
+      seed data, KvK groupings, and transfer-group heuristics. Missing a warzone
+      or wrong season? <a href="#" id="btn-contribute-top">Contribute →</a>
+    </p>
+
+    <div id="err-box" class="error" style="display:none"></div>
+
+    <div class="controls">
+      <label>Season
+        <select id="filter-season">
+          <option value="">All</option>
+          <option value="1">S1 — Crimson Plague</option>
+          <option value="2">S2 — Polar Storm</option>
+          <option value="3">S3 — Golden Kingdom</option>
+        </select>
+      </label>
+      <label>Transfer Group
+        <select id="filter-tg">
+          <option value="">All groups</option>
+        </select>
+      </label>
+      <label>Min captures
+        <select id="filter-caps">
+          <option value="">Any</option>
+          <option value="1">≥ 1</option>
+          <option value="3">≥ 3</option>
+          <option value="10">≥ 10</option>
+        </select>
+      </label>
+      <label>Search
+        <input type="search" id="filter-search" placeholder="warzone #" />
+      </label>
+      <div class="flex-grow"></div>
+      <div class="stats-strip" id="stats-strip">Loading…</div>
+      <div class="actions">
+        <button class="btn" id="btn-csv" title="Download CSV">📊 CSV</button>
+        <button class="btn primary" id="btn-contribute">+ Contribute</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table id="wz-table">
+        <thead>
+          <tr>
+            <th data-sort="number">WZ #<span class="sort-mark"></span></th>
+            <th data-sort="season">Season<span class="sort-mark"></span></th>
+            <th data-sort="transfer_group">Xfer Group<span class="sort-mark"></span></th>
+            <th data-sort="top_alliance">Top Alliance<span class="sort-mark"></span></th>
+            <th data-sort="captures">Captures<span class="sort-mark"></span></th>
+          </tr>
+        </thead>
+        <tbody id="wz-tbody">
+          <tr><td colspan="5" class="loading">Loading directory…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="color:var(--text-mute); font-size:12px; margin-top:20px">
+      <strong>Legend:</strong>
+      <span class="badge-season b-s2">S2</span> confirmed via seed or admin tag ·
+      <span class="badge-season b-s2">S2 <span class="conf-mark conf-inferred">~</span></span> inferred (transfer-group majority or range heuristic) ·
+      <span class="badge-season b-unknown">?</span> unknown.
+      Data updates as R5s <a href="#" id="btn-contribute-bottom">contribute</a>
+      and as the roster server ingests scout captures.
+    </p>
+  </div>
+
+  <!-- Contribute modal -->
+  <div class="modal-bg" id="modal-bg" role="dialog" aria-modal="true">
+    <div class="modal" style="position:relative">
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+      <h2>Contribute warzone info</h2>
+      <p>Help build the master directory — takes 15 seconds. All submissions
+        reviewed by hand before they appear.</p>
+      <div id="modal-msg"></div>
+      <form id="contribute-form">
+        <div class="row row-flex">
+          <div>
+            <label>Warzone # *</label>
+            <input type="number" name="number" min="1" max="9999" required placeholder="e.g. 2007" />
+          </div>
+          <div>
+            <label>Season</label>
+            <select name="season">
+              <option value="">Unknown</option>
+              <option value="1">S1 — Crimson Plague</option>
+              <option value="2">S2 — Polar Storm</option>
+              <option value="3">S3 — Golden Kingdom</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <label>Top alliance tag (optional)</label>
+          <input type="text" name="top_alliance" maxlength="16" placeholder="e.g. Y0MI" />
+        </div>
+        <div class="row">
+          <label>Transfer group range (optional)</label>
+          <input type="text" name="transfer_group" maxlength="32" placeholder="e.g. 1981-2044" />
+        </div>
+        <div class="row">
+          <label>Note (optional)</label>
+          <textarea name="note" maxlength="400" placeholder="Anything else — R5 name, event we're in, etc."></textarea>
+        </div>
+        <div class="row">
+          <label>Your email (optional — for follow-up)</label>
+          <input type="email" name="contributor_email" maxlength="128" placeholder="you@example.com" />
+        </div>
+        <div class="btns">
+          <button type="button" class="btn" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn primary" id="modal-submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var API_BASE = 'https://access-codes.r5tools.io';
+      // Local dev override — if landing is served from same host as API.
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        API_BASE = location.protocol + '//' + location.hostname + ':' + (location.port || '8080');
+      }
+      var LS_KEY = 'r5t_warzones_cache_v1';
+      var LS_TTL_MS = 24 * 60 * 60 * 1000;
+
+      var state = {
+        rows: [],
+        sortKey: 'number',
+        sortDir: 1,
+        filters: { season: '', tg: '', caps: '', search: '' },
+      };
+
+      function loadDirectory() {
+        var cached = null;
+        try {
+          var raw = localStorage.getItem(LS_KEY);
+          if (raw) {
+            var p = JSON.parse(raw);
+            if (p && p.ts && (Date.now() - p.ts) < LS_TTL_MS && p.data && p.data.warzones) {
+              cached = p.data;
+            }
+          }
+        } catch (e) {}
+
+        if (cached) {
+          onData(cached, true);
+        }
+        return fetch(API_BASE + '/api/warzones/directory', { credentials: 'omit' })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .then(function (data) {
+            try { localStorage.setItem(LS_KEY, JSON.stringify({ ts: Date.now(), data: data })); } catch (e) {}
+            onData(data, false);
+          })
+          .catch(function (e) {
+            if (!cached) {
+              var errBox = document.getElementById('err-box');
+              errBox.style.display = 'block';
+              errBox.textContent = 'Could not load warzone directory: ' + e.message +
+                '. Showing an empty view. Try refreshing in a moment.';
+              renderTable([]);
+            }
+          });
+      }
+
+      function onData(data, fromCache) {
+        state.rows = (data.warzones || []).slice();
+        // Populate transfer-group filter
+        var tgs = {};
+        state.rows.forEach(function (r) { if (r.transfer_group) tgs[r.transfer_group] = true; });
+        var tgSel = document.getElementById('filter-tg');
+        var current = tgSel.value;
+        tgSel.innerHTML = '<option value="">All groups</option>';
+        Object.keys(tgs).sort().forEach(function (tg) {
+          var opt = document.createElement('option');
+          opt.value = tg; opt.textContent = tg;
+          tgSel.appendChild(opt);
+        });
+        tgSel.value = current;
+
+        // Stats
+        var s = document.getElementById('stats-strip');
+        var seasons = data.seasons_breakdown || {};
+        var srcs = data.season_sources_breakdown || {};
+        s.innerHTML = '<strong>' + (data.total || 0) + '</strong> warzones · ' +
+          Object.keys(seasons).map(function (k) {
+            return 'S' + k + ': ' + seasons[k];
+          }).join(' · ') +
+          ' · confidence: <strong>' + (data.confidence || 'unknown') + '</strong>' +
+          (fromCache ? ' <span style="color:#7a8290">(cache)</span>' : '');
+
+        applyAndRender();
+      }
+
+      function applyAndRender() {
+        var rows = state.rows.slice();
+        var f = state.filters;
+        if (f.season) rows = rows.filter(function (r) { return String(r.season) === f.season; });
+        if (f.tg) rows = rows.filter(function (r) { return r.transfer_group === f.tg; });
+        if (f.caps) {
+          var thr = parseInt(f.caps, 10);
+          rows = rows.filter(function (r) {
+            return ((r.captures && r.captures.alliance_list) || 0) +
+                   ((r.captures && r.captures.player_ranking) || 0) >= thr;
+          });
+        }
+        if (f.search) {
+          var q = f.search.trim();
+          rows = rows.filter(function (r) { return String(r.number).indexOf(q) !== -1; });
+        }
+        rows.sort(function (a, b) {
+          var av, bv;
+          if (state.sortKey === 'captures') {
+            av = (a.captures.alliance_list || 0) + (a.captures.player_ranking || 0);
+            bv = (b.captures.alliance_list || 0) + (b.captures.player_ranking || 0);
+          } else {
+            av = a[state.sortKey]; bv = b[state.sortKey];
+            if (av === null || av === undefined) av = state.sortKey === 'number' ? -1 : '';
+            if (bv === null || bv === undefined) bv = state.sortKey === 'number' ? -1 : '';
+          }
+          if (typeof av === 'number' && typeof bv === 'number') return (av - bv) * state.sortDir;
+          return String(av).localeCompare(String(bv)) * state.sortDir;
+        });
+        renderTable(rows);
+        updateSortMarks();
+      }
+
+      function renderTable(rows) {
+        var tbody = document.getElementById('wz-tbody');
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="loading">No warzones match your filters.</td></tr>';
+          return;
+        }
+        var html = rows.map(function (r) {
+          var seasonBadge;
+          if (r.season == null) {
+            seasonBadge = '<span class="badge-season b-unknown">?</span>';
+          } else {
+            var cls = r.season === 1 ? 'b-s1' : r.season === 2 ? 'b-s2' : 'b-s3';
+            var confirmed = r.season_source === 'seed' ||
+                            r.season_source === 'kvk-grouping' ||
+                            r.season_source === 'contribution' ||
+                            (r.season_source && r.season_source.indexOf('kvk-grouping') === 0);
+            var mark = confirmed
+              ? '<span class="conf-mark conf-confirm" title="Confirmed">✓</span>'
+              : '<span class="conf-mark conf-inferred" title="Inferred (' + (r.season_source || 'unknown') + ')">~</span>';
+            seasonBadge = '<span class="badge-season ' + cls + '" title="Source: ' +
+              (r.season_source || 'unknown') + '">S' + r.season + mark + '</span>';
+          }
+          var caps = (r.captures.alliance_list || 0) + (r.captures.player_ranking || 0);
+          var capsCell = caps > 0
+            ? '<span class="caps">' + caps + ' <a href="/scout-dashboard.html?warzone=' + r.number + '" title="Open in Scout Dashboard">📊</a></span>'
+            : '<span class="no-data">0</span>';
+          return '<tr>' +
+            '<td class="wz-num">#' + r.number + '</td>' +
+            '<td>' + seasonBadge + '</td>' +
+            '<td>' + (r.transfer_group ? '<span class="tg">' + escapeHtml(r.transfer_group) + '</span>' : '<span class="no-data">—</span>') + '</td>' +
+            '<td>' + (r.top_alliance ? '<span class="top-alli">' + escapeHtml(r.top_alliance) + '</span>' : '<span class="no-data">—</span>') + '</td>' +
+            '<td>' + capsCell + '</td>' +
+          '</tr>';
+        }).join('');
+        tbody.innerHTML = html;
+      }
+
+      function updateSortMarks() {
+        document.querySelectorAll('thead th').forEach(function (th) {
+          var m = th.querySelector('.sort-mark');
+          if (!m) return;
+          if (th.dataset.sort === state.sortKey) {
+            m.textContent = state.sortDir > 0 ? '▲' : '▼';
+          } else {
+            m.textContent = '';
+          }
+        });
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      // Wire filters
+      document.getElementById('filter-season').addEventListener('change', function (e) {
+        state.filters.season = e.target.value; applyAndRender();
+      });
+      document.getElementById('filter-tg').addEventListener('change', function (e) {
+        state.filters.tg = e.target.value; applyAndRender();
+      });
+      document.getElementById('filter-caps').addEventListener('change', function (e) {
+        state.filters.caps = e.target.value; applyAndRender();
+      });
+      document.getElementById('filter-search').addEventListener('input', function (e) {
+        state.filters.search = e.target.value; applyAndRender();
+      });
+      document.querySelectorAll('thead th[data-sort]').forEach(function (th) {
+        th.addEventListener('click', function () {
+          var key = th.dataset.sort;
+          if (state.sortKey === key) state.sortDir *= -1;
+          else { state.sortKey = key; state.sortDir = 1; }
+          applyAndRender();
+        });
+      });
+      document.getElementById('btn-csv').addEventListener('click', function () {
+        window.location.href = API_BASE + '/api/warzones/directory?format=csv';
+      });
+
+      // Contribute modal
+      function openModal() {
+        document.getElementById('modal-bg').classList.add('show');
+        document.getElementById('modal-msg').innerHTML = '';
+      }
+      function closeModal() {
+        document.getElementById('modal-bg').classList.remove('show');
+      }
+      document.getElementById('btn-contribute').addEventListener('click', openModal);
+      document.getElementById('btn-contribute-top').addEventListener('click', function (e) { e.preventDefault(); openModal(); });
+      document.getElementById('btn-contribute-bottom').addEventListener('click', function (e) { e.preventDefault(); openModal(); });
+      document.getElementById('modal-close').addEventListener('click', closeModal);
+      document.getElementById('modal-cancel').addEventListener('click', closeModal);
+      document.getElementById('modal-bg').addEventListener('click', function (e) {
+        if (e.target.id === 'modal-bg') closeModal();
+      });
+      document.getElementById('contribute-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var f = e.target;
+        var payload = {
+          number: parseInt(f.number.value, 10),
+          season: f.season.value ? parseInt(f.season.value, 10) : null,
+          transfer_group: f.transfer_group.value.trim() || null,
+          top_alliance: f.top_alliance.value.trim() || null,
+          note: f.note.value.trim() || null,
+          contributor_email: f.contributor_email.value.trim() || null,
+        };
+        var msg = document.getElementById('modal-msg');
+        var submitBtn = document.getElementById('modal-submit');
+        submitBtn.disabled = true; submitBtn.textContent = 'Submitting…';
+        fetch(API_BASE + '/api/warzones/contribute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'omit',
+        }).then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); })
+          .then(function (res) {
+            if (res.status >= 200 && res.status < 300 && res.body.ok) {
+              msg.innerHTML = '<div class="msg-ok">' + (res.body.message || 'Thanks!') + '</div>';
+              f.reset();
+              setTimeout(closeModal, 1800);
+            } else {
+              msg.innerHTML = '<div class="msg-err">' + (res.body.message || res.body.error || 'Submission failed') + '</div>';
+            }
+          })
+          .catch(function (e) {
+            msg.innerHTML = '<div class="msg-err">Network error: ' + e.message + '</div>';
+          })
+          .finally(function () {
+            submitBtn.disabled = false; submitBtn.textContent = 'Submit';
+          });
+      });
+
+      loadDirectory();
+    })();
+  </script>
+</body>
+</html>

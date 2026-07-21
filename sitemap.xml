@@ -50,6 +50,12 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://r5tools.io/"/>
   </url>
   <url>
+    <loc>https://r5tools.io/warzones.html</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://r5tools.io/refer.html</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>weekly</changefreq>
