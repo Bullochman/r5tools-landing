@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Share what r5tools did for your alliance · r5tools.io</title>
+  <meta name="description" content="Real quote from a real player will replace the placeholder on our homepage. We'll ask before publishing." />
+  <link rel="canonical" href="https://r5tools.io/testimonial.html" />
+  <link rel="alternate" hreflang="en" href="https://r5tools.io/testimonial.html" />
+  <link rel="alternate" hreflang="ko" href="https://r5tools.io/testimonial.html?lang=ko" />
+  <link rel="icon" type="image/png" href="/static/favicon.png" />
+  <meta name="theme-color" content="#0f1216" />
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --bg:#0b0d10;--panel:#121620;--panel-2:#151a25;--text:#e8ecf3;
+      --text-dim:#a9b1c1;--text-mute:#6f7891;--accent:#c9a961;
+      --border:rgba(255,255,255,0.08);--border-accent:rgba(201,169,97,0.35);
+      --ok:#3fb950;--danger:#f85149;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);
+      font-family:system-ui,-apple-system,"SF Pro Text",Inter,Roboto,sans-serif;
+      font-size:15px;line-height:1.6}
+    .wrap{max-width:640px;margin:40px auto;padding:0 20px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    .brand{font-weight:800;letter-spacing:.06em;color:var(--accent);text-decoration:none;font-size:14px}
+    .lang-switch{display:flex;gap:6px;font-size:12px}
+    .lang-switch a{color:var(--text-mute);text-decoration:none;padding:4px 8px;
+      border:1px solid var(--border);border-radius:6px}
+    .lang-switch a.active,.lang-switch a:hover{color:var(--accent);border-color:var(--border-accent)}
+    h1{font-size:26px;margin:0 0 8px}
+    .lede{color:var(--text-dim);margin:0 0 22px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:22px}
+    label{display:block;font-size:13px;font-weight:600;letter-spacing:.02em;margin:14px 0 6px}
+    .hint{color:var(--text-mute);font-size:12px;font-weight:400;margin-left:6px}
+    textarea,input[type=text],input[type=number],input[type=email]{
+      width:100%;background:var(--panel-2);color:var(--text);
+      border:1px solid var(--border);border-radius:8px;
+      padding:10px 12px;font:inherit;font-size:14px;
+    }
+    textarea{min-height:130px;resize:vertical;line-height:1.55}
+    textarea:focus,input:focus{outline:none;border-color:var(--border-accent);
+      box-shadow:0 0 0 3px rgba(201,169,97,0.10)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:520px){.row{grid-template-columns:1fr}}
+    .cc{color:var(--text-mute);font-size:12px;text-align:right;margin-top:4px}
+    .cc.warn{color:var(--danger)}
+    .r5-row{display:flex;gap:16px;align-items:center;margin-top:6px}
+    .r5-row label{display:inline-flex;align-items:center;gap:6px;margin:0;font-weight:400;
+      color:var(--text-dim);font-size:14px;cursor:pointer}
+    .r5-row input{margin:0;accent-color:var(--accent)}
+    button.submit{margin-top:20px;width:100%;padding:12px 16px;font:inherit;font-weight:700;
+      background:var(--accent);color:#111;border:0;border-radius:8px;cursor:pointer;font-size:15px}
+    button.submit:disabled{opacity:.55;cursor:not-allowed}
+    #msg{padding:10px 14px;border-radius:8px;margin:14px 0;display:none;font-size:14px}
+    #msg.ok{display:block;background:rgba(63,185,80,.12);color:var(--ok);border:1px solid rgba(63,185,80,.3)}
+    #msg.err{display:block;background:rgba(248,81,73,.12);color:var(--danger);border:1px solid rgba(248,81,73,.3)}
+    .note{color:var(--text-mute);font-size:12px;line-height:1.55;margin-top:12px}
+    .thank{text-align:center;padding:40px 0}
+    .thank h1{margin:0 0 12px}
+    .thank p{color:var(--text-dim);max-width:480px;margin:0 auto 16px}
+    footer{margin-top:30px;text-align:center;font-size:12px;color:var(--text-mute)}
+    footer a{color:var(--text-dim)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/">R5TOOLS.IO</a>
+    <div class="lang-switch">
+      <a href="?lang=en" data-lang="en">EN</a>
+      <a href="?lang=ko" data-lang="ko">한국어</a>
+    </div>
+  </header>
+
+  <div id="form-view">
+    <h1 data-i18n="title">Share what r5tools has done for your alliance.</h1>
+    <p class="lede" data-i18n="lede">Real quotes from real players will replace the placeholder on our homepage. We'll ask before publishing.</p>
+
+    <div class="card">
+      <div id="msg"></div>
+      <form id="tform" autocomplete="off" novalidate>
+        <label data-i18n="lblQuote">Your take
+          <span class="hint" data-i18n="hintQuote">— max 400 characters</span>
+        </label>
+        <textarea id="quote" name="quote" maxlength="400" required
+          data-i18n-placeholder="phQuote"
+          placeholder="What did r5tools change for your alliance? Coal? Landing coords? Freeze risk?"></textarea>
+        <div class="cc"><span id="cc-n">0</span> / 400</div>
+
+        <div class="row">
+          <div>
+            <label data-i18n="lblName">Your name or handle
+              <span class="hint" data-i18n="hintOpt">— optional</span>
+            </label>
+            <input type="text" id="author_name" name="author_name" maxlength="60"
+              data-i18n-placeholder="phName" placeholder="e.g. RONY-R5 or Evan" />
+          </div>
+          <div>
+            <label data-i18n="lblAlliance">Alliance name
+              <span class="hint" data-i18n="hintOpt2">— optional</span>
+            </label>
+            <input type="text" id="alliance_name" name="alliance_name" maxlength="60"
+              placeholder="e.g. Moonpetal" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label data-i18n="lblWarzone">Warzone #
+              <span class="hint" data-i18n="hintOpt3">— optional</span>
+            </label>
+            <input type="number" id="warzone" name="warzone" min="1" max="9999" placeholder="2007" />
+          </div>
+          <div>
+            <label data-i18n="lblR5">R5 of your alliance?</label>
+            <div class="r5-row">
+              <label><input type="radio" name="is_r5" value="1" /><span data-i18n="yes">Yes</span></label>
+              <label><input type="radio" name="is_r5" value="0" checked /><span data-i18n="no">No</span></label>
+            </div>
+          </div>
+        </div>
+
+        <label data-i18n="lblEmail">Email
+          <span class="hint" data-i18n="hintEmail">— optional, for follow-up before publishing</span>
+        </label>
+        <input type="email" id="email" name="email" maxlength="180"
+          placeholder="you@example.com" />
+
+        <button type="submit" class="submit" id="submit-btn" data-i18n="btnSubmit">Send it</button>
+        <p class="note" data-i18n="note">Email is never displayed publicly. We'll only use it to confirm we can publish your quote (or to clarify something before we do). Reply to any r5tools email at any time to have your quote removed.</p>
+      </form>
+    </div>
+  </div>
+
+  <div id="thank-view" class="thank" style="display:none">
+    <h1 data-i18n="thankTitle">Got it — thanks.</h1>
+    <p data-i18n="thankBody">Evan reads every submission personally. If you left an email we'll follow up before anything goes live on the homepage.</p>
+    <p><a href="/" style="color:var(--accent)" data-i18n="backHome">← Back to r5tools.io</a></p>
+  </div>
+
+  <footer>
+    <a href="/">r5tools.io</a> · <a href="/privacy.html">privacy</a> · <a href="/terms.html">terms</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var API_BASE = "https://access-codes.r5tools.io";
+
+  var I18N = {
+    en: {
+      title: "Share what r5tools has done for your alliance.",
+      lede: "Real quotes from real players will replace the placeholder on our homepage. We'll ask before publishing.",
+      lblQuote: "Your take", hintQuote: "— max 400 characters",
+      phQuote: "What did r5tools change for your alliance? Coal? Landing coords? Freeze risk?",
+      lblName: "Your name or handle", hintOpt: "— optional",
+      phName: "e.g. RONY-R5 or Evan",
+      lblAlliance: "Alliance name", hintOpt2: "— optional",
+      lblWarzone: "Warzone #", hintOpt3: "— optional",
+      lblR5: "R5 of your alliance?", yes: "Yes", no: "No",
+      lblEmail: "Email", hintEmail: "— optional, for follow-up before publishing",
+      btnSubmit: "Send it",
+      note: "Email is never displayed publicly. We'll only use it to confirm we can publish your quote (or to clarify something before we do). Reply to any r5tools email at any time to have your quote removed.",
+      thankTitle: "Got it — thanks.",
+      thankBody: "Evan reads every submission personally. If you left an email we'll follow up before anything goes live on the homepage.",
+      backHome: "← Back to r5tools.io",
+      errShort: "Please write a bit more (at least 10 characters).",
+      errNetwork: "Network error. Try again in a moment.",
+      errRate: "You've submitted several in the last hour. Try again later."
+    },
+    ko: {
+      title: "r5tools가 얼라이언스에 어떤 변화를 가져왔는지 알려주세요.",
+      lede: "실제 플레이어의 실제 후기가 홈페이지 자리표시를 대체할 예정입니다. 게시 전에 반드시 확인 연락드립니다.",
+      lblQuote: "후기", hintQuote: "— 최대 400자",
+      phQuote: "r5tools가 얼라이언스 운영에 어떤 변화를 가져왔나요? 석탄? 착지 좌표? 동결 위험?",
+      lblName: "이름 또는 핸들", hintOpt: "— 선택",
+      phName: "예: RONY-R5 또는 Evan",
+      lblAlliance: "얼라이언스 이름", hintOpt2: "— 선택",
+      lblWarzone: "워존 번호", hintOpt3: "— 선택",
+      lblR5: "얼라이언스 R5이신가요?", yes: "예", no: "아니오",
+      lblEmail: "이메일", hintEmail: "— 선택, 게시 전 확인 연락용",
+      btnSubmit: "제출",
+      note: "이메일은 절대 공개되지 않습니다. 후기 게시 전 확인용으로만 사용됩니다. 언제든 r5tools 이메일에 답장하시면 후기를 삭제해드립니다.",
+      thankTitle: "감사합니다.",
+      thankBody: "Evan이 모든 제출을 직접 검토합니다. 이메일을 남겨주셨다면 게시 전에 다시 연락드리겠습니다.",
+      backHome: "← r5tools.io로 돌아가기",
+      errShort: "조금 더 자세히 써주세요 (최소 10자).",
+      errNetwork: "네트워크 오류. 잠시 후 다시 시도해주세요.",
+      errRate: "최근 한 시간 내에 여러 번 제출하셨습니다. 잠시 후 다시 시도해주세요."
+    }
+  };
+
+  function detectLang(){
+    var q = new URLSearchParams(location.search).get("lang");
+    if (q && I18N[q]) return q;
+    var b = (navigator.language || "en").slice(0,2).toLowerCase();
+    return I18N[b] ? b : "en";
+  }
+  var LANG = detectLang(); var T = I18N[LANG];
+
+  function applyI18n(){
+    document.documentElement.lang = LANG;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n"); if (T[k]) el.textContent = T[k];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+      var k = el.getAttribute("data-i18n-placeholder");
+      if (T[k]) el.setAttribute("placeholder", T[k]);
+    });
+    document.querySelectorAll(".lang-switch a").forEach(function(a){
+      a.classList.toggle("active", a.getAttribute("data-lang") === LANG);
+    });
+  }
+  applyI18n();
+
+  var quote = document.getElementById("quote");
+  var cc = document.getElementById("cc-n");
+  quote.addEventListener("input", function(){
+    cc.textContent = String(quote.value.length);
+    cc.parentElement.classList.toggle("warn", quote.value.length > 380);
+  });
+
+  var form = document.getElementById("tform");
+  var msg = document.getElementById("msg");
+  var btn = document.getElementById("submit-btn");
+
+  function showErr(t){ msg.className = "err"; msg.textContent = t; }
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    msg.className = ""; msg.textContent = "";
+    var q = quote.value.trim();
+    if (q.length < 10){ showErr(T.errShort); return; }
+    var fd = new FormData(form);
+    var payload = {
+      quote: q,
+      author_name: (fd.get("author_name") || "").toString().trim() || null,
+      alliance_name: (fd.get("alliance_name") || "").toString().trim() || null,
+      warzone: fd.get("warzone") ? Number(fd.get("warzone")) : null,
+      is_r5: (fd.get("is_r5") === "1") ? 1 : 0,
+      email: (fd.get("email") || "").toString().trim() || null,
+      lang: LANG
+    };
+    btn.disabled = true; btn.textContent = "…";
+    fetch(API_BASE + "/api/testimonial/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function(r){
+      if (r.status === 429){ return r.json().then(function(j){ throw new Error("rate"); }); }
+      if (!r.ok){ throw new Error("http_"+r.status); }
+      return r.json();
+    }).then(function(){
+      document.getElementById("form-view").style.display = "none";
+      document.getElementById("thank-view").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }).catch(function(e){
+      btn.disabled = false; btn.textContent = T.btnSubmit;
+      if (String(e.message) === "rate") showErr(T.errRate);
+      else showErr(T.errNetwork);
+    });
+  });
+})();
+</script>
+</body>
+</html>

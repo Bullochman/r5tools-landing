@@ -368,7 +368,7 @@
     payload.time_on_page_ms = Date.now() - Number(payload.page_open_at || Date.now());
 
     btn.disabled = true; btn.textContent = "...";
-    fetch("/api/testimonials/submit", {
+    fetch("https://access-codes.r5tools.io/api/testimonial/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)

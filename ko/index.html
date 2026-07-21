@@ -642,11 +642,14 @@
     <section>
       <h2>얼라이언스 리더 후기</h2>
       <p class="sec-blurb">후기는 지어내지 않습니다. 시즌 2 1주차가 끝나고 파운딩 얼라이언스 R5들의 동의를 받아 실제 후기를 게재합니다.</p>
-      <div class="testimonials">
-        <div class="testimonial" style="grid-column: 1 / -1; max-width: 640px; margin: 0 auto; border-color: var(--border-accent);">
+      <div class="testimonials" id="testimonials-grid" data-testimonials-api="https://access-codes.r5tools.io/api/testimonial/published">
+        <div class="testimonial" id="testimonials-placeholder" style="grid-column: 1 / -1; max-width: 640px; margin: 0 auto; border-color: var(--border-accent);">
           <div class="testimonial-body" style="font-style: normal; color: var(--text);">
             <strong style="color: var(--accent);">실제 R5 후기 준비 중.</strong>
             첫 후기는 <strong>시즌 2 1주차</strong> 이후 게재됩니다. 조작된 후기는 절대 올리지 않습니다 — 이 자리에 올라오는 모든 인용은 게재에 동의한 현직 R5의 실제 후기입니다. 파운딩 얼라이언스가 우선 게재됩니다.
+            <div style="margin-top:14px;font-style:normal;font-size:13px;color:var(--text-dim)">
+              이미 r5tools를 쓰고 계신가요? <a href="/testimonial.html?lang=ko" style="color:var(--accent);text-decoration:underline">후기 남기기 →</a>
+            </div>
           </div>
           <div class="testimonial-attr">
             <span class="avatar">R5</span>
@@ -655,6 +658,47 @@
         </div>
       </div>
     </section>
+    <script>
+    // 실 후기 API에서 데이터를 가져와 카드 렌더링. 실패 시 자리표시 유지.
+    (function(){
+      var grid = document.getElementById("testimonials-grid");
+      if (!grid) return;
+      var api = grid.getAttribute("data-testimonials-api");
+      if (!api) return;
+      function esc(s){
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+          return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+        });
+      }
+      fetch(api + "?limit=6", { credentials: "omit" })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){
+          if (!j || !j.testimonials || !j.testimonials.length) return;
+          var placeholder = document.getElementById("testimonials-placeholder");
+          if (placeholder) placeholder.remove();
+          j.testimonials.forEach(function(t){
+            var card = document.createElement("div");
+            card.className = "testimonial";
+            var attrBits = [];
+            if (t.author_name) attrBits.push(esc(t.author_name));
+            if (t.alliance_name) attrBits.push(esc(t.alliance_name));
+            if (t.warzone) attrBits.push("W" + esc(t.warzone));
+            var attrLine = attrBits.join(" · ") || "인증된 사용자";
+            var avatar = t.is_r5 ? "R5" : (t.author_name ? esc(t.author_name).charAt(0).toUpperCase() : "★");
+            card.innerHTML =
+              '<div class="testimonial-body">' + esc(t.quote) + '</div>' +
+              '<div class="testimonial-attr">' +
+                '<span class="avatar">' + avatar + '</span>' +
+                '<span>' + attrLine +
+                  (t.is_r5 ? ' <span class="verified" title="R5 확인됨">✓</span>' : '') +
+                '</span>' +
+              '</div>';
+            grid.appendChild(card);
+          });
+        })
+        .catch(function(){ /* 자리표시 유지 */ });
+    })();
+    </script>
     <!-- r5tools:testimonials v1 END -->
 
     <!-- BOTTOM CTA -->

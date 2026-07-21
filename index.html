@@ -1243,11 +1243,15 @@
     <section>
       <h2 data-i18n="secTestimonialsHeading">WHAT R5s SAY</h2>
       <p class="sec-blurb" data-i18n="secTestimonialsBlurb">We don't fake quotes. Real testimonials from founding-alliance R5s will appear here once Season 2 Week 1 wraps and we've captured them with permission.</p>
-      <div class="testimonials">
-        <div class="testimonial" style="grid-column: 1 / -1; max-width: 640px; margin: 0 auto; border-color: var(--border-accent);">
+      <div class="testimonials" id="testimonials-grid" data-testimonials-api="https://access-codes.r5tools.io/api/testimonial/published">
+        <!-- Placeholder shown until /api/testimonial/published returns rows. -->
+        <div class="testimonial" id="testimonials-placeholder" style="grid-column: 1 / -1; max-width: 640px; margin: 0 auto; border-color: var(--border-accent);">
           <div class="testimonial-body" style="font-style: normal; color: var(--text);">
             <strong style="color: var(--accent);">Testimonials pending.</strong>
             First real quotes ship after <strong>Season 2 Week 1</strong>. We won't publish invented ones — every attribution here will be a live R5 who agreed to be quoted. Founding alliances get first slot.
+            <div style="margin-top:14px;font-style:normal;font-size:13px;color:var(--text-dim)">
+              Already using r5tools? <a href="/testimonial.html" style="color:var(--accent);text-decoration:underline">Share a quote →</a>
+            </div>
           </div>
           <div class="testimonial-attr">
             <span class="avatar">R5</span>
@@ -1256,6 +1260,49 @@
         </div>
       </div>
     </section>
+    <script>
+    // Fetch published testimonials from the access-codes API. If any exist,
+    // replace the placeholder with real cards. Fail silently — the placeholder
+    // is a safe default so a network error doesn't leave an empty section.
+    (function(){
+      var grid = document.getElementById("testimonials-grid");
+      if (!grid) return;
+      var api = grid.getAttribute("data-testimonials-api");
+      if (!api) return;
+      function esc(s){
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+          return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+        });
+      }
+      fetch(api + "?limit=6", { credentials: "omit" })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){
+          if (!j || !j.testimonials || !j.testimonials.length) return;
+          var placeholder = document.getElementById("testimonials-placeholder");
+          if (placeholder) placeholder.remove();
+          j.testimonials.forEach(function(t){
+            var card = document.createElement("div");
+            card.className = "testimonial";
+            var attrBits = [];
+            if (t.author_name) attrBits.push(esc(t.author_name));
+            if (t.alliance_name) attrBits.push(esc(t.alliance_name));
+            if (t.warzone) attrBits.push("W" + esc(t.warzone));
+            var attrLine = attrBits.join(" · ") || "Verified r5tools user";
+            var avatar = t.is_r5 ? "R5" : (t.author_name ? esc(t.author_name).charAt(0).toUpperCase() : "★");
+            card.innerHTML =
+              '<div class="testimonial-body">' + esc(t.quote) + '</div>' +
+              '<div class="testimonial-attr">' +
+                '<span class="avatar">' + avatar + '</span>' +
+                '<span>' + attrLine +
+                  (t.is_r5 ? ' <span class="verified" title="Confirmed R5">✓</span>' : '') +
+                '</span>' +
+              '</div>';
+            grid.appendChild(card);
+          });
+        })
+        .catch(function(){ /* placeholder stays */ });
+    })();
+    </script>
     <!-- r5tools:testimonials v1 END -->
 
     <section>
