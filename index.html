@@ -503,8 +503,8 @@
       <button type="button" onclick="document.getElementById('beta-banner').style.display='none'" data-i18n-title="betaBannerDismiss" title="Dismiss" style="background:transparent;color:#7a8290;border:none;font-size:16px;cursor:pointer;padding:4px 8px">×</button>
     </div>
 
-    <!-- Access code / Sign in banner -->
-    <div style="max-width: 1080px; margin: 0 auto 24px; padding: 14px 20px; background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04)); border: 1px solid rgba(201,169,97,0.35); border-radius: 12px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
+    <!-- Access code / Sign in banner (hidden if already unlocked, see script below) -->
+    <div id="unlock-banner-locked" style="max-width: 1080px; margin: 0 auto 24px; padding: 14px 20px; background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.04)); border: 1px solid rgba(201,169,97,0.35); border-radius: 12px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap">
       <div style="flex: 1; min-width: 260px">
         <div data-i18n="unlockBannerTitle" style="font-weight: 700; color: var(--accent); font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px">🔓 Free for Warzone 2007 members</div>
         <div data-i18n="unlockBannerBody" style="color: var(--text-dim); font-size: 13.5px; line-height: 1.5">Ask your R5 for the alliance code, or paid $10 personal unlock — both use the same sign-in page. Works across every tool.</div>
@@ -514,6 +514,61 @@
         <a href="/dashboard.html" data-i18n="unlockBannerAlready" style="color: var(--accent); font-size: 12.5px; text-decoration: underline; white-space: nowrap">Already unlocked? → Dashboard</a>
       </div>
     </div>
+    <!-- Welcome-back banner (shown if already unlocked) -->
+    <div id="unlock-banner-unlocked" style="display:none;max-width:1080px;margin:0 auto 24px;padding:14px 20px;background:linear-gradient(180deg,rgba(80,200,120,0.10),rgba(80,200,120,0.04));border:1px solid rgba(80,200,120,0.38);border-radius:12px">
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:260px">
+          <div style="font-weight:700;color:#8ae0a3;font-size:13px;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:4px">✓ You're unlocked — <span id="unlock-banner-tier-label">welcome back</span></div>
+          <div style="color:var(--text-dim);font-size:13.5px;line-height:1.5">Every tool in the suite is ready for you. Jump into the ones you need.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <a href="https://roster.r5tools.io/" style="background:var(--accent);color:#0a0e1a;border-radius:8px;padding:10px 18px;font-weight:700;font-size:13px;text-decoration:none;white-space:nowrap">Roster Extractor →</a>
+          <a href="/dashboard.html" style="color:var(--accent);font-size:12.5px;text-decoration:underline;white-space:nowrap">Dashboard →</a>
+          <a href="https://access-codes.r5tools.io/" style="color:var(--text-dim);font-size:12px;text-decoration:underline;white-space:nowrap" title="Sign out or manage your code">Manage code</a>
+        </div>
+      </div>
+    </div>
+    <script src="https://access-codes.r5tools.io/lib.js?v=3" defer></script>
+    <script>
+    (function () {
+      // Swap the "Enter code" banner for a "welcome back, unlocked" banner
+      // when the user already has a valid unlock cookie. Waits up to 3s for
+      // the LWSAccessCodes lib to load; falls through gracefully if not.
+      function _prettyTier(t) {
+        return ({
+          'paid-personal': 'Personal unlock',
+          'alliance-founding': 'Founding Alliance',
+          'alliance-bundle': 'Alliance Bundle',
+          'paid-lifetime': 'Lifetime',
+          'paid-scout': 'Scout Premium',
+          'free-warzone': 'Warzone Free',
+          'owner': 'Owner',
+        })[t] || t || 'unlocked';
+      }
+      var waited = 0;
+      function tryDetect() {
+        if (window.LWSAccessCodes && typeof window.LWSAccessCodes.tier === 'function') {
+          window.LWSAccessCodes.tier().then(function (tier) {
+            if (!tier) return; // not unlocked → keep locked banner
+            var locked = document.getElementById('unlock-banner-locked');
+            var unlocked = document.getElementById('unlock-banner-unlocked');
+            var tierLabel = document.getElementById('unlock-banner-tier-label');
+            if (tierLabel) tierLabel.textContent = _prettyTier(tier);
+            if (locked) locked.style.display = 'none';
+            if (unlocked) unlocked.style.display = 'block';
+          }).catch(function () { /* silent */ });
+        } else if (waited < 3000) {
+          waited += 200;
+          setTimeout(tryDetect, 200);
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryDetect);
+      } else {
+        tryDetect();
+      }
+    })();
+    </script>
 
     <div class="hero">
       <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;margin-bottom:18px;background:rgba(201,169,97,0.12);border:1px solid rgba(201,169,97,0.35);border-radius:100px;font-size:12px;color:var(--accent);letter-spacing:0.05em;font-weight:600" data-i18n="heroS2Badge">⚡ SEASON 2 · POLAR STORM · STARTS 2026-07-26 · WARZONE 2007</div>
