@@ -331,7 +331,16 @@
   var S2_LAUNCH_UTC = Date.UTC(2026, 6, 26), SEASON_LEN_MS = 56 * 86400000;
   function paintStrip(ctx) {
     var warzone = (ctx && ctx.warzone_id) || "2007";
-    var season = (ctx && ctx.season && ctx.season.name) || "Polar Storm";
+    // ctx.season.name is a {en, ko, ...} object per seasons-lib.js shape —
+    // pick the current UI language string, not the raw object (else it
+    // renders as "Season: [object Object]").
+    var lang = (window.LWSi18n && typeof window.LWSi18n.lang === "function") ? window.LWSi18n.lang() : "en";
+    var seasonName = null;
+    if (ctx && ctx.season && ctx.season.name) {
+      if (typeof ctx.season.name === "string") seasonName = ctx.season.name;
+      else seasonName = ctx.season.name[lang] || ctx.season.name.en || ctx.season_id;
+    }
+    var season = seasonName || "Polar Storm";
     var week = (ctx && typeof ctx.week === "number") ? ctx.week : 0;
     var now = Date.now(), countdown;
     if (now < S2_LAUNCH_UTC) {
