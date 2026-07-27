@@ -574,6 +574,23 @@
             if (tr) tr.style.display = 'none';
             if (or) or.style.display = 'inline-block';
             if (hv) hv.style.display = 'inline-block';
+            // Hide the whole pricing section for unlocked users — they've
+            // already paid, no need to keep pushing tier cards + founding
+            // scarcity at them. Also hides the floating founding-slots pill.
+            var pricingSec = document.getElementById('pricing');
+            if (pricingSec) pricingSec.style.display = 'none';
+            // Founding widget renders a floating "Only N slots left" pill.
+            // Kill any element it dropped in the DOM.
+            var foundingPill = document.querySelector('[class*=founding-widget],[id*=founding-widget],[class*=founding-slots],[id*=founding-slots]');
+            if (foundingPill) foundingPill.style.display = 'none';
+            // Also poll for it briefly since the widget script loads async.
+            var pollFounding = 0;
+            var pollFoundingId = setInterval(function () {
+              pollFounding += 500;
+              var el = document.querySelector('[class*=founding-widget],[id*=founding-widget],[class*=founding-slots],[id*=founding-slots]');
+              if (el) el.style.display = 'none';
+              if (pollFounding > 5000) clearInterval(pollFoundingId);
+            }, 500);
           }).catch(function () { /* silent */ });
         } else if (waited < 3000) {
           waited += 200;
