@@ -563,6 +563,17 @@
             // unlocked user isn't looking at a "Unlock" button on their own site.
             if (navUnlock) navUnlock.style.display = 'none';
             if (navDash) navDash.style.display = 'inline-block';
+            // Hero CTAs: swap "See pricing" + "Try Roster Extractor (free demo)"
+            // for two direct-open buttons since unlocked users shouldn't see
+            // pricing-page or "free demo" copy on their own site.
+            var pc = document.getElementById('hero-cta-pricing');
+            var tr = document.getElementById('hero-cta-tryroster');
+            var or = document.getElementById('hero-cta-openroster');
+            var hv = document.getElementById('hero-cta-hive');
+            if (pc) pc.style.display = 'none';
+            if (tr) tr.style.display = 'none';
+            if (or) or.style.display = 'inline-block';
+            if (hv) hv.style.display = 'inline-block';
           }).catch(function () { /* silent */ });
         } else if (waited < 3000) {
           waited += 200;
@@ -584,8 +595,10 @@
         <em>Last War: Survival</em> alliance tools that replace the Google Sheet: video-to-roster in 2 minutes, Season 2 landing plan by rank tier, freeze-risk dashboard, coal budget for the Week-4 blizzard, hive formations, city capture schedule. Built by an R5. English + Korean + 5 more languages. Discord PNG export on every tool.
       </p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px">
-        <a class="price-cta" href="#pricing" style="text-decoration:none" data-i18n="heroCta1">See pricing →</a>
-        <a class="price-cta ghost" href="https://roster.r5tools.io/" target="_blank" rel="noopener" style="text-decoration:none" data-i18n="heroCta2">Try Roster Extractor (free demo)</a>
+        <a id="hero-cta-pricing" class="price-cta" href="#pricing" style="text-decoration:none" data-i18n="heroCta1">See pricing →</a>
+        <a id="hero-cta-tryroster" class="price-cta ghost" href="https://roster.r5tools.io/" target="_blank" rel="noopener" style="text-decoration:none" data-i18n="heroCta2">Try Roster Extractor (free demo)</a>
+        <a id="hero-cta-openroster" class="price-cta" href="https://roster.r5tools.io/" style="display:none;text-decoration:none">Open Roster Extractor →</a>
+        <a id="hero-cta-hive" class="price-cta ghost" href="https://hive.r5tools.io/" style="display:none;text-decoration:none">Open Hive Manager →</a>
       </div>
       <span class="kr-note" style="margin-top:16px" data-i18n="krNote">🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요. · Warzone 2007 members get a free unlock code. Ask your R5.</span>
       <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
