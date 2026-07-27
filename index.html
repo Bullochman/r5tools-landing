@@ -579,6 +579,9 @@
             // scarcity at them. Also hides the floating founding-slots pill.
             var pricingSec = document.getElementById('pricing');
             if (pricingSec) pricingSec.style.display = 'none';
+            // Hero KR note — asking your R5 for a code is nonsense once unlocked.
+            var krNote = document.getElementById('hero-kr-note');
+            if (krNote) krNote.style.display = 'none';
             // Founding widget renders a floating "Only N slots left" pill.
             // Kill any element it dropped in the DOM.
             var foundingPill = document.querySelector('[class*=founding-widget],[id*=founding-widget],[class*=founding-slots],[id*=founding-slots]');
@@ -617,7 +620,7 @@
         <a id="hero-cta-openroster" class="price-cta" href="https://roster.r5tools.io/" style="display:none;text-decoration:none">Open Roster Extractor →</a>
         <a id="hero-cta-hive" class="price-cta ghost" href="https://hive.r5tools.io/" style="display:none;text-decoration:none">Open Hive Manager →</a>
       </div>
-      <span class="kr-note" style="margin-top:16px" data-i18n="krNote">🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요. · Warzone 2007 members get a free unlock code. Ask your R5.</span>
+      <span id="hero-kr-note" class="kr-note" style="margin-top:16px" data-i18n="krNote">🇰🇷 워존 2007 멤버는 무료 코드 이용 가능. R5에게 문의하세요. · Warzone 2007 members get a free unlock code. Ask your R5.</span>
       <div id="lws-warzone-selector" style="margin-top:18px;display:inline-flex;justify-content:center"></div>
     </div>
 
