@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-07-27', tag: 'FIX',   label: 'Dashboard: unlocked users with no roster yet now see "You\'re unlocked ✓ — upload your roster" instead of the misleading "Unlock a code to see your alliance context" empty state' },
     { date: '2026-07-27', tag: 'FIX',   label: 'Dashboard CONTEXT strip no longer shows "Season: [object Object]" — season name now resolves to string per UI language' },
     { date: '2026-07-27', tag: 'DATA',  label: 'Warzone directory: 2,290 of 2,292 now lwatlas-sourced (was 944) — legacy inference nearly eliminated, S7 catalog surfaced (667 warzones)' },
     { date: '2026-07-27', tag: 'FIX',   label: 'Warzone parser now falls through current > upcoming > last_completed season fields (was only checking current, mislabeling 1,347 warzones)' },

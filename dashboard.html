@@ -193,6 +193,7 @@
       signedR4of: 'Signed in as R4 of <b>{name}</b>',
       signedMember: 'Signed in — member of <b>{name}</b>',
       anonHint: 'Unlock a code to see your alliance context here.',
+      unlockedNoRoster: 'You\'re unlocked ✓ — <a href="https://roster.r5tools.io/" style="color:var(--accent);text-decoration:underline">upload your alliance roster</a> to see per-member context here.',
       stripLabel: "CONTEXT",
       activityTitle: "Recent activity",
       activityHintV1: "v1 placeholder — dynamic feed in v1.1",
@@ -219,6 +220,7 @@
       signedR4of: '<b>{name}</b>의 R4로 로그인됨',
       signedMember: '<b>{name}</b>의 멤버로 로그인됨',
       anonHint: '코드를 입력하면 여기에 연맹 정보가 표시됩니다.',
+      unlockedNoRoster: '잠금 해제됨 ✓ — <a href="https://roster.r5tools.io/" style="color:var(--accent);text-decoration:underline">연맹 명단을 업로드</a>하면 여기에 멤버별 정보가 표시됩니다.',
       stripLabel: "컨텍스트",
       activityTitle: "최근 활동",
       activityHintV1: "v1 임시 데이터 — v1.1에서 실시간 피드",
@@ -308,7 +310,34 @@
   var sigMatch = document.cookie.match(/(?:^|;\s*)lws_sig=([a-f0-9]{4,32})/i);
   var sig = sigMatch ? sigMatch[1] : null;
   if (!sig) {
-    renderSignin(t("anonHint"));
+    // Don't stamp the wrong message. Ask the shared unlock lib whether we
+    // have a valid access code first — an unlocked user with no roster
+    // yet should see "upload your roster", not "unlock a code" (they've
+    // already done that). Falls back to the anonymous prompt on lib
+    // absence or fetch error.
+    function _renderNoSigMessage() {
+      if (window.LWSAccessCodes && typeof window.LWSAccessCodes.tier === 'function') {
+        window.LWSAccessCodes.tier().then(function (tier) {
+          renderSignin(tier ? t("unlockedNoRoster") : t("anonHint"));
+        }).catch(function () { renderSignin(t("anonHint")); });
+      } else {
+        // Poll briefly for lib load (deferred script)
+        var waited = 0;
+        var poll = setInterval(function () {
+          waited += 200;
+          if (window.LWSAccessCodes && typeof window.LWSAccessCodes.tier === 'function') {
+            clearInterval(poll);
+            window.LWSAccessCodes.tier().then(function (tier) {
+              renderSignin(tier ? t("unlockedNoRoster") : t("anonHint"));
+            }).catch(function () { renderSignin(t("anonHint")); });
+          } else if (waited > 3000) {
+            clearInterval(poll);
+            renderSignin(t("anonHint"));
+          }
+        }, 200);
+      }
+    }
+    _renderNoSigMessage();
   } else {
     fetch("https://roster.r5tools.io/api/live-roster?sig=" + encodeURIComponent(sig), { credentials: "omit" })
       .then(function (r) { return r.ok ? r.json() : null; })
