@@ -13,6 +13,29 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-07-27', tag: 'DATA',  label: 'Warzone directory: 2,290 of 2,292 now lwatlas-sourced (was 944) — legacy inference nearly eliminated, S7 catalog surfaced (667 warzones)' },
+    { date: '2026-07-27', tag: 'FIX',   label: 'Warzone parser now falls through current > upcoming > last_completed season fields (was only checking current, mislabeling 1,347 warzones)' },
+    { date: '2026-07-27', tag: 'UX',    label: 'Unlocked users no longer see "Unlock the suite" / "Try free demo" / pricing tiers / founding-scarcity pill / "ask your R5" nudges anywhere' },
+    { date: '2026-07-27', tag: 'UX',    label: 'Homepage nav swaps "Unlock the suite" → "✓ Dashboard" pill for unlocked users' },
+    { date: '2026-07-27', tag: 'UX',    label: 'Homepage hero CTAs swap to direct "Open Roster Extractor →" + "Open Hive Manager →" when unlocked' },
+    { date: '2026-07-27', tag: 'FIX',   label: 'Founding-scarcity floating pill (r5t-founding) correctly hidden for unlocked users — no more overlap with Ask chat button' },
+    { date: '2026-07-27', tag: 'SEO',   label: '21 new SEO pages: warzone-2007 + S2 KvK-bracket warzones (was 404 on the flagship warzone)' },
+
+    { date: '2026-07-26', tag: 'FIX',   label: 'Roster Extractor: owner + paid-scout tiers added to TIER_CAPS + PAID_TIERS (owner uploads were 429ing with tier=unknown)' },
+    { date: '2026-07-26', tag: 'FEAT',  label: 'Roster Extractor: reference screenshots above each uploader (Member List vs Warzone Alliance List) with cross-tool "wrong screen?" redirect' },
+    { date: '2026-07-26', tag: 'FEAT',  label: 'Roster Extractor: canonical CSV export in snake_case — one CSV now works cleanly across every sibling tool without hand-editing headers' },
+    { date: '2026-07-26', tag: 'FEAT',  label: 'Landing Planner + Train Conductor parsers accept both `power` and `total_power` header variants — any LWS-tool CSV loads' },
+    { date: '2026-07-26', tag: 'FEAT',  label: 'Redaviatrix upgraded to Scout Premium (999 uploads/mo) + Trusted Contributor as first-paying-customer treatment' },
+    { date: '2026-07-26', tag: 'UX',    label: 'Landing Planner + Hive + Train Conductor: killed the Moonpetal demo auto-load universally — every visitor starts on their own empty state' },
+    { date: '2026-07-26', tag: 'UX',    label: 'Landing Planner empty-state banner with "upload your CSV or extract from Roster Extractor →" prompt when no roster loaded' },
+    { date: '2026-07-26', tag: 'FIX',   label: 'Unlock page "Tier:" field no longer blank — i18n was destroying the child <code> element (moved data-i18n to sibling span)' },
+    { date: '2026-07-26', tag: 'FIX',   label: 'Unlock page shows human-readable tier names ("Scout Premium ⭐" / "Founding Alliance" / "Owner") instead of raw slugs' },
+    { date: '2026-07-26', tag: 'FIX',   label: 'Cookie SameSite Lax → None+Secure so cross-site tools recognize unlock (fixed "seeing register prompts when already unlocked")' },
+    { date: '2026-07-26', tag: 'FIX',   label: 'Homepage recognizes unlocked users on load — yellow "Enter code" banner swaps to green "✓ You are unlocked — {tier}" welcome-back banner' },
+    { date: '2026-07-26', tag: 'FIX',   label: 'Roster Extractor: persistent orange "Redeem your access code first" overlay when no cookie — dropzone disabled, no more flash-modal that reverts too fast to read' },
+    { date: '2026-07-26', tag: 'FIX',   label: 'Roster Extractor: network failure returns user to upload UI (was stuck on the failure screen with CSV button hidden)' },
+    { date: '2026-07-26', tag: 'FIX',   label: 'Roster Extractor: reference images no longer lazy-loaded — Chrome was refusing to trigger loads even when in viewport' },
+
     { date: '2026-07-19', tag: 'SMTP', label: 'Resend + Railway + r5tools.io DKIM/SPF verified — buyers auto-emailed within 30s of paying' },
     { date: '2026-07-19', tag: 'DATA',  label: 'Warzone DB: 206 real entries across 4 documented Transfer Groups (1981-2044 = W2007 group)' },
     { date: '2026-07-19', tag: 'DATA',  label: 'S1-S5 all seasons confirmed via 3-vote adversarial verification (Crimson Plague / Polar Storm / Golden Kingdom / Evernight Isle / Wild West)' },
