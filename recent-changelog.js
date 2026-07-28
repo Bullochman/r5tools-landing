@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-07-27', tag: 'FEAT',  label: 'Dashboard CONTEXT strip: added Day-of-season chip alongside Week (today = Day 2 of Week 1). Season-launch tracker granularity for R5s who need to know "we\'re on Day 3, dig site 2 unlocks tomorrow"' },
     { date: '2026-07-27', tag: 'FIX',   label: 'Dashboard: unlocked users with no roster yet now see "You\'re unlocked ✓ — upload your roster" instead of the misleading "Unlock a code to see your alliance context" empty state' },
     { date: '2026-07-27', tag: 'FIX',   label: 'Dashboard CONTEXT strip no longer shows "Season: [object Object]" — season name now resolves to string per UI language' },
     { date: '2026-07-27', tag: 'DATA',  label: 'Warzone directory: 2,290 of 2,292 now lwatlas-sourced (was 944) — legacy inference nearly eliminated, S7 catalog surfaced (667 warzones)' },

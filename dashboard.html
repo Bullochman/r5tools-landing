@@ -155,6 +155,7 @@
       <span class="pill" id="strip-warzone">Warzone: …</span>
       <span class="pill" id="strip-season">Season: …</span>
       <span class="pill" id="strip-week">Week: …</span>
+      <span class="pill" id="strip-day">Day: …</span>
       <span class="pill" id="strip-countdown">…</span>
     </div>
 
@@ -371,18 +372,23 @@
     }
     var season = seasonName || "Polar Storm";
     var week = (ctx && typeof ctx.week === "number") ? ctx.week : 0;
+    var day  = 0; // 1-indexed day-of-season (Day 1 = launch day)
     var now = Date.now(), countdown;
     if (now < S2_LAUNCH_UTC) {
       var ms = S2_LAUNCH_UTC - now;
       countdown = t("countdownPre").replace("{d}", Math.floor(ms/86400000)).replace("{h}", Math.floor((ms%86400000)/3600000));
       week = 0;
+      day  = 0;
     } else if (now < S2_LAUNCH_UTC + SEASON_LEN_MS) {
       week = Math.floor((now - S2_LAUNCH_UTC) / (7 * 86400000)) + 1;
+      day  = Math.floor((now - S2_LAUNCH_UTC) / 86400000) + 1;
       countdown = t("countdownLive").replace("{w}", week);
     } else { countdown = t("countdownPast"); }
     document.getElementById("strip-warzone").textContent = "Warzone: " + warzone;
     document.getElementById("strip-season").textContent  = "Season: " + season;
     document.getElementById("strip-week").textContent    = "Week: " + (week || "pre");
+    var dayEl = document.getElementById("strip-day");
+    if (dayEl) dayEl.textContent = "Day: " + (day || "pre");
     document.getElementById("strip-countdown").textContent = countdown;
   }
   function tryStrip() {
