@@ -154,8 +154,7 @@
       <span class="strip-label" data-i18n="stripLabel">CONTEXT</span>
       <span class="pill" id="strip-warzone">Warzone: …</span>
       <span class="pill" id="strip-season">Season: …</span>
-      <span class="pill" id="strip-week">Week: …</span>
-      <span class="pill" id="strip-day">Day: …</span>
+      <span class="pill" id="strip-timeline">Wk … · Day …</span>
       <span class="pill" id="strip-countdown">…</span>
     </div>
 
@@ -198,7 +197,7 @@
       stripLabel: "CONTEXT",
       activityTitle: "Recent activity",
       activityHintV1: "v1 placeholder — dynamic feed in v1.1",
-      countdownLive: "S2 live · Wk {w}",
+      countdownLive: "S2 live",
       countdownPre: "S2 launches in {d}d {h}h",
       countdownPast: "S2 complete",
       footer: "Signed unlock lives in a cookie on this browser · ",
@@ -225,7 +224,7 @@
       stripLabel: "컨텍스트",
       activityTitle: "최근 활동",
       activityHintV1: "v1 임시 데이터 — v1.1에서 실시간 피드",
-      countdownLive: "S2 진행 · {w}주차",
+      countdownLive: "S2 진행 중",
       countdownPre: "S2 시작까지 {d}일 {h}시간",
       countdownPast: "S2 종료",
       footer: "잠금 해제는 이 브라우저 쿠키에 저장됩니다 · ",
@@ -358,12 +357,17 @@
   }
 
   // ---------- Season strip (falls back to hardcoded S2 launch if lib absent) ----------
-  var S2_LAUNCH_UTC = Date.UTC(2026, 6, 26), SEASON_LEN_MS = 56 * 86400000;
+  // In-game "Day N" of Season 2 starts at 02:00 UTC each calendar day, and
+  // Day 1 begins the calendar day AFTER the S2 launch date (07-26 = pre-season
+  // setup, 07-27 02:00 UTC = Day 1 events go live). Verified against Evan's
+  // ground-truth 2026-07-27 evening: "Day 2 in 1h 10m" (~02:00 UTC 07-28).
+  var S2_LAUNCH_UTC   = Date.UTC(2026, 6, 26);           // season "opens" / warzone selectable
+  var S2_DAY1_UTC     = Date.UTC(2026, 6, 27, 2, 0, 0);  // Day 1 event window begins
+  var SEASON_LEN_MS   = 56 * 86400000;
   function paintStrip(ctx) {
     var warzone = (ctx && ctx.warzone_id) || "2007";
     // ctx.season.name is a {en, ko, ...} object per seasons-lib.js shape —
-    // pick the current UI language string, not the raw object (else it
-    // renders as "Season: [object Object]").
+    // pick the current UI language string, not the raw object.
     var lang = (window.LWSi18n && typeof window.LWSi18n.lang === "function") ? window.LWSi18n.lang() : "en";
     var seasonName = null;
     if (ctx && ctx.season && ctx.season.name) {
@@ -371,24 +375,34 @@
       else seasonName = ctx.season.name[lang] || ctx.season.name.en || ctx.season_id;
     }
     var season = seasonName || "Polar Storm";
-    var week = (ctx && typeof ctx.week === "number") ? ctx.week : 0;
-    var day  = 0; // 1-indexed day-of-season (Day 1 = launch day)
-    var now = Date.now(), countdown;
+    var week = 0, day = 0, countdown;
+    var now = Date.now();
     if (now < S2_LAUNCH_UTC) {
       var ms = S2_LAUNCH_UTC - now;
       countdown = t("countdownPre").replace("{d}", Math.floor(ms/86400000)).replace("{h}", Math.floor((ms%86400000)/3600000));
-      week = 0;
-      day  = 0;
     } else if (now < S2_LAUNCH_UTC + SEASON_LEN_MS) {
-      week = Math.floor((now - S2_LAUNCH_UTC) / (7 * 86400000)) + 1;
-      day  = Math.floor((now - S2_LAUNCH_UTC) / 86400000) + 1;
-      countdown = t("countdownLive").replace("{w}", week);
+      // Between launch (07-26) and Day 1 start (07-27 02:00 UTC) → pre-season
+      if (now < S2_DAY1_UTC) {
+        day = 0; week = 0;
+        countdown = t("countdownPreDay1") || "S2 opens · Day 1 starts soon";
+      } else {
+        day  = Math.floor((now - S2_DAY1_UTC) / 86400000) + 1;
+        week = Math.floor((day - 1) / 7) + 1;
+        countdown = t("countdownLive").replace("{w}", week);
+      }
     } else { countdown = t("countdownPast"); }
     document.getElementById("strip-warzone").textContent = "Warzone: " + warzone;
-    document.getElementById("strip-season").textContent  = "Season: " + season;
-    document.getElementById("strip-week").textContent    = "Week: " + (week || "pre");
-    var dayEl = document.getElementById("strip-day");
-    if (dayEl) dayEl.textContent = "Day: " + (day || "pre");
+    // Shorter season chip: "S2 · Polar Storm" instead of "Season: Season 2: Polar Storm"
+    var sm = /Season\s+(\d+)[:\s]*(.*)/i.exec(season);
+    var seasonShort = sm ? ("S" + sm[1] + " · " + (sm[2] || "").trim()) : season;
+    document.getElementById("strip-season").textContent = seasonShort;
+    // Combined timeline chip replaces separate Week + Day chips
+    var timelineEl = document.getElementById("strip-timeline");
+    if (timelineEl) {
+      if (day > 0) timelineEl.textContent = "Wk " + week + " · Day " + day;
+      else if (now < S2_DAY1_UTC && now >= S2_LAUNCH_UTC) timelineEl.textContent = "Pre-Day 1";
+      else timelineEl.textContent = "pre-season";
+    }
     document.getElementById("strip-countdown").textContent = countdown;
   }
   function tryStrip() {
