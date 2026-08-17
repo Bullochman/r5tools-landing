@@ -195,12 +195,13 @@
             <th data-sort="number">WZ #<span class="sort-mark"></span></th>
             <th data-sort="season">Season<span class="sort-mark"></span></th>
             <th data-sort="transfer_group">Xfer Group<span class="sort-mark"></span></th>
+            <th data-sort="kvk_center" title="8-warzone KvK cohort — the bracket this warzone fights in, keyed by its shared 8XXX center map server">KvK Bracket<span class="sort-mark"></span></th>
             <th data-sort="top_alliance">Top Alliance<span class="sort-mark"></span></th>
             <th data-sort="captures">Captures<span class="sort-mark"></span></th>
           </tr>
         </thead>
         <tbody id="wz-tbody">
-          <tr><td colspan="5" class="loading">Loading directory…</td></tr>
+          <tr><td colspan="6" class="loading">Loading directory…</td></tr>
         </tbody>
       </table>
     </div>
@@ -377,7 +378,7 @@
       function renderTable(rows) {
         var tbody = document.getElementById('wz-tbody');
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="5" class="loading">No warzones match your filters.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" class="loading">No warzones match your filters.</td></tr>';
           return;
         }
         var html = rows.map(function (r) {
@@ -389,7 +390,8 @@
             var confirmed = r.season_source === 'seed' ||
                             r.season_source === 'kvk-grouping' ||
                             r.season_source === 'contribution' ||
-                            (r.season_source && r.season_source.indexOf('kvk-grouping') === 0);
+                            (r.season_source && r.season_source.indexOf('kvk-grouping') === 0) ||
+                            (r.season_source && r.season_source.indexOf('lwatlas') === 0);
             var mark = confirmed
               ? '<span class="conf-mark conf-confirm" title="Confirmed">✓</span>'
               : '<span class="conf-mark conf-inferred" title="Inferred (' + (r.season_source || 'unknown') + ')">~</span>';
@@ -400,10 +402,19 @@
           var capsCell = caps > 0
             ? '<span class="caps">' + caps + ' <a href="/scout-dashboard.html?warzone=' + r.number + '" title="Open in Scout Dashboard">📊</a></span>'
             : '<span class="no-data">0</span>';
+          var kvkCell;
+          if (r.kvk_center) {
+            var members = (r.kvk_members || []).join(', ');
+            kvkCell = '<span class="tg" title="Bracket members: ' + members +
+              ' — shared center map server ' + r.kvk_center + '">⚔ ' + r.kvk_center + '</span>';
+          } else {
+            kvkCell = '<span class="no-data" title="KvK bracket not yet assigned for this cohort">—</span>';
+          }
           return '<tr>' +
             '<td class="wz-num">#' + r.number + '</td>' +
             '<td>' + seasonBadge + '</td>' +
             '<td>' + (r.transfer_group ? '<span class="tg">' + escapeHtml(r.transfer_group) + '</span>' : '<span class="no-data">—</span>') + '</td>' +
+            '<td>' + kvkCell + '</td>' +
             '<td>' + (r.top_alliance ? '<span class="top-alli">' + escapeHtml(r.top_alliance) + '</span>' : '<span class="no-data">—</span>') + '</td>' +
             '<td>' + capsCell + '</td>' +
           '</tr>';
