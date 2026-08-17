@@ -181,8 +181,9 @@
       var tool = toolById(id);
       var needWz = $('needwz'), frame = $('tool'), locked = $('locked');
       locked.classList.remove('show');
-      // Gate: paid tools need a code. Directory/roster-view are fine to show.
-      if (!code() && tool.needsRoster) { locked.classList.add('show'); frame.style.display='none'; needWz.classList.add('hide'); return; }
+      // No client-side gate here — each tool/page authenticates via the
+      // .r5tools.io unlock cookie itself (the cookie isn't JS-readable, so a
+      // code() check here would wrongly lock signed-in users). Just load it.
       if (tool.needsWz && !state.wz) { needWz.classList.remove('hide'); frame.style.display='none'; return; }
       needWz.classList.add('hide');
       frame.style.display = 'block';
