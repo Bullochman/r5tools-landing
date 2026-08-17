@@ -13,6 +13,8 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: Alliance Power Trends (/power-trends.html) — automatic day-by-day combined-power growth chart for every alliance in a warzone. Big alliances update automatically from lwatlas map scans (no screenshot uploads — the only fully-automated power tracker); smaller alliances feed the SAME chart from a roster extraction. Tracks who is climbing and who is stalling' },
+    { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: alliance power board — top alliances by combined power + member count (no names) + top players’ power + power distribution, via /api/warzone/<n>/power. Fetched real-time from lwatlas, no upload' },
     { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: Live Roster & Player Finder (/live-roster.html) — pick any scanned warzone, get its full alliance rosters (every member, HQ, in-game rank, exact coordinates) with no video upload. Search any player by name for their coords. Export canonical CSV straight into Landing Planner / Hive / Freeze' },
     { date: '2026-08-17', tag: 'DATA',  label: 'Rosters now scraped live from lwatlas map scans (refreshes ~daily) — the member-list video upload is now an optional fallback, only needed for warzones lwatlas has not scanned yet' },
     { date: '2026-08-17', tag: 'DATA',  label: 'Warzone directory: KvK cohorts added — each warzone now shows its 8-warzone KvK bracket (⚔ shared center server, hover for all 8 members). 1,312 brackets live; filter the API with ?kvk=<center>' },
