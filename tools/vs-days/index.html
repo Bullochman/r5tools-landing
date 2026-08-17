@@ -1,0 +1,1099 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LWS VS Days Optimizer · Alliance Duel + Arms Race · R5TOOLS.IO</title>
+  <meta name="description" content="Weekly VS Days (Alliance Duel) planner + live Arms Race phase clock + weekly-VP projection for Last War: Survival. Tells you exactly what to do right now to win the week." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c9a961'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-size='52' font-weight='700' fill='%230a0e1a'%3EVS%3C/text%3E%3C/svg%3E" />
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg:#0a0e1a; --panel:#0d1424; --border:rgba(255,255,255,0.08);
+      --accent:#c9a961; --accent-hover:#d9b871;
+      --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290;
+      --success:#8ae0a3; --warn:#e0c060; --danger:#e08a8a;
+      --today:rgba(201,169,97,0.15);
+      --now:rgba(138,224,163,0.14);
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased;}
+    a{color:var(--accent);}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px;}
+    .suite-nav{background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-size:11px;letter-spacing:.06em;color:var(--text-mute);text-align:center;}
+    .suite-nav a{color:var(--text-dim);text-decoration:none;margin:0 4px;}
+    .suite-nav .brand-link{color:var(--accent);font-weight:700;}
+    .feedback-pill{background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase;}
+    header.app-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+    .brand{font-weight:700;font-size:15px;color:var(--accent);letter-spacing:.04em}
+    .brand-sub{color:var(--text-mute);margin-left:8px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;}
+    .brand-tool{font-size:22px;font-weight:700;margin-left:12px}
+    .lang-toggle{background:transparent;color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12.5px;cursor:pointer;}
+    .hero{text-align:center;margin-bottom:24px;}
+    .hero h1{font-size:28px;margin:0 0 6px;line-height:1.25;}
+    .hero h1 .accent{color:var(--accent);}
+    .hero p{font-size:14.5px;color:var(--text-dim);max-width:720px;margin:0 auto;line-height:1.5;}
+    /* Today banner */
+    .today-banner{padding:20px 24px;background:linear-gradient(90deg,rgba(201,169,97,0.14),rgba(201,169,97,0.03));border:1px solid rgba(201,169,97,0.35);border-radius:12px;display:grid;grid-template-columns:1.1fr 1.4fr 0.6fr;gap:20px;align-items:center;margin-bottom:16px;}
+    @media (max-width:820px){.today-banner{grid-template-columns:1fr;text-align:left;}}
+    .today-name{font-size:26px;font-weight:700;color:var(--accent);letter-spacing:0.02em;line-height:1.1;}
+    .today-label{font-size:11px;color:var(--text-mute);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+    .today-tip{color:var(--text);font-size:14px;line-height:1.5;}
+    .today-vp{font-size:56px;font-weight:800;color:var(--accent);line-height:1;text-align:right;}
+    .today-vp-lbl{font-size:11px;color:var(--text-mute);letter-spacing:.08em;text-transform:uppercase;text-align:right;margin-top:2px}
+    @media (max-width:820px){.today-vp,.today-vp-lbl{text-align:left;}}
+    .now-arms{display:inline-flex;align-items:center;gap:8px;background:var(--now);border:1px solid rgba(138,224,163,0.35);border-radius:6px;padding:6px 10px;margin-top:8px;font-size:12px;color:var(--success);}
+    .now-arms strong{color:#c8ffd6;letter-spacing:.02em;}
+    .now-arms .now-tick{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success);animation:pulse 1.8s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+    /* Clock strip */
+    .clock-strip{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--panel);border:1px solid var(--border);border-radius:8px;margin-bottom:24px;font-size:12.5px;color:var(--text-dim);}
+    .clock-strip span{white-space:nowrap;}
+    .clock-strip strong{color:var(--text);font-family:ui-monospace,SFMono-Regular,monospace;}
+    .clock-strip .tz-toggle{background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:4px;padding:2px 8px;font-size:11px;cursor:pointer;font-family:inherit;}
+    .clock-strip .tz-toggle:hover{border-color:var(--accent);color:var(--accent);}
+    /* Week grid */
+    .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:24px;}
+    @media (max-width:900px){.week-grid{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:520px){.week-grid{grid-template-columns:repeat(2,1fr)}}
+    .day-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center;cursor:pointer;transition:transform .15s,border-color .15s;}
+    .day-card:hover{transform:translateY(-2px);border-color:rgba(201,169,97,0.35);}
+    .day-card.today{background:var(--today);border-color:var(--accent);}
+    .day-card.past{opacity:0.55;}
+    .day-num{font-size:11px;color:var(--text-mute);letter-spacing:.08em;text-transform:uppercase;}
+    .day-name{font-size:13px;font-weight:700;color:var(--text);margin-top:4px;}
+    .day-theme{font-size:11px;color:var(--text-dim);margin-top:3px;line-height:1.3;}
+    .day-vp{font-size:15px;font-weight:700;color:var(--accent);margin-top:6px;}
+    .day-vp-lbl{font-size:9px;color:var(--text-mute);letter-spacing:.08em;text-transform:uppercase;}
+    /* Section title */
+    .section-title{display:flex;align-items:baseline;gap:12px;margin:32px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+    .section-title h2{margin:0;font-size:18px;color:var(--accent);letter-spacing:.02em;}
+    .section-title .subtitle{color:var(--text-mute);font-size:12px;}
+    /* Details panel */
+    .details{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:24px;}
+    .details h2{margin:0 0 14px;font-size:20px;color:var(--accent);}
+    .details h3{margin:18px 0 8px;font-size:14px;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;}
+    .action-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+    .action-table th,.action-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);}
+    .action-table th{color:var(--text-mute);font-weight:600;font-size:11px;letter-spacing:.04em;text-transform:uppercase;}
+    .action-table td.num{text-align:right;color:var(--accent);font-family:ui-monospace,SFMono-Regular,monospace;font-weight:600;}
+    /* Arms Race schedule */
+    .arms-panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:24px;}
+    .arms-panel h2{margin:0 0 6px;font-size:18px;color:var(--accent);}
+    .arms-panel .arms-sub{color:var(--text-mute);font-size:12.5px;margin-bottom:14px;line-height:1.5;}
+    .arms-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+    @media (max-width:900px){.arms-grid{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:520px){.arms-grid{grid-template-columns:repeat(2,1fr)}}
+    .arms-cell{background:#050810;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:12px;line-height:1.4;color:var(--text-dim);position:relative;}
+    .arms-cell.now{background:var(--now);border-color:rgba(138,224,163,0.45);color:var(--text);}
+    .arms-cell.past{opacity:0.5;}
+    .arms-cell .arms-time{font-family:ui-monospace,SFMono-Regular,monospace;font-size:11px;color:var(--text-mute);}
+    .arms-cell.now .arms-time{color:var(--success);}
+    .arms-cell .arms-phase{font-weight:700;color:var(--text);margin-top:4px;font-size:12.5px;}
+    .arms-cell .arms-tip{font-size:11px;color:var(--text-mute);margin-top:6px;line-height:1.4;}
+    .arms-cell.now .arms-remaining{position:absolute;top:8px;right:10px;font-size:10px;color:var(--success);font-family:ui-monospace,SFMono-Regular,monospace;letter-spacing:.05em;}
+    .arms-overlap{margin-top:12px;padding:10px 14px;background:rgba(201,169,97,0.08);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:12.5px;color:var(--text);line-height:1.5;}
+    .arms-overlap strong{color:var(--accent);}
+    .arms-drift-help{margin-top:8px;font-size:11px;color:var(--text-mute);font-style:italic;line-height:1.5;}
+    .drift-config{margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--text-dim);}
+    .drift-config input{width:88px;padding:5px 8px;background:#050810;color:var(--text);border:1px solid var(--border);border-radius:4px;font-family:ui-monospace,SFMono-Regular,monospace;font-size:12px;}
+    /* Chest progress */
+    .chest-bar{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:24px;overflow-x:hidden;}
+    .chest-bar h2{margin:0 0 12px;font-size:16px;color:var(--accent);}
+    .chest-row{display:flex;gap:12px;align-items:center;margin-bottom:10px;font-size:13px;flex-wrap:wrap;}
+    .chest-icon{font-size:22px;line-height:1;flex-shrink:0;}
+    .chest-name{flex:1;min-width:80px;word-break:break-word;}
+    .chest-threshold{color:var(--text-dim);font-family:ui-monospace,SFMono-Regular,monospace;font-size:12px;white-space:nowrap;}
+    .chest-progress-outer{flex:2;background:#050810;border-radius:8px;height:10px;overflow:hidden;min-width:100px;}
+    .chest-progress-inner{background:linear-gradient(90deg,var(--accent),var(--accent-hover));height:100%;transition:width .3s;}
+    /* Calculator */
+    .calc{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:24px;}
+    .calc h2{margin:0 0 12px;font-size:18px;color:var(--accent);}
+    .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;}
+    @media (max-width:640px){.calc-grid{grid-template-columns:1fr;}}
+    .calc-row{display:flex;flex-direction:column;gap:4px;}
+    .calc-row label{font-size:11px;color:var(--text-mute);letter-spacing:.04em;text-transform:uppercase;}
+    .calc-row input,.calc-row select{padding:10px 12px;background:#050810;color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:14px;font-family:inherit;}
+    .calc-row input:focus,.calc-row select:focus{border-color:var(--accent);outline:none;}
+    .calc-total{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;}
+    .calc-total-lbl{font-size:12px;color:var(--text-mute);letter-spacing:.04em;text-transform:uppercase;}
+    .calc-total-val{font-size:28px;font-weight:800;color:var(--accent);font-family:ui-monospace,SFMono-Regular,monospace;}
+    /* Weekly projector */
+    .week-proj{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:24px;}
+    .week-proj h2{margin:0 0 6px;font-size:18px;color:var(--accent);}
+    .week-proj .wp-sub{color:var(--text-mute);font-size:12.5px;margin-bottom:14px;line-height:1.5;}
+    .wp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px 20px;}
+    .wp-row{display:flex;flex-direction:column;gap:4px;}
+    .wp-row label{font-size:11px;color:var(--text-mute);letter-spacing:.04em;text-transform:uppercase;}
+    .wp-row input,.wp-row select{padding:10px 12px;background:#050810;color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:14px;font-family:inherit;}
+    .wp-out{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
+    .wp-out-card{background:#050810;border-radius:8px;padding:12px 14px;}
+    .wp-out-card .wp-out-lbl{font-size:11px;color:var(--text-mute);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;}
+    .wp-out-card .wp-out-val{font-size:22px;font-weight:800;color:var(--accent);font-family:ui-monospace,SFMono-Regular,monospace;line-height:1.1;}
+    .wp-out-card .wp-out-note{font-size:11px;color:var(--text-mute);margin-top:6px;line-height:1.4;}
+    /* Enemy Buster prep */
+    .buster{background:linear-gradient(135deg,rgba(224,138,138,0.08),rgba(224,138,138,0.02));border:1px solid rgba(224,138,138,0.35);border-radius:10px;padding:20px 24px;margin-bottom:24px;}
+    .buster h2{margin:0 0 6px;font-size:18px;color:var(--danger);display:flex;align-items:center;gap:10px;}
+    .buster .sat-count{background:rgba(224,138,138,0.2);color:var(--danger);padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;font-family:ui-monospace,SFMono-Regular,monospace;letter-spacing:.04em;}
+    .buster .buster-sub{color:var(--text-mute);font-size:12.5px;margin-bottom:14px;line-height:1.5;}
+    .buster-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;}
+    @media (max-width:720px){.buster-grid{grid-template-columns:1fr;}}
+    .buster-card{background:#050810;border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+    .buster-card h3{margin:0 0 8px;font-size:13px;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;}
+    .buster-card ul{margin:0;padding-left:20px;color:var(--text-dim);font-size:13px;line-height:1.6;}
+    .buster-card ul li strong{color:var(--text);}
+    .buster-check{margin-top:10px;padding:8px 12px;background:rgba(138,224,163,0.08);border:1px solid rgba(138,224,163,0.25);border-radius:6px;font-size:12px;color:var(--success);}
+    /* Chart */
+    .chart-panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:24px;}
+    .chart-panel h2{margin:0 0 6px;font-size:18px;color:var(--accent);}
+    .chart-panel .cp-sub{color:var(--text-mute);font-size:12.5px;margin-bottom:14px;line-height:1.5;}
+    .chart-mount{width:100%;min-height:280px;}
+    .chart-badge{display:inline-block;background:rgba(224,192,96,0.15);color:var(--warn);padding:2px 8px;border-radius:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase;font-weight:700;margin-left:8px;}
+    /* Rules panel */
+    .rules{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:24px;}
+    .rules h2{margin:0 0 12px;font-size:16px;color:var(--accent);}
+    .rules ul{margin:0;padding-left:22px;line-height:1.7;color:var(--text-dim);}
+    .rules ul li{margin-bottom:6px;}
+    .rules ul li strong{color:var(--text);}
+    .footer-note{text-align:center;padding:24px 12px;color:var(--text-mute);font-size:12px;border-top:1px solid var(--border);margin-top:32px;line-height:1.6;}
+    .kb-badge{display:inline-block;background:rgba(88,101,242,0.15);color:#5865F2;padding:2px 8px;border-radius:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase;font-weight:700;margin-left:8px;}
+    /* Mobile polish */
+    .today-banner,.details,.chest-bar,.calc,.rules,.arms-panel,.week-proj,.buster,.chart-panel{min-width:0;overflow-x:hidden;}
+    .action-table{max-width:100%;}
+    .action-table th,.action-table td{word-break:break-word;}
+    button,.lang-toggle,.feedback-pill{min-height:40px;}
+    .lws-cd-dismiss,.chest-icon,.tz-toggle{min-height:auto;}
+    @media (max-width:520px){
+      .wrap{padding:14px 10px;}
+      .today-banner{padding:14px 16px;gap:12px;}
+      .today-name{font-size:22px;}
+      .today-vp{font-size:44px;}
+      .details,.chest-bar,.calc,.rules,.arms-panel,.week-proj,.buster,.chart-panel{padding:16px 14px;}
+      .details h2{font-size:17px;}
+      .action-table{font-size:12px;}
+      .action-table th,.action-table td{padding:6px 6px;}
+      .chest-threshold{font-size:11px;}
+    }
+  </style>
+  <script src="static/lws-countdown.js" defer></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body>
+  <div class="suite-nav">
+    <span>Part of the </span>
+    <a href="https://r5tools.io" class="brand-link">R5TOOLS.IO</a>
+    <span> Last War: Survival alliance toolkit — </span>
+    <a href="https://bullochman.github.io/lws-landing-planner-static/">Landing</a>·
+    <a href="https://bullochman.github.io/lws-heat-simulator-static/">Heat</a>·
+    <a href="https://bullochman.github.io/lws-freeze-risk-static/">Freeze</a>·
+    <a href="https://bullochman.github.io/lws-coal-burn-static/">Coal</a>·
+    <a href="https://bullochman.github.io/lws-city-capture-static/">City</a>·
+    <a href="https://bullochman.github.io/lws-season-timeline-static/">Timeline</a>·
+    <a href="https://hive.r5tools.io/">Hive</a>·
+    <a href="https://roster.r5tools.io/">Roster</a>·
+    <a href="https://bullochman.github.io/lws-profile-studio-static/">Profile</a>·
+    <span style="color:var(--accent)">VS Days</span>
+    <a class="feedback-pill" href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20VS%20Days%20Optimizer%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20">🚧 BETA · Feedback</a>
+  </div>
+
+  <div class="wrap">
+    <header class="app-header">
+      <div>
+        <span class="brand">R5TOOLS.IO</span>
+        <span class="brand-sub">LWS Suite</span>
+        <span class="brand-tool">VS Days Optimizer</span>
+      </div>
+      <button type="button" class="lang-toggle" id="langToggle">한국어</button>
+    </header>
+
+    <div id="main-app">
+    <section class="hero">
+      <h1>The 6-day <span class="accent">Alliance Duel</span> plan + live <span class="accent">Arms Race</span> clock.</h1>
+      <p>First to 7 victory points wins the week. This tool tells you exactly what to focus on today, calculates your current-day score, projects your weekly per-member VP, and shows the live Arms Race phase so you can stack rewards. Grounded in the LWS KB.</p>
+    </section>
+
+    <!-- CLOCK STRIP -->
+    <div class="clock-strip">
+      <span>Server (UTC): <strong id="serverClock">—</strong></span>
+      <span>Your local: <strong id="localClock">—</strong></span>
+      <span>Weekday: <strong id="weekdayLabel">—</strong></span>
+      <span>Auto-refreshes every 60s · <button class="tz-toggle" id="tzOverrideBtn" title="Override server timezone if your server is not UTC">override server TZ</button></span>
+    </div>
+
+    <!-- TODAY BANNER -->
+    <div class="today-banner" id="todayBanner">
+      <div>
+        <div class="today-label">TODAY IS</div>
+        <div class="today-name" id="todayName">Loading…</div>
+        <div style="color:var(--text-dim);font-size:13px;margin-top:4px" id="todayTheme">—</div>
+        <div class="now-arms" id="nowArms" style="display:none">
+          <span class="now-tick"></span>
+          <span>Arms Race now: <strong id="nowArmsName">—</strong> <span id="nowArmsRemaining" style="color:var(--text-mute);margin-left:4px"></span></span>
+        </div>
+      </div>
+      <div class="today-tip" id="todayTip">—</div>
+      <div>
+        <div class="today-vp" id="todayVp">0</div>
+        <div class="today-vp-lbl">VP if you win today</div>
+      </div>
+    </div>
+
+    <!-- WEEK OVERVIEW -->
+    <div class="week-grid" id="weekGrid"></div>
+
+    <!-- DETAILS PANEL -->
+    <div class="details" id="detailsPanel"></div>
+
+    <!-- ARMS RACE SCHEDULE -->
+    <div class="section-title">
+      <h2>Arms Race — today's 6 phases</h2>
+      <span class="subtitle">Daily · 4 hours each · phases shift 4h earlier every day (per-server drift)</span>
+    </div>
+    <div class="arms-panel">
+      <h2 style="font-size:16px;margin-bottom:4px" id="armsHeader">Loading…</h2>
+      <div class="arms-sub" id="armsSub">Server time is assumed UTC unless overridden. Start-of-cycle times are localised to your device below.</div>
+      <div class="arms-grid" id="armsGrid"></div>
+      <div class="arms-overlap" id="armsOverlap" style="display:none"></div>
+      <div class="arms-drift-help">
+        <strong>Per-server drift.</strong> Because phases shift 4 hours earlier each day, the schedule you see today is not what you'll see tomorrow — check back at reset. If your server's Arms Race baseline doesn't match, set a custom offset below.
+      </div>
+      <div class="drift-config">
+        <label>Cycle offset (hours):
+          <input type="number" id="cycleOffset" min="0" max="23" step="1" value="0" />
+        </label>
+        <span style="color:var(--text-mute);font-size:11px">0-23 · saved locally · shifts today's phase list</span>
+      </div>
+    </div>
+
+    <!-- WEEKLY VP PROJECTOR -->
+    <div class="section-title">
+      <h2>Weekly VP projection <span class="kb-badge">KB §09</span></h2>
+      <span class="subtitle">Estimate your alliance's finish position without hand-tabulating every day</span>
+    </div>
+    <div class="week-proj">
+      <h2 style="font-size:16px;margin:0 0 6px">Inputs</h2>
+      <div class="wp-sub">Adjust the sliders below. The projection sums per-day contributions × alliance-size × Saturday participation to estimate your weekly per-member VP contribution and the alliance total.</div>
+      <div class="wp-grid">
+        <div class="wp-row">
+          <label for="wpAllianceSize">Alliance size (active members)</label>
+          <input type="number" id="wpAllianceSize" min="1" max="150" step="1" value="60" />
+        </div>
+        <div class="wp-row">
+          <label for="wpDailyActivity">Daily activity level (Mon-Fri)</label>
+          <select id="wpDailyActivity">
+            <option value="0.3">Low — logs in, does dailies only (30%)</option>
+            <option value="0.6" selected>Medium — full-day scoring 3-4 days/wk (60%)</option>
+            <option value="0.85">High — full-day scoring every day (85%)</option>
+            <option value="1.0">Whale — max score every day (100%)</option>
+          </select>
+        </div>
+        <div class="wp-row">
+          <label for="wpSatParticipation">Expected Saturday participation</label>
+          <select id="wpSatParticipation">
+            <option value="0.25">Skeleton — 25% of members show</option>
+            <option value="0.5" selected>Half — 50% of members show</option>
+            <option value="0.75">Strong — 75% of members show</option>
+            <option value="1.0">Full rally — 100% of members show</option>
+          </select>
+        </div>
+        <div class="wp-row">
+          <label for="wpRivalStrength">Paired rival strength</label>
+          <select id="wpRivalStrength">
+            <option value="0.6">Weaker (you should win 5-6 days)</option>
+            <option value="1.0" selected>Even (win the days you show up for)</option>
+            <option value="1.4">Stronger (need Saturday flip to win week)</option>
+          </select>
+        </div>
+      </div>
+      <div class="wp-out" id="wpOut"></div>
+    </div>
+
+    <!-- ENEMY BUSTER PREP -->
+    <div class="section-title">
+      <h2>Enemy Buster Saturday · prep panel <span class="kb-badge">KB §09</span></h2>
+      <span class="subtitle">The 4-VP day. Prep starts Friday night.</span>
+    </div>
+    <div class="buster">
+      <h2>
+        <span>Saturday prep</span>
+        <span class="sat-count" id="satCountdown">—</span>
+      </h2>
+      <div class="buster-sub">Saturday alone is 4 VP — more than any 3 other days combined. A losing week can flip on Saturday if you show up prepped. Below is the checklist.</div>
+      <div class="buster-grid">
+        <div class="buster-card">
+          <h3>Friday-night checklist</h3>
+          <ul>
+            <li><strong>Activate 24h shield</strong> after last training queue completes (Friday ~11pm server) — protects your city while you're not online during the Saturday scoring window.</li>
+            <li><strong>Cash all trade trucks + secret tasks</strong> Friday night — those are 200k/150k pts on Tuesday, only 200k Sat if you hold them.</li>
+            <li><strong>Empty barracks queue</strong> — troops in training don't fight. You want the max standing army for Saturday.</li>
+            <li><strong>Refill stamina + drone-data caps</strong> — you'll spend them Saturday morning on radar & PvP.</li>
+            <li><strong>Confirm your paired rival tag</strong> — Saturday has a 5× multiplier ONLY on rival-alliance kills. Post the tag in alliance chat.</li>
+          </ul>
+        </div>
+        <div class="buster-card">
+          <h3>Hero comp for PvP (Saturday)</h3>
+          <ul>
+            <li><strong>Marshal:</strong> Kimberly (attack buff + shield break) OR Marcus (armor pen). Both legendary.</li>
+            <li><strong>Vanguard:</strong> Molotov specialist (Nikola, Reagan) — first-strike DPS matters when you're hunting rival trucks.</li>
+            <li><strong>Missile/Aircraft slot:</strong> Highest-rank hero with matching gear affix; missile carriers score higher per-troop in PvP.</li>
+            <li><strong>Formation:</strong> Cavalry-heavy for chase & catch. Rival trucks flee — you need speed to catch them before they garrison.</li>
+            <li><strong>Skill medals:</strong> Refresh all skills to max before Sat 00:00 server; medals used earlier in week don't refund.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="buster-check" id="busterCheck">Ready to plan — Saturday scoring window opens at 00:00 server on Sat.</div>
+    </div>
+
+    <!-- WEEKLY CHART -->
+    <div class="section-title">
+      <h2>Weekly VP contribution per member <span class="chart-badge">preview data</span></h2>
+      <span class="subtitle">Populated after your first weekly submission (via Roster + Season Timeline)</span>
+    </div>
+    <div class="chart-panel">
+      <h2 style="font-size:16px;margin-bottom:4px">Trend</h2>
+      <div class="cp-sub">Preview series shows what a healthy 4-week trajectory looks like. Once you upload your alliance roster via <a href="https://roster.r5tools.io/" target="_blank" rel="noopener">roster.r5tools.io</a> and log your first weekly submission, this chart will replot with your alliance's real per-member VP totals.</div>
+      <div id="vpChartMount" class="chart-mount"></div>
+    </div>
+
+    <!-- POINT CALCULATOR -->
+    <div class="calc">
+      <h2>What you've done today · point calculator</h2>
+      <p style="margin:-4px 0 12px;color:var(--text-dim);font-size:13px">Enter what you've completed. Personal-chest thresholds update below.</p>
+      <div class="calc-grid" id="calcGrid"></div>
+      <div class="calc-total">
+        <div>
+          <div class="calc-total-lbl">Estimated points today</div>
+          <div style="color:var(--text-mute);font-size:11px;margin-top:2px">Individual score — the alliance total is the sum of all members'</div>
+        </div>
+        <div class="calc-total-val" id="calcTotal">0</div>
+      </div>
+    </div>
+
+    <!-- CHEST PROGRESS -->
+    <div class="chest-bar">
+      <h2>Individual chest progress <span class="kb-badge">KB §09</span></h2>
+      <p style="margin:-4px 0 12px;color:var(--text-dim);font-size:13px">Cumulative daily score → unlocks a tier of chests. Super tier needs a tech unlock.</p>
+      <div id="chestList"></div>
+    </div>
+
+    <!-- STRATEGIC RULES -->
+    <div class="rules">
+      <h2>Every-week strategic rules <span class="kb-badge">KB §08 · §09</span></h2>
+      <ul>
+        <li><strong>Saturday alone = 4 VP</strong> — the single biggest swing of the week. Win it plus any 3 of Days 2-5 and you flip a losing week.</li>
+        <li><strong>Tuesday Base Expansion is where banked speedups pay off</strong> — pre-queue upgrades, dump construction speedups Tuesday, points score on completion.</li>
+        <li><strong>Points score on completion, not on speedup use.</strong> Start the queue BEFORE the day flips; dump speedups to <em>finish</em> it inside the window.</li>
+        <li><strong>Arms Race "Gift Box" exploit</strong> — complete a building/research the day before, leave the reward unclaimed, open it during the matching Arms Race phase. Points fire on unwrap, not on timer completion.</li>
+        <li><strong>Waterfall barracks training</strong> — stack multiple lower-tier queues, upgrade a barracks during Unit Progression phase to auto-promote all queued troops. Points score on the arrival level.</li>
+        <li><strong>Arms Race overlap</strong> — when the VS Day theme matches the active Arms Race phase, the same action scores in <em>both</em> events. (Tuesday Base Expansion × City Building phase, Friday Total Mobilization × Unit Progression phase.)</li>
+        <li><strong>Saturday Enemy Buster: 5× multiplier vs. your paired rival alliance.</strong> Kill their troops, not just anyone's.</li>
+      </ul>
+    </div>
+
+    </div><!-- /main-app -->
+
+    <div class="footer-note">
+      Facts sourced from the LWS Knowledge Base (§08 Alliance Systems · §09 Events · §17 Seasons Catalog).<br>
+      Arms Race schedule verified deep-research pass #3 (3-vote consensus). Per-server drift is real — override the cycle offset above if your server's phase clock doesn't match.<br>
+      Ask <a href="https://chat.r5tools.io" target="_blank">chat.r5tools.io</a> for anything that isn't covered here.
+      · <a href="https://r5tools.io">r5tools.io</a>
+    </div>
+  </div>
+
+  <!-- ---- Access-codes gate ---- -->
+  <script src="https://access-codes.r5tools.io/lib.js?v=2" defer></script>
+  <!-- ---- Shared components ---- -->
+  <script src="static/lws-track.js" defer></script>
+  <script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+  <!-- Line chart component (loaded from marketing origin) -->
+  <script src="https://r5tools.io/line-chart.js" defer></script>
+  <!-- Roster freshness widget -->
+  <script src="https://roster.r5tools.io/static/roster-freshness.js" defer></script>
+  <script>
+  (function () {
+    'use strict';
+
+    // ─────────────────────────────────────────────────────────────────
+    // VS Days data — Mon-Sat, Sunday off
+    // ─────────────────────────────────────────────────────────────────
+    var DAYS = [
+      { key:'mon', name:'Monday',    dayNum:1, theme:'Radar Training',
+        vp:1, kbSection:'§09',
+        tip:'Complete radar tasks + burn stamina. Save legendary trucks for tomorrow (Tuesday scores 2 VP and rewards them).',
+        actions:[
+          { key:'radar', label:'Radar missions completed',    pointsEach:25000 },
+          { key:'stamina', label:'Stamina spent (per point)', pointsEach:300 },
+          { key:'heroexp', label:'Hero EXP consumed (per k)', pointsEach:150 },
+          { key:'droneData', label:'Drone combat data',        pointsEach:200 },
+        ]},
+      { key:'tue', name:'Tuesday',   dayNum:2, theme:'Base Expansion',
+        vp:2, kbSection:'§09',
+        tip:'Biggest speedup-conversion day of the week. Dump construction speedups you\'ve been banking. Cash your legendary trade truck + secret task (150-200k each).',
+        actions:[
+          { key:'speedMin', label:'Construction speedups (minutes)', pointsEach:120 },
+          { key:'truck',    label:'Legendary trade trucks',           pointsEach:200000 },
+          { key:'secret',   label:'Legendary secret tasks',           pointsEach:150000 },
+          { key:'survivor', label:'Survivor recruits',                pointsEach:3000 },
+        ]},
+      { key:'wed', name:'Wednesday', dayNum:3, theme:'Age of Science',
+        vp:2, kbSection:'§09',
+        tip:'Research speedups drain everything. Radar missions score today too (23k each). Save valor badges — they hit 600/badge only Wed.',
+        actions:[
+          { key:'speedMin', label:'Research speedups (minutes)', pointsEach:120 },
+          { key:'valor',    label:'Valor badges',                 pointsEach:600 },
+          { key:'radar',    label:'Radar missions',              pointsEach:23000 },
+          { key:'drone',    label:'Drone component chests',      pointsEach:2000 },
+        ]},
+      { key:'thu', name:'Thursday',  dayNum:4, theme:'Train Heroes',
+        vp:2, kbSection:'§09',
+        tip:'Pull all your saved hero cards. Legendary shards = 20k EACH. Skill medals + exclusive weapon shards also score.',
+        actions:[
+          { key:'eliteRecruit', label:'Elite hero recruits',                  pointsEach:3750 },
+          { key:'legShard',     label:'Legendary hero shards',                pointsEach:20000 },
+          { key:'epicShard',    label:'Epic hero shards',                     pointsEach:7000 },
+          { key:'rareShard',    label:'Rare hero shards',                     pointsEach:2000 },
+          { key:'skillMedal',   label:'Skill medals used',                    pointsEach:20 },
+          { key:'weaponShard',  label:'Exclusive weapon shards',              pointsEach:20000 },
+        ]},
+      { key:'fri', name:'Friday',    dayNum:5, theme:'Total Mobilization',
+        vp:2, kbSection:'§09',
+        tip:'THE big one for training. All hoarded training speedups fire today. Train the highest tier you can — T10 = 258 pts/troop vs T1 = 46. End Fri with a 24h shield up.',
+        actions:[
+          { key:'speedMin', label:'Training speedups (minutes)', pointsEach:122 },
+          { key:'t10',      label:'T10 troops trained',           pointsEach:258 },
+          { key:'t8',       label:'T8 troops trained',            pointsEach:180 },
+          { key:'t5',       label:'T5 troops trained',            pointsEach:120 },
+          { key:'t1',       label:'T1 troops trained',            pointsEach:46 },
+          { key:'radar',    label:'Radar missions',                pointsEach:23000 },
+        ]},
+      { key:'sat', name:'Saturday',  dayNum:6, theme:'Enemy Buster',
+        vp:4, kbSection:'§09',
+        tip:'THE biggest day. 4 VP per PvP kill (5× multiplier on paired rival alliance). Check your rival tag first. Dying troops also scores (small).',
+        actions:[
+          { key:'killRivalT10', label:'Rival T10 troops killed (5× mult)',  pointsEach:690 },
+          { key:'killRivalT5',  label:'Rival T5 troops killed (5× mult)',   pointsEach:400 },
+          { key:'killRivalT1',  label:'Rival T1 troops killed (5× mult)',   pointsEach:125 },
+          { key:'killOtherT10', label:'Non-rival T10 troops killed',        pointsEach:138 },
+          { key:'killOtherT1',  label:'Non-rival T1 troops killed',         pointsEach:25 },
+          { key:'loseT10',      label:'Own T10 troops lost',                pointsEach:20 },
+          { key:'loseT1',       label:'Own T1 troops lost',                  pointsEach:6 },
+          { key:'truck',        label:'Legendary trade trucks',              pointsEach:200000 },
+        ]},
+    ];
+    var CHESTS = [
+      { name:'Basic',    icon:'🥉', low:1, high:3, threshold:540000,  needTech:false },
+      { name:'Advanced', icon:'🥈', low:4, high:6, threshold:2300000, needTech:true  },
+      { name:'Super',    icon:'🥇', low:7, high:9, threshold:7200000, needTech:true  },
+    ];
+
+    // ─────────────────────────────────────────────────────────────────
+    // Arms Race data — 6 phases × 4h daily; per-server drift shifts
+    // the schedule 4h earlier each calendar day.
+    // The 5 unique phases are:
+    //   HERO   — Hero Advancement (score on hero XP, shards, medals used)
+    //   CITY   — City Building    (score on construction speedups, upgrades)
+    //   UNIT   — Unit Progression (score on unit training / promotions)
+    //   TECH   — Tech Research    (score on research speedups, valor)
+    //   DRONE  — Drone Boost      (score on drone data, drone chests)
+    // Slot 6 repeats the day's high-value phase (defaults to whichever
+    // phase matches today's VS Day theme, or HERO on rest days).
+    // ─────────────────────────────────────────────────────────────────
+    var PHASES = {
+      HERO:  { name:'Hero Advancement', color:'#e0c060', tip:'Consume hero XP, use skill medals, pull hero shard chests. Best if you have banked EXP.' },
+      CITY:  { name:'City Building',    color:'#8ae0a3', tip:'Fire construction speedups. Gift-box any pre-completed building here.' },
+      UNIT:  { name:'Unit Progression', color:'#7fb0e6', tip:'Train troops or waterfall-promote existing queues. Highest-tier training scores most.' },
+      TECH:  { name:'Tech Research',    color:'#c48ae0', tip:'Fire research speedups. Gift-box any pre-completed research here.' },
+      DRONE: { name:'Drone Boost',      color:'#e08a8a', tip:'Consume drone combat data, open drone component chests, run drone raids.' },
+    };
+    var BASE_SEQUENCE = ['HERO','CITY','UNIT','TECH','DRONE','CITY']; // slot 6 = repeat (CITY is common repeat)
+
+    // Given a Date (UTC), return the 6-phase list for that server-day
+    // after applying per-server drift (4h earlier each day since epoch).
+    function armsPhaseListForDay(dateUTC, cycleOffsetHours) {
+      // days since a reference UTC date (2026-01-01)
+      var ref = Date.UTC(2026, 0, 1);
+      var days = Math.floor((dateUTC.getTime() - ref) / 86400000);
+      // Each day the sequence rotates by 1 slot (equivalent to 4h earlier).
+      var rot = ((days % BASE_SEQUENCE.length) + BASE_SEQUENCE.length) % BASE_SEQUENCE.length;
+      var seq = BASE_SEQUENCE.slice(rot).concat(BASE_SEQUENCE.slice(0, rot));
+      // Cycle offset: shift the starting hour of the day (0-23).
+      var startHour = (cycleOffsetHours || 0) % 24;
+      var phases = [];
+      for (var i = 0; i < 6; i++) {
+        var startH = (startHour + i * 4) % 24;
+        var endH = (startH + 4) % 24;
+        phases.push({
+          key: seq[i],
+          name: PHASES[seq[i]].name,
+          color: PHASES[seq[i]].color,
+          tip: PHASES[seq[i]].tip,
+          startHour: startH,
+          endHour: endH,
+          slot: i,
+        });
+      }
+      return phases;
+    }
+
+    // Which phase is active RIGHT NOW given a server-time Date?
+    function currentPhase(serverDate, cycleOffsetHours) {
+      var phases = armsPhaseListForDay(serverDate, cycleOffsetHours);
+      var h = serverDate.getUTCHours();
+      for (var i = 0; i < phases.length; i++) {
+        var p = phases[i];
+        var start = p.startHour;
+        var end = (p.startHour + 4) % 24;
+        // Handle wrap
+        var inRange = (start < end) ? (h >= start && h < end)
+                                    : (h >= start || h < end);
+        if (inRange) return p;
+      }
+      return null;
+    }
+
+    // Minutes until end of currentPhase.
+    function minutesRemainingInPhase(serverDate, phase) {
+      var m = serverDate.getUTCMinutes();
+      var h = serverDate.getUTCHours();
+      var slotEndH = (phase.startHour + 4) % 24;
+      var slotEndMin;
+      // absolute minute-of-day
+      var nowMin = h * 60 + m;
+      var startMin = phase.startHour * 60;
+      var endMin = startMin + 240; // 4h
+      if (endMin > 1440) endMin -= 1440;
+      var remaining;
+      if (endMin > startMin) {
+        // no wrap
+        remaining = endMin - nowMin;
+      } else {
+        // wrap: startMin near end of day, endMin small
+        remaining = (nowMin >= startMin) ? (1440 - nowMin + endMin) : (endMin - nowMin);
+      }
+      return Math.max(0, remaining);
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // Time / server-TZ management
+    // The player's SERVER (game) time is assumed UTC unless overridden.
+    // We persist an override hour offset in localStorage.
+    // ─────────────────────────────────────────────────────────────────
+    var TZ_KEY = 'lws_vsdays_server_tz_offset_hours';
+    var OFFSET_KEY = 'lws_vsdays_cycle_offset';
+
+    function getServerTzOffsetHours() {
+      try {
+        var raw = localStorage.getItem(TZ_KEY);
+        if (!raw) return 0;
+        var n = parseFloat(raw);
+        return isFinite(n) ? n : 0;
+      } catch (e) { return 0; }
+    }
+    function setServerTzOffsetHours(h) {
+      try { localStorage.setItem(TZ_KEY, String(h)); } catch (e) {}
+    }
+    function getCycleOffsetHours() {
+      try {
+        var raw = localStorage.getItem(OFFSET_KEY);
+        if (!raw) return 0;
+        var n = parseInt(raw, 10);
+        return isFinite(n) ? n : 0;
+      } catch (e) { return 0; }
+    }
+    function setCycleOffsetHours(h) {
+      try { localStorage.setItem(OFFSET_KEY, String(h)); } catch (e) {}
+    }
+
+    // Returns a Date whose UTC-facing methods reflect *server* time.
+    function serverNow() {
+      var offset = getServerTzOffsetHours();
+      var wall = new Date(Date.now() + offset * 3600000);
+      return wall;
+    }
+
+    // Given a UTC hour (server), format as user's local wall-clock time.
+    function serverHourToLocalStr(serverHour) {
+      // serverHour interpreted as UTC. Build today's server date at that hour.
+      var s = serverNow();
+      var utcTs = Date.UTC(s.getUTCFullYear(), s.getUTCMonth(), s.getUTCDate(), serverHour, 0, 0);
+      // Convert back to real Date by subtracting the tz-offset we added earlier.
+      var realTs = utcTs - getServerTzOffsetHours() * 3600000;
+      var d = new Date(realTs);
+      // Format HH:MM in user's local TZ
+      var hh = String(d.getHours()).padStart(2, '0');
+      var mm = String(d.getMinutes()).padStart(2, '0');
+      return hh + ':' + mm;
+    }
+
+    function fmtServerHour(h) {
+      return String(h).padStart(2, '0') + ':00';
+    }
+
+    // Which day-index (0=Mon..6=Sun) is server-time today?
+    function currentDayIdx() {
+      var s = serverNow();
+      var d = s.getUTCDay(); // 0=Sun..6=Sat
+      return d === 0 ? -1 : d - 1; // Mon=0 in DAYS array
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // Rendering
+    // ─────────────────────────────────────────────────────────────────
+
+    function renderClockStrip() {
+      var s = serverNow();
+      var serverStr = String(s.getUTCHours()).padStart(2, '0') + ':' + String(s.getUTCMinutes()).padStart(2, '0') + ' UTC';
+      var offset = getServerTzOffsetHours();
+      if (offset) serverStr = serverStr.replace(' UTC', ' UTC' + (offset >= 0 ? '+' : '') + offset);
+      var local = new Date();
+      var localStr = String(local.getHours()).padStart(2, '0') + ':' + String(local.getMinutes()).padStart(2, '0');
+      var wdIdx = s.getUTCDay();
+      var wdNames = ['Sunday (rest)','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      document.getElementById('serverClock').textContent = serverStr;
+      document.getElementById('localClock').textContent = localStr;
+      document.getElementById('weekdayLabel').textContent = wdNames[wdIdx] + (wdIdx === 6 ? ' — Enemy Buster' : '');
+    }
+
+    function renderWeekGrid() {
+      var host = document.getElementById('weekGrid');
+      host.innerHTML = '';
+      var todayIdx = currentDayIdx();
+      var sunday = { name:'Sunday', theme:'Peak Fighter (results)', vp:0 };
+      var cells = DAYS.concat([sunday]);
+      cells.forEach(function (d, i) {
+        var cell = document.createElement('div');
+        cell.className = 'day-card' + (i === todayIdx ? ' today' : '') + (todayIdx !== -1 && i < todayIdx ? ' past' : '');
+        cell.innerHTML =
+          '<div class="day-num">Day ' + (d.dayNum || 7) + '</div>' +
+          '<div class="day-name">' + d.name + '</div>' +
+          '<div class="day-theme">' + d.theme + '</div>' +
+          (d.vp > 0 ? '<div class="day-vp">' + d.vp + '</div><div class="day-vp-lbl">VP</div>' : '<div class="day-vp">–</div><div class="day-vp-lbl">rest</div>');
+        cell.onclick = function () { showDetails(i < DAYS.length ? i : -1); };
+        host.appendChild(cell);
+      });
+    }
+
+    function renderTodayBanner() {
+      var idx = currentDayIdx();
+      var el = {
+        name: document.getElementById('todayName'),
+        theme: document.getElementById('todayTheme'),
+        tip: document.getElementById('todayTip'),
+        vp: document.getElementById('todayVp'),
+      };
+      if (idx === -1) {
+        el.name.textContent = 'Sunday — Peak Fighter';
+        el.theme.textContent = 'VS Days runs Mon-Sat. Today is the results / celebration day.';
+        el.tip.textContent = 'Look at the week grid to plan for Monday. Recover speedups; empty your queue so Monday radar tasks can fire.';
+        el.vp.textContent = '–';
+      } else {
+        var d = DAYS[idx];
+        el.name.textContent = d.name + ' — ' + d.theme;
+        el.theme.textContent = 'Day ' + d.dayNum + ' of 6 · ' + d.vp + ' VP available';
+        el.tip.textContent = d.tip;
+        el.vp.textContent = d.vp;
+      }
+      // Now-playing Arms Race chip
+      var phase = currentPhase(serverNow(), getCycleOffsetHours());
+      var nowBox = document.getElementById('nowArms');
+      if (phase) {
+        nowBox.style.display = '';
+        document.getElementById('nowArmsName').textContent = phase.name;
+        var rem = minutesRemainingInPhase(serverNow(), phase);
+        var h = Math.floor(rem / 60), m = rem % 60;
+        document.getElementById('nowArmsRemaining').textContent = '(' + (h > 0 ? h + 'h ' : '') + m + 'm left)';
+      } else {
+        nowBox.style.display = 'none';
+      }
+    }
+
+    var currentDetail = -1;
+    function showDetails(idx) {
+      var panel = document.getElementById('detailsPanel');
+      if (idx === -1) {
+        panel.innerHTML = '<h2>Sunday — Peak Fighter</h2><p style="color:var(--text-dim)">VS Days is off. This day rewards accumulated results from Mon-Sat; there\'s nothing new to do actively. Use it to rebuild speedup stockpiles.</p>';
+        currentDetail = -1;
+        renderCalcGrid();
+        return;
+      }
+      var d = DAYS[idx];
+      var rows = d.actions.map(function (a) {
+        return '<tr><td>' + a.label + '</td><td class="num">' + a.pointsEach.toLocaleString() + ' pts</td></tr>';
+      }).join('');
+      panel.innerHTML =
+        '<h2>' + d.name + ' — ' + d.theme + ' <span class="kb-badge">' + d.kbSection + '</span></h2>' +
+        '<p style="color:var(--text-dim);font-size:13.5px;line-height:1.5;margin:0 0 12px">' + d.tip + '</p>' +
+        '<h3>Scoring actions</h3>' +
+        '<table class="action-table"><thead><tr><th>Action</th><th style="text-align:right">Points</th></tr></thead><tbody>' + rows + '</tbody></table>';
+      currentDetail = idx;
+      renderCalcGrid();
+    }
+
+    function renderCalcGrid() {
+      var host = document.getElementById('calcGrid');
+      host.innerHTML = '';
+      var idx = currentDetail === -1 ? currentDayIdx() : currentDetail;
+      if (idx === -1) {
+        host.innerHTML = '<p style="grid-column:1/-1;color:var(--text-dim);font-size:13px;text-align:center;padding:20px 0">Sunday is a rest day — no VS Days scoring.</p>';
+        recalcTotal(0);
+        return;
+      }
+      var d = DAYS[idx];
+      d.actions.forEach(function (a) {
+        var row = document.createElement('div');
+        row.className = 'calc-row';
+        row.innerHTML =
+          '<label>' + a.label + ' <span style="color:var(--text-mute);font-weight:400">(' + a.pointsEach.toLocaleString() + ' each)</span></label>' +
+          '<input type="number" min="0" step="1" value="0" data-points="' + a.pointsEach + '" />';
+        row.querySelector('input').addEventListener('input', recalc);
+        host.appendChild(row);
+      });
+      recalc();
+    }
+    function recalc() {
+      var total = 0;
+      document.querySelectorAll('#calcGrid input').forEach(function (inp) {
+        var v = parseFloat(inp.value) || 0;
+        var p = parseFloat(inp.dataset.points) || 0;
+        total += v * p;
+      });
+      recalcTotal(total);
+    }
+    function recalcTotal(total) {
+      document.getElementById('calcTotal').textContent = Math.round(total).toLocaleString();
+      renderChests(total);
+    }
+
+    function renderChests(score) {
+      var host = document.getElementById('chestList');
+      host.innerHTML = '';
+      CHESTS.forEach(function (c) {
+        var frac = Math.min(1, score / c.threshold);
+        var pct = Math.round(frac * 100);
+        var row = document.createElement('div');
+        row.className = 'chest-row';
+        row.innerHTML =
+          '<div class="chest-icon">' + c.icon + '</div>' +
+          '<div class="chest-name">' + c.name + ' (' + c.low + '-' + c.high + ')' + (c.needTech ? '<span style="color:var(--warn);margin-left:6px;font-size:11px">(tech unlock req.)</span>' : '') + '</div>' +
+          '<div class="chest-progress-outer"><div class="chest-progress-inner" style="width:' + pct + '%"></div></div>' +
+          '<div class="chest-threshold">' + Math.round(score).toLocaleString() + ' / ' + c.threshold.toLocaleString() + '</div>';
+        host.appendChild(row);
+      });
+    }
+
+    // ─── Arms Race schedule renderer ─────────────────────────────────
+    function renderArmsSchedule() {
+      var s = serverNow();
+      var offset = getCycleOffsetHours();
+      var phases = armsPhaseListForDay(s, offset);
+      var nowH = s.getUTCHours();
+      var host = document.getElementById('armsGrid');
+      host.innerHTML = '';
+      var todayIdx = currentDayIdx();
+      var vsMatch = null;
+      if (todayIdx >= 0) {
+        // Match VS Day theme to a phase for overlap callout
+        var vsToPhase = { 'Radar Training':'DRONE', 'Base Expansion':'CITY', 'Age of Science':'TECH',
+                          'Train Heroes':'HERO', 'Total Mobilization':'UNIT', 'Enemy Buster':null };
+        vsMatch = vsToPhase[DAYS[todayIdx].theme];
+      }
+      phases.forEach(function (p) {
+        var start = p.startHour;
+        var end = (p.startHour + 4) % 24;
+        var isNow = (start < end)
+          ? (nowH >= start && nowH < end)
+          : (nowH >= start || nowH < end);
+        var isPast = !isNow && (
+          (start < end) ? (nowH >= end) : false
+        );
+        var cell = document.createElement('div');
+        cell.className = 'arms-cell' + (isNow ? ' now' : '') + (isPast ? ' past' : '');
+        var timeStr = fmtServerHour(start) + '–' + fmtServerHour(end) + ' server<br><span style="opacity:.75">' + serverHourToLocalStr(start) + '–' + serverHourToLocalStr(end) + ' local</span>';
+        var remainingChip = '';
+        if (isNow) {
+          var rem = minutesRemainingInPhase(s, p);
+          var h = Math.floor(rem / 60), m = rem % 60;
+          remainingChip = '<div class="arms-remaining">' + (h > 0 ? h + 'h ' : '') + m + 'm left</div>';
+        }
+        var vsChip = (vsMatch === p.key)
+          ? '<div style="margin-top:6px;font-size:10px;letter-spacing:.06em;color:var(--accent);font-weight:700">↔ VS DAY OVERLAP</div>'
+          : '';
+        cell.innerHTML = remainingChip
+          + '<div class="arms-time">' + timeStr + '</div>'
+          + '<div class="arms-phase" style="color:' + p.color + '">' + p.name + '</div>'
+          + '<div class="arms-tip">' + p.tip + '</div>'
+          + vsChip;
+        host.appendChild(cell);
+      });
+      // Header
+      var dateStr = s.toISOString().slice(0, 10);
+      document.getElementById('armsHeader').textContent = 'Today\'s Arms Race cycle · ' + dateStr + ' (server date)';
+      // Overlap callout
+      var overlap = document.getElementById('armsOverlap');
+      if (vsMatch && todayIdx >= 0) {
+        overlap.style.display = '';
+        overlap.innerHTML = '<strong>Double-dip alert:</strong> today\'s VS Day theme (<strong>' + DAYS[todayIdx].theme + '</strong>) overlaps with the <strong>' + PHASES[vsMatch].name + '</strong> Arms Race phase. Every action you take during that phase scores in <em>both</em> events. Time your speedup dumps for that window.';
+      } else if (todayIdx === 5) {
+        // Saturday — Enemy Buster has no direct Arms Race analog
+        overlap.style.display = '';
+        overlap.innerHTML = '<strong>Enemy Buster note:</strong> Saturday\'s VS Day has no matching Arms Race phase. Focus on rival kills for VS points; Arms Race rewards are secondary. Time drone / hero opens for their respective phases.';
+      } else {
+        overlap.style.display = 'none';
+      }
+    }
+
+    // ─── Weekly VP projector ─────────────────────────────────────────
+    // Rough model:
+    //   Per-member per-day: 300k pts × activityLevel on Mon-Fri
+    //   Saturday: 500k pts × satParticipation × (rival kills adjusted by rivalStrength)
+    //   Alliance wins a day if per-day total × size > threshold (~15M per typical day)
+    //   VP count = days won (up to Mon-Sat total = 13 VP pool: 1+2+2+2+2+4)
+    // ────────────────────────────────────────────────────────────────
+    function projectWeek() {
+      var size = parseInt(document.getElementById('wpAllianceSize').value, 10) || 0;
+      var daily = parseFloat(document.getElementById('wpDailyActivity').value) || 0;
+      var satPart = parseFloat(document.getElementById('wpSatParticipation').value) || 0;
+      var rival = parseFloat(document.getElementById('wpRivalStrength').value) || 1;
+
+      // Per-member per-day contribution (points). Sourced from KB §09 top-percentile ceilings.
+      var perMemberDailyBase = 300000; // Mon-Fri weekday scoring ceiling for an active member
+      var perMemberSat       = 500000; // Sat PvP ceiling for an active fighter
+
+      // Weekday earn (Mon-Fri)
+      var perMemberWeekPoints = perMemberDailyBase * daily * 5;
+      // Saturday earn (per active fighter × participation rate)
+      var perMemberSatPoints = perMemberSat * satPart;
+      var perMemberWeekTotal = perMemberWeekPoints + perMemberSatPoints;
+
+      // Alliance total
+      var allianceWeekTotal = perMemberWeekTotal * size;
+
+      // VP estimation: how many of the 6 days do we plausibly win?
+      // Model: each day has a threshold of (perMemberDailyBase * size * daily × 1.0 / rival).
+      // If our score for that day exceeds threshold, we take the VP.
+      var vpBudget = [1,2,2,2,2,4]; // Mon..Sat
+      var vpWon = 0;
+      for (var i = 0; i < 5; i++) {
+        // Mon-Fri
+        var ours = perMemberDailyBase * daily * size;
+        var theirs = perMemberDailyBase * 0.6 * size * rival; // assume rival is 60% activity baseline × strength
+        if (ours > theirs) vpWon += vpBudget[i];
+        else if (Math.abs(ours - theirs) / Math.max(ours, theirs) < 0.08) vpWon += vpBudget[i] * 0.5; // toss-up
+      }
+      // Saturday
+      var oursSat = perMemberSat * satPart * size;
+      var theirsSat = perMemberSat * 0.5 * size * rival;
+      if (oursSat > theirsSat) vpWon += 4;
+      else if (Math.abs(oursSat - theirsSat) / Math.max(oursSat, theirsSat) < 0.08) vpWon += 2;
+
+      var vpTotal = 13;
+      var winWeek = vpWon >= 7;
+
+      var out = document.getElementById('wpOut');
+      out.innerHTML = '';
+      var cards = [
+        { lbl: 'Per-member weekly points', val: fmtBigNum(perMemberWeekTotal), note: '5× weekday + Saturday PvP' },
+        { lbl: 'Alliance weekly total',    val: fmtBigNum(allianceWeekTotal),  note: size + ' members × per-member' },
+        { lbl: 'Projected VP won',         val: Math.round(vpWon) + ' / ' + vpTotal, note: winWeek ? 'Wins the week (needs 7)' : 'Falls short of 7 VP' },
+        { lbl: 'Estimated finish',         val: winWeek ? '1st (Ally)' : (vpWon >= 5 ? '2nd (close)' : '2nd (routed)'),
+          note: winWeek ? 'Chest tier tops out' : 'Sat participation is the fastest lever to fix' },
+      ];
+      cards.forEach(function (c) {
+        var el = document.createElement('div');
+        el.className = 'wp-out-card';
+        el.innerHTML = '<div class="wp-out-lbl">' + c.lbl + '</div>'
+          + '<div class="wp-out-val" ' + (c.lbl.indexOf('VP') !== -1 && !winWeek ? 'style="color:var(--danger)"' : '') + '>' + c.val + '</div>'
+          + '<div class="wp-out-note">' + c.note + '</div>';
+        out.appendChild(el);
+      });
+    }
+    function fmtBigNum(n) {
+      if (n >= 1e9) return (n / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
+      if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.?0+$/, '') + 'M';
+      if (n >= 1e3) return (n / 1e3).toFixed(0) + 'K';
+      return String(Math.round(n));
+    }
+
+    // ─── Saturday countdown / buster prep ────────────────────────────
+    function renderSatCountdown() {
+      var s = serverNow();
+      var wd = s.getUTCDay(); // 0=Sun..6=Sat
+      var daysToSat, label;
+      if (wd === 6) {
+        daysToSat = 0;
+        label = 'Saturday IS today — go fight';
+      } else {
+        daysToSat = (6 - wd + 7) % 7;
+        if (daysToSat === 0) daysToSat = 7;
+        // How many hours until Sat 00:00 server?
+        var hoursRemainingToday = 24 - s.getUTCHours();
+        var totalHours = (daysToSat - 1) * 24 + hoursRemainingToday;
+        var d = Math.floor(totalHours / 24), h = totalHours % 24;
+        label = 'T-' + d + 'd ' + h + 'h to Sat 00:00 server';
+      }
+      document.getElementById('satCountdown').textContent = label;
+      var check = document.getElementById('busterCheck');
+      if (wd === 5) {
+        check.style.background = 'rgba(224,192,96,0.10)';
+        check.style.borderColor = 'rgba(224,192,96,0.35)';
+        check.style.color = 'var(--warn)';
+        check.textContent = '⚠ FRIDAY — activate shield tonight after training queue completes. Confirm rival tag with alliance.';
+      } else if (wd === 6) {
+        check.style.background = 'rgba(224,138,138,0.10)';
+        check.style.borderColor = 'rgba(224,138,138,0.35)';
+        check.style.color = 'var(--danger)';
+        check.textContent = '🔥 SATURDAY LIVE — every rival kill = 5× multiplier. Attack, don\'t garrison.';
+      } else {
+        check.style.background = 'rgba(138,224,163,0.08)';
+        check.style.borderColor = 'rgba(138,224,163,0.25)';
+        check.style.color = 'var(--success)';
+        check.textContent = 'Ready to plan — Saturday scoring window opens at 00:00 server on Sat.';
+      }
+    }
+
+    // ─── Weekly VP chart (line-chart component) ──────────────────────
+    function renderVpChart() {
+      var mount = document.getElementById('vpChartMount');
+      if (!mount) return;
+      if (!window.LWSLineChart) {
+        // Component not loaded yet — retry once.
+        setTimeout(renderVpChart, 500);
+        return;
+      }
+      // Preview / mock data: 4 weeks of per-member VP contribution.
+      // In production this is replaced by the alliance's real weekly submissions.
+      var series = [
+        {
+          label: 'Top scorer (max)',
+          color: '#c9a961',
+          points: [
+            { x: 'Wk -3', y: 8200000 },
+            { x: 'Wk -2', y: 9100000 },
+            { x: 'Wk -1', y: 10800000 },
+            { x: 'This wk', y: 11400000 },
+          ]
+        },
+        {
+          label: 'Alliance median',
+          color: '#8ae0a3',
+          points: [
+            { x: 'Wk -3', y: 3800000 },
+            { x: 'Wk -2', y: 4200000 },
+            { x: 'Wk -1', y: 5100000 },
+            { x: 'This wk', y: 5400000 },
+          ]
+        },
+        {
+          label: 'Bottom quartile',
+          color: '#7fb0e6',
+          points: [
+            { x: 'Wk -3', y: 1200000 },
+            { x: 'Wk -2', y: 1400000 },
+            { x: 'Wk -1', y: 1800000 },
+            { x: 'This wk', y: 2100000 },
+          ]
+        }
+      ];
+      try {
+        window.LWSLineChart.renderMulti(mount, {
+          title: 'Per-member weekly VP contribution (preview data)',
+          series: series,
+          labelY: 'Points',
+          labelX: 'Week',
+          height: 300,
+          emptyMsg: 'No submissions yet — upload roster + log a weekly result to populate.'
+        });
+      } catch (e) {
+        console.warn('[VS Days] chart render failed', e);
+      }
+    }
+
+    // ─── TZ override modal ───────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+      var btn = document.getElementById('tzOverrideBtn');
+      if (btn) btn.addEventListener('click', function () {
+        var current = getServerTzOffsetHours();
+        var v = prompt('Your game SERVER timezone offset from UTC in hours\n(e.g. -5 for EST, +9 for KR, 0 for UTC).\nMost LWS servers run on UTC.', String(current));
+        if (v === null) return;
+        var n = parseFloat(v);
+        if (!isFinite(n)) return alert('Not a number.');
+        setServerTzOffsetHours(n);
+        refreshAll();
+      });
+      var offInput = document.getElementById('cycleOffset');
+      if (offInput) {
+        offInput.value = String(getCycleOffsetHours());
+        offInput.addEventListener('change', function () {
+          var n = parseInt(offInput.value, 10);
+          if (!isFinite(n)) n = 0;
+          n = ((n % 24) + 24) % 24;
+          setCycleOffsetHours(n);
+          renderArmsSchedule();
+          renderTodayBanner();
+        });
+      }
+      // Weekly projector inputs
+      ['wpAllianceSize','wpDailyActivity','wpSatParticipation','wpRivalStrength'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', projectWeek);
+        if (el) el.addEventListener('change', projectWeek);
+      });
+    });
+
+    function refreshAll() {
+      renderClockStrip();
+      renderWeekGrid();
+      renderTodayBanner();
+      renderArmsSchedule();
+      renderSatCountdown();
+      if (currentDetail === currentDayIdx() || currentDetail === -1) {
+        showDetails(currentDayIdx());
+      }
+    }
+
+    // ─── Init ────────────────────────────────────────────────────────
+    renderClockStrip();
+    renderWeekGrid();
+    renderTodayBanner();
+    showDetails(currentDayIdx());
+    renderChests(0);
+    renderArmsSchedule();
+    renderSatCountdown();
+    projectWeek();
+    // Chart needs the line-chart.js to have loaded; kick after DOM ready.
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(renderVpChart, 50);
+    } else {
+      document.addEventListener('DOMContentLoaded', renderVpChart);
+    }
+
+    // Auto-refresh every minute — updates today banner, Arms Race remaining time.
+    setInterval(refreshAll, 60000);
+
+    // ─── Access-codes gate ───────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.LWSAccessCodes && typeof window.LWSAccessCodes.gate === 'function') {
+        try { window.LWSAccessCodes.gate('main-app', { brandName: 'VS Days Optimizer' }); } catch (e) {}
+      }
+      // Roster freshness widget — mounts a floating top-right badge iff the
+      // user has previously loaded an alliance roster (signature persisted
+      // in localStorage as `lws_last_alliance_sig`).
+      try {
+        var sig = null;
+        try { sig = localStorage.getItem('lws_last_alliance_sig'); } catch (e) {}
+        if (sig && window.RosterFreshness && typeof window.RosterFreshness.mount === 'function') {
+          window.RosterFreshness.mount({
+            signature: sig,
+            apiBase: 'https://roster.r5tools.io',
+            lang: (document.documentElement.lang || 'en').slice(0, 2),
+            onRefresh: function () {
+              window.open('https://roster.r5tools.io/#live', '_blank');
+            }
+          });
+        }
+      } catch (e) { console.warn('[VS Days] roster-freshness mount failed', e); }
+    });
+  })();
+  </script>
+</body>
+</html>

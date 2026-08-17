@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title data-i18n="title">Wave Attack Coordinator — LWS Suite</title>
+  <meta name="description" content="Sync your alliance's tsunami — personal click-send times so every march lands on the target at the exact same second. NTP-corrected countdown, audio + vibration cues, no login." />
+  <link rel="stylesheet" href="static/styles.css" />
+  <script defer src="static/lws-track.js"></script>
+  <style>
+    /* Wave-specific styles */
+    .wave-mode-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: rgba(88,101,242,0.15);
+      color: #5865F2;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+    .wave-mode-badge.join {
+      background: rgba(138,224,163,0.15);
+      color: var(--status-green);
+    }
+
+    .form-block {
+      margin-bottom: var(--sp-4);
+    }
+    .form-block > label {
+      display: block;
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-mute); margin-bottom: 6px;
+    }
+    .form-block input[type="text"],
+    .form-block input[type="datetime-local"],
+    .form-block input[type="number"],
+    .form-block textarea,
+    .form-block select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      min-height: 44px;
+    }
+    .form-block textarea {
+      min-height: 72px;
+      font-family: var(--sans);
+      resize: vertical;
+    }
+    .form-block input:focus, .form-block textarea:focus, .form-block select:focus {
+      outline: none; border-color: var(--accent);
+    }
+
+    .big-btn {
+      width: 100%;
+      padding: 18px 24px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      background: linear-gradient(180deg, var(--accent), #b0913f);
+      color: #0a0e1a;
+      border: none;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      margin-top: var(--sp-4);
+      box-shadow: 0 6px 24px rgba(201,169,97,0.25);
+      min-height: 56px;
+    }
+    .big-btn:hover { background: linear-gradient(180deg, var(--accent-hover), #c19e46); }
+    .big-btn:active { transform: translateY(1px); }
+    .big-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+    .share-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: var(--sp-3);
+    }
+    .share-btn {
+      flex: 1;
+      min-width: 120px;
+      min-height: 48px;
+      padding: 12px 16px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .wave-url-box {
+      margin-top: var(--sp-3);
+      padding: 12px 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--accent);
+      border-radius: var(--r-md);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    /* Countdown display */
+    .countdown-screen {
+      text-align: center;
+      padding: var(--sp-5) var(--sp-3);
+    }
+    .wave-name-display {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .wave-sequence {
+      font-size: 12px;
+      color: var(--text-mute);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-4);
+    }
+    .impact-line {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: var(--sp-2);
+    }
+    .impact-time {
+      font-family: var(--mono);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .send-label {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      margin-top: var(--sp-5);
+      margin-bottom: 6px;
+    }
+    .send-time-display {
+      font-family: var(--mono);
+      font-size: clamp(28px, 8vw, 44px);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.03em;
+    }
+    .countdown-display {
+      font-family: var(--mono);
+      font-size: clamp(56px, 20vw, 128px);
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+      margin: var(--sp-4) 0;
+      text-align: center;
+    }
+    .countdown-display.warn { color: var(--status-yellow); }
+    .countdown-display.hot  { color: var(--status-red); }
+    .countdown-display.go   { color: var(--status-green); font-size: clamp(72px, 24vw, 160px); }
+    .countdown-display.past { color: var(--text-mute); font-size: clamp(36px, 12vw, 72px); }
+
+    .cue-hint {
+      color: var(--text-mute);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      margin-top: var(--sp-3);
+    }
+    .cue-hint b { color: var(--text-dim); }
+
+    .skew-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 11px;
+      margin-top: var(--sp-3);
+    }
+    .skew-badge.ok    { border-color: rgba(138,224,163,0.4); color: var(--status-green); }
+    .skew-badge.warn  { border-color: rgba(224,201,138,0.4); color: var(--status-yellow); }
+    .skew-badge.bad   { border-color: rgba(224,138,138,0.4); color: var(--status-red); }
+    .skew-badge .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: currentColor; opacity: 0.85;
+    }
+
+    .march-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .march-input-row input {
+      flex: 1;
+    }
+    .march-input-row button {
+      padding: 12px 18px;
+      background: var(--accent);
+      color: #0a0e1a;
+      border: none;
+      border-radius: var(--r-md);
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 44px;
+    }
+
+    .fullscreen-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 8px 14px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: var(--sp-4);
+      min-height: 44px;
+    }
+    .fullscreen-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .audio-unlock-btn {
+      background: linear-gradient(180deg, #5865F2, #4752c4);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: var(--r-md);
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: var(--sp-3);
+      display: inline-block;
+      min-height: 48px;
+    }
+
+    .notes-box {
+      background: rgba(88,101,242,0.08);
+      border-left: 3px solid #5865F2;
+      padding: 12px 14px;
+      border-radius: var(--r-sm);
+      color: var(--text-dim);
+      font-size: 13px;
+      margin-top: var(--sp-3);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .fire-screen {
+      background: var(--status-green-bg);
+      border-color: var(--status-green);
+    }
+    .fire-title {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--status-green);
+      letter-spacing: 0.1em;
+      margin: var(--sp-4) 0;
+    }
+
+    /* Visual flash on GO */
+    body.flash-go {
+      animation: flashGo 0.6s ease-out;
+    }
+    @keyframes flashGo {
+      0%   { background: var(--bg); }
+      15%  { background: #14ffa8; }
+      100% { background: var(--bg); }
+    }
+
+    /* Fullscreen countdown mode */
+    body.fs-mode .wrap { max-width: 100%; padding: 0; }
+    body.fs-mode header,
+    body.fs-mode footer,
+    body.fs-mode #suite-nav-bar { display: none; }
+    body.fs-mode .card { border-radius: 0; min-height: 100vh; margin: 0; padding: var(--sp-5); box-shadow: none; border: none; }
+    body.fs-mode .countdown-display { font-size: clamp(96px, 30vw, 240px); }
+
+    @media (max-width: 480px) {
+      .share-btn { min-width: 100px; font-size: 12px; padding: 10px 12px; }
+      .wave-name-display { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+<!-- suite-nav -->
+<div id="suite-nav-bar" style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-train-conductor-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTrain">Train</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">R5TOOLS.IO <span class="brand-sub" data-i18n="brandSub">LWS Suite</span><a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20wave-coordinator%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+    <button class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+  </header>
+
+  <div id="main-app">
+
+    <!-- ============ CREATE MODE ============ -->
+    <div id="create-mode" class="card" style="display:none">
+      <h1><span data-i18n="title">Wave Attack Coordinator</span><span class="wave-mode-badge" data-i18n="createBadge">CREATE</span></h1>
+      <p class="lede" data-i18n="createLede">
+        Set the impact time. Share the link. Every member enters their personal march time and gets their own click-send countdown. All marches converge on the target at the same second.
+      </p>
+
+      <div class="form-block">
+        <label data-i18n="waveNameLabel">Wave name</label>
+        <input type="text" id="wave-name" placeholder="S2 Rare Soil — Wave 3 — Building #7" maxlength="120" />
+      </div>
+
+      <div class="form-block">
+        <label data-i18n="impactTimeLabel">Target impact time (when marches LAND)</label>
+        <input type="datetime-local" id="impact-time" step="1" />
+        <label class="checkbox" style="display:flex;align-items:center;gap:8px;margin-top:8px;color:var(--text-dim);font-size:13px">
+          <input type="checkbox" id="server-time-toggle" />
+          <span data-i18n="serverTimeToggle">Interpret as LWS server time (UTC) instead of my local time</span>
+        </label>
+      </div>
+
+      <div class="form-block">
+        <label data-i18n="sequenceLabel">Wave sequence (optional)</label>
+        <div style="display:flex;gap:8px">
+          <input type="number" id="wave-num" min="1" max="99" placeholder="1" style="flex:1" />
+          <span style="align-self:center;color:var(--text-mute);font-size:14px" data-i18n="sequenceOf">of</span>
+          <input type="number" id="wave-total" min="1" max="99" placeholder="3" style="flex:1" />
+        </div>
+      </div>
+
+      <div class="form-block">
+        <label data-i18n="notesLabel">Notes (optional)</label>
+        <textarea id="wave-notes" placeholder="bring anti-freeze hero&#10;R4+ only&#10;drone tech unlocked" maxlength="500"></textarea>
+      </div>
+
+      <button id="generate-btn" class="big-btn" data-i18n="generateBtn">Generate Wave URL</button>
+
+      <div id="wave-url-output" style="display:none">
+        <div class="wave-url-box" id="wave-url-box"></div>
+        <div class="share-row">
+          <button class="share-btn" id="copy-url-btn"><span data-i18n="copyBtn">📋 Copy</span></button>
+          <button class="share-btn" id="share-native-btn"><span data-i18n="shareBtn">📤 Share</span></button>
+          <button class="share-btn" id="share-whatsapp-btn">WhatsApp</button>
+          <button class="share-btn" id="share-discord-btn">Discord</button>
+          <button class="share-btn" id="share-kakao-btn">KakaoTalk</button>
+        </div>
+        <div style="margin-top:var(--sp-4);text-align:center">
+          <a id="preview-link" href="#" class="fullscreen-btn" data-i18n="previewBtn">Preview joiner view →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ JOIN MODE ============ -->
+    <div id="join-mode" class="card" style="display:none">
+      <div class="countdown-screen">
+        <div class="wave-name-display" id="j-wave-name">—</div>
+        <div class="wave-sequence" id="j-wave-seq" style="display:none"></div>
+
+        <div class="impact-line">
+          <span data-i18n="impactAt">Impact at</span>
+          <span class="impact-time" id="j-impact-time">—</span>
+        </div>
+
+        <div class="notes-box" id="j-notes" style="display:none"></div>
+
+        <div id="j-march-setup" style="margin-top:var(--sp-5)">
+          <div class="form-block">
+            <label data-i18n="marchTimeLabel">Your march time (seconds — from tap-send to army-arrives)</label>
+            <div class="march-input-row">
+              <input type="number" id="march-seconds" min="1" max="7200" step="1" placeholder="60" />
+              <button id="save-march-btn" data-i18n="saveBtn">Save</button>
+            </div>
+            <div style="margin-top:6px;color:var(--text-mute);font-size:11px" data-i18n="marchHint">Check in-game rally screen. Persists on this device.</div>
+          </div>
+        </div>
+
+        <div id="j-countdown-area" style="display:none">
+          <div class="send-label" data-i18n="sendLabel">Send YOUR march at</div>
+          <div class="send-time-display" id="j-send-time">—</div>
+
+          <div class="countdown-display" id="j-countdown">—</div>
+
+          <div class="cue-hint">
+            <span data-i18n="cueHint">Audio + vibration cues at</span>
+            <b>t-15 · t-10 · t-5 · t-3 · t-2 · t-1 · GO</b>
+          </div>
+
+          <div id="j-audio-unlock" style="display:none;text-align:center">
+            <button class="audio-unlock-btn" id="audio-unlock-btn" data-i18n="enableAudio">🔊 Enable audio</button>
+          </div>
+
+          <div style="text-align:center">
+            <div class="skew-badge" id="j-skew-badge">
+              <span class="dot"></span>
+              <span data-i18n="deviceOffsetLabel">Device:</span>
+              <span id="j-skew-value">…</span>
+            </div>
+          </div>
+
+          <div style="text-align:center">
+            <button class="fullscreen-btn" id="fullscreen-btn" data-i18n="fullscreenBtn">⛶ Fullscreen</button>
+            <button class="fullscreen-btn" id="edit-march-btn" data-i18n="editMarchBtn">✎ Edit march time</button>
+          </div>
+        </div>
+
+        <div id="j-fire-screen" style="display:none">
+          <div class="fire-title" data-i18n="fireTitle">🎯 FIRE</div>
+          <div class="impact-line">
+            <span data-i18n="landsAt">Marches land at</span>
+            <span class="impact-time" id="j-lands-at">—</span>
+          </div>
+          <div style="margin-top:var(--sp-5);display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            <button class="fullscreen-btn" id="reset-btn" data-i18n="resetBtn">↻ Reset</button>
+            <button class="fullscreen-btn" id="new-wave-btn" data-i18n="newWaveBtn">＋ Create next wave</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <a href="https://r5tools.io" data-i18n="footerHome">r5tools.io</a> ·
+    <span data-i18n="footerCred">Synchronized wave attacks for LWS alliances</span>
+  </footer>
+</div>
+
+<script src="static/i18n.js" defer></script>
+<script src="static/wave-coordinator.js" defer></script>
+</body>
+</html>

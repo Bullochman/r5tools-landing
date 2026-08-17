@@ -1,0 +1,248 @@
+/* LWS Coal Burn Calculator — shared design tokens + component styles.
+   Palette + type match LWS_Access_Codes/unlock.html so the whole suite feels
+   like one product. Any new variable added here should also make sense to
+   copy back to STYLE_GUIDE.md in the umbrella project. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  /* Palette (mirrors LWS_Access_Codes/unlock.html) */
+  --bg: #0a0e1a;
+  --panel: #0d1424;
+  --panel-2: #12192c;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(201, 169, 97, 0.3);
+  --accent: #c9a961;
+  --accent-hover: #d9b871;
+  --text: #e6e8ee;
+  --text-dim: #a8b0c0;
+  --text-mute: #7a8290;
+
+  /* Traffic-light status */
+  --status-green: #8ae0a3;
+  --status-yellow: #e0c98a;
+  --status-red: #e08a8a;
+  --status-green-bg: rgba(138, 224, 163, 0.12);
+  --status-yellow-bg: rgba(224, 201, 138, 0.12);
+  --status-red-bg: rgba(224, 138, 138, 0.12);
+
+  /* Coal-themed accent for burn indicators */
+  --coal: #3a4050;
+  --ember: #ff8a5b;
+  --ember-dim: rgba(255, 138, 91, 0.25);
+
+  /* Type */
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+
+  /* Spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+}
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: var(--sp-5); }
+
+/* ---- header ------------------------------------------------------------- */
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: var(--sp-2) 0 var(--sp-6);
+}
+.brand { font-size: 12px; letter-spacing: 0.14em; color: var(--accent); font-weight: 600; }
+.brand-sub { color: var(--text-mute); font-weight: 400; margin-left: 6px; }
+.lang-toggle {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); padding: 6px 12px; border-radius: 16px;
+  cursor: pointer; font-size: 12px;
+}
+.lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---- typography --------------------------------------------------------- */
+h1 { margin: 0 0 var(--sp-2); font-size: 26px; font-weight: 600; }
+h2 {
+  margin: var(--sp-6) 0 var(--sp-3); font-size: 15px; font-weight: 600;
+  color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase;
+}
+h3 { margin: 0 0 var(--sp-2); font-size: 14px; font-weight: 600; color: var(--text-dim); }
+.lede { margin: 0 0 var(--sp-5); color: var(--text-dim); font-size: 15px; line-height: 1.55; }
+.mono { font-family: var(--mono); }
+
+/* ---- cards -------------------------------------------------------------- */
+.card {
+  background: var(--panel); border: 1px solid var(--border-accent);
+  border-radius: var(--r-lg); padding: var(--sp-6); margin-bottom: var(--sp-5);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+}
+.card-tight { padding: var(--sp-5); }
+
+/* ---- forms -------------------------------------------------------------- */
+.form-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--sp-3); margin-bottom: var(--sp-4);
+}
+.field { display: flex; flex-direction: column; }
+.field label {
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-mute); margin-bottom: var(--sp-1);
+}
+.field input, .field select {
+  background: var(--panel-2); border: 1px solid var(--border);
+  border-radius: var(--r-md); color: var(--text);
+  font-family: var(--mono); font-size: 14px;
+  padding: 10px 12px;
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+.field .hint { font-size: 11px; color: var(--text-mute); margin-top: 4px; }
+
+.checkbox {
+  display: flex; align-items: center; gap: var(--sp-2);
+  color: var(--text-dim); font-size: 13px;
+  padding: 10px 12px; background: var(--panel-2);
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  cursor: pointer;
+}
+.checkbox input { accent-color: var(--accent); }
+
+/* ---- buttons ------------------------------------------------------------ */
+.btn {
+  padding: 10px 18px; border: none; border-radius: var(--r-md);
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  cursor: pointer; letter-spacing: 0.03em;
+}
+.btn-primary { background: var(--accent); color: #111; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:disabled { opacity: 0.5; cursor: wait; }
+.btn-secondary {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-row { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-4); }
+
+/* ---- single-mode result panel ------------------------------------------ */
+.result {
+  display: none; margin-top: var(--sp-5); padding: var(--sp-5);
+  border-radius: var(--r-md); border: 1px solid var(--border);
+  background: var(--panel-2);
+}
+.result.on { display: block; }
+.result.status-green { border-color: var(--status-green); background: var(--status-green-bg); }
+.result.status-yellow { border-color: var(--status-yellow); background: var(--status-yellow-bg); }
+.result.status-red { border-color: var(--status-red); background: var(--status-red-bg); }
+.result .verdict { font-size: 18px; font-weight: 600; margin-bottom: var(--sp-3); }
+.result .verdict.status-green { color: var(--status-green); }
+.result .verdict.status-yellow { color: var(--status-yellow); }
+.result .verdict.status-red { color: var(--status-red); }
+.result dl { margin: 0; display: grid; grid-template-columns: 160px 1fr; row-gap: var(--sp-2); }
+.result dt { color: var(--text-mute); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; align-self: center; }
+.result dd { margin: 0; font-family: var(--mono); font-size: 15px; }
+
+/* ---- batch table -------------------------------------------------------- */
+.batch-textarea {
+  width: 100%; min-height: 160px;
+  background: var(--panel-2); border: 1px solid var(--border);
+  border-radius: var(--r-md); color: var(--text);
+  font-family: var(--mono); font-size: 12px; line-height: 1.5;
+  padding: var(--sp-3);
+}
+.batch-textarea:focus { outline: none; border-color: var(--accent); }
+
+.batch-table-wrap { overflow-x: auto; margin-top: var(--sp-4); }
+table.batch {
+  border-collapse: collapse; width: 100%;
+  font-family: var(--mono); font-size: 12px;
+}
+table.batch th, table.batch td {
+  padding: 8px 10px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+table.batch th {
+  color: var(--text-mute); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+table.batch td.num { text-align: right; }
+table.batch tr.status-green td.status-cell { color: var(--status-green); }
+table.batch tr.status-yellow td.status-cell { color: var(--status-yellow); }
+table.batch tr.status-red td.status-cell { color: var(--status-red); font-weight: 600; }
+
+/* ---- summary strip ------------------------------------------------------ */
+.summary {
+  display: none; margin-top: var(--sp-4);
+  padding: var(--sp-4); background: var(--panel-2);
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  font-size: 13px; color: var(--text-dim);
+}
+.summary.on { display: block; }
+.summary strong { color: var(--text); font-family: var(--mono); }
+
+/* ---- estimate badge ----------------------------------------------------- */
+.badge-estimate {
+  display: inline-block;
+  padding: 2px 8px; border-radius: 10px;
+  background: var(--ember-dim); color: var(--ember);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-left: var(--sp-2);
+  vertical-align: middle;
+}
+
+/* ---- footer ------------------------------------------------------------- */
+footer {
+  text-align: center; padding: var(--sp-6) 0; color: var(--text-mute); font-size: 12px;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ---- responsive --------------------------------------------------------- */
+/* Mobile overflow guard: match landing-planner pattern.
+   .card wraps its inner content and hides horizontal spill; the batch table
+   inside .batch-table-wrap keeps its own scrollable box. .lede paragraph
+   contains a comma-joined column list ("name,rank,hq_level,...") that browsers
+   won't break at commas — force break-word so it wraps on narrow screens. */
+.card { min-width: 0; overflow-x: hidden; }
+.card .lede,
+.card p,
+.card code { overflow-wrap: anywhere; word-break: break-word; }
+.btn { min-height: 40px; }
+.batch-textarea { max-width: 100%; }
+
+@media (max-width: 640px) {
+  .wrap { padding: var(--sp-3); }
+  h1 { font-size: 22px; }
+  .card { padding: var(--sp-4); }
+  .result dl { grid-template-columns: 1fr; }
+  .result dt { margin-top: var(--sp-2); }
+}
+
+/* Shrink batch-table type and cell padding so all 7 cols fit narrower. */
+@media (max-width: 520px) {
+  body { padding: 0; }
+  .wrap { padding: 10px 8px; }
+  h1 { font-size: clamp(20px, 5.5vw, 26px); }
+  h2 { font-size: clamp(15px, 4.5vw, 20px); }
+  .card { padding: 12px 10px; }
+  table.batch { font-size: 11px; }
+  table.batch th, table.batch td { padding: 5px 6px; }
+  table.batch th { font-size: 9px; letter-spacing: 0.04em; }
+  .result dl { grid-template-columns: 1fr; }
+  .result dd { font-size: 13px; }
+  .btn { padding: 10px 14px; font-size: 13px; min-height: 40px; }
+  .btn-row { gap: 6px; }
+}
