@@ -13,6 +13,8 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: Live Roster & Player Finder (/live-roster.html) — pick any scanned warzone, get its full alliance rosters (every member, HQ, in-game rank, exact coordinates) with no video upload. Search any player by name for their coords. Export canonical CSV straight into Landing Planner / Hive / Freeze' },
+    { date: '2026-08-17', tag: 'DATA',  label: 'Rosters now scraped live from lwatlas map scans (refreshes ~daily) — the member-list video upload is now an optional fallback, only needed for warzones lwatlas has not scanned yet' },
     { date: '2026-08-17', tag: 'DATA',  label: 'Warzone directory: KvK cohorts added — each warzone now shows its 8-warzone KvK bracket (⚔ shared center server, hover for all 8 members). 1,312 brackets live; filter the API with ?kvk=<center>' },
     { date: '2026-08-17', tag: 'DATA',  label: 'Warzone directory refreshed from lwatlas: 2,304 warzones (13 new servers), fresh season windows (W2007 confirmed S2 live 07-27 → 09-21), per-warzone season start/end dates now in the API + CSV' },
     { date: '2026-07-27', tag: 'FIX',   label: 'Dashboard CONTEXT strip: fixed Day counter (was computing from calendar launch, actual Day-N-of-season starts at 02:00 UTC on 07-27 — the day AFTER the 07-26 season open). Consolidated 5 chips into 3 — "Wk N · Day N" as one chip, "Season: Season 2: Polar Storm" shortened to "S2 · Polar Storm"' },

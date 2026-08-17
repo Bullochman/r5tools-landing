@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Live Roster &amp; Player Finder — r5tools.io</title>
+  <meta name="description" content="Pull any Last War: Survival warzone's full alliance roster and look up any player's map coordinates — scanned live, no video upload needed." />
+  <meta property="og:title" content="Live Roster & Player Finder — r5tools.io" />
+  <meta property="og:description" content="Every alliance, every member, every coordinate — scanned live. No member-list video upload required." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r5tools.io/live-roster.html" />
+  <link rel="canonical" href="https://r5tools.io/live-roster.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg:#0a0e1a; --panel:#0d1424; --panel-2:#12192c;
+      --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.3);
+      --accent:#c9a961; --accent-hover:#d9b871;
+      --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290;
+      --confirm:#8ae0a3; --danger:#f38ba8;
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+      -webkit-font-smoothing:antialiased; line-height:1.5; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { color:var(--accent-hover); text-decoration:underline; }
+    .wrap { max-width:1180px; margin:0 auto; padding:32px 24px; }
+    header.top { display:flex; justify-content:space-between; align-items:center;
+      padding:8px 0 24px; flex-wrap:wrap; gap:10px; }
+    .brand { font-size:12px; letter-spacing:0.16em; color:var(--accent); font-weight:600; }
+    nav { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    nav a { color:var(--text-dim); font-size:13px; padding:6px 12px; border-radius:6px; border:1px solid transparent; }
+    nav a:hover { color:var(--accent); border-color:var(--border-accent); text-decoration:none; background:rgba(201,169,97,0.05); }
+    nav a.cta { background:var(--accent); color:#0a0e1a; font-weight:700; border-radius:999px; padding:8px 16px; }
+    h1 { font-size:26px; margin:8px 0 6px; }
+    .subtitle { color:var(--text-dim); font-size:14px; margin-bottom:20px; max-width:760px; }
+    .subtitle .badge { display:inline-block; background:rgba(138,224,163,0.12); color:var(--confirm);
+      border:1px solid rgba(138,224,163,0.3); border-radius:999px; padding:1px 9px; font-size:11px; font-weight:600; }
+    .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;
+      background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:16px; }
+    .controls .field { display:flex; flex-direction:column; gap:5px; }
+    .controls label { font-size:11px; color:var(--text-mute); text-transform:uppercase; letter-spacing:0.05em; }
+    .controls input, .controls select {
+      background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+      border-radius:8px; padding:9px 12px; font-size:14px; font-family:inherit; }
+    .controls input:focus, .controls select:focus { outline:none; border-color:var(--border-accent); }
+    .btn { background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+      border-radius:8px; padding:9px 15px; font-size:13.5px; cursor:pointer; font-family:inherit; }
+    .btn:hover { border-color:var(--border-accent); color:var(--accent); }
+    .btn.primary { background:var(--accent); color:#0a0e1a; font-weight:700; border-color:var(--accent); }
+    .btn.primary:hover { background:var(--accent-hover); color:#0a0e1a; }
+    .flex-grow { flex:1; }
+    .meta-strip { color:var(--text-dim); font-size:12.5px; margin:4px 0 16px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .meta-strip strong { color:var(--accent); }
+    .lock-box, .err-box, .empty-box { background:var(--panel); border:1px solid var(--border);
+      border-radius:12px; padding:22px; margin:14px 0; }
+    .lock-box { border-color:var(--border-accent); }
+    .lock-box h3 { margin:0 0 8px; color:var(--accent); }
+    .err-box { border-color:rgba(243,139,168,0.4); color:var(--danger); }
+    .layout { display:grid; grid-template-columns:260px 1fr; gap:16px; align-items:start; }
+    @media (max-width:820px) { .layout { grid-template-columns:1fr; } }
+    .alli-list { background:var(--panel); border:1px solid var(--border); border-radius:12px;
+      padding:8px; max-height:640px; overflow:auto; }
+    .alli-row { display:flex; justify-content:space-between; align-items:center; gap:8px;
+      padding:9px 11px; border-radius:8px; cursor:pointer; font-size:13.5px; }
+    .alli-row:hover { background:var(--panel-2); }
+    .alli-row.active { background:rgba(201,169,97,0.12); border:1px solid var(--border-accent); }
+    .alli-row .tag { font-weight:700; }
+    .alli-row .n { color:var(--text-mute); font-size:12px; font-family:ui-monospace,monospace; }
+    .alli-row .crown { color:var(--accent); }
+    .table-wrap { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:auto; max-height:720px; }
+    table { border-collapse:collapse; width:100%; font-size:13.5px; }
+    thead th { position:sticky; top:0; background:var(--panel-2); text-align:left;
+      padding:11px 12px; color:var(--text-dim); font-weight:600; border-bottom:1px solid var(--border);
+      white-space:nowrap; z-index:1; }
+    tbody td { padding:9px 12px; border-bottom:1px solid rgba(255,255,255,0.04); }
+    tbody tr:hover { background:var(--panel-2); }
+    .rank-pill { display:inline-block; min-width:26px; text-align:center; border-radius:5px;
+      font-size:11px; font-weight:700; padding:1px 5px; }
+    .r5 { background:rgba(201,169,97,0.2); color:var(--accent); }
+    .r4 { background:rgba(138,224,163,0.14); color:var(--confirm); }
+    .r-low { background:rgba(255,255,255,0.06); color:var(--text-mute); }
+    .coord { font-family:ui-monospace,monospace; color:var(--text-dim); font-size:12.5px; }
+    .coord a { color:var(--text-dim); }
+    .hq { font-family:ui-monospace,monospace; }
+    .pname { font-weight:500; }
+    .king-tag { color:var(--accent); font-size:11px; margin-left:5px; }
+    .loading { padding:26px; text-align:center; color:var(--text-mute); }
+    .foot-note { color:var(--text-mute); font-size:12px; margin-top:18px; }
+    .opencluster { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+    .opencluster a { font-size:12.5px; background:var(--panel-2); border:1px solid var(--border);
+      border-radius:8px; padding:7px 11px; color:var(--text-dim); }
+    .opencluster a:hover { border-color:var(--border-accent); color:var(--accent); text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand"><a href="/">R5TOOLS.IO</a> · LIVE ROSTER &amp; PLAYER FINDER</div>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/warzones.html">Warzone Directory</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="https://access-codes.r5tools.io/" class="cta" id="nav-cta">Unlock the suite</a>
+      </nav>
+    </header>
+
+    <h1>Live Roster &amp; Player Finder</h1>
+    <p class="subtitle">
+      <span class="badge">NO VIDEO UPLOAD</span>
+      Pick a warzone and pull its complete alliance rosters — every member, HQ level, in-game
+      rank, and exact map coordinates — scanned live. Or search for any single player to get their
+      coordinates. Data refreshes automatically; no member-list video needed for scanned warzones.
+    </p>
+
+    <div class="controls">
+      <div class="field">
+        <label for="wz-input">Warzone #</label>
+        <input id="wz-input" type="number" inputmode="numeric" placeholder="2007" style="width:120px" />
+      </div>
+      <div class="field flex-grow">
+        <label for="player-input">Find a player (optional)</label>
+        <input id="player-input" type="search" placeholder="player name — leave blank for full roster" />
+      </div>
+      <button class="btn primary" id="btn-go">Load</button>
+      <button class="btn" id="btn-csv" title="Download this roster as a canonical CSV">⬇ CSV</button>
+    </div>
+
+    <div class="meta-strip" id="meta-strip"></div>
+
+    <div id="lock-box" class="lock-box" style="display:none">
+      <h3>🔒 Redeem your access code first</h3>
+      <p style="margin:0 0 12px; color:var(--text-dim)">
+        Live roster + player lookup are part of the r5tools suite. Enter your alliance's
+        access code once and it's remembered on this device.</p>
+      <a class="btn primary" href="https://access-codes.r5tools.io/">Enter access code →</a>
+    </div>
+
+    <div id="err-box" class="err-box" style="display:none"></div>
+
+    <div id="results" class="layout" style="display:none">
+      <div class="alli-list" id="alli-list"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th><th>Player</th><th>HQ</th><th>Alliance</th><th>Coordinates</th>
+            </tr>
+          </thead>
+          <tbody id="roster-body">
+            <tr><td colspan="5" class="loading">Enter a warzone number and press Load.</td></tr>
+          </tbody>
+        </table>
+        <div class="opencluster" id="open-cluster" style="display:none">
+          <span style="color:var(--text-mute); font-size:12.5px; align-self:center">Open this roster in →</span>
+          <a id="open-landing" href="#">🎯 Landing Planner</a>
+          <a id="open-hive" href="#">🏛️ Hive Manager</a>
+          <a id="open-freeze" href="#">❄️ Freeze Risk</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot-note" id="src-note"></p>
+  </div>
+
+  <script src="https://access-codes.r5tools.io/lib.js" defer></script>
+  <script>
+  (function () {
+    'use strict';
+    var API_BASE = 'https://access-codes.r5tools.io';
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      API_BASE = location.protocol + '//' + location.hostname + ':' + (location.port || '8080');
+    }
+    var state = { warzone:null, members:[], alliances:[], activeTag:null, scan:null };
+
+    function $(id) { return document.getElementById(id); }
+    function esc(s) { var d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
+    function code() {
+      try { return (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) ||
+        localStorage.getItem('lws_unlock_code') || ''; } catch (e) { return ''; }
+    }
+    function withCode(url) {
+      var c = code();
+      return c ? url + (url.indexOf('?')===-1?'?':'&') + 'code=' + encodeURIComponent(c) : url;
+    }
+    function rankPill(r) {
+      if (r === 5) return '<span class="rank-pill r5">R5</span>';
+      if (r === 4) return '<span class="rank-pill r4">R4</span>';
+      if (r) return '<span class="rank-pill r-low">R'+r+'</span>';
+      return '<span class="rank-pill r-low">—</span>';
+    }
+
+    function showErr(msg) { var e=$('err-box'); e.textContent=msg; e.style.display='block'; }
+    function clearErr() { $('err-box').style.display='none'; }
+
+    function render() {
+      var body = $('roster-body');
+      var rows = state.members;
+      if (state.activeTag) rows = rows.filter(function (m){ return (m.tag||'').toUpperCase()===state.activeTag; });
+      if (!rows.length) { body.innerHTML = '<tr><td colspan="5" class="loading">No members match.</td></tr>'; }
+      else {
+        body.innerHTML = rows.map(function (m) {
+          var coord = (m.x!=null)
+            ? '<span class="coord">' + m.x + ', ' + m.y + '</span>'
+            : '<span class="coord">—</span>';
+          return '<tr>' +
+            '<td>' + rankPill(m.rank) + '</td>' +
+            '<td class="pname">' + esc(m.name) + (m.king?'<span class="king-tag">👑 King</span>':'') + '</td>' +
+            '<td class="hq">' + (m.hq||'') + '</td>' +
+            '<td>' + esc(m.tag||'—') + '</td>' +
+            '<td>' + coord + '</td>' +
+          '</tr>';
+        }).join('');
+      }
+      // alliance sidebar
+      var list = $('alli-list');
+      var head = '<div class="alli-row' + (state.activeTag?'':' active') + '" data-tag="">' +
+        '<span class="tag">All alliances</span><span class="n">' + state.members.length + '</span></div>';
+      list.innerHTML = head + state.alliances.map(function (a) {
+        var t = (a.tag||'').toUpperCase();
+        return '<div class="alli-row' + (state.activeTag===t?' active':'') + '" data-tag="' + esc(t) + '">' +
+          '<span class="tag">' + esc(a.tag||'(no tag)') + (a.king?' <span class="crown">👑</span>':'') + '</span>' +
+          '<span class="n">' + a.member_count + '</span></div>';
+      }).join('');
+      Array.prototype.forEach.call(list.querySelectorAll('.alli-row'), function (el) {
+        el.addEventListener('click', function () {
+          state.activeTag = el.getAttribute('data-tag') || null;
+          if (state.activeTag) state.activeTag = state.activeTag.toUpperCase();
+          render();
+        });
+      });
+      // open-in cluster (carries warzone + alliance so target tools deep-link)
+      var oc = $('open-cluster');
+      if (state.warzone) {
+        oc.style.display = 'flex';
+        var q = '?warzone=' + state.warzone + (state.activeTag ? '&alliance=' + encodeURIComponent(state.activeTag) : '');
+        $('open-landing').href = 'https://bullochman.github.io/lws-landing-planner-static/' + q;
+        $('open-hive').href = 'https://bullochman.github.io/lws-hive-static/' + q;
+        $('open-freeze').href = 'https://bullochman.github.io/lws-freeze-risk-static/' + q;
+      }
+    }
+
+    function load() {
+      clearErr();
+      var wz = parseInt($('wz-input').value, 10);
+      if (!wz) { showErr('Enter a warzone number.'); return; }
+      var q = ($('player-input').value || '').trim();
+      state.warzone = wz;
+      $('results').style.display = 'grid';
+      $('roster-body').innerHTML = '<tr><td colspan="5" class="loading">Scanning warzone ' + wz + '…</td></tr>';
+      $('meta-strip').textContent = '';
+
+      var path = q
+        ? '/api/warzone/' + wz + '/lookup?q=' + encodeURIComponent(q)
+        : '/api/warzone/' + wz + '/roster';
+      fetch(API_BASE + withCode(path), { credentials:'include' })
+        .then(function (r) {
+          if (r.status === 403) { $('lock-box').style.display='block'; $('results').style.display='none'; throw '__locked'; }
+          if (r.status === 404) { throw 'lwatlas has no scan for warzone ' + wz + ' yet — upload a member-list video for this one instead.'; }
+          if (!r.ok) throw 'Server error (' + r.status + ').';
+          return r.json();
+        })
+        .then(function (d) {
+          $('lock-box').style.display='none';
+          state.scan = d.scanned_at;
+          if (q) {
+            state.members = d.results || [];
+            state.alliances = [];
+            state.activeTag = null;
+            $('meta-strip').innerHTML = '<strong>' + (d.match_count||0) + '</strong> player'
+              + ((d.match_count===1)?'':'s') + ' matching "' + esc(q) + '" in warzone <strong>' + wz + '</strong>';
+          } else {
+            state.members = d.members || [];
+            state.alliances = d.alliances || [];
+            state.activeTag = null;
+            $('meta-strip').innerHTML = '<strong>' + (d.member_count||0) + '</strong> members · <strong>'
+              + state.alliances.length + '</strong> alliances in warzone <strong>' + wz + '</strong>';
+          }
+          $('src-note').innerHTML = state.scan
+            ? 'Scanned live via lwatlas.com · last scan ' + esc(String(state.scan).replace('T',' ').slice(0,16)) + ' UTC · refreshes automatically'
+            : '';
+          render();
+        })
+        .catch(function (e) {
+          if (e === '__locked') return;
+          $('results').style.display='none';
+          showErr(typeof e === 'string' ? e : 'Could not load roster.');
+        });
+    }
+
+    function downloadCsv() {
+      if (!state.warzone) { showErr('Load a warzone first.'); return; }
+      var url = '/api/warzone/' + state.warzone + '/roster?format=csv' +
+        (state.activeTag ? '&alliance=' + encodeURIComponent(state.activeTag) : '');
+      window.location.href = API_BASE + withCode(url);
+    }
+
+    $('btn-go').addEventListener('click', load);
+    $('btn-csv').addEventListener('click', downloadCsv);
+    $('wz-input').addEventListener('keydown', function (e){ if (e.key==='Enter') load(); });
+    $('player-input').addEventListener('keydown', function (e){ if (e.key==='Enter') load(); });
+
+    // Deep-link support: ?warzone=2007&player=foo autoloads.
+    var params = new URLSearchParams(location.search);
+    if (params.get('warzone')) {
+      $('wz-input').value = params.get('warzone');
+      if (params.get('player')) $('player-input').value = params.get('player');
+      // wait a tick for lib.js to load the code
+      setTimeout(load, 350);
+    }
+  })();
+  </script>
+</body>
+</html>
