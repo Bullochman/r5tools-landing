@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title data-i18n="title">Train Conductor Picker — LWS Suite</title>
+  <meta name="description" content="Fair random-pick a train conductor from your alliance roster in Last War: Survival — with filters for rank, HQ level, power, titles and rotation history." />
+  <link rel="stylesheet" href="static/styles.css" />
+  <script defer src="static/lws-track.js"></script>
+  <style>
+    /* ---- Train-Conductor-specific styles (dark theme, matches suite palette) --- */
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--sp-4);
+    }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 14px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      color: var(--text-dim); font-size: 12px; cursor: pointer;
+      user-select: none;
+    }
+    .chip.on {
+      background: rgba(201,169,97,0.16);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .chip:hover { border-color: var(--accent); }
+    #eligible-count {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+    }
+    .roll-btn {
+      width: 100%;
+      padding: 18px 24px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      background: linear-gradient(180deg, var(--accent), #b0913f);
+      color: #0a0e1a;
+      border: none;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      margin-top: var(--sp-4);
+      box-shadow: 0 6px 24px rgba(201,169,97,0.25);
+      transition: transform 0.08s ease;
+    }
+    .roll-btn:hover { background: linear-gradient(180deg, var(--accent-hover), #c19e46); }
+    .roll-btn:active { transform: translateY(1px); }
+    .roll-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+    #reveal {
+      margin-top: var(--sp-5);
+      padding: var(--sp-5);
+      border-radius: var(--r-md);
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      min-height: 88px;
+      display: none;
+    }
+    #reveal.on { display: block; }
+    #reveal.spinning {
+      border-color: var(--accent);
+      background: linear-gradient(180deg, rgba(201,169,97,0.10), rgba(201,169,97,0.02));
+    }
+    #reveal.winner-shown {
+      border-color: var(--status-green);
+      background: var(--status-green-bg);
+    }
+    .reveal-name {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      text-align: center;
+      letter-spacing: 0.02em;
+      margin: 6px 0 4px;
+      min-height: 40px;
+    }
+    #reveal.winner-shown .reveal-name { color: var(--status-green); font-size: 32px; }
+    .reveal-sub {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+      margin-bottom: var(--sp-3);
+    }
+    .backups {
+      margin-top: var(--sp-4);
+      padding-top: var(--sp-3);
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 13px;
+      text-align: center;
+    }
+    .backups .b-name { font-family: var(--mono); color: var(--text); }
+    #history-list {
+      list-style: none; padding: 0; margin: 0;
+      max-height: 320px; overflow-y: auto;
+    }
+    #history-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 10px; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    #history-list li:last-child { border-bottom: none; }
+    #history-list .hn { font-family: var(--mono); color: var(--text); }
+    #history-list .ht { color: var(--text-mute); font-size: 11px; }
+    .btn-danger {
+      background: transparent; border: 1px solid rgba(224,138,138,0.4);
+      color: var(--status-red);
+    }
+    .btn-danger:hover { border-color: var(--status-red); }
+    .filter-block { margin-bottom: var(--sp-4); }
+    .filter-block > label {
+      display: block;
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-mute); margin-bottom: 6px;
+    }
+    #manual-excludes {
+      width: 100%; min-height: 60px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: var(--r-md); color: var(--text);
+      font-family: var(--mono); font-size: 12px; padding: 8px 10px;
+    }
+    #manual-excludes:focus { outline: none; border-color: var(--accent); }
+    .paste-area {
+      width: 100%; min-height: 120px;
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: var(--r-md); color: var(--text);
+      font-family: var(--mono); font-size: 12px; padding: 8px 10px;
+      display: none;
+    }
+    .paste-area.on { display: block; }
+    .paste-area:focus { outline: none; border-color: var(--accent); }
+
+    /* audit info shown under reveal */
+    .audit-info {
+      margin-top: var(--sp-3);
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.25);
+      border-radius: var(--r-sm);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-mute);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://bullochman.github.io/lws-profile-studio-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/?ref=RONY-ALLIANCE" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+</div>
+<div class="wrap">
+  <header>
+    <div class="brand">R5TOOLS.IO <span class="brand-sub" data-i18n="brandSub">LWS Suite</span><a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20train-conductor%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+    <button class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+  </header>
+
+  <div id="main-app">
+
+    <div class="card">
+      <h1 data-i18n="title">Train Conductor Picker</h1>
+      <p class="lede" data-i18n="lede">
+        Alliance trains keep dice-rolling for a conductor without checking who's actually eligible.
+        Load your roster, filter down to who qualifies (rank, HQ level, power, titles, opt-outs),
+        then let the tool fair-random-pick the conductor from that eligible pool.
+        Rotation history is stored locally so nobody gets stuck conducting three trains in a row.
+      </p>
+    </div>
+
+    <!-- ============ Roster loader card ============ -->
+    <div class="card">
+      <h2 data-i18n="rosterHeading">Alliance roster</h2>
+
+      <div class="filter-block">
+        <label data-i18n="rosterSource">Source</label>
+        <div class="btn-row" id="source-tabs">
+          <button type="button" class="btn btn-secondary source-tab on" data-source="paste" data-i18n="srcPaste">Paste CSV</button>
+          <button type="button" class="btn btn-secondary source-tab" data-source="upload" data-i18n="srcUpload">Upload CSV</button>
+        </div>
+      </div>
+
+      <div class="filter-block" id="paste-block">
+        <label data-i18n="pasteLabel">Paste CSV rows (name,rank,hq_level,power,notes)</label>
+        <textarea id="paste-area" class="paste-area on" placeholder="name,rank,hq_level,power,notes
+Beccs 베카,R4,30,107700000,titled:recruiter
+Chris 데마,R4,30,140200000,"></textarea>
+        <div style="margin-top:8px"><button id="paste-load" type="button" class="btn btn-primary" data-i18n="loadBtn">Load</button></div>
+      </div>
+
+      <div class="filter-block" id="upload-block" style="display:none">
+        <label data-i18n="uploadLabel">Upload a CSV file</label>
+        <input type="file" id="upload-input" accept=".csv,text/csv" style="color:var(--text-dim);font-size:13px" />
+      </div>
+
+      <div style="margin-top:12px;color:var(--text-dim);font-size:13px">
+        <span id="roster-status" data-i18n="noRoster">No roster loaded yet.</span>
+      </div>
+    </div>
+
+    <!-- ============ Filter card ============ -->
+    <div class="card">
+      <h2 data-i18n="filterHeading">Eligibility filters</h2>
+      <p class="lede" data-i18n="filterDesc">R5 picks the criteria. The tool only rolls from members that match every filter below.</p>
+
+      <div class="filter-grid">
+        <div class="filter-block">
+          <label data-i18n="filterRank">Rank</label>
+          <div class="chip-row" id="rank-chips">
+            <span class="chip" data-rank="R1">R1</span>
+            <span class="chip" data-rank="R2">R2</span>
+            <span class="chip on" data-rank="R3">R3</span>
+            <span class="chip on" data-rank="R4">R4</span>
+            <span class="chip on" data-rank="R5">R5</span>
+          </div>
+        </div>
+
+        <div class="filter-block">
+          <label data-i18n="filterHq">Min HQ level</label>
+          <select id="hq-min" style="padding:8px 12px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:var(--r-md);font-family:var(--mono);font-size:13px">
+            <option value="0">Any</option>
+            <option value="25">25+</option>
+            <option value="28" selected>28+</option>
+            <option value="29">29+</option>
+            <option value="30">30</option>
+          </select>
+        </div>
+
+        <div class="filter-block">
+          <label data-i18n="filterPower">Min total power (millions)</label>
+          <input type="number" id="power-min" value="50" min="0" step="1" style="padding:8px 12px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:var(--r-md);font-family:var(--mono);font-size:13px;width:100%" />
+        </div>
+
+        <div class="filter-block">
+          <label data-i18n="filterTitles">Titles (any of)</label>
+          <div class="chip-row" id="title-chips">
+            <span class="chip on" data-title="__none__" data-i18n="titleNone">no title</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-block">
+        <label data-i18n="filterExclude">Manual exclusions (one name per line — opt-outs, shielded, etc.)</label>
+        <textarea id="manual-excludes" placeholder="Moonpetal
+"></textarea>
+      </div>
+
+      <label class="checkbox">
+        <input type="checkbox" id="skip-recent" checked />
+        <span data-i18n="skipRecent">Prefer members who haven't conducted recently</span>
+      </label>
+
+      <div style="margin-top:14px;text-align:center;font-family:var(--mono)">
+        <span id="eligible-count">— / —</span>
+      </div>
+
+      <button id="roll-btn" class="roll-btn" data-i18n="rollBtn" disabled>🎲 Roll the Conductor</button>
+
+      <div id="reveal">
+        <div class="reveal-sub" id="reveal-status" data-i18n="revealSpinning">Rolling…</div>
+        <div class="reveal-name" id="reveal-name">—</div>
+        <div class="reveal-sub" id="reveal-meta"></div>
+        <div class="backups" id="backups" style="display:none">
+          <span data-i18n="backupsLabel">Backups:</span>
+          <span id="backups-list"></span>
+        </div>
+        <div class="audit-info" id="audit-info" style="display:none"></div>
+      </div>
+
+      <div class="btn-row" id="post-row" style="display:none">
+        <button id="reroll-btn" type="button" class="btn btn-secondary" data-i18n="rerollBtn">Re-roll</button>
+        <button id="confirm-btn" type="button" class="btn btn-primary" data-i18n="confirmBtn">Record this conductor</button>
+        <button id="copy-btn" type="button" class="btn btn-secondary" data-i18n="copyBtn">Copy result</button>
+      </div>
+    </div>
+
+    <!-- ============ Rotation history card ============ -->
+    <div class="card">
+      <h2 data-i18n="historyHeading">Rotation history</h2>
+      <p class="lede" data-i18n="historyDesc">Locally stored on this device — the last conductors picked, most recent first. Used by the "prefer members who haven't conducted recently" bias.</p>
+      <ul id="history-list"></ul>
+      <div id="history-empty" style="color:var(--text-mute);font-size:13px;padding:8px 0" data-i18n="historyEmpty">No conductors recorded yet.</div>
+      <div class="btn-row">
+        <button id="history-clear" type="button" class="btn btn-danger" data-i18n="historyClear">Clear history</button>
+        <button id="history-export" type="button" class="btn btn-secondary" data-i18n="historyExport">Export CSV</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <a href="https://r5tools.io" data-i18n="footerHome">r5tools.io</a> ·
+    <span data-i18n="footerCred">Fair random-pick for alliance trains — LWS Suite</span>
+  </footer>
+</div>
+
+<script src="static/i18n.js" defer></script>
+<script src="static/train-conductor.js" defer></script>
+</body>
+</html>

@@ -2,451 +2,248 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Tools Dashboard — R5TOOLS.IO</title>
-  <meta name="description" content="Every r5tools.io Last War: Survival tool on one page — Landing Planner, Heat Simulator, Freeze Risk, Coal Burn, Hive Grid, Roster Extractor, and more. Open once, jump anywhere." />
-  <meta name="robots" content="noindex,nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Dashboard — r5tools.io</title>
+  <meta name="robots" content="noindex" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
-  <link rel="canonical" href="https://r5tools.io/dashboard.html" />
-
-  <!-- Access-codes shared gate + roster-freshness widget -->
-  <script src="https://access-codes.r5tools.io/lib.js" defer></script>
-  <script src="https://roster.r5tools.io/static/roster-freshness.js" defer></script>
-  <!-- Season strip widget (local same-origin) -->
-  <script src="seasons-lib.js" defer></script>
-
   <style>
-    * { box-sizing: border-box; }
     :root {
-      --bg: #0a0e1a;
-      --panel: #0d1424;
-      --panel-2: #12192c;
-      --border: rgba(255,255,255,0.08);
-      --border-accent: rgba(201,169,97,0.30);
-      --accent: #c9a961;
-      --accent-hover: #d9b871;
-      --text: #e6e8ee;
-      --text-dim: #a8b0c0;
-      --text-mute: #7a8290;
-      --success: #8ae0a3;
-      --warn: #e88a4a;
-      --error: #ff5555;
+      --bg:#0a0e1a; --panel:#0d1424; --panel-2:#12192c;
+      --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.3);
+      --accent:#c9a961; --accent-hover:#d9b871;
+      --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290; --confirm:#8ae0a3;
     }
-    html, body {
-      margin: 0; padding: 0; background: var(--bg); color: var(--text);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-      -webkit-font-smoothing: antialiased; line-height: 1.5;
-    }
-    code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; height:100%; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif; -webkit-font-smoothing:antialiased; }
+    a { color:var(--accent); text-decoration:none; }
+    .app { display:flex; flex-direction:column; height:100vh; }
 
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px 20px 48px; }
+    /* Top bar */
+    .topbar { display:flex; align-items:center; gap:14px; padding:8px 16px; background:var(--panel);
+      border-bottom:1px solid var(--border); flex-wrap:wrap; }
+    .brand { font-size:12px; letter-spacing:0.16em; color:var(--accent); font-weight:700; white-space:nowrap; }
+    .ctx { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:12.5px; color:var(--text-dim); }
+    .chip { background:var(--panel-2); border:1px solid var(--border); border-radius:999px; padding:3px 10px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }
+    .chip.season { color:var(--accent); border-color:var(--border-accent); }
+    .chip.roster { color:var(--confirm); border-color:rgba(138,224,163,0.3); }
+    .field { display:flex; align-items:center; gap:5px; }
+    .field label { font-size:10px; color:var(--text-mute); text-transform:uppercase; letter-spacing:0.05em; }
+    .field input { width:78px; background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+      border-radius:6px; padding:5px 8px; font-size:13px; font-family:inherit; }
+    .field input.alli { width:74px; text-transform:uppercase; }
+    .btn { background:var(--accent); color:#0a0e1a; font-weight:700; border:none; border-radius:6px;
+      padding:6px 12px; font-size:12.5px; cursor:pointer; font-family:inherit; }
+    .btn.ghost { background:var(--panel-2); color:var(--text-dim); border:1px solid var(--border); font-weight:500; }
+    .spacer { flex:1; }
 
-    header.top {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 16px; padding: 4px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .brand { font-size: 12.5px; letter-spacing: 0.16em; color: var(--accent); font-weight: 700; text-decoration: none; }
-    .brand:hover { color: var(--accent-hover); }
-    .brand .sep { color: var(--text-mute); margin: 0 8px; font-weight: 400; }
-    .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    #roster-freshness-slot { min-height: 22px; }
+    /* Tab rail */
+    .tabs { display:flex; gap:3px; padding:6px 10px; background:var(--panel); border-bottom:1px solid var(--border);
+      overflow-x:auto; white-space:nowrap; }
+    .tab { display:inline-flex; align-items:center; gap:6px; padding:7px 13px; border-radius:8px; cursor:pointer;
+      color:var(--text-dim); font-size:13px; border:1px solid transparent; background:transparent; user-select:none; }
+    .tab:hover { color:var(--accent); background:rgba(201,169,97,0.05); }
+    .tab.active { color:var(--accent); background:rgba(201,169,97,0.12); border-color:var(--border-accent); font-weight:600; }
+    .tab .em { font-size:15px; }
 
-    h1 { margin: 4px 0 4px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
-    .subtitle { color: var(--text-dim); font-size: 13.5px; margin-bottom: 18px; }
-    .subtitle a { color: var(--accent); text-decoration: none; }
-    .subtitle a:hover { color: var(--accent-hover); text-decoration: underline; }
-
-    .strip {
-      background: var(--panel); border: 1px solid var(--border-accent);
-      border-radius: 10px; padding: 12px 16px; margin-bottom: 20px;
-      display: flex; gap: 20px; flex-wrap: wrap; align-items: center;
-      font-size: 13px; color: var(--text-dim);
-    }
-    .strip .pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(201,169,97,0.10); color: var(--accent);
-      padding: 3px 10px; border-radius: 100px; font-size: 11.5px; font-weight: 600;
-      font-family: ui-monospace, monospace; letter-spacing: 0.04em;
-    }
-    .strip .strip-label { color: var(--text-mute); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; }
-
-    /* Tool grid */
-    .grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 14px; margin-bottom: 24px;
-    }
-    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
-    .card:hover { border-color: var(--border-accent); transform: translateY(-1px); }
-    .card .row1 { display: flex; align-items: center; gap: 10px; }
-    .card .icon { width: 34px; height: 34px; border-radius: 8px; background: rgba(201,169,97,0.12); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .card .name { font-size: 14.5px; font-weight: 700; color: var(--text); line-height: 1.2; }
-    .card .name-kr { display: block; color: var(--text-mute); font-size: 11.5px; font-weight: 500; margin-top: 2px; letter-spacing: 0.02em; }
-    .card .hint { font-size: 12.5px; color: var(--text-dim); line-height: 1.45; min-height: 36px; }
-    .card .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.04); }
-    .health {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; color: var(--text-mute); font-family: ui-monospace, monospace;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-mute); }
-    .dot.ok  { background: var(--success); box-shadow: 0 0 6px rgba(138,224,163,0.6); }
-    .dot.err { background: var(--error); box-shadow: 0 0 6px rgba(255,85,85,0.5); }
-    .open-btn {
-      background: var(--accent); color: #0a0e1a; text-decoration: none;
-      border-radius: 6px; padding: 6px 12px; font-weight: 700; font-size: 12.5px;
-      transition: background .15s;
-    }
-    .open-btn:hover { background: var(--accent-hover); }
-
-    /* Activity panel */
-    .activity {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px 18px;
-    }
-    .activity h2 {
-      font-size: 13px; font-weight: 600; margin: 0 0 12px; color: var(--text);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .activity h2 .hint { font-size: 11px; color: var(--text-mute); font-weight: 400; }
-    .activity ul { list-style: none; padding: 0; margin: 0; font-size: 13px; }
-    .activity li {
-      display: flex; gap: 12px; padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .activity li:last-child { border-bottom: none; }
-    .activity .when { color: var(--text-mute); font-family: ui-monospace, monospace; font-size: 11.5px; min-width: 90px; flex-shrink: 0; }
-    .activity .msg { color: var(--text-dim); flex: 1; }
-    .activity .msg b { color: var(--text); font-weight: 600; }
-    .activity .empty { color: var(--text-mute); font-style: italic; padding: 8px 0; }
-
-    footer { text-align: center; padding: 24px 0 8px; color: var(--text-mute); font-size: 11.5px; }
-    footer a { color: var(--accent); text-decoration: none; }
-
-    #signin-line { font-size: 12.5px; color: var(--text-dim); }
-    #signin-line b { color: var(--text); }
-    #signin-line a { color: var(--accent); text-decoration: none; }
-    #signin-line a:hover { text-decoration: underline; }
-
-    @media (max-width: 600px) {
-      .wrap { padding: 16px 12px 32px; }
-      header.top { padding-bottom: 14px; margin-bottom: 14px; }
-      .grid { gap: 10px; grid-template-columns: 1fr; }
-    }
+    /* Frame */
+    .frame-wrap { flex:1; position:relative; background:var(--bg); }
+    iframe#tool { width:100%; height:100%; border:0; display:block; background:var(--bg); }
+    .locked { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:30px; color:var(--text-dim); gap:12px; }
+    .locked.show { display:flex; }
+    .locked h2 { color:var(--accent); margin:0; }
+    .needwz { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:30px; color:var(--text-dim); gap:10px; }
+    .needwz.hide { display:none; }
+    @media (max-width:640px) { .brand { display:none; } .field input { width:64px; } }
   </style>
 </head>
 <body>
-  <div id="main-app" class="wrap">
+  <div class="app">
+    <div class="topbar">
+      <span class="brand">R5TOOLS.IO</span>
+      <div class="field"><label>Warzone</label><input id="wz" type="number" inputmode="numeric" placeholder="2007" /></div>
+      <div class="field"><label>Alliance</label><input id="alli" class="alli" type="text" placeholder="RONY" /></div>
+      <button class="btn" id="apply">Load</button>
+      <div class="ctx" id="ctx"></div>
+      <div class="spacer"></div>
+      <a class="btn ghost" href="https://access-codes.r5tools.io/" id="acct">Account</a>
+    </div>
 
-    <header class="top">
-      <a href="/" class="brand">R5TOOLS.IO<span class="sep">·</span>DASHBOARD</a>
-      <div class="top-right">
-        <div id="roster-freshness-slot"></div>
+    <div class="tabs" id="tabs"></div>
+
+    <div class="frame-wrap">
+      <div class="needwz" id="needwz">
+        <div style="font-size:34px">🛰️</div>
+        <h2 style="color:var(--accent);margin:0">Enter your warzone &amp; alliance above</h2>
+        <p style="max-width:420px">Your roster auto-loads from LW Atlas — no upload needed. Smaller alliances upload once and get the same thing. Season is detected automatically from your warzone.</p>
       </div>
-    </header>
-
-    <h1 data-i18n="title">Your tools · 하나의 페이지</h1>
-    <p class="subtitle" id="signin-line">
-      <span data-i18n="loading">Checking your roster…</span>
-    </p>
-
-    <!-- Season / warzone strip -->
-    <div class="strip" id="season-strip">
-      <span class="strip-label" data-i18n="stripLabel">CONTEXT</span>
-      <span class="pill" id="strip-warzone">Warzone: …</span>
-      <span class="pill" id="strip-season">Season: …</span>
-      <span class="pill" id="strip-timeline">Wk … · Day …</span>
-      <span class="pill" id="strip-countdown">…</span>
+      <iframe id="tool" title="tool" referrerpolicy="no-referrer" style="display:none"></iframe>
+      <div class="locked" id="locked">
+        <div style="font-size:34px">🔒</div>
+        <h2>Redeem your access code</h2>
+        <p>Enter your alliance's code once — every tool remembers it on this device.</p>
+        <a class="btn" href="https://access-codes.r5tools.io/">Enter access code →</a>
+      </div>
     </div>
-
-    <!-- Tool grid -->
-    <section class="grid" id="tool-grid"><!-- populated by JS --></section>
-
-    <!-- Recent activity -->
-    <div class="activity">
-      <h2>
-        <span data-i18n="activityTitle">Recent activity · 최근 활동</span>
-        <span class="hint" id="activity-hint" data-i18n="activityHintV1">v1 placeholder — live feed in v1.1</span>
-      </h2>
-      <ul id="activity-list"></ul>
-    </div>
-
-    <footer>
-      <span data-i18n="footer">Signed unlock lives in a cookie on this browser · </span>
-      <a href="/">r5tools.io home</a> ·
-      <a href="https://access-codes.r5tools.io/">Manage unlock</a>
-    </footer>
-
   </div>
 
-<script>
-(function () {
-  "use strict";
+  <script src="/seasons-lib.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    // Tool tabs. Same-origin tools live under /tools/<name>/ (copied off GitHub).
+    // r5tools.io-native pages are referenced directly. Everything is r5tools.io.
+    var TOOLS = [
+      { id:'landing',   em:'🎯', label:'Landing',   src:'/tools/landing-planner/',   needsRoster:true,  needsWz:true },
+      { id:'hive',      em:'🏛️', label:'Hive',      src:'/tools/hive/',              needsRoster:true,  needsWz:true },
+      { id:'heat',      em:'🔥', label:'Heat',      src:'/tools/heat-simulator/',    needsRoster:true,  needsWz:true },
+      { id:'freeze',    em:'❄️', label:'Freeze',    src:'/tools/freeze-risk/',       needsRoster:true,  needsWz:true },
+      { id:'coal',      em:'⚒️', label:'Coal',      src:'/tools/coal-burn/',         needsRoster:true,  needsWz:true },
+      { id:'city',      em:'🏰', label:'City',      src:'/tools/city-capture/',      needsRoster:true,  needsWz:true },
+      { id:'train',     em:'🚂', label:'Train',     src:'/tools/train-conductor/',   needsRoster:true,  needsWz:true },
+      { id:'timeline',  em:'📅', label:'Timeline',  src:'/tools/season-timeline/',   needsRoster:false, needsWz:true },
+      { id:'roster',    em:'📇', label:'Live Roster', src:'/live-roster.html', native:true, needsWz:true },
+      { id:'power',     em:'📈', label:'Power Trends', src:'/power-trends.html', native:true, needsWz:true },
+      { id:'intel',     em:'⚔️', label:'Warzone Intel', src:'/warzone-intel.html', native:true, needsWz:true },
+      { id:'directory', em:'🗺️', label:'Warzones',  src:'/warzones.html', native:true, needsWz:false },
+    ];
 
-  // ---------- i18n ----------
-  var LANG = (navigator.language || "en").toLowerCase().startsWith("ko") ? "ko" : "en";
-  var STR = {
-    en: {
-      title: "Your tools — one page",
-      loading: "Checking your roster…",
-      signedNoRoster: 'Signed in — no roster on file yet. <a href="https://roster.r5tools.io/" target="_blank" rel="noopener">Upload one →</a>',
-      signedR5of: 'Signed in as R5 of <b>{name}</b>',
-      signedR4of: 'Signed in as R4 of <b>{name}</b>',
-      signedMember: 'Signed in — member of <b>{name}</b>',
-      anonHint: 'Unlock a code to see your alliance context here.',
-      unlockedNoRoster: 'You\'re unlocked ✓ — <a href="https://roster.r5tools.io/" style="color:var(--accent);text-decoration:underline">upload your alliance roster</a> to see per-member context here.',
-      stripLabel: "CONTEXT",
-      activityTitle: "Recent activity",
-      activityHintV1: "v1 placeholder — dynamic feed in v1.1",
-      countdownLive: "S2 live",
-      countdownPre: "S2 launches in {d}d {h}h",
-      countdownPast: "S2 complete",
-      footer: "Signed unlock lives in a cookie on this browser · ",
-      openBtn: "Open →",
-      healthUp: "up",
-      healthDown: "down",
-      healthUnknown: "?",
-      demoActivity: [
-        { when: "2h ago", msg: "<b>Roster</b> uploaded — 94 members" },
-        { when: "5h ago", msg: "<b>Landing Planner</b> · 47 tiles assigned" },
-        { when: "1d ago", msg: "<b>Coal Burn Calc</b> · budget saved" },
-        { when: "2d ago", msg: "<b>Heat Simulator</b> · L20 coverage exported" }
-      ]
-    },
-    ko: {
-      title: "내 도구 — 한 페이지에",
-      loading: "명단 확인 중…",
-      signedNoRoster: '로그인됨 — 명단 미등록. <a href="https://roster.r5tools.io/" target="_blank" rel="noopener">업로드 →</a>',
-      signedR5of: '<b>{name}</b>의 R5로 로그인됨',
-      signedR4of: '<b>{name}</b>의 R4로 로그인됨',
-      signedMember: '<b>{name}</b>의 멤버로 로그인됨',
-      anonHint: '코드를 입력하면 여기에 연맹 정보가 표시됩니다.',
-      unlockedNoRoster: '잠금 해제됨 ✓ — <a href="https://roster.r5tools.io/" style="color:var(--accent);text-decoration:underline">연맹 명단을 업로드</a>하면 여기에 멤버별 정보가 표시됩니다.',
-      stripLabel: "컨텍스트",
-      activityTitle: "최근 활동",
-      activityHintV1: "v1 임시 데이터 — v1.1에서 실시간 피드",
-      countdownLive: "S2 진행 중",
-      countdownPre: "S2 시작까지 {d}일 {h}시간",
-      countdownPast: "S2 종료",
-      footer: "잠금 해제는 이 브라우저 쿠키에 저장됩니다 · ",
-      openBtn: "열기 →",
-      healthUp: "정상",
-      healthDown: "다운",
-      healthUnknown: "?",
-      demoActivity: [
-        { when: "2시간 전", msg: "<b>명단</b> 업로드 완료 — 94명" },
-        { when: "5시간 전", msg: "<b>착륙 플래너</b> · 타일 47개 배정" },
-        { when: "1일 전", msg: "<b>석탄 계산기</b> · 예산 저장" },
-        { when: "2일 전", msg: "<b>히트 시뮬레이터</b> · L20 커버리지" }
-      ]
+    function $(id){ return document.getElementById(id); }
+    function code() {
+      try {
+        if (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) return LWSAccessCodes.code();
+        return localStorage.getItem('lws_unlock_code') || '';
+      } catch (e) { return ''; }
     }
-  };
-  function t(key) { return STR[LANG][key] || STR.en[key] || key; }
+    var state = { wz:null, alli:null, active:'roster', season:null };
 
-  // Apply data-i18n to any static tag
-  document.querySelectorAll("[data-i18n]").forEach(function (el) {
-    var v = t(el.getAttribute("data-i18n"));
-    if (v) el.textContent = v;
-  });
-
-  // ---------- Tool catalog ----------
-  var TOOLS = [
-    { key: "roster",        icon: "🎬", name: "Roster Extractor",       nameKr: "명단 추출기",     hint: "Video → CSV in 2 minutes.",                     url: "https://roster.r5tools.io/" },
-    { key: "alliance-list", icon: "📋", name: "Alliance List OCR",      nameKr: "연맹 목록 OCR",   hint: "Screenshot list → structured roster.",           url: "https://roster.r5tools.io/alliance-list" },
-    { key: "landing",       icon: "🎯", name: "Landing Planner",        nameKr: "착륙 플래너",     hint: "Season 2 tile assignments by rank + power.",     url: "https://bullochman.github.io/lws-landing-planner-static/" },
-    { key: "heat",          icon: "🔥", name: "Heat Simulator",         nameKr: "히트 시뮬레이터", hint: "Furnace / temperature coverage overlay.",         url: "https://bullochman.github.io/lws-heat-simulator-static/" },
-    { key: "freeze",        icon: "❄️", name: "Freeze Risk Dashboard",  nameKr: "동결 위험판",     hint: "Week-1 freeze predictions per member.",           url: "https://bullochman.github.io/lws-freeze-risk-static/" },
-    { key: "coal",          icon: "⛏️", name: "Coal Burn Calculator",   nameKr: "석탄 계산기",     hint: "Coal budget for Week-4 blizzard.",                url: "https://bullochman.github.io/lws-coal-burn-static/" },
-    { key: "city",          icon: "🏙️", name: "City Capture Planner",   nameKr: "도시 점령 플래너", hint: "Assign city captures by power tier.",            url: "https://bullochman.github.io/lws-city-capture-static/" },
-    { key: "season",        icon: "🗓️", name: "Season Timeline",        nameKr: "시즌 타임라인",   hint: "56-day Polar Storm event calendar.",              url: "https://bullochman.github.io/lws-season-timeline-static/" },
-    { key: "hive",          icon: "🐝", name: "Hive Grid Manager",      nameKr: "하이브 관리자",   hint: "MG 3×3 / Stronghold / Megahive formations.",      url: "https://hive.r5tools.io/" },
-    { key: "vs",            icon: "⚔️", name: "VS Days Optimizer",       nameKr: "VS 데이 최적화",  hint: "6-day phase-stack scoring playbook.",              url: "https://bullochman.github.io/lws-vs-days-static/" },
-    { key: "profile",       icon: "👤", name: "Profile Studio",         nameKr: "프로필 스튜디오", hint: "Build + share your R5/officer profile.",           url: "https://bullochman.github.io/lws-profile-studio-static/" },
-    { key: "coord",         icon: "📞", name: "Coordination Directory", nameKr: "협력 디렉토리",   hint: "R5-to-R5 opt-in ping directory.",                  url: "https://access-codes.r5tools.io/coordinate" },
-    { key: "flag",          icon: "🚩", name: "Alliance Flag",          nameKr: "연맹 깃발",       hint: "400×400 alliance emblem PNG generator.",           url: "/alliance-flag.html", sameOrigin: true }
-  ];
-
-  // ---------- Render grid ----------
-  var grid = document.getElementById("tool-grid");
-  grid.innerHTML = TOOLS.map(function (tool) {
-    return '<div class="card" data-tool="' + tool.key + '">' +
-      '<div class="row1">' +
-        '<div class="icon">' + tool.icon + '</div>' +
-        '<div><div class="name">' + tool.name + '<span class="name-kr">' + tool.nameKr + '</span></div></div>' +
-      '</div>' +
-      '<div class="hint">' + tool.hint + '</div>' +
-      '<div class="foot">' +
-        '<span class="health" data-health="' + tool.key + '">' +
-          '<span class="dot"></span><span class="status">' + t("healthUnknown") + '</span>' +
-        '</span>' +
-        '<a class="open-btn" href="' + tool.url + '"' + (tool.sameOrigin ? '' : ' target="_blank" rel="noopener"') + '>' + t("openBtn") + '</a>' +
-      '</div>' +
-    '</div>';
-  }).join("");
-
-  // ---------- Health checks (best-effort, no-cors) ----------
-  TOOLS.forEach(function (tool) {
-    if (tool.sameOrigin) {
-      setHealth(tool.key, true, 0);
-      return;
-    }
-    var url = tool.url + (tool.url.indexOf("?") === -1 ? "?_ping=" : "&_ping=") + Date.now();
-    var t0 = performance.now();
-    fetch(url, { mode: "no-cors", credentials: "omit", cache: "no-store" })
-      .then(function () { setHealth(tool.key, true, performance.now() - t0); })
-      .catch(function () { setHealth(tool.key, false, performance.now() - t0); });
-  });
-  function setHealth(key, up, ms) {
-    var el = document.querySelector('[data-health="' + key + '"]');
-    if (!el) return;
-    var dot = el.querySelector(".dot"); var status = el.querySelector(".status");
-    dot.classList.remove("ok", "err");
-    dot.classList.add(up ? "ok" : "err");
-    status.textContent = up ? (t("healthUp") + " · " + Math.round(ms) + "ms") : t("healthDown");
-  }
-
-  // ---------- Sign-in line + roster lookup ----------
-  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
-  function renderSignin(html) { document.getElementById("signin-line").innerHTML = html; }
-  var sigMatch = document.cookie.match(/(?:^|;\s*)lws_sig=([a-f0-9]{4,32})/i);
-  var sig = sigMatch ? sigMatch[1] : null;
-  if (!sig) {
-    // Don't stamp the wrong message. Ask the shared unlock lib whether we
-    // have a valid access code first — an unlocked user with no roster
-    // yet should see "upload your roster", not "unlock a code" (they've
-    // already done that). Falls back to the anonymous prompt on lib
-    // absence or fetch error.
-    function _renderNoSigMessage() {
-      if (window.LWSAccessCodes && typeof window.LWSAccessCodes.tier === 'function') {
-        window.LWSAccessCodes.tier().then(function (tier) {
-          renderSignin(tier ? t("unlockedNoRoster") : t("anonHint"));
-        }).catch(function () { renderSignin(t("anonHint")); });
-      } else {
-        // Poll briefly for lib load (deferred script)
-        var waited = 0;
-        var poll = setInterval(function () {
-          waited += 200;
-          if (window.LWSAccessCodes && typeof window.LWSAccessCodes.tier === 'function') {
-            clearInterval(poll);
-            window.LWSAccessCodes.tier().then(function (tier) {
-              renderSignin(tier ? t("unlockedNoRoster") : t("anonHint"));
-            }).catch(function () { renderSignin(t("anonHint")); });
-          } else if (waited > 3000) {
-            clearInterval(poll);
-            renderSignin(t("anonHint"));
-          }
-        }, 200);
-      }
-    }
-    _renderNoSigMessage();
-  } else {
-    fetch("https://roster.r5tools.io/api/live-roster?sig=" + encodeURIComponent(sig), { credentials: "omit" })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) {
-        if (!data || !data.exists || !(data.members || []).length) { renderSignin(t("signedNoRoster")); return; }
-        var name = data.alliance_name || data.alliance_tag || ("Alliance " + sig.slice(0,4).toUpperCase());
-        var me = (data.members || []).find(function (m) { return m.is_me || m.self; });
-        var key = "signedMember";
-        if (me && me.rank) {
-          var r = String(me.rank).toUpperCase();
-          if (r === "R5") key = "signedR5of";
-          else if (r === "R4") key = "signedR4of";
+    // ---- season auto-derivation from warzone (no manual selection) ----
+    function deriveSeason(wz, cb) {
+      // Try seasons-lib first, else the directory/intel API.
+      try {
+        if (window.LWSSeasons && typeof LWSSeasons.forWarzone === 'function') {
+          var s = LWSSeasons.forWarzone(wz);
+          if (s) { cb(s); return; }
         }
-        renderSignin(t(key).replace("{name}", escapeHtml(name)));
-      })
-      .catch(function () { renderSignin(t("signedNoRoster")); });
-  }
-
-  // ---------- Season strip (falls back to hardcoded S2 launch if lib absent) ----------
-  // In-game "Day N" of Season 2 starts at 02:00 UTC each calendar day, and
-  // Day 1 begins the calendar day AFTER the S2 launch date (07-26 = pre-season
-  // setup, 07-27 02:00 UTC = Day 1 events go live). Verified against Evan's
-  // ground-truth 2026-07-27 evening: "Day 2 in 1h 10m" (~02:00 UTC 07-28).
-  var S2_LAUNCH_UTC   = Date.UTC(2026, 6, 26);           // season "opens" / warzone selectable
-  var S2_DAY1_UTC     = Date.UTC(2026, 6, 27, 2, 0, 0);  // Day 1 event window begins
-  var SEASON_LEN_MS   = 56 * 86400000;
-  function paintStrip(ctx) {
-    var warzone = (ctx && ctx.warzone_id) || "2007";
-    // ctx.season.name is a {en, ko, ...} object per seasons-lib.js shape —
-    // pick the current UI language string, not the raw object.
-    var lang = (window.LWSi18n && typeof window.LWSi18n.lang === "function") ? window.LWSi18n.lang() : "en";
-    var seasonName = null;
-    if (ctx && ctx.season && ctx.season.name) {
-      if (typeof ctx.season.name === "string") seasonName = ctx.season.name;
-      else seasonName = ctx.season.name[lang] || ctx.season.name.en || ctx.season_id;
+      } catch (e) {}
+      fetch('https://access-codes.r5tools.io/api/warzone/' + encodeURIComponent(wz) + '/intel')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (d && d.season != null) {
+            var names = {1:'Crimson Plague',2:'Polar Storm',3:'Golden Kingdom',4:'Evernight Isle',5:'Wild West',6:'Season 6',7:'Season 7'};
+            cb({ n:d.season, name:names[d.season] || ('Season ' + d.season) });
+          } else cb(null);
+        })
+        .catch(function () { cb(null); });
     }
-    var season = seasonName || "Polar Storm";
-    var week = 0, day = 0, countdown;
-    var now = Date.now();
-    if (now < S2_LAUNCH_UTC) {
-      var ms = S2_LAUNCH_UTC - now;
-      countdown = t("countdownPre").replace("{d}", Math.floor(ms/86400000)).replace("{h}", Math.floor((ms%86400000)/3600000));
-    } else if (now < S2_LAUNCH_UTC + SEASON_LEN_MS) {
-      // Between launch (07-26) and Day 1 start (07-27 02:00 UTC) → pre-season
-      if (now < S2_DAY1_UTC) {
-        day = 0; week = 0;
-        countdown = t("countdownPreDay1") || "S2 opens · Day 1 starts soon";
-      } else {
-        day  = Math.floor((now - S2_DAY1_UTC) / 86400000) + 1;
-        week = Math.floor((day - 1) / 7) + 1;
-        countdown = t("countdownLive").replace("{w}", week);
+
+    function renderCtx() {
+      var c = $('ctx');
+      var parts = [];
+      if (state.wz) parts.push('<span class="chip">WZ ' + state.wz + '</span>');
+      if (state.season) parts.push('<span class="chip season">S' + state.season.n + ' · ' + state.season.name + '</span>');
+      if (state.alli) parts.push('<span class="chip roster">' + escapeHtml(state.alli) + ' roster ✓</span>');
+      c.innerHTML = parts.join(' ');
+    }
+    function escapeHtml(s){ var d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
+
+    function buildTabs() {
+      var t = $('tabs');
+      t.innerHTML = '';
+      TOOLS.forEach(function (tool) {
+        var el = document.createElement('button');
+        el.className = 'tab' + (tool.id === state.active ? ' active' : '');
+        el.innerHTML = '<span class="em">' + tool.em + '</span>' + tool.label;
+        el.addEventListener('click', function () { selectTool(tool.id); });
+        t.appendChild(el);
+      });
+    }
+
+    function toolById(id){ for (var i=0;i<TOOLS.length;i++) if (TOOLS[i].id===id) return TOOLS[i]; return TOOLS[0]; }
+
+    function frameUrl(tool) {
+      var qs = [];
+      if (tool.needsWz && state.wz) {
+        // native pages use their own param names
+        if (tool.id === 'intel') qs.push('wz=' + encodeURIComponent(state.wz));
+        else qs.push('warzone=' + encodeURIComponent(state.wz));
       }
-    } else { countdown = t("countdownPast"); }
-    document.getElementById("strip-warzone").textContent = "Warzone: " + warzone;
-    // Shorter season chip: "S2 · Polar Storm" instead of "Season: Season 2: Polar Storm"
-    var sm = /Season\s+(\d+)[:\s]*(.*)/i.exec(season);
-    var seasonShort = sm ? ("S" + sm[1] + " · " + (sm[2] || "").trim()) : season;
-    document.getElementById("strip-season").textContent = seasonShort;
-    // Combined timeline chip replaces separate Week + Day chips
-    var timelineEl = document.getElementById("strip-timeline");
-    if (timelineEl) {
-      if (day > 0) timelineEl.textContent = "Wk " + week + " · Day " + day;
-      else if (now < S2_DAY1_UTC && now >= S2_LAUNCH_UTC) timelineEl.textContent = "Pre-Day 1";
-      else timelineEl.textContent = "pre-season";
+      if (!tool.native && state.alli) qs.push('alliance=' + encodeURIComponent(state.alli));
+      return tool.src + (qs.length ? ('?' + qs.join('&')) : '');
     }
-    document.getElementById("strip-countdown").textContent = countdown;
-  }
-  function tryStrip() {
-    if (window.LWSSeasons && window.LWSSeasons.resolve) {
-      window.LWSSeasons.resolve().then(paintStrip).catch(function () { paintStrip(null); });
-    } else { paintStrip(null); }
-  }
-  window.addEventListener("DOMContentLoaded", function () { setTimeout(tryStrip, 250); });
-  window.addEventListener("lws:warzone-changed", tryStrip);
-  window.addEventListener("lws:season-changed", tryStrip);
 
-  // ---------- Activity feed (v1 placeholder → try /api/activity if it exists) ----------
-  function renderActivity(items) {
-    var ul = document.getElementById("activity-list");
-    if (!items || !items.length) {
-      ul.innerHTML = '<li class="empty">' + (LANG === "ko" ? "활동이 아직 없습니다" : "no recent activity") + '</li>';
-      return;
+    function selectTool(id) {
+      state.active = id;
+      buildTabs();
+      var tool = toolById(id);
+      var needWz = $('needwz'), frame = $('tool'), locked = $('locked');
+      locked.classList.remove('show');
+      // Gate: paid tools need a code. Directory/roster-view are fine to show.
+      if (!code() && tool.needsRoster) { locked.classList.add('show'); frame.style.display='none'; needWz.classList.add('hide'); return; }
+      if (tool.needsWz && !state.wz) { needWz.classList.remove('hide'); frame.style.display='none'; return; }
+      needWz.classList.add('hide');
+      frame.style.display = 'block';
+      frame.src = frameUrl(tool);
+      // Once loaded, hide the tool's own warzone/season selector (dashboard owns it).
+      frame.onload = function () { hideInnerSelectors(frame); };
     }
-    ul.innerHTML = items.slice(0, 5).map(function (row) {
-      return '<li><span class="when">' + escapeHtml(row.when) + '</span><span class="msg">' + row.msg + '</span></li>';
-    }).join("");
-  }
-  fetch("https://access-codes.r5tools.io/api/activity", { credentials: "include", cache: "no-store" })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (data) {
-      if (data && Array.isArray(data.events) && data.events.length) {
-        document.getElementById("activity-hint").textContent = LANG === "ko" ? "실시간" : "live";
-        renderActivity(data.events.map(function (e) {
-          return { when: e.when || e.ts || "", msg: escapeHtml(e.tool || "event") + " · " + escapeHtml(e.msg || e.event || "") };
-        }));
-      } else {
-        renderActivity(t("demoActivity"));
-      }
-    })
-    .catch(function () { renderActivity(t("demoActivity")); });
 
-  // ---------- Access-codes gate: wrap #main-app if no valid unlock cookie ----------
-  function tryGate() {
-    if (window.LWSAccessCodes && window.LWSAccessCodes.gate) {
-      try { window.LWSAccessCodes.gate("main-app"); } catch (e) {}
-    } else { setTimeout(tryGate, 150); }
-  }
-  window.addEventListener("load", tryGate);
-})();
-</script>
+    // Same-origin: reach into the iframe and hide its manual warzone/season
+    // picker so users never select a season by hand.
+    function hideInnerSelectors(frame) {
+      try {
+        var doc = frame.contentDocument;
+        if (!doc) return;
+        var sels = ['#warzone-select','#season-select','.warzone-picker','[data-season-selector]',
+                    '#wz-picker','.season-selector','#seasonSelect'];
+        sels.forEach(function (s) {
+          doc.querySelectorAll(s).forEach(function (el) {
+            var row = el.closest('.controls,.filter-block,.ctx,header,.warzone-bar') || el;
+            row.style.display = 'none';
+          });
+        });
+      } catch (e) { /* cross-origin native page or not present — fine */ }
+    }
+
+    function persist() {
+      try {
+        if (state.wz) localStorage.setItem('lws_my_warzone', state.wz);
+        if (state.alli) localStorage.setItem('lws_my_alliance', state.alli);
+      } catch (e) {}
+    }
+
+    function apply() {
+      var wz = ($('wz').value || '').trim();
+      var alli = ($('alli').value || '').trim().toUpperCase();
+      if (!wz) return;
+      state.wz = wz; state.alli = alli;
+      persist();
+      renderCtx();
+      deriveSeason(wz, function (s) { state.season = s; renderCtx(); });
+      selectTool(state.active);
+    }
+
+    $('apply').addEventListener('click', apply);
+    $('wz').addEventListener('keydown', function (e){ if (e.key==='Enter') apply(); });
+    $('alli').addEventListener('keydown', function (e){ if (e.key==='Enter') apply(); });
+
+    // Restore identity from URL (?warzone=&alliance=) or saved localStorage.
+    (function init() {
+      buildTabs();
+      var params = new URLSearchParams(location.search);
+      var wz = params.get('warzone') || (function(){ try { return localStorage.getItem('lws_my_warzone'); } catch(e){ return null; } })();
+      var alli = params.get('alliance') || (function(){ try { return localStorage.getItem('lws_my_alliance'); } catch(e){ return null; } })();
+      if (params.get('tab')) state.active = params.get('tab');
+      if (wz) $('wz').value = wz;
+      if (alli) $('alli').value = alli;
+      if (wz) { setTimeout(apply, 250); }   // let lib.js load the code first
+      else { selectTool(state.active); }
+    })();
+  })();
+  </script>
+  <script src="https://access-codes.r5tools.io/lib.js" defer></script>
 </body>
 </html>

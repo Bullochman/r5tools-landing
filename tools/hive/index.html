@@ -1,0 +1,2673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alliance Hive Grid Tool – Last War Survival</title>
+<!-- Static GH Pages build: intercept /api/* with in-browser handlers backed by localStorage. -->
+<script src="static/fake-server.js"></script>
+<script src="static/i18n.js" defer></script>
+<script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+<script src="static/roster-picker.js" defer></script>
+<script src="static/seasons-lib.js" defer></script>
+<script src="static/lws-countdown.js" defer></script>
+<script>
+// Auto-load of Moonpetal demo REMOVED 2026-07-26 (Redaviatrix feedback).
+// Universal empty state — users see their own hive or an empty grid,
+// never a random demo alliance they did not ask for.
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e1a;--bg2:#111122;--bg3:#0a0a14;
+  --border:#252540;--border-accent:rgba(201,169,97,0.30);
+  --text:#c0c0d0;--dim:#55557a;--muted:#7a8290;
+  --accent:#c9a961;
+  /* Rank palette: R1 base → R2 green → R3 blue → R4 purple → R5 gold (highest, per LWS convention) */
+  --r5:#ffd700;--r4:#da8fff;--r3:#00bfff;--r2:#44dd66;--r1:#6699ff;
+  --mg:#ff5555;--empty:#333350;
+  --cell-w:128px;--cell-h:84px;
+  --sans:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;
+  --mono:'JetBrains Mono','SF Mono','Courier New',monospace;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:20px 24px;min-height:100vh;-webkit-font-smoothing:antialiased;letter-spacing:.005em}
+
+/* ── Header ─────────────────────────────── */
+header{margin-bottom:14px}
+h1{color:#fff;font-size:22px;letter-spacing:.35px;font-weight:700}
+.meta{color:var(--dim);font-size:12px;margin-top:6px;line-height:1.6;font-family:var(--mono)}
+
+/* ── Legend ─────────────────────────────── */
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 18px;font-size:11.5px}
+.leg{display:inline-flex;align-items:center;gap:6px;cursor:default;padding:4px 10px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;transition:background .15s,border-color .15s}
+.leg:hover{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.10)}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
+
+/* ── Grid ───────────────────────────────── */
+.grid-wrap{overflow-x:auto;margin-bottom:36px}
+table.grid{border-collapse:collapse;border:2px solid #ffffff22}
+
+/* ── Stronghold tile canvas ──────────────── */
+.sh-wrap{overflow:auto;margin-bottom:36px;padding:24px;background:#0a0f0a;border:1px solid #1a2a1a;border-radius:6px;display:none;position:relative}
+.sh-wrap.active{display:block}
+.sh-canvas{position:relative;margin:auto;background:repeating-linear-gradient(0deg,#0d150d 0,#0d150d 11px,#0f180f 11px,#0f180f 12px),repeating-linear-gradient(90deg,#0d150d 0,#0d150d 11px,#0f180f 11px,#0f180f 12px);border:1px solid #1a2a1a}
+.sh-fortress{position:absolute;background:linear-gradient(135deg,#5c1a1a,#3a0e0e);border:2px solid #ff444466;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#ff8888;text-align:center;box-shadow:0 0 28px #ff222244 inset,0 0 14px #ff333355}
+.sh-fortress::before{content:"";position:absolute;inset:-6px;border:1px dashed #884444;border-radius:2px;pointer-events:none}
+.sh-fortress .sf-title{font-size:11px;letter-spacing:1px;font-weight:bold;text-shadow:0 1px 2px #000}
+.sh-fortress .sf-sub{font-size:9px;color:#cc6666;margin-top:2px}
+.sh-fortress .sf-coord{font-size:9px;color:#aa5555;margin-top:5px}
+.sh-slot{position:absolute;border:1px solid var(--border);background:#181830;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:8px;cursor:pointer;transition:transform .1s,background .12s,border-color .12s;overflow:hidden;text-align:center;line-height:1.1}
+.sh-slot:hover{transform:scale(1.06);z-index:5;border-color:#6666cc}
+.sh-slot.empty{background:#10101a;border-style:dashed;border-color:#252540;color:#3a3a55;font-style:italic;opacity:.55}
+.sh-slot.empty:hover{opacity:.85;background:#15152a}
+.sh-slot.r-1{box-shadow:0 0 6px #ff444477 inset}
+.sh-slot.r-2{box-shadow:0 0 4px #cc880055 inset}
+.sh-slot.r-3{box-shadow:0 0 3px #4488cc44 inset}
+.sh-slot.r-4{box-shadow:0 0 2px #44884444 inset}
+.sh-slot.drag-src{opacity:.4;outline:2px dashed #6666ff}
+.sh-slot.drag-over{outline:2px solid #88ffaa;background:#1a2a1a !important;z-index:6}
+/* Font sizes tuned for the 2×2 HQ footprint (32px at SH_TILE_PX=16). Slots
+   are dense; the name column is only ~30px wide so we ellipsize aggressively
+   and expose the full name via the .title tooltip. */
+.sh-slot .sh-name{font-size:8px;font-weight:bold;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 1px;line-height:1.1}
+.sh-slot .sh-rk{font-size:6.5px;opacity:.85;line-height:1.1}
+.sh-slot .sh-coord{font-size:6px;color:#55557a;line-height:1.1}
+.sh-slot.ring-1-edge{border-color:#ff444466}
+.sh-ringbadge{position:absolute;font-size:9px;color:#444466;pointer-events:none;font-weight:bold;letter-spacing:1px}
+
+/* layout-mode dropdown */
+#layout-mode{background:#0a0a14;border:1px solid #5555aa;color:#9999ff;font-family:'Courier New',monospace;font-size:11px;border-radius:4px;padding:4px 8px;cursor:pointer;margin-left:4px}
+#layout-mode:focus{outline:none;border-color:#8888ff}
+td.cell{
+  border:1px solid var(--border);
+  width:var(--cell-w);min-width:var(--cell-w);max-width:var(--cell-w);
+  height:var(--cell-h);
+  padding:5px 7px;text-align:center;vertical-align:middle;
+  background:var(--bg2);cursor:pointer;user-select:none;
+  position:relative;transition:background .12s;overflow:hidden;
+}
+td.cell:hover:not(.mg):not(.no-hover){background:#181830}
+td.cell.empty{cursor:default;opacity:.38}
+td.cell.empty:hover{background:var(--bg2);opacity:.55;cursor:pointer}
+td.cell.mg{background:#1c0000!important;border:2px solid #ff333366;cursor:default}
+td.cell.drag-src{opacity:.35;outline:2px dashed #6666ff}
+td.cell.drag-over{background:#20204a!important;outline:2px dashed #8888ff}
+
+.cname{font-size:11.5px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.ctag{font-size:10px;margin-bottom:2px}
+.ccoord{font-size:9.5px;color:var(--dim)}
+.ring-badge{position:absolute;top:2px;right:4px;font-size:8px;color:#2a2a44;pointer-events:none}
+.drag-hint{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:8px;color:#33335a;pointer-events:none}
+.needs-data{position:absolute;top:2px;left:4px;font-size:8px;color:#aa6600;background:#1a1000;border:1px solid #443300;border-radius:3px;padding:0 3px;pointer-events:none}
+
+/* ── Modal ──────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center}
+.overlay.on{display:flex}
+.modal{
+  background:linear-gradient(180deg,#141432 0%,#0f0f26 100%);
+  border:1px solid rgba(201,169,97,0.20);border-radius:12px;
+  padding:28px 30px;width:420px;max-width:95vw;
+  box-shadow:0 20px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,0.03) inset;
+  backdrop-filter:blur(12px);
+}
+.modal h3{color:#fff;font-size:15px;margin-bottom:18px;border-bottom:1px solid #2a2a44;padding-bottom:10px}
+.field{margin-bottom:13px}
+.field label{display:block;color:var(--dim);font-size:10px;letter-spacing:.8px;margin-bottom:5px}
+.field input,.field select{
+  width:100%;background:#080816;border:1px solid #353560;color:#dde;
+  padding:7px 9px;border-radius:5px;font-family:'Courier New',monospace;font-size:13px;
+}
+.field input:focus,.field select:focus{outline:none;border-color:#6666cc;background:#0c0c20}
+.modal-actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+button{padding:9px 18px;border:none;border-radius:6px;font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.015em;cursor:pointer;transition:opacity .15s,transform .1s,box-shadow .15s,border-color .15s}
+button:hover{opacity:.92;box-shadow:0 3px 12px rgba(0,0,0,.35)}
+button:active{transform:scale(.97)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-save{background:#3535aa;color:#dde}
+.btn-unassign{background:#5a2020;color:#ffaaaa}
+.btn-delete{background:#7a1010;color:#ffcccc}
+.btn-cancel{background:#222234;color:#999}
+.btn-auto{background:#1a4a1a;color:#88ff88;border:1px solid #33aa33}
+.btn-upload{background:#1a3050;color:#88ccff;border:1px solid #3366aa}
+.btn-mg{background:#2a2a00;color:#ffee88;border:1px solid #888800}
+.btn-clear{background:#3a2010;color:#ffbb66;border:1px solid #885500}
+.btn-danger{background:#3a0010;color:#ff6688;border:1px solid #880022}
+.toolbar{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.coord-label{font-size:10px;color:var(--dim);margin-top:-10px;margin-bottom:14px}
+
+/* ── Roster + Payment side-by-side ─────── */
+.roster-pay-row{display:flex;gap:32px;align-items:flex-start;margin-top:20px;justify-content:flex-start}
+.roster-pay-row .roster-section{flex:0 1 auto;min-width:0;max-width:860px}
+.roster-pay-row .tip-section{flex:0 0 360px;width:360px;flex-direction:column;margin-top:0;border-top:none;border-left:1px solid #151525;padding-left:24px;padding-top:4px}
+
+/* ── Roster ─────────────────────────────── */
+.roster-section h2{color:#9999cc;font-size:13px;margin-bottom:10px;letter-spacing:.5px}
+table.roster{border-collapse:collapse;width:100%;max-width:750px;font-size:11.5px}
+table.roster th{color:var(--dim);text-align:left;padding:4px 10px;border-bottom:1px solid var(--border);font-weight:normal;font-size:10px;letter-spacing:.6px}
+table.roster td{padding:5px 10px;border-bottom:1px solid #0e0e1e}
+table.roster th.col-num,table.roster td.col-num{text-align:right;padding-right:6px;padding-left:6px;color:#2a2a3a;font-size:10px;width:26px;min-width:26px}
+table.roster tr.row-assigned{cursor:pointer}
+table.roster tr.row-assigned:hover td{background:#111122}
+.sep-row td{color:#2a2a3a!important;padding:7px 10px;font-size:9px;border-top:1px solid #151525;letter-spacing:.5px}
+
+/* ── Modal backdrop (MG modal) ──────────── */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center}
+.modal-backdrop.on,.modal-backdrop[style*="flex"]{display:flex!important}
+
+/* ── Sort bar ───────────────────────────── */
+.sort-bar{margin-bottom:8px;font-size:11px;color:#55557a;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.btn-sort{background:transparent;border:1px solid #252540;color:#55557a;padding:3px 10px;font-size:10px;border-radius:4px}
+.btn-sort.active{background:#1a1a3a;color:#8888cc;border-color:#4444aa}
+.btn-sort:hover{border-color:#6666aa;color:#8888cc;opacity:1}
+
+/* ── Multi-select ───────────────────────── */
+tr.row-selected td{background:#151540!important;box-shadow:inset 0 0 0 1px #3333aa}
+tr.row-selected:hover td{background:#1a1a50!important}
+#selection-bar{display:none;margin-bottom:8px;padding:6px 12px;background:#0d0d2a;border:1px solid #3333aa;border-radius:4px;font-size:11px;color:#8888ee;display:flex;align-items:center;gap:12px}
+#selection-bar span{flex:1}
+#selection-bar button{background:transparent;border:1px solid #333366;color:#6666aa;padding:2px 8px;border-radius:3px;font-size:10px;cursor:pointer}
+#selection-bar button:hover{border-color:#6666cc;color:#aaaaee}
+
+/* ── Inline editable cells in roster ────── */
+.inline-edit{background:transparent;border:1px solid transparent;color:inherit;font-family:'Courier New',monospace;font-size:11px;width:100%;padding:1px 3px;border-radius:3px;cursor:pointer}
+.inline-edit:hover{border-color:#252540;background:#0a0a18}
+.inline-edit:focus{border-color:#4444aa;background:#08081a;outline:none;color:#dde}
+select.inline-edit{width:auto;min-width:50px}
+
+/* ── Export button ──────────────────────── */
+.btn-export{background:#1a0a2a;color:#cc88ff;border:1px solid #663388}
+
+/* ── Alliance name input ────────────────── */
+.alliance-name-wrap{display:flex;align-items:center;gap:10px;margin-top:8px}
+#alliance-name-input{background:transparent;border:none;border-bottom:1px solid #333355;color:#ffdd88;font-family:'Courier New',monospace;font-size:17px;font-weight:bold;letter-spacing:.5px;padding:2px 4px;width:260px}
+#alliance-name-input:focus{outline:none;border-bottom-color:#ffaa00;background:#0a0a00}
+.alliance-label{color:#44445a;font-size:10px;letter-spacing:.6px}
+
+/* ── Watermark overlay ──────────────────── */
+.watermark{
+  position:absolute;bottom:4px;left:0;right:0;text-align:center;
+  font-size:8px;color:#1a1a30;pointer-events:none;letter-spacing:.3px;
+  font-style:italic;
+}
+.grid-wrap{position:relative}
+.watermark-bar{
+  text-align:center;padding:5px;font-size:10px;color:#33335a;
+  border:1px solid #1a1a2e;border-radius:4px;margin-bottom:6px;
+  background:#08080f;letter-spacing:.3px;
+}
+.watermark-bar a{color:#5555aa;text-decoration:none}
+.watermark-bar a:hover{color:#8888ff}
+.watermark-bar.unlocked{color:#224422;border-color:#112211}
+
+/* ── Tip jar / unlock section ───────────── */
+.tip-section{
+  margin-top:36px;border-top:1px solid #151525;padding-top:20px;
+  display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;
+}
+.tip-box{background:#080810;border:1px solid #1a1a2e;border-radius:8px;padding:16px 20px;min-width:200px}
+.tip-box h3{color:#aaaacc;font-size:12px;letter-spacing:.5px;margin-bottom:10px;border-bottom:1px solid #111122;padding-bottom:6px}
+.tip-box p{color:#55557a;font-size:11px;line-height:1.6;margin-bottom:10px}
+.btn-tip{background:#1a2a1a;color:#66dd66;border:1px solid #336633;font-size:13px;padding:8px 18px;width:100%;text-align:center;margin-bottom:6px;display:block}
+.btn-unlock{background:#1a1a3a;color:#8888ff;border:1px solid #444488;font-size:13px;padding:8px 18px;width:100%;text-align:center;margin-bottom:6px;display:block}
+.unlock-row{display:flex;gap:6px;margin-top:8px}
+.unlock-row input{flex:1;background:#0a0a18;border:1px solid #333366;color:#aaa;padding:6px 8px;border-radius:4px;font-family:'Courier New',monospace;font-size:11px}
+.unlock-badge{display:inline-block;background:#002200;color:#44dd44;border:1px solid #224422;padding:2px 8px;border-radius:4px;font-size:10px;margin-top:6px}
+
+/* ── CSV instructions modal ─────────────── */
+.csv-format-box{background:#08080f;border:1px solid #1a1a2e;border-radius:6px;padding:12px 16px;font-size:10px;color:#55557a;line-height:1.8;margin-top:10px}
+.csv-format-box code{color:#00bfff;background:#001520;padding:1px 4px;border-radius:3px}
+
+/* ── Feedback section ───────────────────── */
+.feedback-section{margin-top:12px}
+.feedback-section h2{color:#9999cc;font-size:13px;letter-spacing:.5px;margin-bottom:6px}
+.feedback-sub{color:#44445a;font-size:11px;margin-bottom:16px}
+.feedback-form{background:#080810;border:1px solid #1a1a2e;border-radius:8px;padding:18px 22px;max-width:640px}
+.fb-checks{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+.fb-check{display:flex;align-items:flex-start;gap:8px;color:#6666aa;font-size:11px;cursor:pointer;line-height:1.4}
+.fb-check input[type=checkbox]{margin-top:1px;accent-color:#6666cc;cursor:pointer;flex-shrink:0}
+.fb-check:hover{color:#9999cc}
+#fb-name,#fb-comment{width:100%;background:#080816;border:1px solid #353560;color:#dde;padding:7px 9px;border-radius:5px;font-family:'Courier New',monospace;font-size:12px}
+#fb-name:focus,#fb-comment:focus{outline:none;border-color:#6666cc;background:#0c0c20}
+#fb-comment{resize:vertical;min-height:60px}
+
+/* ── Toast ──────────────────────────────── */
+#toast{
+  position:fixed;bottom:22px;right:22px;padding:9px 16px;border-radius:6px;
+  font-size:11px;opacity:0;transition:opacity .3s;z-index:200;
+  background:#0f1f0f;border:1px solid #3a6a3a;color:#88cc88;pointer-events:none;
+}
+#toast.show{opacity:1}
+#toast.err{background:#1f0f0f;border-color:#6a3a3a;color:#cc8888}
+
+/* ---- mobile responsive (added 2026-07-17) ---- */
+@media (max-width: 900px) {
+  body { padding: 12px 10px; }
+  .roster-pay-row { flex-direction: column; gap: 18px; }
+  .roster-pay-row .tip-section {
+    flex: 1 1 100%; width: 100%;
+    border-left: none; padding-left: 0;
+    border-top: 1px solid #151525; padding-top: 18px;
+    margin-top: 0;
+  }
+  .roster-pay-row .roster-section { max-width: 100%; width: 100%; }
+  table.roster { max-width: 100%; font-size: 11px; }
+  .tip-box { min-width: 0; width: 100%; box-sizing: border-box; }
+  .feedback-form { max-width: 100%; padding: 14px 12px; box-sizing: border-box; }
+  #alliance-name-input { width: 100%; max-width: 260px; box-sizing: border-box; }
+  .modal { padding: 20px 16px; width: 92vw; max-width: 420px; box-sizing: border-box; }
+  .btn-tip, .btn-unlock { font-size: 12px; padding: 8px 12px; }
+  .qr-img, img[alt*="QR"] { max-width: 140px; height: auto; }
+  /* wrap all direct-child tables in scroll containers */
+  .roster-section { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  h1 { font-size: clamp(20px, 5.5vw, 28px); }
+  h2 { font-size: clamp(16px, 4.5vw, 22px); }
+}
+@media (max-width: 520px) {
+  body { padding: 8px 6px; }
+  table.roster { font-size: 10.5px; }
+  table.roster th, table.roster td { padding: 3px 4px; }
+  .toolbar { gap: 5px; }
+  .toolbar button { font-size: 11px; padding: 6px 8px; }
+  .toolbar label { max-width: 100%; box-sizing: border-box; }
+  .toolbar select { max-width: 200px; font-size: 11px; }
+  #layout-mode { max-width: 190px; }
+  .modal { padding: 16px 12px; }
+  h1 { font-size: clamp(16px, 4.5vw, 22px); letter-spacing: 0.02em; }
+  .alliance-name-wrap { flex-wrap: wrap; }
+  .alliance-name-wrap span { font-size: 10px; }
+}
+</style>
+  <script defer src="static/lws-track.js"></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body>
+<div id="main-app">
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://roster.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navRoster">Roster</span></a>·
+  <a href="#" style="color:#c9a961;text-decoration:none;margin:0 4px;font-weight:600" aria-current="page">Hive</a>·
+  <a href="https://bullochman.github.io/lws-profile-studio-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+<a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20Hive%20Grid%20Manager%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+
+<!-- Warzone / season context strip (same pattern as the other 6 tools) -->
+<div style="background:linear-gradient(180deg,#0d1424 0%,#0a0e1a 100%);border-bottom:1px solid rgba(201,169,97,0.15);padding:10px 12px;text-align:center;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans KR',sans-serif;font-size:12.5px">
+  <div id="lws-warzone-selector" style="display:inline-flex;margin-right:8px"></div>
+  <span id="lws-season-billboard" style="color:#c9a961;font-weight:600;margin-left:12px;letter-spacing:.03em"></span>
+  <div id="lws-season-hint" style="font-size:11px;color:#7a8290;margin-top:4px;max-width:900px;margin-left:auto;margin-right:auto"></div>
+</div>
+
+<script defer>
+// Populate the season billboard + FORMATION dropdown from LWSSeasons whenever
+// the resolved context changes. Each season may declare its own formations[]
+// under mechanics_config; we swap the dropdown options to match, but under
+// the hood we still resolve to the two existing render modes (mg / stronghold)
+// since S1/S3–S7 formations reuse the S2 renderers 1:1 per the design spec.
+(function () {
+  // Cache the last-loaded formation list so the layout-mode change handler
+  // (defined later in the main script) can look up display labels + warnings
+  // for whichever preset the user picks.
+  window.__hiveFormations = { list: [], seasonId: null };
+
+  // Map any formation.key → the underlying renderer mode ('mg' or 'stronghold').
+  // Preference: slot_algorithm (authoritative), falling back to a key-prefix
+  // heuristic for the S2 legacy keys ('mg', 'stronghold') where slot_algorithm
+  // may not be set.
+  function formationRenderMode(f) {
+    if (!f) return 'mg';
+    if (f.slot_algorithm === 'mg_pack') return 'mg';
+    if (f.slot_algorithm === 'corner_first_round_robin') return 'stronghold';
+    if (f.key === 'mg') return 'mg';
+    if (f.key === 'stronghold') return 'stronghold';
+    if (/^mg[-_]/.test(f.key)) return 'mg';
+    return 'stronghold'; // sensible default for alliance-center / bank / megahive
+  }
+
+  // Icon per formation family — matches the design spec's icon hints.
+  function formationIcon(f) {
+    if (f.icon) return f.icon;
+    var k = f.key || '';
+    if (k === 'mg' || k.indexOf('mg-') === 0) return '⚑';
+    if (k === 'stronghold' || k.indexOf('stronghold-') === 0) return '🏰';
+    if (k.indexOf('alliance-center') === 0) return '🏛';
+    if (k.indexOf('bank-') === 0) return '🏦';
+    if (k.indexOf('megahive-') === 0) return '🕸';
+    return '◈';
+  }
+
+  function pickLangLabel(o, lang) {
+    if (!o) return '';
+    return o[lang] || o.en || o.ko || o.kr || Object.values(o)[0] || '';
+  }
+
+  function currentLang() {
+    // The main script uses global LANG ('en' or 'ko'). Fall back to <html lang>.
+    if (typeof window.LANG === 'string') return window.LANG;
+    var htmlLang = (document.documentElement.lang || 'en').toLowerCase();
+    return htmlLang.indexOf('ko') === 0 ? 'ko' : 'en';
+  }
+
+  function refreshFormationDropdown(formations, seasonName) {
+    var sel = document.getElementById('layout-mode');
+    if (!sel) return;
+    var lang = currentLang();
+    var prev = sel.value; // remember what was picked before we rewrite
+    // Clear existing options
+    while (sel.firstChild) sel.removeChild(sel.firstChild);
+
+    if (!formations || !formations.length) {
+      var opt = document.createElement('option');
+      opt.value = '';
+      opt.disabled = true;
+      opt.selected = true;
+      opt.textContent = (seasonName || 'This season') + ' has no traditional hive formation';
+      sel.appendChild(opt);
+      sel.disabled = true;
+      sel.title = 'The current season does not use a hive-style formation. Use the Season Timeline for placement guidance.';
+      return;
+    }
+    sel.disabled = false;
+    sel.title = '';
+
+    formations.forEach(function (f) {
+      var opt = document.createElement('option');
+      // The <option value> is the underlying render mode. If two formations
+      // both resolve to 'stronghold' we append the formation key so the
+      // dropdown still remembers the selection.
+      var mode = formationRenderMode(f);
+      opt.value = mode + '::' + (f.key || mode);
+      opt.textContent = formationIcon(f) + ' ' + pickLangLabel(f.display_name, lang);
+      if (f.confidence === 'speculative') {
+        opt.textContent += ' (speculative)';
+      }
+      opt.dataset.formationKey = f.key || '';
+      opt.dataset.renderMode = mode;
+      sel.appendChild(opt);
+    });
+
+    // Try to preserve previous selection where possible:
+    // 1. Exact match on formation.key (e.g. reloading with the same season)
+    // 2. Match on render mode (e.g. switching from S2 'mg' to S3 'mg-3x3')
+    // 3. Fall back to first option
+    var target = null;
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === prev) { target = sel.options[i].value; break; }
+    }
+    if (!target) {
+      // Try current cfg.layout.mode from the main script
+      var currentMode = (window.cfg && window.cfg.layout && window.cfg.layout.mode) || 'mg';
+      for (var j = 0; j < sel.options.length; j++) {
+        if (sel.options[j].dataset.renderMode === currentMode) { target = sel.options[j].value; break; }
+      }
+    }
+    if (!target && sel.options.length) target = sel.options[0].value;
+    if (target) sel.value = target;
+  }
+
+  function warningsBulletList(formation, lang) {
+    if (!formation || !formation.warnings || !formation.warnings.length) return '';
+    return formation.warnings.map(function (w) {
+      return '\n  • ' + (w[lang] || w.en || '');
+    }).join('');
+  }
+  // Expose so the layout-change handler further down the file can prepend
+  // warnings to the confirm() prompt.
+  window.__hiveFormationWarningsText = warningsBulletList;
+
+  function updateBillboard() {
+    if (!window.LWSSeasons || typeof window.LWSSeasons.resolve !== 'function') return;
+    window.LWSSeasons.resolve().then(function (ctx) {
+      var el = document.getElementById('lws-season-billboard');
+      var hint = document.getElementById('lws-season-hint');
+      if (!ctx || !ctx.season) return;
+      var s = ctx.season;
+      var lang = currentLang();
+      var name = pickLangLabel(s.name, lang) || s.id;
+      var wk = ctx.week ? (' · Week ' + ctx.week) : '';
+      var wz = ctx.warzone_id ? (' · Warzone ' + ctx.warzone_id) : '';
+      if (el) el.textContent = name + wk + wz;
+
+      var formations = (s.mechanics_config && s.mechanics_config.formations) || [];
+      window.__hiveFormations = { list: formations, seasonId: s.id };
+      refreshFormationDropdown(formations, name);
+
+      if (hint) {
+        if (formations.length) {
+          var names = formations.map(function (f) { return pickLangLabel(f.display_name, lang); }).filter(Boolean).join(' · ');
+          var speculative = formations.some(function (f) { return f.confidence === 'speculative'; });
+          // i18n via t()
+          hint.innerHTML = t('formations_for') + ' <strong>' + name + '</strong>: ' + names +
+            (speculative ? ' <span style="color:#c9a961">' + t('speculative_warn') + '</span>' : '') +
+            t('see_timeline_suffix');
+        } else if (s.status === 'confirmed-no-details') {
+          hint.textContent = name + ' ' + t('formations_pattern_projected');
+        } else {
+          hint.textContent = name + ' ' + t('no_hive_formation');
+        }
+      }
+
+      // Also toggle the Season 2 hero banner visibility: only show on S2.
+      // Dismissal state is keyed per-season so the S3 banner (when we add one)
+      // wouldn't be silenced by an old S2 dismissal.
+      var hero = document.getElementById('s2-hero');
+      if (hero) {
+        var dismissedKey = 'hiveSeasonHeroDismissed:' + s.id;
+        var globalDismissed = localStorage.getItem('hiveS2HeroDismissed') === '1';
+        var perSeasonDismissed = localStorage.getItem(dismissedKey) === '1';
+        var shouldShow = (s.id === 's2-polar-storm') && !globalDismissed && !perSeasonDismissed;
+        hero.style.display = shouldShow ? 'block' : 'none';
+      }
+    }).catch(function () { /* silent */ });
+  }
+  // Expose for the main init() to re-run after cfg loads.
+  window.__hiveUpdateBillboard = updateBillboard;
+
+  window.addEventListener('DOMContentLoaded', function () {
+    setTimeout(updateBillboard, 400); // give seasons-lib a moment to auto-mount
+  });
+  window.addEventListener('lws:warzone-changed', updateBillboard);
+  window.addEventListener('lws:season-changed', updateBillboard);
+})();
+</script>
+
+<header style="position:relative">
+  <button id="lang-toggle" title="Switch to Korean" style="position:absolute;top:0;right:0;background:#0a0a14;border:1px solid #444488;color:#8888cc;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.5px;border-radius:14px;padding:4px 12px;cursor:pointer;transition:border-color .12s,color .12s">한국어</button>
+  <h1 data-i18n="title">◈ LAST WAR SURVIVAL — ALLIANCE HIVE GRID ◈</h1>
+  <div class="alliance-name-wrap">
+    <span class="alliance-label" data-i18n="alliance_label">ALLIANCE</span>
+    <input id="alliance-name-input" type="text" maxlength="40" data-i18n-placeholder="alliance_placeholder" data-i18n-title="alliance_title" placeholder="Enter alliance name…" title="Your alliance name — appears in PNG exports">
+    <span style="color:#44445a;font-size:10px" data-i18n="alliance_hint">← shown in PNG exports</span>
+  </div>
+  <div class="meta" id="meta" data-i18n="connecting">Connecting to server…</div>
+  <div class="toolbar">
+    <label style="color:#6666aa;font-size:11px;display:inline-flex;align-items:center;gap:4px;letter-spacing:.5px"><span data-i18n="formation">FORMATION</span>
+      <select id="layout-mode" data-i18n-title="formation_title" title="Switch between Marshall's Guard hive (tight 2×2 HQ pack) and Military Stronghold (21×21 furnace, 2×2 HQs, 2-tile gaps, 4 rings)">
+        <option value="mg" data-i18n="fm_mg">⚑ Marshall's Guard (2×2 HQ, tight pack)</option>
+        <option value="stronghold" data-i18n="fm_sh">❄ Polar Storm / Military Stronghold (21×21 furnace, 2×2 HQs, 2-tile gaps)</option>
+      </select>
+    </label>
+    <button class="btn-auto"   id="btn-auto-assign"  data-i18n="btn_auto" data-i18n-title="btn_auto_title" title="Auto-assign members to grid cells">⚡ Auto-Assign</button>
+    <select id="auto-sort-mode" data-i18n-title="sort_title" title="Priority order for auto-assign" style="background:#0a0a14;border:1px solid #33aa33;color:#88ff88;font-family:'Courier New',monospace;font-size:11px;border-radius:4px;padding:4px 8px;cursor:pointer">
+      <option value="rank,power" data-i18n="sort_rank_power">Rank → Power</option>
+      <option value="rank,hq,power" data-i18n="sort_rank_hq_power">Rank → HQ → Power</option>
+      <option value="hq,power" data-i18n="sort_hq_power">HQ Level → Power</option>
+      <option value="power" data-i18n="sort_power">Power only</option>
+      <option value="hq" data-i18n="sort_hq">HQ Level only</option>
+      <option value="rank,hq" data-i18n="sort_rank_hq">Rank → HQ Level</option>
+    </select>
+    <button class="btn-upload" id="btn-csv-upload"   data-i18n="btn_csv_up" data-i18n-title="btn_csv_up_title" title="Upload a CSV to update member data">📂 Upload CSV</button>
+    <button class="btn-upload" id="btn-dl-template"  data-i18n="btn_csv_dl" data-i18n-title="btn_csv_dl_title" title="Download current roster as CSV" style="background:#0a1a2a;border-color:#225588;color:#55aadd">⬇ CSV</button>
+    <button class="btn-mg"     id="btn-set-mg"       data-i18n="btn_set_mg" data-i18n-title="btn_set_mg_title" title="Change the MG anchor coordinates">📍 Set MG Coords</button>
+    <button class="btn-clear"  id="btn-clear-grid"   data-i18n="btn_clear_grid" data-i18n-title="btn_clear_grid_title" title="Unassign everyone — keep member list">🗑 Clear Grid</button>
+    <button class="btn-danger" id="btn-clear-all"    data-i18n="btn_reset_all" data-i18n-title="btn_reset_all_title" title="Wipe everything and start fresh">💥 Reset All</button>
+    <button class="btn-export" id="btn-export-png"   data-i18n="btn_export_png" data-i18n-title="btn_export_png_title" title="Export grid as PNG image for Discord/WhatsApp">📸 Export PNG</button>
+    <span id="lws-discord-slot" style="display:inline-block;margin-left:6px"></span>
+    <span id="lws-discord-gear-slot" style="display:inline-block;margin-left:6px"></span>
+    <input type="file" id="csv-file-input" accept=".csv" style="display:none">
+  </div>
+</header>
+
+<!-- Set MG modal -->
+<div class="modal-backdrop" id="mg-modal" style="display:none">
+  <div class="modal">
+    <h3 style="margin-bottom:14px;color:#fff" data-i18n="mg_modal_title">📍 Set Marshall's Guard Coordinates</h3>
+    <label><span data-i18n="mg_game_x">MG Game X</span><input id="mg-x" type="number" style="margin-left:10px;width:90px;background:#111;color:#eee;border:1px solid #444;padding:4px 8px;border-radius:4px"></label><br><br>
+    <label><span data-i18n="mg_game_y">MG Game Y</span><input id="mg-y" type="number" style="margin-left:10px;width:90px;background:#111;color:#eee;border:1px solid #444;padding:4px 8px;border-radius:4px"></label>
+    <p style="color:#888;font-size:11px;margin-top:10px" data-i18n="mg_modal_hint">Grid step is 2 tiles per cell (KB-canonical 2×2 HQ footprint). Changing the anchor shifts all coordinate labels.</p>
+    <div style="margin-top:16px;display:flex;gap:8px">
+      <button class="btn-save" id="btn-mg-save" data-i18n="btn_save">💾 Save</button>
+      <button class="btn-cancel" id="btn-mg-cancel" data-i18n="btn_cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Season 2 hero (dismissible) -->
+<div id="s2-hero" style="display:none;margin:14px 0 18px;padding:14px 18px;background:linear-gradient(135deg,#0f0a1e,#1a0a2e);border:1px solid #4a2a66;border-radius:8px;position:relative;font-size:12px;line-height:1.55;color:#c0a0e0">
+  <button id="s2-dismiss" style="position:absolute;top:6px;right:8px;background:transparent;border:none;color:#664488;font-size:10px;font-family:'Courier New',monospace;cursor:pointer;padding:2px 6px;letter-spacing:.3px" data-i18n="s2_dismiss">✕ dismiss</button>
+  <div style="font-weight:bold;color:#ffbb44;letter-spacing:.5px;font-size:11px;margin-bottom:6px" data-i18n="s2_heading">⏳ WHY THIS MATTERS FOR SEASON 2</div>
+  <div data-i18n="s2_body" data-i18n-mode="html"></div>
+</div>
+
+<div class="legend" id="legend"></div>
+
+<div id="watermark-bar" class="watermark-bar">
+  🔓 <strong style="color:#4444aa">Alliance Hive Grid Tool</strong> &nbsp;·&nbsp;
+  <span id="wm-msg">Free version — <a href="#tip-section">unlock full features for $10 one-time →</a></span>
+</div>
+
+<div class="grid-wrap" id="grid-wrap">
+  <table class="grid" id="grid-table"></table>
+</div>
+
+<!-- Stronghold canvas (shown only when Military Stronghold layout is active) -->
+<div class="sh-wrap" id="stronghold-wrap">
+  <div style="color:#cc6666;font-size:11px;margin-bottom:10px;letter-spacing:.4px" data-i18n="sh_banner" data-i18n-mode="html">
+    🏰 <strong>MILITARY STRONGHOLD</strong> &nbsp;·&nbsp; 21×21 tile fortress &nbsp;·&nbsp;
+    Each alliance member = 2×2 tile HQ, 2-tile gap between every member (4-tile pitch) &nbsp;·&nbsp;
+    <span style="color:#ff8888">Ring 1 = strongest (against the mud)</span>
+  </div>
+  <div class="sh-canvas" id="stronghold-canvas"></div>
+</div>
+
+<div class="roster-pay-row">
+<div class="roster-section">
+  <h2><span data-i18n="roster_heading">▸ MEMBER ROSTER</span> <span id="roster-count" style="color:#444466;font-weight:normal;font-size:11px;margin-left:8px"></span></h2>
+  <div class="sort-bar">
+    <span data-i18n="sort_by">Sort by:</span>
+    <button class="btn-sort active" data-sort="ring" data-i18n="sort_ring">📍 Ring</button>
+    <button class="btn-sort" data-sort="rank" data-i18n="sort_rank">🏅 Rank</button>
+    <button class="btn-sort" data-sort="power" data-i18n="sort_power_short">⚡ Power</button>
+    <button class="btn-sort" data-sort="name" data-i18n="sort_name">🔤 Name</button>
+    <span style="margin-left:8px;color:#333350" data-i18n="sort_hint">— click Rank/HQ/Power/Notes cells below to edit inline</span>
+  </div>
+  <div id="selection-bar" style="display:none">
+    <span id="selection-msg"></span>
+    <button id="btn-clear-sel" data-i18n="sel_clear">✕ Clear (Esc)</button>
+  </div>
+  <table class="roster">
+    <thead><tr>
+      <th class="col-num" data-i18n="col_num">#</th><th data-i18n="col_name">NAME</th><th data-i18n="col_rank">RANK</th><th data-i18n="col_hq">HQ LV.</th><th data-i18n="col_power">POWER</th><th data-i18n="col_coord">COORD</th><th data-i18n="col_ring">RING</th><th data-i18n="col_notes">NOTES</th>
+    </tr></thead>
+    <tbody id="roster-body"></tbody>
+  </table>
+</div>
+
+<!-- Edit / Add Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h3 id="modal-title" data-i18n="modal_edit_member">Edit Member</h3>
+    <div class="coord-label" id="modal-coord"></div>
+    <div class="field">
+      <label data-i18n="field_player_name">PLAYER NAME</label>
+      <input id="f-name" type="text" data-i18n-placeholder="field_name_placeholder" placeholder="Enter name…" autocomplete="off">
+    </div>
+    <div class="field">
+      <label data-i18n="field_rank">RANK</label>
+      <select id="f-rank">
+        <option value="" data-i18n="rank_unknown">— Unknown —</option>
+        <option value="R5" data-i18n="rank_r5_leader">R5  (Leader)</option>
+        <option value="R4">R4</option>
+        <option value="R3">R3</option>
+        <option value="R2">R2</option>
+        <option value="R1">R1</option>
+      </select>
+    </div>
+    <div class="field">
+      <label data-i18n="field_hq">HQ LEVEL</label>
+      <input id="f-hq" type="number" min="1" max="30" data-i18n-placeholder="field_hq_placeholder" placeholder="e.g. 25">
+    </div>
+    <div class="field">
+      <label data-i18n="field_power">TOTAL POWER</label>
+      <input id="f-power" type="text" data-i18n-placeholder="field_power_placeholder" placeholder="e.g. 45.2M">
+    </div>
+    <div class="field">
+      <label data-i18n="field_notes">NOTES</label>
+      <input id="f-notes" type="text" data-i18n-placeholder="field_notes_placeholder" placeholder="Optional…">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save"     id="btn-save" data-i18n="btn_save">💾 Save</button>
+      <button class="btn-unassign" id="btn-unassign" style="display:none" data-i18n="btn_unassign">↩ Unassign</button>
+      <button class="btn-delete"   id="btn-delete"   style="display:none" data-i18n="btn_delete">🗑 Delete</button>
+      <button class="btn-cancel"   id="btn-cancel" data-i18n="btn_cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tip jar / unlock section -->
+<div class="tip-section" id="tip-section">
+
+  <!-- Unlock full version -->
+  <div class="tip-box" style="border-color:#2a2a55">
+    <h3 data-i18n="unlock_heading">🔓 UNLOCK FULL VERSION — $10 ONE-TIME</h3>
+    <p data-i18n="unlock_body">Your grid, your alliance, your image. The free version is fully functional — auto-assign, drag-and-drop, CSV import, PNG export, everything. The $10 unlock removes the watermark from every PNG you export, so the screenshot you drop in Discord looks clean and professional. One-time payment. No subscription, no renewal, no account. Pay via Stripe, get your key by email instantly, paste it in and you're done.</p>
+    <a class="btn-unlock" id="btn-unlock-buy" href="https://buy.stripe.com/cNieVc8g14zj2M67pQ6c000?client_reference_id=en" target="_blank" rel="noopener" data-i18n="unlock_btn">
+      💳 Get Your Key — $10
+    </a>
+    <p style="color:#333355;font-size:10px" data-i18n="unlock_footnote" data-i18n-mode="html">Secure checkout via Stripe · Apple Pay &amp; card accepted · Instant key delivery by email</p>
+    <div class="unlock-row">
+      <input id="unlock-key-input" type="text" data-i18n-placeholder="unlock_placeholder" placeholder="Paste your key here…" autocomplete="off">
+      <button class="btn-save" id="btn-unlock-key" style="padding:6px 12px;font-size:11px" data-i18n="unlock_btn_apply">Unlock</button>
+    </div>
+    <div id="unlock-status"></div>
+  </div>
+
+  <!-- Snagit / scrolling screenshot recommendation -->
+  <div class="tip-box" style="border-color:#223344">
+    <h3 data-i18n="snagit_heading">📸 CAPTURE THE WHOLE GAME SCREEN</h3>
+    <p data-i18n="snagit_body" data-i18n-mode="html">When you're gathering member names and stats from your in-game roster, a <strong>scrolling screenshot tool</strong> like <a href="https://www.techsmith.com/snagit.html" target="_blank" rel="noopener" style="color:#88ccff">Snagit</a> (Mac + Windows, ~$63 one-time) captures the entire alliance list in a single image instead of stitching together 6 screenshots. Pair it with this tool for a 5-minute alliance-wide setup. Free alternatives: <strong>ShareX</strong> (Windows), <strong>CleanShot X</strong> (Mac, has scrolling capture).</p>
+  </div>
+
+  <!-- Tip jar -->
+  <div class="tip-box" style="text-align:center">
+    <h3 data-i18n="tip_heading">☕ TIP THE DEV</h3>
+    <p style="margin-bottom:10px" data-i18n="tip_line1" data-i18n-mode="html">Saved you hours of chaos?<br>Buy me a coffee — or flex your whale status.</p>
+    <a href="https://venmo.com/Evan-Jones-85" target="_blank" rel="noopener" data-i18n-title="tip_qr_title" title="Scan or click to tip on Venmo">
+      <img src="data:image/png;base64,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" alt="Venmo QR Code — @Evan-Jones-85" style="width:160px;height:auto;border-radius:10px;display:block;margin:0 auto 8px">
+    </a>
+    <p style="color:#44884a;font-size:12px;font-weight:bold;margin-bottom:4px">@Evan-Jones-85</p>
+    <p style="color:#2a3a2a;font-size:10px;margin-bottom:10px" data-i18n="tip_venmo_hint" data-i18n-mode="html">
+      Scan the QR code with your Venmo app, or click it.<br>
+      If prompted to confirm the recipient, the last 4 digits are <strong style="color:#44884a">0829</strong>.
+    </p>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <a href="https://venmo.com/Evan-Jones-85?txn=pay&amount=10&note=Hive+Tool+Tip" target="_blank" rel="noopener" style="flex:1;text-align:center;background:#112211;border:1px solid #224422;color:#44aa44;border-radius:4px;padding:6px;font-size:12px;text-decoration:none;font-weight:bold">$10</a>
+      <a href="https://venmo.com/Evan-Jones-85?txn=pay&amount=20&note=Hive+Tool+Tip" target="_blank" rel="noopener" style="flex:1;text-align:center;background:#112211;border:1px solid #224422;color:#44aa44;border-radius:4px;padding:6px;font-size:12px;text-decoration:none;font-weight:bold">$20</a>
+      <a href="https://venmo.com/Evan-Jones-85?txn=pay&amount=50&note=Whale+Flex+%F0%9F%90%8B" target="_blank" rel="noopener" style="flex:1;text-align:center;background:#112200;border:1px solid #446600;color:#aadd44;border-radius:4px;padding:6px;font-size:12px;text-decoration:none;font-weight:bold">$50 🐋</a>
+    </div>
+  </div>
+
+  <!-- CSV format guide -->
+  <div class="tip-box">
+    <h3 data-i18n="csv_heading">📋 CSV FORMAT GUIDE</h3>
+    <p data-i18n="csv_intro">Upload a CSV with these exact columns (in any order):</p>
+    <div class="csv-format-box">
+      <span data-i18n="csv_col_member" data-i18n-mode="html"><code>Member</code> &nbsp;or&nbsp; <code>Name</code></span><br>
+      <span data-i18n="csv_col_rank" data-i18n-mode="html"><code>Rank</code> &nbsp;→ R5, R4, R3, R2, or R1</span><br>
+      <span data-i18n="csv_col_hq" data-i18n-mode="html"><code>HQ Level</code> &nbsp;or&nbsp; <code>HQ Lv.</code></span><br>
+      <span data-i18n="csv_col_power" data-i18n-mode="html"><code>Total Power</code> &nbsp;→ e.g. <code>54.2M</code></span><br>
+      <span data-i18n="csv_col_notes" data-i18n-mode="html"><code>Notes</code> &nbsp;(optional)</span>
+    </div>
+    <p style="margin-top:10px" data-i18n="csv_note1">Extra spaces are trimmed automatically. Duplicate names keep the highest rank row.</p>
+    <p style="margin-top:6px;color:#443322" data-i18n="csv_protip" data-i18n-mode="html">💡 <em>Pro tip:</em> Have your leader read out each member's name, rank, HQ level, and power out loud while someone fills in the spreadsheet — takes about 5 minutes for a full alliance.</p>
+  </div>
+
+  <!-- ── Feedback / Feature Requests ─────────────────────────────────── -->
+  <div class="feedback-section">
+    <h2 data-i18n="fb_heading" data-i18n-mode="html">💡 SUGGESTIONS &amp; FEATURE REQUESTS</h2>
+    <p class="feedback-sub" data-i18n="fb_sub">Help shape the next version — vote for features you'd use, or leave your own idea below.</p>
+    <div class="feedback-form">
+      <div class="field">
+        <label data-i18n="fb_name_label">YOUR NAME OR ALLIANCE TAG (optional)</label>
+        <input id="fb-name" type="text" maxlength="40" data-i18n-placeholder="fb_name_placeholder" placeholder="e.g. KittyKitty [R10t]" autocomplete="off">
+      </div>
+      <div class="field" style="margin-top:13px">
+        <label data-i18n="fb_votes_label">VOTE FOR FEATURES (check all that apply)</label>
+        <div class="fb-checks">
+          <label class="fb-check"><input type="checkbox" value="share_link"> <span data-i18n="fb_v_share">Read-only shareable link so the whole alliance can view the grid live</span></label>
+          <label class="fb-check"><input type="checkbox" value="leader_dash"> <span data-i18n="fb_v_dash">Leader dashboard — upload once, every member sees it without editing</span></label>
+          <label class="fb-check"><input type="checkbox" value="formations"> <span data-i18n="fb_v_form">Formation presets (circle, diamond, corner, zombie surge / KvK event layouts)</span></label>
+          <label class="fb-check"><input type="checkbox" value="swap_suggest"> <span data-i18n="fb_v_swap">Smart swap suggestions — flag weak placements and recommend improvements</span></label>
+          <label class="fb-check"><input type="checkbox" value="mobile"> <span data-i18n="fb_v_mobile">Mobile-friendly view optimized for phones</span></label>
+          <label class="fb-check"><input type="checkbox" value="multi_hive"> <span data-i18n="fb_v_multi">Multi-hive / sub-alliance support (R1/R2 on a separate grid)</span></label>
+          <label class="fb-check"><input type="checkbox" value="power_history"> <span data-i18n="fb_v_history">Member power history tracker — watch the alliance grow over time</span></label>
+          <label class="fb-check"><input type="checkbox" value="event_modes"> <span data-i18n="fb_v_event">Event-mode layouts (zombie surge corner, KvK rally point, war defense)</span></label>
+          <label class="fb-check"><input type="checkbox" value="roster_import"> <span data-i18n="fb_v_ocr">Auto roster import from in-game screenshots (OCR)</span></label>
+        </div>
+      </div>
+      <div class="field" style="margin-top:13px">
+        <label data-i18n="fb_comment_label">YOUR OWN IDEA OR COMMENT</label>
+        <textarea id="fb-comment" rows="3" maxlength="500" data-i18n-placeholder="fb_comment_placeholder" placeholder="Describe your idea, report a bug, or just say hi…"></textarea>
+      </div>
+      <div style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <button class="btn-save" id="btn-fb-submit" style="padding:8px 20px" data-i18n="fb_submit">📨 Submit Feedback</button>
+        <span id="fb-thanks" style="display:none;color:#88ff88;font-size:11px" data-i18n="fb_thanks">✓ Thanks! Your feedback has been recorded.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- end .roster-pay-row -->
+
+<div id="toast"></div>
+
+<script>
+// ── i18n (English + Korean) ────────────────────────────────────────────────────
+// Game-authentic Last War Survival KR terminology:
+//   연맹 = alliance, 기지 = HQ, 전투력 = power, 등급 = rank,
+//   원수 근위대 = Marshall's Guard, 군사 요새 = Military Stronghold, 링 = ring
+const I18N = {
+  en: {
+    // Page + title
+    title:                    '◈ LAST WAR SURVIVAL — ALLIANCE HIVE GRID ◈',
+    alliance_label:           'ALLIANCE',
+    alliance_placeholder:     'Enter alliance name…',
+    alliance_title:           'Your alliance name — appears in PNG exports',
+    alliance_hint:            '← shown in PNG exports',
+    connecting:               'Connecting to server…',
+    // Toolbar
+    formation:                'FORMATION',
+    formation_title:          "Switch between Marshall's Guard hive (tight 2×2 HQ pack) and Military Stronghold (21×21 furnace, 2×2 HQs, 2-tile gaps, 4 rings)",
+    fm_mg:                    "⚑ Marshall's Guard (2×2 HQ, tight pack)",
+    fm_sh:                    '❄ Polar Storm / Military Stronghold (21×21 furnace, 2×2 HQs, 2-tile gaps)',
+    btn_auto:                 '⚡ Auto-Assign',
+    btn_auto_title:           'Auto-assign members to grid cells',
+    btn_csv_up:               '📂 Upload CSV',
+    btn_csv_up_title:         'Upload a CSV to update member data',
+    btn_csv_dl:               '⬇ CSV',
+    btn_csv_dl_title:         'Download current roster as CSV',
+    btn_set_mg:               '📍 Set MG Coords',
+    btn_set_mg_title:         'Change the MG anchor coordinates',
+    btn_clear_grid:           '🗑 Clear Grid',
+    btn_clear_grid_title:     'Unassign everyone — keep member list',
+    btn_reset_all:            '💥 Reset All',
+    btn_reset_all_title:      'Wipe everything and start fresh',
+    btn_export_png:           '📸 Export PNG',
+    btn_export_png_title:     'Export grid as PNG image for Discord/WhatsApp',
+    sort_title:               'Priority order for auto-assign',
+    sort_rank_power:          'Rank → Power',
+    sort_rank_hq_power:       'Rank → HQ → Power',
+    sort_hq_power:            'HQ Level → Power',
+    sort_power:               'Power only',
+    sort_hq:                  'HQ Level only',
+    sort_rank_hq:             'Rank → HQ Level',
+    // MG modal
+    mg_modal_title:           "📍 Set Marshall's Guard Coordinates",
+    mg_game_x:                'MG Game X',
+    mg_game_y:                'MG Game Y',
+    mg_modal_hint:            'Grid step is 2 tiles per cell (KB-canonical 2×2 HQ footprint). Changing the anchor shifts all coordinate labels.',
+    btn_save:                 '💾 Save',
+    btn_cancel:               'Cancel',
+    // Watermark bar
+    wm_free:                  '🔓 <strong style="color:#4444aa">Alliance Hive Grid Tool</strong> &nbsp;·&nbsp; Free version — <a href="#tip-section">unlock full features for $10 one-time →</a>',
+    wm_unlocked:              '✅ <strong style="color:#224422">Full version unlocked</strong> &nbsp;·&nbsp; Alliance Hive Grid Tool',
+    // Stronghold banner
+    sh_banner:                '🏰 <strong>MILITARY STRONGHOLD</strong> &nbsp;·&nbsp; 21×21 tile fortress &nbsp;·&nbsp; Each alliance member = 2×2 tile HQ, 2-tile gap between every member (4-tile pitch) &nbsp;·&nbsp; <span style="color:#ff8888">Ring 1 = strongest (against the mud)</span>',
+    sh_loading:               'Loading stronghold layout…',
+    sh_fortress_title:        '🏰 STRONGHOLD',
+    sh_fortress_sub:          '21×21 tile Alliance Furnace',
+    sh_click_move:            '📍 click to move',
+    sh_click_move_title:      'Click to change anchor coordinates',
+    sh_empty_title:           'Ring ${ring} slot · empty (click to place)',
+    // MG cell
+    mg_cell_title:            '★ MG ★',
+    mg_cell_sub:              "Marshall's Guard",
+    mg_click_move_title:      'Click to change MG coordinates',
+    cell_drag_hint:           'drag to move',
+    cell_needs_data:          '⚠ needs data',
+    cell_dot:                 '·',
+    // Roster
+    roster_heading:           '▸ MEMBER ROSTER',
+    sort_by:                  'Sort by:',
+    sort_ring:                '📍 Ring',
+    sort_rank:                '🏅 Rank',
+    sort_power_short:         '⚡ Power',
+    sort_name:                '🔤 Name',
+    sort_hint:                '— click Rank/HQ/Power/Notes cells below to edit inline',
+    sel_msg_one:              '${n} member selected — click any empty grid cell to place them',
+    sel_msg_many:             '${n} members selected — click any empty grid cell to place them',
+    sel_clear:                '✕ Clear (Esc)',
+    col_num:                  '#',
+    col_name:                 'NAME',
+    col_rank:                 'RANK',
+    col_hq:                   'HQ LV.',
+    col_power:                'POWER',
+    col_coord:                'COORD',
+    col_ring:                 'RING',
+    col_notes:                'NOTES',
+    unassigned_sep:           '── UNASSIGNED (${n}) ──',
+    unassigned_row:           'unassigned',
+    // Edit modal
+    modal_add_member:         'Add Member',
+    modal_edit_member:        'Edit Member',
+    modal_edit_named:         'Edit — ${name}',
+    modal_coord_sh:           '🏰 Stronghold · Ring ${ring} · tile offset (${col},${row}) → game coord (${x}, ${y})',
+    modal_coord_mg:           '⚑ Grid position: col ${col}, row ${row}  →  (${x}, ${y})',
+    field_player_name:        'PLAYER NAME',
+    field_name_placeholder:   'Enter name…',
+    field_rank:               'RANK',
+    rank_unknown:             '— Unknown —',
+    rank_r5_leader:           'R5  (Leader)',
+    field_hq:                 'HQ LEVEL',
+    field_hq_placeholder:     'e.g. 25',
+    field_power:              'TOTAL POWER',
+    field_power_placeholder:  'e.g. 45.2M',
+    field_notes:              'NOTES',
+    field_notes_placeholder:  'Optional…',
+    btn_unassign:             '↩ Unassign',
+    btn_delete:               '🗑 Delete',
+    // Meta bar
+    meta_sh:                  '🏰 Stronghold centre @ (${x},${y}) &nbsp;│&nbsp; 21×21 tile fortress &nbsp;│&nbsp; 4 rings &nbsp;│&nbsp; ${slots} slots (2×2 HQ · 2-tile gaps · 4-tile pitch) &nbsp;│&nbsp; Members: ${total} total, ${assigned} placed${warn} &nbsp;│&nbsp; <em>Ring 1 = strongest, against the mud</em>',
+    meta_mg:                  '⚑ MG @ (${x},${y}) &nbsp;│&nbsp; Grid: ${cols}×${rows} &nbsp;│&nbsp; Step: ${step} tiles per cell &nbsp;│&nbsp; Members: ${total} total, ${assigned} placed${warn} &nbsp;│&nbsp; <em>Click cell to edit · Drag to move · Auto-saves JSON + CSV</em>',
+    meta_warn:                ' &nbsp;│&nbsp; <span style="color:#aa6600">⚠ ${n} members missing HQ/Power — click their cell to fill in</span>',
+    // Legend
+    lg_leader:                'Leader',
+    lg_r4:                    'R4',
+    lg_r3:                    'R3',
+    lg_r2:                    'R2',
+    lg_r1:                    'R1',
+    lg_mg:                    'Marshall Guard',
+    lg_empty:                 'Empty',
+    // Unlock section
+    unlock_heading:           '🔓 UNLOCK FULL VERSION — $10 ONE-TIME',
+    unlock_body:              'Your grid, your alliance, your image. The free version is fully functional — auto-assign, drag-and-drop, CSV import, PNG export, everything. The $10 unlock removes the watermark from every PNG you export, so the screenshot you drop in Discord looks clean and professional. One-time payment. No subscription, no renewal, no account. Pay via Stripe, get your key by email instantly, paste it in and you\'re done.',
+    unlock_btn:               '💳 Get Your Key — $10',
+    unlock_footnote:          'Secure checkout via Stripe · Apple Pay &amp; card accepted · Instant key delivery by email',
+    unlock_placeholder:       'Paste your key here…',
+    unlock_btn_apply:         'Unlock',
+    unlock_badge:             '✅ Unlocked',
+    // Tip jar
+    tip_heading:              '☕ TIP THE DEV',
+    tip_line1:                'Saved you hours of chaos?<br>Buy me a coffee — or flex your whale status.',
+    tip_venmo_hint:           'Scan the QR code with your Venmo app, or click it.<br>If prompted to confirm the recipient, the last 4 digits are <strong style="color:#44884a">0829</strong>.',
+    tip_qr_title:             'Scan or click to tip on Venmo',
+    // Snagit tip
+    snagit_heading:           '📸 CAPTURE THE WHOLE GAME SCREEN',
+    snagit_body:              'When you\'re gathering member names and stats from your in-game roster, a <strong>scrolling screenshot tool</strong> like <a href="https://www.techsmith.com/snagit.html" target="_blank" rel="noopener" style="color:#88ccff">Snagit</a> (Mac + Windows, ~$63 one-time) captures the entire alliance list in a single image instead of stitching together 6 screenshots. Pair it with this tool for a 5-minute alliance-wide setup. Free alternatives: <strong>ShareX</strong> (Windows), <strong>CleanShot X</strong> (Mac, has scrolling capture).',
+    // CSV guide
+    csv_heading:              '📋 CSV FORMAT GUIDE',
+    csv_intro:                'Upload a CSV with these exact columns (in any order):',
+    csv_col_member:           '<code>Member</code> &nbsp;or&nbsp; <code>Name</code>',
+    csv_col_rank:             '<code>Rank</code> &nbsp;→ R5, R4, R3, R2, or R1',
+    csv_col_hq:               '<code>HQ Level</code> &nbsp;or&nbsp; <code>HQ Lv.</code>',
+    csv_col_power:            '<code>Total Power</code> &nbsp;→ e.g. <code>54.2M</code>',
+    csv_col_notes:            '<code>Notes</code> &nbsp;(optional)',
+    csv_note1:                'Extra spaces are trimmed automatically. Duplicate names keep the highest rank row.',
+    csv_protip:               '💡 <em>Pro tip:</em> Have your leader read out each member\'s name, rank, HQ level, and power out loud while someone fills in the spreadsheet — takes about 5 minutes for a full alliance.',
+    // Feedback
+    fb_heading:               '💡 SUGGESTIONS &amp; FEATURE REQUESTS',
+    fb_sub:                   'Help shape the next version — vote for features you\'d use, or leave your own idea below.',
+    fb_name_label:            'YOUR NAME OR ALLIANCE TAG (optional)',
+    fb_name_placeholder:      'e.g. KittyKitty [R10t]',
+    fb_votes_label:           'VOTE FOR FEATURES (check all that apply)',
+    fb_v_share:               'Read-only shareable link so the whole alliance can view the grid live',
+    fb_v_dash:                'Leader dashboard — upload once, every member sees it without editing',
+    fb_v_form:                'Formation presets (circle, diamond, corner, zombie surge / KvK event layouts)',
+    fb_v_swap:                'Smart swap suggestions — flag weak placements and recommend improvements',
+    fb_v_mobile:              'Mobile-friendly view optimized for phones',
+    fb_v_multi:               'Multi-hive / sub-alliance support (R1/R2 on a separate grid)',
+    fb_v_history:             'Member power history tracker — watch the alliance grow over time',
+    fb_v_event:               'Event-mode layouts (zombie surge corner, KvK rally point, war defense)',
+    fb_v_ocr:                 'Auto roster import from in-game screenshots (OCR)',
+    fb_comment_label:         'YOUR OWN IDEA OR COMMENT',
+    fb_comment_placeholder:   'Describe your idea, report a bug, or just say hi…',
+    fb_submit:                '📨 Submit Feedback',
+    fb_thanks:                '✓ Thanks! Your feedback has been recorded.',
+    // Confirms
+    conf_switch_sh:           "Switch to Military Stronghold formation?\n\nThis clears all current grid placements (they don't map between formations) — your member list and stats are preserved. You can re-run ⚡ Auto-Assign afterward.",
+    conf_switch_mg:           "Switch back to Marshall's Guard formation?\n\nThis clears all current grid placements.",
+    conf_switch_formation:    "Switch to ${formation_name}?\n\nThis clears all current grid placements (they don't map between formations) — your member list and stats are preserved. You can re-run ⚡ Auto-Assign afterward.",
+    conf_unassign:            'Remove ${name} from the grid? (They stay in the roster)',
+    conf_delete:              'Permanently delete ${name} from the roster?',
+    conf_clear_grid:          'Unassign everyone from the grid? Member data is kept — just removes all placements.',
+    conf_reset_1:             '⚠️ This will delete ALL members and placements. Are you sure?',
+    conf_reset_2:             'Really? This cannot be undone.',
+    // Toasts
+    t_moved:                  'Moved ✓',
+    t_saved:                  'Saved ✓',
+    t_error:                  'Error',
+    t_unassigned:             '${name} unassigned',
+    t_deleted:                '${name} deleted',
+    t_name_required:          'Name is required',
+    t_enter_key:              'Enter your unlock key first',
+    t_xy_numbers:             'X and Y must be numbers',
+    t_mg_set:                 '📍 MG anchor set to (${x}, ${y})',
+    t_grid_cleared:           '🗑 Grid cleared — all members unassigned',
+    t_reset:                  '💥 Everything cleared — fresh start',
+    t_all_placed:             'Everyone is already placed!',
+    t_name_saved:             'Alliance name saved ✓',
+    t_csv_imported:           '📂 CSV imported — ${added} added, ${updated} updated',
+    t_csv_failed:             'CSV upload failed',
+    t_clear_failed:           'Clear failed',
+    t_reset_failed:           'Reset failed',
+    t_placed_one:             '⚡ Placed ${n} member — ${sort}',
+    t_placed_many:            '⚡ Placed ${n} members — ${sort}',
+    t_rearranged:             '⚡ Re-arranged — ${sort}',
+    t_switched:               'Switched to ${label}',
+    t_switched_evicted:       'Switched to ${label} — ${evicted} placements cleared',
+    t_unlocked:               '🎉 Unlocked! Full version active.',
+    t_invalid_key:            'Invalid key',
+    t_csv_downloaded:         '📋 Roster downloaded as CSV',
+    t_png_exported:           '📸 PNG exported — ready for Discord!',
+    t_placed_generic_one:     'Placed ${n} member',
+    t_placed_generic_many:    'Placed ${n} members',
+    t_no_slots:               'No empty slots nearby',
+    t_fb_empty:               'Add your name, vote for a feature, or write a comment first.',
+    t_fb_failed:              'Could not save feedback — please try again.',
+    t_auto_failed:            'Auto-assign failed',
+    t_save_failed:            'Save failed',
+    t_mg_failed:              'Failed to set MG',
+    t_switch_failed:          'Switch failed',
+    // Error page
+    err_no_server_h:          '⚠ Cannot connect to server',
+    err_no_server_p:          'Make sure you started the server first:',
+    // PNG export
+    png_title:                '◈  LAST WAR SURVIVAL — ALLIANCE HIVE GRID  ◈',
+    png_subtitle:             'MG @ (${x},${y})  ·  ${placed} members placed  ·  exported ${date}',
+    png_mg:                   '★  MG  ★',
+    png_mg_sub:               "Marshall's Guard",
+    png_credit:               'Alliance Hive Grid Tool',
+    png_watermark:            'r5tools.io',
+    png_free_footer:          'Free version · r5tools.io · Unlock at $10 one-time',
+    // Season 2 hero
+    s2_heading:               '⏳ WHY THIS MATTERS FOR SEASON 2',
+    s2_body:                  '<strong>Season 2 rewards alliances that land together.</strong> Every teleport needs a coordinate — argue about placement in the moment and half your alliance ends up scattered outside the Alliance Furnace, freezing, and unable to rally. Pre-plan every member\'s spot now, export a PNG, drop it in your Discord — everyone teleports to their assigned coord on day 1 and your hive is locked in before enemies can wedge a 3×3 city between you.',
+    s2_dismiss:               '✕ dismiss',
+    // Language toggle
+    lang_toggle_label:        '한국어',
+    lang_toggle_title:        'Switch to Korean',
+    // ---- shared suite-nav (r5tools.io toolkit strip) ----
+    suiteNavPart:             'Part of the ',
+    suiteNavToolkit:          ' Last War: Survival alliance toolkit — ',
+    navLanding:               'Landing',
+    navHeat:                  'Heat',
+    navFreeze:                'Freeze',
+    navCoal:                  'Coal',
+    navCity:                  'City',
+    navTimeline:              'Timeline',
+    navHive:                  'Hive',
+    navRoster:                'Roster',
+    navProfile:               'Profile',
+    navVsDays:                'VS Days',
+    betaFeedbackPill:         '🚧 BETA · Feedback',
+    formations_for:           'Formations for',
+    speculative_warn:         '⚠ speculative until official info arrives',
+    see_timeline_suffix:      '. See the Season Timeline for full mechanics.',
+    formations_pattern_projected: 'formations are pattern-projected from prior seasons. Details will firm up when First Fun publishes the official announcement.',
+    no_hive_formation:        'has no traditional hive formation — see the Season Timeline for placement guidance.',
+  },
+  ko: {
+    title:                    '◈ 라스트 워: 서바이벌 — 연맹 벌집 배치도 ◈',
+    alliance_label:           '연맹',
+    alliance_placeholder:     '연맹 이름 입력…',
+    alliance_title:           '연맹 이름 — PNG 내보내기에 표시됩니다',
+    alliance_hint:            '← PNG 내보내기에 표시',
+    connecting:               '서버 연결 중…',
+    formation:                '배치 방식',
+    formation_title:          '원수 근위대 벌집(2×2 기지 밀집)과 군사 요새(21×21 화로, 2×2 기지, 2타일 간격, 4링) 사이 전환',
+    fm_mg:                    '⚑ 원수 근위대 (2×2 기지, 밀집 배치)',
+    fm_sh:                    '❄ 폴라 스톰 / 군사 요새 (21×21 화로, 2×2 기지, 2타일 간격)',
+    btn_auto:                 '⚡ 자동 배치',
+    btn_auto_title:           '연맹원을 그리드 셀에 자동 배치',
+    btn_csv_up:               '📂 CSV 업로드',
+    btn_csv_up_title:         'CSV 파일로 연맹원 정보 업데이트',
+    btn_csv_dl:               '⬇ CSV',
+    btn_csv_dl_title:         '현재 명단을 CSV로 다운로드',
+    btn_set_mg:               '📍 MG 좌표 설정',
+    btn_set_mg_title:         'MG 기준 좌표 변경',
+    btn_clear_grid:           '🗑 배치 초기화',
+    btn_clear_grid_title:     '배치만 해제 — 명단은 유지',
+    btn_reset_all:            '💥 전체 초기화',
+    btn_reset_all_title:      '모두 삭제하고 처음부터',
+    btn_export_png:           '📸 PNG 내보내기',
+    btn_export_png_title:     '디스코드/카톡용 PNG 이미지로 내보내기',
+    sort_title:               '자동 배치 우선순위',
+    sort_rank_power:          '등급 → 전투력',
+    sort_rank_hq_power:       '등급 → 기지 → 전투력',
+    sort_hq_power:            '기지 레벨 → 전투력',
+    sort_power:               '전투력만',
+    sort_hq:                  '기지 레벨만',
+    sort_rank_hq:             '등급 → 기지 레벨',
+    mg_modal_title:           '📍 원수 근위대 좌표 설정',
+    mg_game_x:                'MG 게임 X',
+    mg_game_y:                'MG 게임 Y',
+    mg_modal_hint:            '그리드 단위는 셀당 2타일입니다 (KB 정식 2×2 기지 발자국). 기준 좌표를 바꾸면 모든 좌표 라벨이 이동합니다.',
+    btn_save:                 '💾 저장',
+    btn_cancel:               '취소',
+    wm_free:                  '🔓 <strong style="color:#4444aa">연맹 벌집 배치도</strong> &nbsp;·&nbsp; 무료 버전 — <a href="#tip-section">$10로 정식 버전 잠금해제 →</a>',
+    wm_unlocked:              '✅ <strong style="color:#224422">정식 버전 잠금해제됨</strong> &nbsp;·&nbsp; 연맹 벌집 배치도',
+    sh_banner:                '🏰 <strong>군사 요새</strong> &nbsp;·&nbsp; 21×21 타일 요새 &nbsp;·&nbsp; 연맹원 1인 = 2×2 타일 기지, 모든 연맹원 사이 2타일 간격 (4타일 피치) &nbsp;·&nbsp; <span style="color:#ff8888">1링 = 최강 (진흙 옆)</span>',
+    sh_loading:               '요새 배치 로드 중…',
+    sh_fortress_title:        '🏰 요새',
+    sh_fortress_sub:          '21×21 타일 동맹 화로',
+    sh_click_move:            '📍 클릭하여 이동',
+    sh_click_move_title:      '기준 좌표 변경하려면 클릭',
+    sh_empty_title:           '${ring}링 자리 · 비어있음 (클릭하여 배치)',
+    mg_cell_title:            '★ MG ★',
+    mg_cell_sub:              '원수 근위대',
+    mg_click_move_title:      'MG 좌표 변경하려면 클릭',
+    cell_drag_hint:           '드래그하여 이동',
+    cell_needs_data:          '⚠ 정보 필요',
+    cell_dot:                 '·',
+    roster_heading:           '▸ 연맹원 명단',
+    sort_by:                  '정렬:',
+    sort_ring:                '📍 링',
+    sort_rank:                '🏅 등급',
+    sort_power_short:         '⚡ 전투력',
+    sort_name:                '🔤 이름',
+    sort_hint:                '— 등급/기지/전투력/메모 셀을 클릭하여 즉시 편집',
+    sel_msg_one:              '${n}명 선택됨 — 비어있는 그리드 셀을 클릭하여 배치',
+    sel_msg_many:             '${n}명 선택됨 — 비어있는 그리드 셀을 클릭하여 배치',
+    sel_clear:                '✕ 취소 (Esc)',
+    col_num:                  '#',
+    col_name:                 '이름',
+    col_rank:                 '등급',
+    col_hq:                   '기지',
+    col_power:                '전투력',
+    col_coord:                '좌표',
+    col_ring:                 '링',
+    col_notes:                '메모',
+    unassigned_sep:           '── 미배치 (${n}) ──',
+    unassigned_row:           '미배치',
+    modal_add_member:         '연맹원 추가',
+    modal_edit_member:        '연맹원 편집',
+    modal_edit_named:         '편집 — ${name}',
+    modal_coord_sh:           '🏰 요새 · ${ring}링 · 타일 오프셋 (${col},${row}) → 게임 좌표 (${x}, ${y})',
+    modal_coord_mg:           '⚑ 그리드 위치: 열 ${col}, 행 ${row}  →  (${x}, ${y})',
+    field_player_name:        '플레이어 이름',
+    field_name_placeholder:   '이름 입력…',
+    field_rank:               '등급',
+    rank_unknown:             '— 미지정 —',
+    rank_r5_leader:           'R5  (연맹장)',
+    field_hq:                 '기지 레벨',
+    field_hq_placeholder:     '예: 25',
+    field_power:              '총 전투력',
+    field_power_placeholder:  '예: 45.2M',
+    field_notes:              '메모',
+    field_notes_placeholder:  '선택 사항…',
+    btn_unassign:             '↩ 배치 해제',
+    btn_delete:               '🗑 삭제',
+    meta_sh:                  '🏰 요새 중심 @ (${x},${y}) &nbsp;│&nbsp; 21×21 타일 요새 &nbsp;│&nbsp; 4링 &nbsp;│&nbsp; ${slots}자리 (2×2 기지 · 2타일 간격 · 4타일 피치) &nbsp;│&nbsp; 연맹원: 총 ${total}명, 배치 ${assigned}명${warn} &nbsp;│&nbsp; <em>1링 = 최강, 진흙 옆</em>',
+    meta_mg:                  '⚑ MG @ (${x},${y}) &nbsp;│&nbsp; 그리드: ${cols}×${rows} &nbsp;│&nbsp; 단위: 셀당 ${step}타일 &nbsp;│&nbsp; 연맹원: 총 ${total}명, 배치 ${assigned}명${warn} &nbsp;│&nbsp; <em>셀 클릭 편집 · 드래그 이동 · JSON+CSV 자동 저장</em>',
+    meta_warn:                ' &nbsp;│&nbsp; <span style="color:#aa6600">⚠ ${n}명 기지/전투력 미입력 — 셀 클릭하여 입력</span>',
+    lg_leader:                '연맹장',
+    lg_r4:                    'R4',
+    lg_r3:                    'R3',
+    lg_r2:                    'R2',
+    lg_r1:                    'R1',
+    lg_mg:                    '원수 근위대',
+    lg_empty:                 '비어있음',
+    unlock_heading:           '🔓 정식 버전 잠금해제 — $10 일회성',
+    unlock_body:              '당신의 그리드, 당신의 연맹, 당신의 이미지. 무료 버전도 완전히 작동합니다 — 자동 배치, 드래그 앤 드롭, CSV 가져오기, PNG 내보내기 모두. $10 잠금해제는 내보내는 모든 PNG에서 워터마크를 제거하여, 디스코드에 올리는 스크린샷이 깔끔하고 전문적으로 보이게 합니다. 일회성 결제. 구독 없음, 갱신 없음, 계정 없음. Stripe로 결제, 이메일로 즉시 키 수령, 붙여넣기 후 완료.',
+    unlock_btn:               '💳 키 받기 — $10',
+    unlock_footnote:          'Stripe 안전 결제 · Apple Pay &amp; 카드 지원 · 이메일로 즉시 키 전송',
+    unlock_placeholder:       '키를 여기에 붙여넣기…',
+    unlock_btn_apply:         '잠금해제',
+    unlock_badge:             '✅ 잠금해제됨',
+    tip_heading:              '☕ 개발자 후원',
+    tip_line1:                '많은 시간 아끼셨나요?<br>커피 한 잔 사주세요 — 고래님 인증도 환영.',
+    tip_venmo_hint:           'Venmo 앱으로 QR 코드를 스캔하거나 클릭하세요.<br>수신자 확인 시 마지막 4자리는 <strong style="color:#44884a">0829</strong>입니다.',
+    tip_qr_title:             'Venmo에서 후원하려면 스캔 또는 클릭',
+    snagit_heading:           '📸 게임 화면 전체 캡처',
+    snagit_body:              '인게임 명단에서 연맹원 이름과 스탯을 정리할 때, <a href="https://www.techsmith.com/snagit.html" target="_blank" rel="noopener" style="color:#88ccff">Snagit</a>(맥+윈도우, 약 $63 일회성) 같은 <strong>스크롤 스크린샷 도구</strong>를 사용하면 6장의 스크린샷을 이어 붙이는 대신 전체 연맹원 목록을 한 장의 이미지로 캡처할 수 있습니다. 이 도구와 함께 사용하면 5분 안에 연맹 전체 설정이 가능합니다. 무료 대안: <strong>ShareX</strong>(윈도우), <strong>CleanShot X</strong>(맥, 스크롤 캡처 지원).',
+    csv_heading:              '📋 CSV 형식 안내',
+    csv_intro:                '아래 열 이름을 정확히 포함하여 CSV를 업로드하세요 (순서 무관):',
+    csv_col_member:           '<code>Member</code> &nbsp;또는&nbsp; <code>Name</code>',
+    csv_col_rank:             '<code>Rank</code> &nbsp;→ R5, R4, R3, R2, 또는 R1',
+    csv_col_hq:               '<code>HQ Level</code> &nbsp;또는&nbsp; <code>HQ Lv.</code>',
+    csv_col_power:            '<code>Total Power</code> &nbsp;→ 예: <code>54.2M</code>',
+    csv_col_notes:            '<code>Notes</code> &nbsp;(선택)',
+    csv_note1:                '공백은 자동으로 제거됩니다. 중복 이름은 등급이 가장 높은 행이 유지됩니다.',
+    csv_protip:               '💡 <em>꿀팁:</em> 연맹장이 연맹원 이름, 등급, 기지 레벨, 전투력을 소리내어 읽고 다른 사람이 스프레드시트에 입력하면 — 전체 연맹 기준 5분이면 끝납니다.',
+    fb_heading:               '💡 건의사항 &amp; 기능 요청',
+    fb_sub:                   '다음 버전 형태를 도와주세요 — 원하는 기능에 투표하거나 아이디어를 남기세요.',
+    fb_name_label:            '이름 또는 연맹 태그 (선택)',
+    fb_name_placeholder:      '예: KittyKitty [R10t]',
+    fb_votes_label:           '기능에 투표 (해당 항목 모두 선택)',
+    fb_v_share:               '읽기 전용 공유 링크 — 연맹 전체가 실시간으로 그리드 보기',
+    fb_v_dash:                '연맹장 대시보드 — 한 번 업로드하면 모든 연맹원이 편집 없이 보기',
+    fb_v_form:                '배치 프리셋 (원형, 다이아몬드, 코너, 좀비 침공/KvK 이벤트 배치)',
+    fb_v_swap:                '스마트 교체 제안 — 약한 배치를 감지하고 개선 추천',
+    fb_v_mobile:              '휴대폰 최적화 모바일 뷰',
+    fb_v_multi:               '다중 벌집 / 서브연맹 지원 (R1/R2를 별도 그리드에)',
+    fb_v_history:             '연맹원 전투력 이력 추적 — 연맹 성장 과정 확인',
+    fb_v_event:               '이벤트 모드 배치 (좀비 침공 코너, KvK 집결지, 전쟁 방어)',
+    fb_v_ocr:                 '인게임 스크린샷에서 명단 자동 가져오기 (OCR)',
+    fb_comment_label:         '아이디어 또는 코멘트',
+    fb_comment_placeholder:   '아이디어 설명, 버그 신고, 인사 등…',
+    fb_submit:                '📨 피드백 제출',
+    fb_thanks:                '✓ 감사합니다! 피드백이 기록되었습니다.',
+    conf_switch_sh:           '군사 요새 배치로 전환하시겠습니까?\n\n현재 모든 그리드 배치가 초기화됩니다 (배치 방식 간 좌표는 호환되지 않음) — 연맹원 명단과 스탯은 유지됩니다. 이후 ⚡ 자동 배치를 다시 실행할 수 있습니다.',
+    conf_switch_mg:           '원수 근위대 배치로 되돌리시겠습니까?\n\n현재 모든 그리드 배치가 초기화됩니다.',
+    conf_switch_formation:    '${formation_name} 배치로 전환하시겠습니까?\n\n현재 모든 그리드 배치가 초기화됩니다 (배치 방식 간 좌표 호환 안 됨) — 연맹원 명단과 스탯은 유지됩니다. 이후 ⚡ 자동 배치를 다시 실행할 수 있습니다.',
+    conf_unassign:            '${name}님을 그리드에서 배치 해제하시겠습니까? (명단에는 유지됩니다)',
+    conf_delete:              '${name}님을 명단에서 영구 삭제하시겠습니까?',
+    conf_clear_grid:          '모든 그리드 배치를 해제하시겠습니까? 연맹원 정보는 유지되며 배치만 초기화됩니다.',
+    conf_reset_1:             '⚠️ 모든 연맹원과 배치가 삭제됩니다. 계속하시겠습니까?',
+    conf_reset_2:             '정말입니까? 되돌릴 수 없습니다.',
+    t_moved:                  '이동 완료 ✓',
+    t_saved:                  '저장 완료 ✓',
+    t_error:                  '오류',
+    t_unassigned:             '${name} 배치 해제됨',
+    t_deleted:                '${name} 삭제됨',
+    t_name_required:          '이름이 필요합니다',
+    t_enter_key:              '먼저 잠금해제 키를 입력하세요',
+    t_xy_numbers:             'X와 Y는 숫자여야 합니다',
+    t_mg_set:                 '📍 MG 기준 좌표가 (${x}, ${y})로 설정됨',
+    t_grid_cleared:           '🗑 그리드 초기화 — 모든 연맹원 배치 해제됨',
+    t_reset:                  '💥 전체 초기화 — 처음부터',
+    t_all_placed:             '모든 연맹원이 이미 배치되어 있습니다!',
+    t_name_saved:             '연맹 이름 저장됨 ✓',
+    t_csv_imported:           '📂 CSV 가져옴 — 추가 ${added}, 업데이트 ${updated}',
+    t_csv_failed:             'CSV 업로드 실패',
+    t_clear_failed:           '초기화 실패',
+    t_reset_failed:           '전체 초기화 실패',
+    t_placed_one:             '⚡ ${n}명 배치됨 — ${sort}',
+    t_placed_many:            '⚡ ${n}명 배치됨 — ${sort}',
+    t_rearranged:             '⚡ 재정렬 완료 — ${sort}',
+    t_switched:               '${label}로 전환됨',
+    t_switched_evicted:       '${label}로 전환됨 — ${evicted}개 배치 초기화됨',
+    t_unlocked:               '🎉 잠금해제됨! 정식 버전 활성화.',
+    t_invalid_key:            '유효하지 않은 키',
+    t_csv_downloaded:         '📋 명단이 CSV로 다운로드됨',
+    t_png_exported:           '📸 PNG 내보내기 완료 — 디스코드 공유 준비!',
+    t_placed_generic_one:     '${n}명 배치됨',
+    t_placed_generic_many:    '${n}명 배치됨',
+    t_no_slots:               '주변에 빈 자리가 없습니다',
+    t_fb_empty:               '이름 입력, 기능 투표, 또는 코멘트를 먼저 작성하세요.',
+    t_fb_failed:              '피드백 저장 실패 — 다시 시도하세요.',
+    t_auto_failed:            '자동 배치 실패',
+    t_save_failed:            '저장 실패',
+    t_mg_failed:              'MG 설정 실패',
+    t_switch_failed:          '전환 실패',
+    err_no_server_h:          '⚠ 서버에 연결할 수 없습니다',
+    err_no_server_p:          '먼저 서버를 시작했는지 확인하세요:',
+    png_title:                '◈  라스트 워: 서바이벌 — 연맹 벌집 배치도  ◈',
+    png_subtitle:             'MG @ (${x},${y})  ·  ${placed}명 배치  ·  내보내기 ${date}',
+    png_mg:                   '★  MG  ★',
+    png_mg_sub:               '원수 근위대',
+    png_credit:               '연맹 벌집 배치도',
+    png_watermark:            'r5tools.io',
+    png_free_footer:          '무료 버전 · r5tools.io · $10로 잠금해제',
+    s2_heading:               '⏳ 시즌2에 왜 필요한가',
+    s2_body:                  '<strong>시즌2는 같이 착지하는 연맹에게 유리합니다.</strong> 텔레포트마다 좌표가 필요한데, 착지 순간에 배치를 논의하면 절반은 연맹 화로 밖에 흩어져서 얼어붙고 집결도 못 합니다. 지금 미리 연맹원 전원의 자리를 정해두고, PNG로 내보내서 디스코드/카톡에 올리면 — 첫날 각자 지정된 좌표로 텔레포트, 적이 3×3 도시를 사이에 못 끼워 넣기 전에 벌집이 완성됩니다.',
+    s2_dismiss:               '✕ 닫기',
+    lang_toggle_label:        'EN',
+    lang_toggle_title:        'Switch to English',
+    // ---- shared suite-nav (r5tools.io toolkit strip) ----
+    suiteNavPart:             '이 도구는 ',
+    suiteNavToolkit:          ' 라스트 워: 서바이벌 얼라이언스 툴킷의 일부입니다 — ',
+    navLanding:               '랜딩',
+    navHeat:                  '히트',
+    navFreeze:                '동결',
+    navCoal:                  '석탄',
+    navCity:                  '도시',
+    navTimeline:              '타임라인',
+    navHive:                  '벌집',
+    navRoster:                '명단',
+    navProfile:               '프로필',
+    navVsDays:                'VS 데이',
+    betaFeedbackPill:         '🚧 베타 · 피드백',
+    formations_for:           '대형:',
+    speculative_warn:         '⚠ 공식 정보 발표 전까지 추정치',
+    see_timeline_suffix:      '. 전체 메커니즘은 시즌 타임라인에서 확인하세요.',
+    formations_pattern_projected: '대형은 이전 시즌 패턴에서 추정한 값입니다. First Fun의 공식 발표 후 확정됩니다.',
+    no_hive_formation:        '전통적인 벌집 대형이 없습니다 — 배치 가이드는 시즌 타임라인을 참조하세요.',
+  }
+};
+
+let LANG = (function(){
+  // Prefer the suite-wide `lws_lang` preference so switching language on any
+  // sibling tool carries over into the Hive Planner without a second toggle.
+  const shared = localStorage.getItem('lws_lang');
+  if(shared === 'en' || shared === 'ko') return shared;
+  const saved = localStorage.getItem('hiveLang');
+  if(saved === 'en' || saved === 'ko') return saved;
+  return (navigator.language || 'en').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+})();
+
+function t(key, vars){
+  let s = (I18N[LANG] && I18N[LANG][key]) || (I18N.en[key] ?? key);
+  if(vars){
+    for(const k in vars) s = s.replaceAll('${'+k+'}', vars[k]);
+  }
+  return s;
+}
+
+function applyI18n(){
+  document.documentElement.lang = LANG;
+  document.title = t('title');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    const mode = el.getAttribute('data-i18n-mode') || 'text';
+    if(mode === 'html') el.innerHTML = t(k); else el.textContent = t(k);
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el =>
+    el.setAttribute('title', t(el.getAttribute('data-i18n-title'))));
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el =>
+    el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder'))));
+  // Sync language toggle pill
+  const pill = document.getElementById('lang-toggle');
+  if(pill){
+    pill.textContent = t('lang_toggle_label');
+    pill.title = t('lang_toggle_title');
+  }
+  // Sync the layout dropdown option labels (they're set via data-i18n but also
+  // used as fallbacks in the JS `sortLabels` map — re-fetch on switch)
+}
+
+function setLang(lang){
+  if(lang !== 'en' && lang !== 'ko') return;
+  LANG = lang;
+  localStorage.setItem('hiveLang', lang);
+  // Mirror to the suite-wide `lws_lang` key so switching in Hive carries
+  // over to Timeline / Heat / Freeze / Coal / City / Landing on next visit.
+  try { localStorage.setItem('lws_lang', lang); } catch (e) { /* ignore */ }
+  try { window.dispatchEvent(new CustomEvent('lws:lang-changed', { detail: { lang: lang } })); } catch (e) { /* ignore */ }
+  applyI18n();
+  if(cfg) renderAll();   // re-render dynamic content (roster, meta, grid)
+}
+
+// ── Constants ──────────────────────────────────────────────────────────────────
+const RANK_CLR = {R5:'#da8fff',R4:'#ffd700',R3:'#00bfff',R2:'#44dd66',R1:'#6699ff',MG:'#ff5555','':'#444466'};
+const RANK_ORD = {R5:0,R4:1,R3:2,R2:3,R1:4,'':5};
+
+// ── State ──────────────────────────────────────────────────────────────────────
+let cfg          = null;
+let editKey      = null;   // "col,row" open in modal
+let editName     = null;   // original name (null = new member)
+let dragFrom     = null;   // key being dragged
+let rosterSort   = 'ring'; // ring | rank | power | name
+let selectedNames = new Set();
+let lastRosterIdx = -1;
+let rosterRowOrder = [];   // names in rendered roster order (for shift-range)
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+// In MG mode (col,row) are cell coords; in stronghold mode they're tile coords
+// (top-left of the member's 2×2 HQ footprint, signed, relative to fortress
+// centre — per KB-canonical map math in LWS_Knowledge_Base/kb/16-map-dimensions.md).
+const isStronghold = () => !!cfg.layout && cfg.layout.use_tile_coords;
+
+const cellCoord = (col,row) => {
+  if(isStronghold()){
+    // World tile coord = anchor + offset of footprint centre (top-left + 1)
+    return [cfg.mg.x + col + 1, cfg.mg.y + row + 1];
+  }
+  return [
+    cfg.mg.x + (col - cfg.grid.mg_col) * cfg.grid.step,
+    cfg.mg.y + (row - cfg.grid.mg_row) * cfg.grid.step
+  ];
+};
+
+const chebyshev = (col,row) => {
+  if(isStronghold()) return strongholdRing(col, row);
+  return Math.max(
+    Math.abs(col - cfg.grid.mg_col),
+    Math.abs(row - cfg.grid.mg_row)
+  );
+};
+
+function strongholdRing(tx, ty){
+  const p = cfg.layout || {};
+  const half   = ((p.center_tiles || 21) - 1) / 2;
+  // 2×2 HQ footprint per KB (was 3 pre-2026-07-20 — buggy 5-tile pitch).
+  const member = p.member_size  || 2;
+  const pitch  = member + (p.gap_tiles || 2);
+  const dx = Math.max(Math.abs(tx), Math.abs(tx + member - 1));
+  const dy = Math.max(Math.abs(ty), Math.abs(ty + member - 1));
+  const d = Math.max(dx, dy);
+  if(d <= half) return 0;
+  return Math.floor((d - half - 1) / pitch) + 1;
+}
+
+const memberAt  = (col,row) => cfg.assignments[`${col},${row}`] || null;
+const clr       = rank => RANK_CLR[rank] || RANK_CLR[''];
+const parsePow  = p => parseFloat((p||'0').replace(/[^\d.]/g,'')) || 0;
+
+function memberTag(name){
+  const m = cfg.members[name]||{};
+  return `(${m.rank||'?'},${m.hq??'—'},${m.power||'—'})`;
+}
+
+// ── Stronghold slot list (cached) ──────────────────────────────────────────────
+let strongholdSlots = null;
+async function loadStrongholdSlots(){
+  if(strongholdSlots) return strongholdSlots;
+  try {
+    const r = await fetch('/api/stronghold-slots');
+    const d = await r.json();
+    if(d.ok) strongholdSlots = d.slots;
+  } catch(e){ console.error('stronghold-slots fetch failed', e); }
+  return strongholdSlots;
+}
+
+// ── API ────────────────────────────────────────────────────────────────────────
+async function api(path, body){
+  const r = await fetch(path,{
+    method:'POST',
+    headers:{'Content-Type':'application/json', 'X-Hive-Lang': LANG},
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+
+async function doMove(from, to){
+  const d = await api('/api/move',{from,to});
+  if(d.ok){ cfg=d.config; renderAll(); toast(t('t_moved')); }
+  else toast(d.error||t('t_error'),true);
+}
+
+async function doEdit(oldName, newName, rank, hq, power, notes){
+  const d = await api('/api/edit',{old_name:oldName,name:newName,rank,hq,power,notes});
+  if(d.ok){ cfg=d.config; renderAll(); closeModal(); toast(t('t_saved')); }
+  else toast(d.error||t('t_error'),true);
+}
+
+async function doAssign(name, col, row){
+  const d = await api('/api/assign',{name,col,row});
+  if(d.ok){ cfg=d.config; renderAll(); }
+}
+
+async function doUnassign(name){
+  const d = await api('/api/unassign',{name});
+  if(d.ok){ cfg=d.config; renderAll(); closeModal(); toast(t('t_unassigned',{name})); }
+}
+
+async function doDelete(name){
+  const d = await api('/api/delete',{name});
+  if(d.ok){ cfg=d.config; renderAll(); closeModal(); toast(t('t_deleted',{name})); }
+}
+
+// ── Modal ──────────────────────────────────────────────────────────────────────
+function openModal(key){
+  const [col,row] = key.split(',').map(Number);
+  const [x,y]     = cellCoord(col,row);
+  const name       = memberAt(col,row);
+  const m          = name ? (cfg.members[name]||{}) : {};
+
+  editKey  = key;
+  editName = name||null;
+
+  document.getElementById('modal-title').textContent = name ? t('modal_edit_named',{name}) : t('modal_add_member');
+  if(isStronghold()){
+    const ring = strongholdRing(col, row);
+    document.getElementById('modal-coord').textContent = t('modal_coord_sh',{ring,col,row,x,y});
+  } else {
+    document.getElementById('modal-coord').textContent = t('modal_coord_mg',{col,row,x,y});
+  }
+  document.getElementById('f-name').value   = name||'';
+  document.getElementById('f-rank').value   = m.rank||'';
+  document.getElementById('f-hq').value     = m.hq!=null ? m.hq : '';
+  document.getElementById('f-power').value  = m.power||'';
+  document.getElementById('f-notes').value  = m.notes||'';
+  document.getElementById('btn-unassign').style.display = name ? '' : 'none';
+  document.getElementById('btn-delete').style.display   = name ? '' : 'none';
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById('f-name').focus();
+}
+
+function closeModal(){
+  document.getElementById('overlay').classList.remove('on');
+  editKey=null; editName=null;
+}
+
+document.getElementById('btn-cancel').onclick = closeModal;
+document.getElementById('overlay').onclick = e => {
+  if(e.target===document.getElementById('overlay')) closeModal();
+};
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape'){
+    closeModal();
+    if(selectedNames.size > 0){ selectedNames.clear(); lastRosterIdx = -1; updateSelectionUI(); }
+  }
+});
+document.getElementById('btn-clear-sel').onclick = () => {
+  selectedNames.clear(); lastRosterIdx = -1; updateSelectionUI();
+};
+
+document.getElementById('btn-save').onclick = async () => {
+  const newName = document.getElementById('f-name').value.trim();
+  if(!newName){ toast(t('t_name_required'),true); return; }
+  const rank  = document.getElementById('f-rank').value;
+  const hq    = document.getElementById('f-hq').value || null;
+  const power = document.getElementById('f-power').value.trim() || null;
+  const notes = document.getElementById('f-notes').value.trim();
+  const old   = editName || newName;
+
+  await doEdit(old, newName, rank, hq, power, notes);
+
+  // If adding to an empty cell, assign position
+  if(!editName && editKey){
+    const [col,row] = editKey.split(',').map(Number);
+    await doAssign(newName, col, row);
+  }
+};
+
+document.getElementById('btn-unassign').onclick = async () => {
+  if(editName && confirm(t('conf_unassign',{name:editName})))
+    await doUnassign(editName);
+};
+
+document.getElementById('btn-delete').onclick = async () => {
+  if(editName && confirm(t('conf_delete',{name:editName})))
+    await doDelete(editName);
+};
+
+// ── Drag and Drop ──────────────────────────────────────────────────────────────
+function setupDrag(td, key, isMG, hasOccupant){
+  if(!isMG && hasOccupant){
+    td.draggable = true;
+    td.addEventListener('dragstart', e => {
+      dragFrom = key;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', key);
+      requestAnimationFrame(()=> td.classList.add('drag-src'));
+    });
+    td.addEventListener('dragend', () => {
+      td.classList.remove('drag-src');
+      dragFrom = null;
+    });
+  }
+  if(!isMG){
+    td.addEventListener('dragover', e => {
+      if(dragFrom && dragFrom!==key){ e.preventDefault(); td.classList.add('drag-over'); }
+    });
+    td.addEventListener('dragleave', () => td.classList.remove('drag-over'));
+    td.addEventListener('drop', async e => {
+      e.preventDefault(); td.classList.remove('drag-over');
+      if(dragFrom && dragFrom!==key) await doMove(dragFrom, key);
+      dragFrom = null;
+    });
+  }
+}
+
+// ── Grid Rendering ─────────────────────────────────────────────────────────────
+function renderGrid(){
+  const sh = isStronghold();
+  document.getElementById('grid-wrap').style.display = sh ? 'none' : '';
+  document.getElementById('stronghold-wrap').classList.toggle('active', sh);
+  if(sh){
+    if(!strongholdSlots){
+      loadStrongholdSlots().then(() => renderStronghold());
+    } else {
+      renderStronghold();
+    }
+  } else {
+    renderGridMG();
+  }
+}
+
+// ── Stronghold Rendering ───────────────────────────────────────────────────────
+// Bumped from 14→16 on 2026-07-20 to compensate for the smaller 2×2 HQ
+// footprint — otherwise each member tile would render at 28px which is too
+// small to read the name label on a 100-member alliance layout.
+const SH_TILE_PX = 16;
+const SH_PAD_TILES = 4;        // padding around outermost ring
+
+function renderStronghold(){
+  const canvas = document.getElementById('stronghold-canvas');
+  if(!canvas) return;
+  if(!Array.isArray(strongholdSlots)){
+    canvas.innerHTML = `<div style="color:#888;padding:40px;font-size:11px">${t('sh_loading')}</div>`;
+    return;
+  }
+  const p = cfg.layout || {};
+  const half   = ((p.center_tiles || 21) - 1) / 2;       // 10 for a 21-tile fortress
+  // 2×2 HQ footprint per KB (was 3 → 5-tile pitch was wrong).
+  const member = p.member_size || 2;
+  const maxRings = p.max_rings || 4;
+  const ringPitch = member + (p.gap_tiles || 2);         // = 4 tiles per KB Polar Storm
+
+  // Outer extent of Ring N (tile coord of outermost tile): half + (N-1)*pitch + member
+  // Default preset (21 furnace + 4 rings × 4-tile pitch + 2-tile HQ) = 24 → 49×49 tile span.
+  const outerExtent = half + (maxRings - 1) * ringPitch + member;
+  const halfTiles = outerExtent + SH_PAD_TILES;                     // padded canvas radius
+  const span = halfTiles * 2 + 1;
+  canvas.innerHTML = '';
+  canvas.style.width  = (span * SH_TILE_PX) + 'px';
+  canvas.style.height = (span * SH_TILE_PX) + 'px';
+  // px() converts a tile coord (signed, fortress-centered) to pixel offset within canvas
+  const px = (t) => (t + halfTiles) * SH_TILE_PX;
+
+  // Draw fortress
+  const fortress = document.createElement('div');
+  fortress.className = 'sh-fortress';
+  fortress.style.left   = px(-half) + 'px';
+  fortress.style.top    = px(-half) + 'px';
+  fortress.style.width  = ((2 * half + 1) * SH_TILE_PX) + 'px';
+  fortress.style.height = ((2 * half + 1) * SH_TILE_PX) + 'px';
+  fortress.innerHTML = `
+    <div class="sf-title">${t('sh_fortress_title')}</div>
+    <div class="sf-sub">${t('sh_fortress_sub')}</div>
+    <div class="sf-coord">${LANG==='ko'?'중심':'centre'} @ (${cfg.mg.x}, ${cfg.mg.y})</div>
+    <div style="font-size:8px;color:#aa5555;margin-top:5px">${t('sh_click_move')}</div>
+  `;
+  fortress.title = t('sh_click_move_title');
+  fortress.style.cursor = 'pointer';
+  fortress.addEventListener('click', () => document.getElementById('btn-set-mg').click());
+  canvas.appendChild(fortress);
+
+  // Ring labels in the four corners outside Ring 4
+  const ringClr = ['#ff7777','#cc9966','#88aacc','#66cc88'];
+  for(let r = 1; r <= maxRings; r++){
+    const rOuter = half + (r - 1) * ringPitch + (member - 1);
+    const lbl = document.createElement('div');
+    lbl.className = 'sh-ringbadge';
+    lbl.textContent = `R${r}`;
+    lbl.style.left = px(-rOuter - 2) + 'px';
+    lbl.style.top  = px(-rOuter - 1) + 'px';
+    lbl.style.color = ringClr[r-1] || '#888';
+    canvas.appendChild(lbl);
+  }
+
+  // Slots
+  for(const s of strongholdSlots){
+    const {tx, ty, ring} = s;
+    const key  = `${tx},${ty}`;
+    const name = cfg.assignments[key] || null;
+    const div  = document.createElement('div');
+    div.className = `sh-slot r-${ring}` + (name ? '' : ' empty');
+    div.dataset.key = key;
+    div.dataset.ring = ring;
+    div.style.left   = px(tx) + 'px';
+    div.style.top    = px(ty) + 'px';
+    div.style.width  = (member * SH_TILE_PX) + 'px';
+    div.style.height = (member * SH_TILE_PX) + 'px';
+
+    if(name){
+      const m  = cfg.members[name] || {};
+      const c  = clr(m.rank || '');
+      const [wx, wy] = cellCoord(tx, ty);
+      div.style.background = `linear-gradient(135deg, ${c}33, ${c}10)`;
+      div.style.borderColor = c + 'aa';
+      div.innerHTML = `
+        <div class="sh-name" style="color:${c}">${name}</div>
+        <div class="sh-rk"   style="color:${c}">${m.rank||'?'}/${m.hq!=null?'HQ'+m.hq:'—'}</div>
+        <div class="sh-coord">${wx},${wy}</div>
+      `;
+      div.title = `${name} · ${m.rank||'?'} · ${LANG==='ko'?'기지':'HQ'} ${m.hq||'?'} · ${m.power||'—'} · ${LANG==='ko'?ring+'링':'Ring '+ring} · ${LANG==='ko'?'타일':'tile'} (${wx},${wy})`;
+      div.addEventListener('click', () => {
+        if(selectedNames.size > 0){ selectedNames.clear(); lastRosterIdx = -1; updateSelectionUI(); }
+        else openModal(key);
+      });
+    } else {
+      div.innerHTML = `<div style="color:#3a3a55;font-size:8px">R${ring}</div>`;
+      div.title = t('sh_empty_title',{ring});
+      div.addEventListener('click', () => {
+        if(selectedNames.size > 0) placeSelected(tx, ty);
+        else openModal(key);
+      });
+    }
+    setupDrag(div, key, false, !!name);
+    canvas.appendChild(div);
+  }
+}
+
+function renderGridMG(){
+  const table = document.getElementById('grid-table');
+  const {cols,rows,mg_col,mg_row} = cfg.grid;
+  table.innerHTML='';
+
+  for(let row=0;row<rows;row++){
+    const tr = document.createElement('tr');
+    for(let col=0;col<cols;col++){
+      const td   = document.createElement('td');
+      const key  = `${col},${row}`;
+      const [x,y]= cellCoord(col,row);
+      const isMG = col===mg_col && row===mg_row;
+      const name = memberAt(col,row);
+      const dist = chebyshev(col,row);
+
+      td.className = 'cell';
+      td.dataset.key = key;
+
+      // ring badge
+      if(!isMG){
+        const rb = document.createElement('span');
+        rb.className='ring-badge'; rb.textContent=`r${dist}`; td.appendChild(rb);
+      }
+
+      if(isMG){
+        td.classList.add('mg');
+        td.title = t('mg_click_move_title');
+        td.style.cursor = 'pointer';
+        td.innerHTML += `
+          <div class="cname" style="color:var(--mg)">${t('mg_cell_title')}</div>
+          <div class="ctag"  style="color:var(--mg)">${x},${y}</div>
+          <div class="ccoord"style="color:var(--mg)">${t('mg_cell_sub')}</div>
+          <div style="font-size:8px;color:#444466;margin-top:3px">${t('sh_click_move')}</div>`;
+        td.addEventListener('click', () => document.getElementById('btn-set-mg').click());
+      } else if(name){
+        const m       = cfg.members[name]||{};
+        const rk      = m.rank||'';
+        const c       = clr(rk);
+        const missingData = (m.hq == null && m.power == null);
+        // subtle bg by ring
+        const bg = dist===1?'#1d1d30':dist===2?'#171726':dist===3?'#131322':'#101020';
+        td.style.background = bg;
+        td.innerHTML += `
+          ${missingData ? `<div class="needs-data">${t('cell_needs_data')}</div>` : ''}
+          <div class="cname" style="color:${c}">${name}</div>
+          <div class="ctag"  style="color:${c}">${memberTag(name)}</div>
+          <div class="ccoord">(${x},${y})</div>
+          <div class="drag-hint">${t('cell_drag_hint')}</div>`;
+        td.addEventListener('click', ()=>{
+          if(selectedNames.size > 0){ selectedNames.clear(); lastRosterIdx = -1; updateSelectionUI(); }
+          else openModal(key);
+        });
+      } else {
+        td.classList.add('empty');
+        td.innerHTML += `
+          <div class="cname" style="color:#333348">${t('cell_dot')}</div>
+          <div class="ccoord">(${x},${y})</div>`;
+        td.addEventListener('click', ()=>{
+          if(selectedNames.size > 0) placeSelected(col, row);
+          else openModal(key);
+        });
+      }
+
+      setupDrag(td, key, isMG, !!name);
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+}
+
+// ── Inline editor helper ───────────────────────────────────────────────────────
+function makeInlineInput(name, field, value, isSelect=false){
+  let el;
+  if(isSelect){
+    el = document.createElement('select');
+    el.className = 'inline-edit';
+    for(const r of ['','R5','R4','R3','R2','R1']){
+      const opt = document.createElement('option');
+      opt.value = r; opt.textContent = r || '—';
+      if(r === (value||'')) opt.selected = true;
+      el.appendChild(opt);
+    }
+  } else {
+    el = document.createElement('input');
+    el.className = 'inline-edit';
+    el.type = field === 'hq' ? 'number' : 'text';
+    el.value = value ?? '';
+    if(field === 'hq'){ el.min=1; el.max=30; el.style.width='44px'; }
+    if(field === 'power'){ el.style.width='64px'; }
+  }
+
+  const save = async () => {
+    const m = {...(cfg.members[name] || {})};
+    const v = el.value?.trim?.() ?? el.value;
+    if(field === 'hq')     m.hq    = v ? parseInt(v) : null;
+    else if(field==='power') m.power = v || null;
+    else if(field==='rank')  m.rank  = v;
+    else if(field==='notes') m.notes = v;
+    const d = await api('/api/edit',{old_name:name, name, rank:m.rank||'', hq:m.hq, power:m.power, notes:m.notes||''});
+    if(d.ok){ cfg=d.config; renderGrid(); renderMeta(); toast(t('t_saved')); }
+    else toast(d.error||t('t_save_failed'), true);
+  };
+
+  el.addEventListener('change', save);
+  el.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); el.blur(); } });
+  el.addEventListener('click', e=>e.stopPropagation());
+  return el;
+}
+
+// ── Roster Rendering ───────────────────────────────────────────────────────────
+// ── Multi-select helpers ────────────────────────────────────────────────────────
+function updateSelectionUI(){
+  const bar = document.getElementById('selection-bar');
+  const msg = document.getElementById('selection-msg');
+  document.querySelectorAll('#roster-body tr').forEach(tr => {
+    tr.classList.toggle('row-selected', selectedNames.has(tr.dataset.name));
+  });
+  if(selectedNames.size > 0){
+    bar.style.display = 'flex';
+    const n = selectedNames.size;
+    msg.textContent = t(n===1 ? 'sel_msg_one' : 'sel_msg_many', {n});
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+async function placeSelected(startCol, startRow){
+  let candidates = [];
+  if(isStronghold()){
+    if(!strongholdSlots) await loadStrongholdSlots();
+    for(const s of (strongholdSlots || [])){
+      const k = `${s.tx},${s.ty}`;
+      if(cfg.assignments[k]) continue;
+      const dist = Math.max(Math.abs(s.tx - startCol), Math.abs(s.ty - startRow));
+      candidates.push({c: s.tx, r: s.ty, dist, ring: s.ring, angle: Math.atan2(s.tx - startCol, -(s.ty - startRow))});
+    }
+    candidates.sort((a,b) => a.dist - b.dist || a.ring - b.ring || a.angle - b.angle);
+  } else {
+    const mc = cfg.grid.mg_col, mr = cfg.grid.mg_row;
+    for(let c=0; c<cfg.grid.cols; c++){
+      for(let r=0; r<cfg.grid.rows; r++){
+        const k = `${c},${r}`;
+        if(c===mc && r===mr) continue;
+        if(cfg.assignments[k]) continue;
+        const dist = Math.max(Math.abs(c-startCol), Math.abs(r-startRow));
+        candidates.push({c, r, dist, angle: Math.atan2(c-startCol, -(r-startRow))});
+      }
+    }
+    candidates.sort((a,b) => a.dist - b.dist || a.angle - b.angle);
+  }
+
+  const names = [...selectedNames];
+  const cells = candidates.slice(0, names.length);
+  if(cells.length === 0){ toast(t('t_no_slots'), true); return; }
+
+  let placed = 0;
+  for(let i=0; i<Math.min(names.length, cells.length); i++){
+    const d = await api('/api/assign', {name: names[i], col: cells[i].c, row: cells[i].r});
+    if(d.ok){ cfg = d.config; placed++; }
+  }
+  selectedNames.clear();
+  lastRosterIdx = -1;
+  renderAll();
+  toast(t(placed===1 ? 't_placed_generic_one' : 't_placed_generic_many', {n:placed}));
+}
+
+function renderRoster(){
+  const tbody = document.getElementById('roster-body');
+
+  const posMap = {};
+  for(const [k,v] of Object.entries(cfg.assignments)){
+    const [c,r] = k.split(',').map(Number);
+    posMap[v] = [c,r];
+  }
+
+  let assigned = Object.keys(posMap);
+  // Sort assigned by rosterSort
+  assigned.sort((a,b) => {
+    if(rosterSort === 'ring'){
+      const da = chebyshev(...posMap[a]), db = chebyshev(...posMap[b]);
+      if(da!==db) return da-db;
+      return parsePow(cfg.members[b]?.power) - parsePow(cfg.members[a]?.power);
+    } else if(rosterSort === 'rank'){
+      const ra = RANK_ORD[cfg.members[a]?.rank||'']??5;
+      const rb = RANK_ORD[cfg.members[b]?.rank||'']??5;
+      if(ra!==rb) return ra-rb;
+      return parsePow(cfg.members[b]?.power) - parsePow(cfg.members[a]?.power);
+    } else if(rosterSort === 'power'){
+      return parsePow(cfg.members[b]?.power) - parsePow(cfg.members[a]?.power);
+    } else {  // name
+      return a.localeCompare(b);
+    }
+  });
+
+  const unassigned = Object.keys(cfg.members)
+    .filter(n=>!posMap[n])
+    .sort((a,b)=>{
+      const ra = RANK_ORD[cfg.members[a]?.rank||'']??5;
+      const rb = RANK_ORD[cfg.members[b]?.rank||'']??5;
+      if(ra!==rb) return ra-rb;
+      return parsePow(cfg.members[b]?.power) - parsePow(cfg.members[a]?.power);
+    });
+
+  tbody.innerHTML = '';
+  let rowNum = 0;
+  rosterRowOrder = [...assigned, ...unassigned];
+
+  for(const name of assigned){
+    const [col,row] = posMap[name];
+    const m   = cfg.members[name]||{};
+    const rk  = m.rank||'';
+    const c   = clr(rk);
+    const [x,y]= cellCoord(col,row);
+    const dist = chebyshev(col,row);
+    const missing = (m.hq == null && m.power == null);
+    const tr = document.createElement('tr');
+    tr.className = 'row-assigned';
+
+    // Row number
+    rowNum++;
+    const tdNum = document.createElement('td');
+    tdNum.className = 'col-num';
+    tdNum.textContent = rowNum;
+    tr.appendChild(tdNum);
+
+    // Name cell (click to open modal)
+    const tdName = document.createElement('td');
+    tdName.innerHTML = `<span style="color:${c};font-weight:bold">${name}</span>${missing?' <span style="color:#aa6600;font-size:9px">⚠</span>':''}`;
+    tr.appendChild(tdName);
+
+    // Inline-editable: Rank
+    const tdRank = document.createElement('td');
+    tdRank.appendChild(makeInlineInput(name, 'rank', m.rank||'', true));
+    tr.appendChild(tdRank);
+
+    // Inline-editable: HQ
+    const tdHq = document.createElement('td');
+    tdHq.style.color = missing ? '#665500' : '#aaa';
+    tdHq.appendChild(makeInlineInput(name, 'hq', m.hq));
+    tr.appendChild(tdHq);
+
+    // Inline-editable: Power
+    const tdPow = document.createElement('td');
+    tdPow.style.color = missing ? '#665500' : '#aaa';
+    tdPow.appendChild(makeInlineInput(name, 'power', m.power));
+    tr.appendChild(tdPow);
+
+    // Read-only: Coord, Ring
+    const tdCoord = document.createElement('td');
+    tdCoord.style.color = '#666';
+    tdCoord.textContent = `(${x},${y})`;
+    tr.appendChild(tdCoord);
+
+    const tdRing = document.createElement('td');
+    tdRing.style.color = '#555';
+    tdRing.textContent = LANG==='ko' ? `${dist}링` : `ring ${dist}`;
+    tr.appendChild(tdRing);
+
+    // Inline-editable: Notes
+    const tdNotes = document.createElement('td');
+    tdNotes.style.fontSize = '10px';
+    tdNotes.appendChild(makeInlineInput(name, 'notes', m.notes));
+    tr.appendChild(tdNotes);
+
+    tr.dataset.name = name;
+    const rowIdx = rosterRowOrder.indexOf(name);
+    tr.addEventListener('click', (e)=>{
+      if(e.target.closest('.inline-edit')) return; // don't intercept inline editors
+      if(e.ctrlKey || e.metaKey){
+        if(selectedNames.has(name)) selectedNames.delete(name);
+        else selectedNames.add(name);
+        lastRosterIdx = rowIdx;
+        updateSelectionUI();
+      } else if(e.shiftKey && lastRosterIdx >= 0){
+        const lo = Math.min(lastRosterIdx, rowIdx), hi = Math.max(lastRosterIdx, rowIdx);
+        for(let i=lo; i<=hi; i++) if(rosterRowOrder[i]) selectedNames.add(rosterRowOrder[i]);
+        updateSelectionUI();
+      } else if(selectedNames.size > 0){
+        selectedNames.clear(); lastRosterIdx = -1; updateSelectionUI();
+      } else {
+        openModal(`${col},${row}`);
+      }
+    });
+    tbody.appendChild(tr);
+  }
+
+  if(unassigned.length){
+    const sep = document.createElement('tr');
+    sep.innerHTML=`<td class="sep-row" colspan="8">${t('unassigned_sep',{n:unassigned.length})}</td>`;
+    tbody.appendChild(sep);
+
+    for(const name of unassigned){
+      const m  = cfg.members[name]||{};
+      const rk = m.rank||'';
+      const c  = clr(rk);
+      const tr = document.createElement('tr');
+      tr.className = 'row-assigned';
+      tr.style.opacity = '.55';
+
+      // Row number (continue from assigned count)
+      rowNum++;
+      const tdNumU = document.createElement('td');
+      tdNumU.className = 'col-num';
+      tdNumU.textContent = rowNum;
+      tr.appendChild(tdNumU);
+
+      const tdName = document.createElement('td');
+      tdName.innerHTML = `<span style="color:${c};font-weight:bold">${name}</span>`;
+      tr.appendChild(tdName);
+
+      const tdRank = document.createElement('td');
+      tdRank.appendChild(makeInlineInput(name, 'rank', m.rank||'', true));
+      tr.appendChild(tdRank);
+
+      const tdHq = document.createElement('td');
+      tdHq.style.color='#888';
+      tdHq.appendChild(makeInlineInput(name, 'hq', m.hq));
+      tr.appendChild(tdHq);
+
+      const tdPow = document.createElement('td');
+      tdPow.style.color='#888';
+      tdPow.appendChild(makeInlineInput(name, 'power', m.power));
+      tr.appendChild(tdPow);
+
+      tr.insertAdjacentHTML('beforeend',`<td style="color:#444">${t('unassigned_row')}</td><td style="color:#444">—</td>`);
+      const tdNotes = document.createElement('td');
+      tdNotes.style.fontSize='10px';
+      tdNotes.appendChild(makeInlineInput(name, 'notes', m.notes));
+      tr.appendChild(tdNotes);
+
+      tr.dataset.name = name;
+      const rowIdx = rosterRowOrder.indexOf(name);
+      tr.addEventListener('click', (e)=>{
+        if(e.target.closest('.inline-edit')) return;
+        if(e.ctrlKey || e.metaKey){
+          if(selectedNames.has(name)) selectedNames.delete(name);
+          else selectedNames.add(name);
+          lastRosterIdx = rowIdx;
+          updateSelectionUI();
+        } else if(e.shiftKey && lastRosterIdx >= 0){
+          const lo = Math.min(lastRosterIdx, rowIdx), hi = Math.max(lastRosterIdx, rowIdx);
+          for(let i=lo; i<=hi; i++) if(rosterRowOrder[i]) selectedNames.add(rosterRowOrder[i]);
+          updateSelectionUI();
+        } else if(selectedNames.size > 0){
+          selectedNames.clear(); lastRosterIdx = -1; updateSelectionUI();
+        }
+        // plain click on unassigned row does nothing extra (no modal)
+      });
+
+      tbody.appendChild(tr);
+    }
+  }
+}
+
+// ── Legend ─────────────────────────────────────────────────────────────────────
+function renderLegend(){
+  document.getElementById('legend').innerHTML = [
+    ['R5',t('lg_leader')],['R4',t('lg_r4')],['R3',t('lg_r3')],['R2',t('lg_r2')],['R1',t('lg_r1')],['MG',t('lg_mg')],['',t('lg_empty')]
+  ].map(([r,label])=>
+    `<div class="leg">
+      <div class="leg-dot" style="background:${clr(r)}"></div>
+      <span style="color:${clr(r)}">${label}</span>
+    </div>`
+  ).join('');
+}
+
+// ── Meta bar ───────────────────────────────────────────────────────────────────
+function renderMeta(){
+  const g = cfg.grid;
+  const assigned = Object.keys(cfg.assignments).length;
+  const total = Object.keys(cfg.members).length;
+  const needsData = Object.values(cfg.members).filter(m => m.hq == null && m.power == null).length;
+  const warn = needsData > 0 ? t('meta_warn',{n:needsData}) : '';
+  const vars = {x:cfg.mg.x, y:cfg.mg.y, cols:g.cols, rows:g.rows, step:g.step, total, assigned, warn,
+                slots: strongholdSlots ? strongholdSlots.length : '?'};
+  document.getElementById('meta').innerHTML = t(isStronghold() ? 'meta_sh' : 'meta_mg', vars);
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────────
+let _toastTimer = null;
+function toast(msg, err=false){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show' + (err?' err':'');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(()=>el.className='', 2600);
+}
+
+// ── Render All ─────────────────────────────────────────────────────────────────
+function renderAll(){
+  renderMeta();
+  renderLegend();
+  renderGrid();
+  renderRoster();
+  renderUnlockState();
+  // Sync alliance name input
+  const inp = document.getElementById('alliance-name-input');
+  if(document.activeElement !== inp) inp.value = cfg.alliance_name || '';
+  // Sync layout dropdown — handle both legacy ('mg' | 'stronghold') and
+  // composite ('mode::formationKey') option values.
+  const lm = document.getElementById('layout-mode');
+  if(lm && cfg.layout && cfg.layout.mode){
+    const desired = cfg.layout.mode;
+    let match = null;
+    for(const opt of lm.options){
+      if(opt.value === desired){ match = opt.value; break; }
+      if(opt.dataset && opt.dataset.renderMode === desired){ match = opt.value; break; }
+    }
+    if(match && lm.value !== match) lm.value = match;
+  }
+}
+
+// ── Layout-mode dropdown handler ───────────────────────────────────────────────
+// The dropdown value is either a plain legacy mode ('mg' | 'stronghold') OR a
+// composite "mode::formationKey" (e.g. 'stronghold::alliance-center-hive').
+// We split on '::' and pass just the render mode to /api/set-layout so the
+// fake-server logic doesn't change.
+function _currentComposite(){
+  const sel = document.getElementById('layout-mode');
+  if(!sel) return '';
+  // Find the composite value whose renderMode matches cfg.layout.mode
+  const current = cfg.layout?.mode || 'mg';
+  for(const opt of sel.options){
+    if(opt.dataset && opt.dataset.renderMode === current) return opt.value;
+  }
+  return current;
+}
+document.getElementById('layout-mode').addEventListener('change', async (e) => {
+  const rawValue = e.target.value;
+  const parts = rawValue.split('::');
+  const mode = parts[0] || 'mg';
+  const formationKey = parts[1] || mode;
+
+  // Look up formation (for label + warnings)
+  const formations = (window.__hiveFormations && window.__hiveFormations.list) || [];
+  const formation = formations.find(f => f.key === formationKey) || null;
+  const lang = (typeof LANG === 'string' ? LANG : 'en');
+  const displayLabel = formation
+    ? ((formation.display_name && (formation.display_name[lang] || formation.display_name.en)) || formationKey)
+    : (mode === 'stronghold' ? (LANG==='ko' ? '군사 요새' : "Military Stronghold") : (LANG==='ko' ? '원수 근위대' : "Marshall's Guard"));
+
+  // Base confirm text (falls back to the legacy strings for S2 to keep exact
+  // wording R5s are used to)
+  let confirmText;
+  if(formationKey === 'stronghold' || formationKey === 'mg'){
+    confirmText = mode === 'stronghold' ? t('conf_switch_sh') : t('conf_switch_mg');
+  } else {
+    confirmText = t('conf_switch_formation', { formation_name: displayLabel });
+  }
+  // Append per-formation warnings, if any
+  if(formation && typeof window.__hiveFormationWarningsText === 'function'){
+    const w = window.__hiveFormationWarningsText(formation, lang);
+    if(w) confirmText += '\n\n' + (LANG==='ko' ? '⚠ 주의사항:' : '⚠ Notes:') + w;
+  }
+
+  if(!confirm(confirmText)){
+    e.target.value = _currentComposite();
+    return;
+  }
+  const d = await api('/api/set-layout', {mode});
+  if(d.ok){
+    cfg = d.config;
+    if(mode === 'stronghold' && !strongholdSlots) await loadStrongholdSlots();
+    renderAll();
+    toast(t(d.evicted ? 't_switched_evicted' : 't_switched', {label:displayLabel, evicted:d.evicted}));
+  } else {
+    toast(d.error || t('t_switch_failed'), true);
+    e.target.value = _currentComposite();
+  }
+});
+
+// ── Auto-assign button ──────────────────────────────────────────────────────────
+function sortLabel(sortBy){
+  const keys = {
+    'rank,power':     'sort_rank_power',
+    'rank,hq,power':  'sort_rank_hq_power',
+    'hq,power':       'sort_hq_power',
+    'power':          'sort_power',
+    'hq':             'sort_hq',
+    'rank,hq':        'sort_rank_hq',
+  };
+  return keys[sortBy] ? t(keys[sortBy]) : sortBy;
+}
+
+document.getElementById('btn-auto-assign').onclick = async () => {
+  const unplaced = Object.keys(cfg.members).filter(n => !Object.values(cfg.assignments).includes(n));
+  if(unplaced.length === 0){ toast(t('t_all_placed')); return; }
+  const sortBy = document.getElementById('auto-sort-mode').value;
+  const d = await api('/api/auto', {sort_by: sortBy});
+  if(d.ok){
+    cfg = d.config;
+    renderAll();
+    toast(t(d.placed===1 ? 't_placed_one' : 't_placed_many', {n:d.placed, sort:sortLabel(sortBy)}));
+  } else {
+    toast(d.error || t('t_auto_failed'), true);
+  }
+};
+
+// ── Auto-sort dropdown: clear + re-assign on change ──────────────────────────────
+document.getElementById('auto-sort-mode').onchange = async () => {
+  const sortBy = document.getElementById('auto-sort-mode').value;
+  // Clear grid first
+  const clr = await api('/api/clear', {mode: 'assignments'});
+  if(!clr.ok){ toast(t('t_clear_failed'), true); return; }
+  cfg = clr.config;
+  renderAll();
+  // Then auto-assign with new sort order
+  const d = await api('/api/auto', {sort_by: sortBy});
+  if(d.ok){
+    cfg = d.config;
+    renderAll();
+    toast(t('t_rearranged', {sort: sortLabel(sortBy)}));
+  } else {
+    toast(d.error || t('t_auto_failed'), true);
+  }
+};
+
+// ── CSV Upload button ────────────────────────────────────────────────────────────
+document.getElementById('btn-csv-upload').onclick = () => {
+  document.getElementById('csv-file-input').click();
+};
+document.getElementById('csv-file-input').onchange = async (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const text = await file.text();
+  const d = await api('/api/upload-csv', {csv: text});
+  if(d.ok){
+    cfg = d.config;
+    renderAll();
+    toast(t('t_csv_imported', {added:d.added, updated:d.updated}));
+  } else {
+    toast(d.error || t('t_csv_failed'), true);
+  }
+  e.target.value = '';   // reset so same file can be re-uploaded
+};
+
+// Auto-load the canonical roster (LW Atlas + upload) from the shared picker.
+// Hive's upload-csv wants capitalized headers.
+window.addEventListener('lws:roster-loaded', async function (ev) {
+  if (!ev.detail || !ev.detail.rows || !ev.detail.rows.length) return;
+  const lines = ['Name,Rank,HQ Level,Total Power,Notes'];
+  ev.detail.rows.forEach(function (m) {
+    lines.push([
+      String(m.name || '').replace(/,/g, ' '),
+      String(m.rank || ''),
+      String(m.hq_level || m.hq || ''),
+      String(m.total_power || m.power || ''),
+      String(m.notes || '').replace(/,/g, ' ')
+    ].join(','));
+  });
+  try {
+    const d = await api('/api/upload-csv', { csv: lines.join('\n') });
+    if (d && d.ok) { cfg = d.config; renderAll(); }
+  } catch (err) { /* silent */ }
+});
+
+// ── Set MG Coordinates ───────────────────────────────────────────────────────────
+document.getElementById('btn-set-mg').onclick = () => {
+  document.getElementById('mg-x').value = cfg.mg.x;
+  document.getElementById('mg-y').value = cfg.mg.y;
+  document.getElementById('mg-modal').style.display = 'flex';
+};
+document.getElementById('btn-mg-cancel').onclick = () => {
+  document.getElementById('mg-modal').style.display = 'none';
+};
+document.getElementById('btn-mg-save').onclick = async () => {
+  const x = parseInt(document.getElementById('mg-x').value);
+  const y = parseInt(document.getElementById('mg-y').value);
+  if(isNaN(x) || isNaN(y)){ toast(t('t_xy_numbers'), true); return; }
+  const d = await api('/api/set-mg', {x, y});
+  if(d.ok){
+    cfg = d.config;
+    document.getElementById('mg-modal').style.display = 'none';
+    renderAll();
+    toast(t('t_mg_set', {x, y}));
+  } else {
+    toast(d.error || t('t_mg_failed'), true);
+  }
+};
+
+// ── Clear Grid button (unassign all, keep members) ───────────────────────────────
+document.getElementById('btn-clear-grid').onclick = async () => {
+  if(!confirm(t('conf_clear_grid'))) return;
+  const d = await api('/api/clear', {mode: 'assignments'});
+  if(d.ok){
+    cfg = d.config;
+    renderAll();
+    toast(t('t_grid_cleared'));
+  } else {
+    toast(d.error || t('t_clear_failed'), true);
+  }
+};
+
+// ── Reset All button (wipe everything) ──────────────────────────────────────────
+document.getElementById('btn-clear-all').onclick = async () => {
+  if(!confirm(t('conf_reset_1'))) return;
+  if(!confirm(t('conf_reset_2'))) return;
+  const d = await api('/api/clear', {mode: 'all'});
+  if(d.ok){
+    cfg = d.config;
+    renderAll();
+    toast(t('t_reset'));
+  } else {
+    toast(d.error || t('t_reset_failed'), true);
+  }
+};
+
+// ── Alliance name ────────────────────────────────────────────────────────────────
+const allianceInput = document.getElementById('alliance-name-input');
+allianceInput.addEventListener('blur', async () => {
+  const d = await api('/api/set-name', {alliance_name: allianceInput.value.trim()});
+  if(d.ok){ cfg = d.config; renderMeta(); toast(t('t_name_saved')); }
+});
+allianceInput.addEventListener('keydown', e => { if(e.key==='Enter') allianceInput.blur(); });
+
+// ── Watermark / unlock state ──────────────────────────────────────────────────────
+function renderUnlockState(){
+  const bar = document.getElementById('watermark-bar');
+  if(cfg.unlocked){
+    bar.className = 'watermark-bar unlocked';
+    bar.innerHTML = t('wm_unlocked');
+    document.getElementById('unlock-status').innerHTML = `<div class="unlock-badge">${t('unlock_badge')}</div>`;
+  } else {
+    bar.className = 'watermark-bar';
+    bar.innerHTML = t('wm_free');
+  }
+  // Keep the Stripe checkout URL in sync with current language so the webhook
+  // can route the localized license email.
+  const buy = document.getElementById('btn-unlock-buy');
+  if(buy){
+    const base = buy.href.split('?')[0];
+    buy.href = base + '?client_reference_id=' + LANG;
+  }
+}
+
+// ── Unlock key ───────────────────────────────────────────────────────────────────
+document.getElementById('btn-unlock-key').onclick = async () => {
+  const key = document.getElementById('unlock-key-input').value.trim();
+  if(!key){ toast(t('t_enter_key'), true); return; }
+  const d = await api('/api/unlock', {key});
+  if(d.ok){
+    cfg = d.config;
+    renderUnlockState();
+    toast(t('t_unlocked'));
+  } else {
+    toast(d.error || t('t_invalid_key'), true);
+  }
+};
+
+// ── CSV template download ────────────────────────────────────────────────────────
+document.getElementById('btn-dl-template').addEventListener('click', e => {
+  e.preventDefault();
+  const rows = [['Member','Rank','HQ Level','Total Power','Notes']];
+  const members = cfg && cfg.members ? cfg.members : {};
+  if(Object.keys(members).length > 0){
+    // Sort by rank then power, same as roster
+    const sorted = Object.entries(members).sort((a,b)=>{
+      const ra = RANK_ORD[a[1].rank||'']??5, rb = RANK_ORD[b[1].rank||'']??5;
+      if(ra!==rb) return ra-rb;
+      return parsePow(b[1].power) - parsePow(a[1].power);
+    });
+    for(const [name, m] of sorted){
+      rows.push([name, m.rank||'', m.hq??'', m.power||'', m.notes||'']);
+    }
+  } else {
+    rows.push(['PlayerName','R4','28','54.2M','']);
+    rows.push(['AnotherPlayer','R3','25','38.1M','scout']);
+  }
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='hive_roster.csv'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+  toast(t('t_csv_downloaded'));
+});
+
+// ── Sort buttons ────────────────────────────────────────────────────────────────
+document.querySelectorAll('.btn-sort').forEach(btn => {
+  btn.addEventListener('click', () => {
+    rosterSort = btn.dataset.sort;
+    document.querySelectorAll('.btn-sort').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderRoster();
+  });
+});
+
+// ── PNG Export ──────────────────────────────────────────────────────────────────
+// Router: pick the renderer that matches the current layout mode. Stronghold
+// mode has its own coord math (signed tile offsets around the fortress) so it
+// can't reuse the MG grid renderer directly.
+function exportPNG(){
+  return isStronghold() ? exportStrongholdPNG() : exportMGPNG();
+}
+
+function exportMGPNG(){
+  const g = cfg.grid;
+  const { cols, rows, mg_col, mg_row } = g;
+  const CW=140, CH=76, PAD=24, HEAD=68, FOOT=52;
+  const W = cols*CW + PAD*2;
+  const H = HEAD + rows*CH + FOOT + PAD*2;
+
+  const canvas = document.createElement('canvas');
+  canvas.width  = W*2; canvas.height = H*2;  // 2× retina
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2,2);
+
+  const RC = {R5:'#da8fff',R4:'#ffd700',R3:'#00bfff',R2:'#44dd66',R1:'#6699ff',MG:'#ff5555','':'#555566'};
+  const RB = {R5:'#1a0828',R4:'#181200',R3:'#001320',R2:'#001400',R1:'#000518',MG:'#1c0000','':'#0d0d1a'};
+  const ringBg = ['#0d0d1a','#1d1d30','#171726','#131322','#101020','#0d0d1a'];
+
+  // BG
+  ctx.fillStyle='#0d0d1a'; ctx.fillRect(0,0,W,H);
+
+  // Title
+  const allianceName = (cfg.alliance_name || '').trim();
+  ctx.fillStyle='#ffffff'; ctx.font='bold 17px "Courier New",monospace';
+  ctx.fillText(t('png_title'), PAD, PAD+20);
+  if(allianceName){
+    ctx.fillStyle='#ffdd88'; ctx.font='bold 14px "Courier New",monospace';
+    ctx.fillText(`[ ${allianceName} ]`, PAD, PAD+42);
+  }
+  ctx.fillStyle='#55557a'; ctx.font='10px "Courier New",monospace';
+  const placed = Object.keys(cfg.assignments).length;
+  const subtitleY = allianceName ? PAD+58 : PAD+38;
+  const dateLocale = LANG === 'ko' ? 'ko-KR' : undefined;
+  ctx.fillText(t('png_subtitle', {x:cfg.mg.x, y:cfg.mg.y, placed, date:new Date().toLocaleDateString(dateLocale)}), PAD, subtitleY);
+
+  // Draw each cell
+  for(let row=0; row<rows; row++){
+    for(let col=0; col<cols; col++){
+      const cx=PAD+col*CW, cy=PAD+HEAD+row*CH;
+      const isMG = col===mg_col && row===mg_row;
+      const key=`${col},${row}`, name=cfg.assignments[key]||null;
+      const dist=Math.max(Math.abs(col-mg_col),Math.abs(row-mg_row));
+      const gx=cfg.mg.x+(col-mg_col)*g.step, gy=cfg.mg.y+(row-mg_row)*g.step;
+
+      // bg
+      let bg = isMG ? '#1c0000' : (name ? (ringBg[Math.min(dist,5)] || RB[cfg.members[name]?.rank||'']) : '#0a0a14');
+      ctx.fillStyle=bg; ctx.fillRect(cx,cy,CW,CH);
+      // border
+      ctx.strokeStyle = isMG ? '#ff333355' : '#1e1e38';
+      ctx.lineWidth = isMG ? 1.5 : 0.5;
+      ctx.strokeRect(cx,cy,CW,CH);
+
+      ctx.textAlign='center';
+      if(isMG){
+        ctx.fillStyle='#ff5555';
+        ctx.font='bold 13px "Courier New",monospace'; ctx.fillText(t('png_mg'), cx+CW/2, cy+CH/2-8);
+        ctx.font='9px "Courier New",monospace';       ctx.fillText(`(${gx},${gy})`, cx+CW/2, cy+CH/2+8);
+        ctx.fillText(t('png_mg_sub'),                  cx+CW/2, cy+CH/2+22);
+      } else if(name){
+        const m=cfg.members[name]||{}, rk=m.rank||'', c=RC[rk]||RC[''];
+        const tag=`(${rk||'?'},${m.hq??'—'},${m.power||'—'})`;
+        // ring badge
+        ctx.fillStyle='#2a2a44'; ctx.font='7px "Courier New",monospace';
+        ctx.textAlign='right'; ctx.fillText(`r${dist}`, cx+CW-4, cy+11); ctx.textAlign='center';
+        // name (truncate)
+        ctx.fillStyle=c; ctx.font='bold 10.5px "Courier New",monospace';
+        let dn=name; while(ctx.measureText(dn).width>CW-14 && dn.length>3) dn=dn.slice(0,-1);
+        if(dn!==name) dn+='…';
+        ctx.fillText(dn, cx+CW/2, cy+CH/2-8);
+        ctx.font='8.5px "Courier New",monospace'; ctx.fillText(tag, cx+CW/2, cy+CH/2+6);
+        ctx.fillStyle='#44445a'; ctx.font='8px "Courier New",monospace';
+        ctx.fillText(`(${gx},${gy})`, cx+CW/2, cy+CH/2+20);
+      } else {
+        ctx.fillStyle='#1e1e3a'; ctx.font='12px "Courier New",monospace';
+        ctx.fillText('·', cx+CW/2, cy+CH/2);
+        ctx.fillStyle='#222238'; ctx.font='8px "Courier New",monospace';
+        ctx.fillText(`(${gx},${gy})`, cx+CW/2, cy+CH/2+14);
+      }
+      ctx.textAlign='left';
+    }
+  }
+
+  // Legend
+  const ly = PAD+HEAD+rows*CH+14;
+  const LEGEND = [['R5',t('lg_leader')],['R4',t('lg_r4')],['R3',t('lg_r3')],['R2',t('lg_r2')],['R1',t('lg_r1')],['MG',t('lg_mg')]];
+  ctx.font='9.5px "Courier New",monospace';
+  let lx=PAD;
+  for(const [r,label] of LEGEND){
+    ctx.fillStyle=RC[r];
+    ctx.beginPath(); ctx.arc(lx+4,ly+4,4,0,Math.PI*2); ctx.fill();
+    ctx.fillText(label, lx+12, ly+9);
+    lx += ctx.measureText(label).width+26;
+  }
+  ctx.fillStyle='#2a2a44'; ctx.textAlign='right';
+  ctx.font='8px "Courier New",monospace';
+  ctx.fillText(t('png_credit'), W-PAD, PAD+HEAD+rows*CH+FOOT+PAD-8);
+  ctx.textAlign='left';
+
+  // Watermark if not unlocked
+  if(!cfg.unlocked){
+    ctx.save();
+    ctx.globalAlpha = 0.13;
+    ctx.fillStyle = '#8888ff';
+    ctx.font = 'bold 38px "Courier New",monospace';
+    ctx.textAlign = 'center';
+    for(let wy=120; wy < H-40; wy+=180){
+      ctx.fillText(t('png_watermark'), W/2, wy);
+    }
+    ctx.restore();
+    ctx.fillStyle='#22224a'; ctx.font='9px "Courier New",monospace'; ctx.textAlign='right';
+    ctx.fillText(t('png_free_footer'), W-PAD, H-6);
+    ctx.textAlign='left';
+  }
+
+  return new Promise(resolve => {
+    canvas.toBlob(blob=>{
+      const fname = `hive_grid_${new Date().toISOString().slice(0,10)}.png`;
+      window.__lwsLatestPng = { blob, filename: fname, context: 'Hive Grid Manager' };
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download=fname;
+      a.click(); setTimeout(()=>URL.revokeObjectURL(url),2000);
+      toast(t('t_png_exported'));
+      resolve({ blob, filename: fname });
+    },'image/png');
+  });
+}
+
+// Stronghold-mode PNG: mirrors renderStronghold() but paints to a canvas so
+// R5s can drop the fortress layout straight into Discord. Coordinate math uses
+// the KB-canonical 2×2 HQ footprint (member_size=2) + 2-tile gap = 4-tile pitch.
+async function exportStrongholdPNG(){
+  if(!strongholdSlots) await loadStrongholdSlots();
+  const p = cfg.layout || {};
+  const half   = ((p.center_tiles || 21) - 1) / 2;
+  const member = p.member_size || 2;
+  const maxRings = p.max_rings || 4;
+  const ringPitch = member + (p.gap_tiles || 2);
+  const outerExtent = half + (maxRings - 1) * ringPitch + member;
+  const PAD_TILES = 4;
+  const halfTiles = outerExtent + PAD_TILES;
+  const span = halfTiles * 2 + 1;
+
+  const TP = 22;                                                     // tile-px in export (bigger than on-screen)
+  const PAD = 28, HEAD = 78, FOOT = 60;
+  const CANVAS_TILES = span * TP;
+  const W = CANVAS_TILES + PAD*2;
+  const H = HEAD + CANVAS_TILES + FOOT + PAD*2;
+
+  const canvas = document.createElement('canvas');
+  canvas.width  = W*2; canvas.height = H*2;                          // retina
+  const ctx = canvas.getContext('2d'); ctx.scale(2,2);
+
+  const RC = {R5:'#da8fff',R4:'#ffd700',R3:'#00bfff',R2:'#44dd66',R1:'#6699ff','':'#555566'};
+  const ringClr = ['#ff7777','#cc9966','#88aacc','#66cc88','#88cc44','#cc88cc'];
+
+  // BG
+  ctx.fillStyle='#08080f'; ctx.fillRect(0,0,W,H);
+
+  // Header
+  const allianceName = (cfg.alliance_name || '').trim();
+  ctx.fillStyle='#ffffff'; ctx.font='bold 17px "Courier New",monospace';
+  ctx.fillText(t('png_title'), PAD, PAD+20);
+  if(allianceName){
+    ctx.fillStyle='#ffdd88'; ctx.font='bold 14px "Courier New",monospace';
+    ctx.fillText(`[ ${allianceName} ]`, PAD, PAD+42);
+  }
+  ctx.fillStyle='#55557a'; ctx.font='10px "Courier New",monospace';
+  const placed = Object.keys(cfg.assignments).length;
+  const subtitleY = allianceName ? PAD+58 : PAD+38;
+  const dateLocale = LANG === 'ko' ? 'ko-KR' : undefined;
+  ctx.fillText(t('png_subtitle', {x:cfg.mg.x, y:cfg.mg.y, placed, date:new Date().toLocaleDateString(dateLocale)}), PAD, subtitleY);
+
+  // Canvas origin (top-left of the tile grid area)
+  const ox = PAD, oy = PAD + HEAD;
+  const px = (tx) => ox + (tx + halfTiles) * TP;
+  const py = (ty) => oy + (ty + halfTiles) * TP;
+
+  // Faint background tile grid so the coord system is legible
+  ctx.strokeStyle = '#12122a'; ctx.lineWidth = 0.5;
+  for(let i=0; i<=span; i++){
+    ctx.beginPath(); ctx.moveTo(ox + i*TP, oy); ctx.lineTo(ox + i*TP, oy + CANVAS_TILES); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox, oy + i*TP); ctx.lineTo(ox + CANVAS_TILES, oy + i*TP); ctx.stroke();
+  }
+
+  // Fortress (Alliance Furnace) — draws as the central 21×21 (or configured)
+  const fLeft = px(-half), fTop = py(-half);
+  const fSize = (2 * half + 1) * TP;
+  const fGrad = ctx.createLinearGradient(fLeft, fTop, fLeft + fSize, fTop + fSize);
+  fGrad.addColorStop(0, '#5c1a1a'); fGrad.addColorStop(1, '#3a0e0e');
+  ctx.fillStyle = fGrad; ctx.fillRect(fLeft, fTop, fSize, fSize);
+  ctx.strokeStyle = '#ff444466'; ctx.lineWidth = 2;
+  ctx.strokeRect(fLeft+1, fTop+1, fSize-2, fSize-2);
+  ctx.fillStyle = '#ff8888'; ctx.font='bold 14px "Courier New",monospace';
+  ctx.textAlign='center';
+  ctx.fillText(t('sh_fortress_title'), fLeft + fSize/2, fTop + fSize/2 - 8);
+  ctx.font='10px "Courier New",monospace'; ctx.fillStyle = '#cc6666';
+  ctx.fillText(t('sh_fortress_sub'), fLeft + fSize/2, fTop + fSize/2 + 8);
+  ctx.font='9px "Courier New",monospace'; ctx.fillStyle = '#aa5555';
+  ctx.fillText(`(${cfg.mg.x}, ${cfg.mg.y})`, fLeft + fSize/2, fTop + fSize/2 + 22);
+  ctx.textAlign='left';
+
+  // Ring badges (four corners of each ring)
+  for(let r = 1; r <= maxRings; r++){
+    const rOuter = half + (r - 1) * ringPitch + (member - 1);
+    ctx.fillStyle = ringClr[r-1] || '#888';
+    ctx.font='bold 11px "Courier New",monospace';
+    ctx.fillText(`R${r}`, px(-rOuter - 2), py(-rOuter - 1) + 8);
+  }
+
+  // Slots
+  for(const s of strongholdSlots){
+    const {tx, ty, ring} = s;
+    const sx = px(tx), sy = py(ty), ss = member * TP;
+    const key = `${tx},${ty}`;
+    const name = cfg.assignments[key] || null;
+    if(name){
+      const m = cfg.members[name] || {};
+      const c = RC[m.rank||''] || RC[''];
+      // Rank-color underglow
+      const grad = ctx.createLinearGradient(sx, sy, sx + ss, sy + ss);
+      grad.addColorStop(0, c + '33'); grad.addColorStop(1, c + '10');
+      ctx.fillStyle = grad; ctx.fillRect(sx, sy, ss, ss);
+      ctx.strokeStyle = c + 'aa'; ctx.lineWidth = 1;
+      ctx.strokeRect(sx+0.5, sy+0.5, ss-1, ss-1);
+      // Name (truncate to fit) and rank
+      ctx.fillStyle = c; ctx.font='bold 9px "Courier New",monospace';
+      ctx.textAlign = 'center';
+      let dn = name;
+      while(ctx.measureText(dn).width > ss - 4 && dn.length > 3) dn = dn.slice(0, -1);
+      if(dn !== name) dn += '…';
+      ctx.fillText(dn, sx + ss/2, sy + ss/2 - 2);
+      ctx.font='7.5px "Courier New",monospace';
+      ctx.fillText(`${m.rank||'?'}/${m.hq!=null?'HQ'+m.hq:'—'}`, sx + ss/2, sy + ss/2 + 9);
+      ctx.textAlign = 'left';
+    } else {
+      // Empty slot
+      ctx.fillStyle = '#10101a'; ctx.fillRect(sx, sy, ss, ss);
+      ctx.setLineDash([2, 2]);
+      ctx.strokeStyle = '#252540'; ctx.lineWidth = 0.8;
+      ctx.strokeRect(sx+0.5, sy+0.5, ss-1, ss-1);
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#3a3a55'; ctx.font='7px "Courier New",monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`R${ring}`, sx + ss/2, sy + ss/2 + 3);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  // Legend
+  const ly = oy + CANVAS_TILES + 22;
+  const LEGEND = [['R5',t('lg_leader')],['R4',t('lg_r4')],['R3',t('lg_r3')],['R2',t('lg_r2')],['R1',t('lg_r1')]];
+  ctx.font='10px "Courier New",monospace';
+  let lx = PAD;
+  for(const [r,label] of LEGEND){
+    ctx.fillStyle = RC[r];
+    ctx.beginPath(); ctx.arc(lx+5, ly+5, 4.5, 0, Math.PI*2); ctx.fill();
+    ctx.fillText(label, lx+14, ly+9);
+    lx += ctx.measureText(label).width + 30;
+  }
+  ctx.fillStyle='#2a2a44'; ctx.textAlign='right';
+  ctx.font='8px "Courier New",monospace';
+  ctx.fillText(t('png_credit'), W-PAD, H - PAD - 8);
+  ctx.textAlign='left';
+
+  // Watermark
+  if(!cfg.unlocked){
+    ctx.save();
+    ctx.globalAlpha = 0.13;
+    ctx.fillStyle = '#8888ff';
+    ctx.font = 'bold 38px "Courier New",monospace';
+    ctx.textAlign = 'center';
+    for(let wy=140; wy < H-40; wy+=180){
+      ctx.fillText(t('png_watermark'), W/2, wy);
+    }
+    ctx.restore();
+    ctx.fillStyle='#22224a'; ctx.font='9px "Courier New",monospace'; ctx.textAlign='right';
+    ctx.fillText(t('png_free_footer'), W-PAD, H-6);
+    ctx.textAlign='left';
+  }
+
+  return new Promise(resolve => {
+    canvas.toBlob(blob => {
+      const fname = `hive_stronghold_${new Date().toISOString().slice(0,10)}.png`;
+      window.__lwsLatestPng = { blob, filename: fname, context: 'Hive Grid Manager (Stronghold)' };
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = fname;
+      a.click(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+      toast(t('t_png_exported'));
+      resolve({ blob, filename: fname });
+    }, 'image/png');
+  });
+}
+
+document.getElementById('btn-export-png').onclick = exportPNG;
+
+// Post to Discord — reuses the same canvas rendering, skips the file download
+document.addEventListener('DOMContentLoaded', function () {
+  var slot = document.getElementById('lws-discord-slot');
+  var gearSlot = document.getElementById('lws-discord-gear-slot');
+  if (window.LWSDiscord) {
+    if (slot) LWSDiscord.renderPostButton(slot, {
+      getBlob: async () => {
+        // Re-render the canvas so we always get the freshest state
+        await exportPNG();
+        return window.__lwsLatestPng && window.__lwsLatestPng.blob;
+      },
+      filename: 'hive_grid.png',
+      contextText: 'Alliance Hive Plan',
+      toolName: 'Hive Grid Manager',
+    });
+    if (gearSlot) LWSDiscord.renderSettingsButton(gearSlot);
+  }
+});
+
+// ── Feedback form ───────────────────────────────────────────────────────────────
+document.getElementById('btn-fb-submit').onclick = async () => {
+  const name    = document.getElementById('fb-name').value.trim();
+  const comment = document.getElementById('fb-comment').value.trim();
+  const votes   = [...document.querySelectorAll('.fb-checks input[type=checkbox]:checked')].map(el => el.value);
+  if(!name && !comment && votes.length === 0){
+    toast(t('t_fb_empty'), true);
+    return;
+  }
+  const d = await api('/api/feedback', {name, votes, comment});
+  if(d.ok){
+    document.getElementById('fb-thanks').style.display = 'inline';
+    document.getElementById('fb-name').value = '';
+    document.getElementById('fb-comment').value = '';
+    document.querySelectorAll('.fb-checks input[type=checkbox]').forEach(el => el.checked = false);
+    setTimeout(() => document.getElementById('fb-thanks').style.display = 'none', 5000);
+  } else {
+    toast(t('t_fb_failed'), true);
+  }
+};
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+// ── Language toggle wiring ──────────────────────────────────────────────────────
+document.getElementById('lang-toggle').addEventListener('click', () => {
+  setLang(LANG === 'en' ? 'ko' : 'en');
+});
+
+// ── Season hero (dismissible, persists per-season via localStorage) ────────────
+// Visibility is now driven by updateBillboard() so the banner only shows on
+// warzones tagged for the season that the copy is written for (Season 2 today).
+// Dismissal writes both the legacy key (for existing users' state) and a
+// per-season key so future seasons get their own dismissal state.
+(function initSeasonHero(){
+  const hero = document.getElementById('s2-hero');
+  document.getElementById('s2-dismiss')?.addEventListener('click', () => {
+    if(hero) hero.style.display = 'none';
+    localStorage.setItem('hiveS2HeroDismissed', '1');
+    localStorage.setItem('hiveSeasonHeroDismissed:s2-polar-storm', '1');
+  });
+})();
+
+// Apply translations on first paint (before /api/config returns)
+applyI18n();
+
+async function reloadHiveState(){
+  try {
+    cfg = await fetch('/api/config').then(r=>r.json());
+    window.cfg = cfg;
+    if(cfg.layout && cfg.layout.use_tile_coords) await loadStrongholdSlots();
+    renderAll();
+    if(typeof window.__hiveUpdateBillboard === 'function') window.__hiveUpdateBillboard();
+  } catch(e) {
+    console.warn('[hive] reloadHiveState failed:', e);
+  }
+}
+window.reloadHiveState = reloadHiveState;
+
+(async function init(){
+  try {
+    await reloadHiveState();
+  } catch(e) {
+    document.body.innerHTML = `
+      <div style="padding:60px;color:#ff6666;font-family:monospace">
+        <h2>${t('err_no_server_h')}</h2>
+        <p style="margin-top:12px;color:#aa8888">
+          ${t('err_no_server_p')}<br><br>
+          <code style="background:#1a0000;padding:6px 12px;border-radius:4px">
+            python3 ~/claudecode/hive_server.py
+          </code>
+        </p>
+      </div>`;
+  }
+})();
+</script>
+  <script src="https://chat.r5tools.io/widget.js" defer></script>
+</div>
+
+<script src="https://access-codes.r5tools.io/lib.js?v=3" defer></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    if (window.LWSAccessCodes && typeof LWSAccessCodes.gate === 'function') {
+      LWSAccessCodes.gate('main-app', { brandName: 'Hive Grid Manager' });
+    }
+  });
+</script>
+<!-- r5tools-suite-footer -->
+<footer style="text-align:center;padding:16px;font-size:12px;color:#666;border-top:1px solid #eee;margin-top:32px">
+  <a href="https://r5tools.io" style="color:#c9a961;text-decoration:none">← r5tools.io</a> suite · 
+  <a href="https://r5tools.io/refer.html" style="color:#c9a961;text-decoration:none">Refer & Earn 25%</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title data-i18n="title">Coal Burn Calculator — LWS Suite</title>
+  <meta name="description" content="Season 2 -70 °C blizzard coal-budget calculator for Last War: Survival alliances." />
+  <link rel="stylesheet" href="static/styles.css" />
+  <script src="static/lws-countdown.js" defer></script>
+  <script defer src="static/lws-track.js"></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body data-season-id="s2-polar-storm" data-variant-kind="coal">
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://bullochman.github.io/lws-profile-studio-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+</div>
+<!-- Warzone / season context strip -->
+<div style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
+  <div id="lws-warzone-selector" style="display:inline-flex"></div>
+</div>
+  <div class="wrap">
+    <header>
+      <div class="brand">R5TOOLS.IO <span class="brand-sub" data-i18n="brandSub">LWS Suite</span><a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+      <button class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+    </header>
+
+    <!-- Everything the user can see AND use lives inside #main-app so the
+         LWSAccessCodes gate can wrap it in a lock overlay if they don't have
+         a valid unlock cookie. See LWS_Access_Codes/docs/integration.md. -->
+    <div id="main-app">
+
+      <div class="card">
+        <h1><span id="tool-title" data-i18n="title">Coal Burn Calculator</span></h1>
+        <p class="lede" id="tool-lede" data-i18n="lede">
+          How much Coal does every member need stockpiled to survive the Week-4 -70 °C blizzard with the High-Heat Furnace in Overdrive for the full 3-hour window?
+        </p>
+      </div>
+
+      <!-- ============ Season-variant banner (shown when non-S2 but a variant
+           IS implemented — soft-yellow pill so users know they're planning for
+           a different season). Populated from /api/coal/context.variant. -->
+      <div class="card" id="season-variant-banner" style="display:none;border:1px solid rgba(230,207,122,0.4);background:linear-gradient(180deg,#1a1808,#12100a)">
+        <p class="lede" id="season-variant-message" style="margin:0;color:#e6cf7a">—</p>
+      </div>
+
+      <!-- ============ Season-inactive banner (shown when current warzone
+           is NOT running Season 2). Populated from /api/coal/context and
+           refreshed on `lws:season-changed`. -->
+      <div class="card" id="season-inactive-banner" style="display:none;border:1px solid rgba(201,169,97,0.4);background:linear-gradient(180deg,#1a1408,#12100a)">
+        <h2 style="color:#c9a961" id="season-inactive-heading" data-i18n="inactiveHeading">Coal burn doesn't apply this season</h2>
+        <p class="lede" id="season-inactive-message">—</p>
+        <p class="hint" id="season-inactive-hint" data-i18n="inactiveHint">Switch the warzone selector above to a warzone running Season 2 Polar Storm, or use the <em>change</em> link to override the season for planning.</p>
+      </div>
+
+      <!-- ============ Single-member card ============ -->
+      <div class="card">
+        <h2 data-i18n="singleHeading">Single member</h2>
+        <p class="lede" data-i18n="singleDesc">Enter your High-Heat Furnace level and current coal.</p>
+
+        <div class="form-row">
+          <div class="field">
+            <label data-i18n="furnaceLevel">Furnace level</label>
+            <input type="number" id="s-level" min="1" max="30" value="20" />
+            <div class="hint" data-i18n="furnaceLevelHint">1 – 30</div>
+          </div>
+          <div class="field">
+            <label data-i18n="coalStock">Coal in stock</label>
+            <input type="number" id="s-stock" min="0" step="1000" value="100000" />
+            <div class="hint" data-i18n="coalStockHint">Your current stockpile</div>
+          </div>
+          <div class="field">
+            <label data-i18n="duration">Blizzard duration (hours)</label>
+            <input type="number" id="s-hours" min="0.1" step="0.5" value="3" />
+            <div class="hint" data-i18n="durationHint">Default 3 (Week 1-4+)</div>
+          </div>
+          <div class="field">
+            <label data-i18n="blizzardDrop">Blizzard drop (°C)</label>
+            <select id="s-drop">
+              <option value="-30">-30 (W1-2)</option>
+              <option value="-50">-50 (W3)</option>
+              <option value="-70" selected>-70 (W4+)</option>
+            </select>
+            <div class="hint" data-i18n="blizzardDropHint">W1-2: -30 · W3: -50 · W4+: -70</div>
+          </div>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" id="s-overdrive" checked />
+          <span data-i18n="overdrive">Overdrive (4× burn)</span>
+          <span class="hint" style="margin-left:auto" data-i18n="overdriveHint">Recommended for -70 °C</span>
+        </label>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="s-calc" data-i18n="calculate">Calculate</button>
+          <button class="btn btn-secondary" id="s-reset" data-i18n="reset">Reset</button>
+        </div>
+
+        <div class="result" id="s-result">
+          <div class="verdict" id="s-verdict">—</div>
+          <dl>
+            <dt data-i18n="resFurnaceLevel">Furnace level</dt><dd class="mono" id="s-r-level">—</dd>
+            <dt data-i18n="resBurnPerMin">Burn rate</dt><dd class="mono" id="s-r-burn">— <span data-i18n="unitPerMin">coal / min</span> <span class="badge-estimate" data-i18n="estimate">± estimate</span></dd>
+            <dt data-i18n="resNeed">Coal needed</dt><dd class="mono" id="s-r-need">— <span data-i18n="unitCoal">coal</span></dd>
+            <dt data-i18n="resStock">You have</dt><dd class="mono" id="s-r-stock">— <span data-i18n="unitCoal">coal</span></dd>
+            <dt data-i18n="resDelta">Delta</dt><dd class="mono" id="s-r-delta">— <span data-i18n="unitCoal">coal</span></dd>
+          </dl>
+          <p class="hint" style="margin-top:16px" data-i18n="estimateNote">Per-level burn rate L2–L29 is not yet KB-verified.</p>
+        </div>
+      </div>
+
+      <!-- ============ Coal Sources panel ============
+           Nine KB-verified Season 2 coal sources with per-source editable
+           daily-yield estimates. Feeds the 56-day budget chart below.
+           KB: [[17-seasons-catalog]] "Coal sources (Season 2)" §118-127
+           KB: [[06-season-2-frozen]] Dig Sites 2,736-3,456/hr §170 -->
+      <div class="card" id="coal-sources-card">
+        <h2 data-i18n="sourcesHeading">Coal sources (Season 2)</h2>
+        <p class="lede" data-i18n="sourcesDesc">Estimated daily coal yield per source — all 9 KB-verified. Edit any row to match your alliance's actual pace; the 56-day budget chart below updates as you type.</p>
+
+        <div class="batch-table-wrap">
+          <table class="batch" id="src-table">
+            <thead>
+              <tr>
+                <th data-i18n="srcColSource">Source</th>
+                <th class="num" data-i18n="srcColDaily">Est. coal / day</th>
+                <th data-i18n="srcColOn">Enabled</th>
+                <th data-i18n="srcColNote">KB note</th>
+              </tr>
+            </thead>
+            <tbody id="src-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="src-reset" data-i18n="srcReset">Reset defaults</button>
+        </div>
+
+        <div class="summary on" id="src-summary" style="margin-top:16px"></div>
+      </div>
+
+      <!-- ============ Titanium Alloy Factory subsection ============
+           Cascading unlock (L15 → next factory), +720/hr per level,
+           4 free + 1 Weekly Pass. First-7-day recommended sequence.
+           KB: [[17-seasons-catalog]] §109-116  [[06-season-2-frozen]] §126-134 -->
+      <div class="card" id="alloy-card">
+        <h2 data-i18n="alloyHeading">Titanium Alloy Factory economy</h2>
+        <p class="lede" data-i18n="alloyDesc">Factory 1 is available at S2 start. Level 15 on Factory N unlocks Factory N+1 — chain up to 4 free; Factory 5 requires the Weekly Pass. Each factory produces a flat +720 titanium/hr per level (L30 max = 21,600/hr).</p>
+
+        <div class="batch-table-wrap">
+          <table class="batch" id="alloy-schedule">
+            <thead>
+              <tr>
+                <th data-i18n="alloyColFactory">Factory</th>
+                <th data-i18n="alloyColUnlock">Unlock trigger</th>
+                <th class="num" data-i18n="alloyColOutput">Output at L15</th>
+                <th class="num" data-i18n="alloyColCoalCost">Coal cost L1→L15</th>
+                <th data-i18n="alloyColNotes">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="alloy-tbody"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:24px;color:var(--accent);font-size:14px;letter-spacing:0.06em;text-transform:uppercase" data-i18n="alloySequenceHeading">Recommended factory sequence (first 7 days)</h3>
+        <ol id="alloy-sequence" style="color:var(--text-dim);font-size:14px;line-height:1.55;padding-left:20px;margin:8px 0 0"></ol>
+        <p class="hint" style="margin-top:8px" data-i18n="alloyTotalCoal">Cascade-to-L15 across 4 free factories costs roughly ~330K coal in factory upgrades alone — before feeding the furnace.</p>
+      </div>
+
+      <!-- ============ 56-day coal budget line chart ============
+           X = day 1..56 (S2 = 8 weeks). Y = projected coal reserve given
+           (daily earn from enabled sources) minus (daily burn from HHF +
+           Alliance Furnace + factory upgrades). Highlights the "you'll run
+           out" day with a red marker + text callout. -->
+      <div class="card" id="budget-chart-card">
+        <h2 data-i18n="budgetHeading">56-day coal budget projection</h2>
+        <p class="lede" data-i18n="budgetDesc">Starting from your current stockpile, tracks projected daily reserve across the full 8-week season. Adjusts for High-Heat Furnace burn, Alliance Furnace level, and enabled coal sources. If the line crosses zero, that's the day your alliance runs cold — plan replenishment before then.</p>
+
+        <div class="form-row">
+          <div class="field">
+            <label data-i18n="allianceFurnaceLevel">Alliance Furnace level</label>
+            <input type="number" id="af-level" min="1" max="20" value="10" />
+            <div class="hint" data-i18n="allianceFurnaceLevelHint">1 – 20 (auto-upgrades on Rare Soil)</div>
+          </div>
+          <div class="field">
+            <label data-i18n="afHoursPerDay">AF hours active / day</label>
+            <input type="number" id="af-hours" min="0" max="24" step="0.5" value="4" />
+            <div class="hint" data-i18n="afHoursPerDayHint">Alliance-wide burn window (blizzards + prep)</div>
+          </div>
+          <div class="field">
+            <label data-i18n="hhfHoursPerDay">HHF hours active / day</label>
+            <input type="number" id="hhf-hours" min="0" max="24" step="0.5" value="6" />
+            <div class="hint" data-i18n="hhfHoursPerDayHint">Personal furnace uptime (normal mode)</div>
+          </div>
+          <div class="field">
+            <label data-i18n="hhfOverdriveHoursPerDay">HHF overdrive hours / day</label>
+            <input type="number" id="hhf-od-hours" min="0" max="24" step="0.5" value="1" />
+            <div class="hint" data-i18n="hhfOverdriveHoursPerDayHint">Blizzard windows only</div>
+          </div>
+        </div>
+
+        <div id="budget-chart" style="min-height:280px;margin-top:16px"></div>
+        <p class="hint" id="budget-alarm" style="margin-top:12px;font-weight:600"></p>
+        <p class="hint" style="margin-top:8px" data-i18n="budgetNote">Model: daily reserve[t] = reserve[t-1] + Σ(enabled sources) − personal_burn − alliance_burn_share − factory_upgrade_avg. Alliance burn share = per-furnace-hourly × hours × 1 (single member's contribution to alliance donations, capped 50/day/member per KB [[06-season-2-frozen]] §120).</p>
+      </div>
+
+      <!-- ============ Batch card ============ -->
+      <div class="card">
+        <h2 data-i18n="batchHeading">Batch (R5 mode)</h2>
+        <p class="lede" data-i18n="batchDesc">Paste your alliance roster CSV.</p>
+
+        <textarea class="batch-textarea" id="b-input"
+          data-i18n-placeholder="batchPlaceholder"
+          placeholder="name,rank,hq_level,total_power,notes,furnace_level,coal_stock&#10;..."></textarea>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="b-run" data-i18n="batchRun">Run batch</button>
+          <button class="btn btn-secondary" id="b-csv" data-i18n="batchExportCsv" disabled>Export CSV</button>
+          <button class="btn btn-secondary" id="b-png" data-i18n="batchExportPng" disabled>Export PNG</button><span id="lws-discord-slot" style="display:inline-block;margin-left:6px"></span><span id="lws-discord-gear-slot" style="display:inline-block;margin-left:4px"></span>
+          <button class="btn btn-secondary" id="b-help" data-i18n="batchExportHelp" disabled>Alliance-help text</button>
+        </div>
+
+        <div class="summary" id="b-summary"></div>
+
+        <div class="batch-table-wrap">
+          <table class="batch" id="b-table" style="display:none">
+            <thead>
+              <tr>
+                <th data-i18n="colName">Name</th>
+                <th data-i18n="colRank">Rank</th>
+                <th class="num" data-i18n="colLevel">Furnace</th>
+                <th class="num" data-i18n="colStock">Stock</th>
+                <th class="num" data-i18n="colNeed">Need</th>
+                <th class="num" data-i18n="colDelta">Delta</th>
+                <th data-i18n="colStatus">Status</th>
+              </tr>
+            </thead>
+            <tbody id="b-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /#main-app -->
+
+    <footer>
+      <a href="https://r5tools.io" target="_blank" data-i18n="footerHome">r5tools.io</a>
+      ·
+      <span data-i18n="footerCred">Powered by the LWS Knowledge Base</span>
+    </footer>
+  </div>
+
+  <!-- ============ Access-Codes gate ============
+       Wraps #main-app in an unlock overlay if the visitor doesn't have a valid
+       lws_unlock_code cookie. `https://access-codes.r5tools.io` is replaced server-side
+       from the ACCESS_CODES_URL env var so local dev can point at a local
+       codes server. -->
+  <script src="https://access-codes.r5tools.io/lib.js?v=3"></script>
+  <script>
+    if (window.LWSAccessCodes && typeof LWSAccessCodes.gate === 'function') {
+      LWSAccessCodes.gate('main-app');
+    }
+  </script>
+
+  <!-- ============ LWS_Seasons client library ============
+       Loaded BEFORE fake-server.js so the /api/coal/* interceptor can read the
+       per-season mechanics_config (AF + HHF coal-per-min anchors) instead of
+       hardcoded S2 values. Also renders the warzone selector into
+       #lws-warzone-selector. -->
+  <script src="static/seasons-lib.js"></script>
+
+  <!-- ============ fake-server (GH Pages static build only — intercepts /api/coal/*) ============ -->
+  <script src="static/fake-server.js"></script>
+<script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+
+  <!-- ============ i18n runtime ============ -->
+  <script src="static/i18n.js"></script>
+
+  <!-- ============ Shared LWS line-chart component (from r5tools.io) ============ -->
+  <script src="https://r5tools.io/line-chart.js" defer></script>
+
+  <!-- ============ Roster freshness widget ============
+       Floating top-right nudge if the alliance's roster is stale.
+       Reads the last-used alliance_signature from localStorage (set by
+       LWS_Roster_Extractor when the R5 confirms a roster). If no signature
+       is present the widget silently no-ops. -->
+  <script src="https://roster.r5tools.io/static/roster-freshness.js" defer></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var sig = null;
+      try { sig = localStorage.getItem('lws_last_alliance_sig'); } catch (e) { /* private mode */ }
+      if (sig && window.RosterFreshness && typeof window.RosterFreshness.mount === 'function') {
+        var lang = (window.LWSI18N && window.LWSI18N.lang) === 'ko' ? 'ko' : 'en';
+        window.RosterFreshness.mount({
+          signature: sig,
+          apiBase: 'https://roster.r5tools.io',
+          lang: lang,
+          onRefresh: function () { window.open('https://roster.r5tools.io/', '_blank'); }
+        });
+      }
+    });
+  </script>
+
+  <!-- ============ App logic (scaffold — real formatters + exports land in v0.2) ============ -->
+  <script>
+  (function () {
+    'use strict';
+
+    // Apply initial i18n + wire the language toggle.
+    LWSI18N.apply();
+    document.getElementById('langToggle').addEventListener('click', function () {
+      LWSI18N.toggle();
+      // Also refresh the current result panel's verdict text if it's showing.
+      if (currentSingleResult) renderSingle(currentSingleResult);
+      if (currentBatchResult) renderBatch(currentBatchResult);
+    });
+
+    var currentSingleResult = null;
+    var currentBatchResult = null;
+
+    // --- Season-context banner ---------------------------------------------
+    // Coal burn is a Season-2-only mechanic natively. For other seasons we
+    // show either:
+    //   (a) a variant banner + rebranded copy (S3 Spice / S4 Copper / S5 Bank /
+    //       S6 Awakening Shards) — placeholder math still yellow-flagged as
+    //       "variant coming soon" until the per-season formulas land
+    //   (b) a plain "inactive" placeholder (S1 Crimson Plague — no analog)
+    //   (c) the full S2 calculator
+    var mainApp = document.getElementById('main-app');
+    var seasonBanner = document.getElementById('season-inactive-banner');
+    var seasonMsg = document.getElementById('season-inactive-message');
+    var seasonHeading = document.getElementById('season-inactive-heading');
+    var seasonHint = document.getElementById('season-inactive-hint');
+    var variantBanner = document.getElementById('season-variant-banner');
+    var variantMsg = document.getElementById('season-variant-message');
+    var toolTitleEl = document.getElementById('tool-title');
+    var toolLedeEl = document.getElementById('tool-lede');
+    var currentCtx = null;   // last-applied /api/coal/context payload
+
+    function applySeasonContext(ctx) {
+      currentCtx = ctx || {};
+      var seasonId = (ctx && ctx.season_id) || 's2-polar-storm';
+      document.body.setAttribute('data-season-id', seasonId);
+
+      var isActive = !!(ctx && ctx.season_active);   // true = S2 (real math)
+      var variant = ctx && ctx.variant;              // present for S3-S6
+
+      if (isActive) {
+        // S2 path — full coal calculator, hide both banners.
+        seasonBanner.style.display = 'none';
+        variantBanner.style.display = 'none';
+        document.body.setAttribute('data-variant-kind', 'coal');
+        // Restore the canonical S2 title + lede (i18n handles the swap on
+        // language toggle).
+        toolTitleEl.setAttribute('data-i18n', 'title');
+        toolLedeEl.setAttribute('data-i18n', 'lede');
+        toolTitleEl.textContent = LWSI18N.t('title');
+        toolLedeEl.textContent = LWSI18N.t('lede');
+        document.getElementById('s-calc').disabled = false;
+        document.getElementById('b-run').disabled = false;
+        return;
+      }
+
+      // Non-S2: wipe stale result panels so users aren't left with S2 numbers.
+      sResult.classList.remove('on');
+      bTable.style.display = 'none';
+      bSummary.classList.remove('on');
+      currentSingleResult = null;
+      currentBatchResult = null;
+      document.getElementById('s-calc').disabled = true;
+      document.getElementById('b-run').disabled = true;
+
+      var seasonName = (ctx && ctx.season_name) || seasonId || 'this season';
+      var resource = (ctx && ctx.primary_resource) || 'the season resource';
+
+      if (variant && variant.tool_title_key) {
+        // S3-S6: rebrand title + lede, show soft-yellow variant banner, still
+        // hide the S2 "inactive" card (users see the tool as their variant).
+        document.body.setAttribute('data-variant-kind', variant.variant_kind || 'variant');
+        toolTitleEl.setAttribute('data-i18n', variant.tool_title_key);
+        toolLedeEl.setAttribute('data-i18n', variant.lede_key);
+        toolTitleEl.textContent = LWSI18N.t(variant.tool_title_key);
+        toolLedeEl.textContent = LWSI18N.t(variant.lede_key);
+        seasonBanner.style.display = 'none';
+        variantBanner.style.display = '';
+        variantMsg.textContent = LWSI18N.t('variantBannerPrefix') + ' '
+          + seasonName + ' ' + LWSI18N.t('variantBannerConnector') + ' '
+          + LWSI18N.t(variant.tool_title_key)
+          + ' — S2 blizzard math shown for baseline; the KB reference below the form gives ' + seasonName + '’s resource anchors.';
+        return;
+      }
+
+      // S1 / S7 / other seasons with no variant: plain inactive banner.
+      document.body.setAttribute('data-variant-kind', 'inactive');
+      variantBanner.style.display = 'none';
+      seasonBanner.style.display = '';
+      // Keep the canonical S2 title so the tool identity stays consistent.
+      toolTitleEl.setAttribute('data-i18n', 'title');
+      toolLedeEl.setAttribute('data-i18n', 'lede');
+      toolTitleEl.textContent = LWSI18N.t('title');
+      toolLedeEl.textContent = LWSI18N.t('lede');
+      if (seasonId === 's1-crimson-plague') {
+        // KB-cited placeholder — S1 has no per-member resource-window budget.
+        seasonHeading.textContent = LWSI18N.t('s1PlaceholderTitle');
+        seasonMsg.textContent = LWSI18N.t('s1PlaceholderBody');
+        // Show the Timeline-CTA + VRI cap + Doomsday cadence as the hint, so
+        // S1 users still leave with something actionable (KB-cited, no math).
+        seasonHint.textContent = LWSI18N.t('s1CtaTimeline') + ' · '
+          + LWSI18N.t('s1VriCap') + ' · '
+          + LWSI18N.t('s1DoomsdayCadence');
+      } else if (seasonId === 's7-unnamed') {
+        // S7 mechanics unpublished — universal placeholder (mirrored across all
+        // 4 static tools per the season-deep-fill design brief).
+        document.body.setAttribute('data-variant-kind', 's7-coming');
+        seasonHeading.textContent = LWSI18N.t('s7ComingTitle');
+        seasonMsg.textContent = LWSI18N.t('s7ComingBody');
+        seasonHint.textContent = LWSI18N.t('s7ComingTracker');
+      } else {
+        seasonHeading.textContent = LWSI18N.t('inactiveHeading');
+        seasonMsg.textContent = 'Coal burn only applies during Season 2 Polar Storm — '
+          + seasonName + ' uses ' + resource + '.';
+        seasonHint.textContent = LWSI18N.t('inactiveHint');
+      }
+    }
+
+    function refreshSeasonContext() {
+      fetch('/api/coal/context')
+        .then(function (r) { return r.json(); })
+        .then(applySeasonContext)
+        .catch(function () { /* no-op — assume S2 default */ });
+    }
+
+    // Re-render whenever the LWSSeasons layer publishes a change (warzone
+    // switch or season override via the selector strip).
+    window.addEventListener('lws:season-changed', refreshSeasonContext);
+    window.addEventListener('lws:warzone-changed', refreshSeasonContext);
+    // Initial check once the page + fake-server are wired.
+    refreshSeasonContext();
+
+    // --- Single mode ---------------------------------------------------------
+
+    var sLevel = document.getElementById('s-level');
+    var sStock = document.getElementById('s-stock');
+    var sHours = document.getElementById('s-hours');
+    var sDrop = document.getElementById('s-drop');
+    var sOverdrive = document.getElementById('s-overdrive');
+    var sResult = document.getElementById('s-result');
+    var sVerdict = document.getElementById('s-verdict');
+
+    document.getElementById('s-calc').addEventListener('click', function () {
+      var payload = {
+        furnace_level: parseInt(sLevel.value, 10),
+        coal_stock: parseInt(sStock.value, 10),
+        duration_hours: parseFloat(sHours.value),
+        overdrive: sOverdrive.checked,
+      };
+      fetch('/api/coal/single', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.error) { alert(LWSI18N.t('errNetwork') + ' (' + data.error + ')'); return; }
+          currentSingleResult = data;
+          renderSingle(data);
+        })
+        .catch(function () { alert(LWSI18N.t('errNetwork')); });
+    });
+
+    document.getElementById('s-reset').addEventListener('click', function () {
+      sLevel.value = 20; sStock.value = 100000; sHours.value = 3;
+      sDrop.value = '-70'; sOverdrive.checked = true;
+      sResult.classList.remove('on');
+      currentSingleResult = null;
+    });
+
+    function renderSingle(data) {
+      var vKey = data.status === 'green' ? 'verdictGreen' : (data.status === 'yellow' ? 'verdictYellow' : 'verdictRed');
+      sVerdict.textContent = LWSI18N.t(vKey);
+      sVerdict.className = 'verdict status-' + data.status;
+      sResult.className = 'result on status-' + data.status;
+      document.getElementById('s-r-level').firstChild.data = String(data.furnace_level);
+      document.getElementById('s-r-burn').firstChild.data = String(data.burn_per_min) + ' ';
+      document.getElementById('s-r-need').firstChild.data = data.coal_needed.toLocaleString() + ' ';
+      document.getElementById('s-r-stock').firstChild.data = data.coal_stock.toLocaleString() + ' ';
+      var deltaSign = data.delta >= 0 ? '+' : '';
+      document.getElementById('s-r-delta').firstChild.data = deltaSign + data.delta.toLocaleString() + ' ';
+    }
+
+    // --- Batch mode ----------------------------------------------------------
+
+    var bInput = document.getElementById('b-input');
+    var bTable = document.getElementById('b-table');
+    var bTbody = document.getElementById('b-tbody');
+    var bSummary = document.getElementById('b-summary');
+    var bCsv = document.getElementById('b-csv');
+    var bPng = document.getElementById('b-png');
+    var bHelp = document.getElementById('b-help');
+
+    document.getElementById('b-run').addEventListener('click', function () {
+      var text = (bInput.value || '').trim();
+      if (!text) { alert(LWSI18N.t('errBatchEmpty')); return; }
+      var members;
+      try {
+        members = parseCsv(text);
+      } catch (e) {
+        alert(LWSI18N.t('errBatchHeaders'));
+        return;
+      }
+      var payload = {
+        members: members,
+        duration_hours: parseFloat(sHours.value) || 3,
+        overdrive: sOverdrive.checked,
+      };
+      fetch('/api/coal/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.error) { alert(LWSI18N.t('errNetwork') + ' (' + data.error + ')'); return; }
+          currentBatchResult = data;
+          renderBatch(data);
+          bCsv.disabled = false; bPng.disabled = false; bHelp.disabled = false;
+        })
+        .catch(function () { alert(LWSI18N.t('errNetwork')); });
+    });
+
+    // Auto-load the canonical roster (LW Atlas + upload). Coal needs
+    // furnace_level + coal_stock columns — default furnace_level to HQ level
+    // and coal_stock to 0 so the batch runs; the user can refine per member.
+    window.addEventListener('lws:roster-loaded', function (e) {
+      if (!e.detail || !e.detail.rows || !e.detail.rows.length) return;
+      var lines = ['name,rank,hq_level,total_power,notes,furnace_level,coal_stock'];
+      e.detail.rows.forEach(function (m) {
+        var hq = m.hq_level || m.hq || '';
+        lines.push([
+          String(m.name || '').replace(/,/g, ' '),
+          String(m.rank || ''),
+          hq,
+          String(m.total_power || m.power || ''),
+          String(m.notes || '').replace(/,/g, ' '),
+          hq, '0'
+        ].join(','));
+      });
+      var bi = document.getElementById('b-input');
+      if (bi) { bi.value = lines.join('\n'); var run = document.getElementById('b-run'); if (run) run.click(); }
+    });
+
+    function parseCsv(text) {
+      // Minimal CSV parse: comma-split, no quoted-field support (v0.1).
+      // Same column contract as Alliance_Hive_Grid_Manager plus furnace_level + coal_stock.
+      var lines = text.split(/\r?\n/).filter(function (l) { return l.trim().length > 0; });
+      if (lines.length < 2) throw new Error('empty');
+      var headers = lines[0].split(',').map(function (s) { return s.trim(); });
+      var req = ['name', 'furnace_level', 'coal_stock'];
+      for (var i = 0; i < req.length; i++) {
+        if (headers.indexOf(req[i]) === -1) throw new Error('missing_' + req[i]);
+      }
+      var rows = [];
+      for (var r = 1; r < lines.length; r++) {
+        var cells = lines[r].split(',');
+        var row = {};
+        for (var c = 0; c < headers.length; c++) {
+          row[headers[c]] = (cells[c] || '').trim();
+        }
+        // Coerce numeric fields
+        row.furnace_level = parseInt(row.furnace_level, 10) || 1;
+        row.coal_stock = parseInt(row.coal_stock, 10) || 0;
+        rows.push(row);
+      }
+      return rows;
+    }
+
+    function renderBatch(data) {
+      bTbody.innerHTML = '';
+      data.results.forEach(function (r) {
+        var tr = document.createElement('tr');
+        tr.className = 'status-' + r.status;
+        tr.innerHTML = ''
+          + '<td>' + escapeHtml(r.name || '') + '</td>'
+          + '<td>' + escapeHtml(r.rank || '') + '</td>'
+          + '<td class="num">' + r.furnace_level + '</td>'
+          + '<td class="num">' + r.coal_stock.toLocaleString() + '</td>'
+          + '<td class="num">' + r.coal_needed.toLocaleString() + '</td>'
+          + '<td class="num">' + (r.delta >= 0 ? '+' : '') + r.delta.toLocaleString() + '</td>'
+          + '<td class="status-cell">' + r.status.toUpperCase() + '</td>';
+        bTbody.appendChild(tr);
+      });
+      bTable.style.display = data.results.length ? '' : 'none';
+
+      var s = data.summary;
+      if (s.short_count === 0) {
+        bSummary.innerHTML = '<strong>' + s.member_count + '</strong> ' + LWSI18N.t('summaryOf') + ' ' + s.member_count + ' — ' + LWSI18N.t('summaryReady');
+      } else {
+        bSummary.innerHTML = '<strong>' + s.short_count + '</strong> ' + LWSI18N.t('summaryOf') + ' <strong>' + s.member_count + '</strong> ' + LWSI18N.t('summaryShort') + ' · ' + LWSI18N.t('summaryDeficit') + ' <strong>' + s.total_deficit.toLocaleString() + '</strong> ' + LWSI18N.t('unitCoal');
+      }
+      bSummary.classList.add('on');
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // --- Exports (v0.2 — CSV works, PNG + alliance-help text are placeholders) ---
+
+    bCsv.addEventListener('click', function () {
+      if (!currentBatchResult) return;
+      var rows = [['name', 'rank', 'furnace_level', 'coal_stock', 'coal_needed', 'delta', 'status']];
+      currentBatchResult.results.forEach(function (r) {
+        rows.push([r.name, r.rank, r.furnace_level, r.coal_stock, r.coal_needed, r.delta, r.status]);
+      });
+      var csv = rows.map(function (r) { return r.join(','); }).join('\n');
+      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'coal-burn-' + new Date().toISOString().slice(0, 10) + '.csv';
+      a.click();
+    });
+
+    bHelp.addEventListener('click', function () {
+      if (!currentBatchResult) return;
+      // Resource label swaps per season (Coal / Spice / Copper / CrystalGold / Shards).
+      var resourceLabel = 'coal';
+      var contextLabel = 'W4 blizzard';
+      if (currentCtx && !currentCtx.season_active && currentCtx.primary_resource) {
+        resourceLabel = currentCtx.primary_resource.toLowerCase();
+        var sid = currentCtx.season_id || '';
+        if (sid === 's3-golden-kingdom') contextLabel = 'Capitol War (W7D7)';
+        else if (sid === 's4-evernight-isle') contextLabel = 'Copper Wars finale';
+        else if (sid === 's5-wild-west') contextLabel = 'season-end CrystalGold ranking';
+        else if (sid === 's6-shadow-rainforest') contextLabel = 'Awakening deadline';
+      }
+      var lines = currentBatchResult.results
+        .filter(function (r) { return r.delta < 0; })
+        .map(function (r) {
+          return '@' + r.name + ' — please send ' + (-r.delta).toLocaleString() + ' ' + resourceLabel + ' (you have ' + r.coal_stock.toLocaleString() + ', need ' + r.coal_needed.toLocaleString() + ' for ' + contextLabel + ')';
+        });
+      var text = lines.join('\n') || '(no shortfalls)';
+      // Quick "copy to clipboard" + preview via prompt (v0.1 fallback UI)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          alert('Copied ' + lines.length + ' request lines to clipboard.');
+        });
+      } else {
+        prompt('Copy this text:', text);
+      }
+    });
+
+    bPng.addEventListener('click', function () {
+      if (!currentBatchResult) return;
+      renderBatchPng(currentBatchResult);
+    });
+
+    // Discord-ready 1600×900 dark-theme snapshot of the batch coal-burn results.
+    // Matches the shared palette used in LWS_Access_Codes + LWS_Season_Timeline.
+    function renderBatchPng(data) {
+      var W = 1600, H = 900;
+      var canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      var ctx = canvas.getContext('2d');
+
+      var C = {
+        bg: '#0a0e1a', panel: '#0d1424', panel2: '#12192c',
+        border: 'rgba(255,255,255,0.10)',
+        accent: '#c9a961', text: '#e6e8ee', textDim: '#a8b0c0', textMut: '#7a8290',
+        green: '#8ae0a3', yellow: '#e6cf7a', red: '#e08a8a',
+      };
+      var statusColor = { green: C.green, yellow: C.yellow, red: C.red };
+
+      ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+
+      // Header
+      ctx.fillStyle = C.panel; ctx.fillRect(0, 0, W, 80);
+      ctx.strokeStyle = C.border; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 80); ctx.lineTo(W, 80); ctx.stroke();
+      ctx.fillStyle = C.accent; ctx.textBaseline = 'middle';
+      ctx.font = '600 14px system-ui, -apple-system, sans-serif';
+      ctx.fillText('R5TOOLS.IO · COAL BURN CALCULATOR', 40, 40);
+      ctx.fillStyle = C.textDim; ctx.font = '400 13px system-ui, sans-serif';
+      ctx.textAlign = 'right';
+      var subs = [];
+      subs.push(data.summary.member_count + ' members');
+      subs.push(data.summary.duration_hours + 'h blizzard');
+      subs.push(data.summary.overdrive ? 'OVERDRIVE' : 'NORMAL');
+      ctx.fillText(subs.join(' · '), W - 40, 40);
+      ctx.textAlign = 'left';
+
+      // Big status headline
+      var s = data.summary;
+      ctx.font = '400 16px system-ui, sans-serif';
+      ctx.fillStyle = C.textMut; ctx.textAlign = 'center';
+      // Rebrand headline per season — pulls from currentCtx populated by
+      // /api/coal/context. S2 keeps the canonical blizzard framing; S3-S6
+      // swap to their resource-budget framing.
+      var pngHeadline = 'Season 2 · Week-4 -70°C Blizzard Coal Budget';
+      if (currentCtx && !currentCtx.season_active && currentCtx.variant && currentCtx.variant.tool_title_key) {
+        pngHeadline = (currentCtx.season_name || 'Season') + ' · ' + LWSI18N.t(currentCtx.variant.tool_title_key);
+      }
+      ctx.fillText(pngHeadline, W / 2, 130);
+      var headlineColor = s.short_count === 0 ? C.green : (s.short_count <= 2 ? C.yellow : C.red);
+      ctx.fillStyle = headlineColor; ctx.font = '600 64px ui-monospace, SFMono-Regular, Menlo, monospace';
+      var headline = s.short_count === 0
+        ? 'ALL CLEAR'
+        : s.short_count + ' of ' + s.member_count + ' short';
+      ctx.fillText(headline, W / 2, 195);
+      if (s.short_count > 0) {
+        ctx.fillStyle = C.textDim; ctx.font = '500 18px system-ui, sans-serif';
+        ctx.fillText('Total deficit: ' + s.total_deficit.toLocaleString() + ' coal', W / 2, 235);
+      }
+      ctx.textAlign = 'left';
+
+      // Table body
+      var tableY = 280, tableH = H - 280 - 60;
+      ctx.fillStyle = C.panel; ctx.fillRect(40, tableY, W - 80, tableH);
+      ctx.strokeStyle = C.border; ctx.strokeRect(40, tableY, W - 80, tableH);
+
+      // Column layout: name | rank | furnace | stock | need | delta | status
+      var cols = [
+        { key: 'name',    label: 'Name',        x: 60,   w: 260, align: 'left' },
+        { key: 'rank',    label: 'Rank',        x: 340,  w: 70,  align: 'center' },
+        { key: 'furnace', label: 'Furnace',     x: 430,  w: 90,  align: 'center' },
+        { key: 'stock',   label: 'Stock',       x: 540,  w: 190, align: 'right' },
+        { key: 'need',    label: 'Need',        x: 750,  w: 190, align: 'right' },
+        { key: 'delta',   label: 'Delta',       x: 960,  w: 190, align: 'right' },
+        { key: 'status',  label: 'Status',      x: 1180, w: 320, align: 'left' },
+      ];
+      // Header row
+      ctx.fillStyle = C.accent; ctx.font = '600 12px system-ui, sans-serif';
+      cols.forEach(function (col) {
+        ctx.textAlign = col.align;
+        var tx = col.align === 'right' ? col.x + col.w : (col.align === 'center' ? col.x + col.w / 2 : col.x);
+        ctx.fillText(col.label.toUpperCase(), tx, tableY + 28);
+      });
+      // Header underline
+      ctx.strokeStyle = C.border; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(60, tableY + 44); ctx.lineTo(W - 60, tableY + 44); ctx.stroke();
+
+      // Rows
+      var rowH = 30, rowY0 = tableY + 60;
+      var maxRows = Math.floor((tableH - 70) / rowH);
+      var shown = data.results.slice(0, maxRows);
+      shown.forEach(function (r, i) {
+        var y = rowY0 + i * rowH + 14;
+        // Row status bar on the left
+        ctx.fillStyle = statusColor[r.status] || C.textMut;
+        ctx.fillRect(46, y - 10, 4, 20);
+        // Name
+        ctx.fillStyle = C.text; ctx.font = '500 13px system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        var name = truncateForWidth(ctx, r.name || '', cols[0].w - 20);
+        ctx.fillText(name, cols[0].x, y);
+        // Rank pill
+        ctx.fillStyle = C.panel2; ctx.fillRect(cols[1].x + 15, y - 10, 40, 20);
+        ctx.fillStyle = C.accent; ctx.font = '600 10px ui-monospace, SFMono-Regular, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(r.rank || '—', cols[1].x + cols[1].w / 2, y);
+        // Furnace level
+        ctx.fillStyle = C.textDim; ctx.font = '500 12px ui-monospace, monospace';
+        ctx.fillText('L' + r.furnace_level, cols[2].x + cols[2].w / 2, y);
+        // Stock
+        ctx.textAlign = 'right';
+        ctx.fillStyle = C.textDim;
+        ctx.fillText(r.coal_stock.toLocaleString(), cols[3].x + cols[3].w, y);
+        // Need
+        ctx.fillText(r.coal_needed.toLocaleString(), cols[4].x + cols[4].w, y);
+        // Delta (colored)
+        ctx.fillStyle = r.delta >= 0 ? C.green : C.red;
+        ctx.font = '600 13px ui-monospace, monospace';
+        ctx.fillText((r.delta >= 0 ? '+' : '') + r.delta.toLocaleString(), cols[5].x + cols[5].w, y);
+        // Status label
+        ctx.textAlign = 'left';
+        ctx.fillStyle = statusColor[r.status] || C.textMut;
+        ctx.font = '600 11px system-ui, sans-serif';
+        ctx.fillText(r.status.toUpperCase(), cols[6].x, y);
+      });
+      if (data.results.length > shown.length) {
+        ctx.fillStyle = C.textMut; ctx.font = '400 11px system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('+ ' + (data.results.length - shown.length) + ' more', 60, tableY + tableH - 20);
+      }
+
+      // Footer — KB citation swaps per season variant.
+      ctx.fillStyle = C.textMut; ctx.font = '400 12px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      var footerKb = 'KB: [[06-season-2-frozen]] Overdrive ≈ 4× Normal';
+      var toolLabel = 'Coal Burn Calculator';
+      if (currentCtx && !currentCtx.season_active && currentCtx.variant) {
+        var sid = currentCtx.season_id || '';
+        if (sid === 's3-golden-kingdom') footerKb = 'KB: [[07-future-seasons]] §S3 Spice 100–600/hr, 30% steal cap';
+        else if (sid === 's4-evernight-isle') footerKb = 'KB: [[07-future-seasons]] §S4 Copper 100–600/hr, 15% cap/round × 8 rounds';
+        else if (sid === 's5-wild-west') footerKb = 'KB: [[07-future-seasons]] §S5 Banks + High Noon 15k/day; interest rate unverified';
+        else if (sid === 's6-shadow-rainforest') footerKb = 'KB: [[07-future-seasons]] §S6 Awakening 50/130/330/680; bundles removed mid-S6';
+        if (currentCtx.variant.tool_title_key) toolLabel = LWSI18N.t(currentCtx.variant.tool_title_key);
+      }
+      ctx.fillText('r5tools.io · ' + toolLabel + ' · ' + new Date().toISOString().slice(0, 10) +
+                   ' · ' + footerKb,
+                   W / 2, H - 30);
+      ctx.textAlign = 'left';
+
+      canvas.toBlob(function (blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'coal-burn-' + new Date().toISOString().slice(0, 10) + '.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    function truncateForWidth(ctx, text, maxWidth) {
+      if (ctx.measureText(text).width <= maxWidth) return text;
+      var t = text;
+      while (t.length > 3 && ctx.measureText(t + '…').width > maxWidth) {
+        t = t.slice(0, -1);
+      }
+      return t + '…';
+    }
+
+    // ============================================================
+    //  Coal source panel (9 KB-verified S2 sources, editable yields)
+    //  KB: [[17-seasons-catalog]] "Coal sources (Season 2)" §118-127
+    // ============================================================
+
+    // Defaults are per-day averages derived from community reports + KB.
+    // Users can edit each row; totals recompute + drive the 56-day chart.
+    var COAL_SOURCE_DEFAULTS = [
+      { id: 'polar_zombies',   labelKey: 'srcPolarZombies',   defaultPerDay: 200000, oneShot: true,  activeDayStart: 1,  activeDayEnd: 1,  noteKey: 'srcPolarZombiesNote' },
+      { id: 'season_quests',   labelKey: 'srcSeasonQuests',   defaultPerDay: 12000,  oneShot: false, activeDayStart: 1,  activeDayEnd: 56, noteKey: 'srcSeasonQuestsNote' },
+      { id: 'dig_site',        labelKey: 'srcDigSite',        defaultPerDay: 60000,  oneShot: false, activeDayStart: 3,  activeDayEnd: 56, noteKey: 'srcDigSiteNote' },
+      { id: 'hero_return',     labelKey: 'srcHeroReturn',     defaultPerDay: 8000,   oneShot: false, activeDayStart: 1,  activeDayEnd: 7,  noteKey: 'srcHeroReturnNote' },
+      { id: 'supply_collect',  labelKey: 'srcSupplyCollect',  defaultPerDay: 15000,  oneShot: false, activeDayStart: 1,  activeDayEnd: 56, noteKey: 'srcSupplyCollectNote' },
+      { id: 'distressed',      labelKey: 'srcDistressed',     defaultPerDay: 10000,  oneShot: false, activeDayStart: 1,  activeDayEnd: 56, noteKey: 'srcDistressedNote' },
+      { id: 'polar_dishes',    labelKey: 'srcPolarDishes',    defaultPerDay: 92000,  oneShot: false, activeDayStart: 8,  activeDayEnd: 14, noteKey: 'srcPolarDishesNote' },
+      { id: 'passes',          labelKey: 'srcPasses',         defaultPerDay: 20000,  oneShot: false, activeDayStart: 1,  activeDayEnd: 56, noteKey: 'srcPassesNote' },
+      { id: 'coal_packs',      labelKey: 'srcCoalPacks',      defaultPerDay: 0,      oneShot: false, activeDayStart: 1,  activeDayEnd: 56, noteKey: 'srcCoalPacksNote' },
+    ];
+
+    var srcState = COAL_SOURCE_DEFAULTS.map(function (s) {
+      return { id: s.id, perDay: s.defaultPerDay, enabled: s.defaultPerDay > 0 };
+    });
+
+    function renderSourceTable() {
+      var tbody = document.getElementById('src-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      COAL_SOURCE_DEFAULTS.forEach(function (src, i) {
+        var row = srcState[i];
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + escapeHtml(LWSI18N.t(src.labelKey)) + '</td>' +
+          '<td class="num"><input type="number" min="0" step="1000" value="' + row.perDay + '" data-src-idx="' + i + '" style="width:120px;background:var(--panel-2);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:4px 6px;font-family:var(--mono);text-align:right" /></td>' +
+          '<td><label class="checkbox" style="padding:0;background:none;border:none"><input type="checkbox" data-src-idx="' + i + '" ' + (row.enabled ? 'checked' : '') + ' /></label></td>' +
+          '<td style="font-size:12px;color:var(--text-mute)">' + escapeHtml(LWSI18N.t(src.noteKey)) + '</td>';
+        tbody.appendChild(tr);
+      });
+      tbody.querySelectorAll('input[type="number"][data-src-idx]').forEach(function (inp) {
+        inp.addEventListener('input', function () {
+          var i = parseInt(inp.getAttribute('data-src-idx'), 10);
+          srcState[i].perDay = Math.max(0, parseInt(inp.value, 10) || 0);
+          updateSourceSummary();
+          renderBudgetChart();
+        });
+      });
+      tbody.querySelectorAll('input[type="checkbox"][data-src-idx]').forEach(function (cb) {
+        cb.addEventListener('change', function () {
+          var i = parseInt(cb.getAttribute('data-src-idx'), 10);
+          srcState[i].enabled = cb.checked;
+          updateSourceSummary();
+          renderBudgetChart();
+        });
+      });
+      updateSourceSummary();
+    }
+
+    function updateSourceSummary() {
+      var el = document.getElementById('src-summary');
+      if (!el) return;
+      var totalDaily = 0;
+      srcState.forEach(function (row, i) {
+        if (!row.enabled) return;
+        var src = COAL_SOURCE_DEFAULTS[i];
+        if (src.oneShot) return; // one-shots don't average across the whole season
+        // window-limited sources contribute pro-rata across 56 days
+        var windowLen = (src.activeDayEnd - src.activeDayStart + 1);
+        totalDaily += row.perDay * (windowLen / 56);
+      });
+      var oneShotTotal = 0;
+      srcState.forEach(function (row, i) {
+        if (!row.enabled) return;
+        var src = COAL_SOURCE_DEFAULTS[i];
+        if (src.oneShot) oneShotTotal += row.perDay;
+      });
+      el.innerHTML = '<strong>' + Math.round(totalDaily).toLocaleString() + '</strong> ' + LWSI18N.t('srcAvgDaily') +
+        ' · <strong>' + oneShotTotal.toLocaleString() + '</strong> ' + LWSI18N.t('srcOneShot');
+    }
+
+    document.getElementById('src-reset').addEventListener('click', function () {
+      srcState = COAL_SOURCE_DEFAULTS.map(function (s) {
+        return { id: s.id, perDay: s.defaultPerDay, enabled: s.defaultPerDay > 0 };
+      });
+      renderSourceTable();
+      renderBudgetChart();
+    });
+
+    // ============================================================
+    //  Titanium Alloy Factory schedule
+    //  KB: [[06-season-2-frozen]] §126-134, §457-469
+    //  KB: [[17-seasons-catalog]] §109-116
+    // ============================================================
+
+    // L1→L15 cumulative coal costs from KB [[06-season-2-frozen]] §459-469:
+    //   L1=720, L5=11,200, L10=85,100, L15=137,000
+    // Total per factory L1→L15 = ~137,000 (that's the cumulative cost, not incremental)
+    var ALLOY_L15_COST = 137000;
+
+    function renderAlloySchedule() {
+      var tbody = document.getElementById('alloy-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      var factories = [
+        { n: 1, unlockKey: 'alloyUnlockF1', notesKey: 'alloyNotesF1' },
+        { n: 2, unlockKey: 'alloyUnlockF2', notesKey: 'alloyNotesF2' },
+        { n: 3, unlockKey: 'alloyUnlockF3', notesKey: 'alloyNotesF3' },
+        { n: 4, unlockKey: 'alloyUnlockF4', notesKey: 'alloyNotesF4' },
+        { n: 5, unlockKey: 'alloyUnlockF5', notesKey: 'alloyNotesF5' },
+      ];
+      factories.forEach(function (f) {
+        var tr = document.createElement('tr');
+        var isPaid = f.n === 5;
+        tr.innerHTML =
+          '<td><strong>' + LWSI18N.t('alloyFactory') + ' ' + f.n + '</strong></td>' +
+          '<td>' + escapeHtml(LWSI18N.t(f.unlockKey)) + '</td>' +
+          '<td class="num">' + (15 * 720).toLocaleString() + ' /hr</td>' +
+          '<td class="num">' + ALLOY_L15_COST.toLocaleString() + '</td>' +
+          '<td style="font-size:12px;color:' + (isPaid ? 'var(--status-yellow)' : 'var(--text-mute)') + '">' + escapeHtml(LWSI18N.t(f.notesKey)) + '</td>';
+        tbody.appendChild(tr);
+      });
+
+      var ol = document.getElementById('alloy-sequence');
+      ol.innerHTML = '';
+      ['alloySeqDay1', 'alloySeqDay2', 'alloySeqDay3', 'alloySeqDay4', 'alloySeqDay5', 'alloySeqDay6', 'alloySeqDay7'].forEach(function (key) {
+        var li = document.createElement('li');
+        li.textContent = LWSI18N.t(key);
+        li.style.marginBottom = '4px';
+        ol.appendChild(li);
+      });
+    }
+
+    // ============================================================
+    //  56-day coal budget projection chart
+    // ============================================================
+
+    // KB: Alliance Furnace L20 = 1,440 coal/min normal, 5,760 overdrive.
+    // [[06-season-2-frozen]] §120. We linearly interpolate L1→L20 for the shim.
+    function alliancFurnaceBurnPerMin(level) {
+      var lvl = Math.max(1, Math.min(20, parseInt(level, 10) || 1));
+      // Linear interp: L1 ~ 72/min, L20 = 1,440/min (matches the 20x scaling)
+      return 72 + (1440 - 72) * ((lvl - 1) / 19);
+    }
+
+    function projectCoalReserve(opts) {
+      // opts = { furnaceLevel, initialStock, afLevel, afHours, hhfHours, hhfODHours }
+      var reserve = opts.initialStock || 0;
+      var series = [];
+      // HHF burn per min at requested furnace level, both modes
+      // Reuse the same anchors the fake-server uses.
+      var HHF_L1 = 30, HHF_L30 = 450, OD_MUL = 4;
+      var frac = (Math.max(1, Math.min(30, opts.furnaceLevel)) - 1) / 29;
+      var hhfNormalPerMin = HHF_L1 + frac * (HHF_L30 - HHF_L1);
+      var hhfODPerMin = hhfNormalPerMin * OD_MUL;
+      var afPerMin = alliancFurnaceBurnPerMin(opts.afLevel);
+
+      // Daily burn (all in coal/day)
+      var hhfDaily = (hhfNormalPerMin * 60 * opts.hhfHours) + (hhfODPerMin * 60 * opts.hhfODHours);
+      // Alliance furnace: single-member donation share, capped at 50 donations/day.
+      // Assume a typical donation = 500 coal, cap = 25,000/day. Use whichever is
+      // lower: (member's share of AF burn) OR the 25K cap.
+      var afTotalDaily = afPerMin * 60 * opts.afHours;
+      var perMemberShareEst = afTotalDaily / 50; // assume ~50 active members
+      var afShare = Math.min(perMemberShareEst, 25000);
+
+      // Factory upgrade coal — average ~10K/day across weeks 1-3 as members
+      // cascade L15 across 4 factories (137K × 4 = 548K over ~21 days = ~26K/day).
+      // Weeks 4-8 tail off to ~2K/day for maintenance upgrades.
+      function factoryDailyCost(day) {
+        if (day <= 21) return 26000;
+        return 2000;
+      }
+
+      // Daily source income
+      function sourceDailyIncome(day) {
+        var total = 0;
+        srcState.forEach(function (row, i) {
+          if (!row.enabled) return;
+          var src = COAL_SOURCE_DEFAULTS[i];
+          if (day < src.activeDayStart || day > src.activeDayEnd) return;
+          if (src.oneShot) {
+            if (day === src.activeDayStart) total += row.perDay;
+          } else {
+            total += row.perDay;
+          }
+        });
+        return total;
+      }
+
+      var runOutDay = null;
+      for (var d = 1; d <= 56; d++) {
+        var income = sourceDailyIncome(d);
+        var burn = hhfDaily + afShare + factoryDailyCost(d);
+        reserve = reserve + income - burn;
+        if (runOutDay === null && reserve < 0) runOutDay = d;
+        series.push({ x: d, y: Math.round(reserve) });
+      }
+      return { series: series, runOutDay: runOutDay };
+    }
+
+    function renderBudgetChart() {
+      var container = document.getElementById('budget-chart');
+      if (!container || !window.LWSLineChart) {
+        // line-chart.js is deferred — try again shortly
+        if (container) setTimeout(renderBudgetChart, 200);
+        return;
+      }
+      var opts = {
+        furnaceLevel: parseInt(document.getElementById('s-level').value, 10) || 20,
+        initialStock: parseInt(document.getElementById('s-stock').value, 10) || 100000,
+        afLevel: parseInt(document.getElementById('af-level').value, 10) || 10,
+        afHours: parseFloat(document.getElementById('af-hours').value) || 4,
+        hhfHours: parseFloat(document.getElementById('hhf-hours').value) || 6,
+        hhfODHours: parseFloat(document.getElementById('hhf-od-hours').value) || 1,
+      };
+      var proj = projectCoalReserve(opts);
+      LWSLineChart.render(container, {
+        title: LWSI18N.t('budgetChartTitle'),
+        labelX: LWSI18N.t('budgetChartX'),
+        labelY: LWSI18N.t('budgetChartY'),
+        series: proj.series,
+        height: 300,
+      });
+
+      // Alarm line beneath the chart
+      var alarm = document.getElementById('budget-alarm');
+      if (proj.runOutDay) {
+        alarm.textContent = '⚠ ' + LWSI18N.t('budgetRunOutPrefix') + ' ' + proj.runOutDay + ' — ' + LWSI18N.t('budgetRunOutSuffix');
+        alarm.style.color = 'var(--status-red)';
+      } else {
+        var last = proj.series[proj.series.length - 1].y;
+        alarm.textContent = '✓ ' + LWSI18N.t('budgetSurplusPrefix') + ' ' + last.toLocaleString() + ' ' + LWSI18N.t('budgetSurplusSuffix');
+        alarm.style.color = 'var(--status-green)';
+      }
+    }
+
+    // Wire input changes to chart re-render
+    ['s-level', 's-stock', 'af-level', 'af-hours', 'hhf-hours', 'hhf-od-hours'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', renderBudgetChart);
+    });
+
+    // Re-render source & alloy tables + chart when language toggles.
+    window.addEventListener('lws:lang-changed', function () {
+      renderSourceTable();
+      renderAlloySchedule();
+      renderBudgetChart();
+    });
+
+    // Initial render (chart waits on line-chart.js to load).
+    renderSourceTable();
+    renderAlloySchedule();
+    setTimeout(renderBudgetChart, 400);
+  })();
+  </script>
+  <script src="https://chat.r5tools.io/widget.js" defer></script>
+<script>window.addEventListener("DOMContentLoaded",function(){if(window.LWSDiscord&&typeof LWSDiscord.attachToButton==="function"){setTimeout(function(){LWSDiscord.attachToButton({pngBtnId:"b-png",slotId:"lws-discord-slot",gearSlotId:"lws-discord-gear-slot",filename:"coal-burn.png",contextText:"Coal Burn Batch",toolName:"Coal Burn Calculator"});},300);}});</script>
+</body>
+</html>

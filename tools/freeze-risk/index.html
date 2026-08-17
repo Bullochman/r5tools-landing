@@ -1,0 +1,1579 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LWS Freeze Risk Dashboard · 동결 위험 대시보드</title>
+  <meta name="description" content="Live per-member freeze-risk board for Last War: Survival Season 2 (Polar Storm). Which alliance member freezes in the next 5 minutes? Whose coal runs out before the next blizzard?" />
+  <link rel="stylesheet" href="static/styles.css" />
+  <script src="static/lws-countdown.js" defer></script>
+  <script defer src="static/lws-track.js"></script>
+  <!-- Shared multi-line chart component from r5tools.io. Used by the
+       per-week freeze-risk projection panel below. Falls back gracefully
+       when unreachable (local dev / offline) — chart panel stays hidden. -->
+  <script defer src="https://r5tools.io/line-chart.js"
+          onerror="console.warn('LWSLineChart unreachable — freeze-risk projection chart will stay hidden.')"></script>
+  <!-- Shared roster-staleness widget from roster.r5tools.io. Mounted only
+       when the loaded roster has an alliance_signature (i.e. came from the
+       roster extractor's Live Roster picker). Falls back to no-op offline. -->
+  <script defer src="https://roster.r5tools.io/static/roster-freshness.js"
+          onerror="console.warn('RosterFreshness unreachable — staleness widget disabled.')"></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body>
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://bullochman.github.io/lws-profile-studio-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+<a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+<!-- Warzone / season context strip -->
+<div style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
+  <div id="lws-warzone-selector" style="display:inline-flex"></div>
+</div>
+  <!-- ============================================================
+       LWS Access Codes gate — real, not stubbed.
+       When the access-codes service is reachable, this overlays
+       #main-app with an "enter code" panel until the visitor has a
+       valid lws_unlock_code cookie. When the service is unreachable
+       (local dev, no internet), the script tag fails and the gate
+       degrades to open — expected behavior for local hacking.
+       ============================================================ -->
+  <script src="https://access-codes.r5tools.io/lib.js?v=3"
+          onerror="console.warn('LWS Access Codes lib unreachable — running in open mode. Add access-codes.r5tools.io CORS whitelist for prod.')"></script>
+
+  <div id="main-app">
+    <div class="wrap">
+
+      <header>
+        <div>
+          <div class="brand">
+            <span data-i18n="brand">R5TOOLS.IO</span>
+            <span class="brand-sub" data-i18n="brandSub">LWS Suite</span>
+          </div>
+          <h1 data-i18n="title">Freeze Risk Dashboard</h1>
+          <div class="subtitle" data-i18n="subtitle">Season 2 (Polar Storm) — live per-member freeze-risk board</div>
+        </div>
+        <button class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+      </header>
+
+      <!-- alert banner ----------------------------------------- -->
+      <div class="alert-banner calm hidden" id="alertBanner" role="status" aria-live="polite">
+        <span id="alertText" data-i18n="alertCalm">All members safe</span>
+        <span class="alert-count" id="alertCount"></span>
+      </div>
+
+      <!-- season-aware freeze-mechanics summary panel ------------
+           Populated from LWSSeasons.getMechanicsConfig() at boot.
+           Hidden for seasons that don't have blizzard_schedule. -->
+      <div id="freezeMechPanel" style="background:#0d1424;border:1px solid rgba(201,169,97,0.15);border-radius:8px;padding:10px 14px;margin:10px 0;font-family:system-ui,-apple-system,sans-serif;font-size:13px;color:#a8b0c0;display:none">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+          <span style="color:#c9a961;font-weight:600;letter-spacing:.06em;font-size:11px" id="fmpSeasonLabel" data-i18n="fmpSeasonLoading">SEASON —</span>
+          <span id="fmpThreshold" data-i18n="fmpThresholdLoading">Freeze threshold: — °C for — min</span>
+          <span style="flex:1"></span>
+          <span id="fmpWeek" style="color:#7a8290;font-size:11px">Wk —</span>
+        </div>
+        <div id="fmpBlizzardStrip" style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"></div>
+      </div>
+
+      <!-- First-blizzard warning banner — shown when season_start_date is in
+           the future OR within the first 7 hours of S2 launch. KB: [[17-seasons-catalog]]
+           "first blizzard hits 7 hours after S2 launch". Owner's photographed
+           guide confirmed W1D1 blizzard. Populated by renderFirstBlizzardBanner(). -->
+      <div id="firstBlizzardBanner" style="background:linear-gradient(135deg,rgba(230,207,122,0.14),rgba(230,207,122,0.06));border:1px solid rgba(230,207,122,0.55);border-radius:8px;padding:14px 18px;margin:12px 0;display:none;color:#e6cf7a;font-family:system-ui,-apple-system,sans-serif">
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="font-size:22px;line-height:1">⚠️</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:4px" id="firstBlizzardBannerTitle" data-i18n="firstBlizzardBannerTitle">First blizzard hits 7 hours after S2 launch</div>
+            <div style="font-size:12.5px;line-height:1.5;color:#e6e8ee" id="firstBlizzardBannerBody" data-i18n="firstBlizzardBannerBody">Be inside furnace radius by then — Alliance Furnace L1 gives every member in range +3°C, enough to survive the -20°C W1 blizzard.</div>
+            <div id="firstBlizzardBannerCountdown" style="font-size:12px;color:#c9a961;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-top:6px;font-weight:600"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blizzard / Cold Wave countdown panel — season-aware. Shows next
+           scheduled cold-wave event based on ctx.warzone.season_start_date.
+           KB: [[17-seasons-catalog]] Wk 4 -70°C, Wk 5 -90°C, Wk 6 -110°C,
+           Wk 7 -130°C. Populated by renderBlizzardCountdown(). -->
+      <div id="blizzardCountdownPanel" style="background:#0d1424;border:1px solid rgba(201,169,97,0.20);border-radius:8px;padding:12px 16px;margin:10px 0;display:none;font-family:system-ui,-apple-system,sans-serif">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+          <span style="color:#c9a961;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase" data-i18n="blizzardCountdownLabel">Next blizzard</span>
+          <span id="bcpNextEvent" style="color:#e6e8ee;font-size:14px;font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">—</span>
+          <span style="flex:1"></span>
+          <span id="bcpTimeRemaining" style="color:#c9a961;font-size:14px;font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace">—</span>
+        </div>
+        <div id="bcpStatusHint" style="color:#7a8290;font-size:11px;margin-top:4px"></div>
+      </div>
+
+      <!-- Per-week freeze-risk projection line chart. Multi-series:
+           A = current furnace levels     B = Alliance Furnace L20 (best case)
+           Renders via LWSLineChart.renderMulti (r5tools.io/line-chart.js).
+           Only shows when a roster is loaded and season has freeze mechanics. -->
+      <div id="freezeRiskProjection" style="background:#0d1424;border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:14px 16px 8px;margin:10px 0;display:none;font-family:system-ui,-apple-system,sans-serif">
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:8px">
+          <span style="color:#c9a961;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase" data-i18n="freezeProjectionLabel">Freeze risk projection</span>
+          <span style="color:#7a8290;font-size:11px" data-i18n="freezeProjectionHint">Weekly % of members at freeze risk — current vs. Alliance Furnace L20</span>
+        </div>
+        <div id="freezeRiskChart" style="min-height:240px"></div>
+        <div id="freezeRiskChartFootnote" style="color:#7a8290;font-size:11px;margin-top:6px;line-height:1.5"></div>
+      </div>
+
+      <!-- rendered when the current season has no blizzard mechanics -->
+      <div id="noFreezeNotice" style="background:#12192c;border:1px dashed rgba(255,255,255,0.10);border-radius:8px;padding:20px;margin:14px 0;text-align:center;color:#a8b0c0;display:none">
+        <div style="font-size:15px;font-weight:500;margin-bottom:4px" id="noFreezeTitle" data-i18n="noFreezeTitle">No freeze mechanics this season</div>
+        <div style="font-size:12px;color:#7a8290" id="noFreezeBody" data-i18n="noFreezeBody">This dashboard is Season-2-specific (Polar Storm). Switch back to Season 2 via the warzone selector to use it.</div>
+      </div>
+
+      <!-- S1 / S4 variant stub banner — sibling to noFreezeNotice.
+           Rendered when variantMode ∈ {virus, blood_night}; carries the
+           key numbers surfaced this sprint while full compute is out of scope. -->
+      <div id="variantStubBanner" style="background:#12192c;border:1px dashed rgba(201,169,97,0.35);border-radius:8px;padding:16px 20px;margin:14px 0;color:#a8b0c0;display:none">
+        <div style="color:#c9a961;font-size:11px;font-weight:600;letter-spacing:.08em;margin-bottom:6px" id="variantStubLabel">STUB</div>
+        <div style="font-size:13px;line-height:1.5" id="variantStubBody">—</div>
+      </div>
+
+      <!-- toolbar --------------------------------------------- -->
+      <div class="toolbar" id="toolbar">
+        <button class="primary" id="btnDemo" data-i18n="toolLoadDemo">Load demo data</button>
+        <button id="btnImport" data-i18n="toolImportCsv">Import roster CSV</button>
+        <input type="file" id="csvInput" accept=".csv,text/csv" style="display:none" />
+        <span id="lws-roster-picker" style="margin-left:8px"></span>
+
+        <span class="grow"></span>
+
+        <label data-i18n="toolFilterBy">Filter</label>
+        <select id="filterSelect">
+          <option value="all" data-i18n="filterAll">All</option>
+          <option value="frozen" data-i18n="filterFrozen">Frozen only</option>
+          <option value="atrisk" data-i18n="filterAtRisk">At risk</option>
+          <option value="safe" data-i18n="filterSafe">Safe only</option>
+        </select>
+
+        <label data-i18n="toolSortBy">Sort by</label>
+        <select id="sortSelect">
+          <option value="status" data-i18n="sortStatus">Status (worst first)</option>
+          <option value="coal" data-i18n="sortCoal">Coal hours (lowest first)</option>
+          <option value="rank" data-i18n="sortRank">Rank (R5 first)</option>
+          <option value="name" data-i18n="sortName">Name</option>
+        </select>
+
+        <button id="btnExportPng" data-i18n="toolExportPng">Export PNG (Discord)</button><span id="lws-discord-slot" style="display:inline-block;margin-left:6px"></span><span id="lws-discord-gear-slot" style="display:inline-block;margin-left:4px"></span>
+        <button id="btnExportCsv" data-i18n="toolExportCsv">Export CSV</button>
+        <button id="btnExportJson" data-i18n="toolExportJson">Export JSON</button>
+      </div>
+
+      <!-- grid / empty state ---------------------------------- -->
+      <div class="card">
+        <div class="card-header">
+          <span id="cardHeaderStats">—</span>
+          <span id="cardHeaderTs">—</span>
+        </div>
+        <table class="freeze-grid" id="grid">
+          <thead>
+            <tr>
+              <th data-sort-key="name" data-i18n="colName">Member</th>
+              <th data-sort-key="rank" data-i18n="colRank">Rank</th>
+              <th class="hide-mobile" data-sort-key="coord" data-i18n="colCoord">Coord</th>
+              <th data-sort-key="temp" data-i18n="colTemp">Base Temp</th>
+              <th data-sort-key="countdown" data-i18n="colCountdown">Freeze in</th>
+              <th data-sort-key="coal" data-i18n="colCoal">Coal hrs</th>
+              <th class="hide-mobile" data-sort-key="furnace" data-i18n="colFurnace">Furnace</th>
+              <th data-sort-key="status" data-i18n="colStatus">Status</th>
+              <th class="hide-mobile" data-i18n="colActions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="gridBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState">
+          <div data-i18n="emptyTitle">No roster loaded</div>
+          <div class="empty-cta" data-i18n="emptyBody">Import your alliance's roster CSV or click Load demo data to see the dashboard populate.</div>
+        </div>
+      </div>
+
+      <footer>
+        <div data-i18n="footerCred">Powered by the LWS Knowledge Base</div>
+        <div class="related-tools">
+          <span data-i18n="footerRelatedHead">Related tools:</span>
+          <a href="https://web-production-46ee1.up.railway.app/" target="_blank" data-i18n="footerRelHive">Hive Planner</a>·
+          <a href="#" data-i18n="footerRelHeat">Heat Simulator</a>·
+          <a href="#" data-i18n="footerRelCoal">Coal Burn Calculator</a>·
+          <a href="https://access-codes.r5tools.io/" target="_blank" data-i18n="footerRelAccess">Access Codes</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- i18n dictionary + language helpers ---------------------- -->
+  <script src="static/fake-server.js"></script>
+<script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+    <script src="static/i18n.js"></script>
+
+  <!-- Apply the LWS Access Codes gate. If lib.js failed to load
+       (local dev), LWSAccessCodes is undefined and we skip.       -->
+  <script>
+    if (window.LWSAccessCodes && typeof LWSAccessCodes.gate === 'function') {
+      LWSAccessCodes.gate('main-app');
+    }
+  </script>
+
+  <!-- Main app logic ------------------------------------------- -->
+  <script>
+  /* ============================================================
+     LWS Freeze Risk Dashboard — client logic
+     All Season 2 numbers cite kb/06-season-2-frozen.md inline.
+     ============================================================ */
+
+  // ---- Season-aware config -------------------------------------------------
+  //
+  // All freeze-mechanics numbers were formerly hardcoded to Season 2 (Polar Storm).
+  // They're now hydrated from LWSSeasons.getMechanicsConfig() at boot and re-hydrated
+  // whenever `lws:season-changed` fires (warzone or override switch). Seasons that
+  // don't publish a `blizzard_schedule` (S1 past, S3/S5 non-thermal, S4 Blood Night
+  // is a different mechanic, S6 jungle) fall through to a "no freeze mechanics"
+  // notice — see NO_FREEZE_MECHANICS flag + #noFreezeNotice panel.
+  //
+  // Defaults below mirror the KB: [[06-season-2-frozen]] values (freeze < -20 °C
+  // for 5 continuous minutes; 7-band ambient -15→-80 °C). They're used only when
+  // LWSSeasons is unreachable (local dev without seasons.json).
+
+  const SEASON_CFG = {
+    seasonId: 's2-polar-storm',
+    seasonName: 'Season 2: Polar Storm',
+    week: 1,
+    freezeThresholdC: -20,               // KB Season 2
+    freezeDurationMin: 5,                // KB Season 2 (5 continuous min)
+    ambientBandsC: [-15, -30, -40, -50, -60, -70, -80],
+    blizzardSchedule: [
+      { from_week: 1, to_week: 2, drop_c: -15, severity: 'warning' },
+      { from_week: 3, to_week: 3, drop_c: -30, severity: 'danger' },
+      { from_week: 4, to_week: 8, drop_c: -50, severity: 'critical' },
+    ],
+    hasFreezeMechanics: true,
+    // Variant mode determines which UI branch renders under the header:
+    //   freeze       — S2 default (grid + blizzard-pill strip)
+    //   virus        — S1 Crimson Plague stub (Virus Stack meter, 7-day Doomsday cycle)
+    //   blood_night  — S4 Evernight Isle stub (3×/day windows, 4-stage weekly band)
+    //   inactive     — S3/S5/S6 (no per-member environmental risk; noFreezeNotice branch)
+    variantMode: 'freeze',
+  };
+
+  // Map season_id → variant mode + which noFreezeBody key to use (for inactive seasons).
+  // Sourced from the design spec (kb citations in per_season_plan[]).
+  const SEASON_VARIANT = {
+    's1-crimson-plague':    { mode: 'virus',       titleKey: 'titleS1', subtitleKey: 'subtitleS1' },
+    's2-polar-storm':       { mode: 'freeze',      titleKey: 'title',   subtitleKey: 'subtitle'   },
+    's3-golden-kingdom':    { mode: 'inactive',    titleKey: 'titleS3', subtitleKey: 'subtitleS3', bodyKey: 'noFreezeBody_s3' },
+    's4-evernight-isle':    { mode: 'blood_night', titleKey: 'titleS4', subtitleKey: 'subtitleS4' },
+    's5-wild-west':         { mode: 'inactive',    titleKey: 'titleS5', subtitleKey: 'subtitleS5', bodyKey: 'noFreezeBody_s5' },
+    's6-shadow-rainforest': { mode: 'inactive',    titleKey: 'titleS6', subtitleKey: 'subtitleS6', bodyKey: 'noFreezeBody_s6' },
+    's7-tbd':               { mode: 'placeholder', titleKey: 'titleS7', subtitleKey: 'subtitleS7' },
+    's7-unnamed':           { mode: 'placeholder', titleKey: 'titleS7', subtitleKey: 'subtitleS7' },
+  };
+
+  // Read-through accessors so the rest of the file doesn't care where these came from.
+  function freezeThresholdC() { return SEASON_CFG.freezeThresholdC; }
+  function freezeCountdownS() { return SEASON_CFG.freezeDurationMin * 60; }
+  function ambientBandsC()   { return SEASON_CFG.ambientBandsC; }
+
+  // Zone width in tiles derived from ambient-band count — N bands over 500 tiles
+  // from center to edge. KB open question #1 flags the exact per-tile mapping as
+  // ungazetted; this is a best-effort approximation that scales with band count.
+  function zoneWidthTiles() {
+    var bands = ambientBandsC();
+    return bands && bands.length ? Math.floor(500 / bands.length) : 71;
+  }
+
+  // KB: [[06-season-2-frozen]] "High-Heat Furnace" heat-output curve
+  //   L1  = +5.5 °C activation / +8   °C overdrive
+  //   L19 = +14.5 °C            / +21.5 °C
+  //   L30 = +20   °C            / +30   °C
+  // Interpolate linearly between L1 and L30 as a reasonable approximation;
+  // the KB does not publish every intermediate level.
+  function hhfHeat(level, mode) {
+    if (!level || level < 1 || mode === 'off') return 0;
+    const L = Math.max(1, Math.min(30, level));
+    // linear from L1..L30
+    const normal    = 5.5 + (20 - 5.5)  * (L - 1) / 29;   // KB: L1 +5.5, L30 +20
+    const overdrive = 8   + (30 - 8)    * (L - 1) / 29;   // KB: L1 +8,   L30 +30
+    return mode === 'overdrive' ? overdrive : normal;
+  }
+
+  // KB: [[06-season-2-frozen]] "Alliance Furnace (shared, level 20 max)" —
+  //   L1 = +3 °C normal / +6 °C overdrive; L20 = +12.5 / +25.
+  //   Radius by level unpublished (open question #1). v1 assumes flag "in_range" is user-provided.
+  function afHeat(level, mode) {
+    if (!level || level < 1 || mode === 'off') return 0;
+    const L = Math.max(1, Math.min(20, level));
+    const normal    = 3 + (12.5 - 3) * (L - 1) / 19;
+    const overdrive = 6 + (25   - 6) * (L - 1) / 19;
+    return mode === 'overdrive' ? overdrive : normal;
+  }
+
+  // KB: [[06-season-2-frozen]] "Alliance Furnace" — 1,440 coal/min normal, 5,760 coal/min overdrive at L20
+  //   (~4x overdrive ratio). Personal HHF coal-per-minute by level is not published — we approximate
+  //   from the ratio to L20 AF, scaled by L. v1 UI shows hours_remaining derived from these estimates
+  //   and prominently flags the estimation.
+  const AF_COAL_PER_MIN_L20 = { normal: 1440, overdrive: 5760 };
+  const HHF_COAL_PER_MIN_APPROX = {
+    // TODO: KB gap — no per-level HHF coal-per-min table exists. Rough estimate: personal furnace
+    // burns roughly 1/6 of L20 AF at max level. Scale linearly. Overdrive is ~4x normal (KB confirmed).
+    // Real numbers to be filled in when an in-game screenshot survey is done.
+    normal:    (level) => (240 * Math.max(1, Math.min(30, level))) / 30,   // L30 ≈ 240 coal/min
+    overdrive: (level) => (960 * Math.max(1, Math.min(30, level))) / 30,   // L30 ≈ 960 coal/min (~4x)
+  };
+
+  function ambientFromCoord(x, y) {
+    // Chebyshev distance from map center (500, 500), converted to zone index.
+    const bands = ambientBandsC();
+    if (!bands || !bands.length) return 20;   // no-freeze season → benign ambient
+    const width = zoneWidthTiles();
+    const dx = Math.abs(x - 500);
+    const dy = Math.abs(y - 500);
+    const dist = Math.max(dx, dy);
+    // corners are zone 0 (outer band); center is zone (bands.length-1).
+    const outer_dist = 500;
+    const maxIdx = bands.length - 1;
+    const zone_from_outer = Math.max(0, Math.min(maxIdx,
+      Math.floor((outer_dist - dist) / width)
+    ));
+    return bands[zone_from_outer];
+  }
+
+  function computeMemberState(m) {
+    const ambient = ambientFromCoord(m.coord_x, m.coord_y);
+    const hhf = hhfHeat(m.furnace_level, m.furnace_mode);
+    // Alliance Furnace heat only applies if the member is in range.
+    // v1: user-provided boolean. v2: derive from AF coord + radius.
+    const af_contribution = m.in_alliance_furnace_range
+      ? afHeat(20, 'normal')  // TODO: pull actual AF level + mode from a UI state slot
+      : 0;
+    const city = m.city_heat_bonus || 0;   // KB: L1 = +5, L6 = +60
+    const research = m.research_bonus || 0; // KB: Tower of Victory +5 (cap L3), Intensive Overload +6, Village Station +5
+
+    const currentTemp = ambient + hhf + af_contribution + city + research;
+
+    // Coal hours remaining — divides stockpile by current burn rate.
+    const burnPerMin =
+      m.furnace_mode === 'off' ? 0 :
+      m.furnace_mode === 'overdrive'
+        ? HHF_COAL_PER_MIN_APPROX.overdrive(m.furnace_level)
+        : HHF_COAL_PER_MIN_APPROX.normal(m.furnace_level);
+    const coalHours = burnPerMin > 0 ? m.coal_stockpile / (burnPerMin * 60) : Infinity;
+
+    // Status buckets — thresholds derived from freezeThresholdC() (Season 2: -20 °C).
+    //   safe:      current > +10 °C
+    //   danger:    threshold+10 .. +10 °C  (freeze possible if blizzard hits)
+    //   imminent:  threshold .. threshold+10 °C — freeze countdown may already be ticking
+    //   frozen:    <= threshold — assumed already in Frozen state (KB Season 2: 5-min continuous)
+    const T = freezeThresholdC();
+    let status = 'safe';
+    if (currentTemp <= T)         status = 'frozen';
+    else if (currentTemp < T + 10) status = 'imminent';
+    else if (currentTemp < 10)     status = 'danger';
+
+    // Freeze countdown — v1 heuristic: for imminent members, assume 3 min remaining;
+    // for danger members, no active countdown (they're above -20). Frozen = 0.
+    // v2 will track actual per-second temp history to compute the real 5-min countdown.
+    let countdownS = null;
+    if (status === 'frozen') countdownS = 0;
+    else if (status === 'imminent') countdownS = 3 * 60;
+
+    return { ambient, hhf, af_contribution, city, research, currentTemp, coalHours, burnPerMin, status, countdownS };
+  }
+
+  // ---- UI state ------------------------------------------------------------
+
+  let LANG = window.i18nDetectLang();
+  let ROSTER = [];
+  let SORT = 'status';
+  let FILTER = 'all';
+
+  // ---- rendering -----------------------------------------------------------
+
+  function statusRank(s) {
+    return { frozen: 0, imminent: 1, danger: 2, safe: 3 }[s];
+  }
+  function rankOrder(r) {
+    return { R5: 0, R4: 1, R3: 2, R2: 3, R1: 4 }[r] ?? 5;
+  }
+  function fmtCoal(hours) {
+    if (!isFinite(hours) || hours === Infinity) return '∞';
+    if (hours <= 0) return window.I18N[LANG].coalDepleted;
+    if (hours < 1) return (hours * 60).toFixed(0) + ' ' + window.I18N[LANG].unitMin;
+    if (hours < 100) return hours.toFixed(1) + ' ' + window.I18N[LANG].unitHr;
+    return Math.round(hours) + ' ' + window.I18N[LANG].unitHr;
+  }
+  function fmtCountdown(s) {
+    if (s === null) return '—';
+    if (s <= 0) return window.I18N[LANG].freezeNow;
+    if (s < 60) return s + ' ' + window.I18N[LANG].unitSec;
+    return Math.floor(s / 60) + ' ' + window.I18N[LANG].unitMin;
+  }
+  function tempClass(t) {
+    const T = freezeThresholdC();
+    if (t <= T)         return 'temp-frozen';
+    if (t < T + 10)     return 'temp-imminent';
+    if (t < 10)         return 'temp-danger';
+    return 'temp-safe';
+  }
+  function coalClass(h) {
+    if (!isFinite(h)) return '';
+    if (h < 3)  return 'coal-hours crit';
+    if (h < 12) return 'coal-hours low';
+    return '';
+  }
+  function nameFor(m) {
+    // KR members get their KR display name in KR mode; falls back to EN.
+    if (LANG === 'ko' && m.name_kr) return m.name_kr;
+    return m.name_en || m.name || '?';
+  }
+
+  function render() {
+    const dict = window.I18N[LANG];
+    const body = document.getElementById('gridBody');
+    const empty = document.getElementById('emptyState');
+
+    if (!ROSTER.length) {
+      body.innerHTML = '';
+      empty.style.display = '';
+      document.getElementById('alertBanner').classList.add('hidden');
+      document.getElementById('cardHeaderStats').textContent = '—';
+      document.getElementById('cardHeaderTs').textContent = '—';
+      return;
+    }
+    empty.style.display = 'none';
+
+    // enrich each member with computed state, then filter + sort
+    const rows = ROSTER.map(m => ({ m, s: computeMemberState(m) }));
+
+    const filtered = rows.filter(({ s }) => {
+      if (FILTER === 'all')    return true;
+      if (FILTER === 'frozen') return s.status === 'frozen';
+      if (FILTER === 'atrisk') return s.status === 'imminent' || s.status === 'danger';
+      if (FILTER === 'safe')   return s.status === 'safe';
+      return true;
+    });
+
+    filtered.sort((a, b) => {
+      if (SORT === 'status') return statusRank(a.s.status) - statusRank(b.s.status);
+      if (SORT === 'coal')   return a.s.coalHours - b.s.coalHours;
+      if (SORT === 'rank')   return rankOrder(a.m.rank) - rankOrder(b.m.rank);
+      if (SORT === 'name')   return nameFor(a.m).localeCompare(nameFor(b.m));
+      return 0;
+    });
+
+    // alert banner
+    const frozenCount   = rows.filter(r => r.s.status === 'frozen').length;
+    const imminentCount = rows.filter(r => r.s.status === 'imminent').length;
+    const dangerCount   = rows.filter(r => r.s.status === 'danger').length;
+    const banner = document.getElementById('alertBanner');
+    const bannerText = document.getElementById('alertText');
+    const bannerCount = document.getElementById('alertCount');
+    banner.classList.remove('hidden', 'calm', 'warn', 'critical');
+    if (frozenCount > 0) {
+      banner.classList.add('critical');
+      bannerText.textContent = dict.alertFrozenPre + dict.alertFrozenPost;
+      bannerCount.textContent = frozenCount;
+    } else if (imminentCount > 0) {
+      banner.classList.add('critical');
+      bannerText.textContent = dict.alertCriticalPre + dict.alertCriticalPost;
+      bannerCount.textContent = imminentCount;
+    } else if (dangerCount > 0) {
+      banner.classList.add('warn');
+      bannerText.textContent = dict.alertWarnPre + dict.alertWarnPost;
+      bannerCount.textContent = dangerCount;
+    } else {
+      banner.classList.add('calm');
+      bannerText.textContent = dict.alertCalm;
+      bannerCount.textContent = '';
+    }
+
+    // grid rows
+    body.innerHTML = filtered.map(({ m, s }) => {
+      const modeClass = 'mode-' + (m.furnace_mode || 'off');
+      const modeKey = 'mode' + (m.furnace_mode || 'off').charAt(0).toUpperCase() + (m.furnace_mode || 'off').slice(1);
+      return `
+        <tr class="rank-${m.rank}">
+          <td class="name">${escapeHtml(nameFor(m))}</td>
+          <td class="rank">${m.rank}</td>
+          <td class="coord hide-mobile">${m.coord_x},${m.coord_y}</td>
+          <td class="num ${tempClass(s.currentTemp)}">${s.currentTemp.toFixed(1)} °C</td>
+          <td class="num">${fmtCountdown(s.countdownS)}</td>
+          <td class="num ${coalClass(s.coalHours)}">${fmtCoal(s.coalHours)}</td>
+          <td class="hide-mobile">
+            <span class="mode-pill ${modeClass}">${dict[modeKey] || m.furnace_mode}</span>
+            <span style="color:var(--text-mute);font-size:11px;margin-left:4px">L${m.furnace_level}</span>
+          </td>
+          <td><span class="status-badge status-${s.status}">${dict['status' + s.status.charAt(0).toUpperCase() + s.status.slice(1)]}</span></td>
+          <td class="hide-mobile row-actions">
+            <a href="#" data-i18n="actSeeMap" data-coord="${m.coord_x},${m.coord_y}">See map</a>
+            <a href="#" data-i18n="actSeeHeat" data-coord="${m.coord_x},${m.coord_y}">See heat overlay</a>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // re-apply i18n in case action links or dynamic bits need it
+    window.i18nApply(LANG);
+
+    // stats + timestamp (i18n via dict)
+    const _dict = (window.I18N && window.I18N[LANG]) || {};
+    const _kMembers = _dict.statMembers || 'members';
+    const _kFrozen = _dict.statFrozen || 'frozen';
+    const _kImminent = _dict.statImminent || 'imminent';
+    const _kDanger = _dict.statDanger || 'danger';
+    document.getElementById('cardHeaderStats').textContent =
+      `${rows.length} ${_kMembers} · ${frozenCount} ${_kFrozen} · ${imminentCount} ${_kImminent} · ${dangerCount} ${_kDanger}`;
+    document.getElementById('cardHeaderTs').textContent = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+
+    // Whenever the roster changes we also re-render the projection chart
+    // (adds/removes points as roster grows/shrinks).
+    if (typeof renderFreezeProjectionChart === 'function') renderFreezeProjectionChart();
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+  }
+
+  // ---- CSV import ----------------------------------------------------------
+
+  function parseRosterCsv(text) {
+    // Very forgiving CSV parser — same column shape as Alliance_Hive_Grid_Manager/hive_members_export.csv:
+    //   name,rank,hq_level,total_power,notes
+    // Additional per-member state (coord, coal, furnace) will not be in the CSV;
+    // we seed sensible defaults so the dashboard renders and the user can edit later.
+    const lines = text.split(/\r?\n/).filter(l => l.trim());
+    if (!lines.length) return [];
+    const header = lines[0].split(',').map(s => s.trim().toLowerCase());
+    const idx = (k) => header.indexOf(k);
+    const out = [];
+    for (let i = 1; i < lines.length; i++) {
+      const cols = lines[i].split(',');
+      out.push({
+        name_en: (cols[idx('name')] || '').trim(),
+        name_kr: '',
+        rank: (cols[idx('rank')] || 'R1').trim(),
+        hq_level: parseInt(cols[idx('hq_level')] || '20', 10),
+        total_power: parseInt(cols[idx('total_power')] || '0', 10),
+        // seed defaults for state not in CSV — user edits after import (v2 UI)
+        coord_x: 500, coord_y: 500,
+        furnace_level: 15, furnace_mode: 'normal',
+        coal_stockpile: 100_000, in_alliance_furnace_range: true,
+        city_heat_bonus: 0, research_bonus: 5,
+        notes: (cols[idx('notes')] || '').trim(),
+      });
+    }
+    return out;
+  }
+
+  // ---- exports -------------------------------------------------------------
+
+  function exportCsv() {
+    const dict = window.I18N[LANG];
+    const rows = ROSTER.map(m => ({ m, s: computeMemberState(m) }));
+    const header = ['name', 'rank', 'coord', 'current_temp_c', 'freeze_in_s', 'coal_hours', 'furnace_mode', 'furnace_level', 'status'];
+    const body = rows.map(({ m, s }) => [
+      nameFor(m), m.rank, `${m.coord_x},${m.coord_y}`,
+      s.currentTemp.toFixed(1), s.countdownS == null ? '' : s.countdownS,
+      isFinite(s.coalHours) ? s.coalHours.toFixed(1) : '',
+      m.furnace_mode, m.furnace_level, s.status,
+    ].join(','));
+    const csv = [header.join(','), ...body].join('\n');
+    triggerDownload(csv, 'freeze-risk-' + tsForFile() + '.csv', 'text/csv');
+  }
+
+  function exportJson() {
+    const payload = {
+      exported_at: new Date().toISOString(),
+      tool: 'LWS_Freeze_Risk_Dashboard',
+      version: '0.1.0',
+      lang: LANG,
+      roster: ROSTER.map(m => ({ ...m, computed: computeMemberState(m) })),
+    };
+    triggerDownload(JSON.stringify(payload, null, 2), 'freeze-risk-' + tsForFile() + '.json', 'application/json');
+  }
+
+  function exportPng() {
+    // 1600×900 Discord-ready dark-theme snapshot of the current freeze-risk state.
+    // Matches shared palette from LWS_Access_Codes + LWS_Season_Timeline + LWS_Coal_Burn_Calculator.
+    const W = 1600, H = 900;
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    const C = {
+      bg: '#0a0e1a', panel: '#0d1424', panel2: '#12192c',
+      border: 'rgba(255,255,255,0.10)',
+      accent: '#c9a961', text: '#e6e8ee', textDim: '#a8b0c0', textMut: '#7a8290',
+      safe: '#8ae0a3', danger: '#e6cf7a', imminent: '#e0a06a', frozen: '#e08a8a',
+    };
+    const statusColor = { safe: C.safe, danger: C.danger, imminent: C.imminent, frozen: C.frozen };
+
+    // Compute status for every roster member (mirrors render()'s logic)
+    const rows = ROSTER.map(m => ({ m, s: computeMemberState(m) }));
+    const frozen = rows.filter(r => r.s.status === 'frozen').length;
+    const imminent = rows.filter(r => r.s.status === 'imminent').length;
+    const danger = rows.filter(r => r.s.status === 'danger').length;
+    const safe = rows.filter(r => r.s.status === 'safe').length;
+
+    ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+
+    // Header
+    ctx.fillStyle = C.panel; ctx.fillRect(0, 0, W, 80);
+    ctx.strokeStyle = C.border; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, 80); ctx.lineTo(W, 80); ctx.stroke();
+    ctx.fillStyle = C.accent; ctx.textBaseline = 'middle';
+    ctx.font = '600 14px system-ui, -apple-system, sans-serif';
+    const brandLabel = (LANG === 'ko') ? '동결 위험 대시보드' : 'FREEZE RISK DASHBOARD';
+    ctx.fillText('R5TOOLS.IO · ' + brandLabel, 40, 40);
+    ctx.fillStyle = C.textDim; ctx.font = '400 13px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(ROSTER.length + ' members · ' + new Date().toISOString().slice(0, 16).replace('T', ' ') + 'Z', W - 40, 40);
+    ctx.textAlign = 'left';
+
+    // Big alert headline
+    ctx.font = '400 16px system-ui, sans-serif';
+    ctx.fillStyle = C.textMut; ctx.textAlign = 'center';
+    ctx.fillText(
+      SEASON_CFG.seasonName + ' · Freeze Threshold ' +
+        freezeThresholdC() + '°C for ' + SEASON_CFG.freezeDurationMin + ' continuous minutes',
+      W / 2, 130
+    );
+    const alertColor = frozen > 0 ? C.frozen : (imminent > 0 ? C.imminent : (danger > 0 ? C.danger : C.safe));
+    ctx.fillStyle = alertColor; ctx.font = '600 64px ui-monospace, SFMono-Regular, Menlo, monospace';
+    let headline;
+    if (frozen > 0) headline = frozen + ' FROZEN';
+    else if (imminent > 0) headline = imminent + ' IMMINENT';
+    else if (danger > 0) headline = danger + ' AT RISK';
+    else headline = 'ALL SAFE';
+    ctx.fillText(headline, W / 2, 195);
+
+    // Status pips row (frozen · imminent · danger · safe)
+    const pipsY = 250;
+    const pips = [
+      { count: frozen,   label: 'FROZEN',   color: C.frozen   },
+      { count: imminent, label: 'IMMINENT', color: C.imminent },
+      { count: danger,   label: 'DANGER',   color: C.danger   },
+      { count: safe,     label: 'SAFE',     color: C.safe     },
+    ];
+    const pipW = 240, pipGap = 20;
+    const pipsTotalW = pips.length * pipW + (pips.length - 1) * pipGap;
+    let pipX = (W - pipsTotalW) / 2;
+    pips.forEach(p => {
+      ctx.fillStyle = C.panel; ctx.fillRect(pipX, pipsY, pipW, 60);
+      ctx.strokeStyle = p.color; ctx.lineWidth = 2; ctx.strokeRect(pipX, pipsY, pipW, 60);
+      ctx.fillStyle = p.color; ctx.font = '600 24px ui-monospace, monospace';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(String(p.count), pipX + pipW / 2, pipsY + 22);
+      ctx.fillStyle = C.textDim; ctx.font = '500 11px system-ui, sans-serif';
+      ctx.fillText(p.label, pipX + pipW / 2, pipsY + 46);
+      pipX += pipW + pipGap;
+    });
+    ctx.textAlign = 'left';
+
+    // Table body
+    const tableY = 340, tableH = H - 340 - 60;
+    ctx.fillStyle = C.panel; ctx.fillRect(40, tableY, W - 80, tableH);
+    ctx.strokeStyle = C.border; ctx.strokeRect(40, tableY, W - 80, tableH);
+
+    const cols = [
+      { label: 'NAME',      x: 70,   w: 340, align: 'left' },
+      { label: 'RANK',      x: 430,  w: 70,  align: 'center' },
+      { label: 'HQ',        x: 520,  w: 60,  align: 'center' },
+      { label: 'BASE TEMP', x: 600,  w: 180, align: 'right' },
+      { label: 'FURNACE',   x: 800,  w: 130, align: 'center' },
+      { label: 'COUNTDOWN', x: 950,  w: 180, align: 'right' },
+      { label: 'STATUS',    x: 1150, w: 340, align: 'left' },
+    ];
+    ctx.fillStyle = C.accent; ctx.font = '600 12px system-ui, sans-serif';
+    ctx.textBaseline = 'middle';
+    cols.forEach(col => {
+      ctx.textAlign = col.align;
+      const tx = col.align === 'right' ? col.x + col.w : (col.align === 'center' ? col.x + col.w / 2 : col.x);
+      ctx.fillText(col.label, tx, tableY + 28);
+    });
+    ctx.strokeStyle = C.border; ctx.beginPath();
+    ctx.moveTo(60, tableY + 44); ctx.lineTo(W - 60, tableY + 44); ctx.stroke();
+
+    // Sort rows: worst first (frozen > imminent > danger > safe), then by countdown
+    const statusRank = { frozen: 0, imminent: 1, danger: 2, safe: 3 };
+    rows.sort((a, b) => (statusRank[a.s.status] - statusRank[b.s.status]) || (a.s.countdownS - b.s.countdownS));
+
+    const rowH = 30, rowY0 = tableY + 62;
+    const maxRows = Math.floor((tableH - 80) / rowH);
+    const shown = rows.slice(0, maxRows);
+    shown.forEach((r, i) => {
+      const y = rowY0 + i * rowH + 14;
+      // Left status bar
+      ctx.fillStyle = statusColor[r.s.status];
+      ctx.fillRect(46, y - 10, 4, 20);
+      // Name
+      ctx.fillStyle = C.text; ctx.font = '500 13px system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      let name = r.m.name || '';
+      if (ctx.measureText(name).width > cols[0].w - 20) {
+        while (name.length > 3 && ctx.measureText(name + '…').width > cols[0].w - 20) name = name.slice(0, -1);
+        name += '…';
+      }
+      ctx.fillText(name, cols[0].x, y);
+      // Rank pill
+      ctx.fillStyle = C.panel2; ctx.fillRect(cols[1].x + 15, y - 10, 40, 20);
+      ctx.fillStyle = C.accent; ctx.font = '600 10px ui-monospace, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(r.m.rank || '—', cols[1].x + cols[1].w / 2, y);
+      // HQ
+      ctx.fillStyle = C.textDim; ctx.font = '500 12px ui-monospace, monospace';
+      ctx.fillText(String(r.m.hq_level || '—'), cols[2].x + cols[2].w / 2, y);
+      // Base temp
+      ctx.textAlign = 'right';
+      const tempC = r.s.currentTemp;
+      const Tp = freezeThresholdC();
+      ctx.fillStyle = tempC <= Tp ? C.frozen : (tempC < Tp + 10 ? C.imminent : (tempC < 10 ? C.danger : C.safe));
+      ctx.font = '600 13px ui-monospace, monospace';
+      ctx.fillText(tempC.toFixed(1) + '°C', cols[3].x + cols[3].w, y);
+      // Furnace mode
+      ctx.textAlign = 'center';
+      ctx.fillStyle = C.textDim; ctx.font = '500 11px system-ui, sans-serif';
+      ctx.fillText((r.m.furnace_mode || '?').toUpperCase(), cols[4].x + cols[4].w / 2, y);
+      // Countdown
+      ctx.textAlign = 'right';
+      ctx.fillStyle = r.s.status === 'imminent' ? C.imminent : C.textDim;
+      ctx.font = '500 12px ui-monospace, monospace';
+      const cd = r.s.countdownS;
+      let cdText = '—';
+      if (r.s.status === 'frozen') cdText = 'FROZEN';
+      else if (r.s.status === 'imminent') cdText = Math.floor(cd / 60) + 'm ' + (cd % 60) + 's';
+      else if (r.s.status === 'danger') cdText = 'watch';
+      else cdText = 'safe';
+      ctx.fillText(cdText, cols[5].x + cols[5].w, y);
+      // Status label
+      ctx.textAlign = 'left';
+      ctx.fillStyle = statusColor[r.s.status];
+      ctx.font = '600 11px system-ui, sans-serif';
+      ctx.fillText(r.s.status.toUpperCase(), cols[6].x, y);
+    });
+    if (rows.length > shown.length) {
+      ctx.fillStyle = C.textMut; ctx.font = '400 11px system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('+ ' + (rows.length - shown.length) + ' more', 60, tableY + tableH - 20);
+    }
+
+    // Footer
+    ctx.fillStyle = C.textMut; ctx.font = '400 12px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(
+      'r5tools.io · Freeze Risk Dashboard · ' + SEASON_CFG.seasonName + ' · ' +
+        freezeThresholdC() + '°C / ' + SEASON_CFG.freezeDurationMin + '-min freeze threshold',
+      W / 2, H - 30
+    );
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'freeze-risk-' + tsForFile() + '.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }, 'image/png');
+  }
+
+  function triggerDownload(text, filename, mime) {
+    const blob = new Blob([text], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  }
+  function tsForFile() {
+    return new Date().toISOString().replace(/[:T]/g, '-').slice(0, 19);
+  }
+
+  // ---- wire it up ----------------------------------------------------------
+
+  document.getElementById('langToggle').addEventListener('click', () => {
+    LANG = (LANG === 'en') ? 'ko' : 'en';
+    try { localStorage.setItem('lws_lang', LANG); } catch (e) { /* ignore */ }
+    try { window.dispatchEvent(new CustomEvent('lws:lang-changed', { detail: { lang: LANG } })); } catch (e) { /* ignore */ }
+    window.i18nApply(LANG);
+    // Refresh the season-aware panels so their text swaps into the new language.
+    if (typeof renderFirstBlizzardBanner === 'function') renderFirstBlizzardBanner();
+    if (typeof renderBlizzardCountdown === 'function') renderBlizzardCountdown();
+    if (typeof renderFreezeProjectionChart === 'function') renderFreezeProjectionChart();
+    render();
+  });
+
+  document.getElementById('btnDemo').addEventListener('click', async () => {
+    try {
+      const r = await fetch('/api/demo');
+      const j = await r.json();
+      ROSTER = j.roster || [];
+      render();
+    } catch (e) {
+      alert('Demo data load failed: ' + e.message);
+    }
+  });
+
+  document.getElementById('btnImport').addEventListener('click', () => {
+    document.getElementById('csvInput').click();
+  });
+  document.getElementById('csvInput').addEventListener('change', (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        ROSTER = parseRosterCsv(reader.result);
+        // POST to server so refresh preserves it (best-effort)
+        fetch('/api/roster', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ roster: ROSTER }),
+        }).catch(() => {});
+        render();
+      } catch (err) {
+        alert('CSV parse failed: ' + err.message);
+      }
+    };
+    reader.readAsText(f);
+  });
+
+  document.getElementById('filterSelect').addEventListener('change', (e) => {
+    FILTER = e.target.value; render();
+  });
+  document.getElementById('sortSelect').addEventListener('change', (e) => {
+    SORT = e.target.value; render();
+  });
+
+  // header column sort clicks
+  document.querySelectorAll('th[data-sort-key]').forEach(th => {
+    th.addEventListener('click', () => {
+      const k = th.getAttribute('data-sort-key');
+      const map = { coord: 'name', temp: 'status', countdown: 'status', coal: 'coal', furnace: 'status' };
+      SORT = map[k] || k;
+      document.getElementById('sortSelect').value = SORT;
+      render();
+    });
+  });
+
+  document.getElementById('btnExportPng').addEventListener('click', exportPng);
+  document.getElementById('btnExportCsv').addEventListener('click', exportCsv);
+  document.getElementById('btnExportJson').addEventListener('click', exportJson);
+
+  // initial paint
+  window.i18nApply(LANG);
+  render();
+
+  // If a previous session persisted an alliance signature, mount the roster
+  // freshness widget as soon as the script arrives. Retry once at +1500ms in
+  // case the external script is still loading.
+  function _tryMountFreshnessOnBoot() {
+    var sig = null;
+    try { sig = localStorage.getItem('lws_last_alliance_sig'); } catch (e) {}
+    if (sig) maybeMountRosterFreshness(sig);
+  }
+  setTimeout(_tryMountFreshnessOnBoot, 400);
+  setTimeout(_tryMountFreshnessOnBoot, 1800);
+
+  // Refresh the two live countdown panels once a minute so the "in Xd Yh" figures
+  // don't go stale while the tab is open all day.
+  setInterval(function () {
+    if (typeof renderFirstBlizzardBanner === 'function') renderFirstBlizzardBanner();
+    if (typeof renderBlizzardCountdown === 'function') renderBlizzardCountdown();
+  }, 60 * 1000);
+
+  // Try to restore last-persisted roster on load
+  fetch('/api/roster').then(r => r.json()).then(j => {
+    if (Array.isArray(j.roster) && j.roster.length) {
+      ROSTER = j.roster;
+      render();
+    }
+  }).catch(() => {});
+
+  // ---- Season hydration --------------------------------------------------
+  //
+  // Read the current warzone → season → mechanics_config from LWSSeasons and
+  // rewire SEASON_CFG. When the season has no `blizzard_schedule`, hide the
+  // main dashboard and show the "no freeze mechanics" notice. Re-hydrate on
+  // every `lws:season-changed` event dispatched by lib.js.
+
+  function severityColor(sev) {
+    return { warning: '#e6cf7a', danger: '#e0a06a', critical: '#e08a8a' }[sev] || '#7a8290';
+  }
+
+  // ---- Cold-wave / blizzard schedule --------------------------------------
+  //
+  // KB: [[17-seasons-catalog]] — Season 2 Cold Wave Alert absolute-temperature
+  // schedule (as verified against Evan's photographed guide, W1D1):
+  //   Wk 1 Day 1 — first blizzard 7h after S2 launch, ambient drops to -20°C
+  //   Wk 4 Day 1 — Cold Wave Alert, 7-day duration, min temp -70°C
+  //   Wk 5 Day 1 — Cold Wave Alert, 7-day duration, min temp -90°C
+  //   Wk 6 Day 1 — Cold Wave Alert, min temp -110°C
+  //   Wk 7 Day 1 — Cold Wave Alert, min temp -130°C (peak)
+  //
+  // The `blizzard_schedule` in seasons.json stores *drop* deltas, not absolute
+  // min temps — this table holds the absolute numbers the UI copy references.
+  const S2_COLD_WAVE_SCHEDULE = [
+    { week: 1, day: 1, hours_after_start: 7,      min_temp_c: -20,  label_key: 'coldWaveW1',  severity: 'warning'  },
+    { week: 4, day: 1, hours_after_start: 24 * 21, min_temp_c: -70, label_key: 'coldWaveW4',  severity: 'danger'   },
+    { week: 5, day: 1, hours_after_start: 24 * 28, min_temp_c: -90, label_key: 'coldWaveW5',  severity: 'critical' },
+    { week: 6, day: 1, hours_after_start: 24 * 35, min_temp_c: -110, label_key: 'coldWaveW6', severity: 'critical' },
+    { week: 7, day: 1, hours_after_start: 24 * 42, min_temp_c: -130, label_key: 'coldWaveW7', severity: 'critical' },
+  ];
+
+  function seasonStartDateMs() {
+    // Prefer the per-warzone season_start_date resolved by LWSSeasons; fall back
+    // to the season's declared start_date (seasons.json), then null.
+    var wz = window._LWS_LAST_CTX && window._LWS_LAST_CTX.warzone;
+    var seasonStart = (wz && wz.season_start_date)
+      || (window._LWS_LAST_CTX && window._LWS_LAST_CTX.season && window._LWS_LAST_CTX.season.start_date)
+      || null;
+    if (!seasonStart) return null;
+    // Interpret YYYY-MM-DD as midnight UTC — matches the seasons.json convention.
+    var t = Date.parse(seasonStart + 'T00:00:00Z');
+    return isNaN(t) ? null : t;
+  }
+
+  function fmtDuration(ms, lang) {
+    if (ms == null || !isFinite(ms)) return '—';
+    var sign = ms < 0 ? -1 : 1;
+    ms = Math.abs(ms);
+    var totalMin = Math.floor(ms / 60000);
+    var d = Math.floor(totalMin / 1440);
+    var h = Math.floor((totalMin % 1440) / 60);
+    var m = totalMin % 60;
+    var isKo = (lang === 'ko');
+    var parts = [];
+    if (d > 0) parts.push(d + (isKo ? '일' : 'd'));
+    if (h > 0 || d > 0) parts.push(h + (isKo ? '시' : 'h'));
+    if (d === 0) parts.push(m + (isKo ? '분' : 'm'));
+    var s = parts.join(' ');
+    return sign < 0 ? (isKo ? s + ' 지남' : s + ' ago') : s;
+  }
+
+  // ---- First-blizzard warning banner --------------------------------------
+  //
+  // KB: [[17-seasons-catalog]] — "first blizzard hits 7 hours after S2 launch."
+  // Show a yellow banner when:
+  //   (a) the warzone's season_start_date is in the future, OR
+  //   (b) we're within the first 7 hours of S2 (blizzard not yet triggered)
+  function renderFirstBlizzardBanner() {
+    var banner = document.getElementById('firstBlizzardBanner');
+    if (!banner) return;
+    if (SEASON_CFG.variantMode !== 'freeze' || !SEASON_CFG.hasFreezeMechanics) {
+      banner.style.display = 'none';
+      return;
+    }
+    var startMs = seasonStartDateMs();
+    if (!startMs) { banner.style.display = 'none'; return; }
+    var firstBlizzardMs = startMs + 7 * 3600 * 1000;
+    var now = Date.now();
+    var deltaToStart = startMs - now;
+    var deltaToBlizzard = firstBlizzardMs - now;
+    // Show if season hasn't started yet, or first blizzard is still coming.
+    if (deltaToBlizzard < 0) { banner.style.display = 'none'; return; }
+
+    var dict = (window.I18N && window.I18N[LANG]) || {};
+    banner.style.display = '';
+    var cd = document.getElementById('firstBlizzardBannerCountdown');
+    if (cd) {
+      if (deltaToStart > 0) {
+        cd.textContent = (dict.firstBlizzardCountdownPreStart || 'S2 launches in')
+          + ' ' + fmtDuration(deltaToStart, LANG)
+          + ' · ' + (dict.firstBlizzardCountdownThenBlizz || 'first blizzard') + ' '
+          + fmtDuration(deltaToBlizzard, LANG);
+      } else {
+        cd.textContent = (dict.firstBlizzardCountdownLive || 'First blizzard in')
+          + ' ' + fmtDuration(deltaToBlizzard, LANG);
+      }
+    }
+  }
+
+  // ---- Blizzard countdown panel --------------------------------------------
+  //
+  // Format: "Next blizzard: Wk 4 Day 1 · -70°C · in 12d 4h"
+  // Picks the next entry in S2_COLD_WAVE_SCHEDULE whose absolute timestamp is
+  // still in the future. If all are past (mid-Wk 8+), shows "peak passed".
+  function renderBlizzardCountdown() {
+    var panel = document.getElementById('blizzardCountdownPanel');
+    if (!panel) return;
+    if (SEASON_CFG.variantMode !== 'freeze' || !SEASON_CFG.hasFreezeMechanics) {
+      panel.style.display = 'none';
+      return;
+    }
+    var startMs = seasonStartDateMs();
+    var dict = (window.I18N && window.I18N[LANG]) || {};
+    var evEl = document.getElementById('bcpNextEvent');
+    var trEl = document.getElementById('bcpTimeRemaining');
+    var hintEl = document.getElementById('bcpStatusHint');
+
+    if (!startMs) {
+      // No confirmed start date — show the schedule schema without a countdown.
+      panel.style.display = '';
+      if (evEl) evEl.textContent = (dict.blizzardCountdownNoDate || 'Wk 4 Day 1 · -70°C (schedule only)');
+      if (trEl) trEl.textContent = '—';
+      if (hintEl) hintEl.textContent = dict.blizzardCountdownNoDateHint
+        || 'No season start date confirmed for this warzone. Countdown unlocks once contributed.';
+      return;
+    }
+
+    var now = Date.now();
+    var next = null;
+    for (var i = 0; i < S2_COLD_WAVE_SCHEDULE.length; i++) {
+      var ev = S2_COLD_WAVE_SCHEDULE[i];
+      var evMs = startMs + ev.hours_after_start * 3600 * 1000;
+      if (evMs > now) { next = { ev: ev, ms: evMs }; break; }
+    }
+    panel.style.display = '';
+    if (!next) {
+      if (evEl) evEl.textContent = dict.blizzardCountdownPeakPassed || 'Wk 7 peak (-130°C) — passed';
+      if (trEl) trEl.textContent = '—';
+      if (hintEl) hintEl.textContent = dict.blizzardCountdownPostSeason
+        || 'All scheduled cold waves have fired. Nuclear Furnace phase.';
+      return;
+    }
+    var ev = next.ev;
+    var labelPart = (dict.wkAbbr || 'Wk') + ' ' + ev.week + ' ' + (dict.dayAbbr || 'Day') + ' ' + ev.day;
+    var tempPart = ev.min_temp_c + '°C';
+    if (evEl) evEl.textContent = labelPart + ' · ' + tempPart;
+    if (trEl) trEl.textContent = (dict.blizzardCountdownIn || 'in') + ' ' + fmtDuration(next.ms - now, LANG);
+    if (hintEl) {
+      var startDelta = startMs - now;
+      if (startDelta > 0) {
+        hintEl.textContent = (dict.blizzardCountdownSeasonPre || 'S2 launches in')
+          + ' ' + fmtDuration(startDelta, LANG);
+      } else {
+        hintEl.textContent = (dict.blizzardCountdownSeasonElapsed || 'S2 has been running')
+          + ' ' + fmtDuration(-startDelta, LANG);
+      }
+    }
+  }
+
+  // ---- Per-week freeze-risk projection chart -------------------------------
+  //
+  // For each week 1..8, compute % of roster members whose predicted base temp
+  // would fall at or below freeze threshold (-20°C), given:
+  //   Series A: their *current* furnace level + membership in current AF radius
+  //   Series B: Alliance Furnace L20 (best-case) covering every member
+  //
+  // Ambient at their coord shifts per week per S2_COLD_WAVE_SCHEDULE (interpolated
+  // between events). Coal is assumed sufficient — this is a *heat coverage*
+  // projection, not a burn-rate one. Coal budgeting lives in the sibling tool.
+  function ambientForWeek(baseAmbient, week) {
+    // Baseline ambient (from coord) applies at Wk 1. Cold waves progressively
+    // lower it. We take the lowest active min_temp_c from the schedule for
+    // events whose `week` is <= current week.
+    var floor = baseAmbient;
+    for (var i = 0; i < S2_COLD_WAVE_SCHEDULE.length; i++) {
+      var ev = S2_COLD_WAVE_SCHEDULE[i];
+      if (week >= ev.week) floor = Math.min(floor, ev.min_temp_c);
+    }
+    return floor;
+  }
+
+  function memberBaseTempForWeek(m, week, afLevelOverride) {
+    var ambient = ambientForWeek(ambientFromCoord(m.coord_x, m.coord_y), week);
+    var hhf = hhfHeat(m.furnace_level, m.furnace_mode);
+    var afLvl = (typeof afLevelOverride === 'number') ? afLevelOverride : 20;
+    var af_contribution = (afLevelOverride === 20 || m.in_alliance_furnace_range)
+      ? afHeat(afLvl, 'normal')
+      : 0;
+    var city = m.city_heat_bonus || 0;
+    var research = m.research_bonus || 0;
+    return ambient + hhf + af_contribution + city + research;
+  }
+
+  function computeFreezeProjection() {
+    if (!ROSTER.length) return null;
+    var T = freezeThresholdC();
+    var weeks = [1, 2, 3, 4, 5, 6, 7, 8];
+    var currentSeries = [];
+    var bestSeries = [];
+    weeks.forEach(function (wk) {
+      var atRiskA = 0;
+      var atRiskB = 0;
+      ROSTER.forEach(function (m) {
+        var tempA = memberBaseTempForWeek(m, wk, null);
+        var tempB = memberBaseTempForWeek(m, wk, 20);
+        if (tempA <= T) atRiskA++;
+        if (tempB <= T) atRiskB++;
+      });
+      var n = ROSTER.length;
+      currentSeries.push({ x: 'Wk ' + wk, y: +(100 * atRiskA / n).toFixed(1) });
+      bestSeries.push({ x: 'Wk ' + wk, y: +(100 * atRiskB / n).toFixed(1) });
+    });
+    return { currentSeries: currentSeries, bestSeries: bestSeries };
+  }
+
+  function renderFreezeProjectionChart() {
+    var wrap = document.getElementById('freezeRiskProjection');
+    var mount = document.getElementById('freezeRiskChart');
+    var foot = document.getElementById('freezeRiskChartFootnote');
+    if (!wrap || !mount) return;
+    if (SEASON_CFG.variantMode !== 'freeze' || !SEASON_CFG.hasFreezeMechanics) {
+      wrap.style.display = 'none'; return;
+    }
+    if (!ROSTER.length) { wrap.style.display = 'none'; return; }
+    if (!window.LWSLineChart || typeof LWSLineChart.renderMulti !== 'function') {
+      // Chart component not loaded (offline). Silent no-op.
+      wrap.style.display = 'none'; return;
+    }
+    var proj = computeFreezeProjection();
+    if (!proj) { wrap.style.display = 'none'; return; }
+    wrap.style.display = '';
+    var dict = (window.I18N && window.I18N[LANG]) || {};
+
+    window.LWSLineChart.renderMulti(mount, {
+      series: [
+        {
+          label: dict.freezeProjectionSeriesCurrent || 'Current furnace + AF membership',
+          color: '#e08a8a',
+          points: proj.currentSeries,
+        },
+        {
+          label: dict.freezeProjectionSeriesBest || 'Alliance Furnace L20 (all members)',
+          color: '#8ae0a3',
+          points: proj.bestSeries,
+        },
+      ],
+      labelY: dict.freezeProjectionYAxis || '% at freeze risk',
+      labelX: dict.freezeProjectionXAxis || 'Season week',
+      height: 260,
+      emptyMsg: dict.freezeProjectionEmpty || 'No roster data',
+    });
+
+    // Compute delta at Wk 7 peak — the tangible value of upgrading the furnace.
+    var peakA = proj.currentSeries[proj.currentSeries.length - 1].y;
+    var peakB = proj.bestSeries[proj.bestSeries.length - 1].y;
+    var saved = Math.max(0, peakA - peakB);
+    if (foot) {
+      foot.textContent =
+        (dict.freezeProjectionFootnotePre || 'Upgrading your Alliance Furnace to L20 saves ') +
+        saved.toFixed(1) + '% ' +
+        (dict.freezeProjectionFootnotePost || 'of the roster from Wk 7 peak freeze (-130°C).');
+    }
+  }
+
+  // ---- RosterFreshness widget mount ----------------------------------------
+  //
+  // The roster-freshness widget only makes sense when we have an alliance
+  // signature — i.e. the roster came from the Live Roster picker (roster
+  // extractor). Fires once per signature.
+  var _lastMountedSig = null;
+  function maybeMountRosterFreshness(sig) {
+    if (!sig || sig === _lastMountedSig) return;
+    if (!window.RosterFreshness || typeof RosterFreshness.mount !== 'function') return;
+    _lastMountedSig = sig;
+    try {
+      RosterFreshness.mount({
+        signature: sig,
+        apiBase: 'https://roster.r5tools.io',
+        lang: LANG,
+      });
+    } catch (e) { console.warn('[FreezeRisk] RosterFreshness mount failed:', e); }
+  }
+
+
+  // Swap the header title/subtitle data-i18n keys for the current season,
+  // then re-run i18nApply so the DOM text updates. Also rotates the footer
+  // "Related tools" links to season-appropriate siblings.
+  function applySeasonHeader(sid) {
+    const spec = SEASON_VARIANT[sid] || SEASON_VARIANT['s2-polar-storm'];
+    const titleEl = document.querySelector('header h1');
+    const subtitleEl = document.querySelector('header .subtitle');
+    if (titleEl)    titleEl.setAttribute('data-i18n', spec.titleKey);
+    if (subtitleEl) subtitleEl.setAttribute('data-i18n', spec.subtitleKey);
+
+    // Rotate footer related-tools per variant. Element order is:
+    //   [0] Hive Planner   [1] Heat   [2] Coal   [3] Access Codes
+    // For S1 we swap Heat→Doomsday; for S4 we swap Heat→Blood Night;
+    // for S3/S5/S6 we swap Heat→Curse/SafeTime/Altar. Coal stays because
+    // it's still relevant infra for any season with a base.
+    const relLinks = document.querySelectorAll('footer .related-tools a');
+    if (relLinks.length >= 2) {
+      const swap = relLinks[1];
+      if (spec.mode === 'virus') {
+        swap.setAttribute('data-i18n', 'footerRelDoomsday');
+        swap.setAttribute('href', '#'); // placeholder — Doomsday Cycle Planner sibling
+      } else if (spec.mode === 'blood_night') {
+        swap.setAttribute('data-i18n', 'footerRelBlood');
+        swap.setAttribute('href', '#'); // placeholder — Blood Night Scheduler sibling
+      } else if (sid === 's3-golden-kingdom') {
+        swap.setAttribute('data-i18n', 'footerRelCurse');
+        swap.setAttribute('href', '#');
+      } else if (sid === 's5-wild-west') {
+        swap.setAttribute('data-i18n', 'footerRelSafeTime');
+        swap.setAttribute('href', '#');
+      } else if (sid === 's6-shadow-rainforest') {
+        swap.setAttribute('data-i18n', 'footerRelAltar');
+        swap.setAttribute('href', '#');
+      } else {
+        swap.setAttribute('data-i18n', 'footerRelHeat');
+        swap.setAttribute('href', '#');
+      }
+    }
+    window.i18nApply(LANG);
+  }
+
+  // Render the S1 virus-stack stub panel — freezeMechPanel repurposed with
+  // Doomsday cycle countdown in the top-strip + friendly banner surfacing
+  // stack cap 100, Corruptor auto-infect, 7-day cycle.
+  function renderVirusVariant(ctx, dict) {
+    const panel = document.getElementById('freezeMechPanel');
+    document.getElementById('fmpSeasonLabel').textContent = dict.s1MechLabel || 'SEASON 1 · CRIMSON PLAGUE';
+    document.getElementById('fmpThreshold').textContent = dict.s1StackCap || 'Virus Stack cap: 100';
+    document.getElementById('fmpWeek').textContent = (dict.s1DoomsdayCycle || 'Doomsday cycle: 7-day rotation');
+
+    // Repurpose the strip as VS-stack band pills.
+    const strip = document.getElementById('fmpBlizzardStrip');
+    strip.innerHTML = '';
+    const bands = [
+      { label: dict.s1BandSafe     || 'SAFE (stack 0–40)',     color: '#8ae0a3' },
+      { label: dict.s1BandDanger   || 'DANGER (stack 41–70)',  color: '#e6cf7a' },
+      { label: dict.s1BandImminent || 'IMMINENT (stack 71–99)',color: '#e0a06a' },
+      { label: dict.s1BandDoomed   || 'DOOMED (stack 100)',    color: '#e08a8a' },
+    ];
+    bands.forEach(b => {
+      const pill = document.createElement('span');
+      pill.style.cssText =
+        'padding:3px 10px;border-radius:12px;font-size:11px;font-family:ui-monospace,monospace;' +
+        'border:1px solid ' + b.color + ';color:' + b.color + ';background:transparent;font-weight:500';
+      pill.textContent = b.label;
+      strip.appendChild(pill);
+    });
+    panel.style.display = '';
+  }
+
+  // Render the S4 Blood Night stub panel — 3 daily windows + NEXT highlight,
+  // live countdown in fmpWeek slot, 4-stage weekly mini-band below.
+  function renderBloodNightVariant(ctx, dict) {
+    const panel = document.getElementById('freezeMechPanel');
+    document.getElementById('fmpSeasonLabel').textContent = dict.s4MechLabel || 'SEASON 4 · EVERNIGHT ISLE';
+    document.getElementById('fmpThreshold').textContent = dict.s4BloodNightHead || 'Blood Night · 3×/day · 30 min · 18,000 power/min';
+
+    // Live countdown to next Blood Night window (02:30 / 10:30 / 18:30 server time).
+    const windows = [
+      { h: 2,  m: 30, key: 's4Window1', label: '02:30' },
+      { h: 10, m: 30, key: 's4Window2', label: '10:30' },
+      { h: 18, m: 30, key: 's4Window3', label: '18:30' },
+    ];
+    const now = new Date();
+    let nextIdx = -1;
+    let minDelta = Infinity;
+    for (let i = 0; i < windows.length; i++) {
+      const w = windows[i];
+      const cand = new Date(now);
+      cand.setUTCHours(w.h, w.m, 0, 0);
+      let delta = cand - now;
+      if (delta < 0) delta += 24 * 60 * 60 * 1000;
+      if (delta < minDelta) { minDelta = delta; nextIdx = i; }
+    }
+    const mins = Math.floor(minDelta / 60000);
+    const hrs = Math.floor(mins / 60);
+    const rem = mins % 60;
+    document.getElementById('fmpWeek').textContent =
+      (dict.s4TimeToNext || 'Time to next') + ': ' + hrs + 'h ' + rem + 'm';
+
+    // Strip = 3 daily window pills, NEXT highlighted, + 4-stage weekly band below.
+    const strip = document.getElementById('fmpBlizzardStrip');
+    strip.innerHTML = '';
+    windows.forEach((w, i) => {
+      const isNext = (i === nextIdx);
+      const pill = document.createElement('span');
+      pill.style.cssText =
+        'padding:3px 10px;border-radius:12px;font-size:11px;font-family:ui-monospace,monospace;' +
+        'border:1px solid ' + (isNext ? '#e08a8a' : '#7a8290') + ';' +
+        'color:' + (isNext ? '#0a0e1a' : '#a8b0c0') + ';' +
+        'background:' + (isNext ? '#e08a8a' : 'transparent') + ';' +
+        'font-weight:' + (isNext ? '700' : '500');
+      pill.textContent = w.label + (isNext ? ' · ' + (dict.s4WindowNext || 'NEXT') : '');
+      strip.appendChild(pill);
+    });
+    // Weekly stage mini-band
+    const wk = SEASON_CFG.week || 1;
+    const stages = [
+      { active: wk >= 1 && wk < 2, label: dict.s4Stage1 || 'Stage 1' },
+      { active: wk >= 2 && wk < 3, label: dict.s4Stage2 || 'Stage 2' },
+      { active: wk >= 3 && wk < 8, label: dict.s4Stage3 || 'Stage 3' },
+      { active: wk >= 8,          label: dict.s4Stage4 || 'Stage 4' },
+    ];
+    const stageRow = document.createElement('div');
+    stageRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;flex-basis:100%';
+    stages.forEach(s => {
+      const badge = document.createElement('span');
+      badge.style.cssText =
+        'padding:2px 8px;border-radius:10px;font-size:10px;font-family:ui-monospace,monospace;' +
+        'border:1px solid ' + (s.active ? '#c9a961' : 'rgba(122,130,144,0.5)') + ';' +
+        'color:' + (s.active ? '#c9a961' : '#7a8290') + ';' +
+        'font-weight:' + (s.active ? '700' : '500');
+      badge.textContent = s.label;
+      stageRow.appendChild(badge);
+    });
+    strip.appendChild(stageRow);
+    panel.style.display = '';
+  }
+
+  function renderFreezeMechPanel(ctx, cfg) {
+    const dict = window.I18N[LANG] || window.I18N.en;
+    const panel = document.getElementById('freezeMechPanel');
+    const notice = document.getElementById('noFreezeNotice');
+    const stubBanner = document.getElementById('variantStubBanner');
+    const mainCard = document.querySelector('#main-app .card');
+    const alertBanner = document.getElementById('alertBanner');
+    const toolbar = document.getElementById('toolbar');
+    const noticeBody = document.getElementById('noFreezeBody');
+
+    // Reset visibility
+    if (stubBanner) stubBanner.style.display = 'none';
+
+    // Handle S7 placeholder — hides everything, shows a coming-soon card.
+    if (SEASON_CFG.variantMode === 'placeholder') {
+      panel.style.display = 'none';
+      notice.style.display = '';
+      if (mainCard) mainCard.style.display = 'none';
+      if (alertBanner) alertBanner.classList.add('hidden');
+      if (toolbar) toolbar.style.opacity = '0.4';
+      // Repurpose the noFreezeNotice card as the S7 placeholder.
+      var noticeTitle = document.getElementById('noFreezeTitle');
+      if (noticeTitle) {
+        noticeTitle.setAttribute('data-i18n', 's7ComingTitle');
+        noticeTitle.textContent = dict.s7ComingTitle || 'Season 7 launches ~August 2026';
+      }
+      if (noticeBody) {
+        noticeBody.setAttribute('data-i18n', 's7ComingBody');
+        noticeBody.textContent = dict.s7ComingBody || '';
+      }
+      return;
+    }
+
+    // Handle S1 virus / S4 blood_night variant stubs BEFORE the freeze fallback.
+    if (SEASON_CFG.variantMode === 'virus' || SEASON_CFG.variantMode === 'blood_night') {
+      // Grid + toolbar + alert banner hidden — feature-fill is next sprint.
+      panel.style.display = '';
+      notice.style.display = 'none';
+      if (mainCard) mainCard.style.display = 'none';
+      if (alertBanner) alertBanner.classList.add('hidden');
+      if (toolbar) toolbar.style.opacity = '0.4';
+      if (SEASON_CFG.variantMode === 'virus') {
+        renderVirusVariant(ctx, dict);
+      } else {
+        renderBloodNightVariant(ctx, dict);
+      }
+      // Stub banner + KB-cited operational hints (v1 upgrade copy).
+      if (stubBanner) {
+        stubBanner.style.display = '';
+        const label = document.getElementById('variantStubLabel');
+        const body = document.getElementById('variantStubBody');
+        if (SEASON_CFG.variantMode === 'virus') {
+          if (label) label.textContent = (dict.s1MechLabel || 'SEASON 1') + ' · STUB';
+          if (body) {
+            body.innerHTML = '';
+            var s1Rows = [
+              dict.s1StubBanner || '',
+              dict.s1BandThresholdWarning || '',
+              dict.s1VriBuildingCta || '',
+              dict.s1CorruptorAutoHint || '',
+            ].filter(Boolean);
+            s1Rows.forEach(function (t, i) {
+              var row = document.createElement('div');
+              row.style.cssText = 'margin-top:' + (i === 0 ? '0' : '10px') + ';' +
+                                  (i > 0 ? 'padding-top:10px;border-top:1px solid rgba(201,169,97,0.15);color:#a8b0c0;font-size:12px;line-height:1.5' : '');
+              row.textContent = t;
+              body.appendChild(row);
+            });
+          }
+        } else {
+          if (label) label.textContent = (dict.s4MechLabel || 'SEASON 4') + ' · STUB';
+          if (body) {
+            body.innerHTML = '';
+            var s4Rows = [
+              dict.s4StubBanner || '',
+              dict.s4LighthouseMitigationHint || '',
+              dict.s4DivineTreeHint || '',
+              dict.s4DrainMathHint || '',
+            ].filter(Boolean);
+            s4Rows.forEach(function (t, i) {
+              var row = document.createElement('div');
+              row.style.cssText = 'margin-top:' + (i === 0 ? '0' : '10px') + ';' +
+                                  (i > 0 ? 'padding-top:10px;border-top:1px solid rgba(201,169,97,0.15);color:#a8b0c0;font-size:12px;line-height:1.5' : '');
+              row.textContent = t;
+              body.appendChild(row);
+            });
+          }
+        }
+      }
+      return;
+    }
+
+    if (!SEASON_CFG.hasFreezeMechanics) {
+      panel.style.display = 'none';
+      notice.style.display = '';
+      // Swap noFreezeBody copy per season if a per-season key exists.
+      if (noticeBody) {
+        const sid = SEASON_CFG.seasonId;
+        const spec = SEASON_VARIANT[sid];
+        const bodyKey = (spec && spec.bodyKey) || 'noFreezeBody';
+        noticeBody.setAttribute('data-i18n', bodyKey);
+        if (dict[bodyKey]) noticeBody.textContent = dict[bodyKey];
+      }
+      if (mainCard) mainCard.style.display = 'none';
+      if (alertBanner) alertBanner.classList.add('hidden');
+      if (toolbar) toolbar.style.opacity = '0.4';
+      return;
+    }
+    if (mainCard) mainCard.style.display = '';
+    if (toolbar) toolbar.style.opacity = '';
+    notice.style.display = 'none';
+    panel.style.display = '';
+
+    const seasonLabel = (ctx && ctx.season && ctx.season.name)
+      ? (ctx.season.name[LANG] || ctx.season.name.en || SEASON_CFG.seasonName)
+      : SEASON_CFG.seasonName;
+    document.getElementById('fmpSeasonLabel').textContent = (seasonLabel || '').toUpperCase();
+    document.getElementById('fmpThreshold').textContent =
+      (dict.mechThreshold || 'Freeze threshold') + ': ' +
+      freezeThresholdC() + ' °C · ' + SEASON_CFG.freezeDurationMin + ' ' + (dict.unitMin || 'min');
+    document.getElementById('fmpWeek').textContent =
+      (dict.weekLabel || 'Wk') + ' ' + SEASON_CFG.week;
+
+    // Blizzard schedule strip — one pill per bracket, current week highlighted.
+    const strip = document.getElementById('fmpBlizzardStrip');
+    strip.innerHTML = '';
+    (SEASON_CFG.blizzardSchedule || []).forEach(function (b) {
+      const active = SEASON_CFG.week >= b.from_week && SEASON_CFG.week <= b.to_week;
+      const color = severityColor(b.severity);
+      const pill = document.createElement('span');
+      const range = b.from_week === b.to_week ? ('W' + b.from_week) : ('W' + b.from_week + '–' + b.to_week);
+      pill.style.cssText =
+        'padding:3px 10px;border-radius:12px;font-size:11px;font-family:ui-monospace,monospace;' +
+        'border:1px solid ' + color + ';' +
+        'color:' + (active ? '#0a0e1a' : color) + ';' +
+        'background:' + (active ? color : 'transparent') + ';' +
+        'font-weight:' + (active ? '700' : '500');
+      pill.textContent = range + '  ' + (b.drop_c > 0 ? '+' : '') + b.drop_c + '°C';
+      pill.title = b.severity + (active ? ' (current week)' : '');
+      strip.appendChild(pill);
+    });
+    if (!SEASON_CFG.blizzardSchedule || !SEASON_CFG.blizzardSchedule.length) {
+      const stub = document.createElement('span');
+      stub.style.cssText = 'color:#7a8290;font-size:11px;font-style:italic';
+      stub.textContent = dict.noBlizzardsScheduled || 'No blizzards on the schedule';
+      strip.appendChild(stub);
+    }
+  }
+
+  // Resolve the variant mode (freeze / virus / blood_night / inactive) for a
+  // given season_id. S2 keeps `freeze` unconditionally so its behavior is untouched.
+  function resolveVariantMode(sid) {
+    const spec = SEASON_VARIANT[sid];
+    if (!spec) return 'freeze';
+    return spec.mode;
+  }
+
+  function hydrateSeason() {
+    if (!window.LWSSeasons || typeof LWSSeasons.resolve !== 'function') {
+      // LWSSeasons not loaded (offline / local hack) — defaults already in SEASON_CFG.
+      SEASON_CFG.hasFreezeMechanics = true;
+      SEASON_CFG.variantMode = 'freeze';
+      applySeasonHeader(SEASON_CFG.seasonId);
+      renderFreezeMechPanel(null, {});
+      renderFirstBlizzardBanner();
+      renderBlizzardCountdown();
+      renderFreezeProjectionChart();
+      return;
+    }
+    LWSSeasons.resolve().then(function (ctx) {
+      // Stash the resolved context so downstream helpers (blizzard countdown,
+      // first-blizzard banner) can read warzone.season_start_date.
+      window._LWS_LAST_CTX = ctx;
+      const cfg = (ctx.season && ctx.season.mechanics_config) || {};
+      const sched = cfg.blizzard_schedule || null;
+      SEASON_CFG.seasonId = ctx.season_id;
+      SEASON_CFG.seasonName = (ctx.season && ctx.season.name && (ctx.season.name.en || ctx.season.name[LANG])) || ctx.season_id;
+      SEASON_CFG.week = ctx.week || 1;
+      SEASON_CFG.variantMode = resolveVariantMode(ctx.season_id);
+      // hasFreezeMechanics is true ONLY for the freeze variant with a real schedule.
+      // Other variants (virus / blood_night) have their own dedicated render path;
+      // inactive falls through to noFreezeNotice.
+      SEASON_CFG.hasFreezeMechanics = (SEASON_CFG.variantMode === 'freeze') && !!(sched && sched.length);
+      if (SEASON_CFG.hasFreezeMechanics) {
+        SEASON_CFG.freezeThresholdC  = (typeof cfg.freeze_threshold_c === 'number') ? cfg.freeze_threshold_c : SEASON_CFG.freezeThresholdC;
+        SEASON_CFG.freezeDurationMin = (typeof cfg.freeze_duration_min === 'number') ? cfg.freeze_duration_min : SEASON_CFG.freezeDurationMin;
+        SEASON_CFG.ambientBandsC     = (cfg.ambient_bands_c && cfg.ambient_bands_c.length) ? cfg.ambient_bands_c : SEASON_CFG.ambientBandsC;
+        SEASON_CFG.blizzardSchedule  = sched;
+      } else {
+        SEASON_CFG.blizzardSchedule = [];
+      }
+      applySeasonHeader(ctx.season_id);
+      renderFreezeMechPanel(ctx, cfg);
+      renderFirstBlizzardBanner();
+      renderBlizzardCountdown();
+      renderFreezeProjectionChart();
+      render();
+    }).catch(function (e) {
+      console.warn('[LWS Freeze Risk] LWSSeasons.resolve failed, using S2 defaults:', e);
+      SEASON_CFG.hasFreezeMechanics = true;
+      SEASON_CFG.variantMode = 'freeze';
+      applySeasonHeader(SEASON_CFG.seasonId);
+      renderFreezeMechPanel(null, {});
+      renderFirstBlizzardBanner();
+      renderBlizzardCountdown();
+      renderFreezeProjectionChart();
+      render();
+    });
+  }
+
+  // Fire on boot + whenever the warzone/season selector changes.
+  window.addEventListener('lws:season-changed', hydrateSeason);
+  window.addEventListener('lws:warzone-changed', hydrateSeason);
+  // Also trigger on DOMContentLoaded fallback in case lib.js loads after this block.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(hydrateSeason, 0); });
+  } else {
+    setTimeout(hydrateSeason, 0);
+  }
+  </script>
+
+  <script src="static/roster-picker.js" defer></script>
+  <script>
+    window.addEventListener('lws:roster-loaded', function (ev) {
+      var rows = ev.detail.rows;
+      if (!rows || !rows.length) return;
+      // Mount the roster-freshness staleness widget when the roster came from
+      // the Live Roster picker (i.e. carries alliance_signature). Silent no-op
+      // for CSV imports without a signature.
+      if (ev.detail.alliance_signature && typeof maybeMountRosterFreshness === 'function') {
+        maybeMountRosterFreshness(ev.detail.alliance_signature);
+      }
+      var headers = Object.keys(rows[0]);
+      var csv = headers.join(',') + '\n' +
+        rows.map(function (r) { return headers.map(function (h) { return (r[h] || ''); }).join(',') }).join('\n');
+      var input = document.getElementById('csvInput');
+      if (!input) { console.warn('[LWS] roster input not found'); return; }
+      var dt = new DataTransfer();
+      dt.items.add(new File([csv], ev.detail.name + '.csv', { type: 'text/csv' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  </script>
+
+  <script src="static/seasons-lib.js" defer></script>
+  <script src="https://chat.r5tools.io/widget.js" defer></script>
+<script>window.addEventListener("DOMContentLoaded",function(){if(window.LWSDiscord&&typeof LWSDiscord.attachToButton==="function"){setTimeout(function(){LWSDiscord.attachToButton({pngBtnId:"btnExportPng",slotId:"lws-discord-slot",gearSlotId:"lws-discord-gear-slot",filename:"freeze-risk.png",contextText:"Freeze Risk Snapshot",toolName:"Freeze-Risk Dashboard"});},300);}});</script>
+<!-- r5tools-suite-footer -->
+<footer style="text-align:center;padding:16px;font-size:12px;color:#666;border-top:1px solid #eee;margin-top:32px">
+  <a href="https://r5tools.io" style="color:#c9a961;text-decoration:none">← r5tools.io</a> suite · 
+  <a href="https://r5tools.io/refer.html" style="color:#c9a961;text-decoration:none">Refer & Earn 25%</a>
+</footer>
+</body>
+</html>

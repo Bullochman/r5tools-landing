@@ -1,0 +1,1584 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>City / Dig-Site Capture Planner — LWS Suite</title>
+  <meta name="description" content="Season 2 territory planner for Last War: Survival alliances. Plan captures across the first 4 weeks with city heat bonuses and 36-hour protection timers." />
+  <link rel="stylesheet" href="static/styles.css" />
+  <script src="static/lws-countdown.js" defer></script>
+  <script defer src="static/lws-track.js"></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body>
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://bullochman.github.io/lws-profile-studio-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+<a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+<!-- Warzone / season context strip -->
+<div style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
+  <div id="lws-warzone-selector" style="display:inline-flex"></div>
+</div>
+  <div class="wrap">
+    <header class="app-header">
+      <div>
+        <span class="brand" data-i18n="brand">R5TOOLS.IO</span>
+        <span class="brand-sub" data-i18n="brandSub">LWS Suite</span>
+      </div>
+      <button class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+    </header>
+
+    <!-- Everything inside #main-app is auth-gated by LWS_Access_Codes.gate(). -->
+    <div id="main-app">
+
+      <!-- Season-agnostic banner: shown when the current season has no city-capture mechanic.
+           When populated, hides all mode panels below. -->
+      <div class="card" id="season-fallback-banner" style="display:none;border-left:3px solid #c9a961;">
+        <h2 id="fallbackTitle">City capture doesn't apply this season</h2>
+        <p class="kb-cite" id="fallbackBody">This tool is built around Season 2's city + dig-site capture mechanic. Switch the warzone / season selector above to a season with city captures (S2 Polar Storm, S3 Golden Kingdom, S4 Evernight Isle) to use the planner.</p>
+        <p class="kb-cite" id="fallbackTracker" style="margin-top:10px;color:var(--text-dim);font-size:12px;display:none;">Track: r5tools.io</p>
+      </div>
+
+      <!-- Per-season warning stack (rendered above the primary mode panel).
+           Populated by renderSeasonWarnings() from the season's warning key list. -->
+      <div id="seasonWarningStack"></div>
+
+      <div id="season-city-panel">
+      <div class="card">
+        <h1 data-i18n="title">City / Dig-Site Capture Planner</h1>
+        <p class="lede" id="ledeText" data-i18n="lede">
+          Season 2 territory planner. Pick which of the 6 cities and 4 dig-sites your alliance captures on each day of Weeks 1–4, factoring city temperature bonuses (+5 °C at L1 → +60 °C at L6) and the 36-hour post-capture protection window.
+        </p>
+
+        <!-- Capacity display: caps + labels sourced live from LWSSeasons.mechanics_config. -->
+        <div class="capacity-grid">
+          <div class="capacity-block">
+            <p class="capacity-title" data-i18n="capacityCities">Cities captured</p>
+            <div class="capacity-slots" id="citySlots"></div>
+            <p class="kb-cite" id="capacityCitiesHelp" data-i18n="capacityCitiesHelp">Max 6 cities per alliance</p>
+          </div>
+          <div class="capacity-block" id="digCapacityBlock">
+            <p class="capacity-title" data-i18n="capacityDigs">Dig sites captured</p>
+            <div class="capacity-slots" id="digSlots"></div>
+            <p class="kb-cite" id="capacityDigsHelp" data-i18n="capacityDigsHelp">Max 4 dig sites per alliance</p>
+          </div>
+        </div>
+
+        <!-- Captures-per-day counter — max sourced from mechanics_config.captures_per_day or city_captures_per_day. -->
+        <div class="capture-counter">
+          <span><span data-i18n="captureCounterLabel">Captures used today</span>: <strong id="capturesToday">0</strong> <span id="captureCounterMax">of 2 max</span></span>
+          <span class="kb-cite" id="captureCounterCite">KB: <a href="#" title="[[06-season-2-frozen]]">06-season-2-frozen</a> — 2 captures/day cap</span>
+        </div>
+
+        <p class="kb-cite" style="margin-top: 12px;" data-i18n="adjacencyRule">
+          Rule: first capture MUST be a L1 dig site. Every subsequent capture must be adjacent to owned territory.
+        </p>
+      </div>
+
+      <div class="section-cols">
+        <div class="card">
+          <h2 data-i18n="hiveCenterHeading">Hive center coordinate</h2>
+          <p class="kb-cite" data-i18n="hiveCenterHelp">Alliance Furnace location (used for adjacency + proximity scoring)</p>
+          <div style="display: flex; gap: 12px; margin-top: 16px;">
+            <label>
+              <span data-i18n="hiveCenterX">X</span>:
+              <input type="number" id="hiveX" value="120" style="width:80px;padding:6px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);" />
+            </label>
+            <label>
+              <span data-i18n="hiveCenterY">Y</span>:
+              <input type="number" id="hiveY" value="120" style="width:80px;padding:6px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);" />
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="weekPickerHeading">Season timeline</h2>
+          <div style="display:flex;gap:12px;margin-bottom:12px;">
+            <label>
+              <span data-i18n="week">Week</span>:
+              <select id="weekSel" style="padding:6px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:4px;">
+                <option>1</option><option>2</option><option>3</option><option>4</option>
+              </select>
+            </label>
+            <label>
+              <span data-i18n="day">Day</span>:
+              <select id="daySel" style="padding:6px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:4px;">
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option>
+              </select>
+            </label>
+          </div>
+          <details style="color:var(--text-dim);font-size:12px;">
+            <summary style="cursor:pointer;color:var(--accent);" data-i18n="unlockSchedule">Unlock schedule</summary>
+            <ul id="unlockList" style="margin:8px 0 0 20px; padding:0; line-height:1.7;">
+              <!-- Populated from mechanics_config.city_unlock_schedule at boot + on lws:season-changed. -->
+            </ul>
+          </details>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           UNLOCK TIMELINE (Gantt-style horizontal) — visualizes each
+           level's unlock day/hour relative to the warzone's Season 2
+           start date. Falls back to a today-anchored preview if no
+           start date is set for the current warzone.
+           ========================================================= -->
+      <div class="card">
+        <h2 data-i18n="timelineHeading">Unlock timeline</h2>
+        <p class="kb-cite" data-i18n="timelineHelp">Each city / dig-site level unlocks at a fixed offset from your warzone's Season 2 start. The gold marker is now (or projected if start-date not yet set).</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-top:12px;">
+          <label style="display:flex;flex-direction:column;gap:4px;">
+            <span style="color:var(--text-dim);font-size:11px;text-transform:uppercase;letter-spacing:.06em;" data-i18n="timelineStartLabel">Season 2 start date (server time)</span>
+            <input type="datetime-local" id="tlSeasonStart" style="padding:6px;background:var(--panel-2);color:var(--text);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:12px;min-width:220px" />
+          </label>
+          <span class="kb-cite" data-i18n="timelineStartHelp" style="max-width:340px;">Auto-filled from your warzone. Override if your warzone announced a different date/time.</span>
+        </div>
+        <div id="tlNoStart" class="timeline-note" data-i18n="timelineNoStart" style="display:none;">
+          No season-2 start date set for this warzone yet — using today as an illustrative anchor. Set it above to lock the timeline to your server.
+        </div>
+        <div class="timeline-wrap" id="tlWrap">
+          <div class="timeline-track" id="tlTrack"></div>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           RESISTANCE TABLE — one row per level with resistance target,
+           unlock time, heat bonus. Feeds the Rally Squad Recommender.
+           ========================================================= -->
+      <div class="card">
+        <h2 data-i18n="resHeading">Resistance targets (rally sizing)</h2>
+        <p class="kb-cite" data-i18n="resHelp">Total troop power the alliance rally must project to cap out damage on the city / dig-site.</p>
+        <div style="overflow-x:auto;">
+          <table class="res-table" id="resTable">
+            <thead>
+              <tr>
+                <th data-i18n="resThLevel">Level</th>
+                <th data-i18n="resThName">Name</th>
+                <th style="text-align:right;" data-i18n="resThResistance">Resistance</th>
+                <th style="text-align:right;" data-i18n="resThHeat">Heat bonus</th>
+                <th data-i18n="resThUnlock">Unlock</th>
+              </tr>
+            </thead>
+            <tbody id="resBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           CADENCE TRACKER — 3-tile grid showing cities-open,
+           digs-open, captures-left-today. All derived from state +
+           mechanics_config caps.
+           ========================================================= -->
+      <div class="card">
+        <h2 data-i18n="cadenceHeading">Capture cadence</h2>
+        <div class="cadence-grid">
+          <div class="cadence-tile" id="cadenceCitiesTile">
+            <p class="cadence-label" data-i18n="cadenceCitiesLeft">Cities open</p>
+            <p class="cadence-value"><span id="cadenceCitiesLeftN">6</span><span class="of"> / 6</span></p>
+            <p class="cadence-sub" data-i18n="cadenceCitiesLeftSub">until 6-city cap</p>
+          </div>
+          <div class="cadence-tile" id="cadenceDigsTile">
+            <p class="cadence-label" data-i18n="cadenceDigsLeft">Dig sites open</p>
+            <p class="cadence-value"><span id="cadenceDigsLeftN">4</span><span class="of"> / 4</span></p>
+            <p class="cadence-sub" data-i18n="cadenceDigsLeftSub">until 4-dig cap</p>
+          </div>
+          <div class="cadence-tile" id="cadenceTodayTile">
+            <p class="cadence-label" data-i18n="cadenceTodayLeft">Captures left today</p>
+            <p class="cadence-value"><span id="cadenceTodayLeftN">2</span><span class="of"> / 2</span></p>
+            <p class="cadence-sub" data-i18n="cadenceTodayLeftSub">alliance is capped at 2 stronghold + 2 city declarations / day</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           RALLY SQUAD RECOMMENDER — user pastes top-N members'
+           power, tool sums greedy-largest until it meets each
+           level's resistance. Shows one squad per unlocked level.
+           ========================================================= -->
+      <div class="card">
+        <h2 data-i18n="rallyHeading">Rally squad recommender</h2>
+        <p class="kb-cite" data-i18n="rallyHelp">Paste your alliance top-10 (or however many) members' power values, one per line (name,power or just power). Tool suggests the smallest squad that meets each level's resistance.</p>
+        <div class="rally-input-row">
+          <div>
+            <textarea id="rallyRoster" class="rally-textarea" data-i18n-placeholder="rallyExamplePlaceholder" placeholder="Kayla,142000000&#10;Evan,138500000&#10;..."></textarea>
+            <p class="rally-help"><span id="rallyRosterCount">0</span> <span data-i18n="rallyRosterCount">members loaded</span></p>
+            <button class="btn" id="btnRallySuggest" data-i18n="rallyBtnSuggest">Suggest squad</button>
+          </div>
+          <div>
+            <p style="color:var(--text-dim);font-size:12px;margin:0 0 8px;" data-i18n="rallyAllLevelsHeading">Recommended squads (all unlocked levels)</p>
+            <div id="rallyResults">
+              <p class="rally-help" data-i18n="rallyNoRoster">Paste roster above and click "Suggest squad" to see the recommended lineup for each level.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="queueHeading">Priority queue</h2>
+        <div id="queueEmpty" style="color:var(--text-mute);font-size:13px;padding:24px 0;text-align:center;" data-i18n="queueEmpty">
+          No candidates loaded yet. Paste candidate coordinates below or upload your scouted list.
+        </div>
+        <table class="queue-table" id="queueTable" style="display:none;">
+          <thead>
+            <tr>
+              <th data-i18n="thPriority">Priority</th>
+              <th data-i18n="thType">Type</th>
+              <th data-i18n="thCoord">Coordinate</th>
+              <th data-i18n="thTargetLevel">Target L</th>
+              <th data-i18n="thHeatDelta">Heat Δ</th>
+              <th id="thResourcePerHr" data-i18n="thSoilPerHr">Soil/hr</th>
+              <th data-i18n="thUnlock">Unlocks</th>
+              <th data-i18n="thNotes">Notes</th>
+            </tr>
+          </thead>
+          <tbody id="queueBody"></tbody>
+        </table>
+
+        <div class="btn-row">
+          <button class="btn secondary" id="btnImportRoster" data-i18n="importRoster">Import roster CSV</button>
+          <button class="btn secondary" id="btnImportCandidates" data-i18n="importCandidates">Import candidates</button>
+          <button class="btn secondary" id="btnAddCandidate" data-i18n="addCandidate">Add candidate</button>
+          <button class="btn" id="btnRank" data-i18n="rank">Rank candidates</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 id="protectionHeading" data-i18n="protectionHeading">Post-capture protection (36 h)</h2>
+        <div id="protectionEmpty" style="color:var(--text-mute);font-size:13px;padding:16px 0;" data-i18n="protectionEmpty">
+          No captured territories yet. Once you capture, the shield countdown appears here.
+        </div>
+        <div class="protection-list" id="protectionList"></div>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="rosterHeading">Alliance roster</h2>
+        <div id="rosterEmpty" style="color:var(--text-mute);font-size:13px;padding:16px 0;" data-i18n="rosterEmpty">
+          No roster loaded. Upload your alliance CSV (same format as Hive Grid Manager).
+        </div>
+        <div id="rosterSummary" style="display:none;"></div>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="exportHeading">Export</h2>
+        <div class="btn-row">
+          <button class="btn" id="btnExportPng" data-i18n="exportPng">Export PNG roadmap</button><span id="lws-discord-slot" style="display:inline-block;margin-left:6px"></span><span id="lws-discord-gear-slot" style="display:inline-block;margin-left:4px"></span>
+          <button class="btn secondary" id="btnExportCsv" data-i18n="exportCsv">Export CSV queue</button>
+          <button class="btn secondary" id="btnExportJson" data-i18n="exportJson">Export JSON queue</button>
+          <button class="btn secondary" id="btnCopyDiscord" data-i18n="copyDiscord">Copy Discord summary</button>
+          <button class="btn secondary" id="btnHeatSim" data-i18n="openHeatSim">Open Heat Simulator on target</button>
+        </div>
+        <p class="kb-cite" style="margin-top:12px;" data-i18n="kbCite">Numbers sourced from LWS Knowledge Base</p>
+      </div>
+
+      </div><!-- /#season-city-panel -->
+
+      <!-- ============================================================
+           S5 Wild West — BANK MODE panel (hidden by default).
+           Toggled by applyMechanicsConfig() when supported.mode === 'bank'.
+           KB: [[07-future-seasons]] §S5 Bank Strongholds — 2/day Wed+Sat,
+           default 4 max +1/city up to 12, Sundays truce, 3 war slots/day.
+           ============================================================ -->
+      <div id="season-bank-panel" style="display:none;">
+        <div class="card">
+          <h1 data-i18n="s5Title">Bank Stronghold Capture Planner</h1>
+          <p class="lede" data-i18n="s5Lede">
+            Season 5 Wild West — 2 Bank captures/day on Wed+Sat only. Default 4 Bank max, +1 per city controlled up to 12 max. Sundays are Truce Day.
+          </p>
+
+          <div class="capacity-grid">
+            <div class="capacity-block">
+              <p class="capacity-title" data-i18n="s5CapacityBanks">Banks captured</p>
+              <div class="capacity-slots" id="bankSlots"></div>
+              <p class="kb-cite" data-i18n="s5CapacityBanksHelp">Max 4 Banks (default) → up to 12 with 8 cities controlled</p>
+            </div>
+            <div class="capacity-block">
+              <p class="capacity-title" data-i18n="s5CapacityDeposits">CrystalGold deposits</p>
+              <div class="capacity-slots" id="depositSlots"></div>
+              <p class="kb-cite" data-i18n="s5CapacityDepositsHelp">3 deposits/day, up to 15 simultaneous (5-day terms)</p>
+            </div>
+          </div>
+
+          <div class="capture-counter">
+            <span><span data-i18n="captureCounterLabel">Captures used today</span>: <strong id="bankCapturesToday">0</strong> <span data-i18n="s5UnlockL1">L1-6 Banks — Week 1</span></span>
+            <span class="kb-cite">KB: <a href="#" title="[[07-future-seasons]]">07-future-seasons (S5)</a> — 2/day Wed+Sat</span>
+          </div>
+
+          <p class="kb-cite" style="margin-top:12px;" data-i18n="s5HighNoon">High Noon: 15,000 CrystalGold/day cap from W3</p>
+          <p class="kb-cite" data-i18n="s5UnlockL7">L7-10 Banks — Week 4 (L10 requires 39,900 Virus Resistance)</p>
+          <p class="kb-cite" data-i18n="s5InterestUnknown">Interest rate: unpublished (KB open question)</p>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="s5NoProtection">Next war window</h2>
+          <div id="bankWarWindow" style="color:var(--text-mute);font-size:13px;padding:16px 0;" data-i18n="s5NoProtectionEmpty">
+            No captures yet. Next Wed/Sat war window shows here.
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="rosterHeading">Alliance roster</h2>
+          <div style="color:var(--text-mute);font-size:13px;padding:16px 0;" data-i18n="rosterEmpty">
+            No roster loaded. Upload your alliance CSV (same format as Hive Grid Manager).
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="exportHeading">Export</h2>
+          <div class="btn-row">
+            <button class="btn" id="btnBankExportPng" data-i18n="exportPng">Export PNG roadmap</button>
+            <button class="btn secondary" id="btnBankExportCsv" data-i18n="exportCsv">Export CSV queue</button>
+          </div>
+        </div>
+      </div><!-- /#season-bank-panel -->
+
+      <!-- ============================================================
+           S6 Shadow Rainforest — ALTAR MODE panel (hidden by default).
+           Toggled by applyMechanicsConfig() when supported.mode === 'altar'.
+           KB: [[07-future-seasons]] §S6 Altars — 5 altars, hold max 3,
+           Tuesdays only, 100% required if occupied, no stepping stones.
+           ============================================================ -->
+      <div id="season-altar-panel" style="display:none;">
+        <div class="card">
+          <h1 data-i18n="s6Title">Altar Conquest Planner</h1>
+          <p class="lede" data-i18n="s6Lede">
+            Season 6 Shadow Rainforest — 5 Altars in the Great River central zone. Hold max 3 simultaneously. Open Tuesdays only.
+          </p>
+
+          <div class="capture-counter">
+            <span><strong data-i18n="s6MaxHeldBadge">Max 3 held simultaneously</strong></span>
+            <span class="kb-cite">KB: <a href="#" title="[[07-future-seasons]]">07-future-seasons (S6)</a> — 5 altars · Tuesdays</span>
+          </div>
+
+          <table class="queue-table" style="margin-top:16px;">
+            <thead>
+              <tr>
+                <th data-i18n="thType">Type</th>
+                <th data-i18n="thAllianceSkill">Alliance Skill</th>
+              </tr>
+            </thead>
+            <tbody id="altarList">
+              <tr><td data-i18n="s6AltarCobra">Cobra Altar</td><td>Cobra Barrier (alliance shield)</td></tr>
+              <tr><td data-i18n="s6AltarEcho">Echo Altar</td><td>Night Army summon</td></tr>
+              <tr><td data-i18n="s6AltarGust">Gust Altar</td><td>Serpent Breath (contamination)</td></tr>
+              <tr><td data-i18n="s6AltarFeather">Feather Altar</td><td>Feather Lightning strike</td></tr>
+              <tr><td data-i18n="s6AltarTreehaven">Treehaven Altar</td><td>Reset skill cooldowns</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="s6NextWindow">Next Tuesday altar window</h2>
+          <div id="altarNextWindow" style="color:var(--text-mute);font-size:13px;padding:16px 0;">
+            Altars open every Tuesday — plan your rally chain around each altar's 60-min attack window.
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="rosterHeading">Alliance roster</h2>
+          <div style="color:var(--text-mute);font-size:13px;padding:16px 0;" data-i18n="rosterEmpty">
+            No roster loaded. Upload your alliance CSV (same format as Hive Grid Manager).
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="exportHeading">Export</h2>
+          <div class="btn-row">
+            <button class="btn" id="btnAltarExportPng" data-i18n="exportPng">Export PNG roadmap</button>
+            <button class="btn secondary" id="btnAltarExportCsv" data-i18n="exportCsv">Export CSV queue</button>
+          </div>
+        </div>
+      </div><!-- /#season-altar-panel -->
+
+    </div><!-- /#main-app -->
+
+    <footer>
+      <a href="https://r5tools.io" target="_blank" data-i18n="footerLink">r5tools.io</a>
+      · <span data-i18n="footerCred">Powered by the LWS Knowledge Base</span>
+    </footer>
+  </div>
+
+  <!-- ============================================================
+       Shared LWS Access Codes gate — required in every LWS_* tool
+       Docs: LWS_Access_Codes/docs/integration.md
+       ============================================================ -->
+  <script src="https://access-codes.r5tools.io/lib.js?v=3"></script>
+  <script>
+    // Gate the entire #main-app node. If unauthed, overlay + redirect to unlock page.
+    if (window.LWSAccessCodes && typeof LWSAccessCodes.gate === 'function') {
+      LWSAccessCodes.gate('main-app');
+    } else {
+      // Local-dev fallback: the access-codes CDN may be unreachable. Show a subtle
+      // banner and let the tool render for development.
+      console.warn('[capture-planner] LWSAccessCodes library not loaded — running in un-gated dev mode.');
+    }
+  </script>
+
+  <!-- ============================================================
+       i18n + local scaffolding
+       ============================================================ -->
+  <script src="static/fake-server.js"></script>
+<script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+    <script src="static/i18n.js"></script>
+  <script>
+    // ---- i18n bootstrap ----
+    LWSi18n.apply();
+    document.getElementById('langToggle').addEventListener('click', function () {
+      LWSi18n.toggle();
+      renderCapacity();  // re-render slot titles etc.
+      try { renderResistanceTable(); } catch (e) {}
+      try { renderTimeline(); } catch (e) {}
+      try { renderRally(); } catch (e) {}
+    });
+
+    // ---- Season-driven mechanics config -------------------------------------
+    // All caps + curves below are now hydrated from LWSSeasons.getMechanicsConfig()
+    // rather than hardcoded. Defaults are S2 values for offline / pre-load
+    // rendering so first paint isn't blank. KB refs remain in comments.
+    //
+    // Season -> mechanics_config key mapping (see LWS_Seasons/seasons.json):
+    //   S2 Polar Storm:      cities_per_alliance, dig_sites_per_alliance,
+    //                        captures_per_day, protection_hours,
+    //                        city_heat_bonus_c_by_level,
+    //                        city_rare_soil_per_hr_by_level,
+    //                        city_unlock_schedule
+    //   S3 Golden Kingdom:   cities_per_alliance, dig_sites_per_alliance,
+    //                        city_captures_per_day, spice_per_hour_by_city_level
+    //                        (no heat bonus mechanic — desert map).
+    //   S4 Evernight Isle:   cities_per_alliance, dig_sites_per_alliance,
+    //                        city_captures_per_day, copper_per_hour_by_city_level.
+    //   S5 Wild West / S6 Shadow Rainforest / S1 Doomsday: no city-capture
+    //                        concept as scoped by this tool → fallback banner.
+
+    var MAX_CITIES = 6;              // KB default: [[06-season-2-frozen]] 6 cities/alliance
+    var MAX_DIGS = 4;                // KB default: [[06-season-2-frozen]] 4 dig-sites/alliance
+    var CAPTURES_PER_DAY = 2;        // KB default: 2 captures/day max
+    var PROTECTION_HOURS = 36;       // KB default: 36-hour post-capture protection (dig sites)
+    var CITY_HEAT_BY_LEVEL = { 1:5, 2:16, 3:27, 4:38, 5:49, 6:60 };  // S2 default
+    var CITY_SOIL_PER_HR   = { 1:350, 2:480, 3:610, 4:740, 5:870, 6:1000 }; // S2 default
+    // S2 city / dig-site resistance targets per level. L7 is Capitol — resistance not published in the KB
+    // (owner's guide has ??? on L7). null = show "unpublished" in the UI. KB: [[06-season-2-frozen]]
+    // + Evan's photographed guide (LWS_Season_Timeline/data/season2-strategy-tips.json).
+    var CITY_RESISTANCE = { 1:3500, 2:6000, 3:8000, 4:9500, 5:10000, 6:10500, 7:null };
+    var CITY_UNLOCK_SCHEDULE = [
+      // abs_hour = hours from Season 2 start; day/hour are the human-friendly "Wk N Day M +12h" form.
+      { level: 1, week: 1, day: 3, hour: 12, abs_hour: 60  },
+      { level: 2, week: 1, day: 6, hour: 12, abs_hour: 132 },
+      { level: 3, week: 2, day: 3, hour: 12, abs_hour: 228 },
+      { level: 4, week: 2, day: 6, hour: 12, abs_hour: 300 },
+      { level: 5, week: 3, day: 3, hour: 12, abs_hour: 396 },
+      { level: 6, week: 3, day: 6, hour: 12, abs_hour: 468 },
+      // L7 Capitol: Nuclear Furnace mission Day 6, delayed 36h → effective activation Day 7 +12h.
+      { level: 7, week: 4, day: 7, hour: 12, abs_hour: 588 }
+    ];
+    // Warzone-scoped Season 2 start date (ISO string, UTC or with offset). Hydrated by bootFromSeasons()
+    // from the warzone selector; user can override in the timeline card.
+    var SEASON_START_ISO = null;
+    // Per-season resource axis: "soil" (S2), "spice" (S3), "copper" (S4), or null.
+    var CITY_RESOURCE_LABEL = 'Soil/hr';
+    var CITY_RESOURCE_KEY = 'soil';
+    var HAS_HEAT_MECHANIC = true;
+
+    // Seasons this tool supports. Each entry declares its mode:
+    //   - 'city':   original S2/S3/S4 flow (cities + dig-sites + resource curve + optional heat)
+    //   - 'bank':   S5 Wild West Bank Stronghold planner (2/day Wed+Sat, dynamic cap, CG interest)
+    //   - 'altar':  S6 Shadow Rainforest Altar Conquest planner (5 altars, hold max 3, Tuesdays)
+    // Seasons NOT in this map fall through to the fallback banner (S1, or any future
+    // season we haven't built content for).
+    var SUPPORTED_SEASONS = {
+      's2-polar-storm':      { mode: 'city',  resource: 'soil',        soil_key: 'city_rare_soil_per_hr_by_level', has_heat: true,
+                               warning_keys: [] },
+      's3-golden-kingdom':   { mode: 'city',  resource: 'spice',       soil_key: 'spice_per_hour_by_city_level',   has_heat: false,
+                               warning_keys: ['s3AcRangeWarn', 's3SpiceWarsBanner', 's3DigPriority', 's3PyramidWar'] },
+      's4-evernight-isle':   { mode: 'city',  resource: 'copper',      soil_key: 'copper_per_hour_by_city_level',  has_heat: false,
+                               warning_keys: ['s4BloodNightWarn', 's4CopperWarsWarn', 's4DigPriority', 's4AcSpacingWarn'] },
+      's5-wild-west':        { mode: 'bank',  resource: 'crystalgold', soil_key: null,                             has_heat: false,
+                               warning_keys: ['s5WarWindowWarn', 's5TruceDayWarn'] },
+      's6-shadow-rainforest':{ mode: 'altar', resource: null,          soil_key: null,                             has_heat: false,
+                               warning_keys: ['s6TuesdayWarn', 's6SteppingStoneWarn', 's6SanctuaryWarn', 's6CityDestructionWarn', 's6PactHint'] }
+    };
+
+    // Per-season lede i18n key. Fallback: 'lede' (S2 default).
+    var SEASON_LEDE_KEY = {
+      's2-polar-storm':      'lede',
+      's3-golden-kingdom':   's3Lede',
+      's4-evernight-isle':   's4Lede',
+      's5-wild-west':        's5Lede',
+      's6-shadow-rainforest':'s6Lede'
+    };
+
+    // Per-season resource column-header i18n key (city-mode only).
+    var SEASON_RESOURCE_TH_KEY = {
+      soil:   'thSoilPerHr',
+      spice:  'thSpicePerHr',
+      copper: 'thCopperPerHr'
+    };
+
+    // Render 0-N warning cards above the queue based on the season's warning_keys.
+    function renderSeasonWarnings(warningKeys) {
+      var stack = document.getElementById('seasonWarningStack');
+      if (!stack) return;
+      if (!warningKeys || !warningKeys.length) { stack.innerHTML = ''; return; }
+      stack.innerHTML = warningKeys.map(function (k) {
+        return '<div class="card" style="border-left:3px solid #c9a961;padding:12px 16px;margin-bottom:12px;">'
+             + '<p class="kb-cite" style="margin:0;color:var(--text-dim);">' + LWSi18n.t(k) + '</p>'
+             + '</div>';
+      }).join('');
+    }
+
+    function applyMechanicsConfig(seasonId, mc) {
+      var supported = SUPPORTED_SEASONS[seasonId];
+      var cityPanel = document.getElementById('season-city-panel');
+      var bankPanel = document.getElementById('season-bank-panel');
+      var altarPanel = document.getElementById('season-altar-panel');
+      var banner = document.getElementById('season-fallback-banner');
+      var fbTitle = document.getElementById('fallbackTitle');
+      var fbBody = document.getElementById('fallbackBody');
+
+      // Hide all mode panels by default; the branch below re-enables the correct one.
+      cityPanel.style.display = 'none';
+      bankPanel.style.display = 'none';
+      altarPanel.style.display = 'none';
+
+      if (!supported) {
+        // Season doesn't apply → show fallback banner. Text is i18n-keyed for S1
+        // (translated) and falls back to a generic English string for any other
+        // unrecognized season id.
+        banner.style.display = '';
+        renderSeasonWarnings([]);
+        var fbTracker = document.getElementById('fallbackTracker');
+        // S7 branch — mechanics not yet published by Anthropic. Show the unified
+        // placeholder copy (mirrored across all 6 static tools per the season
+        // deep-fill design brief).
+        var isS7 = (seasonId === 's7-unnamed' || seasonId === 's7-tbd'
+                    || (seasonId && seasonId.indexOf('s7') === 0));
+        if (isS7) {
+          fbTitle.textContent = LWSi18n.t('s7ComingTitle');
+          fbBody.textContent = LWSi18n.t('s7ComingBody');
+          if (fbTracker) {
+            fbTracker.textContent = LWSi18n.t('s7ComingTracker');
+            fbTracker.style.display = '';
+          }
+        } else if (seasonId === 's1-crimson-plague') {
+          fbTitle.textContent = LWSi18n.t('s1FallbackTitle');
+          fbBody.textContent = LWSi18n.t('s1FallbackBody');
+          if (fbTracker) fbTracker.style.display = 'none';
+        } else {
+          var name = (window.__LWS_SEASON_NAME) || seasonId || 'this season';
+          fbTitle.textContent = 'City capture doesn’t apply to ' + name;
+          fbBody.textContent = 'This tool is built around the S2/S3/S4-style "cities + dig-sites per alliance" mechanic (and the S5 Bank / S6 Altar variants). Switch warzone/season above to use the planner.';
+          if (fbTracker) fbTracker.style.display = 'none';
+        }
+        return;
+      }
+      banner.style.display = 'none';
+
+      // Render per-season warning stack (0-N cards above the queue/panel).
+      renderSeasonWarnings(supported.warning_keys || []);
+
+      // Set the lede text via the per-season i18n key (falls back to S2 'lede').
+      var ledeText = document.getElementById('ledeText');
+      if (ledeText) {
+        var ledeKey = SEASON_LEDE_KEY[seasonId] || 'lede';
+        ledeText.textContent = LWSi18n.t(ledeKey);
+      }
+
+      // Mode branch: city (S2/S3/S4) vs bank (S5) vs altar (S6).
+      if (supported.mode === 'bank') {
+        bankPanel.style.display = '';
+        return; // Bank-mode uses its own DOM subtree — skip city-mode hydration.
+      }
+      if (supported.mode === 'altar') {
+        altarPanel.style.display = '';
+        return; // Altar-mode uses its own DOM subtree — skip city-mode hydration.
+      }
+
+      // ---- CITY MODE (S2/S3/S4) — original logic preserved ----
+      cityPanel.style.display = '';
+
+      // Hydrate caps + curves from mc, falling back to S2 defaults if a key is
+      // absent for the current season (defensive against KB gaps).
+      MAX_CITIES = mc.cities_per_alliance || 6;
+      MAX_DIGS = mc.dig_sites_per_alliance || 4;
+      // S2 uses `captures_per_day`; S3/S4 use `city_captures_per_day`.
+      CAPTURES_PER_DAY = mc.captures_per_day || mc.city_captures_per_day || 2;
+      PROTECTION_HOURS = mc.protection_hours || 36;
+      CITY_HEAT_BY_LEVEL = mc.city_heat_bonus_c_by_level || {};
+      HAS_HEAT_MECHANIC = supported.has_heat && !!mc.city_heat_bonus_c_by_level;
+      CITY_SOIL_PER_HR = mc[supported.soil_key] || {};
+      CITY_UNLOCK_SCHEDULE = (mc.city_unlock_schedule || []).map(function (row) {
+        // Backfill abs_hour if the season JSON omits it, so the Gantt timeline can render.
+        // abs_hour = ((week-1)*7 + (day-1))*24 + hour  (Wk1 Day1 00:00 = hour 0)
+        if (row.abs_hour == null && row.week && row.day) {
+          row = Object.assign({}, row, {
+            abs_hour: ((row.week - 1) * 7 + (row.day - 1)) * 24 + (row.hour || 0)
+          });
+        }
+        return row;
+      });
+      // Resistance: hydrate from mc if provided (defensive — some seasons may not have it), else keep default.
+      if (mc.city_resistance_by_level) CITY_RESISTANCE = mc.city_resistance_by_level;
+      CITY_RESOURCE_KEY = supported.resource;
+      CITY_RESOURCE_LABEL = ({ soil: 'Soil/hr', spice: 'Spice/hr', copper: 'Copper/hr' })[supported.resource];
+
+      // Reflect the new caps in the UI captions.
+      var capCitiesHelp = document.getElementById('capacityCitiesHelp');
+      if (capCitiesHelp) capCitiesHelp.textContent = 'Max ' + MAX_CITIES + ' cities per alliance';
+      var capDigsHelp = document.getElementById('capacityDigsHelp');
+      if (capDigsHelp) capDigsHelp.textContent = 'Max ' + MAX_DIGS + ' dig sites per alliance';
+      var maxLabel = document.getElementById('captureCounterMax');
+      if (maxLabel) maxLabel.textContent = 'of ' + CAPTURES_PER_DAY + ' max';
+      var cite = document.getElementById('captureCounterCite');
+      if (cite) {
+        var kbId = seasonId === 's3-golden-kingdom' ? '07-future-seasons (S3)'
+                 : seasonId === 's4-evernight-isle' ? '07-future-seasons (S4)'
+                 : '06-season-2-frozen';
+        cite.innerHTML = 'KB: <a href="#" title="[[' + kbId + ']]">' + kbId + '</a> — ' + CAPTURES_PER_DAY + ' captures/day cap';
+      }
+
+      var protHead = document.getElementById('protectionHeading');
+      if (protHead) protHead.textContent = 'Post-capture protection (' + PROTECTION_HOURS + ' h)';
+
+      // Rebuild the unlock-schedule <ul>.
+      var ul = document.getElementById('unlockList');
+      if (ul) {
+        if (CITY_UNLOCK_SCHEDULE.length) {
+          ul.innerHTML = CITY_UNLOCK_SCHEDULE.map(function (row) {
+            var suffix = row.hour ? ('+' + row.hour + 'h') : '';
+            return '<li>L' + row.level + ' — W' + row.week + ' D' + row.day + suffix + '</li>';
+          }).join('');
+        } else {
+          ul.innerHTML = '<li style="color:var(--text-mute)">No unlock schedule declared for this season</li>';
+        }
+      }
+
+      // Re-render dependent components that consume the mechanics config.
+      try { renderResistanceTable(); } catch (e) { console.warn('[capture] resistance render', e); }
+      try { renderCadence(); } catch (e) { console.warn('[capture] cadence render', e); }
+      try { renderTimeline(); } catch (e) { console.warn('[capture] timeline render', e); }
+    }
+
+    // ---- state --------------------------------------------------------------
+    // Mock data for the scaffold pass. Real data comes from roster CSV + candidate paste.
+
+    var state = {
+      captured: {
+        cities: [],    // {level, x, y, capturedAt}
+        digs: [],
+      },
+      capturesToday: 0,
+      candidates: [
+        // Placeholder mock candidates so the UI has something to render.
+        { type: 'dig',  x: 118, y: 122, targetLevel: 1, notes: 'first capture — required L1 dig' },
+        { type: 'city', x: 115, y: 125, targetLevel: 6, notes: 'closest L6 candidate to hive' },
+        { type: 'city', x: 130, y: 118, targetLevel: 5, notes: 'covers exposed R1 cluster east' },
+        { type: 'dig',  x: 112, y: 128, targetLevel: 3, notes: 'coal producer, adjacent to first dig' },
+      ],
+      roster: null,   // CSV rows once loaded
+    };
+
+    // ---- capacity slots -----------------------------------------------------
+
+    function renderCapacity() {
+      var citySlots = document.getElementById('citySlots');
+      var digSlots = document.getElementById('digSlots');
+      citySlots.innerHTML = '';
+      digSlots.innerHTML = '';
+      for (var i = 0; i < MAX_CITIES; i++) {
+        var el = document.createElement('div');
+        el.className = 'slot' + (i < state.captured.cities.length ? ' filled' : '');
+        el.textContent = i < state.captured.cities.length
+          ? ('L' + (state.captured.cities[i].level || '?'))
+          : '—';
+        citySlots.appendChild(el);
+      }
+      for (var j = 0; j < MAX_DIGS; j++) {
+        var e2 = document.createElement('div');
+        e2.className = 'slot' + (j < state.captured.digs.length ? ' filled dig' : '');
+        e2.textContent = j < state.captured.digs.length
+          ? ('L' + (state.captured.digs[j].level || '?'))
+          : '—';
+        digSlots.appendChild(e2);
+      }
+      document.getElementById('capturesToday').textContent = String(state.capturesToday);
+    }
+
+    // ---- queue --------------------------------------------------------------
+
+    function renderQueue(ranked) {
+      var rows = ranked || state.candidates.map(function (c, i) {
+        return {
+          ...c,
+          priority_score: 100 - i,
+          heat_delta_c: c.type === 'city' ? CITY_HEAT_BY_LEVEL[c.targetLevel] : null,
+          soil_per_hr: c.type === 'city' ? CITY_SOIL_PER_HR[c.targetLevel] : null,
+          unlock: (c.type === 'city' && c.targetLevel === 6) ? 'W3 D6+12h' : 'W1 D3+12h',
+        };
+      });
+
+      var empty = document.getElementById('queueEmpty');
+      var table = document.getElementById('queueTable');
+      var body = document.getElementById('queueBody');
+
+      if (!rows.length) {
+        empty.style.display = '';
+        table.style.display = 'none';
+        return;
+      }
+      empty.style.display = 'none';
+      table.style.display = '';
+      body.innerHTML = rows.map(function (r) {
+        var typeLabel = r.type === 'city' ? LWSi18n.t('typeCity') : LWSi18n.t('typeDig');
+        return '<tr>'
+          + '<td class="num">' + (r.priority_score != null ? r.priority_score : '—') + '</td>'
+          + '<td class="type-' + r.type + '">' + typeLabel + '</td>'
+          + '<td class="coord">(' + r.x + ', ' + r.y + ')</td>'
+          + '<td class="num">L' + r.targetLevel + '</td>'
+          + '<td class="num">' + (r.heat_delta_c != null ? '+' + r.heat_delta_c + '°C' : '—') + '</td>'
+          + '<td class="num">' + (r.soil_per_hr != null ? r.soil_per_hr : '—') + '</td>'
+          + '<td>' + (r.unlock || '—') + '</td>'
+          + '<td style="color:var(--text-mute);font-size:12px;">' + (r.notes || '') + '</td>'
+          + '</tr>';
+      }).join('');
+    }
+
+    // ---- protection timers --------------------------------------------------
+
+    function renderProtection() {
+      var list = document.getElementById('protectionList');
+      var empty = document.getElementById('protectionEmpty');
+      var all = state.captured.cities.concat(state.captured.digs);
+      if (!all.length) {
+        empty.style.display = '';
+        list.innerHTML = '';
+        return;
+      }
+      empty.style.display = 'none';
+      list.innerHTML = all.map(function (t) {
+        var expiryMs = t.capturedAt + PROTECTION_HOURS * 3600 * 1000;
+        var remainingMs = expiryMs - Date.now();
+        var hours = Math.floor(remainingMs / 3600 / 1000);
+        var expired = remainingMs <= 0;
+        var expiringSoon = !expired && hours < 4;
+        var cls = expired ? 'expired' : (expiringSoon ? 'expiring-soon' : '');
+        var countdownCls = expired ? 'error' : (expiringSoon ? 'warn' : '');
+        var text = expired
+          ? LWSi18n.t('protectionExpired')
+          : LWSi18n.t('protectionExpires') + ' ' + hours + 'h';
+        return '<div class="protection-item ' + cls + '">'
+          + '<span class="coord">(' + t.x + ', ' + t.y + ')</span>'
+          + '<span style="color:var(--text-dim);font-size:12px;">L' + t.level + ' ' + (t.type || '') + '</span>'
+          + '<span class="countdown ' + countdownCls + '">' + text + '</span>'
+          + '</div>';
+      }).join('');
+    }
+
+    // ---- unlock timeline (Gantt-style) --------------------------------------
+
+    function getSeasonStartMs() {
+      if (SEASON_START_ISO) {
+        var t = Date.parse(SEASON_START_ISO);
+        if (!isNaN(t)) return t;
+      }
+      return null;
+    }
+
+    function formatDeltaHrs(hrs) {
+      var absH = Math.abs(hrs);
+      if (absH < 24) return Math.round(absH) + 'h';
+      var d = Math.floor(absH / 24);
+      var h = Math.round(absH - d * 24);
+      return d + 'd ' + h + 'h';
+    }
+
+    function renderTimeline() {
+      var track = document.getElementById('tlTrack');
+      var noStartBanner = document.getElementById('tlNoStart');
+      if (!track) return;
+      track.innerHTML = '';
+
+      var schedule = (CITY_UNLOCK_SCHEDULE || []).slice().sort(function (a, b) {
+        return (a.abs_hour || 0) - (b.abs_hour || 0);
+      });
+      if (!schedule.length) {
+        track.innerHTML = '<p class="rally-help" style="padding:20px;">No unlock schedule for this season.</p>';
+        return;
+      }
+
+      // Timeline spans from 0h to just past the last unlock (round up to nearest week boundary).
+      var maxAbsHour = schedule[schedule.length - 1].abs_hour || 0;
+      var trackHours = Math.max(672, Math.ceil((maxAbsHour + 24) / 168) * 168); // at least 4 weeks
+      var startMs = getSeasonStartMs();
+      var usingFallback = false;
+      if (!startMs) {
+        // Fallback: anchor to today at 00:00 local so the "now" marker sits at the left edge.
+        startMs = new Date().setHours(0, 0, 0, 0);
+        usingFallback = true;
+      }
+      if (noStartBanner) noStartBanner.style.display = usingFallback ? '' : 'none';
+
+      // Week ticks along the bottom axis.
+      var axis = document.createElement('div');
+      axis.className = 'timeline-axis';
+      track.appendChild(axis);
+      var weeks = Math.ceil(trackHours / 168);
+      for (var w = 0; w <= weeks; w++) {
+        var pct = (w * 168) / trackHours * 100;
+        var tick = document.createElement('div');
+        tick.className = 'timeline-axis-tick';
+        tick.style.left = pct + '%';
+        axis.appendChild(tick);
+        var lbl = document.createElement('div');
+        lbl.className = 'timeline-axis-label';
+        lbl.style.left = pct + '%';
+        lbl.textContent = LWSi18n.t('timelineTickWeek') + (w + 1);
+        axis.appendChild(lbl);
+      }
+
+      // "Now" marker (relative to season start).
+      var nowHours = (Date.now() - startMs) / 3600 / 1000;
+      if (nowHours >= 0 && nowHours <= trackHours) {
+        var nowEl = document.createElement('div');
+        nowEl.className = 'timeline-now';
+        nowEl.style.left = (nowHours / trackHours * 100) + '%';
+        track.appendChild(nowEl);
+      }
+
+      // Bars, one per level.
+      var rowH = 30, topY = 12;
+      schedule.forEach(function (row, i) {
+        var absH = row.abs_hour || 0;
+        var startPct = (absH / trackHours) * 100;
+        var pastCurrent = nowHours >= absH;
+
+        var bar = document.createElement('div');
+        bar.className = 'timeline-bar level-' + row.level + (pastCurrent ? ' past' : ' future');
+        bar.style.left = startPct + '%';
+        bar.style.top = (topY + i * rowH) + 'px';
+        // Bar spans a small visual width — anchor is the unlock instant.
+        bar.style.width = 'calc(' + Math.max(0, 100 - startPct) + '% - 4px)';
+        bar.style.maxWidth = '260px';
+        bar.textContent = 'L' + row.level + ' — Wk' + row.week + ' D' + row.day + (row.hour ? '+' + row.hour + 'h' : '');
+        bar.title = 'L' + row.level + ' unlock: hour ' + absH + ' (Wk' + row.week + ' D' + row.day + '+' + (row.hour || 0) + 'h)';
+        track.appendChild(bar);
+
+        // Remaining-time label under the bar.
+        var remain = document.createElement('div');
+        remain.className = 'timeline-bar-remain';
+        remain.style.left = startPct + '%';
+        remain.style.top = (topY + i * rowH + 22) + 'px';
+        if (pastCurrent) {
+          remain.textContent = LWSi18n.t('timelineAlreadyOpen');
+        } else {
+          remain.textContent = LWSi18n.t('timelineOpensIn') + ' ' + formatDeltaHrs(absH - nowHours);
+        }
+        track.appendChild(remain);
+      });
+
+      // Height the track so all bars fit.
+      track.style.height = (topY + schedule.length * rowH + 32) + 'px';
+    }
+
+    // ---- resistance table ---------------------------------------------------
+
+    var RES_NAME_KEYS = { 1:'resL1Name', 2:'resL2Name', 3:'resL3Name', 4:'resL4Name', 5:'resL5Name', 6:'resL6Name', 7:'resL7Name' };
+
+    function renderResistanceTable() {
+      var body = document.getElementById('resBody');
+      if (!body) return;
+      // Rows: one per level in the current unlock schedule (typically L1-L6 or L1-L7 for S2).
+      var scheduleByLevel = {};
+      (CITY_UNLOCK_SCHEDULE || []).forEach(function (r) { scheduleByLevel[r.level] = r; });
+      var levels = Object.keys(CITY_RESISTANCE || {}).map(Number).sort(function (a, b) { return a - b; });
+      body.innerHTML = levels.map(function (lvl) {
+        var r = scheduleByLevel[lvl];
+        var unlockLabel = r
+          ? ('Wk' + r.week + ' D' + r.day + (r.hour ? '+' + r.hour + 'h' : ''))
+          : '—';
+        var res = CITY_RESISTANCE[lvl];
+        var resLabel = (res == null) ? ('<em style="color:var(--text-mute)">' + LWSi18n.t('resUnknown') + '</em>') : res.toLocaleString();
+        var heat = CITY_HEAT_BY_LEVEL[lvl];
+        var heatLabel = (HAS_HEAT_MECHANIC && heat != null) ? ('+' + heat + '°C') : '—';
+        var nameKey = RES_NAME_KEYS[lvl];
+        var nameLabel = nameKey ? LWSi18n.t(nameKey) : ('L' + lvl);
+        return '<tr class="level-' + lvl + '">'
+          + '<td class="level-badge">L' + lvl + '</td>'
+          + '<td>' + nameLabel + '</td>'
+          + '<td class="num">' + resLabel + '</td>'
+          + '<td class="num">' + heatLabel + '</td>'
+          + '<td style="color:var(--text-dim);font-family:var(--mono);font-size:12px;">' + unlockLabel + '</td>'
+          + '</tr>';
+      }).join('');
+    }
+
+    // ---- cadence tracker ----------------------------------------------------
+
+    function renderCadence() {
+      var citiesUsed = state.captured.cities.length;
+      var digsUsed = state.captured.digs.length;
+      var citiesLeft = Math.max(0, MAX_CITIES - citiesUsed);
+      var digsLeft = Math.max(0, MAX_DIGS - digsUsed);
+      var todayLeft = Math.max(0, CAPTURES_PER_DAY - state.capturesToday);
+
+      var cn = document.getElementById('cadenceCitiesLeftN');
+      var dn = document.getElementById('cadenceDigsLeftN');
+      var tn = document.getElementById('cadenceTodayLeftN');
+      if (cn) cn.textContent = String(citiesLeft);
+      if (dn) dn.textContent = String(digsLeft);
+      if (tn) tn.textContent = String(todayLeft);
+
+      // Update the "/ MAX" denominators (visible span.of).
+      function setDenom(id, max) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var of = el.querySelector('.of');
+        if (of) of.textContent = ' / ' + max;
+      }
+      var citiesTile = document.getElementById('cadenceCitiesTile');
+      var digsTile = document.getElementById('cadenceDigsTile');
+      var todayTile = document.getElementById('cadenceTodayTile');
+      if (citiesTile) setDenom(citiesTile.querySelector('.cadence-value').id ? citiesTile.querySelector('.cadence-value').id : '', MAX_CITIES);
+      // Simpler: rewrite the .of span directly per tile.
+      [
+        [citiesTile, MAX_CITIES],
+        [digsTile, MAX_DIGS],
+        [todayTile, CAPTURES_PER_DAY]
+      ].forEach(function (pair) {
+        if (!pair[0]) return;
+        var of = pair[0].querySelector('.of');
+        if (of) of.textContent = ' / ' + pair[1];
+      });
+
+      // Color state: green when plenty of room, warn when 1 left, error when 0.
+      function setTileState(tile, left) {
+        if (!tile) return;
+        tile.classList.remove('warn', 'error', 'ok');
+        if (left <= 0) tile.classList.add('error');
+        else if (left === 1) tile.classList.add('warn');
+        else tile.classList.add('ok');
+      }
+      setTileState(citiesTile, citiesLeft);
+      setTileState(digsTile, digsLeft);
+      setTileState(todayTile, todayLeft);
+    }
+
+    // ---- rally squad recommender --------------------------------------------
+
+    function parseRallyRoster(text) {
+      // Accepts "name,power" or "power" per line. Whitespace + trailing commas tolerated.
+      // Power can include commas or 'M' / 'B' suffixes (e.g. "142M", "1.4B").
+      var out = [];
+      (text || '').split(/\r?\n/).forEach(function (line) {
+        var s = line.trim();
+        if (!s || s[0] === '#') return;
+        var parts = s.split(',');
+        var name, powStr;
+        if (parts.length >= 2) {
+          name = parts[0].trim();
+          powStr = parts.slice(1).join(',').trim();
+        } else {
+          name = 'Member ' + (out.length + 1);
+          powStr = parts[0].trim();
+        }
+        // Handle M/B suffix
+        var mult = 1;
+        var last = powStr.slice(-1).toUpperCase();
+        if (last === 'M') { mult = 1e6; powStr = powStr.slice(0, -1); }
+        else if (last === 'B') { mult = 1e9; powStr = powStr.slice(0, -1); }
+        else if (last === 'K') { mult = 1e3; powStr = powStr.slice(0, -1); }
+        // Strip commas and spaces inside the number
+        var n = parseFloat(powStr.replace(/[,\s]/g, ''));
+        if (isNaN(n) || n <= 0) return;
+        out.push({ name: name, power: Math.round(n * mult) });
+      });
+      return out;
+    }
+
+    function suggestSquadForResistance(roster, targetResistance) {
+      // Resistance in-game is compared to total troop power projected in a rally.
+      // Community rule-of-thumb: 1 point of resistance ≈ 1 troop power point at the
+      // rally-target scale used by S2 cities. We greedy-pick largest members first
+      // until sum >= targetResistance. Returns { squad, total, met }.
+      if (!roster || !roster.length || !targetResistance) {
+        return { squad: [], total: 0, met: false };
+      }
+      var sorted = roster.slice().sort(function (a, b) { return b.power - a.power; });
+      var picked = [], total = 0;
+      for (var i = 0; i < sorted.length; i++) {
+        picked.push(sorted[i]);
+        total += sorted[i].power;
+        if (total >= targetResistance) break;
+      }
+      return { squad: picked, total: total, met: total >= targetResistance };
+    }
+
+    function fmtPower(n) {
+      if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
+      if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return (n / 1e3).toFixed(0) + 'K';
+      return String(n);
+    }
+
+    function renderRally() {
+      var textarea = document.getElementById('rallyRoster');
+      var countEl = document.getElementById('rallyRosterCount');
+      var results = document.getElementById('rallyResults');
+      if (!textarea || !results) return;
+
+      var roster = parseRallyRoster(textarea.value);
+      if (countEl) countEl.textContent = String(roster.length);
+
+      if (!roster.length) {
+        results.innerHTML = '<p class="rally-help">' + LWSi18n.t('rallyEmptyRoster') + '</p>';
+        return;
+      }
+
+      // One card per level with a known resistance; sort ascending so smallest first.
+      var levels = Object.keys(CITY_RESISTANCE || {}).map(Number).filter(function (lvl) {
+        return CITY_RESISTANCE[lvl] != null;
+      }).sort(function (a, b) { return a - b; });
+
+      results.innerHTML = levels.map(function (lvl) {
+        var target = CITY_RESISTANCE[lvl];
+        var suggestion = suggestSquadForResistance(roster, target);
+        var lines = suggestion.squad.map(function (m) {
+          return '<li><span>' + escapeHtml(m.name) + '</span><span class="power">' + fmtPower(m.power) + '</span></li>';
+        }).join('');
+        var summaryClass = suggestion.met ? 'ok' : 'short';
+        var summaryLabel = suggestion.met ? LWSi18n.t('rallyMet') : LWSi18n.t('rallyShort');
+        return '<div class="rally-result-card">'
+          + '<div class="rally-result-header">'
+          +   '<span class="rally-level">L' + lvl + ' · ' + LWSi18n.t(RES_NAME_KEYS[lvl] || 'resThLevel') + '</span>'
+          +   '<span class="rally-target">' + LWSi18n.t('resThResistance') + ': ' + target.toLocaleString() + '</span>'
+          + '</div>'
+          + '<ul class="rally-members-list">' + lines + '</ul>'
+          + '<div class="rally-summary">'
+          +   '<span>' + suggestion.squad.length + ' ' + LWSi18n.t('rallyIncluded') + ' · ' + fmtPower(suggestion.total) + '</span>'
+          +   '<span class="' + summaryClass + '">' + summaryLabel + ' (' + Math.round(suggestion.total / target * 100) + '% ' + LWSi18n.t('rallyOfTarget') + ')</span>'
+          + '</div>'
+          + '</div>';
+      }).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"']/g, function (c) {
+        return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+      });
+    }
+
+    // Wire up rally UI once DOM is ready.
+    (function wireRally() {
+      var btn = document.getElementById('btnRallySuggest');
+      var ta = document.getElementById('rallyRoster');
+      if (btn) btn.addEventListener('click', renderRally);
+      if (ta) ta.addEventListener('input', function () {
+        // Live-update member count on typing; only recompute cards on button click.
+        var countEl = document.getElementById('rallyRosterCount');
+        if (countEl) countEl.textContent = String(parseRallyRoster(ta.value).length);
+      });
+    })();
+
+    // Wire up season-start override (timeline card).
+    (function wireTimelineStart() {
+      var input = document.getElementById('tlSeasonStart');
+      if (!input) return;
+      input.addEventListener('change', function () {
+        if (input.value) {
+          // Interpret as local time (browser). Store as ISO for consistency.
+          var d = new Date(input.value);
+          if (!isNaN(d.getTime())) {
+            SEASON_START_ISO = d.toISOString();
+            renderTimeline();
+          }
+        } else {
+          SEASON_START_ISO = null;
+          renderTimeline();
+        }
+      });
+    })();
+
+    // ---- button handlers (stubbed) -----------------------------------------
+
+    document.getElementById('btnRank').addEventListener('click', function () {
+      // Call /api/rank — stubbed on the server side in v0.1.
+      fetch('/api/rank', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          candidates: state.candidates,
+          hiveCenter: { x: +document.getElementById('hiveX').value, y: +document.getElementById('hiveY').value },
+          week: +document.getElementById('weekSel').value,
+          day: +document.getElementById('daySel').value,
+          roster: state.roster,
+        }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          renderQueue(data.ranked || []);
+          if (data.warnings && data.warnings.length) console.warn('[rank]', data.warnings);
+        })
+        .catch(function (e) {
+          console.error('[rank] failed', e);
+        });
+    });
+
+    // Auto-load the canonical roster (LW Atlas + upload) — feeds /api/rank.
+    window.addEventListener('lws:roster-loaded', function (e) {
+      if (!e.detail || !e.detail.rows) return;
+      state.roster = e.detail.rows;
+      var b = document.getElementById('btnImportRoster');
+      if (b) b.textContent = '✓ ' + e.detail.rows.length + ' members loaded';
+    });
+    document.getElementById('btnImportRoster').addEventListener('click', function () {
+      if (state.roster && state.roster.length) {
+        alert(state.roster.length + ' members already auto-loaded from LW Atlas. '
+          + 'To use a different alliance, open Live Roster and pick one.');
+      } else {
+        window.open('https://r5tools.io/live-roster.html', '_blank');
+      }
+    });
+
+    document.getElementById('btnImportCandidates').addEventListener('click', function () {
+      // TODO(v0.2): textarea paste + parse.
+      alert('TODO: candidate paste (format: type,x,y,targetLevel)');
+    });
+
+    document.getElementById('btnAddCandidate').addEventListener('click', function () {
+      var line = prompt('type,x,y,targetLevel (e.g. city,120,120,6)');
+      if (!line) return;
+      var parts = line.split(',').map(function (s) { return s.trim(); });
+      if (parts.length < 4) return;
+      state.candidates.push({
+        type: parts[0], x: +parts[1], y: +parts[2], targetLevel: +parts[3], notes: 'manual add',
+      });
+      renderQueue();
+    });
+
+    document.getElementById('btnExportPng').addEventListener('click', function () {
+      renderCapturePng();
+    });
+
+    // Bank-mode (S5) export handlers — minimal PNG + CSV so the season works end-to-end.
+    var bankPngBtn = document.getElementById('btnBankExportPng');
+    if (bankPngBtn) bankPngBtn.addEventListener('click', function () { renderModePng('bank'); });
+    var bankCsvBtn = document.getElementById('btnBankExportCsv');
+    if (bankCsvBtn) bankCsvBtn.addEventListener('click', function () {
+      var header = 'priority,bank_level,x,y,cg_interest,notes\n';
+      // Placeholder — real Bank state would come from a bank-mode candidate list.
+      downloadBlob(header, 'bank-capture-queue.csv', 'text/csv');
+    });
+
+    // Altar-mode (S6) export handlers — 5-altar list with role + granted skill.
+    var altarPngBtn = document.getElementById('btnAltarExportPng');
+    if (altarPngBtn) altarPngBtn.addEventListener('click', function () { renderModePng('altar'); });
+    var altarCsvBtn = document.getElementById('btnAltarExportCsv');
+    if (altarCsvBtn) altarCsvBtn.addEventListener('click', function () {
+      var header = 'altar_name,role,alliance_skill,held\n';
+      var body = [
+        ['Cobra',    'Recruiter',       'Cobra Barrier',           ''],
+        ['Echo',     'Muse',            'Night Army summon',        ''],
+        ['Gust',     'Warlord',         'Serpent Breath',           ''],
+        ['Feather',  'Butler',          'Feather Lightning strike', ''],
+        ['Treehaven','Alliance Leader', 'Reset skill cooldowns',    '']
+      ].map(function (r) { return r.join(','); }).join('\n');
+      downloadBlob(header + body, 'altar-conquest.csv', 'text/csv');
+    });
+
+    // Discord-ready 1600×900 dark-theme snapshot of the capture queue + capacity.
+    // Matches shared palette (LWS_Access_Codes / _Season_Timeline / _Coal_Burn_Calculator / _Freeze_Risk_Dashboard).
+    function renderCapturePng() {
+      var W = 1600, H = 900;
+      var canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      var ctx = canvas.getContext('2d');
+
+      var C = {
+        bg: '#0a0e1a', panel: '#0d1424', panel2: '#12192c',
+        border: 'rgba(255,255,255,0.10)',
+        accent: '#c9a961', text: '#e6e8ee', textDim: '#a8b0c0', textMut: '#7a8290',
+        city: '#7ac8e0', dig: '#b98ae0', good: '#8ae0a3',
+      };
+
+      ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+
+      // Header
+      ctx.fillStyle = C.panel; ctx.fillRect(0, 0, W, 80);
+      ctx.strokeStyle = C.border; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 80); ctx.lineTo(W, 80); ctx.stroke();
+      ctx.fillStyle = C.accent; ctx.textBaseline = 'middle';
+      ctx.font = '600 14px system-ui, -apple-system, sans-serif';
+      ctx.fillText('R5TOOLS.IO · CITY / DIG-SITE CAPTURE PLANNER', 40, 40);
+      ctx.fillStyle = C.textDim; ctx.font = '400 13px system-ui, sans-serif';
+      ctx.textAlign = 'right';
+      var citiesUsed = state.captured.cities.length, digsUsed = state.captured.digs.length;
+      ctx.fillText('Cities ' + citiesUsed + '/' + MAX_CITIES + ' · Dig-sites ' + digsUsed + '/' + MAX_DIGS + ' · Today ' + state.capturesToday + '/' + CAPTURES_PER_DAY, W - 40, 40);
+      ctx.textAlign = 'left';
+
+      // Capacity slots row
+      var capY = 120, slotW = 60, slotGap = 10;
+      ctx.fillStyle = C.textMut; ctx.font = '500 12px system-ui, sans-serif';
+      ctx.fillText('CITIES', 40, capY + 22);
+      var cx0 = 130;
+      for (var i = 0; i < MAX_CITIES; i++) {
+        var filled = i < state.captured.cities.length;
+        var lvl = filled ? state.captured.cities[i].level : null;
+        ctx.fillStyle = filled ? C.city : C.panel2;
+        ctx.fillRect(cx0 + i * (slotW + slotGap), capY, slotW, 40);
+        ctx.strokeStyle = C.border; ctx.strokeRect(cx0 + i * (slotW + slotGap), capY, slotW, 40);
+        if (filled) {
+          ctx.fillStyle = C.bg; ctx.font = '600 14px ui-monospace, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('L' + (lvl || '?'), cx0 + i * (slotW + slotGap) + slotW / 2, capY + 22);
+        }
+      }
+      ctx.fillStyle = C.textMut; ctx.font = '500 12px system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('DIG-SITES', 610, capY + 22);
+      var dx0 = 720;
+      for (var j = 0; j < MAX_DIGS; j++) {
+        var filledD = j < state.captured.digs.length;
+        var lvlD = filledD ? state.captured.digs[j].level : null;
+        ctx.fillStyle = filledD ? C.dig : C.panel2;
+        ctx.fillRect(dx0 + j * (slotW + slotGap), capY, slotW, 40);
+        ctx.strokeStyle = C.border; ctx.strokeRect(dx0 + j * (slotW + slotGap), capY, slotW, 40);
+        if (filledD) {
+          ctx.fillStyle = C.bg; ctx.font = '600 14px ui-monospace, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('L' + (lvlD || '?'), dx0 + j * (slotW + slotGap) + slotW / 2, capY + 22);
+        }
+      }
+      ctx.textAlign = 'left';
+
+      // Priority queue title + week-4 blizzard warning
+      ctx.fillStyle = C.accent; ctx.font = '600 14px system-ui, sans-serif';
+      ctx.fillText('PRIORITY QUEUE', 40, 210);
+      ctx.fillStyle = C.textMut; ctx.font = '400 12px system-ui, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(MAX_CITIES + ' cities + ' + MAX_DIGS + ' dig-sites max · ' + CAPTURES_PER_DAY + ' captures/day · ' + PROTECTION_HOURS + 'h post-capture protection',
+                   W - 40, 210);
+      ctx.textAlign = 'left';
+
+      // Queue table
+      var tableY = 240, tableH = H - 240 - 60;
+      ctx.fillStyle = C.panel; ctx.fillRect(40, tableY, W - 80, tableH);
+      ctx.strokeStyle = C.border; ctx.strokeRect(40, tableY, W - 80, tableH);
+
+      var resLabel = (CITY_RESOURCE_LABEL || 'Soil/hr').toUpperCase();
+      var heatColLabel = HAS_HEAT_MECHANIC ? 'HEAT BONUS' : '—';
+      var cols = [
+        { label: '#',            x: 60,   w: 40,  align: 'center' },
+        { label: 'TYPE',         x: 110,  w: 90,  align: 'left' },
+        { label: 'TARGET LVL',   x: 210,  w: 130, align: 'center' },
+        { label: 'COORD',        x: 350,  w: 200, align: 'left' },
+        { label: heatColLabel,   x: 560,  w: 200, align: 'right' },
+        { label: resLabel,       x: 770,  w: 200, align: 'right' },
+        { label: 'NOTES',        x: 980,  w: 540, align: 'left' },
+      ];
+      ctx.fillStyle = C.accent; ctx.font = '600 12px system-ui, sans-serif';
+      cols.forEach(function (col) {
+        ctx.textAlign = col.align;
+        var tx = col.align === 'right' ? col.x + col.w : (col.align === 'center' ? col.x + col.w / 2 : col.x);
+        ctx.fillText(col.label, tx, tableY + 28);
+      });
+      ctx.strokeStyle = C.border; ctx.beginPath();
+      ctx.moveTo(60, tableY + 44); ctx.lineTo(W - 60, tableY + 44); ctx.stroke();
+
+      var rowH = 32, rowY0 = tableY + 60;
+      var maxRows = Math.floor((tableH - 70) / rowH);
+      var shown = state.candidates.slice(0, maxRows);
+      shown.forEach(function (c, i) {
+        var y = rowY0 + i * rowH + 16;
+        // Priority number
+        ctx.textAlign = 'center'; ctx.fillStyle = C.textMut;
+        ctx.font = '600 13px ui-monospace, monospace';
+        ctx.fillText(String(i + 1), cols[0].x + cols[0].w / 2, y);
+        // Type pill
+        ctx.textAlign = 'left';
+        var isCity = c.type === 'city';
+        ctx.fillStyle = isCity ? C.city : C.dig;
+        ctx.fillRect(cols[1].x, y - 10, 70, 20);
+        ctx.fillStyle = C.bg; ctx.font = '600 11px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(isCity ? 'CITY' : 'DIG', cols[1].x + 35, y);
+        // Target level
+        ctx.fillStyle = C.text; ctx.font = '500 13px ui-monospace, monospace';
+        ctx.fillText('L' + (c.targetLevel || '?'), cols[2].x + cols[2].w / 2, y);
+        // Coord
+        ctx.textAlign = 'left'; ctx.fillStyle = C.textDim;
+        ctx.font = '500 12px ui-monospace, monospace';
+        ctx.fillText('(' + c.x + ', ' + c.y + ')', cols[3].x, y);
+        // Heat bonus (S2-only — S3/S4 have no heat mechanic → dash out the column)
+        ctx.textAlign = 'right';
+        if (HAS_HEAT_MECHANIC && isCity && CITY_HEAT_BY_LEVEL[c.targetLevel] != null) {
+          ctx.fillStyle = C.good; ctx.font = '600 12px ui-monospace, monospace';
+          ctx.fillText('+' + CITY_HEAT_BY_LEVEL[c.targetLevel] + '°C', cols[4].x + cols[4].w, y);
+        } else {
+          ctx.fillStyle = C.textMut; ctx.fillText('—', cols[4].x + cols[4].w, y);
+        }
+        // Soil / hr (cities only)
+        if (isCity && typeof CITY_SOIL_PER_HR !== 'undefined' && CITY_SOIL_PER_HR[c.targetLevel] != null) {
+          ctx.fillStyle = C.textDim; ctx.font = '500 12px ui-monospace, monospace';
+          ctx.fillText(CITY_SOIL_PER_HR[c.targetLevel].toLocaleString(), cols[5].x + cols[5].w, y);
+        } else {
+          ctx.fillStyle = C.textMut; ctx.fillText('—', cols[5].x + cols[5].w, y);
+        }
+        // Notes
+        ctx.textAlign = 'left'; ctx.fillStyle = C.textMut;
+        ctx.font = '400 12px system-ui, sans-serif';
+        var notes = (c.notes || '').slice(0, 80);
+        ctx.fillText(notes, cols[6].x, y);
+      });
+      if (state.candidates.length > shown.length) {
+        ctx.fillStyle = C.textMut; ctx.font = '400 11px system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('+ ' + (state.candidates.length - shown.length) + ' more', 60, tableY + tableH - 20);
+      }
+      if (state.candidates.length === 0) {
+        ctx.fillStyle = C.textMut; ctx.font = '400 14px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Queue empty — add candidates to see them here.', W / 2, tableY + tableH / 2);
+      }
+
+      // Footer
+      ctx.fillStyle = C.textMut; ctx.font = '400 12px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('r5tools.io · City / Dig-Site Capture Planner · ' + new Date().toISOString().slice(0, 10),
+                   W / 2, H - 30);
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+
+      canvas.toBlob(function (blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'city-capture-plan-' + new Date().toISOString().slice(0, 10) + '.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    // Minimal PNG for S5 Bank / S6 Altar modes. Full-fidelity dashboards TBD once
+    // per-mode candidate state models exist; this ships a Discord-shareable
+    // seasonal-planner card in the meantime.
+    function renderModePng(mode) {
+      var W = 1600, H = 900;
+      var canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      var ctx = canvas.getContext('2d');
+      var C = {
+        bg: '#0a0e1a', panel: '#0d1424', panel2: '#12192c',
+        border: 'rgba(255,255,255,0.10)',
+        accent: '#c9a961', text: '#e6e8ee', textDim: '#a8b0c0', textMut: '#7a8290'
+      };
+      ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+      // Header
+      ctx.fillStyle = C.panel; ctx.fillRect(0, 0, W, 80);
+      ctx.strokeStyle = C.border; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 80); ctx.lineTo(W, 80); ctx.stroke();
+      ctx.fillStyle = C.accent; ctx.textBaseline = 'middle';
+      ctx.font = '600 14px system-ui, -apple-system, sans-serif';
+      var title = mode === 'bank' ? 'R5TOOLS.IO · BANK STRONGHOLD CAPTURE PLANNER'
+                                  : 'R5TOOLS.IO · ALTAR CONQUEST PLANNER';
+      ctx.fillText(title, 40, 40);
+
+      ctx.fillStyle = C.text; ctx.font = '500 16px system-ui, sans-serif';
+      if (mode === 'bank') {
+        var lines = [
+          '2 Bank captures / day — Wed + Sat only. Sundays truce.',
+          'Default 4 Bank max, +1 per city up to 12.',
+          'L1-6 Banks — Week 1. L7-10 Banks — Week 4 (L10 needs VR 39,900).',
+          'High Noon: 15,000 CrystalGold/day cap from W3.',
+          '3 war slots/day (1h each, 7h apart). Alliance Safe Time disables 1.',
+          'CG interest rate: unpublished (KB open question).'
+        ];
+        lines.forEach(function (line, i) {
+          ctx.fillText(line, 60, 160 + i * 40);
+        });
+      } else {
+        // Altar mode — list all 5 altars + granted skills
+        var altars = [
+          ['Cobra Altar',     'Recruiter',        'Cobra Barrier (alliance shield)'],
+          ['Echo Altar',      'Muse',             'Night Army summon'],
+          ['Gust Altar',      'Warlord',          'Serpent Breath (contamination)'],
+          ['Feather Altar',   'Butler',           'Feather Lightning strike'],
+          ['Treehaven Altar', 'Alliance Leader',  'Reset skill cooldowns']
+        ];
+        ctx.fillStyle = C.textDim; ctx.font = '400 14px system-ui, sans-serif';
+        ctx.fillText('Great River central zone — 5 altars, hold max 3 simultaneously. Tuesdays only.', 60, 130);
+        altars.forEach(function (row, i) {
+          var y = 190 + i * 60;
+          ctx.fillStyle = C.accent; ctx.font = '600 16px system-ui, sans-serif';
+          ctx.fillText(row[0], 60, y);
+          ctx.fillStyle = C.textDim; ctx.font = '400 13px system-ui, sans-serif';
+          ctx.fillText(row[1] + ' role', 300, y);
+          ctx.fillStyle = C.text; ctx.font = '500 14px system-ui, sans-serif';
+          ctx.fillText('→ ' + row[2], 500, y);
+        });
+        ctx.fillStyle = C.textMut; ctx.font = '400 12px system-ui, sans-serif';
+        ctx.fillText('Sanctuary timer doubled to 20 min (of 60-min attack window). Captured cities in S6 are PERMANENT.', 60, 520);
+      }
+
+      // Footer
+      ctx.fillStyle = C.textMut; ctx.font = '400 12px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('r5tools.io · ' + (mode === 'bank' ? 'Bank Stronghold Capture Planner' : 'Altar Conquest Planner') + ' · ' + new Date().toISOString().slice(0, 10),
+                   W / 2, H - 30);
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+
+      canvas.toBlob(function (blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = (mode === 'bank' ? 'bank-capture-plan-' : 'altar-conquest-plan-') + new Date().toISOString().slice(0, 10) + '.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    document.getElementById('btnExportCsv').addEventListener('click', function () {
+      // Column names include the per-season resource so downstream sheets don't mis-label S3 spice as S2 soil.
+      var header = 'priority,type,x,y,target_level,heat_delta_c,' + CITY_RESOURCE_KEY + '_per_hr,notes\n';
+      var body = state.candidates.map(function (c, i) {
+        var heat = (HAS_HEAT_MECHANIC && c.type === 'city') ? (CITY_HEAT_BY_LEVEL[c.targetLevel] || '') : '';
+        var res  = c.type === 'city' ? (CITY_SOIL_PER_HR[c.targetLevel] || '') : '';
+        return [100 - i, c.type, c.x, c.y, c.targetLevel, heat, res, (c.notes || '').replace(/,/g, ';')].join(',');
+      }).join('\n');
+      downloadBlob(header + body, 'capture-queue.csv', 'text/csv');
+    });
+
+    document.getElementById('btnExportJson').addEventListener('click', function () {
+      var payload = {
+        exported_at: new Date().toISOString(),
+        source: 'LWS_City_Capture_Planner',
+        version: '0.1.0-scaffold',
+        candidates: state.candidates,
+        captured: state.captured,
+      };
+      downloadBlob(JSON.stringify(payload, null, 2), 'capture-queue.json', 'application/json');
+    });
+
+    document.getElementById('btnCopyDiscord').addEventListener('click', function () {
+      var lines = state.candidates.map(function (c, i) {
+        var t = c.type === 'city' ? LWSi18n.t('typeCity') : LWSi18n.t('typeDig');
+        return (i + 1) + '. ' + t + ' L' + c.targetLevel + ' @ (' + c.x + ', ' + c.y + ')';
+      }).join('\n');
+      navigator.clipboard.writeText(lines).then(function () {
+        alert('Copied ' + state.candidates.length + ' lines to clipboard.');
+      });
+    });
+
+    document.getElementById('btnHeatSim').addEventListener('click', function () {
+      // Cross-tool link. Heat Simulator subdomain TBD.
+      var first = state.candidates[0];
+      if (!first) { alert('No candidate selected.'); return; }
+      window.open('https://bullochman.github.io/lws-heat-simulator-static/?x=' + first.x + '&y=' + first.y, '_blank');
+    });
+
+    function downloadBlob(text, filename, mime) {
+      var blob = new Blob([text], { type: mime });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // ---- boot ---------------------------------------------------------------
+
+    // Pull mechanics_config from LWSSeasons and re-render on season changes.
+    // Initial paint uses S2 defaults so this fetching is opportunistic —
+    // if the CDN + local data/ both fail (e.g. offline dev), we keep S2 defaults.
+    function bootFromSeasons() {
+      if (!window.LWSSeasons || !window.LWSSeasons.resolve) return;
+      window.LWSSeasons.resolve().then(function (ctx) {
+        window.__LWS_SEASON_NAME = (ctx.season && ctx.season.name && (ctx.season.name.en || ctx.season.name.ko)) || ctx.season_id;
+        var mc = (ctx.season && ctx.season.mechanics_config) || {};
+
+        // Season start date: prefer per-warzone override (warzones.json) → season default.
+        // Warzones.json stores season_start_date as YYYY-MM-DD (no time) — landing typically at
+        // ~13:00 server time. If time is missing we anchor at 13:00 UTC as a reasonable default.
+        var startIso = null;
+        if (ctx.warzone && ctx.warzone.season_start_date) {
+          startIso = ctx.warzone.season_start_date;
+        } else if (ctx.season && ctx.season.start_date) {
+          startIso = ctx.season.start_date;
+        }
+        if (startIso && startIso.length === 10) startIso = startIso + 'T13:00:00Z';
+        SEASON_START_ISO = startIso;
+        // Reflect into the datetime-local input so the R5 can override it.
+        var tlInput = document.getElementById('tlSeasonStart');
+        if (tlInput && startIso) {
+          var d = new Date(startIso);
+          if (!isNaN(d.getTime())) {
+            // datetime-local wants YYYY-MM-DDTHH:MM in the browser's local zone.
+            var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+            tlInput.value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
+                          + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+          }
+        }
+
+        applyMechanicsConfig(ctx.season_id, mc);
+        // Update the resource column header (city-mode only) via i18n key so the KR
+        // toggle switches Spice/Copper/Soil translations at the same time.
+        var thRes = document.getElementById('thResourcePerHr');
+        if (thRes) {
+          var supported = SUPPORTED_SEASONS[ctx.season_id];
+          if (supported && supported.mode === 'city') {
+            var thKey = SEASON_RESOURCE_TH_KEY[supported.resource] || 'thSoilPerHr';
+            thRes.setAttribute('data-i18n', thKey);
+            thRes.textContent = LWSi18n.t(thKey);
+          }
+        }
+        renderCapacity();
+        renderQueue();
+        renderProtection();
+        // renderResistanceTable/renderCadence/renderTimeline already invoked from applyMechanicsConfig,
+        // but call renderRally too in case the roster textarea already has content persisted from a
+        // prior visit (browser autofill / bfcache).
+        try { renderRally(); } catch (e) { /* rally roster may be empty — safe to swallow */ }
+      }).catch(function (e) {
+        console.warn('[capture-planner] LWSSeasons unavailable — using S2 defaults', e);
+      });
+    }
+
+    // Fire once at boot (allow seasons-lib.js `defer` script to load first).
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(bootFromSeasons, 0);
+    } else {
+      document.addEventListener('DOMContentLoaded', bootFromSeasons);
+    }
+
+    // Live re-hydrate whenever the user changes warzone/season via the selector.
+    window.addEventListener('lws:season-changed', bootFromSeasons);
+    window.addEventListener('lws:warzone-changed', bootFromSeasons);
+
+    // First paint with S2 defaults (rendered before the LWSSeasons Promise resolves).
+    renderCapacity();
+    renderQueue();
+    renderProtection();
+    renderResistanceTable();
+    renderCadence();
+    renderTimeline();
+
+    // Tick protection countdowns every 60s. Also tick the timeline so "opens in"
+    // labels + NOW marker stay accurate on long-open tabs.
+    setInterval(function () { renderProtection(); renderTimeline(); }, 60 * 1000);
+  </script>
+  <script src="static/seasons-lib.js" defer></script>
+  <script src="https://chat.r5tools.io/widget.js" defer></script>
+  <!-- Shared roster-freshness widget: shows R5s how stale their most-recent roster upload is
+       so they can prompt members to re-scan before rally planning. Widget auto-mounts to a
+       #roster-freshness-slot if present, or floats bottom-right. Silent no-op if unreachable. -->
+  <script src="https://roster.r5tools.io/static/roster-freshness.js" defer></script>
+  <!-- Shared line-chart component (used by sibling tools; loaded here for cross-tool
+       consistency + future migration of the unlock timeline to a Chart.js-style view). -->
+  <script src="https://r5tools.io/line-chart.js" defer></script>
+<script>window.addEventListener("DOMContentLoaded",function(){if(window.LWSDiscord&&typeof LWSDiscord.attachToButton==="function"){setTimeout(function(){LWSDiscord.attachToButton({pngBtnId:"btnExportPng",slotId:"lws-discord-slot",gearSlotId:"lws-discord-gear-slot",filename:"city-capture.png",contextText:"City Capture Plan",toolName:"City Capture Planner"});},300);}});</script>
+</body>
+</html>

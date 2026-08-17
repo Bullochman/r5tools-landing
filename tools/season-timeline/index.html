@@ -1,0 +1,1440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LWS Season Timeline · 시즌 타임라인</title>
+  <meta name="description" content="T-minus countdown to Season 2 launch + prep checklist for the whole alliance. Part of the Last War: Survival tool suite." />
+  <link rel="stylesheet" href="static/styles.css" />
+  <script src="static/lws-countdown.js" defer></script>
+  <script defer src="static/lws-track.js"></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body>
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://bullochman.github.io/lws-profile-studio-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+</div>
+<!-- Warzone / season context strip -->
+<div style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
+  <div id="lws-warzone-selector" style="display:inline-flex"></div>
+</div>
+  <div class="wrap">
+    <div class="app-header">
+      <div class="brand" data-i18n="brand">R5TOOLS.IO</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="brand-sub" data-i18n="brandSub">LWS Suite</span>
+        <button class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+      <a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+    </div>
+
+    <!-- Everything inside #main-app is what LWS_Access_Codes gates behind an unlock -->
+    <div id="main-app">
+
+      <h1 class="page-title" data-i18n="title">Season 2 Timeline · Polar Storm</h1>
+      <p class="page-subtitle" data-i18n="subtitle">T-minus countdown + prep checklist for the whole alliance.</p>
+
+      <!-- ---- Countdown ---- -->
+      <div class="panel countdown">
+        <div class="countdown-label" id="countdownLabel" data-i18n="countdownLabel">Until Season 2 launch</div>
+        <div class="countdown-value" id="countdownValue">— <span class="countdown-unit" data-i18n="countdownDay">d</span></div>
+      </div>
+
+      <!-- ---- Alliance setup ---- -->
+      <div class="panel">
+        <h2 data-i18n="configHeading">Alliance Setup</h2>
+
+        <div class="form-row">
+          <label for="cfgSeasonStart" data-i18n="configSeasonStart">Season 2 start (server time)</label>
+          <input type="datetime-local" id="cfgSeasonStart" />
+        </div>
+        <div class="hint" data-i18n="configSeasonStartHint">When does your warzone's Season 2 map transition happen? Community reports ~13:00 server time for many warzones — ask your R5 for the exact minute.</div>
+
+        <div class="form-row" style="margin-top:16px">
+          <label for="cfgAllianceName" data-i18n="configAllianceName">Alliance name</label>
+          <input type="text" id="cfgAllianceName" placeholder="e.g. HIVE" />
+        </div>
+        <div class="form-row">
+          <label for="cfgAllianceTag" data-i18n="configAllianceTag">Alliance tag</label>
+          <input type="text" id="cfgAllianceTag" placeholder="e.g. [HIV]" />
+        </div>
+        <div class="form-row">
+          <label for="cfgWarzone" data-i18n="configWarzone">Warzone (optional)</label>
+          <input type="number" id="cfgWarzone" placeholder="2007" />
+        </div>
+
+        <div class="form-actions">
+          <button class="primary" id="cfgSaveBtn" data-i18n="configSave">Save</button>
+          <span class="save-msg" id="cfgSaveMsg" data-i18n="configSaved">Saved.</span>
+        </div>
+      </div>
+
+      <!-- ---- Timeline / task list ---- -->
+      <div class="panel">
+        <h2 data-i18n="timelineHeading">Timeline</h2>
+
+        <div class="form-row" style="margin-bottom:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <label for="viewerSelect" data-i18n="viewerLabel" style="margin:0">Viewing tasks for:</label>
+          <select id="viewerSelect" style="min-width:200px;padding:6px 10px"></select>
+          <span class="hint" id="viewerSyncStatus" data-i18n="viewerSyncSaved" style="margin:0;font-size:12px;color:var(--text-mute)"></span>
+        </div>
+
+        <div class="legend">
+          <div class="leg-item"><span class="leg-dot economy"></span><span data-i18n="catEconomy">Economy</span></div>
+          <div class="leg-item"><span class="leg-dot military"></span><span data-i18n="catMilitary">Military</span></div>
+          <div class="leg-item"><span class="leg-dot spatial"></span><span data-i18n="catSpatial">Spatial / prep</span></div>
+          <div class="leg-item"><span class="leg-dot event"></span><span data-i18n="catEvent">Event day</span></div>
+        </div>
+
+        <table class="tl-table" id="tlTable">
+          <thead>
+            <tr>
+              <th data-i18n="timelineDayCol">Day</th>
+              <th data-i18n="timelineTaskCol">Task</th>
+              <th data-i18n="timelineCategoryCol">Category</th>
+              <th data-i18n="timelineDoneCol">Done</th>
+            </tr>
+          </thead>
+          <tbody id="tlBody">
+            <!-- rows rendered by app.js from TASKS[] -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ---- Roster + alliance-wide progress ---- -->
+      <div class="panel">
+        <h2 data-i18n="rosterHeading">Roster · alliance-wide status</h2>
+
+        <div class="form-actions" style="margin-bottom:12px">
+          <button id="rosterImportBtn" data-i18n="rosterImportCsv">Import roster CSV</button>
+          <input type="file" id="rosterFile" accept=".csv,text/csv" hidden />
+        </div>
+        <div id="lws-roster-picker"></div>
+        <div class="hint" data-i18n="rosterImportHint">Same CSV format as the Hive Grid Manager (name, rank, hq_level, total_power, notes).</div>
+
+        <div id="rosterBody" style="margin-top:16px">
+          <div class="roster-empty" data-i18n="rosterEmpty">No roster loaded yet. Import a CSV to see per-member task status.</div>
+        </div>
+      </div>
+
+      <!-- ---- Export ---- -->
+      <div class="panel">
+        <h2 data-i18n="exportHeading">Export</h2>
+        <div class="export-row">
+          <button id="exportPngBtn" data-i18n="exportPng">PNG (Discord)</button><span id="lws-discord-slot" style="display:inline-block;margin-left:6px"></span><span id="lws-discord-gear-slot" style="display:inline-block;margin-left:4px"></span>
+          <button id="exportIcalBtn" data-i18n="exportIcal">iCal (.ics)</button>
+          <button id="exportCsvBtn" data-i18n="exportCsv">CSV</button>
+          <button id="exportJsonBtn" data-i18n="exportJson">JSON</button>
+        </div>
+        <div class="hint" data-i18n="exportHint">PNG snapshot for your Discord announce channel; iCal for personal calendars; CSV/JSON for other LWS tools.</div>
+      </div>
+
+    </div><!-- /#main-app -->
+
+    <footer class="app-footer">
+      <a href="https://r5tools.io" target="_blank" data-i18n="footerHome">r5tools.io</a>
+      · <span data-i18n="footerCred">Powered by the LWS Knowledge Base</span>
+    </footer>
+  </div>
+
+  <!-- ---- LWS Access Codes gate (real, not stubbed) ---- -->
+  <script>
+    // Fallback: for local dev without an access-codes service, comment this line out.
+    // Production: point at the deployed access-codes subdomain.
+    // window.LWS_ACCESS_CODES_BASE_URL = 'https://access-codes.r5tools.io';
+  </script>
+  <script src="https://access-codes.r5tools.io/lib.js?v=3" onerror="console.warn('[LWS] access-codes lib unreachable — running in ungated dev mode')"></script>
+  <script>
+    if (window.LWSAccessCodes && typeof window.LWSAccessCodes.gate === 'function') {
+      window.LWSAccessCodes.gate('main-app');
+    }
+  </script>
+
+  <!-- ---- i18n ---- -->
+  <script src="static/i18n.js"></script>
+  <script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+
+  <!-- ---- app ---- -->
+  <script>
+  (function () {
+    'use strict';
+
+    // ============================================================
+    // Timeline task definitions.
+    //
+    // v0.4 refactor (2026-07-15): the task list is now BUILT PER-SEASON from
+    // LWSSeasons.mechanics_config + milestones. There are three sources:
+    //
+    //   UNIVERSAL_TASKS   — season-agnostic prep (works for any LWS season)
+    //   S2_TASKS          — Season-2-specific (Alliance Furnace + thermal/blizzard/RSW mechanics)
+    //   milestone-derived — pulled from LWSSeasons.getMilestonesForTool(seasonId, 'season_timeline')
+    //
+    // buildTasksForSeason(seasonId) merges the three and returns the current TASKS.
+    // Categories: economy | military | spatial | event
+    // day_offset: negative = pre-season (T-minus), 1 = launch day, > 1 = Day N
+    //             {week, weekday} = in-season, weekday 1=Mon..7=Sun
+    // ============================================================
+
+    // Universal pre-season prep — applies to every LWS season (S1/S2/S3/…).
+    var UNIVERSAL_TASKS = [
+      // KB: [[10-economy]] speedup save-up strategy — double-score during Arms Race overlap
+      { id: 'save-speedups',     day_offset: -12, category: 'economy',  min_hq: 0,
+        title_key: 'taskSaveSpeedupsTitle',   body_key: 'taskSaveSpeedupsBody' },
+      // KB: [[06-season-2-frozen]] HQ ceiling before season locks in
+      { id: 'finish-hq',         day_offset: -10, category: 'economy',  min_hq: 0,
+        title_key: 'taskFinishHqTitle',       body_key: 'taskFinishHqBody' },
+      // KB: [[10-economy]] warehouses protect at/below threshold; opened chests land in exposed pool
+      { id: 'stop-boxes',        day_offset: -7,  category: 'economy',  min_hq: 0,
+        title_key: 'taskStopBoxesTitle',      body_key: 'taskStopBoxesBody' },
+      // KB: [[09-events]] Fri Total Mobilization × Arms Race Unit Progression = waterfall training
+      { id: 'train-troops',      day_offset: -5,  category: 'military', min_hq: 0,
+        title_key: 'taskTrainTroopsTitle',    body_key: 'taskTrainTroopsBody' },
+      // Universal spatial task — every season needs a landing coordinate strategy.
+      // Body was S2-leaked ("-15 °C ambient / -50 °C ring"); swapped to a generic body.
+      // Each per-season block below adds its OWN more-specific coord task.
+      { id: 'choose-coords',     day_offset: -3,  category: 'spatial',  min_hq: 0,
+        title_key: 'taskChooseCoordsTitle',   body_key: 'taskChooseCoordsBodyGeneric' },
+      // KB: [[06-season-2-frozen]] Day-1 priority list — stack radar tasks for guaranteed rewards
+      { id: 'stack-radar',       day_offset: -1,  category: 'economy',  min_hq: 0,
+        title_key: 'taskStackRadarTitle',     body_key: 'taskStackRadarBody' },
+      // KB: alliance-help mechanic is season-agnostic; furnace-reinforcement wording is S2-only (handled below)
+      { id: 'wake-roster',       day_offset: -1,  category: 'spatial',  min_hq: 0,
+        title_key: 'taskAllianceHelpTitle',   body_key: 'taskAllianceHelpBody' },
+      // Universal Day-1 spatial: relocate if needed (mechanic exists every season, phrasing intentionally generic)
+      { id: 'd1-relocate',       day_offset: 1,   category: 'spatial',  min_hq: 0,
+        title_key: 'taskD1RelocateTitle',     body_key: 'taskD1RelocateBody' },
+    ];
+
+    // Season-2 (Polar Storm) specific tasks — thermal/blizzard/furnace mechanics.
+    // These render only when season.id === 's2-polar-storm'.
+    var S2_TASKS = [
+      // KB: [[06-season-2-frozen]] R4/R5 place Alliance Furnace on L1 territory, 20 reinforcements
+      { id: 'd1-place-af',       day_offset: 1,   category: 'spatial',  min_hq: 0,
+        title_key: 'taskD1PlaceAFTitle',      body_key: 'taskD1PlaceAFBody' },
+      // KB: [[06-season-2-frozen]] High-Heat Furnace requires HQ 30
+      { id: 'd1-high-heat',      day_offset: 1,   category: 'military', min_hq: 30,
+        title_key: 'taskD1HighHeatTitle',     body_key: 'taskD1HighHeatBody' },
+      // KB: [[06-season-2-frozen]] Titanium Alloy Factory unlocks Factory 2 at L15
+      { id: 'd1-titanium',       day_offset: 1,   category: 'economy',  min_hq: 25,
+        title_key: 'taskD1TitaniumTitle',     body_key: 'taskD1TitaniumBody' },
+      // KB: [[06-season-2-frozen]] auto-activate-in-blizzard toggle recommended Day 1
+      { id: 'd1-blizzard-toggle',day_offset: 1,   category: 'military', min_hq: 30,
+        title_key: 'taskD1BlizzardToggleTitle', body_key: 'taskD1BlizzardToggleBody' },
+      // KB: [[06-season-2-frozen]] Wanderer coal reward pays out post-map-transition only; L180 ≈ 200k coal
+      { id: 'd1-wanderer',       day_offset: 1,   category: 'event',    min_hq: 0,
+        title_key: 'taskD1WandererTitle',     body_key: 'taskD1WandererBody' },
+      // KB: [[06-season-2-frozen]] Warlord Missile 25×25 tiles; park 5 tiles from own furnace
+      { id: 'w4-missile-move',   week: 4, weekday: 1, category: 'spatial', min_hq: 0,
+        title_key: 'taskW4MissileTitle',      body_key: 'taskW4MissileBody' },
+      // KB: [[06-season-2-frozen]] Free Grouping Teleport unlocks Week 3 — strategic mid-Rare-Soil
+      { id: 'w5-grouping-tp',    week: 5, weekday: 1, category: 'spatial', min_hq: 0,
+        title_key: 'taskW5GroupingTPTitle',   body_key: 'taskW5GroupingTPBody' },
+      // KB gap: [[06-season-2-frozen]] open question #9 — Nuclear Furnace siege mechanics not fully documented
+      { id: 'w7-siege-prep',     week: 7, weekday: 3, category: 'military', min_hq: 25,
+        title_key: 'taskW7SiegePrepTitle',    body_key: 'taskW7SiegePrepBody' },
+    ];
+
+    // ============================================================
+    // Season-1 (Crimson Plague) specific tasks — Virus Resistance grind + Stronghold chain + Infinite Octagon.
+    // KB: kb/05-season-1-crimson-plague.md §5, §7, §14, §16.1-16.8
+    // ============================================================
+    var S1_TASKS = [
+      // KB §7 (Stronghold chain rule) — corner landing safest for VR-gated Stronghold captures
+      { id: 's1-d-3-corner',       day_offset: -3, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS1D3CornerTitle',        body_key: 'taskS1D3CornerBody' },
+      // KB §16.3 — Virus Research Institute is the only VR building; L30 = +10,000 VR
+      { id: 's1-d1-vri',           day_offset: 1,  category: 'military', min_hq: 0,
+        title_key: 'taskS1D1VriTitle',           body_key: 'taskS1D1VriBody' },
+      // KB §16.1 — Protein Farm unlocks Day 1 alongside VRI
+      { id: 's1-d1-protein',       day_offset: 1,  category: 'economy',  min_hq: 0,
+        title_key: 'taskS1D1ProteinTitle',       body_key: 'taskS1D1ProteinBody' },
+      // KB §16.1 — L1 Cities open Wk1 D3 with Genetic Recombination event
+      { id: 's1-w1d3-l1-cities',   week: 1, weekday: 3, category: 'event',    min_hq: 0,
+        title_key: 'taskS1W1D3L1CitiesTitle',    body_key: 'taskS1W1D3L1CitiesBody' },
+      // KB §16 — Kimberly Rocket Shadow exclusive weapon (Tier-5 Kimberly gate)
+      { id: 's1-w1d4-kimberly',    week: 1, weekday: 4, category: 'military', min_hq: 0,
+        title_key: 'taskS1W1D4KimberlyTitle',    body_key: 'taskS1W1D4KimberlyBody' },
+      // KB §5, §16.3 — Rally leader VR gate for Stronghold captures
+      { id: 's1-w2-vr-target',     week: 2, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS1W2VrTargetTitle',      body_key: 'taskS1W2VrTargetBody' },
+      // KB §16.1 — L2 Cities Wk2 D3
+      { id: 's1-w2d3-l2-cities',   week: 2, weekday: 3, category: 'event',    min_hq: 0,
+        title_key: 'taskS1W2L2CitiesTitle',      body_key: 'taskS1W2L2CitiesBody' },
+      // KB §16.8 — Corruptor NPC auto-infects regardless of VR
+      { id: 's1-w2-corruptor',     week: 2, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS1W2CorruptorTitle',     body_key: 'taskS1W2CorruptorBody' },
+      // KB §16.1 — Warzone Expedition Wk3 D2 (Day 16)
+      { id: 's1-w3d2-warzone-exp', week: 3, weekday: 2, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS1W3D2WarzoneExpTitle',  body_key: 'taskS1W3D2WarzoneExpBody' },
+      // KB §16.1 — Military Bases open with Warzone Expedition
+      { id: 's1-w3-mil-bases',     week: 3, weekday: 3, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS1W3MilitaryBasesTitle', body_key: 'taskS1W3MilitaryBasesBody' },
+      // KB §16.1, §16.6 — Warzone Declaration mission + Warzone Duel bonus
+      { id: 's1-w4-warzone-decl',  week: 4, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS1W4WarzoneDeclarationTitle', body_key: 'taskS1W4WarzoneDeclarationBody' },
+      // KB §16.1 — City of Apocalypse mission Wk4 D4
+      { id: 's1-w4-capitol',       week: 4, weekday: 4, category: 'event',    min_hq: 0,
+        title_key: 'taskS1W4CityOfApocalypseTitle', body_key: 'taskS1W4CityOfApocalypseBody' },
+      // KB §14 — Builder Alliance opt-out window Wk 4-7
+      { id: 's1-w4-builder-optout',week: 4, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS1W4BuilderOptoutTitle', body_key: 'taskS1W4BuilderOptoutBody' },
+      // KB §7 — Rain-phase weather applies infection accelerant
+      { id: 's1-w4-rain',          week: 4, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS1W4RainTitle',          body_key: 'taskS1W4RainBody' },
+      // KB §12, §16.7 — Infinite Octagon Wk 5-7 tournament
+      { id: 's1-w5-io-r1',         week: 5, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS1W5InfiniteOctagonR1Title', body_key: 'taskS1W5InfiniteOctagonR1Body' },
+      { id: 's1-w6-io-r2',         week: 6, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS1W6InfiniteOctagonR2Title', body_key: 'taskS1W6InfiniteOctagonR2Body' },
+      { id: 's1-w7-io-r3',         week: 7, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS1W7InfiniteOctagonR3Title', body_key: 'taskS1W7InfiniteOctagonR3Body' },
+      // KB — Season end approaches (Day 48)
+      { id: 's1-w8-season-end',    week: 8, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS1W8SeasonEndTitle',     body_key: 'taskS1W8SeasonEndBody' },
+    ];
+
+    // ============================================================
+    // Season-3 (Golden Kingdom) specific tasks — Curse Resistance grind + Alliance Center range + Spice War.
+    // KB: kb/07-future-seasons.md §765-870
+    // ============================================================
+    var S3_TASKS = [
+      // KB community meta — save stamina 3 weeks pre-season
+      { id: 's3-pre-stamina',      day_offset: -21, category: 'economy',  min_hq: 0,
+        title_key: 'taskS3PreSaveStaminaTitle',  body_key: 'taskS3PreSaveStaminaBody' },
+      // KB §837-854 — Alliance Center 5x5 anchor; Sandworms teleport out-of-range bases
+      { id: 's3-pre-coords',       day_offset: -3, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS3PreChooseCoordsTitle', body_key: 'taskS3PreChooseCoordsBody' },
+      // KB — Protector's Field L11+ demands Mithril/Sacred Water
+      { id: 's3-d1-pfield',        day_offset: 1,  category: 'economy',  min_hq: 0,
+        title_key: 'taskS3D1ProtectorsFieldTitle', body_key: 'taskS3D1ProtectorsFieldBody' },
+      // KB §790 — CRL L30 unlocks Legendary Hero Badge for Scarlett UR
+      { id: 's3-d1-crl',           day_offset: 1,  category: 'military', min_hq: 0,
+        title_key: 'taskS3D1CrlTitle',           body_key: 'taskS3D1CrlBody' },
+      // KB — Blessing Fountain unlocks Day 1, provides Curse Resistance buff
+      { id: 's3-d1-blessing',      day_offset: 1,  category: 'military', min_hq: 0,
+        title_key: 'taskS3D1BlessingFountainTitle', body_key: 'taskS3D1BlessingFountainBody' },
+      // KB — R4/R5 Day 2 Alliance Center repair
+      { id: 's3-d2-ac-repair',     day_offset: 2,  category: 'spatial',  min_hq: 0,
+        title_key: 'taskS3D2AcRepairTitle',      body_key: 'taskS3D2AcRepairBody' },
+      // KB — Marshall Exclusive Weapon Wk1 D4
+      { id: 's3-w1d4-marshall',    week: 1, weekday: 4, category: 'military', min_hq: 0,
+        title_key: 'taskS3W1D4MarshallTitle',    body_key: 'taskS3W1D4MarshallBody' },
+      // KB — Oasis Project Wk2 D1 (greenification + Archaeology)
+      { id: 's3-w2d1-oasis',       week: 2, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS3W2D1OasisTitle',       body_key: 'taskS3W2D1OasisBody' },
+      // KB — Return of the Dead 19-day event, Tue+Fri 11:30 server
+      { id: 's3-w2-return-dead',   week: 2, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS3W2ReturnDeadTitle',    body_key: 'taskS3W2ReturnDeadBody' },
+      // KB — Hero Swap Event Wk2 D2
+      { id: 's3-w2d2-hero-swap',   week: 2, weekday: 2, category: 'economy',  min_hq: 0,
+        title_key: 'taskS3W2HeroSwapTitle',      body_key: 'taskS3W2HeroSwapBody' },
+      // KB — Faction Awards Wk3 D1 (Scarlet Legion vs Golden Tribe)
+      { id: 's3-w3-factions',      week: 3, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS3W3FactionAwardsTitle', body_key: 'taskS3W3FactionAwardsBody' },
+      // KB §790 — Scarlett UR promotion opens Wk3 D1
+      { id: 's3-w3-scarlett-ur',   week: 3, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS3W3ScarlettUrTitle',    body_key: 'taskS3W3ScarlettUrBody' },
+      // KB — Schuyler Exclusive Weapon Wk3 D4
+      { id: 's3-w3d4-schuyler',    week: 3, weekday: 4, category: 'military', min_hq: 0,
+        title_key: 'taskS3W3SchuylerTitle',      body_key: 'taskS3W3SchuylerBody' },
+      // KB §807-820 — Spice Wars begin Wk4 D1
+      { id: 's3-w4-spice-war',     week: 4, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS3W4SpiceWarOpenTitle',  body_key: 'taskS3W4SpiceWarOpenBody' },
+      // KB — Pyramid War Wk4 D6
+      { id: 's3-w4d6-pyramid',     week: 4, weekday: 6, category: 'event',    min_hq: 0,
+        title_key: 'taskS3W4PyramidWarTitle',    body_key: 'taskS3W4PyramidWarBody' },
+      // KB — Oasis free-expansion transition Wk5
+      { id: 's3-w5-oasis-free',    week: 5, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS3W5OasisFreeTitle',     body_key: 'taskS3W5OasisFreeBody' },
+      // KB — McGregor Exclusive Weapon Wk6
+      { id: 's3-w6-mcgregor',      week: 6, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS3W6McGregorTitle',      body_key: 'taskS3W6McGregorBody' },
+      // KB — Faction Duel Wk7 D1-6
+      { id: 's3-w7-faction-duel',  week: 7, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS3W7FactionDuelTitle',   body_key: 'taskS3W7FactionDuelBody' },
+      // KB — Capitol War Wk7 D7 (Sun 12:00 server)
+      { id: 's3-w7d7-capitol-war', week: 7, weekday: 7, category: 'event',    min_hq: 0,
+        title_key: 'taskS3W7CapitolWarTitle',    body_key: 'taskS3W7CapitolWarBody' },
+      // KB — Final Spice War rounds Wk8
+      { id: 's3-w8-final-spice',   week: 8, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS3W8FinalSpiceTitle',    body_key: 'taskS3W8FinalSpiceBody' },
+      // KB §822-835 — Desert Protector budgeting (top-cited waste)
+      { id: 's3-w4-protectors',    week: 4, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS3W4ProtectorBudgetTitle', body_key: 'taskS3W4ProtectorBudgetBody' },
+    ];
+
+    // ============================================================
+    // Season-4 (Evernight Isle) specific tasks — Optoelectronic Lab + Lighthouse + Blood Night + Copper Wars.
+    // KB: kb/07-future-seasons.md §99-222
+    // ============================================================
+    var S4_TASKS = [
+      // KB §212 — AC 11-tile spacing rule
+      { id: 's4-pre-coords',       day_offset: -3, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS4PreChooseCoordsTitle', body_key: 'taskS4PreChooseCoordsBody' },
+      // KB §153-158 — Optoelectronic Lab (S4 VR building)
+      { id: 's4-d1-opto-lab',      day_offset: 1,  category: 'military', min_hq: 0,
+        title_key: 'taskS4D1OptoLabTitle',       body_key: 'taskS4D1OptoLabBody' },
+      // KB §153-158 — Lighthouse brightness bonuses by level
+      { id: 's4-d1-lighthouse',    day_offset: 1,  category: 'spatial',  min_hq: 0,
+        title_key: 'taskS4D1LighthouseTitle',    body_key: 'taskS4D1LighthouseBody' },
+      // KB §177-188 — Blood Night Stage 1 Wk1
+      { id: 's4-w1-blood-night',   week: 1, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS4W1BloodNightTitle',    body_key: 'taskS4W1BloodNightBody' },
+      // KB — Lucius Exclusive Weapon Wk1
+      { id: 's4-w1-lucius',        week: 1, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS4W1LuciusTitle',        body_key: 'taskS4W1LuciusBody' },
+      // KB §177-188 — Blood Night Stage 2 Wk2
+      { id: 's4-w2-blood-night-2', week: 2, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS4W2BloodNight2Title',   body_key: 'taskS4W2BloodNight2Body' },
+      // KB — Blood Night Hunter PvP mode Wk2
+      { id: 's4-w2-hunter',        week: 2, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS4W2HunterTitle',        body_key: 'taskS4W2HunterBody' },
+      // KB — Divine Tree Fortune Slip system Wk2
+      { id: 's4-w2-divine-tree',   week: 2, weekday: 1, category: 'economy',  min_hq: 0,
+        title_key: 'taskS4W2DivineTreeTitle',    body_key: 'taskS4W2DivineTreeBody' },
+      // KB §198-208 — Sarah UR promotion Wk3 D1
+      { id: 's4-w3-sarah-ur',      week: 3, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS4W3SarahUrTitle',       body_key: 'taskS4W3SarahUrBody' },
+      // KB §198-208 — Trade Posts Wk3 D2
+      { id: 's4-w3-trade-posts',   week: 3, weekday: 2, category: 'event',    min_hq: 0,
+        title_key: 'taskS4W3TradePostsTitle',    body_key: 'taskS4W3TradePostsBody' },
+      // KB §198-208 — L5 cities Wk3 D3
+      { id: 's4-w3d3-l5',          week: 3, weekday: 3, category: 'event',    min_hq: 0,
+        title_key: 'taskS4W3L5CitiesTitle',      body_key: 'taskS4W3L5CitiesBody' },
+      // KB — Adam Exclusive Weapon Wk3 D4
+      { id: 's4-w3d4-adam',        week: 3, weekday: 4, category: 'military', min_hq: 0,
+        title_key: 'taskS4W3AdamTitle',          body_key: 'taskS4W3AdamBody' },
+      // KB §198-208 — L6 cities Wk3 D6
+      { id: 's4-w3d6-l6',          week: 3, weekday: 6, category: 'event',    min_hq: 0,
+        title_key: 'taskS4W3L6CitiesTitle',      body_key: 'taskS4W3L6CitiesBody' },
+      // KB §177-188 — Blood Night Stage 3 W3-W7
+      { id: 's4-w3-blood-night-3', week: 3, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS4W3BloodNight3Title',   body_key: 'taskS4W3BloodNight3Body' },
+      // KB — Hunting Oni warzone-wide event
+      { id: 's4-w3-hunting-oni',   week: 3, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS4W3HuntingOniTitle',    body_key: 'taskS4W3HuntingOniBody' },
+      // KB §189-196 — Copper Wars round 1 Wk4
+      { id: 's4-w4-copper-r1',     week: 4, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS4W4CopperWarR1Title',   body_key: 'taskS4W4CopperWarR1Body' },
+      // KB §189-196 — Copper War 15% plunder cap correction
+      { id: 's4-w4-copper-cap',    week: 4, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS4W4CopperCapTitle',     body_key: 'taskS4W4CopperCapBody' },
+      // KB — Williams Exclusive Weapon Wk6
+      { id: 's4-w6-williams',      week: 6, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS4W6WilliamsTitle',      body_key: 'taskS4W6WilliamsBody' },
+      // KB — Copper Ranking narrows to 3 alliances Wk7
+      { id: 's4-w7-copper-narrow', week: 7, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS4W7CopperNarrowTitle',  body_key: 'taskS4W7CopperNarrowBody' },
+      // KB §177-188 — Blood Night Stage 4 Wk8 (Holy Mountain)
+      { id: 's4-w8-holy-mountain', week: 8, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS4W8HolyMountainTitle',  body_key: 'taskS4W8HolyMountainBody' },
+      // KB §214-222 — Transfer Surge Wk8 D1
+      { id: 's4-w8-transfer',      week: 8, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS4W8TransferSurgeTitle', body_key: 'taskS4W8TransferSurgeBody' },
+      // KB §214-222 — T11 unlock in celebration week
+      { id: 's4-w8-t11',           week: 8, weekday: 1, category: 'military', min_hq: 27,
+        title_key: 'taskS4W8T11Title',           body_key: 'taskS4W8T11Body' },
+    ];
+
+    // ============================================================
+    // Season-5 (Wild West) specific tasks — Bank Strongholds + CrystalGold + Alliance Safe Time + 3 war slots.
+    // KB: kb/07-future-seasons.md §226-273
+    // ============================================================
+    var S5_TASKS = [
+      // KB §269-273 — Gold Prospecting mini-game
+      { id: 's5-pre-prospecting',  day_offset: -10, category: 'event',    min_hq: 0,
+        title_key: 'taskS5PreGoldProspectingTitle', body_key: 'taskS5PreGoldProspectingBody' },
+      // KB §269-273 — Area Selection
+      { id: 's5-pre-area',         day_offset: -7,  category: 'spatial',  min_hq: 0,
+        title_key: 'taskS5PreAreaSelectionTitle', body_key: 'taskS5PreAreaSelectionBody' },
+      // KB §269-273 — Capitol Conquest pre-season
+      { id: 's5-pre-capitol',      day_offset: -3,  category: 'event',    min_hq: 0,
+        title_key: 'taskS5PreCapitolConquestTitle', body_key: 'taskS5PreCapitolConquestBody' },
+      // KB §250-253 — R5 sets Alliance Safe Time (disables 1 of 3 daily war slots)
+      { id: 's5-d1-safe-time',     day_offset: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS5D1SafeTimeTitle',      body_key: 'taskS5D1SafeTimeBody' },
+      // KB — Caffeine Institute (S5 VR building)
+      { id: 's5-d1-caffeine',      day_offset: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS5D1CaffeineTitle',      body_key: 'taskS5D1CaffeineBody' },
+      // KB — Coffee Factory
+      { id: 's5-d1-coffee',        day_offset: 1, category: 'economy',  min_hq: 0,
+        title_key: 'taskS5D1CoffeeFactoryTitle', body_key: 'taskS5D1CoffeeFactoryBody' },
+      // KB — Tycoon's Mansion HQ skin
+      { id: 's5-d1-tycoon',        day_offset: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS5D1TycoonSkinTitle',    body_key: 'taskS5D1TycoonSkinBody' },
+      // KB §241-246 — Bank Strongholds L1-6 Wk1
+      { id: 's5-w1-bank-l1',       week: 1, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS5W1BankL1Title',        body_key: 'taskS5W1BankL1Body' },
+      // KB §266 — Fiona Exclusive Weapon Wk1
+      { id: 's5-w1-fiona',         week: 1, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS5W1FionaTitle',         body_key: 'taskS5W1FionaBody' },
+      // KB — CrystalGold deposits Wk1
+      { id: 's5-w1-crystalgold',   week: 1, weekday: 1, category: 'economy',  min_hq: 0,
+        title_key: 'taskS5W1CrystalGoldTitle',   body_key: 'taskS5W1CrystalGoldBody' },
+      // KB — Trade Train Wk2
+      { id: 's5-w2-trade-train',   week: 2, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS5W2TradeTrainTitle',    body_key: 'taskS5W2TradeTrainBody' },
+      // KB — High Noon Wk3 CrystalGold cap
+      { id: 's5-w3-high-noon',     week: 3, weekday: 1, category: 'economy',  min_hq: 0,
+        title_key: 'taskS5W3HighNoonTitle',      body_key: 'taskS5W3HighNoonBody' },
+      // KB §266 — Stetmann Exclusive Weapon Wk3
+      { id: 's5-w3-stetmann',      week: 3, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS5W3StetmannTitle',      body_key: 'taskS5W3StetmannBody' },
+      // KB §241-246 — Bank Strongholds L7-10 Wk4 (39,900 VR needed for L10)
+      { id: 's5-w4-bank-l7',       week: 4, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS5W4BankL7Title',        body_key: 'taskS5W4BankL7Body' },
+      // KB §241-246 — Bank holdings cap grow with cities
+      { id: 's5-w4-bank-cap',      week: 4, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS5W4BankCapTitle',       body_key: 'taskS5W4BankCapBody' },
+      // KB — Venom UR + retro UR paths Wk4
+      { id: 's5-w4-venom-ur',      week: 4, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS5W4VenomUrTitle',       body_key: 'taskS5W4VenomUrBody' },
+      // KB §266 — Morrison Exclusive Weapon Wk6
+      { id: 's5-w6-morrison',      week: 6, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS5W6MorrisonTitle',      body_key: 'taskS5W6MorrisonBody' },
+      // KB §250-253 — City capture Wed+Sat only (4/week max)
+      { id: 's5-w7-city-cap',      week: 7, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS5W7CityCapTitle',       body_key: 'taskS5W7CityCapBody' },
+      // KB — Final war day Wk8 Sat
+      { id: 's5-w8-final-war',     week: 8, weekday: 6, category: 'event',    min_hq: 0,
+        title_key: 'taskS5W8FinalWarTitle',      body_key: 'taskS5W8FinalWarBody' },
+      // KB §250-253 — Sunday Truce every week
+      { id: 's5-sunday-truce',     week: 1, weekday: 7, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS5SundayTruceTitle',     body_key: 'taskS5SundayTruceBody' },
+    ];
+
+    // ============================================================
+    // Season-6 (Shadow Rainforest) specific tasks — factions + permanent city destruction + Hero Awakening + Altars.
+    // KB: kb/07-future-seasons.md §277-360
+    // ============================================================
+    var S6_TASKS = [
+      // KB §285-292 — Faction assignment (Deepwood vs Wetland coin toss)
+      { id: 's6-pre-faction',      day_offset: -7, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS6PreFactionTitle',      body_key: 'taskS6PreFactionBody' },
+      // KB §299-311 — Alliance leadership role → Altar skill lock
+      { id: 's6-pre-role',         day_offset: -3, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS6PreRoleTitle',         body_key: 'taskS6PreRoleBody' },
+      // KB — Fungus Institute (S6 VR building)
+      { id: 's6-d1-fungus',        day_offset: 1,  category: 'military', min_hq: 0,
+        title_key: 'taskS6D1FungusTitle',        body_key: 'taskS6D1FungusBody' },
+      // KB — Spore Factory
+      { id: 's6-d1-spore',         day_offset: 1,  category: 'economy',  min_hq: 0,
+        title_key: 'taskS6D1SporeFactoryTitle',  body_key: 'taskS6D1SporeFactoryBody' },
+      // KB §294-297 — PERMANENT City Destruction warning
+      { id: 's6-d1-city-destr',    day_offset: 1,  category: 'spatial',  min_hq: 0,
+        title_key: 'taskS6D1CityDestructionTitle', body_key: 'taskS6D1CityDestructionBody' },
+      // KB §313-333 — Kimberly Awakening Wk1
+      { id: 's6-w1-kimberly-awk',  week: 1, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS6W1KimberlyAwakeningTitle', body_key: 'taskS6W1KimberlyAwakeningBody' },
+      // KB §346-348 — Beneath the Ruins Solo Wk1 D2
+      { id: 's6-w1d2-beneath-solo',week: 1, weekday: 2, category: 'event',    min_hq: 0,
+        title_key: 'taskS6W1BeneathSoloTitle',   body_key: 'taskS6W1BeneathSoloBody' },
+      // KB §346-348 — Beneath the Ruins Duel Wk2
+      { id: 's6-w2-beneath-duel',  week: 2, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS6W2BeneathDuelTitle',   body_key: 'taskS6W2BeneathDuelBody' },
+      // KB §299-311 — Altars open Wk2 D2 (Tue only)
+      { id: 's6-w2d2-altars',      week: 2, weekday: 2, category: 'event',    min_hq: 0,
+        title_key: 'taskS6W2AltarsOpenTitle',    body_key: 'taskS6W2AltarsOpenBody' },
+      // KB §349 — Global Expedition R1 Wk2 (14 days)
+      { id: 's6-w2-ge-r1',         week: 2, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS6W2GeR1Title',          body_key: 'taskS6W2GeR1Body' },
+      // KB §338 — Alliance Pact system Wk2
+      { id: 's6-w2-alliance-pact', week: 2, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS6W2AlliancePactTitle',  body_key: 'taskS6W2AlliancePactBody' },
+      // KB §313-333 — D.Va Awakening Wk3
+      { id: 's6-w3-dva-awk',       week: 3, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS6W3DvaAwakeningTitle',  body_key: 'taskS6W3DvaAwakeningBody' },
+      // KB §349 — Global Expedition R2 Wk4
+      { id: 's6-w4-ge-r2',         week: 4, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS6W4GeR2Title',          body_key: 'taskS6W4GeR2Body' },
+      // KB — Faction Technology tree Wk4
+      { id: 's6-w4-faction-tech',  week: 4, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS6W4FactionTechTitle',   body_key: 'taskS6W4FactionTechBody' },
+      // KB §313-333 — Tesla Awakening Wk6 (corrected from Wk5)
+      { id: 's6-w6-tesla-awk',     week: 6, weekday: 1, category: 'military', min_hq: 0,
+        title_key: 'taskS6W6TeslaAwakeningTitle', body_key: 'taskS6W6TeslaAwakeningBody' },
+      // KB §349 — Global Expedition R3 Wk6
+      { id: 's6-w6-ge-r3',         week: 6, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS6W6GeR3Title',          body_key: 'taskS6W6GeR3Body' },
+      // KB §359 — Ancestral Temple / Faction Duel Finale Wk7
+      { id: 's6-w7-ancestral',     week: 7, weekday: 1, category: 'event',    min_hq: 0,
+        title_key: 'taskS6W7AncestralTitle',     body_key: 'taskS6W7AncestralBody' },
+      // KB §359 — Wk7 positioning lockout
+      { id: 's6-w7-locked',        week: 7, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS6W7LockedTitle',        body_key: 'taskS6W7LockedBody' },
+      // KB §343 — Sanctuary timer doubled
+      { id: 's6-sanctuary-nerf',   week: 1, weekday: 1, category: 'spatial',  min_hq: 0,
+        title_key: 'taskS6SanctuaryNerfTitle',   body_key: 'taskS6SanctuaryNerfBody' },
+      // KB §335 — Awakening Bundles permanently removed
+      { id: 's6-awk-shards',       week: 1, weekday: 1, category: 'economy',  min_hq: 0,
+        title_key: 'taskS6AwakeningShardsTitle', body_key: 'taskS6AwakeningShardsBody' },
+    ];
+
+    // Map milestone.event → category (best-effort, defaults to 'event').
+    function categoryForMilestone(m) {
+      var e = (m.event || '').toLowerCase();
+      if (e.indexOf('blizzard') !== -1 || e.indexOf('freeze') !== -1) return 'military';
+      if (e.indexOf('furnace') !== -1 || e.indexOf('landing') !== -1 || e.indexOf('teleport') !== -1) return 'spatial';
+      if (e.indexOf('city_') !== -1 || e.indexOf('trade_post') !== -1) return 'event';
+      return 'event';
+    }
+
+    // Build the merged TASKS list for a given season + milestones array.
+    // Milestones tagged with `tools: [...season_timeline...]` become in-season event rows.
+    // Falls back to a "coming soon" placeholder if the season has no timeline milestones.
+    function buildTasksForSeason(season, milestones) {
+      var out = UNIVERSAL_TASKS.slice();
+
+      var sid = season && season.id;
+      // Per-season branches — each adds prep + in-season tasks not covered by milestone rows.
+      // S7 gets a dedicated KB-cited placeholder row (see fallback block below) — universal
+      // pre-season prep still applies but no season-specific tasks are known as of 2026-07-15.
+      var isS7 = (sid === 's7' || sid === 's7-unnamed' || (sid && sid.indexOf('s7') === 0));
+      if (sid === 's1-crimson-plague') {
+        S1_TASKS.forEach(function (t) { out.push(t); });
+      } else if (sid === 's2-polar-storm') {
+        // Merge S2-specific Day-1 + in-season tasks that don't come from milestones.
+        S2_TASKS.forEach(function (t) { out.push(t); });
+      } else if (sid === 's3-golden-kingdom') {
+        S3_TASKS.forEach(function (t) { out.push(t); });
+      } else if (sid === 's4-evernight-isle') {
+        S4_TASKS.forEach(function (t) { out.push(t); });
+      } else if (sid === 's5-wild-west') {
+        S5_TASKS.forEach(function (t) { out.push(t); });
+      } else if (sid === 's6-shadow-rainforest') {
+        S6_TASKS.forEach(function (t) { out.push(t); });
+      }
+
+      // Add milestones tagged with 'season_timeline' as in-season event rows.
+      (milestones || []).forEach(function (m) {
+        if (typeof m.week !== 'number') return;
+        var weekday = (typeof m.day === 'number' ? m.day : 1);
+        // Build a stable id from event or coordinates so per-member ticks survive re-renders.
+        var id = 'ms-' + (m.event || ('w' + m.week + 'd' + weekday));
+        // Prefer the current i18n language name if available; fall back to en.
+        var lang = (window.I18N && window.I18N.get && window.I18N.get()) || 'en';
+        var langKey = (lang === 'ko') ? 'kr' : lang;
+        var label = (m.label && (m.label[langKey] || m.label.en)) || m.event || '';
+        out.push({
+          id: id,
+          week: m.week,
+          weekday: weekday,
+          category: categoryForMilestone(m),
+          min_hq: 0,
+          _milestone: true,
+          _title: label,
+          _body: '',
+          _severity: m.severity || null,
+        });
+      });
+
+      // Graceful fallback: if the season has ZERO in-season content (universal-only), add a
+      // "coming soon" placeholder so users understand the tool doesn't have data for this
+      // season yet rather than silently truncating the timeline.
+      var hasInSeason = out.some(function (t) {
+        return typeof t.week === 'number' || (typeof t.day_offset === 'number' && t.day_offset >= 1);
+      });
+      if (!hasInSeason) {
+        // S7 gets a distinct KB-cited placeholder (launch ~August 2026, no mechanics confirmed).
+        // All other empty seasons fall back to the generic "coming soon" placeholder.
+        var useS7 = isS7;
+        out.push({
+          id: useS7 ? 'placeholder-s7-coming' : 'placeholder-in-season',
+          week: 1, weekday: 1,
+          category: 'event',
+          min_hq: 0,
+          _milestone: true,
+          _title: window.I18N.t(useS7 ? 's7ComingTitle' : 'placeholderInSeasonTitle'),
+          _body: window.I18N.t(useS7 ? 's7ComingBody' : 'placeholderInSeasonBody'),
+        });
+      }
+      return out;
+    }
+
+    // Live TASKS array — replaced by buildTasksForSeason() at boot + on season change.
+    var TASKS = UNIVERSAL_TASKS.slice();
+
+    // ============================================================
+    // State (v0.3: per-member task persistence)
+    // ============================================================
+    // state.allTasks is { memberName: { taskId: bool } }.
+    // state.currentMember is the roster row whose task list is currently being edited.
+    // state.tasks is kept as a live reference to state.allTasks[currentMember] so
+    // downstream render code that reads state.tasks[t.id] still works unchanged.
+    var state = {
+      config: null,
+      allTasks: {},        // { memberName: { taskId: bool } } — per-member ticks
+      currentMember: null, // string — the roster member currently being edited
+      get tasks() {        // legacy accessor for existing render code
+        if (!this.currentMember) return {};
+        this.allTasks[this.currentMember] = this.allTasks[this.currentMember] || {};
+        return this.allTasks[this.currentMember];
+      },
+      roster: [],
+      season: null,        // {id, name, ...} from LWSSeasons.resolveContext (v0.4)
+      milestones: [],      // milestones tagged with 'season_timeline' for the current season
+    };
+
+    // localStorage backup — used on network failure or in static-only deploys
+    var STORAGE_KEY = 'lws.season-timeline.tasks.v1';
+    function loadFromStorage() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function saveToStorage(allTasks) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(allTasks)); } catch (e) {}
+    }
+
+    // Server sync — best-effort; falls back to localStorage-only on failure
+    function loadAllTasksFromServer() {
+      return fetch('/api/tasks')
+        .then(function (r) { return r.json(); })
+        .then(function (data) { return data && data.task_state ? data.task_state : {}; })
+        .catch(function () { return null; });   // null = fall back to localStorage
+    }
+    function saveTaskToServer(member, taskId, done) {
+      var syncEl = document.getElementById('viewerSyncStatus');
+      if (syncEl) { syncEl.textContent = window.I18N.t('viewerSyncSyncing'); }
+      return fetch('/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member: member, task_id: taskId, done: done }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function () {
+          if (syncEl) { syncEl.textContent = window.I18N.t('viewerSyncSaved'); }
+        })
+        .catch(function () {
+          if (syncEl) { syncEl.textContent = window.I18N.t('viewerSyncLocal'); }
+        });
+    }
+
+    // ============================================================
+    // Member selector
+    // ============================================================
+    function populateViewerSelect() {
+      var sel = document.getElementById('viewerSelect');
+      if (!sel) return;
+      var prev = state.currentMember;
+      sel.innerHTML = '';
+      state.roster.forEach(function (m) {
+        var opt = document.createElement('option');
+        opt.value = m.name;
+        opt.textContent = m.name + ' (' + m.rank + (m.hq_level ? ' · HQ' + m.hq_level : '') + ')';
+        sel.appendChild(opt);
+      });
+      // Preserve previous selection if still valid, else default to first member
+      var validPrev = prev && state.roster.some(function (m) { return m.name === prev; });
+      state.currentMember = validPrev ? prev : (state.roster[0] && state.roster[0].name) || null;
+      if (state.currentMember) sel.value = state.currentMember;
+    }
+
+    // Mock roster so the UI shows something before a real CSV upload
+    var MOCK_ROSTER = [
+      { name: 'Kayla',   rank: 'R5', hq_level: 30, total_power: 82000000, notes: '' },
+      { name: 'MinJi',   rank: 'R4', hq_level: 29, total_power: 61000000, notes: '' },
+      { name: 'Braz',    rank: 'R4', hq_level: 30, total_power: 74000000, notes: '' },
+      { name: 'Doug',    rank: 'R3', hq_level: 27, total_power: 45000000, notes: '' },
+      { name: 'Fiona',   rank: 'R3', hq_level: 25, total_power: 32000000, notes: '' },
+      { name: 'Newbie',  rank: 'R1', hq_level: 18, total_power: 8000000,  notes: '' },
+    ];
+
+    // ============================================================
+    // Countdown
+    // ============================================================
+    function computeCountdown() {
+      if (!state.config || !state.config.season_start_iso) return { preseason: true, days: null };
+      var start = new Date(state.config.season_start_iso).getTime();
+      var now = Date.now();
+      var diffMs = start - now;
+      if (diffMs > 0) {
+        var totalSec = Math.floor(diffMs / 1000);
+        return {
+          preseason: true,
+          days: Math.floor(totalSec / 86400),
+          hours: Math.floor((totalSec % 86400) / 3600),
+          mins: Math.floor((totalSec % 3600) / 60),
+          secs: totalSec % 60,
+        };
+      }
+      // In-season: report Day N (1-indexed)
+      var elapsedDays = Math.floor(-diffMs / 86400000) + 1;
+      return { preseason: false, tplusDay: elapsedDays };
+    }
+
+    function renderCountdown() {
+      var el = document.getElementById('countdownValue');
+      var labelEl = document.getElementById('countdownLabel');
+      var c = computeCountdown();
+      if (c.days === null) {
+        el.textContent = '—';
+        el.classList.remove('live');
+        labelEl.textContent = window.I18N.t('countdownPreseason');
+        return;
+      }
+      if (c.preseason) {
+        el.classList.remove('live');
+        labelEl.textContent = window.I18N.t('countdownLabel');
+        el.innerHTML =
+          c.days + '<span class="countdown-unit">' + window.I18N.t('countdownDay') + '</span>' +
+          String(c.hours).padStart(2, '0') + '<span class="countdown-unit">' + window.I18N.t('countdownHour') + '</span>' +
+          String(c.mins).padStart(2, '0') + '<span class="countdown-unit">' + window.I18N.t('countdownMin') + '</span>' +
+          String(c.secs).padStart(2, '0') + '<span class="countdown-unit">' + window.I18N.t('countdownSec') + '</span>';
+      } else {
+        el.classList.add('live');
+        labelEl.textContent = window.I18N.t('countdownLive');
+        el.innerHTML = window.I18N.t('countdownTPlus') + ' ' + c.tplusDay;
+      }
+    }
+
+    // ============================================================
+    // Task list
+    // ============================================================
+    function taskDayLabel(t) {
+      if (typeof t.day_offset === 'number') {
+        if (t.day_offset < 0) return 'T' + t.day_offset;    // e.g. T-12
+        if (t.day_offset === 1) return 'Day 1';
+        return 'Day ' + t.day_offset;
+      }
+      if (t.week) return 'Wk ' + t.week + '.' + t.weekday;
+      return '';
+    }
+
+    function taskDayClass(t) {
+      if (typeof t.day_offset === 'number' && t.day_offset < 1) return 'tl-day preseason';
+      return 'tl-day season';
+    }
+
+    // v0.4: some tasks come from LWSSeasons milestones — their title/body are inlined on
+    // the task object (t._title/t._body) instead of via i18n keys. Fall back appropriately.
+    function taskTitle(t) {
+      if (t._milestone) return t._title || '';
+      return window.I18N.t(t.title_key);
+    }
+    function taskBody(t) {
+      if (t._milestone) return t._body || '';
+      return window.I18N.t(t.body_key);
+    }
+
+    function renderTaskTable() {
+      var tbody = document.getElementById('tlBody');
+      tbody.innerHTML = '';
+      TASKS.forEach(function (t) {
+        var tr = document.createElement('tr');
+
+        var tdDay = document.createElement('td');
+        tdDay.className = taskDayClass(t);
+        tdDay.textContent = taskDayLabel(t);
+        tr.appendChild(tdDay);
+
+        var tdTask = document.createElement('td');
+        var title = document.createElement('div');
+        title.className = 'tl-task-title';
+        title.textContent = taskTitle(t);
+        // Optional severity pill on milestone rows (warning/danger/critical)
+        if (t._severity) {
+          var sev = document.createElement('span');
+          sev.textContent = ' · ' + t._severity;
+          sev.style.cssText = 'font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-left:6px;color:' +
+            (t._severity === 'critical' ? '#e08a8a' : t._severity === 'danger' ? '#e0b48a' : '#c9a961');
+          title.appendChild(sev);
+        }
+        var body = document.createElement('div');
+        body.className = 'tl-task-body';
+        body.textContent = taskBody(t);
+        tdTask.appendChild(title);
+        tdTask.appendChild(body);
+        tr.appendChild(tdTask);
+
+        var tdCat = document.createElement('td');
+        var dot = document.createElement('span');
+        dot.className = 'tl-cat-dot ' + t.category;
+        var label = document.createElement('span');
+        label.className = 'tl-cat-label';
+        label.textContent = window.I18N.t('cat' + t.category.charAt(0).toUpperCase() + t.category.slice(1));
+        tdCat.appendChild(dot);
+        tdCat.appendChild(label);
+        tr.appendChild(tdCat);
+
+        var tdDone = document.createElement('td');
+        var chk = document.createElement('input');
+        chk.type = 'checkbox';
+        chk.checked = !!state.tasks[t.id];
+        // v0.3: per-member persistence — server first, localStorage always
+        chk.addEventListener('change', function () {
+          if (!state.currentMember) {
+            alert(window.I18N.t('viewerNoMember'));
+            chk.checked = !chk.checked;
+            return;
+          }
+          state.tasks[t.id] = chk.checked;
+          saveToStorage(state.allTasks);
+          saveTaskToServer(state.currentMember, t.id, chk.checked);
+          // Re-render roster progress bars in-place (aggregate view)
+          renderRoster();
+        });
+        tdDone.appendChild(chk);
+        tr.appendChild(tdDone);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ============================================================
+    // Roster
+    // ============================================================
+    function renderRoster() {
+      var el = document.getElementById('rosterBody');
+      if (!state.roster || state.roster.length === 0) {
+        el.innerHTML = '<div class="roster-empty">' + window.I18N.t('rosterEmpty') + '</div>';
+        return;
+      }
+      var html = '<table class="roster-table"><thead><tr>' +
+        '<th>' + window.I18N.t('rosterName')     + '</th>' +
+        '<th>' + window.I18N.t('rosterRank')     + '</th>' +
+        '<th>' + window.I18N.t('rosterHq')       + '</th>' +
+        '<th>' + window.I18N.t('rosterPower')    + '</th>' +
+        '<th>' + window.I18N.t('rosterProgress') + '</th>' +
+      '</tr></thead><tbody>';
+      state.roster.forEach(function (m) {
+        // v0.3: per-member progress — read from state.allTasks[m.name] (not viewer's local)
+        var memberTasks = state.allTasks[m.name] || {};
+        // Auto-suggest tasks: only show completion vs applicable tasks (min_hq filter)
+        var applicable = TASKS.filter(function (t) { return (m.hq_level || 0) >= (t.min_hq || 0); });
+        var done = applicable.filter(function (t) { return !!memberTasks[t.id]; }).length;
+        var pct = applicable.length ? Math.round((done / applicable.length) * 100) : 0;
+        html += '<tr>' +
+          '<td>' + escapeHtml(m.name || '') + '</td>' +
+          '<td><span class="rank-pill ' + (m.rank || '') + '">' + escapeHtml(m.rank || '') + '</span></td>' +
+          '<td>' + (m.hq_level || '') + '</td>' +
+          '<td>' + fmtPower(m.total_power) + '</td>' +
+          '<td><div class="progress-bar"><div class="fill" style="width:' + pct + '%"></div></div>' +
+            '<span style="font-size:10px;color:var(--text-mute);margin-left:6px">' + pct + '% · ' + done + '/' + applicable.length + '</span></td>' +
+        '</tr>';
+      });
+      html += '</tbody></table>';
+      el.innerHTML = html;
+    }
+
+    function fmtPower(n) {
+      if (!n) return '—';
+      if (n >= 1e9) return (n/1e9).toFixed(1) + 'B';
+      if (n >= 1e6) return (n/1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+      return String(n);
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
+
+    // ---- CSV import (mirrors Alliance_Hive_Grid_Manager column set) ----
+    function parseRosterCsv(text) {
+      var lines = text.split(/\r?\n/).filter(function (l) { return l.trim(); });
+      if (lines.length === 0) return [];
+      var headers = lines[0].split(',').map(function (h) { return h.trim().toLowerCase(); });
+      var idx = {
+        name:        headers.indexOf('name'),
+        rank:        headers.indexOf('rank'),
+        hq_level:    headers.indexOf('hq_level'),
+        total_power: headers.indexOf('total_power'),
+        notes:       headers.indexOf('notes'),
+      };
+      return lines.slice(1).map(function (line) {
+        var cols = line.split(',');
+        return {
+          name:        idx.name        >= 0 ? (cols[idx.name] || '').trim()        : '',
+          rank:        idx.rank        >= 0 ? (cols[idx.rank] || '').trim()        : '',
+          hq_level:    idx.hq_level    >= 0 ? parseInt(cols[idx.hq_level], 10) || 0 : 0,
+          total_power: idx.total_power >= 0 ? parseInt(cols[idx.total_power], 10) || 0 : 0,
+          notes:       idx.notes       >= 0 ? (cols[idx.notes] || '').trim()       : '',
+        };
+      });
+    }
+
+    // ============================================================
+    // Config
+    // ============================================================
+    function loadConfigFromServer() {
+      return fetch('/api/config').then(function (r) { return r.json(); }).then(function (c) {
+        state.config = c;
+        if (c && c.season_start_iso) {
+          document.getElementById('cfgSeasonStart').value = c.season_start_iso.slice(0, 16);
+        }
+        if (c && c.alliance_name) document.getElementById('cfgAllianceName').value = c.alliance_name;
+        if (c && c.alliance_tag)  document.getElementById('cfgAllianceTag').value  = c.alliance_tag;
+        if (c && c.warzone)       document.getElementById('cfgWarzone').value      = c.warzone;
+      }).catch(function () { /* stay on defaults */ });
+    }
+
+    function saveConfig() {
+      var startVal = document.getElementById('cfgSeasonStart').value;
+      var payload = {
+        season_start_iso: startVal ? new Date(startVal).toISOString() : null,
+        alliance_name:    document.getElementById('cfgAllianceName').value || null,
+        alliance_tag:     document.getElementById('cfgAllianceTag').value || null,
+        warzone:          parseInt(document.getElementById('cfgWarzone').value, 10) || null,
+      };
+      return fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).then(function (r) { return r.json(); }).then(function () {
+        state.config = Object.assign({}, state.config || {}, payload);
+        var msg = document.getElementById('cfgSaveMsg');
+        msg.classList.add('on');
+        setTimeout(function () { msg.classList.remove('on'); }, 1500);
+        renderCountdown();
+      });
+    }
+
+    // ============================================================
+    // Exports
+    // ============================================================
+
+    // PNG: Discord-ready 1600×900 dark-theme snapshot.
+    // Layout: header (alliance + brand) · big countdown · timeline summary · roster progress bars · footer.
+    function exportPng() {
+      var W = 1600, H = 900;
+      var canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      var ctx = canvas.getContext('2d');
+
+      // Palette — matches unlock.html + shared style guide
+      var C = {
+        bg:      '#0a0e1a',
+        panel:   '#0d1424',
+        panel2:  '#12192c',
+        border:  'rgba(255,255,255,0.10)',
+        accent:  '#c9a961',
+        text:    '#e6e8ee',
+        textDim: '#a8b0c0',
+        textMut: '#7a8290',
+        good:    '#8ae0a3',
+        cats: { economy: '#c9a961', military: '#e08a8a', spatial: '#7ac8e0', event: '#b98ae0' },
+      };
+
+      // Background
+      ctx.fillStyle = C.bg;
+      ctx.fillRect(0, 0, W, H);
+
+      // ---- Header ----
+      ctx.fillStyle = C.panel;
+      ctx.fillRect(0, 0, W, 80);
+      ctx.strokeStyle = C.border; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 80); ctx.lineTo(W, 80); ctx.stroke();
+
+      ctx.fillStyle = C.accent;
+      ctx.font = '600 14px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('R5TOOLS.IO · ' + window.I18N.t('title').toUpperCase(), 40, 40);
+
+      var alliance = (state.config && state.config.alliance_name) || window.I18N.t('rosterEmpty').split('.')[0];
+      var tag = (state.config && state.config.alliance_tag) || '';
+      var wz = (state.config && state.config.warzone) ? ' · WZ' + state.config.warzone : '';
+      ctx.fillStyle = C.textDim;
+      ctx.font = '400 13px system-ui, -apple-system, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText((tag ? tag + ' ' : '') + alliance + wz, W - 40, 40);
+      ctx.textAlign = 'left';
+
+      // ---- Countdown ----
+      var c = computeCountdown();
+      var countdownText = '—', countdownLabel = window.I18N.t('countdownPreseason');
+      if (c.days !== null) {
+        if (c.preseason) {
+          countdownText = c.days + 'd  ' + String(c.hours).padStart(2, '0') + 'h  ' +
+                          String(c.mins).padStart(2, '0') + 'm';
+          countdownLabel = window.I18N.t('countdownLabel');
+        } else {
+          countdownText = window.I18N.t('countdownTPlus') + ' ' + c.tplusDay;
+          countdownLabel = window.I18N.t('countdownLive');
+        }
+      }
+      ctx.fillStyle = C.textMut;
+      ctx.font = '400 16px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(countdownLabel, W / 2, 130);
+      ctx.fillStyle = c.preseason === false ? C.good : C.accent;
+      ctx.font = '600 72px ui-monospace, SFMono-Regular, Menlo, monospace';
+      ctx.fillText(countdownText, W / 2, 200);
+      ctx.textAlign = 'left';
+
+      // ---- Summary bar ----
+      var summY = 270;
+      ctx.fillStyle = C.panel2;
+      ctx.fillRect(40, summY, W - 80, 44);
+      ctx.strokeStyle = C.border; ctx.strokeRect(40, summY, W - 80, 44);
+      ctx.fillStyle = C.textDim;
+      ctx.font = '500 13px system-ui, sans-serif';
+      var doneCount = TASKS.filter(function (t) { return !!state.tasks[t.id]; }).length;
+      var summary =
+        TASKS.length + ' ' + window.I18N.t('timelineTaskCol').toLowerCase() +
+        '  ·  ' + doneCount + '/' + TASKS.length + ' ' + window.I18N.t('timelineDoneCol').toLowerCase() +
+        '  ·  ' + state.roster.length + ' ' + window.I18N.t('rosterName').toLowerCase();
+      ctx.fillText(summary, 56, summY + 22);
+
+      // ---- Two-column body ----
+      var bodyY = 340, bodyH = 480;
+      var colGap = 20;
+      var colW = (W - 80 - colGap) / 2;
+      var leftX = 40, rightX = leftX + colW + colGap;
+
+      // Timeline column
+      ctx.fillStyle = C.panel;
+      ctx.fillRect(leftX, bodyY, colW, bodyH);
+      ctx.strokeStyle = C.border; ctx.strokeRect(leftX, bodyY, colW, bodyH);
+      ctx.fillStyle = C.accent;
+      ctx.font = '600 14px system-ui, sans-serif';
+      ctx.fillText(window.I18N.t('timelineHeading').toUpperCase(), leftX + 20, bodyY + 28);
+
+      var rowY = bodyY + 60;
+      var rowH = 26;
+      var maxRows = Math.floor((bodyH - 80) / rowH);
+      var shownTasks = TASKS.slice(0, maxRows);
+      shownTasks.forEach(function (t, i) {
+        var y = rowY + i * rowH;
+        // Day badge
+        ctx.fillStyle = t.day_offset < 1 ? C.textMut : C.accent;
+        ctx.font = '600 11px ui-monospace, SFMono-Regular, Menlo, monospace';
+        ctx.fillText(taskDayLabel(t), leftX + 20, y);
+        // Category dot
+        ctx.fillStyle = C.cats[t.category] || C.textMut;
+        ctx.beginPath(); ctx.arc(leftX + 90, y - 3, 3.5, 0, Math.PI * 2); ctx.fill();
+        // Task title
+        var done = !!state.tasks[t.id];
+        ctx.fillStyle = done ? C.textMut : C.text;
+        ctx.font = (done ? '400 ' : '500 ') + '13px system-ui, sans-serif';
+        var title = taskTitle(t);
+        var maxTitleW = colW - 140;
+        title = truncateForWidth(ctx, title, maxTitleW);
+        ctx.fillText(title, leftX + 105, y);
+        // Done checkmark
+        if (done) {
+          ctx.fillStyle = C.good;
+          ctx.font = '600 14px system-ui, sans-serif';
+          ctx.fillText('✓', leftX + colW - 30, y);
+          // Strikethrough via a line
+          var titleW = ctx.measureText(title).width;
+          ctx.strokeStyle = C.textMut; ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(leftX + 105, y);
+          ctx.lineTo(leftX + 105 + Math.min(titleW, maxTitleW), y);
+          ctx.stroke();
+        }
+      });
+      if (TASKS.length > shownTasks.length) {
+        ctx.fillStyle = C.textMut;
+        ctx.font = '400 11px system-ui, sans-serif';
+        ctx.fillText('+ ' + (TASKS.length - shownTasks.length) + ' more', leftX + 20, bodyY + bodyH - 20);
+      }
+
+      // Roster column
+      ctx.fillStyle = C.panel;
+      ctx.fillRect(rightX, bodyY, colW, bodyH);
+      ctx.strokeStyle = C.border; ctx.strokeRect(rightX, bodyY, colW, bodyH);
+      ctx.fillStyle = C.accent;
+      ctx.font = '600 14px system-ui, sans-serif';
+      ctx.fillText(window.I18N.t('rosterHeading').toUpperCase(), rightX + 20, bodyY + 28);
+
+      var rRowY = bodyY + 60, rRowH = 32;
+      var rMaxRows = Math.floor((bodyH - 80) / rRowH);
+      var shownRoster = state.roster.slice(0, rMaxRows);
+      shownRoster.forEach(function (m, i) {
+        var y = rRowY + i * rRowH;
+        // Rank pill
+        ctx.fillStyle = C.panel2;
+        ctx.fillRect(rightX + 20, y - 12, 34, 18);
+        ctx.fillStyle = C.accent;
+        ctx.font = '600 10px ui-monospace, SFMono-Regular, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(m.rank || '—', rightX + 37, y - 3);
+        ctx.textAlign = 'left';
+        // Name
+        ctx.fillStyle = C.text;
+        ctx.font = '500 13px system-ui, sans-serif';
+        var displayName = truncateForWidth(ctx, m.name || '', 140);
+        ctx.fillText(displayName, rightX + 64, y);
+        // HQ / power
+        ctx.fillStyle = C.textMut;
+        ctx.font = '400 11px system-ui, sans-serif';
+        ctx.fillText('HQ' + (m.hq_level || '—') + '  ·  ' + fmtPower(m.total_power), rightX + 210, y);
+        // Progress bar
+        var applicable = TASKS.filter(function (t) { return (m.hq_level || 0) >= (t.min_hq || 0); });
+        var mDone = applicable.filter(function (t) { return !!state.tasks[t.id]; }).length;
+        var pct = applicable.length ? mDone / applicable.length : 0;
+        var barX = rightX + colW - 190, barY = y - 6, barW = 140, barH = 8;
+        ctx.fillStyle = C.panel2;
+        ctx.fillRect(barX, barY, barW, barH);
+        ctx.fillStyle = pct >= 0.66 ? C.good : (pct >= 0.33 ? C.accent : C.textMut);
+        ctx.fillRect(barX, barY, barW * pct, barH);
+        ctx.fillStyle = C.textDim;
+        ctx.font = '500 11px ui-monospace, SFMono-Regular, monospace';
+        ctx.fillText(Math.round(pct * 100) + '%', barX + barW + 8, y);
+      });
+      if (state.roster.length > shownRoster.length) {
+        ctx.fillStyle = C.textMut;
+        ctx.font = '400 11px system-ui, sans-serif';
+        ctx.fillText('+ ' + (state.roster.length - shownRoster.length) + ' more members', rightX + 20, bodyY + bodyH - 20);
+      }
+
+      // ---- Footer ----
+      ctx.fillStyle = C.textMut;
+      ctx.font = '400 12px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('r5tools.io  ·  ' + window.I18N.t('footerCred') + '  ·  ' + new Date().toISOString().slice(0, 10),
+                   W / 2, H - 30);
+      ctx.textAlign = 'left';
+
+      // ---- Trigger download ----
+      canvas.toBlob(function (blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        var slug = (state.config && state.config.alliance_name) ? state.config.alliance_name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : 'alliance';
+        a.download = 'lws-season-timeline-' + slug + '-' + new Date().toISOString().slice(0, 10) + '.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    // Helper: truncate a string with ellipsis if it exceeds maxWidth (in current ctx font).
+    function truncateForWidth(ctx, text, maxWidth) {
+      if (ctx.measureText(text).width <= maxWidth) return text;
+      var t = text;
+      while (t.length > 3 && ctx.measureText(t + '…').width > maxWidth) {
+        t = t.slice(0, -1);
+      }
+      return t + '…';
+    }
+
+    function exportIcal() {
+      // Minimal iCal stub — one VEVENT per task with a placeholder DTSTART based on season_start_iso.
+      // TODO(v1.1): compute actual per-task DTSTART from day_offset + season_start_iso.
+      var lines = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//r5tools.io//LWS Season Timeline//EN'
+      ];
+      var start = state.config && state.config.season_start_iso ? new Date(state.config.season_start_iso) : new Date();
+      TASKS.forEach(function (t) {
+        var dt = new Date(start.getTime());
+        if (typeof t.day_offset === 'number') {
+          dt.setDate(dt.getDate() + t.day_offset - 1);
+        } else if (t.week) {
+          dt.setDate(dt.getDate() + (t.week - 1) * 7 + (t.weekday - 1));
+        }
+        var dtstamp = dt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        lines.push('BEGIN:VEVENT');
+        lines.push('UID:' + t.id + '@r5tools.io');
+        lines.push('DTSTAMP:' + dtstamp);
+        lines.push('DTSTART:' + dtstamp);
+        lines.push('SUMMARY:' + taskTitle(t));
+        lines.push('DESCRIPTION:' + taskBody(t));
+        lines.push('END:VEVENT');
+      });
+      lines.push('END:VCALENDAR');
+      downloadBlob(lines.join('\r\n'), 'lws-season-timeline.ics', 'text/calendar');
+    }
+    function exportCsv()  {
+      var rows = [['task_id','day_label','category','title','done']];
+      TASKS.forEach(function (t) {
+        rows.push([t.id, taskDayLabel(t), t.category, taskTitle(t), !!state.tasks[t.id]]);
+      });
+      downloadBlob(rows.map(function (r) { return r.map(csvCell).join(','); }).join('\n'),
+                   'lws-season-timeline.csv', 'text/csv');
+    }
+    function exportJson() {
+      var payload = {
+        tool: 'LWS Season Timeline',
+        version: '0.1.0',
+        config: state.config,
+        tasks: TASKS.map(function (t) {
+          return { id: t.id, day_offset: t.day_offset || null, week: t.week || null,
+                   weekday: t.weekday || null, category: t.category, min_hq: t.min_hq,
+                   done: !!state.tasks[t.id] };
+        }),
+        roster: state.roster,
+      };
+      downloadBlob(JSON.stringify(payload, null, 2), 'lws-season-timeline.json', 'application/json');
+    }
+    function csvCell(v) {
+      var s = String(v);
+      if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      return s;
+    }
+    function downloadBlob(text, filename, type) {
+      var blob = new Blob([text], { type: type });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // ============================================================
+    // Season binding (v0.4) — resolve current warzone → season → milestones,
+    // rebuild TASKS, and update the visible title / countdown label.
+    // ============================================================
+    function updateHeaderForSeason(season) {
+      if (!season) return;
+      var lang = (window.I18N && window.I18N.get && window.I18N.get()) || 'en';
+      var nameKey = (lang === 'ko') ? 'kr' : lang;
+      var name = (season.name && (season.name[nameKey] || season.name.en)) || season.id;
+      var sid = season.id || '';
+      var isS7 = (sid === 's7' || sid === 's7-unnamed' || sid.indexOf('s7') === 0);
+      // Header title: "<season name> · Timeline"
+      var titleEl = document.querySelector('h1.page-title');
+      if (titleEl) titleEl.textContent = name + ' · ' + window.I18N.t('timelineHeading');
+      // Countdown label + config label — replace hardcoded "Season 2" strings.
+      // S7: countdown is estimated ("~August 2026"), not a precise timestamp — use dedicated label.
+      var cdLabel = document.getElementById('countdownLabel');
+      if (cdLabel) {
+        cdLabel.textContent = isS7
+          ? window.I18N.t('s7ComingCountdown')
+          : (window.I18N.t('countdownUntil') + ' ' + name);
+      }
+      var cfgSeasonStartLabel = document.querySelector('label[for="cfgSeasonStart"]');
+      if (cfgSeasonStartLabel) cfgSeasonStartLabel.textContent = name + ' — ' + window.I18N.t('configSeasonStartShort');
+    }
+
+    function refreshFromSeason() {
+      if (!window.LWSSeasons) {
+        // seasons-lib.js hasn't loaded (offline or CDN failure) — stick with S2 defaults.
+        console.warn('[LWS] LWSSeasons not available; using S2 defaults');
+        state.season = { id: 's2-polar-storm', name: { en: 'Season 2: Polar Storm' } };
+        state.milestones = [];
+        TASKS = buildTasksForSeason(state.season, state.milestones);
+        updateHeaderForSeason(state.season);
+        renderTaskTable();
+        renderRoster();
+        renderCountdown();
+        return;
+      }
+      return window.LWSSeasons.resolveContext().then(function (ctx) {
+        state.season = ctx.season || { id: 's2-polar-storm', name: { en: 'Season 2: Polar Storm' } };
+        return window.LWSSeasons.getMilestonesForTool(state.season.id, 'season_timeline');
+      }).then(function (ms) {
+        state.milestones = ms || [];
+        TASKS = buildTasksForSeason(state.season, state.milestones);
+        updateHeaderForSeason(state.season);
+        renderTaskTable();
+        renderRoster();
+        renderCountdown();
+      }).catch(function (err) {
+        console.warn('[LWS] refreshFromSeason failed, falling back:', err);
+        state.season = { id: 's2-polar-storm', name: { en: 'Season 2: Polar Storm' } };
+        state.milestones = [];
+        TASKS = buildTasksForSeason(state.season, state.milestones);
+        renderTaskTable();
+      });
+    }
+
+    // Re-render when the shared warzone/season selector changes.
+    window.addEventListener('lws:season-changed', function () { refreshFromSeason(); });
+    window.addEventListener('lws:warzone-changed', function () { refreshFromSeason(); });
+
+    // ============================================================
+    // Wire up
+    // ============================================================
+    window.onLangChange = function () {
+      // Rebuild tasks so milestone labels pick the new language
+      TASKS = buildTasksForSeason(state.season, state.milestones);
+      updateHeaderForSeason(state.season);
+      renderTaskTable();
+      renderRoster();
+      renderCountdown();
+    };
+
+    document.getElementById('langToggle').addEventListener('click', function () {
+      window.I18N.toggle();
+    });
+
+    document.getElementById('cfgSaveBtn').addEventListener('click', function (e) {
+      e.preventDefault();
+      saveConfig();
+    });
+
+    document.getElementById('rosterImportBtn').addEventListener('click', function () {
+      document.getElementById('rosterFile').click();
+    });
+    document.getElementById('rosterFile').addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        state.roster = parseRosterCsv(reader.result);
+        renderRoster();
+      };
+      reader.readAsText(f);
+    });
+
+    document.getElementById('exportPngBtn').addEventListener('click', exportPng);
+    document.getElementById('exportIcalBtn').addEventListener('click', exportIcal);
+    document.getElementById('exportCsvBtn').addEventListener('click', exportCsv);
+    document.getElementById('exportJsonBtn').addEventListener('click', exportJson);
+
+    document.getElementById('viewerSelect').addEventListener('change', function (e) {
+      state.currentMember = e.target.value;
+      renderTaskTable();
+    });
+
+    // Initial render (v0.3 flow: config → per-member tasks → populate viewer selector → render)
+    state.roster = MOCK_ROSTER;
+    Promise.all([loadConfigFromServer(), loadAllTasksFromServer()]).then(function (results) {
+      var serverTasks = results[1];
+      // Prefer server state (authoritative when available); fall back to localStorage
+      state.allTasks = serverTasks || loadFromStorage() || {};
+      // Also merge localStorage on top of server (in case offline edits happened)
+      var local = loadFromStorage();
+      Object.keys(local).forEach(function (m) {
+        state.allTasks[m] = Object.assign({}, state.allTasks[m] || {}, local[m]);
+      });
+      populateViewerSelect();
+      // v0.4: refreshFromSeason bootstraps TASKS from LWSSeasons before first render
+      var didSeasonRefresh = refreshFromSeason();
+      if (!didSeasonRefresh || typeof didSeasonRefresh.then !== 'function') {
+        // Synchronous fallback path — render immediately.
+        renderTaskTable();
+        renderRoster();
+        renderCountdown();
+      }
+      setInterval(renderCountdown, 1000);
+    });
+  })();
+  </script>
+
+  <script src="static/roster-picker.js" defer></script>
+  <script>
+    window.addEventListener('lws:roster-loaded', function (ev) {
+      var rows = ev.detail.rows;
+      if (!rows || !rows.length) return;
+      var headers = Object.keys(rows[0]);
+      var csv = headers.join(',') + '\n' +
+        rows.map(function (r) { return headers.map(function (h) { return (r[h] || ''); }).join(',') }).join('\n');
+      var input = document.getElementById('rosterFile');
+      if (!input) { console.warn('[LWS] roster input not found'); return; }
+      var dt = new DataTransfer();
+      dt.items.add(new File([csv], ev.detail.name + '.csv', { type: 'text/csv' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  </script>
+
+  <script src="static/seasons-lib.js" defer></script>
+  <script src="https://chat.r5tools.io/widget.js" defer></script>
+<script>window.addEventListener("DOMContentLoaded",function(){if(window.LWSDiscord&&typeof LWSDiscord.attachToButton==="function"){setTimeout(function(){LWSDiscord.attachToButton({pngBtnId:"exportPngBtn",slotId:"lws-discord-slot",gearSlotId:"lws-discord-gear-slot",filename:"season-timeline.png",contextText:"Season Timeline",toolName:"Season Timeline"});},300);}});</script>
+</body>
+</html>

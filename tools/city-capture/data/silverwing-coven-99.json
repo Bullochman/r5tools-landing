@@ -1,0 +1,601 @@
+{
+  "$note": "Second fictional demo alliance — replaces r10t-alliance-99.csv (real alliance doxing risk).",
+  "alliance_name": "Silverwing Coven",
+  "alliance_tag": "WING",
+  "members": {
+    "PineSong Talon": {
+      "rank": "R5",
+      "hq": 33,
+      "power": "1.6B",
+      "notes": ""
+    },
+    "BrambleCove Snow": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "1.06B",
+      "notes": ""
+    },
+    "RavenTalon Sage": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "1.02B",
+      "notes": ""
+    },
+    "RowanHolly Vale": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "0.98B",
+      "notes": ""
+    },
+    "WindVale Reign": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "0.94B",
+      "notes": ""
+    },
+    "SilverClaw Dew": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "0.9B",
+      "notes": ""
+    },
+    "RavenBracken Talon": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "0.86B",
+      "notes": ""
+    },
+    "SageYew Snowfall": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "500M",
+      "notes": ""
+    },
+    "IronDew Mist": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "485M",
+      "notes": ""
+    },
+    "WindCove Talon": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "470M",
+      "notes": ""
+    },
+    "HazelSage Holly": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "455M",
+      "notes": ""
+    },
+    "StormCove Ash": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "440M",
+      "notes": ""
+    },
+    "NightSnow Sage": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "425M",
+      "notes": ""
+    },
+    "TwilightRein Sage": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "410M",
+      "notes": ""
+    },
+    "EmberAsh Yew": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "395M",
+      "notes": ""
+    },
+    "CoveFeather Mist": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "380M",
+      "notes": ""
+    },
+    "SageSong Bracken": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "365M",
+      "notes": ""
+    },
+    "TwilightHolly Larken": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "350M",
+      "notes": ""
+    },
+    "FernBrook Rill": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "335M",
+      "notes": ""
+    },
+    "WindYew Vale": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "320M",
+      "notes": ""
+    },
+    "MistMoor Snow": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "180M",
+      "notes": ""
+    },
+    "HazelFern Vale": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "176M",
+      "notes": ""
+    },
+    "DewDew Sage": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "172M",
+      "notes": ""
+    },
+    "SnowCove Mist": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "168M",
+      "notes": ""
+    },
+    "PineAsh Cove": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "164M",
+      "notes": ""
+    },
+    "EmberAsh Dew": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "160M",
+      "notes": ""
+    },
+    "RowanCove Vale": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "156M",
+      "notes": ""
+    },
+    "RainBrook Cove": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "152M",
+      "notes": ""
+    },
+    "SageDew Cove": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "148M",
+      "notes": ""
+    },
+    "GoldRein Yew": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "144M",
+      "notes": ""
+    },
+    "LarkBrook Snowfall": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "140M",
+      "notes": ""
+    },
+    "RavenMoor Fen": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "136M",
+      "notes": ""
+    },
+    "FernFeather Snow": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "132M",
+      "notes": ""
+    },
+    "FernFeather Fen": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "128M",
+      "notes": ""
+    },
+    "SnowCove Vale": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "124M",
+      "notes": ""
+    },
+    "NightLarken Fen": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "120M",
+      "notes": ""
+    },
+    "NightBrook Rain": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "116M",
+      "notes": ""
+    },
+    "SnowBrook Mist": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "112M",
+      "notes": ""
+    },
+    "FrostCove Ash": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "108M",
+      "notes": ""
+    },
+    "RavenHolly Snowfall": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "104M",
+      "notes": ""
+    },
+    "CinderLarken Holly": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "100M",
+      "notes": ""
+    },
+    "ValeLarken Bracken": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "96M",
+      "notes": ""
+    },
+    "EmberDew Ash": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "92M",
+      "notes": ""
+    },
+    "IvyRill Vale": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "88M",
+      "notes": ""
+    },
+    "HazelFeather Sage": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "84M",
+      "notes": ""
+    },
+    "FrostBrook Cove": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "60.0M",
+      "notes": ""
+    },
+    "CoveMoor Holly": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "59.5M",
+      "notes": ""
+    },
+    "RainClaw Bracken": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "59.0M",
+      "notes": ""
+    },
+    "SnowFrost Mist": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "58.5M",
+      "notes": ""
+    },
+    "IvyCove Snowfall": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "58.0M",
+      "notes": ""
+    },
+    "DewWing Sage": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "57.5M",
+      "notes": ""
+    },
+    "RowanHolly Yew": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "57.0M",
+      "notes": ""
+    },
+    "HazelBrook Fen": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "56.5M",
+      "notes": ""
+    },
+    "SkyFern Holly": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "56.0M",
+      "notes": ""
+    },
+    "MoonFen Talon": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "55.5M",
+      "notes": ""
+    },
+    "BrambleCove Brook": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "55.0M",
+      "notes": ""
+    },
+    "HazelSage Brook": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "54.5M",
+      "notes": ""
+    },
+    "LarkSong Larken": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "54.0M",
+      "notes": ""
+    },
+    "FernBrook Brook": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "53.5M",
+      "notes": ""
+    },
+    "RainYew Ash": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "53.0M",
+      "notes": ""
+    },
+    "EmberSage Snowfall": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "52.5M",
+      "notes": ""
+    },
+    "HazelBracken Talon": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "52.0M",
+      "notes": ""
+    },
+    "RainSnow Rain": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "51.5M",
+      "notes": ""
+    },
+    "SilverSong Rill": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "51.0M",
+      "notes": ""
+    },
+    "ValeFern Snow": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "50.5M",
+      "notes": ""
+    },
+    "MistDew Vale": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "50.0M",
+      "notes": ""
+    },
+    "TwilightRill Vale": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "49.5M",
+      "notes": ""
+    },
+    "HazelHolly Ash": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "49.0M",
+      "notes": ""
+    },
+    "FrostMoor Rain": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "48.5M",
+      "notes": ""
+    },
+    "SageSage Yew": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "48.0M",
+      "notes": ""
+    },
+    "IvyFrost Holly": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "47.5M",
+      "notes": ""
+    },
+    "NightHolly Dew": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "47.0M",
+      "notes": ""
+    },
+    "AshFern Bracken": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "46.5M",
+      "notes": ""
+    },
+    "RowanBrook Rill": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "46.0M",
+      "notes": ""
+    },
+    "GoldBracken Mist": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "45.5M",
+      "notes": ""
+    },
+    "SkyDew Snow": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "45.0M",
+      "notes": ""
+    },
+    "TwilightSnow Talon": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "44.5M",
+      "notes": ""
+    },
+    "WindHolly Snow": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "44.0M",
+      "notes": ""
+    },
+    "WindDew Talon": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "43.5M",
+      "notes": ""
+    },
+    "TwilightBrook Reign": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "43.0M",
+      "notes": ""
+    },
+    "RavenClaw Reign": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "42.5M",
+      "notes": ""
+    },
+    "DewSnow Vale": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "42.0M",
+      "notes": ""
+    },
+    "IvyDew Yew": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "41.5M",
+      "notes": ""
+    },
+    "RowanRill Dew": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "41.0M",
+      "notes": ""
+    },
+    "SageTalon Rain": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "40.5M",
+      "notes": ""
+    },
+    "RavenRill Holly": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "40.0M",
+      "notes": ""
+    },
+    "NightSong Sage": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "39.5M",
+      "notes": ""
+    },
+    "RowanVale Rill": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "39.0M",
+      "notes": ""
+    },
+    "IronVale Mist": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "38.5M",
+      "notes": ""
+    },
+    "DewFeather Sage": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "38.0M",
+      "notes": ""
+    },
+    "MistRein Fen": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "37.5M",
+      "notes": ""
+    },
+    "CoveSong Snow": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "37.0M",
+      "notes": ""
+    },
+    "NightYew Snowfall": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "36.5M",
+      "notes": ""
+    },
+    "GoldTalon Holly": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "36.0M",
+      "notes": ""
+    },
+    "MoonCove Mist": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "35.5M",
+      "notes": ""
+    },
+    "RavenClaw Mist": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "35.0M",
+      "notes": ""
+    },
+    "CoveHolly Sage": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "34.5M",
+      "notes": ""
+    },
+    "MistBrook Snowfall": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "34.0M",
+      "notes": ""
+    },
+    "FernWing Vale": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "33.5M",
+      "notes": ""
+    }
+  }
+}

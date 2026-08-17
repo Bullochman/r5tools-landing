@@ -1,0 +1,579 @@
+{
+  "$note": "Fictional demo alliance — clearly whimsical fairytale names so no confusion with real alliances. Replaces the prior real-alliance Tino fixture (doxing risk). 94 members with realistic power distribution (R5 ~1.8B, R4s 800M-1.2B, R3 300-600M, R1 tail 5-40M). Used across every LWS tool as the 'demo mode' seed alliance for cold visitors.",
+  "alliance_name": "The Moonpetal Circle",
+  "alliance_tag": "MOON",
+  "warzone": "demo",
+  "demo": true,
+  "members": {
+    "Thistlewisp Fern": {
+      "rank": "R5",
+      "hq": 33,
+      "power": "1.8B",
+      "notes": "Alliance leader"
+    },
+    "Coalspark Ember": {
+      "rank": "R4",
+      "hq": 32,
+      "power": "1.24B",
+      "notes": "Recruiter title"
+    },
+    "Wintervale Ash": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "1.11B",
+      "notes": "Muse title"
+    },
+    "Nightbrook Vale": {
+      "rank": "R4",
+      "hq": 32,
+      "power": "985M",
+      "notes": "Butler title"
+    },
+    "Silvermoss Hollow": {
+      "rank": "R4",
+      "hq": 31,
+      "power": "912M",
+      "notes": "Priest title"
+    },
+    "Frostpetal Larken": {
+      "rank": "R4",
+      "hq": 30,
+      "power": "870M",
+      "notes": "Rally leader"
+    },
+    "Duskweave Reign": {
+      "rank": "R4",
+      "hq": 30,
+      "power": "820M",
+      "notes": "Cook title"
+    },
+    "Amberdrift Wren": {
+      "rank": "R3",
+      "hq": 30,
+      "power": "612M",
+      "notes": ""
+    },
+    "Hollowvale Iris": {
+      "rank": "R3",
+      "hq": 29,
+      "power": "578M",
+      "notes": ""
+    },
+    "Mistshade Rowan": {
+      "rank": "R3",
+      "hq": 30,
+      "power": "540M",
+      "notes": ""
+    },
+    "Snowberry Cove": {
+      "rank": "R3",
+      "hq": 29,
+      "power": "502M",
+      "notes": ""
+    },
+    "Willowfrost Dew": {
+      "rank": "R3",
+      "hq": 29,
+      "power": "478M",
+      "notes": ""
+    },
+    "Pinequill Ember": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "455M",
+      "notes": ""
+    },
+    "Moorwren Frost": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "421M",
+      "notes": ""
+    },
+    "Ravenhollow Sage": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "398M",
+      "notes": ""
+    },
+    "Emberdrift Mist": {
+      "rank": "R3",
+      "hq": 28,
+      "power": "376M",
+      "notes": ""
+    },
+    "Foxglove Rill": {
+      "rank": "R3",
+      "hq": 27,
+      "power": "342M",
+      "notes": ""
+    },
+    "Larksong Frost": {
+      "rank": "R3",
+      "hq": 27,
+      "power": "318M",
+      "notes": ""
+    },
+    "Hazelbrook Snow": {
+      "rank": "R3",
+      "hq": 27,
+      "power": "298M",
+      "notes": ""
+    },
+    "Cinderleaf Vale": {
+      "rank": "R3",
+      "hq": 26,
+      "power": "275M",
+      "notes": ""
+    },
+    "Rowanmist Sky": {
+      "rank": "R2",
+      "hq": 26,
+      "power": "218M",
+      "notes": ""
+    },
+    "Snowfall Bracken": {
+      "rank": "R2",
+      "hq": 26,
+      "power": "202M",
+      "notes": ""
+    },
+    "Ivyweave Dusk": {
+      "rank": "R2",
+      "hq": 26,
+      "power": "188M",
+      "notes": ""
+    },
+    "Frostbell Fen": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "175M",
+      "notes": ""
+    },
+    "Willowmoon Rain": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "168M",
+      "notes": ""
+    },
+    "Bramblesong Vale": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "155M",
+      "notes": ""
+    },
+    "Ashenveil Mist": {
+      "rank": "R2",
+      "hq": 25,
+      "power": "144M",
+      "notes": ""
+    },
+    "Moonwren Flint": {
+      "rank": "R2",
+      "hq": 24,
+      "power": "132M",
+      "notes": ""
+    },
+    "Cinderfrost Wren": {
+      "rank": "R2",
+      "hq": 24,
+      "power": "121M",
+      "notes": ""
+    },
+    "Duskleaf Bracken": {
+      "rank": "R2",
+      "hq": 24,
+      "power": "115M",
+      "notes": ""
+    },
+    "Foxsnow Larken": {
+      "rank": "R2",
+      "hq": 24,
+      "power": "108M",
+      "notes": ""
+    },
+    "Wispmoon Sage": {
+      "rank": "R2",
+      "hq": 23,
+      "power": "98M",
+      "notes": ""
+    },
+    "Hollowfern Yew": {
+      "rank": "R2",
+      "hq": 23,
+      "power": "92M",
+      "notes": ""
+    },
+    "Snowveil Rill": {
+      "rank": "R2",
+      "hq": 23,
+      "power": "87M",
+      "notes": ""
+    },
+    "Larkfrost Fern": {
+      "rank": "R2",
+      "hq": 23,
+      "power": "82M",
+      "notes": ""
+    },
+    "Emberwren Dusk": {
+      "rank": "R2",
+      "hq": 22,
+      "power": "78M",
+      "notes": ""
+    },
+    "Silverfern Rain": {
+      "rank": "R2",
+      "hq": 22,
+      "power": "74M",
+      "notes": ""
+    },
+    "Frostbrook Vale": {
+      "rank": "R2",
+      "hq": 22,
+      "power": "70M",
+      "notes": ""
+    },
+    "Mistwren Cove": {
+      "rank": "R2",
+      "hq": 22,
+      "power": "66M",
+      "notes": ""
+    },
+    "Willowfrost Sage": {
+      "rank": "R2",
+      "hq": 21,
+      "power": "62M",
+      "notes": ""
+    },
+    "Rowanleaf Rill": {
+      "rank": "R1",
+      "hq": 21,
+      "power": "55M",
+      "notes": ""
+    },
+    "Cinderbell Fern": {
+      "rank": "R1",
+      "hq": 21,
+      "power": "52M",
+      "notes": ""
+    },
+    "Hazelfrost Snow": {
+      "rank": "R1",
+      "hq": 21,
+      "power": "48M",
+      "notes": ""
+    },
+    "Duskbrook Yew": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "45M",
+      "notes": ""
+    },
+    "Snowweave Larken": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "42M",
+      "notes": ""
+    },
+    "Foxfrost Vale": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "40M",
+      "notes": ""
+    },
+    "Ivymoon Dew": {
+      "rank": "R1",
+      "hq": 20,
+      "power": "38M",
+      "notes": ""
+    },
+    "Larksnow Bracken": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "36M",
+      "notes": ""
+    },
+    "Wintermoss Sage": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "34M",
+      "notes": ""
+    },
+    "Emberpetal Rain": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "32M",
+      "notes": ""
+    },
+    "Frostwren Cove": {
+      "rank": "R1",
+      "hq": 19,
+      "power": "30M",
+      "notes": ""
+    },
+    "Mistbrook Ash": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "28M",
+      "notes": ""
+    },
+    "Pinehollow Snow": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "26M",
+      "notes": ""
+    },
+    "Coalfrost Wren": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "25M",
+      "notes": ""
+    },
+    "Wispbrook Larken": {
+      "rank": "R1",
+      "hq": 18,
+      "power": "24M",
+      "notes": ""
+    },
+    "Silverbell Rill": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "22M",
+      "notes": ""
+    },
+    "Amberweave Mist": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "21M",
+      "notes": ""
+    },
+    "Rowanbrook Fen": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "20M",
+      "notes": ""
+    },
+    "Snowdust Ember": {
+      "rank": "R1",
+      "hq": 17,
+      "power": "19M",
+      "notes": ""
+    },
+    "Frostmoon Cove": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "18M",
+      "notes": ""
+    },
+    "Willowbrook Ash": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "17M",
+      "notes": ""
+    },
+    "Cinderweave Sage": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "16M",
+      "notes": ""
+    },
+    "Duskmoss Vale": {
+      "rank": "R1",
+      "hq": 16,
+      "power": "15M",
+      "notes": ""
+    },
+    "Hazelmoon Yew": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "14M",
+      "notes": ""
+    },
+    "Foxglade Rill": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "14M",
+      "notes": ""
+    },
+    "Pinequill Snow": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "13M",
+      "notes": ""
+    },
+    "Moorfrost Larken": {
+      "rank": "R1",
+      "hq": 15,
+      "power": "13M",
+      "notes": ""
+    },
+    "Ivywren Bracken": {
+      "rank": "R1",
+      "hq": 14,
+      "power": "12M",
+      "notes": ""
+    },
+    "Rowanfrost Fern": {
+      "rank": "R1",
+      "hq": 14,
+      "power": "11M",
+      "notes": ""
+    },
+    "Snowbell Rill": {
+      "rank": "R1",
+      "hq": 14,
+      "power": "11M",
+      "notes": ""
+    },
+    "Emberbrook Sky": {
+      "rank": "R1",
+      "hq": 14,
+      "power": "10M",
+      "notes": ""
+    },
+    "Frostvale Ash": {
+      "rank": "R1",
+      "hq": 13,
+      "power": "9.8M",
+      "notes": ""
+    },
+    "Mistpetal Dusk": {
+      "rank": "R1",
+      "hq": 13,
+      "power": "9.4M",
+      "notes": ""
+    },
+    "Larkweave Rain": {
+      "rank": "R1",
+      "hq": 13,
+      "power": "9.0M",
+      "notes": ""
+    },
+    "Willowdust Cove": {
+      "rank": "R1",
+      "hq": 13,
+      "power": "8.6M",
+      "notes": ""
+    },
+    "Cinderbrook Fen": {
+      "rank": "R1",
+      "hq": 12,
+      "power": "8.2M",
+      "notes": ""
+    },
+    "Silverfrost Wren": {
+      "rank": "R1",
+      "hq": 12,
+      "power": "7.9M",
+      "notes": ""
+    },
+    "Hollowmoon Iris": {
+      "rank": "R1",
+      "hq": 12,
+      "power": "7.5M",
+      "notes": ""
+    },
+    "Duskleaf Ember": {
+      "rank": "R1",
+      "hq": 12,
+      "power": "7.2M",
+      "notes": ""
+    },
+    "Ashenfrost Wren": {
+      "rank": "R1",
+      "hq": 11,
+      "power": "6.9M",
+      "notes": ""
+    },
+    "Rowansong Snow": {
+      "rank": "R1",
+      "hq": 11,
+      "power": "6.6M",
+      "notes": ""
+    },
+    "Foxweave Larken": {
+      "rank": "R1",
+      "hq": 11,
+      "power": "6.3M",
+      "notes": ""
+    },
+    "Pinebrook Frost": {
+      "rank": "R1",
+      "hq": 11,
+      "power": "6.0M",
+      "notes": ""
+    },
+    "Cinderfrost Vale": {
+      "rank": "R1",
+      "hq": 10,
+      "power": "5.7M",
+      "notes": ""
+    },
+    "Wisplinden Rill": {
+      "rank": "R1",
+      "hq": 10,
+      "power": "5.4M",
+      "notes": ""
+    },
+    "Willowfrost Bracken": {
+      "rank": "R1",
+      "hq": 10,
+      "power": "5.1M",
+      "notes": ""
+    },
+    "Hazelbell Cove": {
+      "rank": "R1",
+      "hq": 10,
+      "power": "4.9M",
+      "notes": ""
+    },
+    "Silverdust Fern": {
+      "rank": "R1",
+      "hq": 9,
+      "power": "4.6M",
+      "notes": ""
+    },
+    "Snowbrook Ember": {
+      "rank": "R1",
+      "hq": 9,
+      "power": "4.4M",
+      "notes": ""
+    },
+    "Emberweave Mist": {
+      "rank": "R1",
+      "hq": 9,
+      "power": "4.2M",
+      "notes": ""
+    },
+    "Frostvale Sky": {
+      "rank": "R1",
+      "hq": 9,
+      "power": "4.0M",
+      "notes": ""
+    },
+    "Mistwren Fen": {
+      "rank": "R1",
+      "hq": 8,
+      "power": "3.8M",
+      "notes": ""
+    },
+    "Hollowbrook Yew": {
+      "rank": "R1",
+      "hq": 8,
+      "power": "3.6M",
+      "notes": ""
+    },
+    "Larkfrost Snow": {
+      "rank": "R1",
+      "hq": 8,
+      "power": "3.4M",
+      "notes": ""
+    },
+    "Wispfrost Vale": {
+      "rank": "R1",
+      "hq": 8,
+      "power": "3.2M",
+      "notes": ""
+    }
+  }
+}

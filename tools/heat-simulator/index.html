@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LWS Heat Simulator — Season 2 temperature planner</title>
+  <meta name="description" content="Season 2 (Polar Storm) temperature overlay + freeze-risk planner for Last War: Survival alliances. Paints the map, overlays furnaces + cities, flags freeze-risk bases." />
+  <link rel="stylesheet" href="static/styles.css" />
+  <script src="static/lws-countdown.js" defer></script>
+  <script defer src="static/lws-track.js"></script>
+  <!-- Shared LWS chart lib (used for the cold-wave freeze-risk-over-weeks chart) -->
+  <script defer src="https://r5tools.io/line-chart.js"></script>
+  <!-- Cross-tool roster-staleness widget (top-right nudge) -->
+  <script defer src="https://roster.r5tools.io/static/roster-freshness.js"></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body>
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://bullochman.github.io/lws-profile-studio-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+</div>
+<!-- Warzone / season context strip -->
+<div style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
+  <div id="lws-warzone-selector" style="display:inline-flex"></div>
+</div>
+  <div class="wrap">
+
+    <header class="top">
+      <div class="brand">
+        R5TOOLS.IO
+        <span class="brand-sub" data-i18n="brandSub">LWS Suite · Heat Simulator</span>
+      <a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+      <button class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+    </header>
+
+    <!-- Everything gated by LWS_Access_Codes lives inside #main-app.
+         If the user isn't unlocked, LWSAccessCodes.gate() overlays this div. -->
+    <div id="main-app">
+
+      <div class="card">
+        <h1 data-i18n="appTitle">Heat Simulator</h1>
+        <p class="lede" data-i18n="appTagline">Season 2 (Polar Storm) temperature overlay + freeze-risk planner. Paints the map with the seven ambient bands (-15 °C to -80 °C), overlays furnaces + cities, flags freeze-risk bases.</p>
+
+        <div class="app-grid">
+
+          <!-- LEFT: map -->
+          <div>
+            <div class="map-wrap">
+              <h2 data-i18n="mapPanelTitle">Warzone Heat Map</h2>
+              <div id="noHeatBanner" style="display:none;padding:24px;margin-bottom:12px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.3);border-radius:8px;color:#c9a961;font-family:system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5">
+                <div style="font-weight:600;margin-bottom:6px" data-i18n="noHeatTitle">Heat mechanics don't apply this season</div>
+                <div style="color:#a8b0c0;font-size:13px" data-i18n="noHeatBody">This tool visualises Season 2 (Polar Storm) thermal bands. The current warzone/season has no temperature system — switch warzone or override the season via the selector above to plan for a frozen season.</div>
+                <div id="noHeatCta" style="display:none;margin-top:12px;padding-top:10px;border-top:1px solid rgba(201,169,97,0.18);color:#c9a961;font-size:12px"></div>
+              </div>
+              <canvas id="heatCanvas" width="1200" height="1200" aria-label="Warzone heat map"></canvas>
+              <div class="map-legend" id="mapLegend">
+                <!-- populated by app.js from LWSSeasons.mechanics_config.ambient_bands_c -->
+              </div>
+              <div style="margin-top: 12px;">
+                <span class="badge kb-gap" data-i18n="kbGapBadge">KB gap</span>
+                <span style="font-size: 12px; color: var(--text-mute); margin-left: 8px;" data-i18n="furnaceRadiusWarn">
+                  Alliance Furnace tile radius per level is a KB gap — the drawn ring is a placeholder.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: controls + readout -->
+          <div>
+
+            <div class="card" style="margin-bottom: 16px;">
+              <h2 data-i18n="controlsPanelTitle">Controls</h2>
+              <div class="controls">
+
+                <div class="row">
+                  <label data-i18n="capitolLabel">Capitol (x, y)</label>
+                  <input type="text" id="capitolCoord" value="600, 600" />
+                </div>
+
+                <div class="row">
+                  <label data-i18n="furnaceLabel">Alliance Furnace</label>
+                  <input type="text" id="furnaceCoord" data-i18n-placeholder="furnacePlaceholder" placeholder="x, y, level" />
+                </div>
+                <p style="font-size: 11px; color: var(--text-mute); margin: -4px 0 12px 96px;" data-i18n="furnaceHint">R4/R5 deploys on L1 territory Day 1 (KB [[06-season-2-frozen]])</p>
+
+                <div class="row" id="s2BlizzardRow">
+                  <label data-i18n="blizzardLabel">Cold-wave week</label>
+                  <select id="blizzardSelect">
+                    <option value="none" data-i18n="blizzardNone">None</option>
+                    <option value="w1" data-i18n="blizzardW1">Wk 1 (-20 °C baseline)</option>
+                    <option value="w2" data-i18n="blizzardW2">Wk 2 (-30 °C)</option>
+                    <option value="w3" data-i18n="blizzardW3">Wk 3 (-50 °C)</option>
+                    <option value="w4" data-i18n="blizzardW4">Wk 4 (-70 °C · Rare Soil War)</option>
+                    <option value="w5" data-i18n="blizzardW5">Wk 5 (-90 °C · Nuclear Furnace)</option>
+                    <option value="w6" data-i18n="blizzardW6">Wk 6 (-110 °C · Glacieradons)</option>
+                    <option value="w7" data-i18n="blizzardW7">Wk 7-8 (-130 °C · siege)</option>
+                  </select>
+                </div>
+
+                <!-- Season-week cold-wave band strip (7-week Polar Storm curve, KB [[17-seasons-catalog]]) -->
+                <div class="row" id="s2WeekStripRow" style="display:block">
+                  <div style="width:100%">
+                    <div style="font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">
+                      <span data-i18n="s2WeekStripLabel">Polar Storm cold-wave curve</span>
+                      <span id="s2WeekStripBadge" style="float:right;color:#c9a961;font-weight:600;font-size:10px" data-i18n="s2WeekStripBadge">7-band verified · KB</span>
+                    </div>
+                    <div id="s2WeekStrip" style="display:flex;gap:2px;width:100%;height:44px;border-radius:4px;overflow:hidden;background:#0a0e1a;border:1px solid rgba(255,255,255,0.06)"></div>
+                    <div style="font-size:10px;color:var(--text-mute);margin-top:3px;text-align:center">
+                      <span data-i18n="s2WeekStripHint">Highlighted band = current season week</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Season 4 (Evernight Isle) Blood Night controls — hidden unless S4 resolved -->
+                <div class="row" id="s4NightRow" style="display:none">
+                  <label data-i18n="nightPhaseLabel">Blood Night stage</label>
+                  <select id="nightPhaseSelect">
+                    <option value="off"         data-i18n="nightPhaseOff">Off (day)</option>
+                    <option value="stage1_w1"   data-i18n="nightPhaseStage1">Stage 1 · W1 · Night Parade of 100 Oni</option>
+                    <option value="stage2_w2"   data-i18n="nightPhaseStage2">Stage 2 · W2 · Wandering Oniwagon Invasion</option>
+                    <option value="stage3_w3_7" data-i18n="nightPhaseStage3">Stage 3 · W3-7 · Doomsday Crisis / Oni Legions</option>
+                    <option value="stage4_w8"   data-i18n="nightPhaseStage4">Stage 4 · W8 · Towards the Light</option>
+                  </select>
+                </div>
+                <div class="row" id="s4LighthouseRow" style="display:none">
+                  <label data-i18n="lighthouseLabel">Lighthouse level (L1-L4)</label>
+                  <select id="lighthouseSelect">
+                    <option value="1">L1 (+50 VR)</option>
+                    <option value="2">L2 (+150 VR)</option>
+                    <option value="3" selected>L3 (+250 VR, +3% Morale)</option>
+                    <option value="4">L4 (+250 VR, +5% Morale · Opto-Lab L20+)</option>
+                  </select>
+                </div>
+                <div class="row" id="s4DivineTreeRow" style="display:none">
+                  <label data-i18n="divineTreeLabel">Divine Tree active</label>
+                  <select id="divineTreeSelect">
+                    <option value="0">No (+0 VR)</option>
+                    <option value="1" selected>Yes (+250 VR during Blood Night)</option>
+                  </select>
+                </div>
+                <div class="row" id="s4WindowTimerRow" style="display:none">
+                  <label>&nbsp;</label>
+                  <div id="s4WindowTimer" class="v" style="font-family:ui-monospace,Menlo,Consolas,monospace">—</div>
+                </div>
+
+                <div class="row">
+                  <label data-i18n="lookupLabel">Lookup coord</label>
+                  <input type="text" id="lookupCoord" data-i18n-placeholder="lookupPlaceholder" placeholder="e.g. 342, 118" />
+                  <button class="btn btn-primary" id="lookupBtn" data-i18n="lookupBtn">Compute</button>
+                </div>
+
+                <div class="row" style="margin-top: 16px;">
+                  <input type="file" id="rosterFile" accept=".csv" style="display: none;" />
+                  <button class="btn btn-secondary" id="rosterUploadBtn" data-i18n="rosterUploadBtn" style="width: 100%;">Upload roster CSV</button>
+                </div>
+                <div id="lws-roster-picker" style="margin-top:8px"></div>
+                <p style="font-size: 11px; color: var(--text-mute); margin: -4px 0 12px 0;" data-i18n="rosterFormatHint">Columns: name, rank, hq_level, total_power, notes, x, y — matches Hive Grid Manager</p>
+
+                <div class="row">
+                  <button class="btn btn-primary" id="exportPngBtn" data-i18n="exportPngBtn" style="flex: 1;">Export PNG</button><span id="lws-discord-slot" style="display:inline-block;margin-left:6px"></span><span id="lws-discord-gear-slot" style="display:inline-block;margin-left:4px"></span>
+                  <button class="btn btn-secondary" id="exportCsvBtn" data-i18n="exportCsvBtn" style="flex: 1;">Export CSV</button>
+                </div>
+
+                <div id="uploadMsg" style="font-size: 12px; color: var(--text-mute); margin-top: 8px;"></div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 16px;" id="readoutCard">
+              <h2 data-i18n="readoutPanelTitle">Readout</h2>
+              <div class="readout" id="readout">
+                <div class="row"><span class="k" data-i18n="ambient">Ambient</span> <span class="v" id="rAmbient">—</span></div>
+                <div class="row"><span class="k" data-i18n="blizzardDrop">Blizzard drop</span> <span class="v" id="rBlizzard">—</span></div>
+                <div class="row"><span class="k" data-i18n="bonusTotal">Bonus stack</span> <span class="v" id="rBonus">—</span></div>
+                <div class="row"><span class="k" data-i18n="current">Current temp</span> <span class="v" id="rCurrent">—</span></div>
+                <div class="row"><span class="k" data-i18n="freezeThreshold">Freeze threshold</span> <span class="v" id="rThreshold">—</span></div>
+                <div class="row"><span class="k" data-i18n="status">Status</span> <span class="v" id="rStatus">—</span></div>
+              </div>
+            </div>
+
+            <!-- Season 4 (Evernight Isle) Blood Night readout — hidden unless S4 resolved -->
+            <div class="card" style="margin-bottom: 16px; display:none;" id="bloodNightPanel">
+              <h2 data-i18n="mapPanelTitle_s4">Blood Night Clock</h2>
+              <div class="readout">
+                <div class="row"><span class="k" data-i18n="nextWindow">Next Blood Night window</span> <span class="v" id="s4NextWindow">—</span></div>
+                <div class="row"><span class="k" data-i18n="powerDrain">Power drain / window</span> <span class="v" id="s4PowerDrain">—</span></div>
+                <div class="row"><span class="k" data-i18n="vrMitigation">Your VR mitigation</span> <span class="v" id="s4VrMitigation">—</span></div>
+                <div class="row"><span class="k" data-i18n="status">Status</span> <span class="v" id="s4StageName">—</span></div>
+              </div>
+              <div id="s4StageDebuff" style="display:none;margin-top:10px;padding:8px 10px;background:rgba(220,60,60,0.10);border:1px solid rgba(220,60,60,0.35);border-radius:6px;font-size:12px;color:#f0a0a0" data-i18n="stageDebuffWarn">
+                Stage 3 warning: triggering Oni Summon applies +500 Commander Durability Damage debuff.
+              </div>
+            </div>
+
+            <div class="card">
+              <h2 data-i18n="freezeListTitle">Freeze-Risk Roster</h2>
+              <ul class="freeze-list" id="freezeList">
+                <li style="color: var(--text-mute); font-family: var(--sans); font-size: 12px;" data-i18n="msgNoRoster">
+                  No roster loaded. Upload a CSV or paste a coord.
+                </li>
+              </ul>
+            </div>
+
+            <!-- Alliance freeze-risk % across the 8-week cold-wave curve (LWSLineChart) -->
+            <div class="card" id="freezeCurveCard" style="margin-top:16px">
+              <h2 data-i18n="freezeCurveTitle">Alliance freeze-risk across the season</h2>
+              <p style="font-size:11px;color:var(--text-mute);margin:-4px 0 8px 0" data-i18n="freezeCurveHint">
+                % of loaded roster below freeze threshold (-20 °C sustained 5 min) per season week, using the verified 7-band Polar Storm cold-wave curve. Upload a roster to populate.
+              </p>
+              <div id="freezeCurveChart" style="width:100%;min-height:260px"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div><!-- /#main-app -->
+
+    <footer class="bottom">
+      <a href="https://r5tools.io" target="_blank" data-i18n="footerHome">r5tools.io</a>
+      · <span data-i18n="footerCred">Data source: LWS Knowledge Base · Season 2 (Polar Storm)</span>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================
+       LWS_Access_Codes shared gate — see /Users/evanjones/claudecode/LWS_Access_Codes/docs/integration.md
+       In prod, `access-codes.r5tools.io` serves the library.
+       In local dev, either run access-codes on :8081 and change this src,
+       or set ?force-unlock=DEV in the URL to bypass (dev-only cookie).
+       ============================================================ -->
+  <script src="https://access-codes.r5tools.io/lib.js?v=3"></script>
+  <script>
+    // Wrap #main-app in an unlock overlay if the visitor has no valid cookie.
+    // The library redirects to the unlock page and returns them here on success.
+    if (window.LWSAccessCodes && typeof window.LWSAccessCodes.gate === 'function') {
+      window.LWSAccessCodes.gate('main-app');
+    } else {
+      console.warn('[Heat Simulator] LWSAccessCodes gate not loaded — access-codes.r5tools.io/lib.js may be unreachable. Tool is open in this session.');
+    }
+  </script>
+
+  <script src="static/fake-server.js"></script>
+<script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+    <script src="static/i18n.js"></script>
+    <script src="static/seasons-lib.js"></script>
+
+  <script>
+  // =====================================================================
+  // Heat Simulator — v0.2 (season-agnostic)
+  //
+  // Renders concentric ambient temperature bands sourced from
+  // window.LWSSeasons.getMechanicsConfig(currentSeason).ambient_bands_c.
+  // Falls back to server-served /api/snapshot _constants if LWSSeasons is
+  // unreachable. Skips render entirely for seasons with no heat mechanics
+  // (e.g. S1, S3, S5) and shows a friendly banner instead.
+  //
+  // Listens for lws:season-changed / lws:warzone-changed and re-renders.
+  // =====================================================================
+
+  const CANVAS = document.getElementById('heatCanvas');
+  const CTX = CANVAS.getContext('2d');
+  const W = CANVAS.width, H = CANVAS.height;
+  const NO_HEAT_BANNER = document.getElementById('noHeatBanner');
+
+  // Populated from LWSSeasons.getMechanicsConfig() (preferred) or
+  // /api/snapshot _constants (fallback for the compute API).
+  let SEASON_CFG = null;   // mechanics_config for the resolved season
+  let SEASON_META = null;  // { id, name, ... } — used for footer credits
+  let CONSTANTS = null;    // legacy: server-side _constants payload
+  let STATE = null;
+
+  // Fallback S2 bands used ONLY if BOTH LWSSeasons and CONSTANTS are unreachable.
+  const FALLBACK_BANDS_C = [-15, -30, -40, -50, -60, -70, -80];
+  const FALLBACK_FREEZE_C = -20;
+
+  function currentBands() {
+    if (SEASON_CFG && Array.isArray(SEASON_CFG.ambient_bands_c)) return SEASON_CFG.ambient_bands_c;
+    if (CONSTANTS && Array.isArray(CONSTANTS.ambient_bands_c)) return CONSTANTS.ambient_bands_c;
+    return FALLBACK_BANDS_C;
+  }
+  function currentFreezeThreshold() {
+    if (SEASON_CFG && typeof SEASON_CFG.freeze_threshold_c === 'number') return SEASON_CFG.freeze_threshold_c;
+    if (CONSTANTS && typeof CONSTANTS.freeze_threshold_c === 'number') return CONSTANTS.freeze_threshold_c;
+    return FALLBACK_FREEZE_C;
+  }
+  function currentBlizzardDrop(key) {
+    // Prefer LWSSeasons config; blizzard_drop_c is a { none, w1_2, w3, w4|w4_plus } dict.
+    var src = (SEASON_CFG && SEASON_CFG.blizzard_drop_c) || (CONSTANTS && CONSTANTS.blizzard_drop_c) || {};
+    if (src[key] != null) return src[key];
+    // Handle 'w4' vs 'w4_plus' schema drift between server payload + seasons.json
+    if (key === 'w4' && src.w4_plus != null) return src.w4_plus;
+    if (key === 'w4_plus' && src.w4 != null) return src.w4;
+    return 0;
+  }
+  function currentFurnaceRadii() {
+    var r1 = (SEASON_CFG && SEASON_CFG.furnace_radius_l1_tiles)
+          || (CONSTANTS && CONSTANTS.furnace_radius_l1_tiles) || 4;
+    var r20 = (SEASON_CFG && SEASON_CFG.furnace_radius_l20_tiles)
+          || (CONSTANTS && CONSTANTS.furnace_radius_l20_tiles) || 12;
+    return { r1: r1, r20: r20 };
+  }
+  function seasonHasHeat() {
+    // A season "has heat" if its mechanics_config exposes an ambient_bands_c array.
+    // Seasons without it (S1 virus, S3 desert, S5 wild west, S6 rainforest, etc.)
+    // fall back to the "no heat mechanics" banner.
+    return !!(SEASON_CFG && Array.isArray(SEASON_CFG.ambient_bands_c) && SEASON_CFG.ambient_bands_c.length > 0);
+  }
+  function seasonIsBloodNight() {
+    // S4 Evernight Isle has NO thermal bands but DOES have Blood Night windows.
+    // We render a night-simulator variant instead of the thermal grid.
+    return !!(SEASON_META && SEASON_META.id === 's4-evernight-isle');
+  }
+
+  // Map ambient band °C → CSS var color. Dynamically picks the right swatch
+  // based on the band's index into the current bands array (so a season with
+  // fewer/more bands still colors uniformly).
+  function bandColor(temp) {
+    var bands = currentBands();
+    // Find first band whose ceiling this temp falls under. Bands are
+    // descending: [-15, -30, -40, -50, -60, -70, -80].
+    var idx = bands.length - 1;
+    for (var i = 0; i < bands.length; i++) {
+      if (temp >= bands[i]) { idx = i; break; }
+    }
+    // Clamp to available CSS vars --heat-band-1 through --heat-band-7.
+    var cssIdx = Math.min(7, idx + 1);
+    return getVar('--heat-band-' + cssIdx);
+  }
+  function getVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  function parseCoord(str) {
+    const parts = String(str || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (parts.length < 2) return null;
+    const x = parseFloat(parts[0]), y = parseFloat(parts[1]);
+    if (isNaN(x) || isNaN(y)) return null;
+    return { x, y, level: parts[2] ? parseInt(parts[2], 10) : undefined };
+  }
+
+  function ambientAt(x, y, capitol) {
+    // Mirror server-side logic exactly (see server.py ambient_at)
+    const bands = currentBands();
+    const dx = x - capitol.x, dy = y - capitol.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const maxDist = Math.sqrt(capitol.x*capitol.x + capitol.y*capitol.y) || 1;
+    const ratio = Math.max(0, Math.min(1, 1 - (dist / maxDist)));
+    const idx = Math.min(bands.length - 1, Math.floor(ratio * bands.length));
+    return bands[idx];
+  }
+
+  function renderMap() {
+    // ---- Per-season DOM visibility gates ----
+    var s2BlizzardRow = document.getElementById('s2BlizzardRow');
+    var s4NightRow = document.getElementById('s4NightRow');
+    var s4LighthouseRow = document.getElementById('s4LighthouseRow');
+    var s4DivineTreeRow = document.getElementById('s4DivineTreeRow');
+    var s4WindowTimerRow = document.getElementById('s4WindowTimerRow');
+    var bloodNightPanel = document.getElementById('bloodNightPanel');
+    var readoutCard = document.getElementById('readoutCard');
+    var s4Mode = seasonIsBloodNight();
+    var s2Mode = seasonHasHeat();
+    if (s2BlizzardRow) s2BlizzardRow.style.display = s2Mode ? '' : 'none';
+    if (s4NightRow) s4NightRow.style.display = s4Mode ? '' : 'none';
+    if (s4LighthouseRow) s4LighthouseRow.style.display = s4Mode ? '' : 'none';
+    if (s4DivineTreeRow) s4DivineTreeRow.style.display = s4Mode ? '' : 'none';
+    if (s4WindowTimerRow) s4WindowTimerRow.style.display = s4Mode ? '' : 'none';
+    if (bloodNightPanel) bloodNightPanel.style.display = s4Mode ? '' : 'none';
+    if (readoutCard) readoutCard.style.display = s4Mode ? 'none' : '';
+
+    // ---- S4 Evernight Isle: night simulator variant (not thermal) ----
+    if (s4Mode) {
+      CANVAS.style.display = '';
+      NO_HEAT_BANNER.style.display = 'none';
+      var legendEl = document.getElementById('mapLegend');
+      if (legendEl) legendEl.innerHTML = '';
+      renderNightSimulator();
+      return;
+    }
+
+    // Season without heat mechanics → hide canvas, show banner.
+    if (!seasonHasHeat()) {
+      CANVAS.style.display = 'none';
+      NO_HEAT_BANNER.style.display = 'block';
+      // Blank the legend + freeze list to avoid stale S2 content.
+      var legend = document.getElementById('mapLegend');
+      if (legend) legend.innerHTML = '';
+      return;
+    }
+    CANVAS.style.display = '';
+    NO_HEAT_BANNER.style.display = 'none';
+
+    const cap = parseCoord(document.getElementById('capitolCoord').value) || { x: 600, y: 600 };
+
+    // Draw ambient bands using rings (coarse but fast)
+    // Loop the whole canvas at 20px steps and fill a rectangle per cell.
+    const step = 20;
+    for (let y = 0; y < H; y += step) {
+      for (let x = 0; x < W; x += step) {
+        const t = ambientAt(x + step/2, y + step/2, cap);
+        CTX.fillStyle = bandColor(t);
+        CTX.fillRect(x, y, step, step);
+      }
+    }
+
+    // Capitol marker
+    CTX.strokeStyle = getVar('--accent');
+    CTX.lineWidth = 3;
+    CTX.beginPath();
+    CTX.arc(cap.x, cap.y, 12, 0, Math.PI * 2);
+    CTX.stroke();
+    CTX.fillStyle = getVar('--accent');
+    CTX.font = 'bold 18px ui-monospace, Menlo, Consolas, monospace';
+    CTX.textAlign = 'center';
+    CTX.fillText('◈', cap.x, cap.y + 6);
+
+    // Alliance Furnace overlay (placeholder radius — KB gap flagged)
+    const furnace = parseCoord(document.getElementById('furnaceCoord').value);
+    if (furnace) {
+      const level = furnace.level || 1;
+      // Linear interp between endpoints from LWSSeasons mechanics_config.
+      const radii = currentFurnaceRadii();
+      const tiles = radii.r1 + (radii.r20 - radii.r1) * ((Math.max(1, Math.min(20, level)) - 1) / 19);
+      // 1 tile ≈ 20px on the current canvas (arbitrary — v2 wires this to real tile scale)
+      const radiusPx = tiles * 20;
+      CTX.strokeStyle = getVar('--accent-hover');
+      CTX.setLineDash([6, 6]);
+      CTX.lineWidth = 2;
+      CTX.beginPath();
+      CTX.arc(furnace.x, furnace.y, radiusPx, 0, Math.PI * 2);
+      CTX.stroke();
+      CTX.setLineDash([]);
+      CTX.fillStyle = getVar('--accent');
+      CTX.fillText('▲', furnace.x, furnace.y + 6);
+    }
+
+    // ---- Branded overlay (header + legend + footer) — so the exported PNG is Discord-ready ----
+    drawBrandOverlay(cap, furnace);
+  }
+
+  // Draws a semi-transparent header + on-canvas legend + footer on top of the heatmap.
+  // Uses the shared LWS palette (matches unlock.html / other tools).
+  function drawBrandOverlay(capitol, furnace) {
+    const headerH = 44, footerH = 60;
+    // Header bar
+    CTX.fillStyle = 'rgba(13, 20, 36, 0.92)';
+    CTX.fillRect(0, 0, W, headerH);
+    CTX.strokeStyle = 'rgba(255,255,255,0.10)';
+    CTX.lineWidth = 1;
+    CTX.beginPath(); CTX.moveTo(0, headerH); CTX.lineTo(W, headerH); CTX.stroke();
+    CTX.fillStyle = '#c9a961';
+    CTX.font = '600 13px system-ui, -apple-system, sans-serif';
+    CTX.textBaseline = 'middle';
+    CTX.textAlign = 'left';
+    CTX.fillText('R5TOOLS.IO · HEAT SIMULATOR', 12, headerH / 2);
+    CTX.fillStyle = '#a8b0c0';
+    CTX.font = '400 11px system-ui, sans-serif';
+    CTX.textAlign = 'right';
+    let headerRight = 'Capitol (' + capitol.x + ', ' + capitol.y + ')';
+    if (furnace) headerRight += '  ·  Alliance Furnace L' + (furnace.level || 1);
+    CTX.fillText(headerRight, W - 12, headerH / 2);
+
+    // Footer bar with legend + branding
+    CTX.fillStyle = 'rgba(13, 20, 36, 0.92)';
+    CTX.fillRect(0, H - footerH, W, footerH);
+    CTX.strokeStyle = 'rgba(255,255,255,0.10)';
+    CTX.beginPath(); CTX.moveTo(0, H - footerH); CTX.lineTo(W, H - footerH); CTX.stroke();
+
+    // On-canvas legend — driven by LWSSeasons.mechanics_config.ambient_bands_c
+    const bands = currentBands();
+    CTX.fillStyle = '#a8b0c0';
+    CTX.font = '500 11px system-ui, sans-serif';
+    CTX.textAlign = 'left';
+    let legX = 12, legY = H - footerH + 22;
+    CTX.fillText('Ambient bands:', legX, legY);
+    legX += 100;
+    bands.forEach(function (temp) {
+      CTX.fillStyle = bandColor(temp);
+      CTX.fillRect(legX, legY - 7, 16, 14);
+      CTX.strokeStyle = 'rgba(255,255,255,0.15)';
+      CTX.strokeRect(legX, legY - 7, 16, 14);
+      CTX.fillStyle = '#a8b0c0';
+      CTX.font = '500 11px ui-monospace, monospace';
+      CTX.fillText(temp + '°C', legX + 20, legY);
+      legX += 20 + CTX.measureText(temp + '°C').width + 10;
+    });
+
+    // Footer credits
+    CTX.fillStyle = '#7a8290';
+    CTX.font = '400 10px system-ui, sans-serif';
+    CTX.textAlign = 'left';
+    CTX.fillText('KB: [[06-season-2-frozen]] · freeze threshold -20°C for 5 continuous min. Furnace radius per level is a KB open question — placeholder.',
+                 12, H - 18);
+    CTX.textAlign = 'right';
+    CTX.fillText('r5tools.io · ' + new Date().toISOString().slice(0, 10), W - 12, H - 18);
+    CTX.textBaseline = 'alphabetic';
+    CTX.textAlign = 'left';
+  }
+
+  // =====================================================================
+  // Season 4 (Evernight Isle) — Blood Night night-simulator variant
+  //
+  // Renders a 24-hour clock on the canvas showing the 3 daily Blood Night
+  // windows (02:30 / 10:30 / 18:30 server, each 30 min). Highlights the
+  // upcoming window in gold; if a window is currently active or user
+  // has selected a stage, pulses a red ring on the capitol marker.
+  //
+  // KB refs: [[07-future-seasons]] §Season 4 (Blood Night Descend)
+  //   · lines 131-146: window times + power drain
+  //   · lines 153-158: Lighthouse VR bonuses per level
+  //   · lines 177-188: 4 stages mapped to weeks (W1/W2/W3-7/W8)
+  // =====================================================================
+  var S4_WINDOWS = [
+    { h: 2, m: 30 },
+    { h: 10, m: 30 },
+    { h: 18, m: 30 },
+  ];
+  var S4_DURATION_MIN = 30;
+  var S4_DRAIN_PER_MIN = 18000;
+  var S4_LIGHTHOUSE_VR = { 1: 50, 2: 150, 3: 250, 4: 250 };
+  var S4_DIVINE_TREE_VR = 250;
+
+  function s4NextWindow(now) {
+    now = now || new Date();
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    for (var i = 0; i < S4_WINDOWS.length; i++) {
+      var w = S4_WINDOWS[i];
+      var startMin = w.h * 60 + w.m;
+      var endMin = startMin + S4_DURATION_MIN;
+      if (nowMin < startMin) return { start: startMin, end: endMin, active: false, minsUntil: startMin - nowMin };
+      if (nowMin < endMin) return { start: startMin, end: endMin, active: true, minsUntil: 0, minsLeft: endMin - nowMin };
+    }
+    // All windows passed today → next is tomorrow's first window
+    var first = S4_WINDOWS[0];
+    var startMin2 = first.h * 60 + first.m;
+    return { start: startMin2, end: startMin2 + S4_DURATION_MIN, active: false, minsUntil: (24 * 60 - nowMin) + startMin2 };
+  }
+
+  function s4FmtHHMM(minsFromMidnight) {
+    var h = Math.floor(minsFromMidnight / 60) % 24;
+    var m = minsFromMidnight % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+  }
+
+  function s4StageOverride() {
+    var sel = document.getElementById('nightPhaseSelect');
+    return sel ? sel.value : 'off';
+  }
+
+  function s4LighthouseLevel() {
+    var sel = document.getElementById('lighthouseSelect');
+    return sel ? parseInt(sel.value, 10) : 3;
+  }
+
+  function s4DivineTree() {
+    var sel = document.getElementById('divineTreeSelect');
+    return sel ? sel.value === '1' : true;
+  }
+
+  function renderNightSimulator() {
+    // Dark-navy background
+    CTX.fillStyle = '#0a0e1a';
+    CTX.fillRect(0, 0, W, H);
+
+    // 24-hour clock: draw a large ring w/ hour ticks, then 3 red arcs at Blood Night windows
+    var cx = W / 2, cy = H / 2;
+    var radius = Math.min(W, H) * 0.36;
+
+    // Outer clock ring
+    CTX.strokeStyle = 'rgba(200, 210, 230, 0.20)';
+    CTX.lineWidth = 2;
+    CTX.beginPath();
+    CTX.arc(cx, cy, radius, 0, Math.PI * 2);
+    CTX.stroke();
+
+    // Hour ticks (24)
+    for (var i = 0; i < 24; i++) {
+      var ang = (i / 24) * Math.PI * 2 - Math.PI / 2;
+      var inner = radius - 12, outer = radius;
+      CTX.strokeStyle = (i % 6 === 0) ? 'rgba(201,169,97,0.75)' : 'rgba(200,210,230,0.35)';
+      CTX.lineWidth = (i % 6 === 0) ? 3 : 1;
+      CTX.beginPath();
+      CTX.moveTo(cx + Math.cos(ang) * inner, cy + Math.sin(ang) * inner);
+      CTX.lineTo(cx + Math.cos(ang) * outer, cy + Math.sin(ang) * outer);
+      CTX.stroke();
+      if (i % 6 === 0) {
+        CTX.fillStyle = '#c9a961';
+        CTX.font = '600 20px system-ui, sans-serif';
+        CTX.textAlign = 'center';
+        CTX.textBaseline = 'middle';
+        var labelR = radius + 28;
+        CTX.fillText(String(i).padStart(2, '0'), cx + Math.cos(ang) * labelR, cy + Math.sin(ang) * labelR);
+      }
+    }
+
+    // Draw Blood Night windows as red arcs
+    var now = new Date();
+    var next = s4NextWindow(now);
+    S4_WINDOWS.forEach(function (w) {
+      var startMin = w.h * 60 + w.m;
+      var endMin = startMin + S4_DURATION_MIN;
+      var startAng = (startMin / 1440) * Math.PI * 2 - Math.PI / 2;
+      var endAng = (endMin / 1440) * Math.PI * 2 - Math.PI / 2;
+      var isNext = (startMin === next.start);
+      CTX.strokeStyle = isNext ? '#c9a961' : 'rgba(220, 60, 60, 0.85)';
+      CTX.lineWidth = 14;
+      CTX.beginPath();
+      CTX.arc(cx, cy, radius, startAng, endAng);
+      CTX.stroke();
+      // Label
+      var midAng = (startAng + endAng) / 2;
+      var labelR = radius - 40;
+      CTX.fillStyle = isNext ? '#c9a961' : '#f0a0a0';
+      CTX.font = '600 16px ui-monospace, Menlo, Consolas, monospace';
+      CTX.textAlign = 'center';
+      CTX.textBaseline = 'middle';
+      CTX.fillText(s4FmtHHMM(startMin), cx + Math.cos(midAng) * labelR, cy + Math.sin(midAng) * labelR);
+    });
+
+    // Current-time indicator hand
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    var nowAng = (nowMin / 1440) * Math.PI * 2 - Math.PI / 2;
+    CTX.strokeStyle = '#ffffff';
+    CTX.lineWidth = 3;
+    CTX.beginPath();
+    CTX.moveTo(cx, cy);
+    CTX.lineTo(cx + Math.cos(nowAng) * (radius - 20), cy + Math.sin(nowAng) * (radius - 20));
+    CTX.stroke();
+
+    // Capitol dot + pulse ring if a window is active OR a stage is selected
+    var stage = s4StageOverride();
+    var pulse = next.active || (stage && stage !== 'off');
+    CTX.fillStyle = '#c9a961';
+    CTX.beginPath();
+    CTX.arc(cx, cy, 8, 0, Math.PI * 2);
+    CTX.fill();
+    if (pulse) {
+      CTX.strokeStyle = 'rgba(220, 60, 60, 0.85)';
+      CTX.lineWidth = 4;
+      CTX.beginPath();
+      CTX.arc(cx, cy, 24, 0, Math.PI * 2);
+      CTX.stroke();
+    }
+
+    // Header + footer branding (reuse the S2 pattern)
+    var headerH = 44, footerH = 60;
+    CTX.fillStyle = 'rgba(13, 20, 36, 0.92)';
+    CTX.fillRect(0, 0, W, headerH);
+    CTX.strokeStyle = 'rgba(255,255,255,0.10)';
+    CTX.lineWidth = 1;
+    CTX.beginPath(); CTX.moveTo(0, headerH); CTX.lineTo(W, headerH); CTX.stroke();
+    CTX.fillStyle = '#c9a961';
+    CTX.font = '600 13px system-ui, -apple-system, sans-serif';
+    CTX.textBaseline = 'middle';
+    CTX.textAlign = 'left';
+    CTX.fillText('R5TOOLS.IO · NIGHT SIMULATOR', 12, headerH / 2);
+    CTX.fillStyle = '#a8b0c0';
+    CTX.font = '400 11px system-ui, sans-serif';
+    CTX.textAlign = 'right';
+    CTX.fillText('Server time: ' + s4FmtHHMM(nowMin), W - 12, headerH / 2);
+
+    CTX.fillStyle = 'rgba(13, 20, 36, 0.92)';
+    CTX.fillRect(0, H - footerH, W, footerH);
+    CTX.fillStyle = '#7a8290';
+    CTX.font = '400 10px system-ui, sans-serif';
+    CTX.textAlign = 'left';
+    CTX.fillText('KB: [[07-future-seasons]] §Season 4 (Evernight Isle) — Blood Night Descend · 3 windows/day · 30 min · +18,000 power drain/min',
+                 12, H - 18);
+    CTX.textAlign = 'right';
+    CTX.fillText('r5tools.io · ' + new Date().toISOString().slice(0, 10), W - 12, H - 18);
+    CTX.textBaseline = 'alphabetic';
+    CTX.textAlign = 'left';
+
+    // Sidebar readout
+    updateBloodNightReadout(next, stage);
+  }
+
+  function updateBloodNightReadout(next, stage) {
+    var elNext = document.getElementById('s4NextWindow');
+    var elDrain = document.getElementById('s4PowerDrain');
+    var elVr = document.getElementById('s4VrMitigation');
+    var elStage = document.getElementById('s4StageName');
+    var elDebuff = document.getElementById('s4StageDebuff');
+    var elTimer = document.getElementById('s4WindowTimer');
+
+    if (elNext) {
+      if (next.active) {
+        elNext.textContent = 'ACTIVE · ' + next.minsLeft + 'm left';
+      } else {
+        elNext.textContent = s4FmtHHMM(next.start) + ' (in ' + next.minsUntil + 'm)';
+      }
+    }
+    if (elTimer) {
+      elTimer.textContent = next.active
+        ? 'ACTIVE · ' + next.minsLeft + 'm left'
+        : 'Next: ' + s4FmtHHMM(next.start) + ' (in ' + next.minsUntil + 'm)';
+    }
+    if (elDrain) {
+      elDrain.textContent = (S4_DRAIN_PER_MIN * S4_DURATION_MIN).toLocaleString() +
+                            ' (' + S4_DRAIN_PER_MIN.toLocaleString() + '/min × ' + S4_DURATION_MIN + 'm)';
+    }
+    if (elVr) {
+      var lvl = s4LighthouseLevel();
+      var dtOn = s4DivineTree();
+      var total = (S4_LIGHTHOUSE_VR[lvl] || 0) + (dtOn ? S4_DIVINE_TREE_VR : 0);
+      elVr.textContent = '+' + total + ' VR (Lighthouse L' + lvl + ' +' + S4_LIGHTHOUSE_VR[lvl] +
+                        (dtOn ? ' · Divine Tree +' + S4_DIVINE_TREE_VR : '') + ')';
+    }
+    if (elStage) {
+      var label = (typeof I18N !== 'undefined') && I18N.t ? {
+        'off': I18N.t('nightPhaseOff'),
+        'stage1_w1': I18N.t('nightPhaseStage1'),
+        'stage2_w2': I18N.t('nightPhaseStage2'),
+        'stage3_w3_7': I18N.t('nightPhaseStage3'),
+        'stage4_w8': I18N.t('nightPhaseStage4'),
+      }[stage || 'off'] : (stage || 'off');
+      elStage.textContent = label;
+    }
+    if (elDebuff) {
+      elDebuff.style.display = (stage === 'stage3_w3_7') ? '' : 'none';
+    }
+  }
+
+  // Apply per-season app title, tagline, footer credit, and no-heat banner copy.
+  // Called from refreshFromSeason() after SEASON_META resolves.
+  function applyPerSeasonCopy() {
+    if (typeof I18N === 'undefined' || !I18N.t) return;
+    var id = (SEASON_META && SEASON_META.id) || '';
+    // Season suffix used for i18n key lookups: 's2', 's4', 's1', 's3', 's5', 's6'
+    var short = id.split('-')[0] || '';  // 's2' from 's2-polar-storm'
+    // Title + description meta
+    var titleKey = 'appTitle_' + short;
+    var taglineKey = 'appTagline_' + short;
+    var titleVal = I18N._dict.en[titleKey] ? I18N.t(titleKey) : I18N.t('appTitle');
+    var taglineVal = I18N._dict.en[taglineKey] ? I18N.t(taglineKey) : I18N.t('appTagline');
+    var titleEl = document.querySelector('h1[data-i18n="appTitle"]');
+    var taglineEl = document.querySelector('p.lede[data-i18n="appTagline"]');
+    if (titleEl) titleEl.textContent = titleVal;
+    if (taglineEl) taglineEl.textContent = taglineVal;
+    // <title> + description
+    document.title = 'LWS ' + titleVal + ' — R5TOOLS.IO';
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', taglineVal);
+    // Footer credit (S4 has its own; others use S2 default)
+    var footerCredKey = 'footerCred_' + short;
+    var footerEl = document.querySelector('[data-i18n="footerCred"]');
+    if (footerEl) {
+      footerEl.textContent = I18N._dict.en[footerCredKey] ? I18N.t(footerCredKey) : I18N.t('footerCred');
+    }
+    // Map panel title (S4 renames to "Blood Night Clock")
+    var mapPanelKey = 'mapPanelTitle_' + short;
+    var mapPanelEl = document.querySelector('h2[data-i18n="mapPanelTitle"]');
+    if (mapPanelEl) {
+      mapPanelEl.textContent = I18N._dict.en[mapPanelKey] ? I18N.t(mapPanelKey) : I18N.t('mapPanelTitle');
+    }
+    // No-heat banner copy (S1/S3/S5/S6/S7 each get sharpened copy)
+    var noHeatTitleKey = 'noHeatTitle_' + short;
+    var noHeatBodyKey = 'noHeatBody_' + short;
+    var noHeatTitleEl = document.querySelector('[data-i18n="noHeatTitle"]');
+    var noHeatBodyEl = document.querySelector('[data-i18n="noHeatBody"]');
+    if (noHeatTitleEl) {
+      noHeatTitleEl.textContent = I18N._dict.en[noHeatTitleKey] ? I18N.t(noHeatTitleKey) : I18N.t('noHeatTitle');
+    }
+    if (noHeatBodyEl) {
+      noHeatBodyEl.textContent = I18N._dict.en[noHeatBodyKey] ? I18N.t(noHeatBodyKey) : I18N.t('noHeatBody');
+    }
+    // Optional CTA / tracker line inside the banner. S1/S3/S5/S6 each get a
+    // live-tool hint; S7 gets the r5tools.io tracker line; other seasons
+    // (S2 = has heat, S4 = variant) hide the row.
+    var noHeatCtaEl = document.getElementById('noHeatCta');
+    if (noHeatCtaEl) {
+      var ctaKey = null;
+      if (short === 's7') ctaKey = 's7ComingTracker';
+      else if (['s1', 's3', 's5', 's6'].indexOf(short) !== -1) ctaKey = 'noHeatCta_' + short;
+      if (ctaKey && I18N._dict.en[ctaKey]) {
+        noHeatCtaEl.textContent = I18N.t(ctaKey);
+        noHeatCtaEl.style.display = 'block';
+      } else {
+        noHeatCtaEl.textContent = '';
+        noHeatCtaEl.style.display = 'none';
+      }
+    }
+  }
+
+  function populateLegend() {
+    const legend = document.getElementById('mapLegend');
+    if (!legend) return;
+    legend.innerHTML = '';
+    if (!seasonHasHeat()) return;
+    const bands = currentBands();
+    bands.forEach(function (temp) {
+      const wrap = document.createElement('span');
+      wrap.innerHTML =
+        '<span class="swatch" style="background:' + bandColor(temp) + '"></span>' +
+        temp + ' °C';
+      legend.appendChild(wrap);
+    });
+    // Freeze threshold marker — pulled from LWSSeasons config
+    const threshold = currentFreezeThreshold();
+    const th = document.createElement('span');
+    th.innerHTML = '<span class="swatch" style="background:' + getVar('--heat-freeze') + '"></span>< ' + threshold + ' °C = freeze';
+    legend.appendChild(th);
+    // Update the sidebar readout row too, so users see the season's actual threshold.
+    const rThreshold = document.getElementById('rThreshold');
+    if (rThreshold) rThreshold.textContent = threshold + ' °C';
+  }
+
+  async function fetchSnapshot() {
+    try {
+      const r = await fetch('/api/snapshot');
+      const data = await r.json();
+      STATE = data;
+      CONSTANTS = data._constants || null;
+      populateLegend();
+      renderWeekStrip();
+      renderMap();
+      renderFreezeList();
+      renderFreezeCurveChart();
+    } catch (e) {
+      console.error('[Heat Simulator] snapshot failed', e);
+    }
+  }
+
+  // ---- LWSSeasons wire-up ------------------------------------------------
+  let CURRENT_WEEK = null;  // 1-8, resolved from LWSSeasons context (null if unknown)
+
+  async function loadSeasonConfig() {
+    if (!window.LWSSeasons || typeof window.LWSSeasons.resolve !== 'function') {
+      console.warn('[Heat Simulator] LWSSeasons not available — using server _constants fallback');
+      return;
+    }
+    try {
+      const ctx = await window.LWSSeasons.resolve();
+      SEASON_META = ctx.season || null;
+      SEASON_CFG = (ctx.season && ctx.season.mechanics_config) || {};
+      CURRENT_WEEK = ctx.week || null;
+      console.log('[Heat Simulator] loaded season', ctx.season_id, 'wk', ctx.week,
+                  '(has_heat=' + seasonHasHeat() + ')');
+    } catch (e) {
+      console.error('[Heat Simulator] LWSSeasons.resolve failed', e);
+    }
+  }
+
+  // ---- Season-week cold-wave band strip (7-band Polar Storm curve) ------
+  // KB: [[17-seasons-catalog]] — Wk1 -20 / Wk2 -30 / Wk3 -50 / Wk4 -70 /
+  //     Wk5 -90 / Wk6 -110 / Wk7 -130. Wk8 inherits Wk7 min.
+  const FALLBACK_COLD_WAVE = { '1': -20, '2': -30, '3': -50, '4': -70, '5': -90, '6': -110, '7': -130, '8': -130 };
+  function coldWaveMinC(week) {
+    var src = (SEASON_CFG && SEASON_CFG.cold_wave_min_c_by_week)
+           || (CONSTANTS && CONSTANTS.cold_wave_min_c_by_week)
+           || FALLBACK_COLD_WAVE;
+    return src[String(week)] != null ? src[String(week)] : FALLBACK_COLD_WAVE[String(week)];
+  }
+  function weekBandColor(minC) {
+    // Ramp from soft-gold (Wk1 -20) to deep-red (Wk7 -130) via CSS heat-band palette
+    if (minC >= -20)  return '#e8c07d';
+    if (minC >= -30)  return getVar('--heat-band-2') || '#7185c3';
+    if (minC >= -50)  return getVar('--heat-band-3') || '#4c62a5';
+    if (minC >= -70)  return getVar('--heat-band-4') || '#2a4585';
+    if (minC >= -90)  return getVar('--heat-band-5') || '#123061';
+    if (minC >= -110) return getVar('--heat-band-6') || '#0a1f3d';
+    return getVar('--heat-band-7') || '#06111f';
+  }
+  function renderWeekStrip() {
+    var strip = document.getElementById('s2WeekStrip');
+    var row   = document.getElementById('s2WeekStripRow');
+    if (!strip || !row) return;
+    if (!seasonHasHeat()) { row.style.display = 'none'; return; }
+    row.style.display = 'block';
+    strip.innerHTML = '';
+    var wks = [1,2,3,4,5,6,7,8];
+    wks.forEach(function (wk) {
+      var mn = coldWaveMinC(wk);
+      var isCurrent = (CURRENT_WEEK === wk);
+      var cell = document.createElement('div');
+      cell.style.cssText =
+        'flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;' +
+        'background:' + weekBandColor(mn) + ';color:#e6e8ee;font-family:ui-monospace,Menlo,Consolas,monospace;' +
+        'font-size:10px;line-height:1.1;padding:2px;position:relative;cursor:default;' +
+        (isCurrent ? 'outline:2px solid #c9a961;outline-offset:-2px;box-shadow:inset 0 0 0 1px #0a0e1a;' : '');
+      cell.title = 'Week ' + wk + ' cold-wave min: ' + mn + '°C';
+      cell.innerHTML =
+        '<div style="font-weight:600;letter-spacing:0.03em">W' + wk + '</div>' +
+        '<div style="opacity:0.9">' + mn + '°</div>' +
+        (isCurrent ? '<div style="position:absolute;top:-1px;right:2px;font-size:9px;color:#c9a961">●</div>' : '');
+      strip.appendChild(cell);
+    });
+  }
+
+  // ---- Alliance freeze-risk-over-weeks line chart -----------------------
+  // Shows % of loaded roster below freeze threshold for each of the 8 weeks.
+  // Uses LWSLineChart (https://r5tools.io/line-chart.js). Falls back to a
+  // "no data" nudge if the chart lib or roster hasn't loaded yet.
+  function renderFreezeCurveChart() {
+    var host = document.getElementById('freezeCurveChart');
+    var card = document.getElementById('freezeCurveCard');
+    if (!host || !card) return;
+    // Hide chart entirely for seasons without heat mechanics
+    if (!seasonHasHeat()) { card.style.display = 'none'; return; }
+    card.style.display = '';
+    if (!window.LWSLineChart || typeof window.LWSLineChart.render !== 'function') {
+      host.innerHTML = '<div style="padding:32px 12px;text-align:center;color:var(--text-mute);' +
+                       'font-family:system-ui,sans-serif;font-size:12px">Chart lib loading…</div>';
+      // Retry once the deferred script lands.
+      setTimeout(renderFreezeCurveChart, 400);
+      return;
+    }
+    var cap = parseCoord(document.getElementById('capitolCoord').value) || { x: 600, y: 600 };
+    var threshold = currentFreezeThreshold();
+    var roster = (STATE && STATE.roster) ? STATE.roster.filter(function (m) {
+      return m.x != null && m.y != null && m.x !== '' && m.y !== '';
+    }) : [];
+    // If no roster, chart shows "% of the *map* at freeze risk" — synthesizes
+    // a demo signal from a 25-point grid so R5s see the shape of the curve
+    // before uploading. Once a real roster loads, we swap to real per-member.
+    var demo = !roster.length;
+    var samplePoints;
+    if (demo) {
+      samplePoints = [];
+      for (var gx = 100; gx <= 1100; gx += 250) {
+        for (var gy = 100; gy <= 1100; gy += 250) {
+          samplePoints.push({ x: gx, y: gy });
+        }
+      }
+    } else {
+      samplePoints = roster;
+    }
+    var series = [];
+    for (var wk = 1; wk <= 8; wk++) {
+      // Effective ambient for the week = base map ambient + weekly cold-wave delta
+      // We approximate the delta as the difference between the week's min-temp
+      // and the Capitol ambient (-80°C). Members further from Capitol feel less
+      // of the delta — but the KB reports the cold wave as *warzone-wide*, so
+      // we apply the min-temp as an absolute *floor* on every cell.
+      var wkMin = coldWaveMinC(wk);
+      var frozen = 0;
+      samplePoints.forEach(function (p) {
+        var amb = ambientAt(p.x, p.y, cap);
+        var eff = Math.min(amb, wkMin);  // whole map floored at weekly cold-wave min
+        if (eff < threshold) frozen++;
+      });
+      var pct = samplePoints.length ? (frozen / samplePoints.length) * 100 : 0;
+      series.push({ x: wk, y: Math.round(pct * 10) / 10 });
+    }
+    window.LWSLineChart.render(host, {
+      series: series,
+      labelX: 'Season week',
+      labelY: '% at freeze risk',
+      title: demo
+        ? '% of a 25-cell warzone grid below freeze threshold (demo)'
+        : '% of ' + samplePoints.length + '-member roster below freeze threshold',
+      height: 240,
+    });
+  }
+
+  async function refreshFromSeason() {
+    await loadSeasonConfig();
+    applyPerSeasonCopy();
+    populateLegend();
+    renderWeekStrip();
+    renderMap();
+    renderFreezeList();
+    renderFreezeCurveChart();
+  }
+
+  // React to warzone / season override changes from the shared selector.
+  window.addEventListener('lws:season-changed', refreshFromSeason);
+  window.addEventListener('lws:warzone-changed', refreshFromSeason);
+
+  async function computeAt(x, y) {
+    const blizzard = document.getElementById('blizzardSelect').value;
+    // v1 scaffold: no per-base bonuses UI yet — pass empty bonuses.
+    const body = { x, y, bonuses: {}, blizzard };
+    const r = await fetch('/api/compute', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    return await r.json();
+  }
+
+  function paintReadout(res) {
+    document.getElementById('rAmbient').textContent = res.ambient + ' °C';
+    document.getElementById('rBlizzard').textContent = res.blizzard_drop + ' °C';
+    document.getElementById('rBonus').textContent = '+' + res.bonus_total + ' °C';
+    const cur = document.getElementById('rCurrent');
+    cur.textContent = res.current + ' °C';
+    cur.className = 'v ' + (res.frozen ? 'danger' : 'ok');
+    const st = document.getElementById('rStatus');
+    st.textContent = res.frozen ? I18N.t('statusFrozen') : I18N.t('statusSafe');
+    st.className = 'v ' + (res.frozen ? 'danger' : 'ok');
+  }
+
+  function renderFreezeList() {
+    const list = document.getElementById('freezeList');
+    // Season doesn't have thermal freeze → tell users the list is N/A.
+    if (!seasonHasHeat()) {
+      list.innerHTML = '<li style="color: var(--text-mute); font-family: var(--sans); font-size: 12px;">' +
+        I18N.t('noHeatFreezeList') + '</li>';
+      return;
+    }
+    if (!STATE || !STATE.roster || STATE.roster.length === 0) {
+      list.innerHTML = '<li style="color: var(--text-mute); font-family: var(--sans); font-size: 12px;">' +
+        I18N.t('msgNoRoster') + '</li>';
+      return;
+    }
+    // Compute freeze risk for each member with coords
+    const blizzard = document.getElementById('blizzardSelect').value;
+    const threshold = currentFreezeThreshold();
+    list.innerHTML = '';
+    STATE.roster.forEach(function (m) {
+      if (m.x == null || m.y == null || m.x === '' || m.y === '') return;
+      // v1: use empty bonuses; v2 will pull per-member bonus toggles
+      // Client-side mirror of server compute so we don't roundtrip per row
+      const cap = parseCoord(document.getElementById('capitolCoord').value) || { x: 600, y: 600 };
+      const amb = ambientAt(m.x, m.y, cap);
+      const drop = currentBlizzardDrop(blizzard);
+      const cur = amb + drop;
+      const frozen = cur < threshold;
+      const li = document.createElement('li');
+      li.innerHTML =
+        '<span class="name">' + (m.name || '?') + ' <span style="color:var(--text-mute)">[' + (m.rank || '') + ']</span></span>' +
+        '<span class="coord">' + m.x + ', ' + m.y + ' · ' + cur + ' °C ' +
+        '<span class="badge ' + (frozen ? 'freeze' : 'safe') + '">' +
+        (frozen ? I18N.t('statusFrozen') : I18N.t('statusSafe')) + '</span></span>';
+      list.appendChild(li);
+    });
+    if (!list.children.length) {
+      list.innerHTML = '<li style="color: var(--text-mute); font-family: var(--sans); font-size: 12px;">' +
+        I18N.t('msgNoRoster') + '</li>';
+    }
+  }
+
+  // ---- wiring ----
+
+  document.getElementById('capitolCoord').addEventListener('change', function () {
+    renderMap();
+    renderFreezeCurveChart();
+  });
+  document.getElementById('furnaceCoord').addEventListener('change', renderMap);
+  document.getElementById('blizzardSelect').addEventListener('change', function () {
+    renderFreezeList();
+    renderFreezeCurveChart();
+    // Re-run lookup with new blizzard if lookup coord is set
+    const lc = parseCoord(document.getElementById('lookupCoord').value);
+    if (lc) computeAt(lc.x, lc.y).then(paintReadout);
+  });
+
+  document.getElementById('lookupBtn').addEventListener('click', async function () {
+    const c = parseCoord(document.getElementById('lookupCoord').value);
+    if (!c) return;
+    const res = await computeAt(c.x, c.y);
+    paintReadout(res);
+  });
+
+  document.getElementById('rosterUploadBtn').addEventListener('click', function () {
+    document.getElementById('rosterFile').click();
+  });
+  document.getElementById('rosterFile').addEventListener('change', async function (e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const text = await file.text();
+    try {
+      const r = await fetch('/api/roster/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ csv: text }),
+      });
+      const data = await r.json();
+      const msg = document.getElementById('uploadMsg');
+      if (data.ok) {
+        msg.textContent = I18N.t('msgUploaded', { n: data.rows });
+        msg.style.color = 'var(--success)';
+        await fetchSnapshot();
+      } else {
+        msg.textContent = I18N.t('msgUploadFailed');
+        msg.style.color = 'var(--error)';
+      }
+    } catch (_) {
+      const msg = document.getElementById('uploadMsg');
+      msg.textContent = I18N.t('msgNetworkErr');
+      msg.style.color = 'var(--error)';
+    }
+  });
+
+  document.getElementById('exportPngBtn').addEventListener('click', function () {
+    // Client-side PNG: canvas → blob → download
+    CANVAS.toBlob(function (blob) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const stamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      a.href = url;
+      a.download = 'lws-heatmap-' + stamp + '.png';
+      a.click();
+      URL.revokeObjectURL(url);
+    }, 'image/png');
+  });
+
+  document.getElementById('exportCsvBtn').addEventListener('click', function () {
+    if (!STATE || !STATE.roster) return;
+    if (!seasonHasHeat()) {
+      alert(I18N.t('noHeatFreezeList'));
+      return;
+    }
+    // Emit the same schema as Hive Grid Manager plus computed temp
+    const cap = parseCoord(document.getElementById('capitolCoord').value) || { x: 600, y: 600 };
+    const blizzard = document.getElementById('blizzardSelect').value;
+    const drop = currentBlizzardDrop(blizzard);
+    const threshold = currentFreezeThreshold();
+    const headers = ['name','rank','hq_level','total_power','notes','x','y','ambient_c','bonus_c','current_c','frozen','blizzard'];
+    const rows = [headers.join(',')];
+    STATE.roster.forEach(function (m) {
+      if (m.x == null || m.y == null) return;
+      const amb = ambientAt(m.x, m.y, cap);
+      const cur = amb + drop;
+      const frozen = cur < threshold;
+      rows.push([
+        JSON.stringify(m.name || ''), m.rank || '', m.hq_level || '',
+        m.total_power || '', JSON.stringify(m.notes || ''),
+        m.x, m.y, amb, 0, cur, frozen ? '1' : '0', blizzard,
+      ].join(','));
+    });
+    const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'lws-freeze-risk.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  document.addEventListener('i18n:change', function () {
+    // Re-render dynamic bits when language toggles
+    applyPerSeasonCopy();
+    renderWeekStrip();
+    renderFreezeList();
+    renderFreezeCurveChart();
+    if (seasonIsBloodNight()) renderMap();
+  });
+
+  // Debounced chart re-render on resize (SVG chart is width-driven)
+  (function () {
+    var t = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(function () { renderFreezeCurveChart(); }, 150);
+    });
+  })();
+
+  // Wire S4 controls (safe even when hidden — the handlers only render if S4 is active)
+  var _s4NightSel = document.getElementById('nightPhaseSelect');
+  if (_s4NightSel) _s4NightSel.addEventListener('change', function () { if (seasonIsBloodNight()) renderMap(); });
+  var _s4LhSel = document.getElementById('lighthouseSelect');
+  if (_s4LhSel) _s4LhSel.addEventListener('change', function () { if (seasonIsBloodNight()) renderMap(); });
+  var _s4DtSel = document.getElementById('divineTreeSelect');
+  if (_s4DtSel) _s4DtSel.addEventListener('change', function () { if (seasonIsBloodNight()) renderMap(); });
+  // Re-render the S4 clock once a minute so the current-time hand + "in Xm" countdown stay accurate.
+  setInterval(function () { if (seasonIsBloodNight()) renderMap(); }, 60000);
+
+  // Kickoff: load LWSSeasons mechanics_config first, then the server snapshot.
+  // If LWSSeasons is unreachable, fetchSnapshot() still fills CONSTANTS as a
+  // fallback so the S2 render works even offline.
+  (async function boot() {
+    await loadSeasonConfig();
+    applyPerSeasonCopy();
+    renderWeekStrip();
+    await fetchSnapshot();
+    // fetchSnapshot renders; but for seasons w/o thermal grid (S1/S3/S5/S6)
+    // OR the S4 night simulator variant, we need to render explicitly to
+    // show the correct banner / clock even without the server payload.
+    if (!seasonHasHeat() || seasonIsBloodNight()) renderMap();
+    renderFreezeCurveChart();
+  })();
+
+  </script>
+
+  <script src="static/roster-picker.js" defer></script>
+  <script>
+    window.addEventListener('lws:roster-loaded', function (ev) {
+      var rows = ev.detail.rows;
+      if (!rows || !rows.length) return;
+      var headers = Object.keys(rows[0]);
+      var csv = headers.join(',') + '\n' +
+        rows.map(function (r) { return headers.map(function (h) { return (r[h] || ''); }).join(','); }).join('\n');
+      var input = document.getElementById('rosterFile');
+      if (!input) { console.warn('[LWS] roster input not found'); return; }
+      var dt = new DataTransfer();
+      dt.items.add(new File([csv], ev.detail.name + '.csv', { type: 'text/csv' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  </script>
+  <!-- ==========================================================
+       Roster-freshness widget mount.
+       Shows a "your alliance roster is X hours old" nudge in the
+       top-right. Signature comes from URL hash (#alliance_sig=...)
+       or localStorage.lws_last_alliance_sig — same convention as
+       roster-picker.js. Language mirrors the current i18n locale.
+       ========================================================== -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      function pickSignature() {
+        try {
+          var h = (window.location.hash || '').replace(/^#/, '');
+          if (h.indexOf('alliance_sig=') !== -1) {
+            var params = {};
+            h.split('&').forEach(function (kv) {
+              var i = kv.indexOf('='); if (i < 0) return;
+              params[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1));
+            });
+            if (params.alliance_sig && /^[a-f0-9]{4,32}$/.test(params.alliance_sig)) {
+              try { localStorage.setItem('lws_last_alliance_sig', params.alliance_sig); } catch (e) {}
+              return params.alliance_sig;
+            }
+          }
+          return localStorage.getItem('lws_last_alliance_sig');
+        } catch (e) { return null; }
+      }
+      function pickLang() {
+        try {
+          if (window.I18N && I18N.getLang) return I18N.getLang() === 'kr' ? 'ko' : 'en';
+        } catch (e) {}
+        return (navigator.language || 'en').slice(0, 2) === 'ko' ? 'ko' : 'en';
+      }
+      function mount() {
+        if (!window.RosterFreshness || typeof RosterFreshness.mount !== 'function') {
+          setTimeout(mount, 400);
+          return;
+        }
+        var sig = pickSignature();
+        RosterFreshness.mount({
+          signature: sig,                                // null → widget shows "no roster" nudge
+          apiBase: 'https://roster.r5tools.io',
+          lang: pickLang(),
+          onRefresh: function () { window.open('https://roster.r5tools.io/', '_blank'); },
+        });
+      }
+      mount();
+    });
+  </script>
+  <script src="https://chat.r5tools.io/widget.js" defer></script>
+
+<script>window.addEventListener("DOMContentLoaded",function(){if(window.LWSDiscord&&typeof LWSDiscord.attachToButton==="function"){setTimeout(function(){LWSDiscord.attachToButton({pngBtnId:"exportPngBtn",slotId:"lws-discord-slot",gearSlotId:"lws-discord-gear-slot",filename:"heat-map.png",contextText:"Heat Map",toolName:"Heat Simulator"});},300);}});</script>
+</body>
+</html>

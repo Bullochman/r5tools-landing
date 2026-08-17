@@ -1,0 +1,407 @@
+/* LWS Freeze Risk Dashboard — shared design tokens.
+   Matches LWS_Access_Codes/unlock.html and Alliance_Hive_Grid_Manager visual identity. */
+
+* { box-sizing: border-box; }
+
+:root {
+  /* colors (mirrored from LWS_Access_Codes/unlock.html) */
+  --bg: #0a0e1a;
+  --panel: #0d1424;
+  --panel-2: #12192c;
+  --panel-3: #171f36;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(201, 169, 97, 0.3);
+  --accent: #c9a961;
+  --accent-hover: #d9b871;
+  --text: #e6e8ee;
+  --text-dim: #a8b0c0;
+  --text-mute: #7a8290;
+
+  /* status colors — freeze buckets */
+  --status-safe:    #8ae0a3;   /* above +10 C */
+  --status-danger:  #e8c86b;   /* -10 to +10 C */
+  --status-imminent:#e89a5a;   /* -20 to -10 C, freeze in <5 min */
+  --status-frozen:  #e05a5a;   /* below -20 C for 5+ min — Frozen state */
+  --error: #e08a8a;
+  --success: #8ae0a3;
+
+  /* spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+
+  /* type scale */
+  --fs-xs: 11px;
+  --fs-sm: 13px;
+  --fs-md: 15px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+  --fs-xxl: 28px;
+
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--sp-5);
+}
+
+/* ── header ────────────────────────────── */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-2) 0 var(--sp-5);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--sp-5);
+}
+.brand {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.brand-sub {
+  color: var(--text-mute);
+  font-weight: 400;
+  margin-left: 6px;
+}
+h1 {
+  margin: 0;
+  font-size: var(--fs-xl);
+  font-weight: 600;
+}
+.subtitle {
+  color: var(--text-dim);
+  font-size: var(--fs-sm);
+  margin: 4px 0 0;
+}
+.lang-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: var(--fs-xs);
+}
+.lang-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── alert banner (imminent-freeze count) ─ */
+
+.alert-banner {
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: 8px;
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid transparent;
+}
+.alert-banner.hidden { display: none; }
+.alert-banner.calm {
+  background: rgba(138, 224, 163, 0.05);
+  border-color: rgba(138, 224, 163, 0.2);
+  color: var(--status-safe);
+}
+.alert-banner.warn {
+  background: rgba(232, 154, 90, 0.08);
+  border-color: rgba(232, 154, 90, 0.3);
+  color: var(--status-imminent);
+}
+.alert-banner.critical {
+  background: rgba(224, 90, 90, 0.12);
+  border-color: rgba(224, 90, 90, 0.5);
+  color: var(--status-frozen);
+  font-weight: 600;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(224, 90, 90, 0); }
+  50%      { box-shadow: 0 0 12px rgba(224, 90, 90, 0.4); }
+}
+.alert-count { font-family: var(--mono); font-size: var(--fs-lg); }
+
+/* ── toolbar ─────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: var(--sp-4);
+  align-items: center;
+}
+.toolbar label {
+  font-size: var(--fs-xs);
+  color: var(--text-mute);
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+}
+.toolbar select,
+.toolbar input[type="text"],
+.toolbar input[type="number"] {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: var(--fs-sm);
+}
+.toolbar .grow { flex: 1; }
+
+/* ── buttons ─────────────────────────────── */
+
+button, .btn {
+  padding: 8px 14px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  font-family: var(--sans);
+}
+button:hover, .btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+button.primary, .btn.primary {
+  background: var(--accent);
+  color: #111;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+button.primary:hover, .btn.primary:hover {
+  background: var(--accent-hover);
+  color: #111;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── grid / table ────────────────────────── */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: var(--sp-4);
+}
+.card-header {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+table.freeze-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+table.freeze-grid th {
+  text-align: left;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--panel-2);
+  color: var(--text-mute);
+  font-weight: 500;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+table.freeze-grid th:hover { color: var(--accent); }
+table.freeze-grid td {
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  vertical-align: middle;
+}
+table.freeze-grid tr:hover td {
+  background: var(--panel-2);
+}
+table.freeze-grid td.coord,
+table.freeze-grid td.num {
+  font-family: var(--mono);
+  color: var(--text-dim);
+  font-size: var(--fs-xs);
+}
+table.freeze-grid td.name {
+  font-weight: 600;
+  color: var(--text);
+}
+table.freeze-grid td.rank {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--text-mute);
+  width: 40px;
+}
+table.freeze-grid tr.rank-R5 td.rank { color: var(--accent); font-weight: 700; }
+table.freeze-grid tr.rank-R4 td.rank { color: #ffd700; font-weight: 600; }
+
+/* status badges */
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  min-width: 68px;
+  text-align: center;
+}
+.status-safe {
+  background: rgba(138, 224, 163, 0.12);
+  color: var(--status-safe);
+  border: 1px solid rgba(138, 224, 163, 0.4);
+}
+.status-danger {
+  background: rgba(232, 200, 107, 0.14);
+  color: var(--status-danger);
+  border: 1px solid rgba(232, 200, 107, 0.4);
+}
+.status-imminent {
+  background: rgba(232, 154, 90, 0.18);
+  color: var(--status-imminent);
+  border: 1px solid rgba(232, 154, 90, 0.5);
+}
+.status-frozen {
+  background: rgba(224, 90, 90, 0.22);
+  color: var(--status-frozen);
+  border: 1px solid rgba(224, 90, 90, 0.6);
+  font-weight: 700;
+}
+
+/* temperature column color-coding */
+td.temp-safe    { color: var(--status-safe); }
+td.temp-danger  { color: var(--status-danger); }
+td.temp-imminent{ color: var(--status-imminent); }
+td.temp-frozen  { color: var(--status-frozen); font-weight: 700; }
+
+/* coal-hours column */
+td.coal-hours.low  { color: var(--status-imminent); font-weight: 600; }
+td.coal-hours.crit { color: var(--status-frozen); font-weight: 700; }
+
+/* furnace mode pill */
+.mode-pill {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  color: var(--text-mute);
+}
+.mode-off       { background: rgba(122, 130, 144, 0.1); }
+.mode-normal    { background: rgba(138, 224, 163, 0.1); color: var(--status-safe); border-color: rgba(138, 224, 163, 0.3); }
+.mode-overdrive { background: rgba(232, 154, 90, 0.15);  color: var(--status-imminent); border-color: rgba(232, 154, 90, 0.4); }
+
+/* row action links */
+.row-actions a {
+  color: var(--text-mute);
+  text-decoration: none;
+  font-size: var(--fs-xs);
+  margin-right: 8px;
+  border-bottom: 1px dotted var(--text-mute);
+}
+.row-actions a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── empty state ──────────────────────────── */
+
+.empty-state {
+  padding: var(--sp-7);
+  text-align: center;
+  color: var(--text-mute);
+  font-size: var(--fs-md);
+}
+.empty-state .empty-cta {
+  margin-top: var(--sp-4);
+}
+
+/* ── footer ──────────────────────────────── */
+
+footer {
+  text-align: center;
+  padding: var(--sp-6) 0 var(--sp-4);
+  color: var(--text-mute);
+  font-size: var(--fs-xs);
+  border-top: 1px solid var(--border);
+  margin-top: var(--sp-6);
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer .related-tools { margin-top: 6px; }
+footer .related-tools a { margin: 0 6px; }
+
+/* ── responsive ──────────────────────────── */
+
+@media (max-width: 900px) {
+  .wrap { padding: var(--sp-3); }
+  h1 { font-size: var(--fs-lg); }
+  table.freeze-grid { font-size: var(--fs-xs); }
+  table.freeze-grid th,
+  table.freeze-grid td { padding: 6px 8px; }
+  .toolbar { padding: var(--sp-2); }
+}
+
+@media (max-width: 640px) {
+  table.freeze-grid th.hide-mobile,
+  table.freeze-grid td.hide-mobile { display: none; }
+}
+
+/* mobile: keep freeze-grid horizontally scrollable inside its card
+   so it never blows out the viewport width. Also shrink UI chrome. */
+.card {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.card > .card-header { position: sticky; left: 0; }
+
+@media (max-width: 520px) {
+  body { padding: 0; }
+  .wrap { padding: 10px 8px; }
+  h1 { font-size: clamp(20px, 5.5vw, 28px); }
+  h2 { font-size: clamp(16px, 4.5vw, 22px); }
+  table.freeze-grid { font-size: 11px; min-width: 340px; }
+  table.freeze-grid th, table.freeze-grid td { padding: 5px 6px; }
+  .status-badge { min-width: 52px; font-size: 10px; padding: 2px 5px; }
+  .toolbar { flex-wrap: wrap; gap: 6px; }
+  .toolbar button, .toolbar select { font-size: 12px; padding: 5px 8px; }
+  .card-header { font-size: 11px; padding: 8px 10px; flex-wrap: wrap; gap: 4px; }
+}

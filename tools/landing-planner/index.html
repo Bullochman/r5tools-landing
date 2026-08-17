@@ -1,0 +1,1633 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LWS Landing Planner · 랜딩 플래너 · R5TOOLS.IO</title>
+  <meta name="description" content="Season-2 Day-1 teleport coordinator for Last War: Survival alliances. Assign every member a specific landing tile around your Alliance Furnace anchor. Free for Warzone 2007." />
+  <link rel="stylesheet" href="static/styles.css" />
+  <!-- KR font (system fallback covers it, but Noto Sans KR looks better on Windows) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="static/lws-countdown.js" defer></script>
+  <script defer src="static/lws-track.js"></script>
+<script defer src="static/ref-propagate.js"></script>
+</head>
+<body>
+<!-- suite-nav (part of R5TOOLS.IO) -->
+<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+  <span data-i18n="suiteNavPart">Part of the </span>
+  <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
+  <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
+  <a href="https://bullochman.github.io/lws-landing-planner-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navLanding">Landing</span></a>·
+  <a href="https://bullochman.github.io/lws-heat-simulator-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHeat">Heat</span></a>·
+  <a href="https://bullochman.github.io/lws-freeze-risk-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navFreeze">Freeze</span></a>·
+  <a href="https://bullochman.github.io/lws-coal-burn-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCoal">Coal</span></a>·
+  <a href="https://bullochman.github.io/lws-city-capture-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navCity">City</span></a>·
+  <a href="https://bullochman.github.io/lws-season-timeline-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navTimeline">Timeline</span></a>·
+  <a href="https://hive.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://bullochman.github.io/lws-profile-studio-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://bullochman.github.io/lws-vs-days-static/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
+<a href="mailto:hello@r5tools.io?subject=r5tools.io%20feedback&body=Tool%3A%20%0AWhat%27s%20missing%3A%20%0AWhat%27s%20broken%3A%20%0AWhat%27s%20slow%3A%20%0AWhat%20I%20love%3A%20" style="background:rgba(88,101,242,0.15);color:#5865F2;text-decoration:none;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:8px;font-size:10px;letter-spacing:.04em;text-transform:uppercase"><span data-i18n="betaFeedbackPill">🚧 BETA · Feedback</span></a></div>
+<!-- Warzone / season context strip -->
+<div style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
+  <div id="lws-warzone-selector" style="display:inline-flex"></div>
+</div>
+  <div class="wrap">
+
+    <!-- ============ HEADER ============ -->
+    <header class="app-header">
+      <div>
+        <span class="brand" data-i18n="brand">R5TOOLS.IO</span>
+        <span class="brand-sub" data-i18n="brandSub">LWS Suite</span>
+        <span class="brand-tool" data-i18n="toolName">Landing Planner</span>
+      </div>
+      <button type="button" class="lang-toggle" id="langToggle" data-i18n="langToggle">한국어</button>
+    </header>
+
+    <!-- ============ MAIN APP (gated by LWSAccessCodes) ============ -->
+    <div id="main-app">
+
+      <!-- Season banner (populated per season on load / on lws:season-changed) -->
+      <div id="seasonBanner" style="margin:12px 0"></div>
+
+      <!-- S7 placeholder card (shown only when currently selected season is S7) -->
+      <div id="s7ComingSoonBanner" style="display:none;padding:24px;margin:12px 0;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.3);border-radius:8px;color:#c9a961;font-family:system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5">
+        <h2 id="s7ComingTitle" data-i18n="s7ComingTitle" style="margin:0 0 8px 0;color:#e0c060;font-size:18px">Season 7 launches ~August 2026</h2>
+        <p id="s7ComingBody" data-i18n="s7ComingBody" style="margin:0 0 10px 0;color:#a8b0c0">Full tool support arrives when Anthropic publishes S7 mechanics (usually 1-2 weeks before launch). Track updates at r5tools.io.</p>
+        <p id="s7ComingTracker" data-i18n="s7ComingTracker" style="margin:0;color:#7a8290;font-size:12px">Track: r5tools.io</p>
+      </div>
+
+      <!-- Wrapper around every tool-specific card so we can hide them all at once for S7. -->
+      <div id="tool-sections">
+
+      <!-- Anchor input -->
+      <section class="card" aria-labelledby="anchor-heading">
+        <h2 id="anchor-heading" data-i18n="anchorHeading">Day-1 Anchor</h2>
+        <p class="card-sub" id="anchor-sub" data-i18n="anchorSub">Where the Alliance Furnace will be placed. Corner tiles (-15 °C) are safest; every band inward drops ~15 °C.</p>
+
+        <!-- Formation picker (shown only when season has multiple formations) -->
+        <div class="field" id="formation-picker-wrap" style="display:none">
+          <label for="formation-picker" data-i18n="formationPickerLabel">Formation</label>
+          <select id="formation-picker"></select>
+        </div>
+
+        <form id="anchor-form">
+          <div class="field-row">
+            <div class="field">
+              <label for="anchor-x" data-i18n="anchorXLabel">Anchor X (0–1200)</label>
+              <input type="number" id="anchor-x" min="0" max="1200" step="1" value="486" required />
+            </div>
+            <div class="field">
+              <label for="anchor-y" data-i18n="anchorYLabel">Anchor Y (0–1200)</label>
+              <input type="number" id="anchor-y" min="0" max="1200" step="1" value="432" required />
+            </div>
+            <!-- S2 default: Alliance Furnace level. Per-season overrides mount into this container. -->
+            <div class="field" id="anchor-level-field">
+              <label for="furnace-level" id="anchor-level-label" data-i18n="furnaceLevelLabel">Alliance Furnace level (1–20)</label>
+              <input type="number" id="furnace-level" min="1" max="20" step="1" value="1" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="warzone" data-i18n="warzoneLabel">Warzone / server (optional)</label>
+            <input type="text" id="warzone" placeholder="2007" />
+          </div>
+          <!-- Season-specific extra fields mount here -->
+          <div id="extra-inputs"></div>
+        </form>
+
+        <div class="anchor-summary" id="anchor-summary">
+          <!-- S2 metrics (default). Per-season variants hide these and replace with a custom block via #season-metrics -->
+          <div class="metric metric-s2">
+            <span class="metric-label" data-i18n="metricAmbient">Ambient temp</span>
+            <span class="metric-value" id="metric-ambient">—</span>
+          </div>
+          <div class="metric metric-s2">
+            <span class="metric-label" data-i18n="metricFurnaceBonus">Furnace bonus</span>
+            <span class="metric-value" id="metric-furnace">—</span>
+          </div>
+          <div class="metric metric-s2">
+            <span class="metric-label" data-i18n="metricEffective">Inside-radius temp</span>
+            <span class="metric-value" id="metric-effective">—</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label" data-i18n="metricMembers">Members placed</span>
+            <span class="metric-value" id="metric-members">0</span>
+          </div>
+          <!-- Container for season-specific metric tiles injected dynamically -->
+          <div id="season-metrics" style="display:contents"></div>
+        </div>
+      </section>
+
+      <!-- Roster upload -->
+      <section class="card" aria-labelledby="roster-heading">
+        <h2 id="roster-heading" data-i18n="rosterHeading">Alliance Roster</h2>
+        <p class="card-sub" data-i18n="rosterSub">Upload CSV (columns: name, rank, hq_level, power, notes). Same format as the Hive Grid Manager — one CSV works across every LWS tool.</p>
+
+        <div id="empty-roster-banner" style="margin:0 0 14px 0;padding:14px 16px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.32);border-radius:8px;color:var(--text)">
+          <div style="font-weight:700;color:var(--accent);font-size:13px;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:6px">📤 No roster loaded yet</div>
+          <div style="font-size:13px;line-height:1.55;color:var(--text-dim)">
+            Upload your alliance's CSV below to see landing tile assignments, or
+            <a href="https://roster.r5tools.io/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline">extract one from a screen-recording at Roster Extractor →</a>
+            then download the CSV and upload it here.
+            <div style="margin-top:6px;color:var(--text-mute);font-size:12px">
+              Prefer to see how the tool works first? Pick a demo from the dropdown → click Load.
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <input type="file" id="csv-input" accept=".csv,text/csv" style="display:none" />
+          <button type="button" class="btn secondary" id="upload-btn" data-i18n="rosterUploadBtn">Upload CSV</button>
+          <span class="anchor-summary" style="padding:0;align-self:center">
+            <span class="metric-value" id="roster-count-value" style="font-family:var(--mono);font-size:14px;">0</span>
+            <span class="metric-label" data-i18n="rosterCount" style="align-self:center;margin-left:6px">members loaded</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- Assignments -->
+      <section class="card" aria-labelledby="assign-heading">
+        <h2 id="assign-heading" data-i18n="assignHeading">Landing Assignments</h2>
+        <p class="card-sub" data-i18n="assignSub">Highest-rank / highest-power members go inside the Alliance Furnace heat radius. R1–R2 spread outward on the defensive ring.</p>
+
+        <div class="actions" style="margin-bottom:var(--sp-4)">
+          <button type="button" class="btn" id="assign-btn" data-i18n="assignBtn">Assign landing tiles</button>
+        </div>
+
+        <div id="warnings-container"></div>
+
+        <div style="overflow:auto">
+          <table class="assign-table" id="assign-table">
+            <thead>
+              <tr>
+                <th data-i18n="colName">Name</th>
+                <th data-i18n="colRank">Rank</th>
+                <th data-i18n="colHQ">HQ</th>
+                <th data-i18n="colPower">Power</th>
+                <th data-i18n="colCoord">Coord (X, Y)</th>
+                <th data-i18n="colDelta">Δ from anchor</th>
+                <th data-i18n="colRing">Ring</th>
+                <th data-i18n="colTemp">Tile °C</th>
+                <th id="col-risk-th" data-i18n="colRisk">Freeze risk</th>
+              </tr>
+            </thead>
+            <tbody id="assign-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Preview + export -->
+      <section class="card" aria-labelledby="preview-heading">
+        <h2 id="preview-heading" data-i18n="previewHeading">Landing Preview</h2>
+        <p class="card-sub" data-i18n="previewSub">Visual layout of the assigned tiles around the anchor. Discord-ready PNG export ships in v1.1.</p>
+
+        <!-- Zoom + Thermal Map controls (state persisted in localStorage) -->
+        <div class="actions preview-controls" style="margin-bottom:var(--sp-3);flex-wrap:wrap;align-items:center;gap:8px">
+          <div style="display:inline-flex;gap:4px;align-items:center">
+            <span style="color:#7a8290;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-right:4px">Zoom</span>
+            <button type="button" class="btn secondary preview-zoom-btn" data-zoom="0.3" data-i18n="zoomWorld">World</button>
+            <button type="button" class="btn secondary preview-zoom-btn" data-zoom="1.0" data-i18n="zoomR5">R5 overview</button>
+            <button type="button" class="btn secondary preview-zoom-btn" data-zoom="3.0" data-i18n="zoomArrival">Arrival</button>
+          </div>
+          <label style="display:inline-flex;gap:6px;align-items:center;cursor:pointer;margin-left:12px;color:#a8b0c0;font-size:12px">
+            <input type="checkbox" id="thermal-toggle" style="cursor:pointer" />
+            <span data-i18n="thermalToggle">Thermal Map</span>
+          </label>
+          <div style="display:inline-flex;gap:4px;align-items:center;margin-left:12px">
+            <span style="color:#7a8290;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-right:4px" data-i18n="styleLabel">Style</span>
+            <button type="button" class="btn secondary preview-style-btn" data-style="schematic" data-i18n="styleSchematic">Schematic</button>
+            <button type="button" class="btn secondary preview-style-btn" data-style="realistic" data-i18n="styleRealistic">Realistic</button>
+          </div>
+        </div>
+
+        <div class="preview-wrap">
+          <canvas id="preview-canvas" width="720" height="720"></canvas>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn" id="export-png-btn" data-i18n="exportPngBtn">Export PNG (Discord)</button><span id="lws-discord-slot" style="display:inline-block;margin-left:6px"></span><span id="lws-discord-gear-slot" style="display:inline-block;margin-left:4px"></span>
+          <button type="button" class="btn secondary" id="export-csv-btn" data-i18n="exportCsvBtn">Export CSV</button>
+          <button type="button" class="btn secondary" id="export-json-btn" data-i18n="exportJsonBtn">Export JSON</button>
+          <button type="button" class="btn ghost" id="export-share-btn" data-i18n="exportShareBtn">Copy Discord share block</button>
+        </div>
+      </section>
+
+      </div><!-- /#tool-sections -->
+
+    </div>
+    <!-- /#main-app -->
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="app-footer">
+      <a href="https://r5tools.io" target="_blank" rel="noopener" data-i18n="footerBackLink">All tools · r5tools.io</a>
+      · <span data-i18n="footerCred">Powered by the LWS Knowledge Base</span>
+    </footer>
+  </div>
+
+  <!-- ============ Access Codes gate (real, not stubbed) ============ -->
+  <!-- If no valid lws_unlock_code cookie, LWSAccessCodes.gate('main-app') wraps
+       #main-app in a locked overlay and redirects to access-codes.r5tools.io/unlock. -->
+  <script src="https://access-codes.r5tools.io/lib.js?v=3" defer></script>
+
+  <!-- ============ i18n dictionary ============ -->
+  <script src="static/fake-server.js"></script>
+  <script src="static/i18n.js" defer></script>
+  <!-- seasons-lib must be available before the app IIFE runs so we can wire season handlers on DOMContentLoaded -->
+  <script src="static/seasons-lib.js" defer></script>
+  <!-- roster-picker: reads #roster= hash from Roster Extractor handoff -->
+  <script src="static/roster-picker.js" defer></script>
+  <script src="static/lws-discord.js" defer></script>
+  <script src="static/lws-support.js" defer></script>
+
+  <!-- ============ App logic ============ -->
+  <script defer>
+    (function () {
+      'use strict';
+
+      // ---- boot ----
+      document.addEventListener('DOMContentLoaded', function () {
+        // Auth gate — best-effort, no-op if lib didn't load (e.g. offline dev).
+        if (window.LWSAccessCodes && typeof window.LWSAccessCodes.gate === 'function') {
+          try { window.LWSAccessCodes.gate('main-app'); } catch (e) { /* silent */ }
+        }
+
+        // Apply i18n on first render
+        if (window.LWSi18n) window.LWSi18n.apply();
+
+        // Language toggle
+        document.getElementById('langToggle').addEventListener('click', function () {
+          if (window.LWSi18n) {
+            window.LWSi18n.toggle();
+            // Re-render dynamic content (assignments table + summary + season chrome) in new lang
+            applySeasonUI(state.ctx);
+            renderAssignments(state.lastResult);
+          }
+        });
+
+        wireForm();
+
+        // Resolve current season, apply season-specific UI. Re-apply on warzone/season change.
+        if (window.LWSSeasons && typeof window.LWSSeasons.resolve === 'function') {
+          window.LWSSeasons.resolve().then(function (ctx) {
+            state.ctx = ctx;
+            applySeasonUI(ctx);
+          }).catch(function () { /* fall through to S2 defaults */ });
+          window.addEventListener('lws:season-changed', function () {
+            window.LWSSeasons.resolve().then(function (ctx) {
+              state.ctx = ctx;
+              applySeasonUI(ctx);
+            });
+          });
+          window.addEventListener('lws:warzone-changed', function () {
+            window.LWSSeasons.resolve().then(function (ctx) {
+              state.ctx = ctx;
+              applySeasonUI(ctx);
+            });
+          });
+        }
+      });
+
+      // ---- state ----
+      var state = {
+        roster: [],
+        lastResult: null,
+        ctx: null,          // resolved LWSSeasons context
+        formation: null,    // currently selected formation object
+        // Preview canvas view state (persisted in localStorage). previewZoom scales
+        // the base render scale factor; thermalOn swaps bg + adds temp badges + pulse.
+        previewZoom: 1.0,
+        thermalOn: false,
+        previewMode: 'realistic',  // 'schematic' (pink squares on black) or 'realistic' (Polar-Storm terrain + HQ icons)
+        thermalPulseFrame: 0,   // incremented ~30fps while thermalOn — drives danger-tile opacity pulse
+        dangerPulseFrame: 0,    // incremented ~30fps in realistic mode — drives danger-tile red-outline pulse
+        _thermalRAF: null,
+        _dangerRAF: null,
+        _exporting: false,      // when true, pulse animation freezes for a clean PNG snapshot
+      };
+
+      // Restore persisted view settings — safe even if localStorage is unavailable.
+      try {
+        var z = parseFloat(localStorage.getItem('lws_landing_zoom'));
+        if (isFinite(z) && z > 0) state.previewZoom = z;
+        state.thermalOn = localStorage.getItem('lws_landing_thermal') === '1';
+        var savedStyle = localStorage.getItem('lws_landing_style');
+        if (savedStyle === 'schematic' || savedStyle === 'realistic') state.previewMode = savedStyle;
+      } catch (e) { /* ignore */ }
+
+      // ---- CSV parser (tiny; handles quoted fields, commas inside quotes) ----
+      function parseCSV(text) {
+        var rows = [];
+        var i = 0, cur = '', inQ = false, row = [];
+        // Strip UTF-8 BOM (Excel).
+        if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+        while (i < text.length) {
+          var c = text[i];
+          if (inQ) {
+            if (c === '"' && text[i + 1] === '"') { cur += '"'; i += 2; continue; }
+            if (c === '"') { inQ = false; i++; continue; }
+            cur += c; i++; continue;
+          }
+          if (c === '"') { inQ = true; i++; continue; }
+          if (c === ',') { row.push(cur); cur = ''; i++; continue; }
+          if (c === '\n' || c === '\r') {
+            if (cur || row.length) { row.push(cur); rows.push(row); }
+            cur = ''; row = [];
+            if (c === '\r' && text[i + 1] === '\n') i++;
+            i++; continue;
+          }
+          cur += c; i++;
+        }
+        if (cur || row.length) { row.push(cur); rows.push(row); }
+        if (rows.length === 0) return [];
+        // Normalize headers: lowercase, alias common variants so a CSV exported
+        // by any LWS tool (with slight column-name drift like "total_power" vs
+        // "power", or "HQ Lv." vs "hq_level") loads cleanly.
+        var HEADER_ALIASES = {
+          'total_power': 'power', 'totalpower': 'power', 'total power': 'power',
+          'hq lv.': 'hq_level', 'hq lv': 'hq_level', 'hq_lv': 'hq_level',
+          'hqlevel': 'hq_level', 'hq level': 'hq_level', 'hq': 'hq_level',
+        };
+        var header = rows[0].map(function (h) {
+          var k = h.trim().toLowerCase();
+          return HEADER_ALIASES[k] || k;
+        });
+        return rows.slice(1).filter(function (r) { return r.length && r.some(Boolean); }).map(function (r) {
+          var obj = {};
+          header.forEach(function (h, idx) { obj[h] = (r[idx] || '').trim(); });
+          return obj;
+        });
+      }
+
+      // ---- roster wiring ----
+      function loadRoster(rows) {
+        state.roster = rows;
+        document.getElementById('roster-count-value').textContent = rows.length;
+        document.getElementById('metric-members').textContent = rows.length;
+        var b = document.getElementById('empty-roster-banner');
+        if (b) b.style.display = (rows && rows.length) ? 'none' : '';
+      }
+
+      // Receive the auto-loaded canonical roster (LW Atlas + upload) from the
+      // shared roster-picker. This is how the tool auto-fills your roster.
+      window.__lwsRosterLoaded = function (rows) { loadRoster(rows); };
+      window.addEventListener('lws:roster-loaded', function (e) {
+        if (e.detail && e.detail.rows) loadRoster(e.detail.rows);
+      });
+
+      function wireForm() {
+        var uploadBtn = document.getElementById('upload-btn');
+        var fileInput = document.getElementById('csv-input');
+        uploadBtn.addEventListener('click', function () { fileInput.click(); });
+        fileInput.addEventListener('change', function () {
+          var file = fileInput.files && fileInput.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function () {
+            try {
+              loadRoster(parseCSV(reader.result));
+            } catch (e) {
+              alert('CSV parse error: ' + e.message);
+            }
+          };
+          reader.readAsText(file);
+        });
+
+        function showRosterToast(msg, kind) {
+          var t = document.getElementById('roster-toast');
+          if (!t) {
+            t = document.createElement('div');
+            t.id = 'roster-toast';
+            t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:8px;font:600 13px system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,0.4);z-index:99999;opacity:0;transition:opacity .25s';
+            document.body.appendChild(t);
+          }
+          t.style.background = kind === 'error' ? '#7a1f1f' : '#1a4a2a';
+          t.style.color      = kind === 'error' ? '#ffdad7' : '#d7ffe0';
+          t.style.border     = '1px solid ' + (kind === 'error' ? '#b8402c' : '#2eaa4c');
+          t.textContent = msg;
+          t.style.opacity = '1';
+          clearTimeout(t._h);
+          t._h = setTimeout(function () { t.style.opacity = '0'; }, 2400);
+        }
+        function loadFromUrl(url) {
+          var sel = document.getElementById('roster-picker');
+          var label = sel && sel.selectedOptions[0] ? sel.selectedOptions[0].textContent.trim() : url;
+          showRosterToast('Loading ' + label + '…', 'ok');
+          return fetch(url)
+            .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+            .then(function (t) {
+              var rows = parseCSV(t);
+              loadRoster(rows);
+              showRosterToast('✓ ' + label + ' loaded (' + rows.length + ' members)', 'ok');
+            })
+            .catch(function (e) { showRosterToast('✗ Could not load ' + label + ': ' + e.message, 'error'); });
+        }
+        var _picker = document.getElementById('load-picker-btn');
+        if (_picker) _picker.addEventListener('click', function () {
+          var sel = document.getElementById('roster-picker');
+          if (sel) loadFromUrl(sel.value);
+        });
+
+        // NO auto-load. The prior behavior (auto-loading Moonpetal demo on
+        // page open) was confusing paid customers who couldn't tell whose
+        // roster they were looking at, and the earlier "gate demo behind
+        // paid tier" fix didn't reach them because this tool lives at
+        // bullochman.github.io (a different origin from r5tools.io — the
+        // .r5tools.io cookie doesn't cross that boundary). Killing the
+        // auto-load entirely sidesteps the cross-origin problem: every
+        // visitor sees an empty state until they Upload CSV or click Load
+        // on a demo option they picked.
+        //
+        // (Redaviatrix 2026-07-26: "it should automatically apply their
+        // most recent roster list upload video to any of those tools" —
+        // the real fix for that is a shared server-side "primary roster
+        // per code" concept, tracked separately. This edit just kills
+        // the misleading demo auto-load so users aren't confused about
+        // whose data they see.)
+
+        // Recompute the anchor summary on any anchor input change
+        ['anchor-x', 'anchor-y', 'furnace-level'].forEach(function (id) {
+          document.getElementById(id).addEventListener('input', updateAnchorSummary);
+        });
+        updateAnchorSummary();
+
+        document.getElementById('assign-btn').addEventListener('click', runAssign);
+
+        document.getElementById('export-csv-btn').addEventListener('click', exportCSV);
+        document.getElementById('export-json-btn').addEventListener('click', exportJSON);
+        document.getElementById('export-share-btn').addEventListener('click', exportShareBlock);
+        document.getElementById('export-png-btn').addEventListener('click', function () {
+          // PNG export: freeze the pulse to the "on" (opacity 1.0) frame so the
+          // exported image is deterministic. Re-render, snapshot, then unfreeze.
+          var canvas = document.getElementById('preview-canvas');
+          state._exporting = true;
+          try {
+            if (state.lastResult) renderPreview(state.lastResult);
+            var url = canvas.toDataURL('image/png');
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'landing-plan.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          } finally {
+            state._exporting = false;
+            if (state.lastResult) renderPreview(state.lastResult);
+          }
+        });
+
+        // ---- zoom buttons ----
+        function updateZoomButtons() {
+          var btns = document.querySelectorAll('.preview-zoom-btn');
+          btns.forEach(function (b) {
+            var z = parseFloat(b.getAttribute('data-zoom'));
+            // 'primary' style for the active preset (drop .secondary), muted for others.
+            if (Math.abs(z - state.previewZoom) < 0.001) {
+              b.classList.remove('secondary');
+              b.classList.add('active');
+            } else {
+              b.classList.add('secondary');
+              b.classList.remove('active');
+            }
+          });
+        }
+        document.querySelectorAll('.preview-zoom-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var z = parseFloat(btn.getAttribute('data-zoom'));
+            if (!isFinite(z) || z <= 0) return;
+            state.previewZoom = z;
+            try { localStorage.setItem('lws_landing_zoom', String(z)); } catch (e) {}
+            updateZoomButtons();
+            if (state.lastResult) renderPreview(state.lastResult);
+          });
+        });
+        updateZoomButtons();
+
+        // ---- thermal toggle ----
+        var thermalCb = document.getElementById('thermal-toggle');
+        thermalCb.checked = !!state.thermalOn;
+        thermalCb.addEventListener('change', function () {
+          state.thermalOn = !!thermalCb.checked;
+          try { localStorage.setItem('lws_landing_thermal', state.thermalOn ? '1' : '0'); } catch (e) {}
+          if (state.lastResult) renderPreview(state.lastResult);
+          scheduleThermalPulse();
+        });
+
+        // ---- style toggle (schematic vs realistic) ----
+        function updateStyleButtons() {
+          document.querySelectorAll('.preview-style-btn').forEach(function (b) {
+            if (b.getAttribute('data-style') === state.previewMode) {
+              b.classList.remove('secondary'); b.classList.add('active');
+            } else {
+              b.classList.add('secondary'); b.classList.remove('active');
+            }
+          });
+        }
+        document.querySelectorAll('.preview-style-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var s = btn.getAttribute('data-style');
+            if (s !== 'schematic' && s !== 'realistic') return;
+            state.previewMode = s;
+            try { localStorage.setItem('lws_landing_style', s); } catch (e) {}
+            updateStyleButtons();
+            if (state.lastResult) renderPreview(state.lastResult);
+            scheduleDangerPulse();
+          });
+        });
+        updateStyleButtons();
+        scheduleDangerPulse();
+      }
+
+      // Drives the danger-tile pulse when Thermal Map is on. Uses requestAnimationFrame
+      // throttled to ~30fps so we don't burn CPU on a static map. When thermal is off
+      // or nothing is rendered yet, cancels the loop.
+      function scheduleThermalPulse() {
+        if (state._thermalRAF) { cancelAnimationFrame(state._thermalRAF); state._thermalRAF = null; }
+        if (!state.thermalOn || !state.lastResult) return;
+        var lastFrame = 0;
+        function tick(ts) {
+          if (!state.thermalOn || !state.lastResult) { state._thermalRAF = null; return; }
+          if (ts - lastFrame >= 33) {   // ~30fps
+            lastFrame = ts;
+            state.thermalPulseFrame++;
+            renderPreview(state.lastResult);
+          }
+          state._thermalRAF = requestAnimationFrame(tick);
+        }
+        state._thermalRAF = requestAnimationFrame(tick);
+      }
+
+      // Realistic-mode danger-outline pulse loop. Only runs when previewMode
+      // is realistic AND at least one member has freeze_risk === 'danger'.
+      function scheduleDangerPulse() {
+        if (state._dangerRAF) { cancelAnimationFrame(state._dangerRAF); state._dangerRAF = null; }
+        if (state.previewMode !== 'realistic' || !state.lastResult) return;
+        var hasDanger = (state.lastResult.assignments || []).some(function (a) { return a.freeze_risk === 'danger'; });
+        if (!hasDanger) return;
+        var lastFrame = 0;
+        function tick(ts) {
+          if (state.previewMode !== 'realistic' || !state.lastResult) { state._dangerRAF = null; return; }
+          if (ts - lastFrame >= 33) {
+            lastFrame = ts;
+            state.dangerPulseFrame++;
+            renderPreview(state.lastResult);
+          }
+          state._dangerRAF = requestAnimationFrame(tick);
+        }
+        state._dangerRAF = requestAnimationFrame(tick);
+      }
+
+      // ---- season-aware UI ---------------------------------------------------
+      //
+      // Reads the LWSSeasons context and swaps labels, banner warnings, extra
+      // input fields, and metric tiles for the currently-selected season. S2 is
+      // the default codepath (existing IIFE) — for S2, this function is a no-op
+      // beyond re-showing the S2 metric block.
+      //
+      // Season variants covered: s1-crimson-plague, s3-golden-kingdom,
+      // s4-evernight-isle, s5-wild-west, s6-shadow-rainforest. Any unknown
+      // season falls back to S2 chrome with an "unresolved" caveat banner.
+      function tLang() {
+        return (window.LWSi18n && window.LWSi18n.lang && window.LWSi18n.lang()) || 'en';
+      }
+      function tt(key) {
+        return (window.LWSi18n && window.LWSi18n.t) ? window.LWSi18n.t(key) : key;
+      }
+      function pickLangValue(obj) {
+        if (!obj) return '';
+        var lang = tLang();
+        if (obj[lang]) return obj[lang];
+        if (obj.en) return obj.en;
+        // Fall through — some seasons.json entries store the KR key as 'kr' vs 'ko'.
+        if (lang === 'ko' && obj.kr) return obj.kr;
+        return '';
+      }
+
+      function setAnchorLevelField(seasonId) {
+        var wrap = document.getElementById('anchor-level-field');
+        var label = document.getElementById('anchor-level-label');
+        var input = document.getElementById('furnace-level');
+        if (!wrap || !label || !input) return;
+        // S2 default (Alliance Furnace 1-20)
+        var cfg = { key: 'furnaceLevelLabel', min: 1, max: 20, val: input.value || 1, show: true };
+        if (seasonId === 's1-crimson-plague') {
+          cfg = { key: 's1_strongholdLevelLabel', min: 1, max: 6, val: 1, show: true };
+        } else if (seasonId === 's3-golden-kingdom') {
+          cfg = { key: 's3_acLevelLabel', min: 1, max: 15, val: 1, show: true };
+        } else if (seasonId === 's4-evernight-isle') {
+          cfg = { key: 's3_acLevelLabel', min: 1, max: 15, val: 1, show: true };
+        } else if (seasonId === 's5-wild-west') {
+          cfg = { key: 's5_bankTargetLabel', min: 1, max: 10, val: 1, show: true };
+        } else if (seasonId === 's6-shadow-rainforest') {
+          // No environmental anchor level; hide the field.
+          cfg = { show: false };
+        }
+        if (!cfg.show) { wrap.style.display = 'none'; return; }
+        wrap.style.display = '';
+        label.textContent = tt(cfg.key);
+        input.min = cfg.min;
+        input.max = cfg.max;
+        if (input.min > Number(input.value) || Number(input.value) > input.max) input.value = cfg.val;
+      }
+
+      function renderExtraInputs(seasonId) {
+        var mount = document.getElementById('extra-inputs');
+        if (!mount) return;
+        mount.innerHTML = '';
+        function addTextField(id, labelKey, placeholder) {
+          var f = document.createElement('div');
+          f.className = 'field';
+          f.innerHTML = '<label for="' + id + '">' + tt(labelKey) + '</label>' +
+                        '<input type="text" id="' + id + '" placeholder="' + (placeholder || '') + '" />';
+          mount.appendChild(f);
+        }
+        function addNumField(id, labelKey, min, max, val) {
+          var f = document.createElement('div');
+          f.className = 'field';
+          f.innerHTML = '<label for="' + id + '">' + tt(labelKey) + '</label>' +
+                        '<input type="number" id="' + id + '" min="' + min + '" max="' + max + '" step="1" value="' + val + '" />';
+          mount.appendChild(f);
+        }
+        function addSelectField(id, labelKey, options) {
+          var f = document.createElement('div');
+          f.className = 'field';
+          var opts = options.map(function (o) {
+            return '<option value="' + o.value + '">' + tt(o.labelKey) + '</option>';
+          }).join('');
+          f.innerHTML = '<label for="' + id + '">' + tt(labelKey) + '</label>' +
+                        '<select id="' + id + '">' + opts + '</select>';
+          mount.appendChild(f);
+        }
+
+        if (seasonId === 's4-evernight-isle') {
+          addTextField('neighbor-ac', 's4_neighborAcLabel', '(x, y)');
+          addNumField('opto-lab', 's4_optoLabLabel', 1, 35, 1);
+        } else if (seasonId === 's5-wild-west') {
+          addNumField('safe-time', 's5_safeTimeLabel', 7, 15, 10);
+        } else if (seasonId === 's6-shadow-rainforest') {
+          addSelectField('faction', 's6_factionLabel', [
+            { value: 'deepwood',     labelKey: 's6_factionDeepwood' },
+            { value: 'wetland',      labelKey: 's6_factionWetland' },
+            { value: 'great-river',  labelKey: 's6_factionGreatRiver' }
+          ]);
+          addNumField('sub-alliances', 's6_subAlliancesLabel', 1, 6, 1);
+        }
+      }
+
+      function renderSeasonMetrics(seasonId, mechanics) {
+        mechanics = mechanics || {};
+        var mount = document.getElementById('season-metrics');
+        var s2tiles = document.querySelectorAll('.metric-s2');
+        if (!mount) return;
+        mount.innerHTML = '';
+
+        // S2 (default): show ambient/furnace/effective tiles, hide season-metrics
+        if (!seasonId || seasonId === 's2-polar-storm') {
+          s2tiles.forEach(function (t) { t.style.display = ''; });
+          return;
+        }
+        // Non-S2: hide the thermal tiles
+        s2tiles.forEach(function (t) { t.style.display = 'none'; });
+
+        function metric(labelKey, id, val) {
+          var d = document.createElement('div');
+          d.className = 'metric';
+          d.innerHTML = '<span class="metric-label">' + tt(labelKey) + '</span>' +
+                        '<span class="metric-value" id="' + id + '">' + (val == null ? '—' : val) + '</span>';
+          mount.appendChild(d);
+        }
+
+        if (seasonId === 's1-crimson-plague') {
+          metric('s1_metricVrTarget', 'metric-vr-target', '1500–6000');
+          metric('s1_metricCorruptorLevel', 'metric-corruptor', '—');
+          metric('s1_metricLeaderCoverage', 'metric-leader-vr', '—');
+        } else if (seasonId === 's3-golden-kingdom') {
+          metric('s3_metricAcRange', 'metric-ac-range', '—');
+          metric('s3_metricCurseGate', 'metric-curse-gate', 'CRL L30');
+          metric('s3_metricInRange', 'metric-in-range', '—');
+        } else if (seasonId === 's4-evernight-isle') {
+          var drainPerMin = mechanics.blood_night_power_drain_per_min || 18000;
+          var duration = mechanics.blood_night_duration_min || 30;
+          var drainWindow = (drainPerMin * duration).toLocaleString();
+          metric('s4_metricLighthouseBonus', 'metric-lighthouse', '—');
+          metric('s4_metricBloodNightDrain', 'metric-blood-night', drainWindow);
+          metric('s4_metricAcSpacing', 'metric-ac-spacing', '—');
+        } else if (seasonId === 's5-wild-west') {
+          var vrForL10 = mechanics.virus_resistance_for_l10_banks || 39900;
+          metric('s5_metricBankHoldings', 'metric-bank-holdings', '4 (+1/city, max 12)');
+          metric('s5_metricVrGate', 'metric-vr-gate', vrForL10.toLocaleString());
+          metric('s5_metricSafeTime', 'metric-safe-time', '7–15 h');
+          metric('s5_metricWarSlots', 'metric-war-slots', 'Wed / Sat');
+        } else if (seasonId === 's6-shadow-rainforest') {
+          var sanctuary = mechanics.sanctuary_timer_min || 20;
+          metric('s6_metricAltarsHeld', 'metric-altars', '0 / 3');
+          metric('s6_metricPactDuration', 'metric-pact', '7 d');
+          metric('s6_metricSanctuary', 'metric-sanctuary', sanctuary + ' min');
+        }
+      }
+
+      function renderSeasonBanner(season, formation) {
+        var banner = document.getElementById('seasonBanner');
+        if (!banner) return;
+        banner.innerHTML = '';
+        var seasonId = season && season.id;
+
+        // Unresolved / off-season fallback
+        var noVariant = ['s2-polar-storm', 's1-crimson-plague', 's3-golden-kingdom',
+                         's4-evernight-isle', 's5-wild-west', 's6-shadow-rainforest']
+                         .indexOf(seasonId) === -1;
+        if (noVariant) {
+          var box = document.createElement('div');
+          box.className = 'warnings';
+          box.style.cssText = 'background:rgba(255,193,7,0.06);border-left:3px solid #e0c060;padding:10px 12px;margin-bottom:8px';
+          box.innerHTML = '<div class="warn-title">' + tt('unresolvedTitle') + '</div>' + tt('unresolvedBody');
+          banner.appendChild(box);
+          return;
+        }
+
+        // Pull warnings[] from the selected formation config (seasons.json)
+        var warns = (formation && formation.warnings) || [];
+        // Compose the season-specific i18n warning keys per plan
+        var extraKeys = {
+          's1-crimson-plague':   ['s1_warnLeaderVrOnly'],
+          's3-golden-kingdom':   ['s3_warnSandworm', 's3_warnCurseGate'],
+          's4-evernight-isle':   ['s4_warnSpacing', 's4_warnCopperWars', 's4_factionLocked'],
+          's5-wild-west':        ['s5_warnMergedMap', 's5_warnBankVr', 's5_warnBankSpeculative'],
+          's6-shadow-rainforest':['s6_warnCityDestruction', 's6_warnMegaHive', 's6_warnAltars']
+        }[seasonId] || [];
+
+        // Formation-config warnings first (from seasons.json), then curated i18n warnings.
+        warns.forEach(function (w) {
+          var text = pickLangValue(w);
+          if (!text) return;
+          var box = document.createElement('div');
+          box.className = 'warnings';
+          box.style.cssText = 'background:rgba(201,169,97,0.06);border-left:3px solid #c9a961;padding:10px 12px;margin-bottom:8px';
+          box.innerHTML = '<div class="warn-title">' + tt('seasonBannerTitle') + '</div>' + escapeHtml(text);
+          banner.appendChild(box);
+        });
+        extraKeys.forEach(function (k) {
+          var box = document.createElement('div');
+          box.className = 'warnings';
+          box.style.cssText = 'background:rgba(201,169,97,0.06);border-left:3px solid #c9a961;padding:10px 12px;margin-bottom:8px';
+          box.innerHTML = '<div class="warn-title">' + tt('seasonBannerTitle') + '</div>' + escapeHtml(tt(k));
+          banner.appendChild(box);
+        });
+      }
+
+      function renderFormationPicker(season) {
+        var wrap = document.getElementById('formation-picker-wrap');
+        var sel = document.getElementById('formation-picker');
+        if (!wrap || !sel) return;
+        var formations = (season && season.mechanics_config && season.mechanics_config.formations) || [];
+        if (formations.length <= 1) { wrap.style.display = 'none'; return; }
+        wrap.style.display = '';
+        sel.innerHTML = '';
+        formations.forEach(function (f, i) {
+          var opt = document.createElement('option');
+          opt.value = f.key || String(i);
+          var name = pickLangValue(f.display_name) || f.key || ('Formation ' + (i + 1));
+          opt.textContent = name;
+          sel.appendChild(opt);
+        });
+        // Reset onchange
+        sel.onchange = function () {
+          var picked = formations.filter(function (f) { return (f.key || '') === sel.value; })[0] || formations[0];
+          state.formation = picked;
+          renderSeasonBanner(season, picked);
+          setAnchorSubForFormation(picked);
+        };
+      }
+
+      function setAnchorSubForFormation(formation) {
+        var seasonId = state.ctx && state.ctx.season_id;
+        var subKey = null;
+        if (seasonId === 's1-crimson-plague')      subKey = 's1_anchorSub';
+        else if (seasonId === 's3-golden-kingdom') subKey = 's3_anchorSub';
+        else if (seasonId === 's4-evernight-isle') subKey = 's4_anchorSub';
+        else if (seasonId === 's5-wild-west')      subKey = 's5_anchorSub';
+        else if (seasonId === 's6-shadow-rainforest') subKey = 's6_anchorSub';
+        else subKey = 'anchorSub';
+        var el = document.getElementById('anchor-sub');
+        if (el) el.textContent = tt(subKey);
+
+        // If the formation provides a center_landmark name, append it in muted color.
+        if (formation && formation.center_landmark) {
+          var landmark = pickLangValue(formation.center_landmark);
+          if (landmark && el) {
+            var span = document.createElement('span');
+            span.style.cssText = 'display:block;font-size:12px;color:#7a8290;margin-top:4px';
+            span.textContent = '→ ' + landmark;
+            el.appendChild(span);
+          }
+        }
+      }
+
+      function applySeasonUI(ctx) {
+        if (!ctx || !ctx.season) return;
+        var season = ctx.season;
+        var seasonId = ctx.season_id || (season && season.id);
+
+        // ---- S7 branch — mechanics not yet published by First Fun / Anthropic.
+        // Hide the whole tool UI and show the KB-cited placeholder card. Universal
+        // suite-nav + warzone selector strip above #main-app stay visible so the
+        // user can override back to a known season.
+        var isS7 = (seasonId === 's7-unnamed' || seasonId === 's7-tbd'
+                    || (seasonId && seasonId.indexOf('s7') === 0));
+        var toolSections = document.getElementById('tool-sections');
+        var s7Banner = document.getElementById('s7ComingSoonBanner');
+        var seasonBanner = document.getElementById('seasonBanner');
+        if (isS7) {
+          if (toolSections) toolSections.style.display = 'none';
+          if (seasonBanner) seasonBanner.style.display = 'none';
+          if (s7Banner) s7Banner.style.display = '';
+          if (window.LWSi18n) window.LWSi18n.apply();
+          return;
+        } else {
+          if (toolSections) toolSections.style.display = '';
+          if (seasonBanner) seasonBanner.style.display = '';
+          if (s7Banner) s7Banner.style.display = 'none';
+        }
+
+        // Update tool tagline (only if we have a season-specific key)
+        var taglineMap = {
+          's1-crimson-plague':    's1_toolTagline',
+          's2-polar-storm':       'toolTagline',
+          's3-golden-kingdom':    's3_toolTagline',
+          's4-evernight-isle':    's4_toolTagline',
+          's5-wild-west':         's5_toolTagline',
+          's6-shadow-rainforest': 's6_toolTagline'
+        };
+        // (tagline isn't in the DOM currently, so we just skip — reserved for future header line)
+
+        // Anchor heading
+        var headingMap = {
+          's1-crimson-plague':    's1_anchorHeading',
+          's2-polar-storm':       'anchorHeading',
+          's3-golden-kingdom':    's3_anchorHeading',
+          's4-evernight-isle':    's4_anchorHeading',
+          's5-wild-west':         's5_anchorHeading',
+          's6-shadow-rainforest': 's6_anchorHeading'
+        };
+        var hEl = document.getElementById('anchor-heading');
+        if (hEl) hEl.textContent = tt(headingMap[seasonId] || 'anchorHeading');
+
+        // Risk column header per-season
+        var colRiskMap = {
+          's1-crimson-plague':    's1_colVrGate',
+          's3-golden-kingdom':    's3_colSandwormRange',
+          's4-evernight-isle':    's4_colBloodNight',
+          's5-wild-west':         's5_colBankFit',
+          's6-shadow-rainforest': 's6_colFactionPact'
+        };
+        var thRisk = document.getElementById('col-risk-th');
+        if (thRisk) thRisk.textContent = tt(colRiskMap[seasonId] || 'colRisk');
+
+        // Pick initial formation (first from mechanics_config.formations, if any)
+        var formations = (season.mechanics_config && season.mechanics_config.formations) || [];
+        state.formation = formations[0] || null;
+
+        // Re-render dependent chrome
+        renderFormationPicker(season);
+        setAnchorLevelField(seasonId);
+        renderExtraInputs(seasonId);
+        renderSeasonMetrics(seasonId, season.mechanics_config || {});
+        setAnchorSubForFormation(state.formation);
+        renderSeasonBanner(season, state.formation);
+      }
+
+      // ---- anchor summary (client-side mirror of server logic) ----
+      function ambientFor(x, y) {
+        var zones = [-15, -30, -40, -50, -60, -70, -80];
+        var cx = 600, cy = 600, maxD = 600;
+        var d = Math.max(Math.abs(x - cx), Math.abs(y - cy));
+        var idx = Math.min(6, Math.max(0, Math.round((1 - d / maxD) * 6)));
+        return zones[idx];
+      }
+      function furnaceHeat(lvl) {
+        lvl = Math.max(1, Math.min(20, Number(lvl) || 1));
+        if (lvl === 1) return 3;
+        if (lvl === 20) return 12.5;
+        return Math.round((3 + (12.5 - 3) / 19 * (lvl - 1)) * 100) / 100;
+      }
+      function updateAnchorSummary() {
+        var x = Number(document.getElementById('anchor-x').value);
+        var y = Number(document.getElementById('anchor-y').value);
+        var lvl = Number(document.getElementById('furnace-level').value);
+        if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+        var amb = ambientFor(x, y);
+        var bonus = furnaceHeat(lvl);
+        var eff = amb + bonus;
+        document.getElementById('metric-ambient').textContent = amb + ' °C';
+        document.getElementById('metric-furnace').textContent = '+' + bonus + ' °C';
+        var effEl = document.getElementById('metric-effective');
+        effEl.textContent = eff + ' °C';
+        effEl.className = 'metric-value ' + (eff > -20 ? 'freeze-safe' : (eff > -30 ? 'freeze-warn' : 'freeze-danger'));
+      }
+
+      // ---- assign ----
+      function runAssign() {
+        if (!state.roster.length) {
+          alert(window.LWSi18n ? window.LWSi18n.t('warnNoRoster') : 'Upload a roster CSV first.');
+          return;
+        }
+        var body = {
+          anchor: {
+            x: Number(document.getElementById('anchor-x').value),
+            y: Number(document.getElementById('anchor-y').value),
+          },
+          furnace_level: Number(document.getElementById('furnace-level').value),
+          roster: state.roster,
+        };
+        fetch('/api/assign', {
+          method: 'POST', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.error) { alert('Assign error: ' + data.error); return; }
+            state.lastResult = data;
+            renderAssignments(data);
+            renderPreview(data);
+            scheduleThermalPulse();
+            scheduleDangerPulse();
+          })
+          .catch(function (e) { alert('Network error: ' + e.message); });
+      }
+
+      // ---- render ----
+      function renderAssignments(data) {
+        var tbody = document.getElementById('assign-tbody');
+        var warnings = document.getElementById('warnings-container');
+        tbody.innerHTML = '';
+        warnings.innerHTML = '';
+        if (!data) return;
+        var t = window.LWSi18n ? window.LWSi18n.t.bind(window.LWSi18n) : function (k) { return k; };
+
+        if (data.warnings && data.warnings.length) {
+          data.warnings.forEach(function (w) {
+            var el = document.createElement('div');
+            el.className = 'warnings';
+            el.innerHTML = '<div class="warn-title">' + t('warnTitle') + '</div>' + escapeHtml(w);
+            warnings.appendChild(el);
+          });
+        }
+
+        var riskLabel = { safe: t('riskSafe'), warning: t('riskWarn'), danger: t('riskDanger') };
+        data.assignments.forEach(function (a) {
+          var tr = document.createElement('tr');
+          var rankKey = 'rank-' + (a.rank || 'R1');
+          tr.innerHTML =
+            '<td>' + escapeHtml(a.name) + '</td>' +
+            '<td><span class="pill ' + rankKey + '">' + escapeHtml(a.rank) + '</span></td>' +
+            '<td>' + escapeHtml(String(a.hq_level || '')) + '</td>' +
+            '<td>' + fmtNum(a.power) + '</td>' +
+            '<td>(' + a.assigned_x + ', ' + a.assigned_y + ')</td>' +
+            '<td>Δ(' + a.delta_x + ', ' + a.delta_y + ')</td>' +
+            '<td>' + a.ring + '</td>' +
+            '<td>' + a.tile_temp_with_furnace_c + '°</td>' +
+            '<td><span class="pill freeze-' + a.freeze_risk + '">' + (riskLabel[a.freeze_risk] || a.freeze_risk) + '</span></td>';
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Hover-tooltip system for the preview canvas — reveals member name/rank/HQ/power
+      // on mouseover, with a golden connector line from tile to floating tooltip.
+      // Base render stays PNG-export clean because the hover layer sits on a
+      // separate overlay canvas positioned above the preview.
+      function attachPreviewHover(canvas) {
+        if (canvas._hoverWired) return;
+        canvas._hoverWired = true;
+        var wrap = canvas.parentNode;
+        if (wrap && getComputedStyle(wrap).position === 'static') wrap.style.position = 'relative';
+        var overlay = document.createElement('canvas');
+        overlay.width = canvas.width; overlay.height = canvas.height;
+        // Overlay CSS box sync'd to base canvas via syncOverlay() so glow + line align.
+        overlay.style.cssText = 'position:absolute;pointer-events:none';
+        wrap.appendChild(overlay);
+        var tip = document.createElement('div');
+        tip.style.cssText = [
+          'position:absolute','pointer-events:none','z-index:5',
+          'background:rgba(13,20,36,0.96)','border:1px solid rgba(201,169,97,0.55)',
+          'border-radius:6px','padding:8px 10px','font-family:ui-monospace,SFMono-Regular,Menlo,monospace',
+          'font-size:11.5px','color:#e6e8ee','line-height:1.45','white-space:nowrap',
+          'box-shadow:0 6px 20px rgba(0,0,0,0.6)','opacity:0','transition:opacity .08s',
+          'transform:translate(0,-100%)','max-width:260px',
+        ].join(';');
+        wrap.appendChild(tip);
+        var octx = overlay.getContext('2d');
+
+        function syncOverlay() {
+          var cr = canvas.getBoundingClientRect();
+          var wr = wrap.getBoundingClientRect();
+          overlay.style.left = (cr.left - wr.left) + 'px';
+          overlay.style.top  = (cr.top  - wr.top)  + 'px';
+          overlay.style.width  = cr.width  + 'px';
+          overlay.style.height = cr.height + 'px';
+        }
+        syncOverlay();
+        window.addEventListener('resize', syncOverlay);
+        if (window.ResizeObserver) new ResizeObserver(syncOverlay).observe(canvas);
+
+        function clear() { octx.clearRect(0, 0, overlay.width, overlay.height); tip.style.opacity = '0'; }
+        function fmtPower(p) { return p ? String(p) : '—'; }
+        function riskChip(risk) {
+          if (!risk || risk === 'safe') return '<span style="color:#8ae0a3">safe</span>';
+          if (risk === 'warning') return '<span style="color:#e0c080">warning</span>';
+          return '<span style="color:#e08a8a">danger</span>';
+        }
+
+        canvas.addEventListener('mousemove', function (e) {
+          var hits = state.previewHitTest || [];
+          if (!hits.length) return;
+          var rect = canvas.getBoundingClientRect();
+          var scaleX = canvas.width / rect.width;
+          var scaleY = canvas.height / rect.height;
+          var mx = (e.clientX - rect.left) * scaleX;
+          var my = (e.clientY - rect.top) * scaleY;
+          var best = null, bestD = 900;
+          for (var i = 0; i < hits.length; i++) {
+            var h = hits[i];
+            var dx = h.px - mx, dy = h.py - my;
+            var d = dx * dx + dy * dy;
+            if (d < bestD) { bestD = d; best = h; }
+          }
+          if (!best) { clear(); return; }
+
+          octx.clearRect(0, 0, overlay.width, overlay.height);
+          var grad = octx.createRadialGradient(best.px, best.py, best.size, best.px, best.py, best.size * 3);
+          grad.addColorStop(0, best.color);
+          grad.addColorStop(1, 'rgba(0,0,0,0)');
+          octx.globalAlpha = 0.55;
+          octx.fillStyle = grad;
+          octx.beginPath(); octx.arc(best.px, best.py, best.size * 3, 0, Math.PI * 2); octx.fill();
+          octx.globalAlpha = 1;
+
+          var tipCanvasX = mx + 18;
+          var tipCanvasY = my - 12;
+          octx.strokeStyle = 'rgba(201,169,97,0.75)'; octx.lineWidth = 1.2;
+          octx.setLineDash([3, 3]);
+          octx.beginPath(); octx.moveTo(best.px + best.size / 2, best.py); octx.lineTo(tipCanvasX, tipCanvasY);
+          octx.stroke(); octx.setLineDash([]);
+
+          var m = best.member;
+          tip.innerHTML =
+            '<div style="color:' + best.color + ';font-weight:700;letter-spacing:0.02em;margin-bottom:2px">' +
+              (m.name || '(unnamed)') + '</div>' +
+            '<div style="color:#a8b0c0">' +
+              (m.rank || '—') + ' · HQ ' + (m.hq_level || m.hq || '?') +
+              ' · <span style="color:#c9a961">' + fmtPower(m.power) + '</span></div>' +
+            '<div style="color:#7a8290;font-size:10.5px;margin-top:3px">' +
+              'tile (' + m.assigned_x + ', ' + m.assigned_y + ') · Δ(' + m.delta_x + ', ' + m.delta_y + ')</div>' +
+            '<div style="color:#7a8290;font-size:10.5px">' +
+              'ring ' + (m.ring || '?') + ' · ' + (m.tile_temp_with_furnace_c != null ? m.tile_temp_with_furnace_c + '°C · ' : '') +
+              riskChip(m.freeze_risk) + '</div>';
+
+          var wr = wrap.getBoundingClientRect();
+          var canvasOffX = rect.left - wr.left;
+          var canvasOffY = rect.top  - wr.top;
+          var cssX = (tipCanvasX / scaleX);
+          var cssY = (tipCanvasY / scaleY);
+          if (cssX + 260 > rect.width) cssX = rect.width - 268;
+          if (cssY < 98) cssY = 98;
+          tip.style.left = (canvasOffX + cssX) + 'px';
+          tip.style.top  = (canvasOffY + cssY) + 'px';
+          tip.style.opacity = '1';
+        });
+        canvas.addEventListener('mouseleave', clear);
+      }
+
+      // ------------------------------------------------------------------
+      // renderPreview dispatches to schematic or realistic. Both modes share
+      // header/scale/footer/hover-hit-test contract via helpers below so the
+      // Export PNG and hover tooltip work identically for both.
+      // ------------------------------------------------------------------
+      function renderPreview(data) {
+        if (state.previewMode === 'realistic') return renderPreviewRealistic(data);
+        return renderPreviewSchematic(data);
+      }
+
+      // Shared: canvas + geometry setup, returns {ctx, W, H, mapY, mapH, footerH, cx, cy, scale, arrivalMode}
+      function _prepPreview(data) {
+        var canvas = document.getElementById('preview-canvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        var footerH = 60;
+        var mapY = 44, mapH = H - 44 - footerH;
+        var pad = 40;
+        var maxAbs = 30;
+        (data && data.assignments || []).forEach(function (a) {
+          maxAbs = Math.max(maxAbs, Math.abs(a.delta_x), Math.abs(a.delta_y));
+        });
+        var baseScale = (Math.min(W, mapH) / 2 - pad) / (maxAbs + 4);
+        var scale = baseScale * state.previewZoom;
+        return {
+          canvas: canvas, ctx: ctx, W: W, H: H,
+          mapY: mapY, mapH: mapH, footerH: footerH,
+          cx: W / 2, cy: mapY + mapH / 2, scale: scale,
+          arrivalMode: state.previewZoom >= 2.5,
+        };
+      }
+
+      // Shared: branded header row (dark strip + brand + summary stats)
+      function _drawHeader(ctx, W, data, thermal) {
+        ctx.fillStyle = '#0d1424';
+        ctx.fillRect(0, 0, W, 44);
+        ctx.strokeStyle = 'rgba(255,255,255,0.10)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(0, 44); ctx.lineTo(W, 44); ctx.stroke();
+        ctx.fillStyle = '#c9a961';
+        ctx.font = '600 11px system-ui, -apple-system, sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'left';
+        ctx.fillText('R5TOOLS.IO · LANDING PLANNER', 12, 22);
+        ctx.fillStyle = '#a8b0c0';
+        ctx.font = '400 10px system-ui, sans-serif';
+        ctx.textAlign = 'right';
+        var risky = data.assignments.filter(function (a) { return a.freeze_risk !== 'safe'; }).length;
+        var modeTag = state.previewMode === 'realistic' ? 'realistic' : 'schematic';
+        var thermTag = thermal ? '·thermal' : '';
+        ctx.fillText(
+          data.assignments.length + ' members · ' + (risky === 0 ? 'all safe' : risky + ' at risk') +
+          ' · ' + modeTag + thermTag + ' · ' + state.previewZoom.toFixed(1) + '×',
+          W - 12, 22
+        );
+      }
+
+      // Shared: legend + footer (footerH-tall band at bottom)
+      function _drawFooter(ctx, W, H, footerH, data) {
+        var legY = H - footerH + 8;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'left';
+        var legendItems = [
+          { color: '#da8fff', label: 'R5' },
+          { color: '#ffd07a', label: 'R4' },
+          { color: '#00bfff', label: 'R3' },
+          { color: '#44dd66', label: 'R2' },
+          { color: '#6699ff', label: 'R1' },
+          { color: '#e0c080', label: 'warning' },
+          { color: '#e08a8a', label: 'danger' },
+        ];
+        var legX = 12;
+        ctx.font = '10px ui-monospace, monospace';
+        legendItems.forEach(function (item) {
+          ctx.fillStyle = item.color;
+          ctx.fillRect(legX, legY - 4, 8, 8);
+          ctx.fillStyle = '#a8b0c0';
+          ctx.fillText(item.label, legX + 12, legY);
+          legX += 12 + ctx.measureText(item.label).width + 14;
+        });
+        ctx.fillStyle = '#7a8290';
+        ctx.font = '10px ui-monospace, monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText(
+          'anchor (' + data.anchor.x + ', ' + data.anchor.y + ')  ambient ' + data.anchor.ambient_c + '°C  · Furnace radius ' + data.furnace_radius_tiles + ' tiles',
+          12, H - 26
+        );
+        ctx.textAlign = 'right';
+        ctx.fillText('r5tools.io · ' + new Date().toISOString().slice(0, 10), W - 12, H - 26);
+        ctx.textBaseline = 'alphabetic';
+      }
+
+      // Rank palette (used by both modes and the hover tooltip)
+      var RANK_COLOR = {
+        R5: '#da8fff', R4: '#ffd07a', R3: '#00bfff', R2: '#44dd66', R1: '#6699ff'
+      };
+
+      // ---------- SCHEMATIC (original pink-squares-on-black) ----------
+      function renderPreviewSchematic(data) {
+        var p = _prepPreview(data);
+        var ctx = p.ctx, W = p.W, H = p.H, mapY = p.mapY, mapH = p.mapH;
+        var thermal = !!state.thermalOn;
+
+        // Background: flat dark, or Polar-Storm gradient in thermal mode
+        ctx.fillStyle = '#0a0e1a';
+        ctx.fillRect(0, 0, W, H);
+        if (thermal) {
+          var gcx = W / 2, gcy = mapY + mapH / 2;
+          var grad = ctx.createRadialGradient(gcx, gcy, 0, gcx, gcy, Math.max(W, mapH) * 0.7);
+          grad.addColorStop(0.00, '#3E6E8E');
+          grad.addColorStop(0.35, '#7FB6D3');
+          grad.addColorStop(0.65, '#B8D6E8');
+          grad.addColorStop(1.00, '#EAF4FA');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, mapY, W, mapH);
+        }
+        if (!data) return;
+
+        // Faint tile lattice at world zoom
+        if (state.previewZoom < 0.5) {
+          ctx.save();
+          ctx.strokeStyle = 'rgba(201,169,97,0.10)';
+          ctx.lineWidth = 1;
+          var step = 40;
+          for (var gx = step; gx < W; gx += step) {
+            ctx.beginPath(); ctx.moveTo(gx, mapY); ctx.lineTo(gx, mapY + mapH); ctx.stroke();
+          }
+          for (var gy = mapY + step; gy < mapY + mapH; gy += step) {
+            ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        _drawHeader(ctx, W, data, thermal);
+
+        var cx = p.cx, cy = p.cy, scale = p.scale;
+
+        // Furnace radius ring
+        if (thermal) {
+          var rTiles = data.furnace_radius_tiles * scale;
+          var aurora = ctx.createRadialGradient(cx, cy, Math.max(0, rTiles * 0.4), cx, cy, rTiles * 1.4);
+          aurora.addColorStop(0.0, 'rgba(243,156,59,0.00)');
+          aurora.addColorStop(0.7, 'rgba(243,156,59,0.32)');
+          aurora.addColorStop(1.0, 'rgba(243,156,59,0.00)');
+          ctx.fillStyle = aurora;
+          ctx.beginPath(); ctx.arc(cx, cy, rTiles * 1.4, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = 'rgba(243,156,59,0.5)';
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.arc(cx, cy, rTiles, 0, Math.PI * 2); ctx.stroke();
+        } else {
+          ctx.strokeStyle = 'rgba(201, 169, 97, 0.4)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 4]);
+          ctx.beginPath();
+          ctx.arc(cx, cy, data.furnace_radius_tiles * scale, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        // Anchor marker (gold dot + coord)
+        ctx.fillStyle = '#c9a961';
+        ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = thermal ? '#e6e8ee' : '#7a8290';
+        ctx.font = '11px ui-monospace, monospace';
+        ctx.textBaseline = 'alphabetic';
+        ctx.textAlign = 'center';
+        ctx.fillText('(' + data.anchor.x + ', ' + data.anchor.y + ')', cx, cy + 20);
+
+        var pulseAlpha = 1.0;
+        if (thermal && !state._exporting) {
+          var t = (state.thermalPulseFrame % 45) / 45;
+          pulseAlpha = 0.6 + 0.4 * (0.5 + 0.5 * Math.sin(t * Math.PI * 2));
+        }
+
+        state.previewHitTest = [];
+        var arrivalMode = p.arrivalMode;
+        data.assignments.forEach(function (a) {
+          var px = cx + a.delta_x * scale;
+          var py = cy + a.delta_y * scale;
+          var color = RANK_COLOR[a.rank] || '#a8b0c0';
+          if (a.freeze_risk === 'danger') color = '#e08a8a';
+          else if (a.freeze_risk === 'warning') color = '#e0c080';
+          var s = arrivalMode ? 16 : ((a.rank === 'R5' || a.rank === 'R4') ? 8 : 6);
+          ctx.save();
+          if (thermal && a.freeze_risk === 'danger') ctx.globalAlpha = pulseAlpha;
+          ctx.fillStyle = color;
+          ctx.fillRect(px - s / 2, py - s / 2, s, s);
+          ctx.restore();
+          state.previewHitTest.push({ px: px, py: py, size: s, color: color, member: a });
+
+          if (thermal && a.tile_temp_with_furnace_c != null) {
+            ctx.save();
+            ctx.globalAlpha = 0.85;
+            ctx.fillStyle = '#0d1424';
+            ctx.font = '600 9px ui-monospace, monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            var badge = a.tile_temp_with_furnace_c + '°';
+            var bw = ctx.measureText(badge).width + 6;
+            ctx.fillRect(px - bw / 2, py - s / 2 - 12, bw, 11);
+            ctx.fillStyle = '#eaf4fa';
+            ctx.fillText(badge, px, py - s / 2 - 2);
+            ctx.restore();
+          }
+
+          if (arrivalMode || data.assignments.length <= 30) {
+            ctx.fillStyle = thermal ? '#0d1424' : '#a8b0c0';
+            ctx.font = (arrivalMode ? '600 10px' : '9px') + ' ui-monospace, monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            var name = arrivalMode ? (a.name || '') : (a.name || '').slice(0, 8);
+            ctx.fillText(name, px, py + s / 2 + 2);
+          }
+        });
+        attachPreviewHover(p.canvas);
+
+        _drawFooter(ctx, W, H, p.footerH, data);
+      }
+
+      // ---------- REALISTIC (Polar-Storm terrain + HQ icons) ----------
+      // Renders a scene that reads as "just teleported into Season 2 Polar
+      // Storm": frost-blue radial terrain, snowflake sprinkles, HQ 2x2 icons
+      // colored by rank, aurora furnace glow, anchor as pentagon+crown, and
+      // compass-point coord labels around the furnace radius.
+      function renderPreviewRealistic(data) {
+        var p = _prepPreview(data);
+        var ctx = p.ctx, W = p.W, H = p.H, mapY = p.mapY, mapH = p.mapH;
+        var thermal = !!state.thermalOn;
+
+        // ---- Background: radial gradient deep polar center → frost outer ----
+        ctx.fillStyle = '#0a0e1a';
+        ctx.fillRect(0, 0, W, H);
+        var gcx = p.cx, gcy = p.cy;
+        var gRadius = Math.max(W, mapH) * 0.72;
+        var terrain = ctx.createRadialGradient(gcx, gcy, 0, gcx, gcy, gRadius);
+        terrain.addColorStop(0.00, '#1E3A5F');
+        terrain.addColorStop(0.35, '#3E6E8E');
+        terrain.addColorStop(0.65, '#7FB6D3');
+        terrain.addColorStop(1.00, '#B8D6E8');
+        ctx.fillStyle = terrain;
+        ctx.fillRect(0, mapY, W, mapH);
+
+        // Snowflake sprinkles
+        _drawSnowflakes(ctx, W, mapY, mapH);
+
+        if (!data) { _drawHeader(ctx, W, { assignments: [] }, thermal); _drawFooter(ctx, W, H, p.footerH, { anchor: { x: 0, y: 0, ambient_c: 0 }, furnace_radius_tiles: 0 }); return; }
+
+        _drawHeader(ctx, W, data, thermal);
+
+        var cx = p.cx, cy = p.cy, scale = p.scale;
+        var rTiles = data.furnace_radius_tiles * scale;
+
+        // Aurora furnace glow
+        var glow = ctx.createRadialGradient(cx, cy, Math.max(0, rTiles * 0.15), cx, cy, rTiles * 1.5);
+        glow.addColorStop(0.0, 'rgba(243,156,59,0.55)');
+        glow.addColorStop(0.55, 'rgba(243,156,59,0.28)');
+        glow.addColorStop(1.0, 'rgba(243,156,59,0.00)');
+        ctx.fillStyle = glow;
+        ctx.beginPath(); ctx.arc(cx, cy, rTiles * 1.5, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = 'rgba(243,156,59,0.55)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(cx, cy, rTiles, 0, Math.PI * 2); ctx.stroke();
+
+        // Compass-point coord labels around furnace radius
+        var ax = data.anchor.x, ay = data.anchor.y, rt = data.furnace_radius_tiles;
+        var compass = [
+          { dx:  0, dy: -1, label: '(' + ax + ', ' + (ay - rt) + ')' },
+          { dx:  1, dy:  0, label: '(' + (ax + rt) + ', ' + ay + ')' },
+          { dx:  0, dy:  1, label: '(' + ax + ', ' + (ay + rt) + ')' },
+          { dx: -1, dy:  0, label: '(' + (ax - rt) + ', ' + ay + ')' },
+        ];
+        ctx.font = '600 10px ui-monospace, monospace';
+        ctx.textBaseline = 'middle';
+        compass.forEach(function (c) {
+          var lx = cx + c.dx * (rTiles + 14);
+          var ly = cy + c.dy * (rTiles + 14);
+          ctx.textAlign = c.dx === 0 ? 'center' : (c.dx > 0 ? 'left' : 'right');
+          var tw = ctx.measureText(c.label).width + 8;
+          var chipX = ctx.textAlign === 'left' ? lx - 2 : (ctx.textAlign === 'right' ? lx - tw + 2 : lx - tw / 2);
+          ctx.save();
+          ctx.globalAlpha = 0.55;
+          ctx.fillStyle = '#0d1424';
+          ctx.fillRect(chipX, ly - 7, tw, 14);
+          ctx.restore();
+          ctx.fillStyle = 'rgba(234,244,250,0.95)';
+          ctx.fillText(c.label, lx, ly);
+        });
+
+        // Anchor: pentagon-house with golden crown
+        _drawAnchorIcon(ctx, cx, cy, 12);
+
+        // Member HQ icons
+        state.previewHitTest = [];
+        var arrivalMode = p.arrivalMode;
+        var baseIcon = arrivalMode ? 18 : ((state.previewZoom < 0.5) ? 8 : 12);
+
+        var dangerT = 0;
+        if (!state._exporting) {
+          dangerT = 0.5 + 0.5 * Math.sin(((state.dangerPulseFrame % 45) / 45) * Math.PI * 2);
+        }
+
+        data.assignments.forEach(function (a) {
+          var px = cx + a.delta_x * scale;
+          var py = cy + a.delta_y * scale;
+          var color = RANK_COLOR[a.rank] || '#a8b0c0';
+          var s = baseIcon;
+          // Rank-tint underglow
+          ctx.save();
+          ctx.globalAlpha = 0.35;
+          var underGlow = ctx.createRadialGradient(px, py, 0, px, py, s);
+          underGlow.addColorStop(0, color);
+          underGlow.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = underGlow;
+          ctx.beginPath(); ctx.arc(px, py, s, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+          _drawHQIcon(ctx, px, py, s, color);
+          if (a.freeze_risk === 'danger') {
+            var ringR = s * 0.85 + dangerT * 4;
+            var ringAlpha = 0.55 + dangerT * 0.35;
+            ctx.save();
+            ctx.strokeStyle = 'rgba(214,69,69,' + ringAlpha.toFixed(3) + ')';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(px, py, ringR, 0, Math.PI * 2); ctx.stroke();
+            ctx.restore();
+          } else if (a.freeze_risk === 'warning') {
+            ctx.save();
+            ctx.strokeStyle = 'rgba(224,192,128,0.7)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.arc(px, py, s * 0.85, 0, Math.PI * 2); ctx.stroke();
+            ctx.restore();
+          }
+          state.previewHitTest.push({ px: px, py: py, size: s, color: color, member: a });
+
+          if (thermal && a.tile_temp_with_furnace_c != null) {
+            ctx.save();
+            ctx.globalAlpha = 0.9;
+            ctx.fillStyle = '#0d1424';
+            ctx.font = '600 9px ui-monospace, monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            var badge = a.tile_temp_with_furnace_c + '°';
+            var bw = ctx.measureText(badge).width + 6;
+            ctx.fillRect(px - bw / 2, py - s - 12, bw, 11);
+            ctx.fillStyle = '#eaf4fa';
+            ctx.fillText(badge, px, py - s - 2);
+            ctx.restore();
+          }
+
+          if (arrivalMode || data.assignments.length <= 30) {
+            ctx.save();
+            ctx.font = (arrivalMode ? '600 10px' : '9px') + ' ui-monospace, monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            var name = arrivalMode ? (a.name || '') : (a.name || '').slice(0, 8);
+            if (name) {
+              var nw = ctx.measureText(name).width + 6;
+              ctx.globalAlpha = 0.65;
+              ctx.fillStyle = '#0d1424';
+              ctx.fillRect(px - nw / 2, py + s + 2, nw, arrivalMode ? 14 : 12);
+              ctx.globalAlpha = 1;
+              ctx.fillStyle = '#eaf4fa';
+              ctx.fillText(name, px, py + s + 3);
+            }
+            ctx.restore();
+          }
+        });
+
+        attachPreviewHover(p.canvas);
+
+        _drawFooter(ctx, W, H, p.footerH, data);
+      }
+
+      // -------- realistic-mode primitive helpers --------
+      function _drawSnowflakes(ctx, W, mapY, mapH) {
+        ctx.save();
+        var seed = 1337;
+        function rand() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+        var n = 55;
+        for (var i = 0; i < n; i++) {
+          var x = rand() * W;
+          var y = mapY + rand() * mapH;
+          var r = 1 + rand() * 1.6;
+          var a = 0.10 + rand() * 0.22;
+          ctx.globalAlpha = a;
+          ctx.fillStyle = '#EAF4FA';
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+          if (rand() > 0.75) {
+            ctx.strokeStyle = 'rgba(234,244,250,' + (a * 0.9).toFixed(3) + ')';
+            ctx.lineWidth = 0.75;
+            var L = r * 2.2;
+            ctx.beginPath();
+            ctx.moveTo(x - L, y); ctx.lineTo(x + L, y);
+            ctx.moveTo(x, y - L); ctx.lineTo(x, y + L);
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
+      }
+
+      function _drawHQIcon(ctx, px, py, s, color) {
+        var w = s, h = s;
+        var x = px - w / 2, y = py - h / 2;
+        var r = Math.max(1, s * 0.15);
+        ctx.save();
+        ctx.beginPath();
+        _roundRect(ctx, x, y, w, h, r);
+        var g = ctx.createLinearGradient(0, y, 0, y + h);
+        g.addColorStop(0, _mix(color, '#ffffff', 0.35));
+        g.addColorStop(1, _mix(color, '#000000', 0.35));
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = _mix(color, '#000000', 0.55);
+        ctx.stroke();
+        var rh = Math.max(2, s * 0.28);
+        ctx.beginPath();
+        ctx.moveTo(x + w * 0.15, y + rh * 0.4);
+        ctx.lineTo(px, y - rh * 0.6);
+        ctx.lineTo(x + w * 0.85, y + rh * 0.4);
+        ctx.closePath();
+        ctx.fillStyle = _mix(color, '#ffffff', 0.55);
+        ctx.fill();
+        ctx.strokeStyle = _mix(color, '#000000', 0.35);
+        ctx.stroke();
+        ctx.beginPath();
+        _roundRect(ctx, x + 1, y + 1, w * 0.4, h * 0.4, r * 0.7);
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function _drawAnchorIcon(ctx, cx, cy, s) {
+        _drawHQIcon(ctx, cx, cy, s * 1.6, '#F39C3B');
+        ctx.save();
+        ctx.fillStyle = '#F7D046';
+        ctx.strokeStyle = '#8a6b1c';
+        ctx.lineWidth = 1;
+        var cw = s * 1.4;
+        var cy2 = cy - s * 1.4;
+        ctx.beginPath();
+        ctx.moveTo(cx - cw / 2, cy2);
+        ctx.lineTo(cx - cw / 4, cy2 - cw * 0.35);
+        ctx.lineTo(cx, cy2);
+        ctx.lineTo(cx + cw / 4, cy2 - cw * 0.35);
+        ctx.lineTo(cx + cw / 2, cy2);
+        ctx.lineTo(cx + cw / 2, cy2 + cw * 0.18);
+        ctx.lineTo(cx - cw / 2, cy2 + cw * 0.18);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function _roundRect(ctx, x, y, w, h, r) {
+        r = Math.min(r, w / 2, h / 2);
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+      }
+      function _mix(a, b, t) {
+        function h2r(h) {
+          if (!h || h[0] !== '#') return [200, 200, 200];
+          return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+        }
+        function r2h(r) {
+          return '#' + r.map(function (n) { var s = Math.round(Math.max(0, Math.min(255, n))).toString(16); return s.length === 1 ? '0' + s : s; }).join('');
+        }
+        var A = h2r(a), B = h2r(b);
+        return r2h([A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t, A[2] + (B[2] - A[2]) * t]);
+      }
+
+      // ---- exports ----
+      function exportCSV() {
+        if (!state.lastResult) return;
+        var rows = [['name','rank','hq_level','power','assigned_x','assigned_y','delta_x','delta_y','ring','tile_temp_c','freeze_risk']];
+        state.lastResult.assignments.forEach(function (a) {
+          rows.push([a.name, a.rank, a.hq_level, a.power, a.assigned_x, a.assigned_y, a.delta_x, a.delta_y, a.ring, a.tile_temp_with_furnace_c, a.freeze_risk]);
+        });
+        var csv = rows.map(function (r) {
+          return r.map(function (v) {
+            v = String(v == null ? '' : v);
+            return /[,"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+          }).join(',');
+        }).join('\n');
+        download('landing-plan.csv', csv, 'text/csv');
+      }
+      function exportJSON() {
+        if (!state.lastResult) return;
+        download('landing-plan.json', JSON.stringify(state.lastResult, null, 2), 'application/json');
+      }
+      function exportShareBlock() {
+        if (!state.lastResult) return;
+        var lines = state.lastResult.assignments.map(function (a) {
+          return a.name + ' → (' + a.assigned_x + ', ' + a.assigned_y + ') · Ring ' + a.ring + ' · ' + a.freeze_risk;
+        });
+        var text = 'Landing plan · anchor (' + state.lastResult.anchor.x + ', ' + state.lastResult.anchor.y + ')\n' + lines.join('\n');
+        navigator.clipboard.writeText(text).then(function () {
+          alert('Copied to clipboard.');
+        }, function () {
+          alert(text);
+        });
+      }
+      function download(name, content, mime) {
+        var blob = new Blob([content], { type: mime });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = name;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // ---- utils ----
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      function fmtNum(n) {
+        n = Number(n) || 0;
+        return n.toLocaleString();
+      }
+    })();
+  </script>
+  <script src="https://chat.r5tools.io/widget.js" defer></script>
+<script>window.addEventListener("DOMContentLoaded",function(){if(window.LWSDiscord&&typeof LWSDiscord.attachToButton==="function"){setTimeout(function(){LWSDiscord.attachToButton({pngBtnId:"export-png-btn",slotId:"lws-discord-slot",gearSlotId:"lws-discord-gear-slot",filename:"landing-plan.png",contextText:"Landing Plan",toolName:"Landing Planner"});},300);}});</script>
+</body>
+</html>
