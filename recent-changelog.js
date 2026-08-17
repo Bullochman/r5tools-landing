@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: Warzone Intel & Migration Board (/warzone-intel.html) — compare up to 4 warzones side by side on population, total/median power, 100M+ whale count, activity, churn, top alliance, and a power-distribution chart. Pick your next server before you transfer. Live from lwatlas, best-value cells highlighted' },
     { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: Alliance Power Trends (/power-trends.html) — automatic day-by-day combined-power growth chart for every alliance in a warzone. Big alliances update automatically from lwatlas map scans (no screenshot uploads — the only fully-automated power tracker); smaller alliances feed the SAME chart from a roster extraction. Tracks who is climbing and who is stalling' },
     { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: alliance power board — top alliances by combined power + member count (no names) + top players’ power + power distribution, via /api/warzone/<n>/power. Fetched real-time from lwatlas, no upload' },
     { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: Live Roster & Player Finder (/live-roster.html) — pick any scanned warzone, get its full alliance rosters (every member, HQ, in-game rank, exact coordinates) with no video upload. Search any player by name for their coords. Export canonical CSV straight into Landing Planner / Hive / Freeze' },

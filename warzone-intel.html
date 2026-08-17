@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Warzone Intel &amp; Migration Board — r5tools.io</title>
+  <meta name="description" content="Compare Last War: Survival warzones side by side — population, total power, activity, churn, power distribution and top alliances. Pick your next server before you transfer." />
+  <meta property="og:title" content="Warzone Intel & Migration Board — r5tools.io" />
+  <meta property="og:description" content="Compare LWS warzones on power, activity, churn and top alliances before you migrate." />
+  <meta property="og:url" content="https://r5tools.io/warzone-intel.html" />
+  <link rel="canonical" href="https://r5tools.io/warzone-intel.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg:#0a0e1a; --panel:#0d1424; --panel-2:#12192c;
+      --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.3);
+      --accent:#c9a961; --accent-hover:#d9b871;
+      --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290; --confirm:#8ae0a3; --danger:#f38ba8;
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+      -webkit-font-smoothing:antialiased; line-height:1.5; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { color:var(--accent-hover); text-decoration:underline; }
+    .wrap { max-width:1180px; margin:0 auto; padding:32px 24px; }
+    header.top { display:flex; justify-content:space-between; align-items:center; padding:8px 0 24px; flex-wrap:wrap; gap:10px; }
+    .brand { font-size:12px; letter-spacing:0.16em; color:var(--accent); font-weight:600; }
+    nav { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    nav a { color:var(--text-dim); font-size:13px; padding:6px 12px; border-radius:6px; border:1px solid transparent; }
+    nav a:hover { color:var(--accent); border-color:var(--border-accent); text-decoration:none; background:rgba(201,169,97,0.05); }
+    nav a.cta { background:var(--accent); color:#0a0e1a; font-weight:700; border-radius:999px; padding:8px 16px; }
+    h1 { font-size:26px; margin:8px 0 6px; }
+    .subtitle { color:var(--text-dim); font-size:14px; margin-bottom:20px; max-width:780px; }
+    .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;
+      background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:16px; }
+    .field { display:flex; flex-direction:column; gap:5px; }
+    label { font-size:11px; color:var(--text-mute); text-transform:uppercase; letter-spacing:0.05em; }
+    input { background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+      border-radius:8px; padding:9px 12px; font-size:14px; font-family:inherit; }
+    .btn { background:var(--accent); color:#0a0e1a; font-weight:700; border:none; border-radius:8px;
+      padding:10px 16px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .err { color:var(--danger); font-size:13px; margin:8px 0; }
+    .cmp-wrap { overflow-x:auto; }
+    table.cmp { border-collapse:collapse; width:100%; font-size:13.5px; min-width:520px; }
+    table.cmp th, table.cmp td { padding:10px 14px; border-bottom:1px solid rgba(255,255,255,0.05); text-align:right; }
+    table.cmp th:first-child, table.cmp td:first-child { text-align:left; color:var(--text-dim); white-space:nowrap; }
+    table.cmp thead th { background:var(--panel-2); color:var(--accent); font-family:ui-monospace,monospace;
+      font-size:15px; border-bottom:1px solid var(--border); position:sticky; top:0; }
+    table.cmp tbody tr:hover { background:var(--panel-2); }
+    .mono { font-family:ui-monospace,monospace; }
+    .best { color:var(--confirm); font-weight:700; }
+    .row-label { color:var(--text-mute); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+    .chart-card { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px; margin:16px 0; }
+    .dist-title { color:var(--text-dim); font-size:13px; margin:0 0 8px; }
+    .foot-note { color:var(--text-mute); font-size:12px; margin-top:18px; line-height:1.6; }
+    .season-badge { display:inline-block; padding:1px 7px; border-radius:999px; font-size:11px; font-weight:700;
+      background:rgba(201,169,97,0.15); color:var(--accent); font-family:ui-monospace,monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand"><a href="/">R5TOOLS.IO</a> · WARZONE INTEL &amp; MIGRATION BOARD</div>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/warzones.html">Directory</a>
+        <a href="/live-roster.html">Live Roster</a>
+        <a href="/power-trends.html">Power Trends</a>
+        <a href="https://access-codes.r5tools.io/" class="cta">Unlock the suite</a>
+      </nav>
+    </header>
+
+    <h1>Warzone Intel &amp; Migration Board</h1>
+    <p class="subtitle">
+      Compare warzones side by side before you transfer — population, total power, top-heaviness,
+      activity, churn, and who's on top. Enter up to 4 warzone numbers (comma-separated).
+    </p>
+
+    <div class="controls">
+      <div class="field" style="flex:1; min-width:220px">
+        <label for="wzs">Warzones (comma-separated)</label>
+        <input id="wzs" type="text" inputmode="numeric" placeholder="2007, 2002, 2100, 2060" />
+      </div>
+      <button class="btn" id="go">Compare</button>
+    </div>
+
+    <div id="err" class="err" style="display:none"></div>
+    <div id="out"></div>
+    <p class="foot-note" id="src-note"></p>
+  </div>
+
+  <script src="/line-chart.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var API_BASE = 'https://access-codes.r5tools.io';
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      API_BASE = location.protocol + '//' + location.hostname + ':' + (location.port || '8080');
+    }
+    var PALETTE = ['#c9a961','#8ae0a3','#7fb0e6','#e08a8a'];
+    function $(id){ return document.getElementById(id); }
+    function fmt(v){ if(v==null) return '—'; var a=Math.abs(v);
+      if(a>=1e9) return (v/1e9).toFixed(2).replace(/\.?0+$/,'')+'B';
+      if(a>=1e6) return (v/1e6).toFixed(1).replace(/\.?0+$/,'')+'M';
+      if(a>=1e3) return (v/1e3).toFixed(0)+'K'; return String(v); }
+    function pct(v){ return v==null?'—':v+'%'; }
+
+    // metric rows: label, accessor, formatter, higherIsBetter (for "best" highlight)
+    var ROWS = [
+      ['Season', function(d){ return d.season; }, function(v){ return v?'<span class="season-badge">S'+v+'</span>':'—'; }, null],
+      ['Players', function(d){ return d.total_players; }, fmt, true],
+      ['Total power', function(d){ return d.total_power; }, fmt, true],
+      ['Median power', function(d){ return d.median_power; }, fmt, true],
+      ['100M+ whales', function(d){ var b=(d.power_distribution||[]).find(function(x){return x.range==='100M+';}); return b?b.count:null; }, fmt, true],
+      ['Alliances', function(d){ return d.alliance_count; }, fmt, null],
+      ['Avg alliance size', function(d){ return d.avg_alliance_size; }, function(v){return v==null?'—':v;}, true],
+      ['Active (7d)', function(d){ return d.active_7d_percent; }, pct, true],
+      ['Churn rate', function(d){ return d.churn_rate; }, pct, false],
+      ['Top alliance', function(d){ var a=(d.top_alliances||[])[0]; return a?a.tag:null; }, function(v){return v||'—';}, null],
+      ['Top alliance power', function(d){ var a=(d.top_alliances||[])[0]; return a?a.total_power:null; }, fmt, true],
+    ];
+
+    function bestIdx(vals, higher) {
+      if (higher==null) return -1;
+      var bi=-1, bv=null;
+      vals.forEach(function(v,i){ if(v==null) return;
+        if(bv==null || (higher?v>bv:v<bv)){ bv=v; bi=i; } });
+      return bi;
+    }
+
+    function render(warzones, datas) {
+      var out = $('out');
+      var html = '<div class="cmp-wrap"><table class="cmp"><thead><tr><th>Metric</th>';
+      warzones.forEach(function(wz){ html += '<th>WZ '+wz+'</th>'; });
+      html += '</tr></thead><tbody>';
+      ROWS.forEach(function(row){
+        var vals = datas.map(function(d){ return d?row[1](d):null; });
+        var bi = bestIdx(vals, row[3]);
+        html += '<tr><td class="row-label">'+row[0]+'</td>';
+        vals.forEach(function(v,i){
+          var cls = (i===bi && typeof v==='number')?'mono best':'mono';
+          html += '<td class="'+cls+'">'+row[2](v)+'</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      // power-distribution comparison chart (players by power bucket, per warzone)
+      html += '<div class="chart-card"><p class="dist-title">Power distribution — how top-heavy each warzone is (players per power bucket)</p><div id="dist-chart"></div></div>';
+      out.innerHTML = html;
+
+      var buckets = ['0-1M','1M-5M','5M-10M','10M-25M','25M-50M','50M-100M','100M+'];
+      var series = datas.map(function(d,i){
+        if(!d) return null;
+        var byRange = {}; (d.power_distribution||[]).forEach(function(b){ byRange[b.range]=b.count; });
+        return { label:'WZ '+warzones[i], color:PALETTE[i%PALETTE.length],
+                 points: buckets.map(function(b){ return {x:b, y:byRange[b]||0}; }) };
+      }).filter(Boolean);
+      LWSLineChart.renderMulti($('dist-chart'), {
+        title:'', labelX:'Power bucket', labelY:'Players', height:300, series:series
+      });
+    }
+
+    function load() {
+      $('err').style.display='none';
+      var raw = ($('wzs').value||'').split(',').map(function(s){return parseInt(s.trim(),10);}).filter(function(n){return n>0;});
+      raw = raw.slice(0,4);
+      if (!raw.length) { $('err').textContent='Enter at least one warzone number.'; $('err').style.display='block'; return; }
+      $('out').innerHTML = '<div style="padding:30px;text-align:center;color:var(--text-mute)">Pulling intel for '+raw.join(', ')+'…</div>';
+      Promise.all(raw.map(function(wz){
+        return fetch(API_BASE + '/api/warzone/' + wz + '/intel')
+          .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+      })).then(function(datas){
+        if (!datas.some(Boolean)) { $('out').innerHTML=''; $('err').textContent='No intel available for those warzones (lwatlas may not have scanned them).'; $('err').style.display='block'; return; }
+        render(raw, datas);
+        $('src-note').innerHTML = 'Live from lwatlas map scans. Green = best value in each row. '
+          + 'High churn + low active% = a dying/farmable warzone; high median power + many 100M+ whales = a sweaty one. '
+          + 'Planning a transfer? Check the <a href="/warzones.html">directory</a> for the KvK bracket too.';
+      });
+    }
+
+    $('go').addEventListener('click', load);
+    $('wzs').addEventListener('keydown', function(e){ if(e.key==='Enter') load(); });
+    var params = new URLSearchParams(location.search);
+    if (params.get('wz')) { $('wzs').value = params.get('wz'); setTimeout(load, 200); }
+  })();
+  </script>
+</body>
+</html>
