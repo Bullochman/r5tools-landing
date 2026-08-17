@@ -13,10 +13,13 @@
   <!-- Cross-tool roster-staleness widget (top-right nudge) -->
   <script defer src="https://roster.r5tools.io/static/roster-freshness.js"></script>
 <script defer src="static/ref-propagate.js"></script>
+
+<style id="lws-embed-hide">html[data-embedded] #lws-suite-nav,html[data-embedded] #lws-wz-strip,html[data-embedded] #lws-warzone-selector,html[data-embedded] .app-header .brand-sub{display:none !important;}</style>
+<script>(function(){try{if(window.self!==window.top)document.documentElement.setAttribute("data-embedded","1");}catch(e){}})();</script>
 </head>
 <body>
 <!-- suite-nav (part of R5TOOLS.IO) -->
-<div style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
+<div id="lws-suite-nav" style="background:#0a0e1a;border-bottom:1px solid rgba(201,169,97,0.2);padding:6px 12px;font-family:system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:.06em;color:#7a8290;text-align:center;position:relative;z-index:99998">
   <span data-i18n="suiteNavPart">Part of the </span>
   <a href="https://r5tools.io" target="_blank" rel="noopener" style="color:#c9a961;text-decoration:none;font-weight:600">R5TOOLS.IO</a>
   <span data-i18n="suiteNavToolkit"> Last War: Survival alliance toolkit — </span>
@@ -29,7 +32,7 @@
   <a href="https://hive.r5tools.io/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navHive">Hive</span></a>·<a href="https://r5tools.io/tools/profile-studio/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navProfile">Profile</span></a>·<a href="https://r5tools.io/tools/vs-days/" style="color:#a8b0c0;text-decoration:none;margin:0 4px"><span data-i18n="navVsDays">VS Days</span></a>
 </div>
 <!-- Warzone / season context strip -->
-<div style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
+<div id="lws-wz-strip" style="background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 12px;text-align:center;font-family:system-ui,-apple-system,sans-serif;font-size:12px">
   <div id="lws-warzone-selector" style="display:inline-flex"></div>
 </div>
   <div class="wrap">
