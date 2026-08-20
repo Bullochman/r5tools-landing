@@ -179,6 +179,26 @@
 
     function $(id) { return document.getElementById(id); }
     function esc(s) { var d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
+    function relTime(iso) {
+      if (!iso) return '';
+      var then = Date.parse(String(iso).indexOf('Z')>-1 || String(iso).indexOf('+')>-1 ? iso : iso + 'Z');
+      if (!isFinite(then)) return '';
+      var s = Math.max(0, (Date.now() - then) / 1000);
+      if (s < 90) return 'just now';
+      if (s < 3600) return Math.round(s/60) + 'm ago';
+      if (s < 86400) return Math.round(s/3600) + 'h ago';
+      return Math.round(s/86400) + 'd ago';
+    }
+    function updatedChip(iso) {
+      if (!iso) return '';
+      var rel = relTime(iso);
+      var abs = String(iso).replace('T',' ').slice(0,16) + ' UTC';
+      // green dot if fresh (<26h), amber if staler
+      var then = Date.parse(String(iso).indexOf('Z')>-1 ? iso : iso + 'Z');
+      var fresh = isFinite(then) && (Date.now()-then) < 26*3600*1000;
+      var col = fresh ? '#8ae0a3' : '#e6cf7a';
+      return ' · <span title="LW Atlas last scanned this warzone at ' + esc(abs) + '" style="color:' + col + '">● updated ' + rel + '</span>';
+    }
     function code() {
       try { return (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) ||
         localStorage.getItem('lws_unlock_code') || ''; } catch (e) { return ''; }
@@ -267,18 +287,19 @@
         .then(function (d) {
           $('lock-box').style.display='none';
           state.scan = d.scanned_at;
+          var updated = updatedChip(state.scan);
           if (q) {
             state.members = d.results || [];
             state.alliances = [];
             state.activeTag = null;
             $('meta-strip').innerHTML = '<strong>' + (d.match_count||0) + '</strong> player'
-              + ((d.match_count===1)?'':'s') + ' matching "' + esc(q) + '" in warzone <strong>' + wz + '</strong>';
+              + ((d.match_count===1)?'':'s') + ' matching "' + esc(q) + '" in warzone <strong>' + wz + '</strong>' + updated;
           } else {
             state.members = d.members || [];
             state.alliances = d.alliances || [];
             state.activeTag = null;
             $('meta-strip').innerHTML = '<strong>' + (d.member_count||0) + '</strong> members · <strong>'
-              + state.alliances.length + '</strong> alliances in warzone <strong>' + wz + '</strong>';
+              + state.alliances.length + '</strong> alliances in warzone <strong>' + wz + '</strong>' + updated;
           }
           $('src-note').innerHTML = state.scan
             ? 'Scanned live via lwatlas.com · last scan ' + esc(String(state.scan).replace('T',' ').slice(0,16)) + ' UTC · refreshes automatically'
