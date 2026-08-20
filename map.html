@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Warzone Map &amp; Player Locator — r5tools.io</title>
+  <meta name="description" content="See every player in a Last War: Survival warzone plotted on the map by exact coordinates. Search any player to locate them instantly. Live from map scans." />
+  <meta property="og:title" content="Warzone Map & Player Locator — r5tools.io" />
+  <meta property="og:url" content="https://r5tools.io/map.html" />
+  <link rel="canonical" href="https://r5tools.io/map.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0e1a'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='60' fill='%23c9a961'%3ER5%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg:#0a0e1a; --panel:#0d1424; --panel-2:#12192c;
+      --border:rgba(255,255,255,0.08); --border-accent:rgba(201,169,97,0.3);
+      --accent:#c9a961; --accent-hover:#d9b871;
+      --text:#e6e8ee; --text-dim:#a8b0c0; --text-mute:#7a8290; --confirm:#8ae0a3; --danger:#f38ba8;
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif; -webkit-font-smoothing:antialiased; line-height:1.5; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { color:var(--accent-hover); text-decoration:underline; }
+    .wrap { max-width:1180px; margin:0 auto; padding:32px 24px; }
+    header.top { display:flex; justify-content:space-between; align-items:center; padding:8px 0 24px; flex-wrap:wrap; gap:10px; }
+    .brand { font-size:12px; letter-spacing:0.16em; color:var(--accent); font-weight:600; }
+    nav { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    nav a { color:var(--text-dim); font-size:13px; padding:6px 12px; border-radius:6px; border:1px solid transparent; }
+    nav a:hover { color:var(--accent); border-color:var(--border-accent); text-decoration:none; background:rgba(201,169,97,0.05); }
+    nav a.cta { background:var(--accent); color:#0a0e1a; font-weight:700; border-radius:999px; padding:8px 16px; }
+    h1 { font-size:26px; margin:8px 0 6px; }
+    .subtitle { color:var(--text-dim); font-size:14px; margin-bottom:16px; max-width:780px; }
+    .badge { display:inline-block; background:rgba(138,224,163,0.12); color:var(--confirm);
+      border:1px solid rgba(138,224,163,0.3); border-radius:999px; padding:1px 9px; font-size:11px; font-weight:600; }
+    .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;
+      background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:14px; }
+    .field { display:flex; flex-direction:column; gap:5px; }
+    label { font-size:11px; color:var(--text-mute); text-transform:uppercase; letter-spacing:0.05em; }
+    input { background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+      border-radius:8px; padding:9px 12px; font-size:14px; font-family:inherit; }
+    input:focus { outline:none; border-color:var(--border-accent); }
+    .btn { background:var(--accent); color:#0a0e1a; font-weight:700; border:none; border-radius:8px;
+      padding:10px 16px; font-size:14px; cursor:pointer; font-family:inherit; }
+    .btn.ghost { background:var(--panel-2); color:var(--text-dim); border:1px solid var(--border); font-weight:500; }
+    .flex-grow { flex:1; min-width:180px; }
+    .meta { color:var(--text-dim); font-size:12.5px; margin:2px 0 12px; font-family:ui-monospace,monospace; }
+    .meta strong { color:var(--accent); }
+    .maplayout { display:grid; grid-template-columns:1fr 260px; gap:16px; align-items:start; }
+    @media (max-width:860px){ .maplayout{ grid-template-columns:1fr; } }
+    .map-card { position:relative; background:var(--panel); border:1px solid var(--border); border-radius:12px;
+      overflow:hidden; }
+    #map { display:block; width:100%; height:auto; background:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 100% 8.33%,
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 8.33% 100%,
+      radial-gradient(circle at 50% 50%, #101a2e, #0a0e1a 75%);
+      cursor:crosshair; touch-action:none; }
+    #tooltip { position:fixed; pointer-events:none; z-index:50; background:#0a0e1a;
+      border:1px solid var(--border-accent); border-radius:8px; padding:7px 11px; font-size:12.5px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.5); display:none; max-width:240px; }
+    #tooltip .n { font-weight:700; color:var(--text); }
+    #tooltip .sub { color:var(--text-dim); font-size:11.5px; font-family:ui-monospace,monospace; }
+    .side { display:flex; flex-direction:column; gap:12px; }
+    .card { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px; }
+    .card h3 { margin:0 0 8px; font-size:12px; color:var(--text-mute); text-transform:uppercase; letter-spacing:0.05em; }
+    .hit { display:none; }
+    .hit.show { display:block; }
+    .hit .name { font-size:16px; font-weight:700; color:var(--accent); }
+    .hit .row { display:flex; justify-content:space-between; font-size:13px; padding:3px 0; color:var(--text-dim); }
+    .hit .row b { color:var(--text); font-family:ui-monospace,monospace; }
+    .legend { display:flex; flex-direction:column; gap:5px; max-height:300px; overflow:auto; }
+    .legend .li { display:flex; align-items:center; gap:8px; font-size:12.5px; cursor:pointer; padding:2px 4px; border-radius:5px; }
+    .legend .li:hover { background:var(--panel-2); }
+    .legend .li.off { opacity:0.35; }
+    .legend .dot { width:11px; height:11px; border-radius:50%; flex:0 0 auto; }
+    .legend .n { color:var(--text-mute); font-family:ui-monospace,monospace; font-size:11px; margin-left:auto; }
+    .zoomrow { display:flex; gap:6px; margin-top:8px; }
+    .zoomrow button { flex:1; }
+    .foot { color:var(--text-mute); font-size:12px; margin-top:16px; line-height:1.6; }
+    .err { color:var(--danger); font-size:13px; margin:8px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand"><a href="/">R5TOOLS.IO</a> · WARZONE MAP &amp; PLAYER LOCATOR</div>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/live-roster.html">Live Roster</a>
+        <a href="/warzones.html">Warzones</a>
+        <a href="https://access-codes.r5tools.io/" class="cta">Unlock the suite</a>
+      </nav>
+    </header>
+
+    <h1>Warzone Map &amp; Player Locator</h1>
+    <p class="subtitle">
+      <span class="badge">LIVE COORDINATES</span>
+      Every player in the warzone, plotted on the map by exact position. Search any player by name to
+      pinpoint them. Hover a dot for details. Color-coded by alliance.
+    </p>
+
+    <div class="controls">
+      <div class="field"><label for="wz">Warzone #</label><input id="wz" type="number" inputmode="numeric" placeholder="2007" style="width:120px" /></div>
+      <div class="field flex-grow"><label for="q">Find a player</label><input id="q" type="search" placeholder="type a player name to locate them on the map" /></div>
+      <button class="btn" id="go">Load map</button>
+    </div>
+
+    <div id="err" class="err" style="display:none"></div>
+    <div class="meta" id="meta"></div>
+
+    <div class="maplayout">
+      <div class="map-card">
+        <canvas id="map" width="1000" height="1000"></canvas>
+      </div>
+      <div class="side">
+        <div class="card hit" id="hit">
+          <div class="name" id="hit-name"></div>
+          <div class="row"><span>Alliance</span> <b id="hit-alli"></b></div>
+          <div class="row"><span>Rank · HQ</span> <b id="hit-rank"></b></div>
+          <div class="row"><span>Coordinates</span> <b id="hit-xy"></b></div>
+          <button class="btn ghost" id="hit-copy" style="width:100%;margin-top:8px">Copy coordinates</button>
+        </div>
+        <div class="card">
+          <h3>Alliances <span style="text-transform:none;color:var(--text-mute)">(click to toggle)</span></h3>
+          <div class="legend" id="legend"></div>
+          <div class="zoomrow">
+            <button class="btn ghost" id="zoom-out">−</button>
+            <button class="btn ghost" id="zoom-reset">Reset</button>
+            <button class="btn ghost" id="zoom-in">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot" id="foot"></p>
+  </div>
+  <div id="tooltip"></div>
+
+  <script>
+  (function () {
+    'use strict';
+    var API_BASE = 'https://access-codes.r5tools.io';
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      API_BASE = location.protocol + '//' + location.hostname + ':' + (location.port || '8080');
+    }
+    // LWS map coordinate space is roughly 0..1200 on each axis.
+    var MAPMAX = 1200;
+    var PALETTE = ['#c9a961','#8ae0a3','#7fb0e6','#e08a8a','#c48ae0','#e6cf7a','#9ad0c2','#d99ac2',
+                   '#7ae0b0','#e0b07a','#b0a0e0','#e07a9a'];
+    var GRAY = 'rgba(150,160,180,0.35)';
+    var cv = document.getElementById('map'), ctx = cv.getContext('2d');
+    var state = { members:[], byTag:{}, colors:{}, off:{}, scan:null, wz:null,
+                  view:{x:0,y:0,scale:1}, hit:null };
+    function $(id){ return document.getElementById(id); }
+    function esc(s){ var d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
+    function code(){ try { if (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; } catch(e){ return ''; } }
+    function withCode(u){ var c=code(); return c ? u+(u.indexOf('?')===-1?'?':'&')+'code='+encodeURIComponent(c) : u; }
+    function relTime(iso){ if(!iso) return ''; var t=Date.parse(String(iso).indexOf('Z')>-1?iso:iso+'Z'); if(!isFinite(t)) return '';
+      var s=Math.max(0,(Date.now()-t)/1000); if(s<90)return 'just now'; if(s<3600)return Math.round(s/60)+'m ago'; if(s<86400)return Math.round(s/3600)+'h ago'; return Math.round(s/86400)+'d ago'; }
+
+    // world (0..MAPMAX) -> canvas px, honoring pan/zoom
+    function wx(x){ return (x/MAPMAX)*cv.width*state.view.scale + state.view.x; }
+    function wy(y){ return (y/MAPMAX)*cv.height*state.view.scale + state.view.y; }
+
+    function draw(){
+      ctx.clearRect(0,0,cv.width,cv.height);
+      var r = Math.max(1.5, 2.4*state.view.scale);
+      // non-highlighted, non-off members first
+      for (var i=0;i<state.members.length;i++){
+        var m=state.members[i]; if(m.x==null) continue;
+        if(state.off[(m.tag||'').toUpperCase()]) continue;
+        if(state.hit && m===state.hit) continue;
+        ctx.beginPath();
+        ctx.fillStyle = state.colors[(m.tag||'').toUpperCase()] || GRAY;
+        ctx.arc(wx(m.x), wy(m.y), r, 0, 6.2832); ctx.fill();
+      }
+      // highlighted player on top with a pulsing ring
+      if (state.hit && state.hit.x!=null){
+        var hx=wx(state.hit.x), hy=wy(state.hit.y);
+        ctx.beginPath(); ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.arc(hx,hy,10+2*Math.sin(Date.now()/250),0,6.2832); ctx.stroke();
+        ctx.beginPath(); ctx.fillStyle='#fff'; ctx.arc(hx,hy,4,0,6.2832); ctx.fill();
+      }
+    }
+    var raf=null;
+    function loop(){ draw(); raf=state.hit?requestAnimationFrame(loop):null; }
+    function redraw(){ if(!raf) draw(); }
+
+    function assignColors(){
+      // color the biggest alliances distinctly; rest gray
+      var counts={};
+      state.members.forEach(function(m){ var t=(m.tag||'').toUpperCase(); if(t) counts[t]=(counts[t]||0)+1; });
+      var top=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];}).slice(0,12);
+      state.colors={}; top.forEach(function(t,i){ state.colors[t]=PALETTE[i%PALETTE.length]; });
+      // legend
+      var lg=$('legend'); lg.innerHTML='';
+      top.forEach(function(t){
+        var li=document.createElement('div'); li.className='li'; li.dataset.tag=t;
+        li.innerHTML='<span class="dot" style="background:'+state.colors[t]+'"></span><span>'+esc(t)+'</span><span class="n">'+counts[t]+'</span>';
+        li.addEventListener('click',function(){ state.off[t]=!state.off[t]; li.classList.toggle('off'); redraw(); });
+        lg.appendChild(li);
+      });
+      if (Object.keys(counts).length>12){
+        var li=document.createElement('div'); li.className='li';
+        li.innerHTML='<span class="dot" style="background:'+GRAY+'"></span><span>everyone else</span>';
+        lg.appendChild(li);
+      }
+    }
+
+    function nearest(px,py){
+      var best=null, bd=14*14;
+      for (var i=0;i<state.members.length;i++){ var m=state.members[i]; if(m.x==null) continue;
+        if(state.off[(m.tag||'').toUpperCase()]) continue;
+        var dx=wx(m.x)-px, dy=wy(m.y)-py, d=dx*dx+dy*dy; if(d<bd){ bd=d; best=m; } }
+      return best;
+    }
+
+    function showHit(m){
+      state.hit=m;
+      if(!m){ $('hit').classList.remove('show'); if(!raf) draw(); return; }
+      $('hit-name').textContent=m.name||'(unnamed)';
+      $('hit-alli').textContent=m.tag||'—';
+      $('hit-rank').textContent=(m.rank?('R'+m.rank):'—')+' · HQ '+(m.hq||'?');
+      $('hit-xy').textContent=(m.x!=null)?(m.x+', '+m.y):'—';
+      $('hit').classList.add('show');
+      $('hit-copy').onclick=function(){ try{ navigator.clipboard.writeText(m.x+','+m.y); $('hit-copy').textContent='Copied ✓'; setTimeout(function(){$('hit-copy').textContent='Copy coordinates';},1200);}catch(e){} };
+      if(!raf) loop();
+    }
+
+    function load(){
+      $('err').style.display='none';
+      var wz=parseInt($('wz').value,10);
+      if(!wz){ $('err').textContent='Enter a warzone number.'; $('err').style.display='block'; return; }
+      state.wz=wz; $('meta').textContent='Loading warzone '+wz+' map…';
+      fetch(API_BASE+withCode('/api/warzone/'+wz+'/roster'), {credentials:'include'})
+        .then(function(r){ if(r.status===403) throw '__locked'; if(!r.ok) throw 'Server error ('+r.status+')'; return r.json(); })
+        .then(function(d){
+          state.members=(d.members||[]).filter(function(m){ return m.x!=null; });
+          state.scan=d.scanned_at; state.off={}; state.view={x:0,y:0,scale:1};
+          assignColors(); draw();
+          $('meta').innerHTML='<strong>'+state.members.length+'</strong> players plotted in warzone <strong>'+wz+'</strong>'
+            + (state.scan?' · <span style="color:#8ae0a3">● updated '+relTime(state.scan)+'</span>':'');
+          $('foot').innerHTML='Positions are exact in-game coordinates (0–'+MAPMAX+'), live from lwatlas map scans. '
+            + 'Scroll to zoom, drag to pan. Every warzone has its own map — <a href="/warzones.html">browse all warzones →</a>';
+          var q=($('q').value||'').trim();
+          if(q) locate(q);
+        })
+        .catch(function(e){
+          if(e==='__locked'){ $('err').textContent='Redeem an access code to load the map.'; $('err').style.display='block'; return; }
+          $('err').textContent=(typeof e==='string')?e:'Could not load map.'; $('err').style.display='block';
+        });
+    }
+
+    function locate(q){
+      var ql=q.toLowerCase();
+      var m=state.members.find(function(x){ return (x.name||'').toLowerCase()===ql; })
+          || state.members.find(function(x){ return (x.name||'').toLowerCase().indexOf(ql)>-1; });
+      if(!m){ $('err').textContent='No player matching "'+q+'" found in this warzone.'; $('err').style.display='block'; return; }
+      $('err').style.display='none';
+      // center + zoom on the player
+      state.view.scale=2.4;
+      state.view.x = cv.width/2 - (m.x/MAPMAX)*cv.width*state.view.scale;
+      state.view.y = cv.height/2 - (m.y/MAPMAX)*cv.height*state.view.scale;
+      showHit(m);
+    }
+
+    // ---- interactions ----
+    function toCanvas(e){ var r=cv.getBoundingClientRect(); return { x:(e.clientX-r.left)*(cv.width/r.width), y:(e.clientY-r.top)*(cv.height/r.height), cx:e.clientX, cy:e.clientY }; }
+    var tip=$('tooltip');
+    cv.addEventListener('mousemove', function(e){
+      var p=toCanvas(e); var m=nearest(p.x,p.y);
+      if(m){ tip.style.display='block'; tip.style.left=(e.clientX+14)+'px'; tip.style.top=(e.clientY+14)+'px';
+        tip.innerHTML='<div class="n">'+esc(m.name||'(unnamed)')+'</div><div class="sub">'+esc(m.tag||'')+' · '+(m.rank?'R'+m.rank:'')+' · HQ '+(m.hq||'?')+' · @'+m.x+','+m.y+'</div>'; }
+      else tip.style.display='none';
+    });
+    cv.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+    cv.addEventListener('click', function(e){ var p=toCanvas(e); var m=nearest(p.x,p.y); if(m) showHit(m); });
+    // wheel zoom
+    cv.addEventListener('wheel', function(e){ e.preventDefault();
+      var p=toCanvas(e); var f=e.deltaY<0?1.15:1/1.15; var ns=Math.max(1,Math.min(8,state.view.scale*f));
+      var k=ns/state.view.scale; state.view.x=p.x-(p.x-state.view.x)*k; state.view.y=p.y-(p.y-state.view.y)*k; state.view.scale=ns; redraw();
+    }, {passive:false});
+    // drag pan
+    var drag=null;
+    cv.addEventListener('mousedown', function(e){ drag={x:e.clientX,y:e.clientY,vx:state.view.x,vy:state.view.y}; });
+    window.addEventListener('mousemove', function(e){ if(!drag) return; var r=cv.getBoundingClientRect(); var sx=cv.width/r.width;
+      state.view.x=drag.vx+(e.clientX-drag.x)*sx; state.view.y=drag.vy+(e.clientY-drag.y)*sx; redraw(); });
+    window.addEventListener('mouseup', function(){ drag=null; });
+    $('zoom-in').onclick=function(){ state.view.scale=Math.min(8,state.view.scale*1.3); redraw(); };
+    $('zoom-out').onclick=function(){ state.view.scale=Math.max(1,state.view.scale/1.3); redraw(); };
+    $('zoom-reset').onclick=function(){ state.view={x:0,y:0,scale:1}; redraw(); };
+
+    $('go').addEventListener('click', load);
+    $('wz').addEventListener('keydown', function(e){ if(e.key==='Enter') load(); });
+    $('q').addEventListener('keydown', function(e){ if(e.key==='Enter'){ if(state.members.length) locate($('q').value.trim()); else load(); } });
+
+    // deep-link: ?warzone=2007&player=foo
+    var params=new URLSearchParams(location.search);
+    if(params.get('warzone')){ $('wz').value=params.get('warzone'); if(params.get('player')) $('q').value=params.get('player'); setTimeout(load,250); }
+  })();
+  </script>
+  <script src="https://access-codes.r5tools.io/lib.js" defer></script>
+
+<script>
+/* Hide redundant header inside the dashboard iframe; swap Unlock->Dashboard when unlocked. */
+(function(){
+  function swap(){ document.querySelectorAll('a,button').forEach(function(el){ if(/unlock the suite/i.test((el.textContent||''))){ el.textContent='\u2713 Dashboard'; if(el.tagName==='A') el.href='/dashboard.html'; el.style.background='rgba(80,200,120,0.15)'; el.style.color='#8ae0a3'; el.style.borderColor='rgba(80,200,120,0.5)'; }}); }
+  try { if (window.self !== window.top) { var h=document.querySelector('header.top, header'); if(h) h.style.display='none'; return; } } catch(e){}
+  function unlocked(){ try{ if(window.LWSAccessCodes&&typeof LWSAccessCodes.tier==='function'&&LWSAccessCodes.tier()) return true; }catch(e){} try{ if(localStorage.getItem('lws_unlock_code')) return true; }catch(e){} return false; }
+  function check(n){ if(unlocked()){ swap(); return; } if(n>0) setTimeout(function(){check(n-1);},400); }
+  if(document.readyState!=='loading') check(8); else document.addEventListener('DOMContentLoaded',function(){check(8);});
+})();
+</script>
+</body>
+</html>
