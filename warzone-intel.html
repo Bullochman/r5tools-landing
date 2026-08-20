@@ -185,5 +185,32 @@
     if (params.get('wz')) { $('wzs').value = params.get('wz'); setTimeout(load, 200); }
   })();
   </script>
+
+<script>
+/* Hide redundant header inside the dashboard iframe; swap Unlock->Dashboard when unlocked. */
+(function(){
+  function swap(){
+    document.querySelectorAll('a,button').forEach(function(el){
+      if (/unlock the suite/i.test((el.textContent||''))){
+        el.textContent = '\u2713 Dashboard';
+        if (el.tagName === 'A') el.href = '/dashboard.html';
+        el.style.background='rgba(80,200,120,0.15)'; el.style.color='#8ae0a3';
+        el.style.borderColor='rgba(80,200,120,0.5)';
+      }
+    });
+  }
+  try { if (window.self !== window.top) {
+    var h = document.querySelector('header.top, header'); if (h) h.style.display='none';
+    return;
+  }} catch(e){}
+  function unlocked(){
+    try { if (window.LWSAccessCodes && typeof LWSAccessCodes.tier==='function' && LWSAccessCodes.tier()) return true; } catch(e){}
+    try { if (localStorage.getItem('lws_unlock_code')) return true; } catch(e){}
+    return false;
+  }
+  function check(n){ if (unlocked()){ swap(); return; } if (n>0) setTimeout(function(){check(n-1);}, 400); }
+  if (document.readyState!=='loading') check(8); else document.addEventListener('DOMContentLoaded', function(){check(8);});
+})();
+</script>
 </body>
 </html>
