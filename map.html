@@ -205,6 +205,19 @@
       }
     }
 
+    function fitView(){
+      if(!state.members.length){ state.view={x:0,y:0,scale:1}; return; }
+      var minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+      state.members.forEach(function(m){ if(m.x<minx)minx=m.x; if(m.x>maxx)maxx=m.x; if(m.y<miny)miny=m.y; if(m.y>maxy)maxy=m.y; });
+      var padx=(maxx-minx)*0.05+15, pady=(maxy-miny)*0.05+15;
+      minx-=padx; maxx+=padx; miny-=pady; maxy+=pady;
+      var bw=Math.max(1,maxx-minx), bh=Math.max(1,maxy-miny);
+      var s=Math.min(MAPMAX/bw, MAPMAX/bh); s=Math.max(1,Math.min(8,s));
+      state.view.scale=s;
+      var cxw=(minx+maxx)/2, cyw=(miny+maxy)/2;
+      state.view.x=cv.width/2 - (cxw/MAPMAX)*cv.width*s;
+      state.view.y=cv.height/2 - (cyw/MAPMAX)*cv.height*s;
+    }
     function nearest(px,py){
       var best=null, bd=14*14;
       for (var i=0;i<state.members.length;i++){ var m=state.members[i]; if(m.x==null) continue;
@@ -235,7 +248,7 @@
         .then(function(d){
           state.members=(d.members||[]).filter(function(m){ return m.x!=null; });
           state.scan=d.scanned_at; state.off={}; state.view={x:0,y:0,scale:1};
-          assignColors(); draw();
+          assignColors(); fitView(); draw();
           $('meta').innerHTML='<strong>'+state.members.length+'</strong> players plotted in warzone <strong>'+wz+'</strong>'
             + (state.scan?' · <span style="color:#8ae0a3">● updated '+relTime(state.scan)+'</span>':'');
           $('foot').innerHTML='Positions are exact in-game coordinates (0–'+MAPMAX+'), live from lwatlas map scans. '
@@ -286,7 +299,7 @@
     window.addEventListener('mouseup', function(){ drag=null; });
     $('zoom-in').onclick=function(){ state.view.scale=Math.min(8,state.view.scale*1.3); redraw(); };
     $('zoom-out').onclick=function(){ state.view.scale=Math.max(1,state.view.scale/1.3); redraw(); };
-    $('zoom-reset').onclick=function(){ state.view={x:0,y:0,scale:1}; redraw(); };
+    $('zoom-reset').onclick=function(){ fitView(); redraw(); };
 
     $('go').addEventListener('click', load);
     $('wz').addEventListener('keydown', function(e){ if(e.key==='Enter') load(); });
