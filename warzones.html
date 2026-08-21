@@ -402,7 +402,7 @@
           }
           var caps = (r.captures.alliance_list || 0) + (r.captures.player_ranking || 0);
           var capsCell = caps > 0
-            ? '<span class="caps">' + caps + ' <a href="/scout-dashboard.html?warzone=' + r.number + '" title="Open in Scout Dashboard">📊</a></span>'
+            ? '<span class="caps">' + caps + ' <a href="https://roster.r5tools.io/scout-dashboard.html?warzone=' + r.number + '" title="Open in Scout Dashboard">📊</a></span>'
             : '<span class="no-data">0</span>';
           var kvkCell;
           if (r.kvk_center) {
