@@ -56,50 +56,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://r5tools.io/refer.html</loc>
-    <lastmod>2026-07-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://r5tools.io/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://r5tools.io/refer.html"/>
-  </url>
-  <url>
-    <loc>https://r5tools.io/pt/refer.html</loc>
-    <lastmod>2026-07-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://r5tools.io/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://r5tools.io/refer.html"/>
-  </url>
-  <url>
-    <loc>https://r5tools.io/es/refer.html</loc>
-    <lastmod>2026-07-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://r5tools.io/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://r5tools.io/refer.html"/>
-  </url>
-  <url>
-    <loc>https://r5tools.io/ja/refer.html</loc>
-    <lastmod>2026-07-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://r5tools.io/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://r5tools.io/ja/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://r5tools.io/pt/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="es-419" href="https://r5tools.io/es/refer.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://r5tools.io/refer.html"/>
-  </url>
-  <url>
     <loc>https://r5tools.io/waitlist.html</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
