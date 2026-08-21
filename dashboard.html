@@ -69,6 +69,12 @@
       <button class="btn" id="apply">Load</button>
       <div class="ctx" id="ctx"></div>
       <div class="spacer"></div>
+      <div class="field" id="codefield">
+        <label>Code</label>
+        <input id="code" class="alli" type="text" placeholder="RONY-FREE" autocomplete="off" spellcheck="false" style="width:120px;text-transform:uppercase" />
+        <button class="btn" id="redeem">Unlock</button>
+      </div>
+      <span class="chip roster" id="unlocked-chip" style="display:none">✓ Unlocked</span>
       <a class="btn ghost" href="https://access-codes.r5tools.io/" id="acct">Account</a>
     </div>
 
@@ -85,7 +91,11 @@
         <div style="font-size:34px">🔒</div>
         <h2>Redeem your access code</h2>
         <p>Enter your alliance's code once — every tool remembers it on this device.</p>
-        <a class="btn" href="https://access-codes.r5tools.io/">Enter access code →</a>
+        <div class="field" style="justify-content:center">
+          <input id="code2" class="alli" type="text" placeholder="RONY-FREE" autocomplete="off" spellcheck="false" style="width:180px;text-transform:uppercase;text-align:center" />
+          <button class="btn" id="redeem2">Unlock →</button>
+        </div>
+        <p id="redeem-msg" style="min-height:18px;color:var(--text-mute);font-size:12px;margin:2px 0 0"></p>
       </div>
     </div>
   </div>
@@ -122,7 +132,77 @@
         return localStorage.getItem('lws_unlock_code') || '';
       } catch (e) { return ''; }
     }
-    var state = { wz:null, alli:null, active:'roster', season:null };
+    var state = { wz:null, alli:null, active:'roster', season:null, unlocked:false };
+
+    // ---- unlock code, stored in THIS origin's localStorage ----------------
+    // Safari's tracking prevention blocks the cross-subdomain .r5tools.io
+    // cookie, so we can't rely on it. Redeeming here writes the code to
+    // r5tools.io localStorage; every tool then sends ?code= on its fetches
+    // (see withCode() in each tool) and authenticates without any cookie.
+    function hasCode() {
+      try { return !!localStorage.getItem('lws_unlock_code'); } catch (e) { return false; }
+    }
+    // Cookie-based fallback for existing Chrome users who redeemed on the
+    // access-codes origin (localStorage empty here, but the cross-subdomain
+    // cookie still works in non-Safari browsers). Upgrades state.unlocked
+    // asynchronously so we never wrongly lock them.
+    function refreshUnlockStatus(cb) {
+      if (hasCode()) { state.unlocked = true; reflectUnlock(); if (cb) cb(); return; }
+      if (window.LWSAccessCodes && LWSAccessCodes.check) {
+        LWSAccessCodes.check().then(function (ok) {
+          state.unlocked = !!ok; reflectUnlock();
+          if (ok) selectTool(state.active);
+          if (cb) cb();
+        }).catch(function () { if (cb) cb(); });
+      } else if (cb) cb();
+    }
+    function reflectUnlock() {
+      var on = hasCode() || state.unlocked;
+      var cf = $('codefield'), chip = $('unlocked-chip');
+      if (cf) cf.style.display = on ? 'none' : 'flex';
+      if (chip) chip.style.display = on ? 'inline-flex' : 'none';
+    }
+    function redeemCode(c, msgEl, done) {
+      c = (c || '').trim().toUpperCase();
+      if (!c) { if (msgEl) msgEl.textContent = 'Enter your access code.'; return; }
+      if (msgEl) { msgEl.style.color = 'var(--text-mute)'; msgEl.textContent = 'Checking…'; }
+      function finish(ok, message) {
+        if (ok) state.unlocked = true;
+        if (msgEl) { msgEl.style.color = ok ? 'var(--confirm)' : '#e08a8a'; msgEl.textContent = message; }
+        reflectUnlock();
+        if (ok) { $('locked').classList.remove('show'); selectTool(state.active); }
+        if (done) done(ok);
+      }
+      function viaLib() {
+        return window.LWSAccessCodes && LWSAccessCodes.redeem
+          ? LWSAccessCodes.redeem(c) : null;
+      }
+      var p = viaLib();
+      if (!p) {
+        // lib.js not loaded yet — hit the endpoint directly, then mirror to LS.
+        p = fetch('https://access-codes.r5tools.io/api/redeem', {
+          method:'POST', credentials:'include',
+          headers:{'Content-Type':'application/json'}, body:JSON.stringify({ code:c })
+        }).then(function (r){ return r.json(); }).then(function (d){
+          if (d && d.valid) { try { localStorage.setItem('lws_unlock_code', c); } catch(e){} }
+          return d;
+        });
+      }
+      p.then(function (d) {
+        if (d && d.valid) {
+          try { localStorage.setItem('lws_unlock_code', c); } catch(e){}
+          // Codes bound to a warzone (e.g. RONY-FREE → 2007) auto-fill it so
+          // the user lands straight on their roster.
+          if (d.warzone && !($('wz').value || '').trim()) {
+            $('wz').value = d.warzone;
+            setTimeout(apply, 60);
+          }
+          finish(true, '✓ Unlocked' + (d.tier ? ' — ' + d.tier : ''));
+        } else {
+          finish(false, (d && d.message) || 'That code isn’t valid.');
+        }
+      }).catch(function () { finish(false, 'Network error — try again.'); });
+    }
 
     // ---- season auto-derivation from warzone (no manual selection) ----
     function deriveSeason(wz, cb) {
@@ -184,10 +264,11 @@
       buildTabs();
       var tool = toolById(id);
       var needWz = $('needwz'), frame = $('tool'), locked = $('locked');
+      // Client-side gate keyed on this-origin localStorage (Safari-proof).
+      // If no code is stored here, show the inline redeem overlay rather than
+      // loading a tool that will just 403 on its roster fetch.
+      if (!state.unlocked && !hasCode()) { locked.classList.add('show'); frame.style.display='none'; needWz.classList.add('hide'); return; }
       locked.classList.remove('show');
-      // No client-side gate here — each tool/page authenticates via the
-      // .r5tools.io unlock cookie itself (the cookie isn't JS-readable, so a
-      // code() check here would wrongly lock signed-in users). Just load it.
       if (tool.needsWz && !state.wz) { needWz.classList.remove('hide'); frame.style.display='none'; return; }
       needWz.classList.add('hide');
       frame.style.display = 'block';
@@ -235,17 +316,41 @@
     $('wz').addEventListener('keydown', function (e){ if (e.key==='Enter') apply(); });
     $('alli').addEventListener('keydown', function (e){ if (e.key==='Enter') apply(); });
 
+    // Inline unlock (topbar + locked overlay)
+    $('redeem').addEventListener('click', function(){ redeemCode($('code').value, null); });
+    $('code').addEventListener('keydown', function(e){ if (e.key==='Enter') redeemCode($('code').value, null); });
+    $('redeem2').addEventListener('click', function(){ redeemCode($('code2').value, $('redeem-msg')); });
+    $('code2').addEventListener('keydown', function(e){ if (e.key==='Enter') redeemCode($('code2').value, $('redeem-msg')); });
+
     // Restore identity from URL (?warzone=&alliance=) or saved localStorage.
     (function init() {
       buildTabs();
+      state.unlocked = hasCode();
+      reflectUnlock();
       var params = new URLSearchParams(location.search);
       var wz = params.get('warzone') || (function(){ try { return localStorage.getItem('lws_my_warzone'); } catch(e){ return null; } })();
       var alli = params.get('alliance') || (function(){ try { return localStorage.getItem('lws_my_alliance'); } catch(e){ return null; } })();
       if (params.get('tab')) state.active = params.get('tab');
       if (wz) $('wz').value = wz;
       if (alli) $('alli').value = alli;
-      if (wz) { setTimeout(apply, 250); }   // let lib.js load the code first
-      else { selectTool(state.active); }
+
+      // Bookmarkable ?code= auto-redeem (e.g. r5tools.io/dashboard?code=RONY-FREE).
+      var urlCode = params.get('code');
+      function boot() {
+        // Reconcile cookie-based unlock once lib.js (deferred) has loaded,
+        // so existing Chrome users aren't shown the redeem overlay.
+        setTimeout(function () { refreshUnlockStatus(); }, 300);
+        if (wz) { setTimeout(apply, 350); }
+        else { selectTool(state.active); }
+      }
+      if (urlCode && !hasCode()) {
+        redeemCode(urlCode, null, function(){
+          // Strip ?code= from the URL bar so the code isn't left in history.
+          try { params.delete('code'); var qs = params.toString();
+            history.replaceState({}, '', location.pathname + (qs?('?'+qs):'')); } catch(e){}
+          boot();
+        });
+      } else { boot(); }
     })();
   })();
   </script>
