@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-08-21', tag: 'FIX',   label: 'Fixed iPhone/iPad sign-in: Safari was blocking the cross-site unlock cookie, so tools wouldn’t load your roster even after you entered your code. You can now redeem your access code right on the dashboard — it sticks on that device and every tool loads without a cookie. Bonus: bookmark r5tools.io/dashboard?code=YOUR-CODE to auto-unlock.' },
     { date: '2026-08-17', tag: 'FEAT',  label: 'BIG: every tool now auto-loads YOUR alliance roster — no demo, no dropdown, no re-upload. Set your alliance once and Landing Planner, Hive, Heat, Freeze, Coal, City & more all pull the same live roster. Big alliances auto-fill from LW Atlas; smaller alliances upload once and get the same thing.' },
     { date: '2026-08-17', tag: 'FIX',   label: 'Killed the Moonpetal/Silverwing demo roster that auto-loaded even when signed in — tools now show YOUR data, not sample data.' },
     { date: '2026-08-17', tag: 'FEAT',  label: 'NEW: Warzone Intel & Migration Board (/warzone-intel.html) — compare up to 4 warzones side by side on population, total/median power, 100M+ whale count, activity, churn, top alliance, and a power-distribution chart. Pick your next server before you transfer. Live from lwatlas, best-value cells highlighted' },
