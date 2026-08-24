@@ -496,7 +496,7 @@
       var descColor = isRangeInferred ? '#7a8290' : '#a8b0c0';
       row.innerHTML =
         '<span style="min-width:60px;font-family:ui-monospace,monospace;color:' + idColor + ';font-weight:700">' + id + '</span>' +
-        '<span style="flex:1;color:' + descColor + ';font-size:12.5px' + (isRangeInferred ? ';font-style:italic' : '') + '">' + pretty + (wz.season_week ? ' <span style="color:#7a8290">· Wk ' + wz.season_week + '</span>' : '') + '</span>' +
+        '<span style="flex:1;color:' + descColor + ';font-size:12.5px' + (isRangeInferred ? ';font-style:italic' : '') + '">' + pretty + ((computeSeasonWeek(wz) || wz.season_week) ? ' <span style="color:#7a8290">· Wk ' + (computeSeasonWeek(wz) || wz.season_week) + '</span>' : '') + '</span>' +
         (isRangeInferred ? '' : (wz.region && wz.region !== 'unknown' ? '<span style="font-size:10.5px;color:#7a8290;font-family:ui-monospace,monospace;text-transform:uppercase;letter-spacing:0.05em">' + wz.region + '</span>' : ''));
       row.dataset.searchable = (id + ' ' + (wz.region || '') + ' ' + (sid || 'unknown')).toLowerCase();
       row.addEventListener('click', function () { fire(id); });
@@ -663,7 +663,8 @@
           var opt = document.createElement('option');
           opt.value = wzId;
           var sid = wz.current_season_id || 'pre-season';
-          opt.label = wzId + ' — ' + sid + (wz.season_week ? ' Wk ' + wz.season_week : '') + (wz.region ? ' · ' + wz.region : '');
+          var _wk = computeSeasonWeek(wz) || wz.season_week;
+          opt.label = wzId + ' — ' + sid + (_wk ? ' Wk ' + _wk : '') + (wz.region ? ' · ' + wz.region : '');
           datalist.appendChild(opt);
         });
         document.body.appendChild(datalist);
