@@ -78,6 +78,10 @@
         transfer_group: r.transfer_group || null,
         top_alliance: r.top_alliance || null,
         confirmed_by: r.season_source || null,
+        // Season window (lwatlas, UTC) — drives the auto-advancing week number.
+        season_start: r.season_start || null,
+        season_end: r.season_end || null,
+        season_week: r.season_week || null,
       };
     });
     return out;
@@ -153,6 +157,35 @@
     }
   }
 
+  // lwatlas timestamps are UTC but ship without a 'Z' (e.g. "2026-07-27T02:00:00").
+  // Parse defensively so the in-game day boundary (02:00 UTC) is respected.
+  function _asUtcDate(s) {
+    if (!s) return null;
+    var hasTz = /[zZ]$|[+-]\d\d:?\d\d$/.test(s);
+    var d = new Date(hasTz ? s : s + 'Z');
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  // Current season week for a warzone, computed from its own season_start —
+  // so it auto-advances (week 5 → 6 → …) with no manual bump, and each
+  // warzone reflects ITS OWN progress (different S2 warzones started on
+  // different dates). Returns null before the season starts or if no date.
+  var WEEK_MS = 7 * 86400000;
+  function computeSeasonWeek(wz) {
+    if (!wz) return null;
+    var start = _asUtcDate(wz.season_start || wz.season_start_date);
+    if (!start) return null;
+    var now = Date.now();
+    if (now < start.getTime()) return null; // not started — let countdown handle
+    var week = Math.floor((now - start.getTime()) / WEEK_MS) + 1;
+    var end = _asUtcDate(wz.season_end);
+    if (end && end.getTime() > start.getTime()) {
+      var totalWeeks = Math.ceil((end.getTime() - start.getTime()) / WEEK_MS);
+      if (week > totalWeeks) week = totalWeeks; // clamp to season length
+    }
+    return week < 1 ? 1 : week;
+  }
+
   function resolveContext() {
     return loadAll().then(function (data) {
       var url = parseUrlOverride();
@@ -166,7 +199,8 @@
         || 's2-polar-storm';
       var week = url.week
         || (override && override.week)
-        || (wz && wz.season_week)
+        || computeSeasonWeek(wz)        // dynamic, auto-advancing (week 5 → 6 → …)
+        || (wz && wz.season_week)       // static fallback if no dates present
         || 1;
       var season = data.seasons.seasons[seasonId] || null;
       return {

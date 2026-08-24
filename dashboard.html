@@ -204,21 +204,32 @@
       }).catch(function () { finish(false, 'Network error — try again.'); });
     }
 
-    // ---- season auto-derivation from warzone (no manual selection) ----
+    // ---- season + week auto-derivation from warzone (no manual selection) ----
+    // Week is computed from the warzone's own season_start (lwatlas, UTC) so it
+    // auto-advances (wk5 → wk6 → …) and each warzone reflects its own progress.
+    function weekFromDates(startStr, endStr) {
+      if (!startStr) return null;
+      function utc(s){ if(!s) return null; var tz=/[zZ]$|[+-]\d\d:?\d\d$/.test(s); var d=new Date(tz?s:s+'Z'); return isNaN(d.getTime())?null:d; }
+      var start = utc(startStr); if (!start) return null;
+      var now = Date.now(); if (now < start.getTime()) return null;
+      var WK = 7*86400000;
+      var week = Math.floor((now - start.getTime())/WK) + 1;
+      var end = utc(endStr);
+      if (end && end.getTime() > start.getTime()) {
+        var total = Math.ceil((end.getTime() - start.getTime())/WK);
+        if (week > total) week = total;
+      }
+      return week < 1 ? 1 : week;
+    }
     function deriveSeason(wz, cb) {
-      // Try seasons-lib first, else the directory/intel API.
-      try {
-        if (window.LWSSeasons && typeof LWSSeasons.forWarzone === 'function') {
-          var s = LWSSeasons.forWarzone(wz);
-          if (s) { cb(s); return; }
-        }
-      } catch (e) {}
+      // Intel API is authoritative for season number AND the season window.
       fetch('https://access-codes.r5tools.io/api/warzone/' + encodeURIComponent(wz) + '/intel')
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (d) {
           if (d && d.season != null) {
             var names = {1:'Crimson Plague',2:'Polar Storm',3:'Golden Kingdom',4:'Evernight Isle',5:'Wild West',6:'Season 6',7:'Season 7'};
-            cb({ n:d.season, name:names[d.season] || ('Season ' + d.season) });
+            cb({ n:d.season, name:names[d.season] || ('Season ' + d.season),
+                 week: weekFromDates(d.season_start, d.season_end) });
           } else cb(null);
         })
         .catch(function () { cb(null); });
@@ -229,6 +240,7 @@
       var parts = [];
       if (state.wz) parts.push('<span class="chip">WZ ' + state.wz + '</span>');
       if (state.season) parts.push('<span class="chip season">S' + state.season.n + ' · ' + state.season.name + '</span>');
+      if (state.season && state.season.week) parts.push('<span class="chip season">Wk ' + state.season.week + '</span>');
       if (state.alli) parts.push('<span class="chip roster">' + escapeHtml(state.alli) + ' roster ✓</span>');
       c.innerHTML = parts.join(' ');
     }
