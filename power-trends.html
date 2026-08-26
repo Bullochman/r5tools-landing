@@ -148,8 +148,28 @@
             title: 'Combined power by alliance — Warzone ' + wz,
             labelX: 'Date', labelY: 'Total power', height: 340, series: series
           });
+          // Freshness chip: exact date+time of the newest snapshot, plus relative age
+          function fmtWhen(iso){
+            if(!iso) return null;
+            var t = new Date(iso); if (isNaN(t)) return null;
+            var ageH = (Date.now() - t.getTime()) / 3600000;
+            var rel = ageH < 1 ? Math.max(1, Math.round(ageH*60)) + 'm ago'
+                    : ageH < 48 ? Math.round(ageH) + 'h ago'
+                    : Math.round(ageH/24) + 'd ago';
+            var abs = t.toLocaleString(undefined, { month:'short', day:'numeric',
+                        hour:'numeric', minute:'2-digit' });
+            return { rel:rel, abs:abs, ageH:ageH, iso:iso };
+          }
+          var when = fmtWhen(d.updated_at);
+          var freshChip = '';
+          if (when) {
+            var col = when.ageH < 26 ? '#8ae0a3' : '#e6cf7a'; // green <26h, amber stale
+            freshChip = ' · <span style="color:' + col + '" title="Newest snapshot captured '
+              + when.iso + ' (UTC)">● updated ' + when.rel + ' — ' + when.abs + '</span>';
+          }
           $('meta').innerHTML = '<strong>' + allis.length + '</strong> alliances tracked · <strong>'
-            + (d.days ? d.days.length : 0) + '</strong> days of history · source: ' + (d.source||'');
+            + (d.days ? d.days.length : 0) + '</strong> days of history · source: ' + (d.source||'')
+            + freshChip;
           // table with window delta
           $('tbl').style.display='table';
           $('tbody').innerHTML = allis.map(function(a){
@@ -159,9 +179,11 @@
             var dtxt = pts.length<2 ? '—' : (delta>=0?'+':'') + fmt(delta);
             var srcCls = a.source==='ocr'?'src-ocr':'src-lwatlas';
             var srcTxt = a.source==='ocr'?'⬆ your upload':'⚡ auto (lwatlas)';
+            var aw = fmtWhen(a.updated_at);
+            var whenTitle = aw ? ' title="This alliance last updated ' + aw.abs + ' (' + aw.rel + ')"' : '';
             return '<tr>' +
-              '<td class="tag">' + (a.tag||a.alliance_id.slice(0,8)) + '</td>' +
-              '<td class="mono">' + fmt(latest?latest.y:null) + '</td>' +
+              '<td class="tag"' + whenTitle + '>' + (a.tag||a.alliance_id.slice(0,8)) + '</td>' +
+              '<td class="mono"' + whenTitle + '>' + fmt(latest?latest.y:null) + '</td>' +
               '<td class="mono">' + (latest&&latest.members!=null?latest.members:'—') + '</td>' +
               '<td class="mono ' + dcls + '">' + dtxt + '</td>' +
               '<td class="' + srcCls + '">' + srcTxt + '</td>' +
