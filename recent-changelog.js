@@ -13,6 +13,8 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-08-26', tag: 'DATA',  label: 'Power Trends history now backfills from LW Atlas daily records — the chart carries 60+ days of real curves (back to late June) and rebuilds itself automatically, so history can never be lost again.' },
+    { date: '2026-08-26', tag: 'FIX',   label: 'Power Trends chart: fixed tangled/backwards line segments when alliances were scanned on different days — the date axis now merges every alliance’s dates in order.' },
     { date: '2026-08-26', tag: 'UX',    label: 'Power Trends now shows exactly WHEN the data was captured — a "● updated Nh ago — Aug 26, 3:04 PM" freshness chip (green = fresh, amber = stale) next to the alliance count, plus hover any alliance row for its own last-updated time.' },
     { date: '2026-08-23', tag: 'FIX',   label: 'Season week now advances on its own. The current week (S2 is on Week 5 now) is computed from each warzone’s real season start date, so it rolls to Week 6 automatically — no more stale week numbers. Every warzone shows ITS OWN week, since S2 warzones started on different dates.' },
     { date: '2026-08-21', tag: 'FIX',   label: 'Fixed iPhone/iPad sign-in: Safari was blocking the cross-site unlock cookie, so tools wouldn’t load your roster even after you entered your code. You can now redeem your access code right on the dashboard — it sticks on that device and every tool loads without a cookie. Bonus: bookmark r5tools.io/dashboard?code=YOUR-CODE to auto-unlock.' },
