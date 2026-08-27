@@ -129,9 +129,23 @@
     if (xIsNumeric) {
       xLabels = null;
     } else {
-      // category axis — use x values from first (longest) series
+      // category axis — union of x values across ALL series (series can have
+      // different gaps, e.g. power-trends alliances scanned on different days).
+      // Start from the longest series to preserve its order, then insert any
+      // missing labels; sort when everything looks date-like so gaps land in
+      // chronological position.
       var longest = lines.reduce(function (a, b) { return b.points.length > a.points.length ? b : a; });
       xLabels = longest.points.map(function (p) { return String(p.x); });
+      var seen = {};
+      xLabels.forEach(function (v) { seen[v] = true; });
+      lines.forEach(function (s) {
+        s.points.forEach(function (p) {
+          var v = String(p.x);
+          if (!seen[v]) { seen[v] = true; xLabels.push(v); }
+        });
+      });
+      var dateLike = xLabels.every(function (v) { return /^\d{1,4}([-/.]\d{1,2}){1,2}$/.test(v); });
+      if (dateLike) xLabels.sort();
     }
 
     var yMin = Math.min.apply(null, allYs);
