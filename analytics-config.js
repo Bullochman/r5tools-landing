@@ -40,7 +40,8 @@ window.R5T_ANALYTICS = {
 
   /* GA4 ---------------------------------------------------------- */
   // Paste your GA4 Measurement ID here (G-XXXXXXXXXX). Empty = GA4 disabled.
-  ga4MeasurementId: "",
+  // Created 2026-09-03: account "r5tools", property "r5tools.io", stream "r5tools.io web".
+  ga4MeasurementId: "G-TDT0NMF01W",
 
   /* PostHog (optional, off by default) --------------------------- */
   posthogEnabled: false,

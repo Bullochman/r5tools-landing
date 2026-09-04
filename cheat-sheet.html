@@ -308,11 +308,17 @@
       };
     })();
   </script>
-<!-- r5tools:analytics v1 START -->
+<!-- BEGIN r5tools:seo:softwareapp v1 -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"R5TOOLS.IO Cheat Sheet","url":"https://r5tools.io/cheat-sheet.html","description":"Season 2 (Polar Storm) one-page R5 cheat sheet — furnace, hive, freeze, capture priorities.","applicationCategory":"GameApplication","applicationSubCategory":"Strategy game companion tool","operatingSystem":"Web","image":"https://r5tools.io/static/og-image.png","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"},"offers":{"@type":"Offer","price":"0.00","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://r5tools.io/#pricing","description":"Warzone 2007 members unlock the full suite free via code RONY-FREE."}}</script>
+<!-- END r5tools:seo:softwareapp v1 -->
+<!-- r5tools:analytics v2 START -->
 <script src="/analytics-config.js"></script>
+<script src="/cookie-consent.js"></script>
 <script>
-  // GA4 bootstrap — only wires up if a Measurement ID is configured.
+  // GA4 bootstrap — only wires up if (a) Measurement ID configured AND
+  // (b) user has not rejected cookies (window.LWS_CONSENT set by cookie-consent.js).
   (function () {
+    if (window.LWS_CONSENT === "reject") return;
     var id = (window.R5T_ANALYTICS || {}).ga4MeasurementId || "";
     if (!id) return;
     var s = document.createElement("script");
@@ -325,7 +331,7 @@
     // anonymize_ip + no ad-personalization = friendly to EU + kids traffic.
     window.gtag("config", id, { anonymize_ip: true, allow_google_signals: false });
   })();
-  // Plausible — cookieless, one line. Domain read from config.
+  // Plausible — cookieless, always safe to run regardless of consent state.
   (function () {
     var cfg = window.R5T_ANALYTICS || {};
     if (!cfg.plausibleDomain) return;
@@ -338,10 +344,7 @@
   })();
 </script>
 <script src="/analytics.js" defer></script>
-<!-- r5tools:analytics v1 END -->
-<!-- BEGIN r5tools:seo:softwareapp v1 -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"R5TOOLS.IO Cheat Sheet","url":"https://r5tools.io/cheat-sheet.html","description":"Season 2 (Polar Storm) one-page R5 cheat sheet — furnace, hive, freeze, capture priorities.","applicationCategory":"GameApplication","applicationSubCategory":"Strategy game companion tool","operatingSystem":"Web","image":"https://r5tools.io/static/og-image.png","publisher":{"@type":"Organization","name":"R5TOOLS.IO","url":"https://r5tools.io/"},"offers":{"@type":"Offer","price":"0.00","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://r5tools.io/#pricing","description":"Warzone 2007 members unlock the full suite free via code RONY-FREE."}}</script>
-<!-- END r5tools:seo:softwareapp v1 -->
+<!-- r5tools:analytics v2 END -->
 </head>
 <body>
   <a href="#content" class="skip-to-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Skip to content</a>
