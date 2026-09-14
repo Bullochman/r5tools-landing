@@ -13,6 +13,9 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-09-14', tag: 'FEAT',  label: 'NEW: Manage-your-roster page (access-codes.r5tools.io/roster-manage) — remove members that were added by mistake (e.g. a screen recording that captured extra rows), or flip on “This is my exact roster” to keep ONLY the members from your upload and ignore the live map scan. One-click restore anytime.' },
+    { date: '2026-09-14', tag: 'FIX',   label: 'Roster over-count guard: alliances cap at 100 members in-game, so if your roster ever shows more than 100 (the live map scan lags on members who recently left) you now get a clear ⚠️ warning with a one-click link to trim it — in the Landing Planner and the roster manager.' },
+    { date: '2026-09-14', tag: 'FIX',   label: 'Total Power & HQ level now populate reliably for every member — an uploaded roster’s power now flows all the way through to Landing/Hive/Freeze (field-name + ingest fixes), and HQ comes straight from the live scan.' },
     { date: '2026-08-26', tag: 'DATA',  label: 'Power Trends history now backfills from LW Atlas daily records — the chart carries 60+ days of real curves (back to late June) and rebuilds itself automatically, so history can never be lost again.' },
     { date: '2026-08-26', tag: 'FIX',   label: 'Power Trends chart: fixed tangled/backwards line segments when alliances were scanned on different days — the date axis now merges every alliance’s dates in order.' },
     { date: '2026-08-26', tag: 'UX',    label: 'Power Trends now shows exactly WHEN the data was captured — a "● updated Nh ago — Aug 26, 3:04 PM" freshness chip (green = fresh, amber = stale) next to the alliance count, plus hover any alliance row for its own last-updated time.' },

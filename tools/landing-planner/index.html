@@ -402,6 +402,32 @@
         document.getElementById('metric-members').textContent = rows.length;
         var b = document.getElementById('empty-roster-banner');
         if (b) b.style.display = (rows && rows.length) ? 'none' : '';
+        showOverCapBanner(rows ? rows.length : 0);
+      }
+
+      // Last War alliances hard-cap at 100 members. >100 means the live map
+      // scan is still counting members who recently LEFT — nudge to prune.
+      function showOverCapBanner(count) {
+        var id = 'over-cap-banner';
+        var el = document.getElementById(id);
+        if (count <= 100) { if (el) el.style.display = 'none'; return; }
+        var wz = '', tag = '';
+        try { wz = localStorage.getItem('lws_my_warzone') || ''; } catch (e) {}
+        try { tag = localStorage.getItem('lws_my_alliance') || ''; } catch (e) {}
+        var qs = (wz && tag) ? ('?warzone=' + encodeURIComponent(wz) + '&alliance=' + encodeURIComponent(tag)) : '';
+        var href = 'https://access-codes.r5tools.io/roster-manage' + qs;
+        if (!el) {
+          el = document.createElement('div');
+          el.id = id;
+          el.style.cssText = 'margin:0 0 14px 0;padding:12px 14px;background:rgba(224,104,95,0.10);border:1px solid rgba(224,104,95,0.42);border-radius:8px;color:var(--text);font-size:13px;line-height:1.5';
+          var host = document.getElementById('empty-roster-banner');
+          if (host && host.parentNode) host.parentNode.insertBefore(el, host);
+        }
+        el.style.display = '';
+        el.innerHTML =
+          '<b style="color:#e0685f">⚠️ ' + count + ' members</b> — alliances cap at <b>100</b> in-game, so this list has <b>' +
+          (count - 100) + ' too many</b>. That’s almost always members who recently <b>left</b> (the live map scan lags). ' +
+          '<a href="' + href + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;white-space:nowrap">Manage roster →</a>';
       }
 
       // Receive the auto-loaded canonical roster (LW Atlas + upload) from the
