@@ -152,6 +152,7 @@
       ['Active (7d)', function(d){ return d.active_7d_percent; }, pct, true],
       ['Churn rate', function(d){ return d.churn_rate; }, pct, false],
       ['Top alliance', function(d){ var a=(d.top_alliances||[])[0]; return a?a.tag:null; }, function(v){return v||'—';}, null],
+      ['Top alliance size', function(d){ var a=(d.top_alliances||[])[0]; return a?a.member_count:null; }, function(v){return v==null?'—':v+'/100';}, null],
       ['Top alliance power', function(d){ var a=(d.top_alliances||[])[0]; return a?a.total_power:null; }, fmt, true],
     ];
 
@@ -239,6 +240,7 @@
   }} catch(e){}
   function unlocked(){
     try { if (window.LWSAccessCodes && typeof LWSAccessCodes.tier==='function' && LWSAccessCodes.tier()) return true; } catch(e){}
+    try { if (new URLSearchParams(location.search).get('code')) return true; } catch(e){}
     try { if (localStorage.getItem('lws_unlock_code')) return true; } catch(e){}
     return false;
   }
