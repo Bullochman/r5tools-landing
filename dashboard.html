@@ -132,6 +132,25 @@
         <p id="redeem-msg" style="min-height:18px;color:var(--text-mute);font-size:12px;margin:2px 0 0"></p>
       </div>
     </div>
+
+    <!-- Members-only: a personal note from Evan. Shown only to unlocked users. -->
+    <section id="devnote" style="display:none;margin-top:22px;background:linear-gradient(180deg,rgba(201,169,97,.09),rgba(201,169,97,.03));border:1px solid rgba(201,169,97,.34);border-radius:14px;padding:22px 22px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+        <span style="font-size:22px">👋</span>
+        <h2 style="margin:0;font-size:19px;color:var(--accent)">Hey — I'm Evan, the guy who builds these.</h2>
+        <span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#0c1a10;background:var(--accent);border-radius:5px;padding:3px 8px;font-weight:700">Members only</span>
+      </div>
+      <div style="color:var(--text-dim);font-size:14.5px;line-height:1.65;max-width:74ch;display:flex;flex-direction:column;gap:12px">
+        <p style="margin:0">I'm <strong style="color:var(--text)">Evan Jones</strong> — an active R5 in Warzone 2007, same as a lot of you, and the person who designs and builds every tool on r5tools.io. Not a company, not a team. Just me, a real player who got tired of the Google-Sheet-and-Discord-PDF grind and decided to build something better.</p>
+        <p style="margin:0">Here's the part I actually want you to know: I build all of this with <strong style="color:var(--text)">Claude Code</strong> — AI as my engineering partner. It means one person can ship tools this fast, and it means that for the first time, there's almost nothing in technology I can't figure out and build. Software, automation, data, websites, AI — if you can describe it, I can probably make it real.</p>
+        <p style="margin:0">So this is a genuine open door: <strong style="color:var(--text)">you paid for these tools, which makes you more than a user to me.</strong> If you ever want to just talk — about the game, the tools, or something completely unrelated in your own life that you've always wished you could do with technology and never knew how — reach out. Maybe it's automating something tedious at work, building a little app for your family, fixing a tech headache, or an idea you've sat on for years. Bring it. I love this stuff, and I'd honestly enjoy helping.</p>
+        <p style="margin:0">No catch, no upsell. Just one player and builder to another.</p>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <a class="btn" href="mailto:evan@r5tools.io?subject=Hey%20Evan%20%E2%80%94%20from%20an%20r5tools%20member&body=Hey%20Evan%2C%0A%0A" style="text-decoration:none">✉️ Email me — evan@r5tools.io</a>
+        <span style="color:var(--text-mute);font-size:12.5px">Or hit the 💡 feedback button on any page. I read every one.</span>
+      </div>
+    </section>
   </div>
 
   <script src="/seasons-lib.js"></script>
@@ -156,6 +175,7 @@
       { id:'map',       em:'🗺️', label:'Map',       src:'/map.html', native:true, needsWz:true },
       { id:'power',     em:'📈', label:'Power Trends', src:'/power-trends.html', native:true, needsWz:true },
       { id:'intel',     em:'⚔️', label:'Warzone Intel', src:'/warzone-intel.html', native:true, needsWz:true },
+      { id:'transfer',  em:'🧭', label:'Transfer Planner', src:'/warzone-transfer.html', native:true, needsWz:false },
       { id:'directory', em:'🗺️', label:'Warzones',  src:'/warzones.html', native:true, needsWz:false },
     ];
 
@@ -195,6 +215,7 @@
       var cf = $('codefield'), chip = $('unlocked-chip');
       if (cf) cf.style.display = on ? 'none' : 'flex';
       if (chip) chip.style.display = on ? 'inline-flex' : 'none';
+      var dev = $('devnote'); if (dev) dev.style.display = on ? 'block' : 'none';
     }
     function redeemCode(c, msgEl, done) {
       c = (c || '').trim().toUpperCase();
