@@ -186,7 +186,7 @@
                   view:{x:0,y:0,scale:1}, hit:null };
     function $(id){ return document.getElementById(id); }
     function esc(s){ var d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
-    function code(){ try { if (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; } catch(e){ return ''; } }
+    function code(){ try { var u=new URLSearchParams(location.search).get('code'); if(u)return u; if (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; } catch(e){ return ''; } }
     function withCode(u){ var c=code(); return c ? u+(u.indexOf('?')===-1?'?':'&')+'code='+encodeURIComponent(c) : u; }
     function relTime(iso){ if(!iso) return ''; var t=Date.parse(String(iso).indexOf('Z')>-1?iso:iso+'Z'); if(!isFinite(t)) return '';
       var s=Math.max(0,(Date.now()-t)/1000); if(s<90)return 'just now'; if(s<3600)return Math.round(s/60)+'m ago'; if(s<86400)return Math.round(s/3600)+'h ago'; return Math.round(s/86400)+'d ago'; }
@@ -195,16 +195,19 @@
     function wx(x){ return (x/MAPMAX)*cv.width*state.view.scale + state.view.x; }
     function wy(y){ return (y/MAPMAX)*cv.height*state.view.scale + state.view.y; }
 
+    // Group by alliance_id, not raw tag — two different alliances can share a
+    // tag (e.g. two "RONY" alliances), and grouping by tag wrongly merges them.
+    function aid(m){ return m.alliance_id || ('tag:'+(m.tag||'').toUpperCase()); }
     function draw(){
       ctx.clearRect(0,0,cv.width,cv.height);
       var r = Math.max(1.5, 2.4*state.view.scale);
       // non-highlighted, non-off members first
       for (var i=0;i<state.members.length;i++){
         var m=state.members[i]; if(m.x==null) continue;
-        if(state.off[(m.tag||'').toUpperCase()]) continue;
+        if(state.off[aid(m)]) continue;
         if(state.hit && m===state.hit) continue;
         ctx.beginPath();
-        ctx.fillStyle = state.colors[(m.tag||'').toUpperCase()] || GRAY;
+        ctx.fillStyle = state.colors[aid(m)] || GRAY;
         ctx.arc(wx(m.x), wy(m.y), r, 0, 6.2832); ctx.fill();
       }
       // highlighted player on top with a pulsing ring
@@ -219,17 +222,22 @@
     function redraw(){ if(!raf) draw(); }
 
     function assignColors(){
-      // color the biggest alliances distinctly; rest gray
-      var counts={};
-      state.members.forEach(function(m){ var t=(m.tag||'').toUpperCase(); if(t) counts[t]=(counts[t]||0)+1; });
+      // color the biggest ALLIANCES (by alliance_id) distinctly; rest gray
+      var counts={}, tagOf={};
+      state.members.forEach(function(m){
+        var id=aid(m); counts[id]=(counts[id]||0)+1;
+        if(!tagOf[id]) tagOf[id]=(m.tag||'?').toUpperCase();
+      });
       var top=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];}).slice(0,12);
-      state.colors={}; top.forEach(function(t,i){ state.colors[t]=PALETTE[i%PALETTE.length]; });
-      // legend
+      state.colors={}; top.forEach(function(id,i){ state.colors[id]=PALETTE[i%PALETTE.length]; });
+      // disambiguate shared tags: dominant keeps the tag, others get "·2", "·3"
+      var seen={}, label={};
+      top.forEach(function(id){ var t=tagOf[id]; seen[t]=(seen[t]||0)+1; label[id]= seen[t]>1 ? (t+' ·'+seen[t]) : t; });
       var lg=$('legend'); lg.innerHTML='';
-      top.forEach(function(t){
-        var li=document.createElement('div'); li.className='li'; li.dataset.tag=t;
-        li.innerHTML='<span class="dot" style="background:'+state.colors[t]+'"></span><span>'+esc(t)+'</span><span class="n">'+counts[t]+'</span>';
-        li.addEventListener('click',function(){ state.off[t]=!state.off[t]; li.classList.toggle('off'); redraw(); });
+      top.forEach(function(id){
+        var li=document.createElement('div'); li.className='li'; li.dataset.aid=id;
+        li.innerHTML='<span class="dot" style="background:'+state.colors[id]+'"></span><span>'+esc(label[id])+'</span><span class="n">'+counts[id]+'</span>';
+        li.addEventListener('click',function(){ state.off[id]=!state.off[id]; li.classList.toggle('off'); redraw(); });
         lg.appendChild(li);
       });
       if (Object.keys(counts).length>12){
@@ -255,7 +263,7 @@
     function nearest(px,py){
       var best=null, bd=14*14;
       for (var i=0;i<state.members.length;i++){ var m=state.members[i]; if(m.x==null) continue;
-        if(state.off[(m.tag||'').toUpperCase()]) continue;
+        if(state.off[aid(m)]) continue;
         var dx=wx(m.x)-px, dy=wy(m.y)-py, d=dx*dx+dy*dy; if(d<bd){ bd=d; best=m; } }
       return best;
     }
