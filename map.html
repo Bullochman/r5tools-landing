@@ -225,6 +225,7 @@
       // color the biggest ALLIANCES (by alliance_id) distinctly; rest gray
       var counts={}, tagOf={};
       state.members.forEach(function(m){
+        if(!(m.tag||'').trim()) return; // skip unaffiliated players (no alliance)
         var id=aid(m); counts[id]=(counts[id]||0)+1;
         if(!tagOf[id]) tagOf[id]=(m.tag||'?').toUpperCase();
       });
