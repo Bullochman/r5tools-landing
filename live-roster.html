@@ -234,7 +234,9 @@
       return ' · <span title="LW Atlas last scanned this warzone at ' + esc(abs) + '" style="color:' + col + '">● updated ' + rel + '</span>';
     }
     function code() {
-      try { return (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) ||
+      try {
+        var u = new URLSearchParams(location.search).get('code'); if (u) return u;
+        return (window.LWSAccessCodes && LWSAccessCodes.code && LWSAccessCodes.code()) ||
         localStorage.getItem('lws_unlock_code') || ''; } catch (e) { return ''; }
     }
     function withCode(url) {
