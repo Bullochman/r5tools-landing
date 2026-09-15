@@ -223,13 +223,15 @@
 
     function assignColors(){
       // color the biggest ALLIANCES (by alliance_id) distinctly; rest gray
-      var counts={}, tagOf={};
+      var counts={}, tagOf={}, off=(state.official||{});
       state.members.forEach(function(m){
         if(!(m.tag||'').trim()) return; // skip unaffiliated players (no alliance)
         var id=aid(m); counts[id]=(counts[id]||0)+1;
         if(!tagOf[id]) tagOf[id]=(m.tag||'?').toUpperCase();
       });
-      var top=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];}).slice(0,12);
+      // display count = lwatlas authoritative (≤100 cap) where we have it, else plotted
+      function shown(id){ return off[id]!=null ? off[id] : counts[id]; }
+      var top=Object.keys(counts).sort(function(a,b){return shown(b)-shown(a);}).slice(0,12);
       state.colors={}; top.forEach(function(id,i){ state.colors[id]=PALETTE[i%PALETTE.length]; });
       // disambiguate shared tags: dominant keeps the tag, others get "·2", "·3"
       var seen={}, label={};
@@ -237,7 +239,7 @@
       var lg=$('legend'); lg.innerHTML='';
       top.forEach(function(id){
         var li=document.createElement('div'); li.className='li'; li.dataset.aid=id;
-        li.innerHTML='<span class="dot" style="background:'+state.colors[id]+'"></span><span>'+esc(label[id])+'</span><span class="n">'+counts[id]+'</span>';
+        li.innerHTML='<span class="dot" style="background:'+state.colors[id]+'"></span><span>'+esc(label[id])+'</span><span class="n">'+shown(id)+'</span>';
         li.addEventListener('click',function(){ state.off[id]=!state.off[id]; li.classList.toggle('off'); redraw(); });
         lg.appendChild(li);
       });
@@ -290,6 +292,9 @@
         .then(function(r){ if(r.status===403) throw '__locked'; if(!r.ok) throw 'Server error ('+r.status+')'; return r.json(); })
         .then(function(d){
           state.members=(d.members||[]).filter(function(m){ return m.x!=null; });
+          // lwatlas's authoritative member counts (respect the 100 cap) per alliance_id
+          state.official={};
+          (d.alliances||[]).forEach(function(a){ if(a.member_count_official!=null) state.official[a.alliance_id]=a.member_count_official; });
           state.scan=d.scanned_at; state.off={}; state.view={x:0,y:0,scale:1};
           assignColors(); fitView(); draw();
           $('meta').innerHTML='<strong>'+state.members.length+'</strong> players plotted in warzone <strong>'+wz+'</strong>'
