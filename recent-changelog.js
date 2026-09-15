@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-09-14', tag: 'FEAT',  label: 'REBUILT: Hive Grid Manager is now map-first — drop a gold anchor anywhere on the real warzone map and your whole alliance auto-lays-out around it in a tight Marshall’s Guard formation (spiral / guard-ring / block-grid), leaders in the center. Drag the anchor to move everyone, set base spacing, then copy the exact teleport coordinates straight into alliance chat (or export CSV / post to Discord). The dashed box is the 21×21 stronghold footprint.' },
     { date: '2026-09-14', tag: 'FEAT',  label: 'NEW: Manage-your-roster page (access-codes.r5tools.io/roster-manage) — remove members that were added by mistake (e.g. a screen recording that captured extra rows), or flip on “This is my exact roster” to keep ONLY the members from your upload and ignore the live map scan. One-click restore anytime.' },
     { date: '2026-09-14', tag: 'FIX',   label: 'Roster over-count guard: alliances cap at 100 members in-game, so if your roster ever shows more than 100 (the live map scan lags on members who recently left) you now get a clear ⚠️ warning with a one-click link to trim it — in the Landing Planner and the roster manager.' },
     { date: '2026-09-14', tag: 'FIX',   label: 'Total Power & HQ level now populate reliably for every member — an uploaded roster’s power now flows all the way through to Landing/Hive/Freeze (field-name + ingest fixes), and HQ comes straight from the live scan.' },
