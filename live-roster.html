@@ -276,9 +276,12 @@
         '<span class="tag">All alliances</span><span class="n">' + state.members.length + '</span></div>';
       list.innerHTML = head + state.alliances.map(function (a) {
         var t = (a.tag||'').toUpperCase();
+        // lwatlas authoritative member count (respects the 100 cap) where we
+        // have it — the raw scan count over-counts departed members.
+        var count = (a.member_count_official != null) ? a.member_count_official : a.member_count;
         return '<div class="alli-row' + (state.activeTag===t?' active':'') + '" data-tag="' + esc(t) + '">' +
           '<span class="tag">' + esc(a.tag||'(no tag)') + (a.king?' <span class="crown">👑</span>':'') + '</span>' +
-          '<span class="n">' + a.member_count + '</span></div>';
+          '<span class="n">' + count + '</span></div>';
       }).join('');
       Array.prototype.forEach.call(list.querySelectorAll('.alli-row'), function (el) {
         el.addEventListener('click', function () {
