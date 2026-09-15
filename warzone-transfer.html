@@ -120,7 +120,7 @@
         <input id="add" type="text" placeholder="e.g. 2245, 2060, 2100, 1981" style="width:100%"></div>
       <button class="btn ghost" id="addBtn">Add</button>
     </div>
-    <div class="hint">Your in-game <b>Settings → Account → Server Transfer</b> (during a Surge) or the transfer speaker icon shows your <em>exact</em> eligible list — that's the source of truth. Add them here and hit Compare. Not in a Surge window yet? Add any warzones you're curious about; the data still loads.</div>
+    <div class="hint">During a Transfer Surge, the event's <b>Details tab</b> lists your exact <b>“Transfer Warzone Group (N)”</b> — that's the source of truth. Type those numbers here and hit Compare. Not in a Surge window yet? Add any warzones you're curious about; the data still loads.</div>
     <div class="chips" id="chips"></div>
     <div class="quick" id="quick"></div>
     <div id="reported" class="hide" style="margin-top:14px;padding:12px 14px;background:var(--panel2);border:1px solid var(--border2);border-radius:10px;font-size:13px">
@@ -140,7 +140,7 @@
     <div class="card" style="margin-bottom:10px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
       <div><label for="power">Your current power (optional)</label>
         <input id="power" type="text" placeholder="e.g. 150M or 1.2B" style="width:150px"></div>
-      <div class="hint" style="margin:0;flex:1;min-width:200px">Enter it and the <b>“You’d rank”</b> column fills in — see exactly where you'd stand on each server (whale, strong, or minnow). Great for finding a server where you'd be one of the top players.</div>
+      <div class="hint" style="margin:0;flex:1;min-width:200px">Enter it and the <b>“You’d rank”</b> column fills in — your percentile, approx rank, and <b>how many times the average (median) player's power you are</b> on each server. Newer / lower-level servers are where you'd be the big fish: look for the highest <b>“× avg”</b> and the best <b>Top&nbsp;%</b>.</div>
     </div>
     <div class="tablecard">
       <div class="scroll"><table id="tbl">
@@ -181,8 +181,8 @@
   </div></details>
   <details class="acc"><summary>Which servers am I allowed to pick?</summary><div class="body">
     <ul>
-      <li>Transfers stay within your <strong>Transfer Warzone Group</strong> — roughly <strong>64 adjacent servers</strong> of similar age. You can't jump from server 45 to 1230; it keeps old, over-powered accounts out of brand-new servers.</li>
-      <li>The game shows your <strong>exact eligible list</strong> during the Prep phase — that list is the only real authority. Paste it into the planner above.</li>
+      <li>Transfers stay within your <strong>Transfer Warzone Group</strong> — a band of <strong>adjacent servers of similar age</strong> (contiguous by server number; the group is typically ~32 servers, e.g. #1989–#2020). You can't jump from server 45 to 1230; it keeps old, over-powered accounts out of brand-new servers.</li>
+      <li>In-game, open the Transfer Surge event → <strong>Details tab</strong>. The top shows <em>“Transfer Warzone Group (N)”</em> with every server number you can reach. <strong>That list is the only real authority</strong> — type those numbers into the planner above and it pulls each server's live stats.</li>
       <li>Each destination is rated <strong>Fully Open / Semi-Open / Limited Open</strong> based on how strong it already is, which sets how many transfer <em>seats</em> it has.</li>
     </ul>
   </div></details>
@@ -202,6 +202,7 @@
       <li><strong>Cost:</strong> 50 Transfer Vouchers per move (~$10, or max 3/week from the Alliance Shop — so start stockpiling early). Some servers also set a minimum HQ/power to enter.</li>
       <li><strong>On transfer day you must:</strong> leave your current alliance, not be warzone president, be on your home warzone (not in Duel/VS), and have all squads stationed at base.</li>
       <li><strong>You keep everything:</strong> buildings, heroes, troops, techs, resources, gear, Drone/Overlord, squads — it all moves with you. Only warzone-specific leaderboards/arena reset and reposition.</li>
+      <li><strong>Event progress carries over too:</strong> Honorable Campaign attempts, Armed Truck rewards, Bullseye Loot, Bounty Hunter, Glittering Market, Total Mobilization, and Weekly Deal purchases all transfer and continue in the new warzone (per the in-game Transfer Guide). You're not throwing away a season's grind.</li>
       <li>Account must be past the early-game gate (roughly HQ/Furnace 10+, a few days old) to be transfer-eligible at all.</li>
     </ul>
   </div></details>
@@ -209,7 +210,13 @@
     <p>Roughly <strong>once every ~4 months</strong> — Transfer Surge is tied to the season cycle and opens at a season's end / the celebration period after it. Exact dates vary by server cohort and are announced in-game. Between Surges there is no way to change servers, so the move is to <strong>plan ahead</strong>: stockpile your 50 vouchers early (the Alliance Shop only sells 3/week) and scout destinations during the 7-day Prep phase.</p>
   </div></details>
   <details class="acc"><summary>How do I find the exact servers I'm allowed to move to?</summary><div class="body">
-    <p>In-game, during a Surge: <strong>Settings → Account → Server Transfer</strong>, or the transfer <strong>speaker icon</strong> (bottom-left). The Prep phase lists your eligible destinations along with each one's president, open alliance slots, and its Fully / Semi / Limited-Open rating. <strong>That list is the only real authority</strong> — copy those numbers into the planner at the top of this page and it'll pull the live activity, whale, and nationality stats for each so you can compare them properly.</p>
+    <p>Open the <strong>Transfer Surge</strong> event (it appears in your events list during the window). Inside it there are a few tabs:</p>
+    <ul>
+      <li><strong>Details</strong> — your <em>“Transfer Warzone Group (N)”</em>: the full list of server numbers you can move to. This is the list to type into the planner above.</li>
+      <li><strong>Talent Pool → Warzone Recruitment</strong> — browse those servers with a recruiting message, the destination's language, and its open seats (the 4 seat icons). <strong>Talent Pool → Alliance Recruitment</strong> — specific alliances looking for transfers, each showing their tag, star rating, member slots (e.g. 98/100), language flag, and even their Marshall's Guard event windows. You apply directly to one.</li>
+      <li><strong>Your #server Settings</strong> — the incoming side: how many transfer seats <em>your</em> server is opening, by tier.</li>
+    </ul>
+    <p>Copy the Warzone Group numbers into the planner at the top of this page and it pulls the live activity, whale, nationality, and "you'd rank" stats for each — so you pick on data, then go apply to a recruiting English server that fits.</p>
   </div></details>
   <details class="acc"><summary>Can my whole alliance move together?</summary><div class="body">
     <p>Not as a single group action — <strong>everyone applies individually</strong>, spends their own 50 vouchers, and needs both an open seat (for their score tier) and the destination president's approval. Alliances <em>do</em> pull off coordinated moves, but it takes planning:</p>
@@ -297,7 +304,11 @@
   function standCell(w){
     var s=standing(w); if(!s)return '<span style="color:var(--mute)">—</span>';
     var tp = s.topPct<1 ? s.topPct.toFixed(1) : Math.round(s.topPct);
-    return '<span style="color:'+s.col+';font-weight:700">Top '+tp+'%</span><div style="color:var(--mute);font-size:11px">'+s.lbl+' · ~#'+commas(s.rank)+'</div>';
+    // how many times the typical (median) player's power you are — the plain
+    // "am I stronger than the average player here?" answer.
+    var mult='';
+    if(w.median_power && S.power){ var x=S.power/w.median_power; mult=' · '+(x>=10?Math.round(x):x.toFixed(1))+'× avg'; }
+    return '<span style="color:'+s.col+';font-weight:700">Top '+tp+'%</span><div style="color:var(--mute);font-size:11px">'+s.lbl+' · ~#'+commas(s.rank)+mult+'</div>';
   }
   function $(id){return document.getElementById(id);}
   function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
@@ -418,16 +429,17 @@
     $('legend').innerHTML=l;
   }
 
-  // quick-add helpers based on the home warzone (the ~64-adjacent group is a rough guide)
+  // quick-add: transfer groups are a contiguous band of adjacent servers
+  // (~32, e.g. 1989-2020). Offer the ±16 band as a fast guess — the in-game
+  // Details tab has the exact list.
   function renderQuick(){
     var q=$('quick'); q.innerHTML=''; if(!S.home)return;
     var h=S.home;
-    var opts=[['± your neighbors',[h-32,h-16,h-8,h+8,h+16,h+32]]];
-    opts.forEach(function(o){
-      var b=document.createElement('button'); b.textContent='+ nearby servers ('+(h-32)+'–'+(h+32)+')';
-      b.onclick=function(){ addWarzones(o[1].filter(function(x){return x>0;}).join(',')); };
-      q.appendChild(b);
-    });
+    var band=[]; for(var i=h-16;i<=h+16;i++){ if(i>0&&i!==h) band.push(i); }
+    var b=document.createElement('button'); b.textContent='+ likely group ('+(h-16)+'–'+(h+16)+')';
+    b.title='A rough ±16 guess at your Transfer Warzone Group. Your in-game Details tab has the exact list.';
+    b.onclick=function(){ addWarzones(band.join(',')); };
+    q.appendChild(b);
     var b2=document.createElement('button'); b2.textContent='+ your warzone';
     b2.onclick=function(){ addWarzones(String(h)); }; q.appendChild(b2);
   }
