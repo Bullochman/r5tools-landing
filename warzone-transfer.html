@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Warzone Transfer Planner — r5tools</title>
+<meta name="description" content="Plan your Last War: Survival server transfer. Compare the warzones you're eligible to move to on activity, whales, competition, and — crucially — timezone/country, plus a full guide to how Transfer Surge actually works." />
+<link rel="canonical" href="https://r5tools.io/warzone-transfer.html" />
+<style>
+  :root{
+    --bg:#080b14; --bg2:#0a0e1a; --panel:#0d1424; --panel2:#111a2e;
+    --border:#1e2740; --border2:#2a3654;
+    --text:#e7ecf5; --dim:#aab4c8; --mute:#68748e;
+    --gold:#c9a961; --gold2:#e6cf7a; --ok:#8ae0a3; --warn:#e0a15f; --bad:#e0685f; --blue:#7fb0e6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:
+      radial-gradient(1200px 600px at 15% -10%,rgba(201,169,97,.06),transparent 60%),
+      radial-gradient(900px 500px at 100% 0%,rgba(127,176,230,.05),transparent 55%),
+      var(--bg);
+    color:var(--text);font-family:var(--sans);line-height:1.55;padding:clamp(14px,3.5vw,36px);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;}
+  a{color:var(--gold)}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 10px;}
+  h1{font-size:clamp(26px,4.5vw,40px);line-height:1.06;margin:0 0 12px;font-weight:800;letter-spacing:-.02em;text-wrap:balance;}
+  h1 .g{color:var(--gold2)}
+  .lede{color:var(--dim);font-size:clamp(15px,2vw,17px);max-width:70ch;margin:0 0 22px;}
+  h2{font-size:19px;margin:34px 0 12px;letter-spacing:-.01em;}
+  h2 .step{font-family:var(--mono);color:var(--gold);font-size:14px;margin-right:8px;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:clamp(14px,2.4vw,20px);}
+  .timing{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(180deg,rgba(224,161,95,.09),rgba(224,161,95,.03));
+    border:1px solid rgba(224,161,95,.35);border-radius:12px;padding:14px 16px;margin:0 0 24px;font-size:14px;color:#f0d9b8;}
+  .timing b{color:#ffe6c0}
+  label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;display:block;margin-bottom:5px;}
+  input[type=text],input[type=number]{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:15px;font-family:var(--mono);}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--gold);color:#1a1205;border-radius:8px;padding:10px 16px;font-size:14px;font-weight:700;font-family:var(--sans);}
+  .btn.ghost{background:var(--panel2);color:var(--text);font-weight:600}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--border2);border-radius:20px;padding:5px 6px 5px 12px;font-family:var(--mono);font-size:13px;}
+  .chip button{background:none;border:none;color:var(--mute);cursor:pointer;font-size:15px;line-height:1;padding:0 4px}
+  .chip button:hover{color:var(--bad)}
+  .chip.you{border-color:var(--gold);color:var(--gold2)}
+  .hint{color:var(--mute);font-size:12.5px;margin-top:8px;line-height:1.5}
+  .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .quick button{background:var(--panel2);border:1px solid var(--border);border-radius:7px;color:var(--dim);font-size:12px;padding:6px 10px;cursor:pointer}
+  .quick button:hover{border-color:var(--gold);color:var(--gold2)}
+  .tablecard{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:6px}
+  .scroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;min-width:940px;font-size:13.5px}
+  thead th{text-align:left;padding:12px 12px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;border-bottom:1px solid var(--border2);white-space:nowrap;background:var(--bg2);cursor:pointer;user-select:none}
+  thead th.n{text-align:right}
+  thead th:hover{color:var(--gold2)}
+  thead th.sorted{color:var(--gold2)}
+  tbody td{padding:12px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:rgba(127,176,230,.03)}
+  .n{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--dim);white-space:nowrap;text-align:right}
+  .n.strong{color:var(--text);font-weight:600}
+  .wzc{white-space:nowrap;font-family:var(--mono)}
+  .wzc .num{font-weight:700;color:var(--text);font-size:15px}
+  .season{font-size:10px;color:var(--mute);border:1px solid var(--border2);border-radius:5px;padding:1px 5px;margin-left:5px}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border:1px solid;border-radius:20px;padding:2px 9px;white-space:nowrap}
+  .bar{height:4px;border-radius:3px;background:rgba(255,255,255,.06);margin-top:5px;overflow:hidden;min-width:56px}
+  .bar span{display:block;height:100%;border-radius:3px}
+  .pct{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
+  .tz{font-size:12px}
+  .tz .flag{font-weight:700;display:block;margin-bottom:2px}
+  .tz small{display:block;color:var(--dim);font-size:11.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .tz.us .flag{color:var(--ok)} .tz.eu .flag{color:var(--gold2)} .tz.asia .flag{color:var(--blue)} .tz.mixed .flag{color:var(--dim)}
+  .ally{font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+  tr.you td{background:linear-gradient(90deg,rgba(201,169,97,.13),rgba(201,169,97,.03))}
+  tr.you td:first-child{box-shadow:inset 3px 0 0 var(--gold2)}
+  .tag{display:inline-block;margin-left:7px;font-size:9px;font-weight:700;letter-spacing:.09em;color:#080b14;background:var(--gold2);border-radius:4px;padding:2px 6px}
+  .fit{display:inline-block;margin-left:7px;font-size:9.5px;font-weight:700;letter-spacing:.04em;color:#0c1a10;background:var(--ok);border-radius:4px;padding:2px 6px}
+  tr.fit-row td:first-child{box-shadow:inset 3px 0 0 var(--ok)}
+  .msg{margin:14px 2px;font-size:14px;min-height:18px}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .guide{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .guide h3{margin:0 0 8px;font-size:15px;color:var(--gold2)}
+  .guide p{margin:0;color:var(--dim);font-size:13.5px}
+  details.acc{background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  details.acc>summary{cursor:pointer;padding:14px 16px;font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  details.acc>summary::-webkit-details-marker{display:none}
+  details.acc>summary::after{content:'+';color:var(--gold);font-size:20px;font-weight:400}
+  details.acc[open]>summary::after{content:'\2212'}
+  details.acc .body{padding:0 16px 16px;color:var(--dim);font-size:14px}
+  details.acc .body ul{margin:8px 0;padding-left:20px} details.acc .body li{margin:5px 0}
+  details.acc .body strong{color:var(--text)}
+  .seatgrid{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  .seatgrid th,.seatgrid td{border:1px solid var(--border2);padding:6px 10px;text-align:center}
+  .seatgrid th{background:var(--bg2);color:var(--mute);font-size:11px;text-transform:uppercase}
+  .seatgrid td:first-child{text-align:left;color:var(--text)}
+  footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
+  footer a{color:var(--gold)}
+  .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5;font-size:14px}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Last War: Survival · Migration Research</p>
+  <h1>Warzone Transfer <span class="g">Planner</span></h1>
+  <p class="lede">Thinking about leaving your server? Paste the warzones your in-game <b>Transfer</b> screen offers you, and see them side-by-side on the things that actually decide whether you'll enjoy it — who's still active, how strong the competition is, and (the one everyone forgets) <b>what timezone and language the server actually runs on</b>.</p>
+
+  <div class="timing">
+    <span style="font-size:20px;line-height:1">⏳</span>
+    <div><b>Transfers only open during "Transfer Surge"</b> — a ~14-day event at the end of each season. You can't move mid-season, and once you transfer you're locked in until the next Surge (~4 months). So the time to plan is <b>now</b>, before your window opens. Full mechanics are below the table.</div>
+  </div>
+
+  <h2><span class="step">1</span>Which warzones can you transfer to?</h2>
+  <div class="card">
+    <div class="row">
+      <div><label for="home">Your current warzone</label><input id="home" type="number" inputmode="numeric" placeholder="2007" style="width:120px"></div>
+      <div style="flex:1;min-width:240px"><label for="add">Add the warzones your in-game Transfer list shows (comma-separated)</label>
+        <input id="add" type="text" placeholder="e.g. 2245, 2060, 2100, 1981" style="width:100%"></div>
+      <button class="btn ghost" id="addBtn">Add</button>
+    </div>
+    <div class="hint">Your in-game <b>Settings → Account → Server Transfer</b> (during a Surge) or the transfer speaker icon shows your <em>exact</em> eligible list — that's the source of truth. Add them here and hit Compare. Not in a Surge window yet? Add any warzones you're curious about; the data still loads.</div>
+    <div class="chips" id="chips"></div>
+    <div class="quick" id="quick"></div>
+    <div id="reported" class="hide" style="margin-top:14px;padding:12px 14px;background:var(--panel2);border:1px solid var(--border2);border-radius:10px;font-size:13px">
+      <div id="reportedHead" style="color:var(--dim);margin-bottom:8px"></div>
+      <div id="reportedChips" style="display:flex;flex-wrap:wrap;gap:7px"></div>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn" id="compareBtn" disabled>Compare selected →</button>
+      <button class="btn ghost" id="saveBtn" disabled title="Contribute your in-game eligible list so other players moving off this warzone can see it">📝 Save my in-game list</button>
+      <span class="msg" id="msg" style="margin:0;align-self:center"></span>
+    </div>
+    <div class="hint">💡 <b>Help the map grow:</b> once you've added the exact servers your game shows, hit <b>Save my in-game list</b> — it teaches r5tools which warzones can transfer where, so the next R5 on your server sees their options instantly. Nobody else has this data; we build it together.</div>
+  </div>
+
+  <div id="results" class="hide">
+    <h2><span class="step">2</span>Compare — sorted by who's still playing</h2>
+    <div class="card" style="margin-bottom:10px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <div><label for="power">Your current power (optional)</label>
+        <input id="power" type="text" placeholder="e.g. 150M or 1.2B" style="width:150px"></div>
+      <div class="hint" style="margin:0;flex:1;min-width:200px">Enter it and the <b>“You’d rank”</b> column fills in — see exactly where you'd stand on each server (whale, strong, or minnow). Great for finding a server where you'd be one of the top players.</div>
+    </div>
+    <div class="tablecard">
+      <div class="scroll"><table id="tbl">
+        <thead><tr>
+          <th data-k="warzone">Warzone</th>
+          <th data-k="total_players" class="n">Registered</th>
+          <th data-k="active_7d" class="n">Active 7d</th>
+          <th data-k="active_7d_percent" class="n sorted">Active %</th>
+          <th data-k="_stand" class="n">You'd rank</th>
+          <th data-k="whales_100m" class="n">100M+</th>
+          <th data-k="median_power" class="n">Median</th>
+          <th data-k="contest" class="n">Top war</th>
+          <th data-k="_us">Nationality &amp; timezone</th>
+          <th data-k="alliance_count" class="n">Alliances</th>
+          <th data-k="season_end">Season ends</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+    </div>
+    <div class="hint" id="legend" style="margin:12px 2px 0"></div>
+  </div>
+
+  <h2><span class="step">3</span>How to actually choose</h2>
+  <div class="grid2">
+    <div class="guide"><h3>🕑 Match your hours first</h3><p>The #1 mistake: transferring to a "busy" server that's busy because it's on the other side of the planet. If you play US evenings, a 50%-Indonesia or 40%-Germany server means every rally, war, and alliance event fires while you're asleep. Green "Americas" rows in the table share your clock.</p></div>
+    <div class="guide"><h3>⚔️ Competition, not just population</h3><p>A high player count with a runaway #1 alliance ("Top war" one-sided) is a solved server — you'll get rolled or ignored. Look for a <b>dead-heat</b> top war plus a deep whale bench: that's a server where a strong new alliance can still fight for the map.</p></div>
+    <div class="guide"><h3>🌱 Established vs. fresh</h3><p>A <b>fresh / pre-season</b> server (80%+ active, few whales) lets your transferred power make you a top dog on day one — great if you want to lead. An <b>established</b> server keeps you mid-pack but in a built-out economy. Fresh = lead; established = blend in.</p></div>
+    <div class="guide"><h3>🤔 Maybe don't move at all</h3><p>If your gripe is your <em>alliance</em> — a clique, immature leadership, a power-tripping officer — and your server is otherwise a good timezone/language fit, <b>switching alliances is free and instant.</b> Transferring servers costs 50 vouchers, a locked-in season, and possibly your timezone advantage. Fix the alliance before you flee the server.</p></div>
+  </div>
+
+  <h2><span class="step">4</span>How server transfers actually work</h2>
+  <details class="acc"><summary>When can I transfer? (Transfer Surge timing)</summary><div class="body">
+    <ul>
+      <li>Transfers only happen during <strong>Transfer Surge</strong>, a <strong>~14-day event</strong>: 7 days Prep (view your score + eligible servers) → 4 days Application (submit) → 1 day Transfer (execute) → 2 days Display.</li>
+      <li>It opens <strong>around the end of a season</strong> (roughly the celebration period / week 8 of the following season) and only comes around <strong>every ~4 months</strong>.</li>
+      <li>You <strong>cannot move mid-season</strong>, and once you transfer you're <strong>locked into the new warzone until the next Surge</strong>.</li>
+    </ul>
+  </div></details>
+  <details class="acc"><summary>Which servers am I allowed to pick?</summary><div class="body">
+    <ul>
+      <li>Transfers stay within your <strong>Transfer Warzone Group</strong> — roughly <strong>64 adjacent servers</strong> of similar age. You can't jump from server 45 to 1230; it keeps old, over-powered accounts out of brand-new servers.</li>
+      <li>The game shows your <strong>exact eligible list</strong> during the Prep phase — that list is the only real authority. Paste it into the planner above.</li>
+      <li>Each destination is rated <strong>Fully Open / Semi-Open / Limited Open</strong> based on how strong it already is, which sets how many transfer <em>seats</em> it has.</li>
+    </ul>
+  </div></details>
+  <details class="acc"><summary>Transfer Score &amp; seats — will I even get in?</summary><div class="body">
+    <p>Your <strong>Individual Score</strong> is your all-time peak power (buildings, top-15 heroes, top-3 squads, techs, Drone, Overlord — locked at prep start). It sorts you into a status tier, and each destination has limited seats per tier:</p>
+    <table class="seatgrid">
+      <tr><th>Your tier</th><th>Fully-Open server</th><th>Semi-Open</th><th>Limited-Open</th></tr>
+      <tr><td>Follower (white)</td><td>80</td><td>60</td><td>40</td></tr>
+      <tr><td>Pioneer (blue)</td><td>60</td><td>40</td><td>30</td></tr>
+      <tr><td>Contributor (purple)</td><td>8</td><td>5</td><td>3</td></tr>
+      <tr><td>Elite (gold)</td><td>2</td><td>1</td><td>0</td></tr>
+    </table>
+    <p>Strong accounts (Elite/gold) have the <em>fewest</em> seats into strong servers — so a top player often can only land on a weaker or fresher server. The destination's <strong>president approves or rejects</strong> your application (vouchers are refunded on rejection).</p>
+  </div></details>
+  <details class="acc"><summary>Requirements, cost &amp; what you keep</summary><div class="body">
+    <ul>
+      <li><strong>Cost:</strong> 50 Transfer Vouchers per move (~$10, or max 3/week from the Alliance Shop — so start stockpiling early). Some servers also set a minimum HQ/power to enter.</li>
+      <li><strong>On transfer day you must:</strong> leave your current alliance, not be warzone president, be on your home warzone (not in Duel/VS), and have all squads stationed at base.</li>
+      <li><strong>You keep everything:</strong> buildings, heroes, troops, techs, resources, gear, Drone/Overlord, squads — it all moves with you. Only warzone-specific leaderboards/arena reset and reposition.</li>
+      <li>Account must be past the early-game gate (roughly HQ/Furnace 10+, a few days old) to be transfer-eligible at all.</li>
+    </ul>
+  </div></details>
+  <details class="acc"><summary>How often does the transfer window open?</summary><div class="body">
+    <p>Roughly <strong>once every ~4 months</strong> — Transfer Surge is tied to the season cycle and opens at a season's end / the celebration period after it. Exact dates vary by server cohort and are announced in-game. Between Surges there is no way to change servers, so the move is to <strong>plan ahead</strong>: stockpile your 50 vouchers early (the Alliance Shop only sells 3/week) and scout destinations during the 7-day Prep phase.</p>
+  </div></details>
+  <details class="acc"><summary>How do I find the exact servers I'm allowed to move to?</summary><div class="body">
+    <p>In-game, during a Surge: <strong>Settings → Account → Server Transfer</strong>, or the transfer <strong>speaker icon</strong> (bottom-left). The Prep phase lists your eligible destinations along with each one's president, open alliance slots, and its Fully / Semi / Limited-Open rating. <strong>That list is the only real authority</strong> — copy those numbers into the planner at the top of this page and it'll pull the live activity, whale, and nationality stats for each so you can compare them properly.</p>
+  </div></details>
+  <details class="acc"><summary>Can my whole alliance move together?</summary><div class="body">
+    <p>Not as a single group action — <strong>everyone applies individually</strong>, spends their own 50 vouchers, and needs both an open seat (for their score tier) and the destination president's approval. Alliances <em>do</em> pull off coordinated moves, but it takes planning:</p>
+    <ul>
+      <li>Agree on <strong>one destination</strong> early — don't split the group.</li>
+      <li>Confirm it has enough open seats for your members' tiers (a strong roster needs purple/gold seats, which are scarce).</li>
+      <li>Have your R5 talk to that server's president <em>before</em> the Application phase so your applications get approved, not rejected.</li>
+      <li>Rejected applications refund your vouchers — but you've burned the window.</li>
+    </ul>
+  </div></details>
+  <details class="acc"><summary>Does a server's season / age matter?</summary><div class="body">
+    <p>Yes — a lot. The season badge tells you where a server is in its lifecycle:</p>
+    <ul>
+      <li><strong>Pre-season / fresh:</strong> everyone's building from scratch — few whales, very high activity, a wide-open map. Since your power moves with you, you arrive as one of the strongest accounts.</li>
+      <li><strong>Established (S3+):</strong> built-out economies and entrenched alliances, but often a thinner <em>active</em> population as players drift off. You slot into an existing pecking order.</li>
+    </ul>
+    <p>Your account keeps all its power either way — so the same you is a big fish on a fresh server and mid-pack on an old one.</p>
+  </div></details>
+  <details class="acc"><summary>Fresh server or established — which should I pick?</summary><div class="body">
+    <ul>
+      <li><strong>Fresh</strong> (pre-season, 80%+ active, few whales): you land strong, can grab leadership, and help shape a brand-new server. Best if you want to <em>build</em> something. Downside: it's a chaotic early land-grab.</li>
+      <li><strong>Established</strong> (mature season, deep whale bench): a real economy and known meta, but the top may be locked up and you could start mid-pack. Best if you want <em>structure</em>. Check the <strong>Top war</strong> column — a "dead heat" means there's still a real fight for the map.</li>
+    </ul>
+  </div></details>
+  <details class="acc"><summary>What does each column in the table mean?</summary><div class="body">
+    <ul>
+      <li><strong>Registered</strong> — every account ever on the server. <strong>Active 7d</strong> / <strong>Active %</strong> — how many actually logged in this week. Active % is the true pulse; ignore Registered on its own.</li>
+      <li><strong>100M+</strong> — whale count (players over 100 million power). Deep bench = serious competition.</li>
+      <li><strong>Median</strong> — the typical player's power. Tells you how you'd stack up.</li>
+      <li><strong>Top war</strong> — how close the #2 alliance is to #1. <em>Dead heat</em> = a real war for the map; <em>one-sided</em> = one alliance already owns the server.</li>
+      <li><strong>Nationality &amp; timezone</strong> — the dominant countries and whether the server runs on your clock. <span style="color:var(--ok)">Americas</span> = your hours + English-friendly; <span style="color:var(--gold2)">Europe/MEA</span> = several hours ahead; <span style="color:var(--blue)">Asia/Pacific</span> = roughly flipped from US time. This decides whether events and rallies happen while you're awake — and whether you can actually talk to your alliance.</li>
+      <li><strong>Season ends</strong> — when the current season closes, which is roughly the next transfer window for that server.</li>
+    </ul>
+  </div></details>
+  <details class="acc"><summary>Is it even worth transferring?</summary><div class="body">
+    <p><strong>Worth it when:</strong> your server is genuinely dead (low active %), the whole environment — not just one alliance — is a bad fit, or you want a fresh competitive start where your power makes you a leader.</p>
+    <p><strong>Not worth it when:</strong> your only real problem is one clique or a power-tripping officer on a server that's otherwise a good timezone/language fit. Switching alliances is free and instant; transferring costs 50 vouchers, locks you in for a season, and can trade away your timezone advantage. Fix the alliance before you flee the server.</p>
+    <p>Bottom line: weigh <strong>active %</strong>, <strong>timezone/language match</strong>, and <strong>competition</strong> together — a "busy" server on the wrong side of the planet is worse than a quieter one on your clock.</p>
+  </div></details>
+
+  <footer>
+    <div>Data: live lwatlas map scans via r5tools.io · activity = share of players seen in the last 7 days. Transfer mechanics compiled from community guides (<a href="https://www.lastwartutorial.com/transfer-surge-server-transfers/" target="_blank" rel="noopener">Last War Tutorial</a>, <a href="https://lw-spy.com/blog/last-war-server-migration-guide/" target="_blank" rel="noopener">LW Spy</a>) — First Fun's in-game Transfer screen is always the final word on your eligibility and seats.</div>
+    <div style="margin-top:10px">r5tools.io is a fan-made tool, not affiliated with First Fun or Last War: Survival · <a href="/warzones.html">Browse all warzones →</a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var API='https://access-codes.r5tools.io';
+  var S={ home:null, sel:[], data:[], power:null, sortK:'active_7d_percent', sortDir:-1 };
+  function parseP(s){ if(s==null)return null; if(typeof s==='number')return s; s=String(s).trim().replace(/,/g,''); if(!s)return null; var mu={K:1e3,M:1e6,B:1e9,T:1e12},c=s.slice(-1).toUpperCase(); if(mu[c])return parseFloat(s)*mu[c]; var v=parseFloat(s); return isNaN(v)?null:v; }
+  function fmtP(n){ if(n>=1e9)return (n/1e9).toFixed(2)+'B'; if(n>=1e6)return (n/1e6).toFixed(1)+'M'; if(n>=1e3)return (n/1e3).toFixed(0)+'K'; return String(Math.round(n)); }
+  function standing(w){
+    if(!S.power)return null;
+    var P=S.power;
+    var pts=[[0,0],[25,w.p25],[50,w.p50],[75,w.p75],[90,w.p90],[95,w.p95]].filter(function(x){return x[1]!=null;});
+    if(pts.length<2)return null;
+    var pct;
+    var top=pts[pts.length-1];
+    if(P>=top[1]){ pct = top[0] + Math.min(4.9, (P-top[1])/Math.max(1,top[1])*5); }
+    else { pct=0; for(var i=1;i<pts.length;i++){ if(P<=pts[i][1]){ var lo=pts[i-1],hi=pts[i]; pct=lo[0]+(P-lo[1])/Math.max(1,(hi[1]-lo[1]))*(hi[0]-lo[0]); break; } } }
+    var topPct=Math.max(0.1,Math.min(100,100-pct));
+    var rank=Math.max(1,Math.round((w.total_players||0)*topPct/100));
+    var lbl,col;
+    if(topPct<=1){lbl='🐋 Whale';col='var(--ok)';}
+    else if(topPct<=5){lbl='Strong';col='var(--ok)';}
+    else if(topPct<=25){lbl='Above avg';col='var(--gold2)';}
+    else if(topPct<=55){lbl='Middle';col='var(--warn)';}
+    else{lbl='Minnow';col='var(--bad)';}
+    return {topPct:topPct, rank:rank, lbl:lbl, col:col};
+  }
+  function standCell(w){
+    var s=standing(w); if(!s)return '<span style="color:var(--mute)">—</span>';
+    var tp = s.topPct<1 ? s.topPct.toFixed(1) : Math.round(s.topPct);
+    return '<span style="color:'+s.col+';font-weight:700">Top '+tp+'%</span><div style="color:var(--mute);font-size:11px">'+s.lbl+' · ~#'+commas(s.rank)+'</div>';
+  }
+  function $(id){return document.getElementById(id);}
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+  function qp(k){try{return new URLSearchParams(location.search).get(k)||'';}catch(e){return '';}}
+  function code(){ try{ var u=qp('code'); if(u)return u; if(window.LWSAccessCodes&&LWSAccessCodes.code&&LWSAccessCodes.code())return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; }catch(e){return '';} }
+  function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
+  function commas(n){return (n==null)?'—':Number(n).toLocaleString();}
+
+  // country code -> {region bucket, label} for the timezone column
+  var AMER={US:1,CA:1,MX:1,BR:1,AR:1,CO:1,CL:1,PE:1,VE:1,EC:1,DO:1,GT:1};
+  var EUR ={GB:1,DE:1,FR:1,IT:1,ES:1,PL:1,NL:1,PT:1,SE:1,RO:1,BE:1,CZ:1,GR:1,UA:1,RU:1,TR:1,EG:1,SA:1,AE:1,IL:1,NG:1,ZA:1,MA:1,DZ:1};
+  var ASIA={ID:1,IN:1,PH:1,TH:1,VN:1,KR:1,JP:1,CN:1,MY:1,SG:1,TW:1,PK:1,BD:1,HK:1,KH:1,MM:1,LK:1,NP:1,AU:1,NZ:1};
+  function region(cc){ cc=(cc||'').toUpperCase(); if(AMER[cc])return['us','Americas — your hours']; if(EUR[cc])return['eu','Europe/MEA — hrs ahead']; if(ASIA[cc])return['asia','Asia/Pac — clock flipped']; return['mixed','Mixed']; }
+  function flag(cc){ cc=(cc||'').toUpperCase(); if(cc.length!==2)return cc||'?'; try{return String.fromCodePoint(...[...cc].map(c=>0x1F1E6+c.charCodeAt(0)-65));}catch(e){return cc;} }
+
+  function renderChips(){
+    var box=$('chips'); box.innerHTML='';
+    S.sel.forEach(function(wz){
+      var c=document.createElement('span'); c.className='chip'+(wz===S.home?' you':'');
+      c.innerHTML='#'+wz+(wz===S.home?' <span style="font-size:9px;letter-spacing:.08em">YOU</span>':'')+' <button title="remove">×</button>';
+      c.querySelector('button').onclick=function(){ S.sel=S.sel.filter(function(x){return x!==wz;}); renderChips(); };
+      box.appendChild(c);
+    });
+    $('compareBtn').disabled = S.sel.length<1;
+    if(document.getElementById('saveBtn')) $('saveBtn').disabled = !(S.home && S.sel.length>=2);
+  }
+  function addWarzones(str){
+    (str||'').split(/[,\s]+/).forEach(function(t){ t=t.trim().replace(/[^0-9]/g,''); if(t){ var n=+t; if(S.sel.indexOf(n)<0) S.sel.push(n); } });
+    S.sel.sort(function(a,b){return a-b;});
+    renderChips();
+  }
+
+  function compare(){
+    if(!S.sel.length)return;
+    $('msg').textContent='Loading '+S.sel.length+' warzones… (first load can take a few seconds)';
+    $('compareBtn').disabled=true;
+    fetch(withCode(API+'/api/warzones/compare?warzones='+S.sel.join(',')),{credentials:'include'})
+      .then(function(r){ if(r.status===403) throw '__locked'; return r.json(); })
+      .then(function(d){
+        $('compareBtn').disabled=false; $('msg').textContent='';
+        S.data=(d.warzones||[]).filter(function(w){return !w.no_data;});
+        var missing=(d.warzones||[]).filter(function(w){return w.no_data;}).map(function(w){return w.warzone;});
+        $('results').classList.remove('hide');
+        sortAndRender();
+        renderLegend(missing);
+        $('results').scrollIntoView({behavior:'smooth',block:'start'});
+      })
+      .catch(function(e){
+        $('compareBtn').disabled=false;
+        if(e==='__locked'){ $('msg').innerHTML='<span class="locked" style="display:inline-block">Redeem your access code to load warzone data — <a href="/unlock">unlock here</a>.</span>'; return; }
+        $('msg').textContent='Could not load — try again in a moment.';
+      });
+  }
+
+  function statusPill(p){
+    if(p==null)return '';
+    var c,l; if(p>=55){c='var(--ok)';l='Thriving';}else if(p>=32){c='var(--gold2)';l='Competitive';}else if(p>=25){c='var(--warn)';l='Fading';}else{c='var(--bad)';l='Ghost town';}
+    return '<span class="pill" style="color:'+c+';border-color:'+c+'55;background:'+c+'14">'+l+'</span>';
+  }
+  function actColor(p){ if(p>=55)return 'var(--ok)'; if(p>=32)return 'var(--gold2)'; if(p>=25)return 'var(--warn)'; return 'var(--bad)'; }
+  function warLabel(c){ if(c>=0.9)return['Dead heat','var(--bad)']; if(c>=0.75)return['Contested','var(--gold2)']; if(c>0)return['One-sided','var(--mute)']; return['—','var(--mute)']; }
+
+  function sortAndRender(){
+    var k=S.sortK, dir=S.sortDir;
+    S.data.sort(function(a,b){
+      var va,vb;
+      if(k==='_us'){ va=usPct(a); vb=usPct(b); }
+      else if(k==='_stand'){ var sa=standing(a),sb=standing(b); va=sa?100-sa.topPct:-1; vb=sb?100-sb.topPct:-1; }
+      else if(k==='warzone'){ va=a.warzone; vb=b.warzone; }
+      else if(k==='season_end'){ va=a.season_end||''; vb=b.season_end||''; return (va<vb?-1:va>vb?1:0)*dir; }
+      else { va=a[k]||0; vb=b[k]||0; }
+      return (va-vb)*dir;
+    });
+    var tb=$('tbody'); tb.innerHTML='';
+    S.data.forEach(function(w){
+      var reg=region(w.top_country), r=reg[0], rl=reg[1];
+      var isyou=w.warzone===S.home;
+      var wl=warLabel(w.contest);
+      var seasonBadge = (w.season==null||w.season===0)?'Pre-season':('S'+w.season);
+      var us=usPct(w);
+      // "Strong fit for a US/English player": Americas-dominant AND still active.
+      var fit = (r==='us' && (w.active_7d_percent||0)>=50);
+      var fitTag = fit ? '<span class="fit">★ US &amp; active</span>' : '';
+      var tr=document.createElement('tr'); if(isyou)tr.className='you'; if(fit)tr.classList.add('fit-row');
+      tr.innerHTML=
+        '<td class="wzc"><span class="num">#'+w.warzone+'</span><span class="season">'+seasonBadge+'</span>'+(isyou?'<span class="tag">YOU</span>':'')+fitTag+'</td>'+
+        '<td class="n">'+commas(w.total_players)+'</td>'+
+        '<td class="n strong">'+commas(w.active_7d)+'</td>'+
+        '<td class="n"><span class="pct" style="color:'+actColor(w.active_7d_percent)+'">'+(w.active_7d_percent==null?'—':w.active_7d_percent+'%')+'</span>'+
+          '<div class="bar"><span style="width:'+Math.min(100,w.active_7d_percent||0)+'%;background:'+actColor(w.active_7d_percent)+'"></span></div>'+
+          '<div style="margin-top:3px">'+statusPill(w.active_7d_percent)+'</div></td>'+
+        '<td class="n">'+standCell(w)+'</td>'+
+        '<td class="n">'+commas(w.whales_100m)+'</td>'+
+        '<td class="n">'+(w.median_power?(w.median_power/1e6).toFixed(2)+'M':'—')+'</td>'+
+        '<td class="n"><span style="color:'+wl[1]+';font-weight:600">'+wl[0]+'</span><div style="color:var(--mute);font-size:11px">'+esc(w.top_alliance||'')+'</div></td>'+
+        '<td><span class="tz '+r+'"><span class="flag">'+rl+'</span><small>'+natBreakdown(w)+'</small></span></td>'+
+        '<td class="n">'+commas(w.alliance_count)+'</td>'+
+        '<td class="n" style="font-size:12px">'+(w.season_end?String(w.season_end).slice(0,10):'—')+'</td>';
+      tb.appendChild(tr);
+    });
+    document.querySelectorAll('#tbl thead th').forEach(function(th){ th.classList.toggle('sorted',th.dataset.k===k); });
+  }
+  function usPct(w){ if(w.us_percent!=null)return w.us_percent; if(w.top_country==='US')return w.top_country_pct; return null; }
+  function natBreakdown(w){
+    var cs=w.top_countries||[]; if(!cs.length && w.top_country) cs=[{code:w.top_country,percent:w.top_country_pct}];
+    var parts=cs.slice(0,3).map(function(c){ return flag(c.code)+' '+esc(c.code||'?')+' '+(c.percent==null?'?':c.percent+'%'); });
+    var s=parts.join(' · ');
+    var us=usPct(w);
+    if(us!=null && !cs.some(function(c){return c.code==='US';})) s+=' · 🇺🇸 US '+us+'%';
+    return s;
+  }
+  function renderLegend(missing){
+    var l='<b>Active %</b> = share of players seen in the last 7 days · <b>Top war</b> = how close #2 alliance is to #1 (dead heat = real fight) · <b>Timezone</b>: '+
+      '<span style="color:var(--ok)">Americas</span> shares your clock, '+
+      '<span style="color:var(--gold2)">Europe/MEA</span> runs hours ahead, '+
+      '<span style="color:var(--blue)">Asia/Pacific</span> is roughly flipped from US time. Click any column header to sort.';
+    if(missing&&missing.length) l+='<br><span style="color:var(--warn)">No lwatlas data yet for: '+missing.join(', ')+' (brand-new or unscanned).</span>';
+    $('legend').innerHTML=l;
+  }
+
+  // quick-add helpers based on the home warzone (the ~64-adjacent group is a rough guide)
+  function renderQuick(){
+    var q=$('quick'); q.innerHTML=''; if(!S.home)return;
+    var h=S.home;
+    var opts=[['± your neighbors',[h-32,h-16,h-8,h+8,h+16,h+32]]];
+    opts.forEach(function(o){
+      var b=document.createElement('button'); b.textContent='+ nearby servers ('+(h-32)+'–'+(h+32)+')';
+      b.onclick=function(){ addWarzones(o[1].filter(function(x){return x>0;}).join(',')); };
+      q.appendChild(b);
+    });
+    var b2=document.createElement('button'); b2.textContent='+ your warzone';
+    b2.onclick=function(){ addWarzones(String(h)); }; q.appendChild(b2);
+  }
+
+  function refreshSave(){ $('saveBtn').disabled = !(S.home && S.sel.length>=2); }
+
+  function fetchEligible(wz){
+    if(!wz)return;
+    fetch(withCode(API+'/api/transfer/eligible?warzone='+wz),{credentials:'include'})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(d){
+        if(!d||!d.targets||!d.targets.length){ $('reported').classList.add('hide'); return; }
+        $('reported').classList.remove('hide');
+        $('reportedHead').innerHTML='🧭 <b>'+d.reporter_count+'</b> player'+(d.reporter_count===1?'':'s')+' reported these transfer destinations from <b>#'+wz+'</b> — tap to add:';
+        var box=$('reportedChips'); box.innerHTML='';
+        d.targets.forEach(function(t){
+          var b=document.createElement('button');
+          b.style.cssText='background:var(--panel);border:1px solid var(--border2);border-radius:20px;color:var(--dim);font-size:12.5px;padding:5px 11px;cursor:pointer;font-family:var(--mono)';
+          b.innerHTML='+ #'+t.warzone+' <span style="color:var(--mute);font-size:10.5px">'+t.reports+'×</span>';
+          b.onclick=function(){ addWarzones(String(t.warzone)); };
+          box.appendChild(b);
+        });
+        var all=document.createElement('button');
+        all.style.cssText='background:rgba(201,169,97,.15);border:1px solid var(--gold);border-radius:20px;color:var(--gold2);font-size:12.5px;padding:5px 12px;cursor:pointer;font-weight:600';
+        all.textContent='+ add all '+d.targets.length;
+        all.onclick=function(){ addWarzones(d.targets.map(function(t){return t.warzone;}).join(',')); };
+        box.appendChild(all);
+      })
+      .catch(function(){});
+  }
+  function saveList(){
+    if(!S.home||S.sel.length<2)return;
+    var targets=S.sel.filter(function(x){return x!==S.home;});
+    $('msg').textContent='Saving your in-game list…';
+    fetch(withCode(API+'/api/transfer/report'),{method:'POST',credentials:'include',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({warzone:S.home,eligible:targets})})
+      .then(function(r){ if(r.status===403)throw '__locked'; return r.json(); })
+      .then(function(d){ $('msg').innerHTML='<span style="color:var(--ok)">✓ Saved '+(d.stored||targets.length)+' destinations — thanks for growing the map!</span>'; fetchEligible(S.home); })
+      .catch(function(e){ $('msg').textContent=(e==='__locked')?'Redeem your access code to contribute.':'Save failed — try again.'; });
+  }
+
+  $('home').addEventListener('input',function(){ var v=parseInt(this.value,10); S.home=isNaN(v)?null:v; if(S.home&&S.sel.indexOf(S.home)<0){S.sel.unshift(S.home);S.sel.sort(function(a,b){return a-b;});} renderChips(); renderQuick(); refreshSave(); if(S.home)fetchEligible(S.home); try{localStorage.setItem('lws_my_warzone',String(S.home));}catch(e){} });
+  $('saveBtn').onclick=saveList;
+  $('power').addEventListener('input',function(){ S.power=parseP(this.value); if(S.data.length)sortAndRender(); });
+  $('addBtn').onclick=function(){ addWarzones($('add').value); $('add').value=''; };
+  $('add').addEventListener('keydown',function(e){ if(e.key==='Enter'){ addWarzones(this.value); this.value=''; } });
+  $('compareBtn').onclick=compare;
+  document.querySelectorAll('#tbl thead th').forEach(function(th){ th.onclick=function(){ var k=th.dataset.k; if(S.sortK===k)S.sortDir*=-1; else {S.sortK=k;S.sortDir=(k==='warzone'||k==='season_end')?1:-1;} sortAndRender(); }; });
+
+  // prefill from suite selection
+  (function(){
+    var wz=qp('warzone')||''; try{wz=wz||localStorage.getItem('lws_my_warzone')||'';}catch(e){}
+    if(wz){ $('home').value=wz; S.home=+wz; S.sel=[+wz]; }
+    renderChips(); renderQuick();
+    var add=qp('add'); if(add){ addWarzones(add); }
+  })();
+})();
+</script>
+<script src="https://access-codes.r5tools.io/lib.js" defer></script>
+<script>
+/* Hide redundant chrome inside the dashboard iframe. */
+(function(){ try{ if(window.self!==window.top){ var h=document.querySelector('.eyebrow'); } }catch(e){} })();
+</script>
+</body>
+</html>
