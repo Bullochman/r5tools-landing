@@ -295,6 +295,10 @@
   var CANON_ORIGIN = 'https://access-codes.r5tools.io';
   function _myCode() {
     try {
+      var u = new URLSearchParams(window.location.search).get('code');
+      if (u) return u;
+    } catch (e) {}
+    try {
       if (window.LWSAccessCodes && typeof LWSAccessCodes.code === 'function') {
         var c = LWSAccessCodes.code(); if (c) return c;
       }
@@ -341,13 +345,34 @@
         var name = me.alliance + ' · WZ ' + me.warzone;
         if (typeof window.__lwsRosterLoaded === 'function') window.__lwsRosterLoaded(rows, name);
         window.dispatchEvent(new CustomEvent('lws:roster-loaded', { detail: { rows: rows, name: name, source: 'canonical' } }));
+        var _manageUrl = CANON_ORIGIN + '/roster-manage?warzone=' + encodeURIComponent(me.warzone)
+          + '&alliance=' + encodeURIComponent(me.alliance);
         try {
+          var oldB = document.getElementById('lws-roster-banner'); if (oldB) oldB.remove();
           var banner = document.createElement('div');
+          banner.id = 'lws-roster-banner';
           banner.style.cssText = 'padding:10px 14px;margin:8px 0;background:rgba(138,224,163,0.10);border:1px solid rgba(138,224,163,0.35);border-radius:6px;color:#8ae0a3;font-size:13px';
           banner.innerHTML = '\uD83D\uDEF0\uFE0F Auto-loaded <strong>' + name + '</strong> \u2014 ' + rows.length + ' members'
             + (d.has_upload ? ' (LW Atlas + your upload)' : ' (LW Atlas)')
-            + (d.upload_updated_at ? ' \u00B7 as of ' + String(d.upload_updated_at).slice(0, 10) : '');
+            + (d.upload_updated_at ? ' \u00B7 as of ' + String(d.upload_updated_at).slice(0, 10) : '')
+            + ' \u00B7 <a href="' + _manageUrl + '" target="_blank" rel="noopener" style="color:#8ae0a3;text-decoration:underline">manage roster</a>';
           document.body.insertBefore(banner, document.body.firstChild);
+        } catch (e) {}
+        // Over-cap guard: alliances hard-cap at 100 members in-game. >100 means
+        // the live map scan is still counting members who recently LEFT. Show a
+        // uniform warning + one-click link to trim. Idempotent by id.
+        try {
+          var oldC = document.getElementById('lws-overcap-banner'); if (oldC) oldC.remove();
+          if (d.over_cap) {
+            var cap = document.createElement('div');
+            cap.id = 'lws-overcap-banner';
+            cap.style.cssText = 'padding:10px 14px;margin:8px 0;background:rgba(224,104,95,0.10);border:1px solid rgba(224,104,95,0.42);border-radius:6px;color:#e0685f;font-size:13px;line-height:1.5';
+            cap.innerHTML = '\u26A0\uFE0F <strong>' + d.member_count + ' members</strong> \u2014 alliances cap at '
+              + (d.alliance_cap || 100) + ' in-game, so this has ' + d.over_cap_by
+              + ' too many (usually members who recently left). '
+              + '<a href="' + _manageUrl + '" target="_blank" rel="noopener" style="color:#e6cf7a;text-decoration:underline">Trim your roster \u2192</a>';
+            document.body.insertBefore(cap, document.body.firstChild);
+          }
         } catch (e) {}
       })
       .catch(function () { if (status) status.textContent = ''; });
