@@ -139,9 +139,9 @@
   <div id="results" class="hide">
     <h2><span class="step">2</span>Compare — sorted by who's still playing</h2>
     <div class="card" style="margin-bottom:10px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
-      <div><label for="power">Your current power (optional)</label>
+      <div><label for="power">Your battle power (optional)</label>
         <input id="power" type="text" placeholder="e.g. 150M or 1.2B" style="width:150px"></div>
-      <div class="hint" style="margin:0;flex:1;min-width:200px">Enter it and the <b>“You’d rank”</b> column fills in — your percentile, approx rank, and <b>how many times the average (median) player's power you are</b> on each server. Newer / lower-level servers are where you'd be the big fish: look for the highest <b>“× avg”</b> and the best <b>Top&nbsp;%</b>.</div>
+      <div class="hint" style="margin:0;flex:1;min-width:200px">The big <b>M/B combat-power number</b> on your profile (not your Transfer Points). The <b>“You’d rank”</b> column then fills in — your percentile, approx rank, and <b>how many times the average (median) player's power you are</b> on each server. Newer / lower-level servers are where you'd be the big fish: look for the highest <b>“× avg”</b> and the best <b>Top&nbsp;%</b>.</div>
     </div>
     <div class="tablecard">
       <div class="scroll"><table id="tbl">
@@ -187,16 +187,17 @@
       <li>Each destination is rated <strong>Fully Open / Semi-Open / Limited Open</strong> based on how strong it already is, which sets how many transfer <em>seats</em> it has.</li>
     </ul>
   </div></details>
-  <details class="acc"><summary>Transfer Score &amp; seats — will I even get in?</summary><div class="body">
-    <p>Your <strong>Individual Score</strong> is your all-time peak power (buildings, top-15 heroes, top-3 squads, techs, Drone, Overlord — locked at prep start). It sorts you into a status tier, and each destination has limited seats per tier:</p>
+  <details class="acc"><summary>Transfer Points, tiers &amp; seats — will I even get in?</summary><div class="body">
+    <p>Your <strong>Transfer Points</strong> are your all-time peak power — highest building, your top-15 heroes, top-3 deployed squads, techs, and Drone (locked at Prep-Day start; this event doesn't count Overlord). They sort you into a <strong>status tier</strong>:</p>
     <table class="seatgrid">
-      <tr><th>Your tier</th><th>Fully-Open server</th><th>Semi-Open</th><th>Limited-Open</th></tr>
-      <tr><td>Follower (white)</td><td>80</td><td>60</td><td>40</td></tr>
-      <tr><td>Pioneer (blue)</td><td>60</td><td>40</td><td>30</td></tr>
-      <tr><td>Contributor (purple)</td><td>8</td><td>5</td><td>3</td></tr>
-      <tr><td>Elite (gold)</td><td>2</td><td>1</td><td>0</td></tr>
+      <tr><th>Transfer Points</th><th>Your status</th></tr>
+      <tr><td>under 437.6K</td><td>Follower <span style="color:var(--mute)">(white seat)</span></td></tr>
+      <tr><td>437.6K – 2.08M</td><td>Trailblazer <span style="color:var(--mute)">(blue)</span></td></tr>
+      <tr><td>2.08M – 6.40M</td><td>Contributor <span style="color:var(--mute)">(purple)</span></td></tr>
+      <tr><td>over 6.40M</td><td>Elite <span style="color:var(--mute)">(gold)</span></td></tr>
     </table>
-    <p>Strong accounts (Elite/gold) have the <em>fewest</em> seats into strong servers — so a top player often can only land on a weaker or fresher server. The destination's <strong>president approves or rejects</strong> your application (vouchers are refunded on rejection).</p>
+    <p>Each destination opens a limited number of <strong>seats per tier</strong>, set by how strong the server already is (rated <strong>Fully-open / Semi-open / Limited-open</strong> from its own collective Transfer Points). A typical <strong>Semi-open</strong> server opens <strong>60 Follower · 40 Trailblazer · 5 Contributor · 1 Elite</strong> seats — so lower-tier players have the <em>most</em> room, while a top Elite account often can only squeeze into a weaker or fresher server. The destination <strong>president approves or rejects</strong> your application (tickets refunded if rejected), and <strong>everyone pays 50 tickets</strong> regardless of tier.</p>
+    <p style="background:rgba(224,161,95,.1);border:1px solid rgba(224,161,95,.3);border-radius:8px;padding:9px 11px"><strong>Don't confuse this with the "Your power" box in the table above.</strong> That box wants your <strong>battle/combat power</strong> (the big M/B number on your profile) to estimate where you'd rank. <strong>Transfer Points</strong> are a different, smaller composite score used only to set your seat tier.</p>
   </div></details>
   <details class="acc"><summary>Requirements, cost &amp; what you keep</summary><div class="body">
     <ul>
