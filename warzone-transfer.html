@@ -264,15 +264,28 @@
   function fmtP(n){ if(n>=1e9)return (n/1e9).toFixed(2)+'B'; if(n>=1e6)return (n/1e6).toFixed(1)+'M'; if(n>=1e3)return (n/1e3).toFixed(0)+'K'; return String(Math.round(n)); }
   function standing(w){
     if(!S.power)return null;
-    var P=S.power;
-    var pts=[[0,0],[25,w.p25],[50,w.p50],[75,w.p75],[90,w.p90],[95,w.p95]].filter(function(x){return x[1]!=null;});
+    var P=S.power, total=w.total_players||1;
+    // percentile anchors: the standard quartiles PLUS real tail data from the
+    // whale buckets (how many are over 50M / 100M), so the high end is accurate.
+    var pts=[[0,0],[25,w.p25],[50,w.p50],[75,w.p75],[90,w.p90],[95,w.p95]];
+    if(w.whales_50m!=null||w.whales_100m!=null){
+      var over50=(w.whales_100m||0)+(w.whales_50m||0);
+      pts.push([100-100*over50/total, 50e6]);
+      pts.push([100-100*(w.whales_100m||0)/total, 100e6]);
+    }
+    pts=pts.filter(function(x){return x[1]!=null&&x[0]!=null;}).sort(function(a,b){return a[1]-b[1];});
     if(pts.length<2)return null;
-    var pct;
-    var top=pts[pts.length-1];
-    if(P>=top[1]){ pct = top[0] + Math.min(4.9, (P-top[1])/Math.max(1,top[1])*5); }
-    else { pct=0; for(var i=1;i<pts.length;i++){ if(P<=pts[i][1]){ var lo=pts[i-1],hi=pts[i]; pct=lo[0]+(P-lo[1])/Math.max(1,(hi[1]-lo[1]))*(hi[0]-lo[0]); break; } } }
-    var topPct=Math.max(0.1,Math.min(100,100-pct));
-    var rank=Math.max(1,Math.round((w.total_players||0)*topPct/100));
+    var pct, top=pts[pts.length-1];
+    if(P>=top[1]){
+      // above the top anchor (usually 100M): log-ramp toward 99.95 so 5B ranks
+      // meaningfully higher than 200M instead of everyone pinning at the top.
+      var over=Math.log10(Math.max(1,P/top[1]));
+      pct=Math.min(99.95, top[0]+over*(100-top[0])*0.6);
+    } else {
+      pct=0; for(var i=1;i<pts.length;i++){ if(P<=pts[i][1]){ var lo=pts[i-1],hi=pts[i]; pct=lo[0]+(P-lo[1])/Math.max(1,(hi[1]-lo[1]))*(hi[0]-lo[0]); break; } }
+    }
+    var topPct=Math.max(0.05,Math.min(100,100-pct));
+    var rank=Math.max(1,Math.round(total*topPct/100));
     var lbl,col;
     if(topPct<=1){lbl='🐋 Whale';col='var(--ok)';}
     else if(topPct<=5){lbl='Strong';col='var(--ok)';}
