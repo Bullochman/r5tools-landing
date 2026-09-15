@@ -99,7 +99,12 @@
       <div class="card">
         <h3>Formation</h3>
         <div class="rowc"><span>Anchor</span><b id="anchorXY">—</b></div>
-        <div class="hint" style="margin-top:0">Drag the gold ◆ on the map to move the whole formation. The dashed box is the 21×21 stronghold footprint.</div>
+        <div class="hint" style="margin-top:0">Drag the gold ◆ on the map to move the whole formation. The dashed box is the 21×21 stronghold footprint. Anchor snaps to whole tiles.</div>
+        <div id="hotspotWrap" class="hide" style="margin-top:10px">
+          <label>Snap to a stronghold / hive hotspot</label>
+          <div class="hint" style="margin-top:2px">The busiest spots in this warzone — where alliances are already camped on strongholds. Tap one to jump the anchor there.</div>
+          <div id="hotspots" style="display:flex;flex-direction:column;gap:6px;margin-top:8px"></div>
+        </div>
         <div style="margin-top:12px"><label>Spacing between bases: <b id="gapVal">3</b> tiles</label>
           <input type="range" id="gap" min="1" max="8" step="1" value="3"></div>
         <div style="margin-top:10px"><label>Shape</label>
@@ -146,7 +151,7 @@
   var API='https://access-codes.r5tools.io';
   var MAPMAX=1200, SH=21; // stronghold footprint 21x21
   var cv=document.getElementById('map'), ctx=cv.getContext('2d');
-  var S={ members:[], placed:[], wz:null, tag:'', scan:null,
+  var S={ members:[], placed:[], allBases:[], hotspots:[], wz:null, tag:'', scan:null,
           anchor:{x:600,y:600}, gap:3, shape:'spiral', order:'rank',
           view:{x:0,y:0,scale:1}, drag:null, anchorDrag:false, fmt:'named' };
   function $(id){return document.getElementById(id);}
@@ -213,6 +218,45 @@
     $('coordOut').value=lines.join('\n');
   }
 
+  // Strongholds/hives = where bases cluster densest (alliances camp on them).
+  // lwatlas exposes no structure layer, so we detect hotspots from the full
+  // warzone base scan and let the anchor snap to them.
+  function detectHotspots(){
+    var bases=S.allBases; if(!bases.length){S.hotspots=[];return;}
+    // Only count ESTABLISHED bases (HQ ≥ 12) so newbie/spawn piles never
+    // masquerade as strongholds — real hives are dense with high-HQ camps.
+    var strong=bases.filter(function(b){ var h=+(b.hq||b.hq_level||0); return h>=12; });
+    if(strong.length<40) strong=bases; // tiny/unscanned warzone: fall back to all
+    var CELL=30, buckets={};
+    strong.forEach(function(b){
+      if(b.x==null)return;
+      var k=Math.floor(b.x/CELL)+','+Math.floor(b.y/CELL);
+      var o=buckets[k]||(buckets[k]={n:0,sx:0,sy:0});
+      o.n++; o.sx+=b.x; o.sy+=b.y;
+    });
+    var arr=Object.keys(buckets).map(function(k){var o=buckets[k];return {x:Math.round(o.sx/o.n),y:Math.round(o.sy/o.n),count:o.n};});
+    arr.sort(function(a,b){return b.count-a.count;});
+    var picked=[];
+    arr.forEach(function(h){
+      if(picked.length>=6 || h.count<25)return;
+      for(var i=0;i<picked.length;i++){ if(Math.hypot(picked[i].x-h.x,picked[i].y-h.y)<CELL*1.6)return; }
+      picked.push(h);
+    });
+    S.hotspots=picked;
+  }
+  function renderHotspots(){
+    var wrap=$('hotspotWrap'), box=$('hotspots');
+    if(!S.hotspots.length){wrap.classList.add('hide');return;}
+    wrap.classList.remove('hide'); box.innerHTML='';
+    S.hotspots.forEach(function(h){
+      var b=document.createElement('button');
+      b.style.cssText='text-align:left;padding:8px 10px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:7px;cursor:pointer;font-size:13px';
+      b.innerHTML='🏰 <b>'+h.x+', '+h.y+'</b> <span style="color:var(--text-mute)">· '+h.count+' bases</span>';
+      b.onclick=function(){ S.anchor={x:h.x,y:h.y}; computeFormation(); fitView(); draw(); };
+      box.appendChild(b);
+    });
+  }
+
   // ---- drawing ----
   function draw(){
     ctx.clearRect(0,0,cv.width,cv.height);
@@ -220,6 +264,12 @@
     var hx0=wx(S.anchor.x-SH/2), hy0=wy(S.anchor.y-SH/2), hx1=wx(S.anchor.x+SH/2), hy1=wy(S.anchor.y+SH/2);
     ctx.fillStyle=getCss('--stronghold'); ctx.fillRect(hx0,hy0,hx1-hx0,hy1-hy0);
     ctx.strokeStyle=getCss('--stronghold-line'); ctx.setLineDash([6,4]); ctx.lineWidth=1.5; ctx.strokeRect(hx0,hy0,hx1-hx0,hy1-hy0); ctx.setLineDash([]);
+    // stronghold/hive hotspots (dense clusters) — faint gold rings under everything
+    S.hotspots.forEach(function(h){
+      var gx=wx(h.x), gy=wy(h.y);
+      ctx.fillStyle='rgba(201,169,97,0.20)'; ctx.beginPath(); ctx.arc(gx,gy,8,0,6.2832); ctx.fill();
+      ctx.strokeStyle='rgba(201,169,97,0.55)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(gx,gy,8,0,6.2832); ctx.stroke();
+    });
     // current positions (faint) + line to target
     var r=Math.max(2,2.6*S.view.scale);
     S.placed.forEach(function(p){
@@ -266,7 +316,7 @@
   cv.addEventListener('mousedown',function(e){var p=toCv(e);
     if(nearAnchor(p)){S.anchorDrag=true;} else {S.drag={x:e.clientX,y:e.clientY,vx:S.view.x,vy:S.view.y};}});
   window.addEventListener('mousemove',function(e){
-    if(S.anchorDrag){var p=toCv(e);S.anchor.x=clamp(sx(p.x),0,MAPMAX);S.anchor.y=clamp(sy(p.y),0,MAPMAX);computeFormation();return;}
+    if(S.anchorDrag){var p=toCv(e);S.anchor.x=clamp(Math.round(sx(p.x)),0,MAPMAX);S.anchor.y=clamp(Math.round(sy(p.y)),0,MAPMAX);computeFormation();return;}
     if(S.drag){var r=cv.getBoundingClientRect(),sc=cv.width/r.width;S.view.x=S.drag.vx+(e.clientX-S.drag.x)*sc;S.view.y=S.drag.vy+(e.clientY-S.drag.y)*sc;draw();return;}
     // tooltip on current positions
     var pc=toCv(e),m=nearestMember(pc.x,pc.y),tip=$('tip');
@@ -278,7 +328,7 @@
   cv.addEventListener('wheel',function(e){e.preventDefault();var p=toCv(e);var f=e.deltaY<0?1.15:1/1.15;var ns=clamp(S.view.scale*f,1,14);var k=ns/S.view.scale;S.view.x=p.x-(p.x-S.view.x)*k;S.view.y=p.y-(p.y-S.view.y)*k;S.view.scale=ns;draw();},{passive:false});
   // touch: drag anchor or pan
   cv.addEventListener('touchstart',function(e){var p=toCv(e);if(nearAnchor(p)){S.anchorDrag=true;e.preventDefault();}else{S.drag={x:p.cx,y:p.cy,vx:S.view.x,vy:S.view.y};}},{passive:false});
-  cv.addEventListener('touchmove',function(e){var p=toCv(e);if(S.anchorDrag){S.anchor.x=clamp(sx(p.x),0,MAPMAX);S.anchor.y=clamp(sy(p.y),0,MAPMAX);computeFormation();e.preventDefault();}else if(S.drag){var r=cv.getBoundingClientRect(),sc=cv.width/r.width;S.view.x=S.drag.vx+(p.cx-S.drag.x)*sc;S.view.y=S.drag.vy+(p.cy-S.drag.y)*sc;draw();e.preventDefault();}},{passive:false});
+  cv.addEventListener('touchmove',function(e){var p=toCv(e);if(S.anchorDrag){S.anchor.x=clamp(Math.round(sx(p.x)),0,MAPMAX);S.anchor.y=clamp(Math.round(sy(p.y)),0,MAPMAX);computeFormation();e.preventDefault();}else if(S.drag){var r=cv.getBoundingClientRect(),sc=cv.width/r.width;S.view.x=S.drag.vx+(p.cx-S.drag.x)*sc;S.view.y=S.drag.vy+(p.cy-S.drag.y)*sc;draw();e.preventDefault();}},{passive:false});
   cv.addEventListener('touchend',function(){S.drag=null;S.anchorDrag=false;});
 
   $('zoomIn').onclick=function(){S.view.scale=Math.min(14,S.view.scale*1.3);draw();};
@@ -343,9 +393,14 @@
           $('capWarn').innerHTML='⚠️ <b>'+d.member_count+' members</b> — alliances cap at '+(d.alliance_cap||100)+' in-game, so this has '+d.over_cap_by+' too many (usually members who recently left). <a href="'+API+'/roster-manage?warzone='+wz+'&alliance='+encodeURIComponent(tag)+'" target="_blank" rel="noopener">Trim your roster →</a>';
           $('capWarn').classList.remove('hide');
         }
-        // ensure width matches device pixel ratio crispness once visible
+        S.allBases=[];S.hotspots=[];renderHotspots();
         centerAnchor();computeFormation();fitView();draw();
         $('mapMeta').innerHTML='<strong>'+S.members.length+'</strong> members · warzone <strong>'+wz+'</strong> · ['+tag+']'+(S.scan?' · <span style="color:#8ae0a3">roster '+relTime(S.scan)+'</span>':'');
+        // Full-warzone base scan → stronghold/hive hotspot detection (non-blocking).
+        fetch(withCode(API+'/api/warzone/'+wz+'/roster'),{credentials:'include'})
+          .then(function(r){return r.ok?r.json():null;})
+          .then(function(fd){ if(!fd||!fd.members)return; S.allBases=fd.members.filter(function(m){return m.x!=null;}); detectHotspots(); renderHotspots(); draw(); })
+          .catch(function(){});
       })
       .catch(function(e){$('loadMsg').textContent='Network error: '+(e.message||e);});
   }
