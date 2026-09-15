@@ -56,6 +56,7 @@
   thead th.n{text-align:right}
   thead th:hover{color:var(--gold2)}
   thead th.sorted{color:var(--gold2)}
+  thead th .sbadge{display:inline-block;margin-left:4px;font-size:10px;color:var(--gold2);vertical-align:middle}
   tbody td{padding:12px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
   tbody tr:last-child td{border-bottom:none}
   tbody tr:hover{background:rgba(127,176,230,.03)}
@@ -266,7 +267,7 @@
 <script>
 (function(){
   var API='https://access-codes.r5tools.io';
-  var S={ home:null, sel:[], data:[], power:null, sortK:'active_7d_percent', sortDir:-1 };
+  var S={ home:null, sel:[], data:[], power:null, sortKeys:[{k:'active_7d_percent',dir:-1}] };
   function parseP(s){ if(s==null)return null; if(typeof s==='number')return s; s=String(s).trim().replace(/,/g,''); if(!s)return null; var mu={K:1e3,M:1e6,B:1e9,T:1e12},c=s.slice(-1).toUpperCase(); if(mu[c])return parseFloat(s)*mu[c]; var v=parseFloat(s); return isNaN(v)?null:v; }
   function fmtP(n){ if(n>=1e9)return (n/1e9).toFixed(2)+'B'; if(n>=1e6)return (n/1e6).toFixed(1)+'M'; if(n>=1e3)return (n/1e3).toFixed(0)+'K'; return String(Math.round(n)); }
   function standing(w){
@@ -371,16 +372,24 @@
   function actColor(p){ if(p>=55)return 'var(--ok)'; if(p>=32)return 'var(--gold2)'; if(p>=25)return 'var(--warn)'; return 'var(--bad)'; }
   function warLabel(c){ if(c>=0.9)return['Dead heat','var(--bad)']; if(c>=0.75)return['Contested','var(--gold2)']; if(c>0)return['One-sided','var(--mute)']; return['—','var(--mute)']; }
 
+  // sortable value for a column key (number, or string for season_end)
+  function _sortVal(w,k){
+    if(k==='_us') return usPct(w)==null?-1:usPct(w);
+    if(k==='_stand'){ var s=standing(w); return s?100-s.topPct:-1; }
+    if(k==='warzone') return w.warzone||0;
+    if(k==='season_end') return w.season_end||'';
+    return w[k]||0;
+  }
   function sortAndRender(){
-    var k=S.sortK, dir=S.sortDir;
+    var keys=S.sortKeys;
     S.data.sort(function(a,b){
-      var va,vb;
-      if(k==='_us'){ va=usPct(a); vb=usPct(b); }
-      else if(k==='_stand'){ var sa=standing(a),sb=standing(b); va=sa?100-sa.topPct:-1; vb=sb?100-sb.topPct:-1; }
-      else if(k==='warzone'){ va=a.warzone; vb=b.warzone; }
-      else if(k==='season_end'){ va=a.season_end||''; vb=b.season_end||''; return (va<vb?-1:va>vb?1:0)*dir; }
-      else { va=a[k]||0; vb=b[k]||0; }
-      return (va-vb)*dir;
+      for(var i=0;i<keys.length;i++){
+        var k=keys[i].k, dir=keys[i].dir, va=_sortVal(a,k), vb=_sortVal(b,k), c;
+        if(typeof va==='string'||typeof vb==='string'){ c=(va<vb?-1:va>vb?1:0)*dir; }
+        else { c=(va-vb)*dir; }
+        if(c) return c;
+      }
+      return (a.warzone||0)-(b.warzone||0); // stable final tiebreak
     });
     var tb=$('tbody'); tb.innerHTML='';
     S.data.forEach(function(w){
@@ -409,7 +418,7 @@
         '<td class="n" style="font-size:12px">'+(w.season_end?String(w.season_end).slice(0,10):'—')+'</td>';
       tb.appendChild(tr);
     });
-    document.querySelectorAll('#tbl thead th').forEach(function(th){ th.classList.toggle('sorted',th.dataset.k===k); });
+    renderSortBadges();
   }
   function usPct(w){ if(w.us_percent!=null)return w.us_percent; if(w.top_country==='US')return w.top_country_pct; return null; }
   function natBreakdown(w){
@@ -424,7 +433,7 @@
     var l='<b>Active %</b> = share of players seen in the last 7 days · <b>Top war</b> = how close #2 alliance is to #1 (dead heat = real fight) · <b>Timezone</b>: '+
       '<span style="color:var(--ok)">Americas</span> shares your clock, '+
       '<span style="color:var(--gold2)">Europe/MEA</span> runs hours ahead, '+
-      '<span style="color:var(--blue)">Asia/Pacific</span> is roughly flipped from US time. Click any column header to sort.';
+      '<span style="color:var(--blue)">Asia/Pacific</span> is roughly flipped from US time.<br><b>Sorting:</b> click a column to sort by it. <b>Shift-click</b> another column to stack it as a tie-breaker — sort by US%, then Active%, then Server #, and so on (the ①②③ badges show the order). Click a lone sorted column again to flip direction.';
     if(missing&&missing.length) l+='<br><span style="color:var(--warn)">No lwatlas data yet for: '+missing.join(', ')+' (brand-new or unscanned).</span>';
     $('legend').innerHTML=l;
   }
@@ -488,7 +497,36 @@
   $('addBtn').onclick=function(){ addWarzones($('add').value); $('add').value=''; };
   $('add').addEventListener('keydown',function(e){ if(e.key==='Enter'){ addWarzones(this.value); this.value=''; } });
   $('compareBtn').onclick=compare;
-  document.querySelectorAll('#tbl thead th').forEach(function(th){ th.onclick=function(){ var k=th.dataset.k; if(S.sortK===k)S.sortDir*=-1; else {S.sortK=k;S.sortDir=(k==='warzone'||k==='season_end')?1:-1;} sortAndRender(); }; });
+  // Multi-level sort: click a column = primary sort. Shift-click another =
+  // add it as the next tie-breaker (secondary, tertiary, …). Click a sole
+  // sorted column again to flip its direction.
+  function _defDir(k){ return (k==='warzone'||k==='season_end')?1:-1; }
+  function renderSortBadges(){
+    document.querySelectorAll('#tbl thead th').forEach(function(th){
+      var k=th.dataset.k;
+      var idx=-1; for(var i=0;i<S.sortKeys.length;i++){ if(S.sortKeys[i].k===k){ idx=i; break; } }
+      th.classList.toggle('sorted', idx>=0);
+      var old=th.querySelector('.sbadge'); if(old) old.remove();
+      if(idx>=0){
+        var s=S.sortKeys[idx];
+        var b=document.createElement('span'); b.className='sbadge';
+        b.textContent=(S.sortKeys.length>1?(idx+1)+'':'')+(s.dir<0?'▼':'▲');
+        th.appendChild(b);
+      }
+    });
+  }
+  document.querySelectorAll('#tbl thead th').forEach(function(th){
+    th.onclick=function(e){
+      var k=th.dataset.k, cur=null; for(var i=0;i<S.sortKeys.length;i++){ if(S.sortKeys[i].k===k) cur=S.sortKeys[i]; }
+      if(e.shiftKey){
+        if(cur){ cur.dir*=-1; } else { S.sortKeys.push({k:k,dir:_defDir(k)}); }
+      } else {
+        if(S.sortKeys.length===1 && S.sortKeys[0].k===k){ S.sortKeys[0].dir*=-1; }
+        else { S.sortKeys=[{k:k,dir:_defDir(k)}]; }
+      }
+      if(S.data.length) sortAndRender();
+    };
+  });
 
   // prefill from suite selection
   (function(){
