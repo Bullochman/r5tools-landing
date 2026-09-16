@@ -69,6 +69,7 @@
   .bar{height:4px;border-radius:3px;background:rgba(255,255,255,.06);margin-top:5px;overflow:hidden;min-width:56px}
   .bar span{display:block;height:100%;border-radius:3px}
   .pct{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
+  .rankb{font-family:var(--mono);font-size:9.5px;font-weight:700;margin-top:3px;letter-spacing:.02em;white-space:nowrap}
   .tz{font-size:12px}
   .tz .flag{font-weight:700;display:block;margin-bottom:2px}
   .tz small{display:block;color:var(--dim);font-size:11.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -259,6 +260,18 @@
     <p>Bottom line: weigh <strong>active %</strong>, <strong>timezone/language match</strong>, and <strong>competition</strong> together — a "busy" server on the wrong side of the planet is worse than a quieter one on your clock.</p>
   </div></details>
 
+  <h2><span class="step">5</span>Who's recruiting on a server?</h2>
+  <p class="hint" style="margin:0 2px 12px">Picked a destination? Find the alliances there that are actually recruiting — with their real in-game recruitment message, language, open slots, and power requirement. Enter any warzone number.</p>
+  <div class="card" style="padding:16px 18px;margin-bottom:14px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <input id="recWz" type="text" inputmode="numeric" placeholder="Warzone # (e.g. 2013)" style="width:170px;padding:9px 11px;border-radius:8px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-family:var(--mono);font-size:14px">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mute)"><input type="checkbox" id="recOpen"> Only open slots</label>
+      <button id="recGo" class="btn" style="padding:9px 16px">Find recruiting</button>
+      <span id="recMsg" class="hint" style="margin:0"></span>
+    </div>
+    <div id="recList" style="margin-top:14px"></div>
+  </div>
+
   <footer>
     <div>Data: live lwatlas map scans via r5tools.io · activity = share of players seen in the last 7 days. Transfer mechanics compiled from community guides (<a href="https://www.lastwartutorial.com/transfer-surge-server-transfers/" target="_blank" rel="noopener">Last War Tutorial</a>, <a href="https://lw-spy.com/blog/last-war-server-migration-guide/" target="_blank" rel="noopener">LW Spy</a>) — First Fun's in-game Transfer screen is always the final word on your eligibility and seats.</div>
     <div style="margin-top:10px">r5tools.io is a fan-made tool, not affiliated with First Fun or Last War: Survival · <a href="/warzones.html">Browse all warzones →</a></div>
@@ -393,6 +406,14 @@
       return (a.warzone||0)-(b.warzone||0); // stable final tiebreak
     });
     var tb=$('tbody'); tb.innerHTML='';
+    // Cross-warzone rank badge: this server's rank on a metric out of all
+    // scanned servers (lower = better). Green if top-decile.
+    function rankB(w,key){
+      var rk=w.ranks&&w.ranks[key], tot=w.rank_total;
+      if(!rk||!tot) return '';
+      var top=rk/tot<=0.10, col=top?'#34d399':(rk/tot<=0.33?'#a3e635':'var(--mute)');
+      return '<div class="rankb" style="color:'+col+'" title="Rank #'+rk+' of '+commas(tot)+' scanned warzones on this stat">#'+commas(rk)+'<span style="opacity:.6">/'+commas(tot)+'</span></div>';
+    }
     S.data.forEach(function(w){
       var reg=region(w.top_country), r=reg[0], rl=reg[1];
       var isyou=w.warzone===S.home;
@@ -409,10 +430,10 @@
         '<td class="n strong">'+commas(w.active_7d)+'</td>'+
         '<td class="n"><span class="pct" style="color:'+actColor(w.active_7d_percent)+'">'+(w.active_7d_percent==null?'—':w.active_7d_percent+'%')+'</span>'+
           '<div class="bar"><span style="width:'+Math.min(100,w.active_7d_percent||0)+'%;background:'+actColor(w.active_7d_percent)+'"></span></div>'+
-          '<div style="margin-top:3px">'+statusPill(w.active_7d_percent)+'</div></td>'+
+          '<div style="margin-top:3px">'+statusPill(w.active_7d_percent)+'</div>'+rankB(w,'active_7d')+'</td>'+
         '<td class="n">'+standCell(w)+'</td>'+
         '<td class="n">'+commas(w.whales_100m)+'</td>'+
-        '<td class="n">'+(w.median_power?(w.median_power/1e6).toFixed(2)+'M':'—')+'</td>'+
+        '<td class="n">'+(w.median_power?(w.median_power/1e6).toFixed(2)+'M':'—')+rankB(w,'median_power')+'</td>'+
         '<td class="n"><span style="color:'+wl[1]+';font-weight:600">'+wl[0]+'</span><div style="color:var(--mute);font-size:11px">'+esc(w.top_alliance||'')+'</div></td>'+
         '<td><span class="tz '+r+'"><span class="flag">'+rl+'</span><small>'+natBreakdown(w)+'</small></span></td>'+
         '<td class="n">'+commas(w.alliance_count)+'</td>'+
@@ -536,6 +557,61 @@
     renderChips(); renderQuick();
     var add=qp('add'); if(add){ addWarzones(add); }
   })();
+
+  // ---- Recruiting-alliance finder (Step 5) --------------------------------
+  // lwatlas returns `language` as First Fun's internal numeric ID (not a code).
+  // Known IDs override; otherwise we detect the script of the alliance's actual
+  // recruitment message — which is what really tells you "can I talk to them."
+  var LANGID={390752:'🇬🇧 English',390758:'🇰🇷 한국어',390753:'🇯🇵 日本語',390754:'🇨🇳 中文',390755:'🇧🇷 Português',390756:'🇪🇸 Español',390757:'🇩🇪 Deutsch',390759:'🇷🇺 Русский'};
+  function detectLang(txt){
+    txt=String(txt||'');
+    if(/[가-힣]/.test(txt))return '🇰🇷 한국어';
+    if(/[぀-ヿ]/.test(txt))return '🇯🇵 日本語';
+    if(/[一-鿿]/.test(txt))return '🈶 中文';
+    if(/[Ѐ-ӿ]/.test(txt))return '🇷🇺 Русский';
+    if(/[฀-๿]/.test(txt))return '🇹🇭 ไทย';
+    if(/[؀-ۿ]/.test(txt))return '🇸🇦 العربية';
+    if(/[a-zA-Z]/.test(txt))return '🔤 Latin (EN/PT/ES…)';
+    return '';
+  }
+  function langLabel(a){ if(a.language&&LANGID[a.language])return LANGID[a.language]; return detectLang((a.announce||'')+' '+(a.name||'')); }
+  function recCard(a){
+    var slots=a.open_slots, slotTxt = (slots==null)?(a.member_count!=null?(a.member_count+' members'):'') :
+      (slots>0?('<b style="color:var(--ok)">'+slots+' open</b> · '+a.member_count+'/'+a.max_member):('Full '+a.member_count+'/'+a.max_member));
+    var req = a.recruit_power_limit ? ('Min power '+fmtP(a.recruit_power_limit)) : '';
+    var lvl = a.recruit_level_limit ? ('HQ '+a.recruit_level_limit+'+') : '';
+    var meta=[langLabel(a), slotTxt, req, lvl].filter(Boolean).join(' &nbsp;·&nbsp; ');
+    return '<div style="border:1px solid var(--border2);border-radius:10px;padding:11px 13px;margin-bottom:8px;background:var(--bg2)">'+
+      '<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline">'+
+        '<div><b style="font-family:var(--mono);font-size:15px">['+esc(a.tag||'?')+']</b> <span style="color:var(--mute)">'+esc(a.name||'')+'</span>'+(a.king?' <span title="King of Warzone">👑</span>':'')+'</div>'+
+        '<div style="font-family:var(--mono);color:var(--gold2);font-weight:700">'+(a.power?fmtP(a.power):'—')+(a.power_rank?' <span style="color:var(--mute);font-size:11px">#'+a.power_rank+'</span>':'')+'</div>'+
+      '</div>'+
+      '<div class="hint" style="margin:5px 0 0">'+meta+(a.leader_name?' &nbsp;·&nbsp; R5 '+esc(a.leader_name):'')+'</div>'+
+      (a.announce?'<div style="margin-top:7px;padding:7px 9px;border-left:2px solid var(--gold2);background:rgba(224,161,95,.06);border-radius:0 6px 6px 0;font-size:13px;line-height:1.45">'+esc(a.announce)+'</div>':'')+
+    '</div>';
+  }
+  function findRecruiting(){
+    var wz=parseInt(($('recWz').value||'').replace(/\D/g,''),10);
+    if(isNaN(wz)){ $('recMsg').textContent='Enter a warzone number.'; return; }
+    if(!code()){ $('recMsg').innerHTML='🔒 <a href="/unlock.html">Unlock</a> to view recruiting alliances.'; return; }
+    $('recMsg').textContent='Loading…'; $('recList').innerHTML='';
+    var open=$('recOpen').checked?'&open=1':'';
+    fetch(withCode(API+'/api/warzone/'+wz+'/recruiting?_=1'+open),{credentials:'include'})
+      .then(function(r){ if(r.status===403)throw'locked'; if(r.status===404)throw'noscan'; return r.json(); })
+      .then(function(d){
+        var rows=d.alliances||[];
+        $('recMsg').textContent = rows.length ? (rows.length+' recruiting on #'+wz) : 'No recruiting alliances found on #'+wz+'.';
+        $('recList').innerHTML = rows.map(recCard).join('');
+      })
+      .catch(function(e){
+        $('recMsg').textContent = e==='locked' ? 'Redeem an access code to view this.' :
+          e==='noscan' ? 'No live scan for warzone '+wz+' yet.' : 'Could not load — try again.';
+      });
+  }
+  $('recGo').onclick=findRecruiting;
+  $('recWz').addEventListener('keydown',function(e){ if(e.key==='Enter')findRecruiting(); });
+  // Prefill with the user's home warzone if set
+  (function(){ if(S.home)$('recWz').value=S.home; })();
 })();
 </script>
 <script src="https://access-codes.r5tools.io/lib.js" defer></script>
