@@ -52,16 +52,18 @@
         <select id="minhq"><option value="30" selected>30 (max only)</option><option value="28">28+</option><option value="25">25+</option><option value="20">20+</option></select></div>
       <div><label for="active">Seen within</label>
         <select id="active"><option value="">Any time</option><option value="3">3 days</option><option value="7" selected>7 days</option><option value="14">14 days</option><option value="30">30 days</option></select></div>
+      <div><label for="myxy">Your base X,Y (optional)</label><input id="myxy" type="text" placeholder="e.g. 600,500" style="width:130px"></div>
       <button class="btn" id="go">🎯 Find targets</button>
       <span id="msg" style="align-self:center;font-size:13px;color:var(--dim)"></span>
     </div>
-    <div class="hint">💡 "Seen within 7 days" = still active = base is loaded with troops for max VS points. Widen to "Any time" to see every unallied max-level account (including ones who may have gone dormant).</div>
+    <div class="hint">💡 "Seen within 7 days" = still active = base loaded with troops for max VS points. <b>Add your base X,Y</b> to sort by <b>nearest first</b> and see the teleport distance to each target — hit the close ones to save teleports on VS Day.</div>
   </div>
 
   <div id="meta"></div>
+  <div id="tools" style="display:none;margin:0 2px 10px"><button class="btn" id="copyall" style="background:var(--panel2);color:var(--text);border-color:var(--border2);font-weight:600;font-size:13px;padding:7px 13px">📋 Copy all as list</button> <span style="font-size:12px;color:var(--mute)">— name · HQ · X:Y, for chat or notes</span></div>
   <div class="card" id="tblcard" style="display:none;overflow-x:auto">
     <table id="tbl">
-      <thead><tr><th>#</th><th>Player</th><th class="n">HQ</th><th>Coordinates</th><th class="n">Last seen</th><th>Map</th></tr></thead>
+      <thead><tr><th>#</th><th>Player</th><th class="n">HQ</th><th>Coordinates</th><th class="n" id="thDist" style="display:none">Distance</th><th class="n">Last seen</th><th>Map</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
@@ -93,20 +95,32 @@
       .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__noscan'; return r.json(); })
       .then(function(d){
         $('go').disabled=false;
-        var t=d.targets||[];
+        var t=(d.targets||[]).slice();
         $('msg').textContent='';
-        $('meta').innerHTML='<strong>'+d.count+'</strong> unallied HQ'+d.min_hq+'+ target'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong>'+(d.count>t.length?(' (showing top '+t.length+')'):'')+' · sorted by most recently active';
+        // optional "your base" → distance sort (nearest first, cheapest teleport)
+        var mxy=($('myxy').value||'').split(/[,\s:]+/).map(function(n){return parseInt(n,10);});
+        var haveXY = mxy.length>=2 && !isNaN(mxy[0]) && !isNaN(mxy[1]);
+        $('thDist').style.display = haveXY ? '' : 'none';
+        if(haveXY){
+          t.forEach(function(m){ m._dist = (m.x!=null&&m.y!=null) ? Math.round(Math.hypot(m.x-mxy[0], m.y-mxy[1])) : null; });
+          t.sort(function(a,b){ return (a._dist==null?1e9:a._dist)-(b._dist==null?1e9:b._dist); });
+        }
+        window.__lastTargets=t; window.__lastWz=wz;
+        $('meta').innerHTML='<strong>'+d.count+'</strong> unallied HQ'+d.min_hq+'+ target'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong>'+(d.count>t.length?(' (showing top '+t.length+')'):'')+' · sorted by '+(haveXY?'nearest to your base':'most recently active');
         $('tblcard').style.display='block';
-        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="6" style="color:var(--mute);padding:22px;text-align:center">No unallied targets at that level/recency. Try lowering Min HQ or widening the time window.</td></tr>'; return; }
+        $('tools').style.display = t.length ? 'block' : 'none';
+        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="7" style="color:var(--mute);padding:22px;text-align:center">No unallied targets at that level/recency. Try lowering Min HQ or widening the time window.</td></tr>'; return; }
         try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
         $('tbody').innerHTML=t.map(function(m,i){
           var coord=(m.x!=null&&m.y!=null)?(m.x+':'+m.y):'—';
           var mapurl='/map.html?warzone='+wz+'&player='+encodeURIComponent(m.name||'');
+          var distCell = haveXY ? ('<td class="n">'+(m._dist==null?'—':m._dist)+'</td>') : '';
           return '<tr>'+
             '<td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
             '<td><b>'+esc(m.name||'?')+'</b>'+(m.king?' <span class="pill">👑 King</span>':'')+'</td>'+
             '<td class="n">'+ (m.hq||'—') +'</td>'+
             '<td>'+(coord==='—'?'—':('<span class="coord" data-c="'+coord+'" title="Tap to copy">'+coord+' 📋</span>'))+'</td>'+
+            distCell+
             '<td class="n '+ageCls(m.days_ago)+'">'+ageTxt(m.days_ago)+'</td>'+
             '<td><a class="maplink" href="'+mapurl+'" target="_blank">locate →</a></td>'+
           '</tr>';
@@ -124,6 +138,13 @@
   }
   $('go').onclick=find;
   $('wz').addEventListener('keydown',function(e){ if(e.key==='Enter')find(); });
+  $('copyall').onclick=function(){
+    var t=window.__lastTargets||[]; if(!t.length)return;
+    var lines=t.map(function(m){ var c=(m.x!=null&&m.y!=null)?(m.x+':'+m.y):'?'; return (m.name||'?')+' · HQ'+(m.hq||'?')+' · '+c+(m._dist!=null?(' · '+m._dist+' away'):''); });
+    var txt='🎯 Unallied HQ targets — WZ'+window.__lastWz+' ('+t.length+'):\n'+lines.join('\n');
+    try{navigator.clipboard.writeText(txt);}catch(e){}
+    var b=$('copyall'), o=b.textContent; b.textContent='✓ copied '+t.length; setTimeout(function(){b.textContent=o;},1100);
+  };
   (function(){
     var wz=qp('warzone')||''; try{wz=wz||localStorage.getItem('lws_my_warzone')||'';}catch(e){}
     if(wz){ $('wz').value=wz; find(); }

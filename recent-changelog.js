@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-09-16', tag: 'FEAT',  label: 'Bounty Board: add your base X,Y to sort targets by NEAREST first and see the teleport distance to each — hit the close ones to save teleports on VS Day. Plus a "📋 Copy all as list" button to grab the whole hit list (name · HQ · coords · distance) for alliance chat or notes.' },
     { date: '2026-09-16', tag: 'FEAT',  label: 'NEW: Bounty Board (dashboard 🎯 tab) — finds every max-level (HQ 30) player with NO alliance in a warzone: the ideal VS-Day targets (developed base = points, but no alliance to defend or hit back). Exact coordinates with one-tap copy, sorted by most recently active, plus a "locate on map" link. Filter by min HQ and how recently they were seen.' },
     { date: '2026-09-16', tag: 'FEAT',  label: 'NEW: Cohort Power Race (dashboard 🏁 tab) — charts the #1 alliance of every warzone in your transfer cohort on ONE timeline. Instantly see which target server has a runaway powerhouse (hard to crack) vs. a stagnant or shrinking top alliance (a server where you could actually climb). One click loads the full 1989–2020 cohort.' },
     { date: '2026-09-15', tag: 'I18N',  label: '한국어 지원: Warzone Transfer 도구를 한국어로 완전 번역했습니다 — 전체 이전 가이드, 표, 모집 연맹 찾기까지. 우측 상단 언어 버튼으로 전환하세요. (Warzone Transfer is now fully translated into Korean — the entire transfer guide, table, and recruiting finder. Toggle with the language button, top-right.)' },
