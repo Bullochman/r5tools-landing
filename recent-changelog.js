@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-09-15', tag: 'I18N',  label: '한국어 지원: Warzone Transfer 도구를 한국어로 완전 번역했습니다 — 전체 이전 가이드, 표, 모집 연맹 찾기까지. 우측 상단 언어 버튼으로 전환하세요. (Warzone Transfer is now fully translated into Korean — the entire transfer guide, table, and recruiting finder. Toggle with the language button, top-right.)' },
     { date: '2026-09-15', tag: 'FEAT',  label: 'Warzone Transfer now shows who\'s RECRUITING on any server — enter a warzone number and get every recruiting alliance with its real in-game recruitment message, language (so you know if they speak English), open member slots, and minimum-power requirement. No other free tool surfaces this. The perfect "I\'ve picked a server, now where do I land" step.' },
     { date: '2026-09-15', tag: 'FEAT',  label: 'Warzone Transfer: each server now shows its cross-warzone RANK — e.g. "#87 of 2,304" most active. Instantly see whether a server is genuinely lively or near the bottom of all 2,300+ servers (green = top 10%). Turns a raw "25% active" into real context.' },
     { date: '2026-09-15', tag: 'FEAT',  label: 'Members-only "from the developer" note on your dashboard — a personal hello from Evan (the actual R5 who builds these tools with Claude Code), and a real open door: if you ever want to talk game, tools, or tackle any tech project in your own life, reach out. Only unlocked members see it. Transfer Planner also added as a dashboard tab.' },
