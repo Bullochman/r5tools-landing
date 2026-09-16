@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Bounty Board — r5tools</title>
+<meta name="description" content="Find every max-level (HQ 30) player with NO alliance in a warzone — the undefended, no-retaliation targets to farm on VS Day. Exact coordinates included." />
+<link rel="canonical" href="https://r5tools.io/bounty-board.html" />
+<style>
+  :root{--bg:#080b14;--panel:#0d1424;--panel2:#111a2e;--border:#1e2740;--border2:#2a3654;
+    --text:#e7ecf5;--dim:#aab4c8;--mute:#68748e;--gold:#c9a961;--gold2:#e6cf7a;--ok:#8ae0a3;--warn:#e0a15f;--bad:#e0685f;--blue:#7fb0e6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1200px 600px at 15% -10%,rgba(224,104,95,.07),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:clamp(14px,3.5vw,34px)}
+  .wrap{max-width:1080px;margin:0 auto}
+  a{color:var(--gold)}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--bad);font-weight:600;margin:0 0 10px}
+  h1{font-size:clamp(24px,4vw,36px);margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{color:var(--bad)}
+  .lede{color:var(--dim);font-size:15px;max-width:74ch;margin:0 0 20px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:clamp(14px,2.4vw,20px);margin-bottom:14px}
+  label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;display:block;margin-bottom:5px}
+  input[type=text],input[type=number],select{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;font-family:var(--mono)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--bad);color:#180806;border-radius:8px;padding:9px 15px;font-size:14px;font-weight:700;font-family:var(--sans)}
+  .hint{color:var(--mute);font-size:12.5px;margin-top:8px;line-height:1.5}
+  #meta{font-size:13px;color:var(--dim);margin:4px 2px 12px}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th{text-align:left;padding:10px 11px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--border2);white-space:nowrap}
+  th.n,td.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  td{padding:10px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tr:hover td{background:rgba(224,104,95,.04)}
+  .coord{font-family:var(--mono);color:var(--gold2);cursor:pointer;border:1px solid var(--border2);border-radius:6px;padding:2px 8px;font-size:12.5px}
+  .coord:hover{border-color:var(--gold)}
+  .fresh{color:var(--ok)}.mid{color:var(--warn)}.stale{color:var(--mute)}
+  .maplink{color:var(--blue);font-size:12px;text-decoration:none}
+  .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5}
+  .pill{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;background:rgba(230,207,122,.15);color:var(--gold2);border:1px solid rgba(230,207,122,.35)}
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Last War: Survival · VS Day Targeting</p>
+  <h1>🎯 Bounty <span class="g">Board</span></h1>
+  <p class="lede">Every <b>max-level (HQ 30) player with NO alliance</b> in a warzone — the ideal VS-Day kill targets. They've got a developed base worth points, but <b>no alliance to defend them, rally back, or retaliate.</b> Exact coordinates included so you can teleport-hunt. Freshest (most recently active) targets are listed first — those are still on the map with troops to kill.</p>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="wz">Warzone</label><input id="wz" type="number" inputmode="numeric" placeholder="2007" style="width:120px"></div>
+      <div><label for="minhq">Min HQ</label>
+        <select id="minhq"><option value="30" selected>30 (max only)</option><option value="28">28+</option><option value="25">25+</option><option value="20">20+</option></select></div>
+      <div><label for="active">Seen within</label>
+        <select id="active"><option value="">Any time</option><option value="3">3 days</option><option value="7" selected>7 days</option><option value="14">14 days</option><option value="30">30 days</option></select></div>
+      <button class="btn" id="go">🎯 Find targets</button>
+      <span id="msg" style="align-self:center;font-size:13px;color:var(--dim)"></span>
+    </div>
+    <div class="hint">💡 "Seen within 7 days" = still active = base is loaded with troops for max VS points. Widen to "Any time" to see every unallied max-level account (including ones who may have gone dormant).</div>
+  </div>
+
+  <div id="meta"></div>
+  <div class="card" id="tblcard" style="display:none;overflow-x:auto">
+    <table id="tbl">
+      <thead><tr><th>#</th><th>Player</th><th class="n">HQ</th><th>Coordinates</th><th class="n">Last seen</th><th>Map</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    Data: live LW Atlas map scan via r5tools.io · "unallied" = no alliance tag at scan time · coordinates are X-Y on the warzone map. A player with no alliance can't rally reinforcements or hit you back — that's why they're the smart VS-Day target.
+    <div style="margin-top:8px"><a href="/map.html">← Open the full Warzone Map</a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var API='https://access-codes.r5tools.io';
+  function $(id){return document.getElementById(id);}
+  function qp(k){return new URLSearchParams(location.search).get(k);}
+  function code(){ try{ var u=qp('code'); if(u)return u; if(window.LWSAccessCodes&&LWSAccessCodes.code&&LWSAccessCodes.code())return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; }catch(e){return '';} }
+  function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+  function ageCls(d){ if(d==null)return 'stale'; if(d<=2)return 'fresh'; if(d<=7)return 'mid'; return 'stale'; }
+  function ageTxt(d){ if(d==null)return 'unknown'; if(d<1)return 'today'; return Math.round(d)+'d ago'; }
+
+  function find(){
+    var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
+    if(isNaN(wz)){ $('msg').textContent='Enter a warzone number.'; return; }
+    if(!code()){ $('tblcard').style.display='block'; $('tblcard').innerHTML='<div class="locked">Redeem your access code to view targets — <a href="/unlock">unlock here</a>.</div>'; return; }
+    var ad=$('active').value?('&active_days='+$('active').value):'';
+    $('msg').textContent='Scanning…'; $('go').disabled=true; $('tbody').innerHTML='';
+    fetch(withCode(API+'/api/warzone/'+wz+'/unallied?min_hq='+$('minhq').value+ad),{credentials:'include'})
+      .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__noscan'; return r.json(); })
+      .then(function(d){
+        $('go').disabled=false;
+        var t=d.targets||[];
+        $('msg').textContent='';
+        $('meta').innerHTML='<strong>'+d.count+'</strong> unallied HQ'+d.min_hq+'+ target'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong>'+(d.count>t.length?(' (showing top '+t.length+')'):'')+' · sorted by most recently active';
+        $('tblcard').style.display='block';
+        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="6" style="color:var(--mute);padding:22px;text-align:center">No unallied targets at that level/recency. Try lowering Min HQ or widening the time window.</td></tr>'; return; }
+        try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
+        $('tbody').innerHTML=t.map(function(m,i){
+          var coord=(m.x!=null&&m.y!=null)?(m.x+':'+m.y):'—';
+          var mapurl='/map.html?warzone='+wz+'&player='+encodeURIComponent(m.name||'');
+          return '<tr>'+
+            '<td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
+            '<td><b>'+esc(m.name||'?')+'</b>'+(m.king?' <span class="pill">👑 King</span>':'')+'</td>'+
+            '<td class="n">'+ (m.hq||'—') +'</td>'+
+            '<td>'+(coord==='—'?'—':('<span class="coord" data-c="'+coord+'" title="Tap to copy">'+coord+' 📋</span>'))+'</td>'+
+            '<td class="n '+ageCls(m.days_ago)+'">'+ageTxt(m.days_ago)+'</td>'+
+            '<td><a class="maplink" href="'+mapurl+'" target="_blank">locate →</a></td>'+
+          '</tr>';
+        }).join('');
+        // copy-coord handlers
+        Array.prototype.forEach.call(document.querySelectorAll('.coord'),function(el){
+          el.onclick=function(){ var c=el.getAttribute('data-c'); try{navigator.clipboard.writeText(c);}catch(e){} var o=el.textContent; el.textContent='✓ copied'; setTimeout(function(){el.textContent=o;},900); };
+        });
+      })
+      .catch(function(e){
+        $('go').disabled=false;
+        if(e==='__locked'){ $('tblcard').style.display='block'; $('tblcard').innerHTML='<div class="locked">Redeem your access code to view targets — <a href="/unlock">unlock here</a>.</div>'; return; }
+        $('msg').textContent = e==='__noscan' ? ('No live scan for warzone '+wz+' yet.') : 'Could not load — try again.';
+      });
+  }
+  $('go').onclick=find;
+  $('wz').addEventListener('keydown',function(e){ if(e.key==='Enter')find(); });
+  (function(){
+    var wz=qp('warzone')||''; try{wz=wz||localStorage.getItem('lws_my_warzone')||'';}catch(e){}
+    if(wz){ $('wz').value=wz; find(); }
+    try{ if(window.self!==window.top){ var el=document.querySelector('.eyebrow'); if(el)el.style.display='none'; } }catch(e){}
+  })();
+})();
+</script>
+<script src="https://access-codes.r5tools.io/lib.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Cohort Power Race — r5tools</title>
+<meta name="description" content="Chart the #1 alliance of every warzone in your transfer cohort on one timeline — see which server has a fast-rising powerhouse and which is stagnant." />
+<link rel="canonical" href="https://r5tools.io/cohort-power.html" />
+<style>
+  :root{--bg:#080b14;--panel:#0d1424;--panel2:#111a2e;--border:#1e2740;--border2:#2a3654;
+    --text:#e7ecf5;--dim:#aab4c8;--mute:#68748e;--gold:#c9a961;--gold2:#e6cf7a;--ok:#8ae0a3;--warn:#e0a15f;--bad:#e0685f;--blue:#7fb0e6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--text-mute:#68748e}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1200px 600px at 15% -10%,rgba(201,169,97,.06),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:clamp(14px,3.5vw,34px)}
+  .wrap{max-width:1180px;margin:0 auto}
+  a{color:var(--gold)}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 10px}
+  h1{font-size:clamp(24px,4vw,36px);margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{color:var(--gold2)}
+  .lede{color:var(--dim);font-size:15px;max-width:74ch;margin:0 0 20px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:clamp(14px,2.4vw,20px);margin-bottom:14px}
+  label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;display:block;margin-bottom:5px}
+  input[type=text],select{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;font-family:var(--mono)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--gold);color:#1a1205;border-radius:8px;padding:9px 15px;font-size:14px;font-weight:700;font-family:var(--sans)}
+  .btn.ghost{background:var(--panel2);color:var(--text);font-weight:600}
+  .hint{color:var(--mute);font-size:12.5px;margin-top:8px;line-height:1.5}
+  #meta{font-size:13px;color:var(--dim);margin:4px 2px 12px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:6px}
+  th{text-align:left;padding:9px 10px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--border2);white-space:nowrap;cursor:pointer}
+  th.n,td.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  td{padding:9px 10px;border-bottom:1px solid var(--border)}
+  tr:hover td{background:rgba(127,176,230,.03)}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:middle}
+  .up{color:var(--ok)}.down{color:var(--bad)}
+  .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5}
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
+  .langbtn{position:fixed;top:12px;right:12px;z-index:50;background:var(--panel2);border:1px solid var(--border2);color:var(--dim);border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:600;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Last War: Survival · Cross-Server Intel</p>
+  <h1>Cohort <span class="g">Power Race</span></h1>
+  <p class="lede">The #1 alliance of every warzone you can transfer to, charted on <b>one timeline</b>. See which target server has a fast-rising powerhouse (hard to crack) and which top alliance is stagnant or shrinking (a server where you could actually climb). Powered by live LW Atlas power history.</p>
+
+  <div class="card">
+    <div class="row">
+      <div style="flex:1;min-width:260px"><label for="wzs">Warzones to compare (comma-separated)</label>
+        <input id="wzs" type="text" style="width:100%" placeholder="1989, 1990, … 2020"></div>
+      <div><label for="per">Alliances / server</label>
+        <select id="per"><option value="1">Top 1</option><option value="2">Top 2</option><option value="3">Top 3</option></select></div>
+      <button class="btn" id="go">Chart it →</button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn ghost" id="loadCohort">↺ Load full transfer cohort (1989–2020)</button>
+      <span id="msg" style="align-self:center;font-size:13px;color:var(--dim)"></span>
+    </div>
+    <div class="hint">Tip: fewer servers = a cleaner chart. Loading all 32 draws a lot of lines — use it for the big picture, then narrow to your real shortlist.</div>
+  </div>
+
+  <div id="meta"></div>
+  <div class="card" id="chart-card" style="min-height:120px"></div>
+
+  <div class="card" id="tblcard" style="display:none">
+    <div style="font-size:13px;color:var(--dim);margin-bottom:8px">Current top alliance per server — sorted by power. <b>Δ</b> = change over the charted window.</div>
+    <div style="overflow-x:auto"><table id="tbl">
+      <thead><tr>
+        <th>Server</th><th>Top alliance</th><th class="n">Power now</th><th class="n">Δ window</th><th class="n">Members</th><th class="n">Days</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+  </div>
+
+  <footer>
+    Data: live LW Atlas alliance power history via r5tools.io · a rising top-alliance line means the server's #1 is pulling away; a flat/falling line means the throne is contested or fading.
+    <div style="margin-top:8px"><a href="/warzone-transfer.html">← Back to Warzone Transfer</a></div>
+  </footer>
+</div>
+
+<script src="/line-chart.js?v=2026-08-26c"></script>
+<script>
+(function(){
+  var API='https://access-codes.r5tools.io';
+  var PALETTE=['#e6cf7a','#7fb0e6','#8ae0a3','#e0a15f','#e0685f','#c9a961','#b39ddb','#4dd0e1','#f06292','#aed581','#ffb74d','#90caf9','#ce93d8','#80cbc4','#ffab91','#a5d6a7','#fff176','#9fa8da','#ef9a9a','#80deea'];
+  var COHORT=[]; for(var i=1989;i<=2020;i++) COHORT.push(i);
+  function $(id){return document.getElementById(id);}
+  function qp(k){return new URLSearchParams(location.search).get(k);}
+  function code(){ try{ var u=qp('code'); if(u)return u; if(window.LWSAccessCodes&&LWSAccessCodes.code&&LWSAccessCodes.code())return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; }catch(e){return '';} }
+  function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
+  function fmtP(n){ if(n==null)return '—'; if(n>=1e9)return (n/1e9).toFixed(2)+'B'; if(n>=1e6)return (n/1e6).toFixed(1)+'M'; if(n>=1e3)return (n/1e3).toFixed(0)+'K'; return String(Math.round(n)); }
+
+  function chart(){
+    var raw=($('wzs').value||'').replace(/\s/g,'');
+    var wzs=raw.split(',').filter(function(t){return /^\d+$/.test(t);});
+    if(!wzs.length){ $('msg').textContent='Enter at least one warzone number.'; return; }
+    if(!code()){ $('chart-card').innerHTML='<div class="locked">Redeem your access code to load trends — <a href="/unlock">unlock here</a>.</div>'; return; }
+    $('msg').textContent='Loading '+wzs.length+' servers…'; $('go').disabled=true;
+    fetch(withCode(API+'/api/warzones/top-alliance-trends?per='+$('per').value+'&warzones='+wzs.join(',')),{credentials:'include'})
+      .then(function(r){ if(r.status===403)throw'__locked'; return r.json(); })
+      .then(function(d){
+        $('go').disabled=false; $('msg').textContent='';
+        var s=(d.series||[]).filter(function(x){return x.points&&x.points.length;});
+        if(!s.length){ $('chart-card').innerHTML='<div style="padding:26px;text-align:center;color:var(--mute)">No power history returned for those servers.</div>'; $('tblcard').style.display='none'; return; }
+        // sort by current power desc so the legend/colors track the biggest
+        s.sort(function(a,b){return (b.current_power||0)-(a.current_power||0);});
+        var series=s.slice(0,20).map(function(a,i){
+          return { label:'#'+a.warzone+' '+(a.tag||''), color:PALETTE[i%PALETTE.length],
+                   points:a.points.map(function(p){return {x:p.date.slice(5),y:p.power};}) };
+        });
+        LWSLineChart.renderMulti($('chart-card'), { title:'Top-alliance power over time', labelX:'Date', labelY:'Total power', height:380, series:series });
+        var maxDays=Math.max.apply(null,s.map(function(a){return a.points.length;}));
+        $('meta').innerHTML='<strong>'+s.length+'</strong> servers charted · up to <strong>'+maxDays+'</strong> days of history'+(s.length>20?' · showing top 20 lines':'')+' · source: '+(d.source||'');
+        // table
+        $('tblcard').style.display='block';
+        $('tbody').innerHTML=s.map(function(a,i){
+          var pts=a.points, latest=pts[pts.length-1], first=pts[0];
+          var delta=(latest&&first)?latest.power-first.power:0;
+          var col=PALETTE[i%PALETTE.length];
+          return '<tr>'+
+            '<td><span class="dot" style="background:'+col+'"></span>#'+a.warzone+'</td>'+
+            '<td style="font-family:var(--mono);color:var(--gold2)">'+(a.tag||'—')+'</td>'+
+            '<td class="n">'+fmtP(a.current_power)+'</td>'+
+            '<td class="n '+(delta>0?'up':(delta<0?'down':''))+'">'+(delta>0?'+':'')+fmtP(delta)+'</td>'+
+            '<td class="n">'+(a.member_count!=null?a.member_count:'—')+'</td>'+
+            '<td class="n">'+pts.length+'</td>'+
+          '</tr>';
+        }).join('');
+      })
+      .catch(function(e){
+        $('go').disabled=false;
+        if(e==='__locked'){ $('chart-card').innerHTML='<div class="locked">Redeem your access code to load trends — <a href="/unlock">unlock here</a>.</div>'; return; }
+        $('msg').textContent='Could not load — try again in a moment.';
+      });
+  }
+  $('go').onclick=chart;
+  $('loadCohort').onclick=function(){ $('wzs').value=COHORT.join(', '); chart(); };
+  // prefill: ?warzones= or the cohort by default
+  (function(){
+    var pre=qp('warzones');
+    $('wzs').value = pre ? pre.replace(/,/g,', ') : COHORT.join(', ');
+    // hide own chrome inside dashboard iframe
+    try{ if(window.self!==window.top){ var e=document.querySelector('.eyebrow'); if(e)e.style.display='none'; } }catch(e){}
+  })();
+})();
+</script>
+<script src="https://access-codes.r5tools.io/lib.js" defer></script>
+</body>
+</html>
