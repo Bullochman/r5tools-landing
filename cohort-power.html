@@ -94,7 +94,6 @@
     var raw=($('wzs').value||'').replace(/\s/g,'');
     var wzs=raw.split(',').filter(function(t){return /^\d+$/.test(t);});
     if(!wzs.length){ $('msg').textContent='Enter at least one warzone number.'; return; }
-    if(!code()){ $('chart-card').innerHTML='<div class="locked">Redeem your access code to load trends — <a href="/unlock">unlock here</a>.</div>'; return; }
     $('msg').textContent='Loading '+wzs.length+' servers…'; $('go').disabled=true;
     fetch(withCode(API+'/api/warzones/top-alliance-trends?per='+$('per').value+'&warzones='+wzs.join(',')),{credentials:'include'})
       .then(function(r){ if(r.status===403)throw'__locked'; return r.json(); })
@@ -129,7 +128,7 @@
       })
       .catch(function(e){
         $('go').disabled=false;
-        if(e==='__locked'){ $('chart-card').innerHTML='<div class="locked">Redeem your access code to load trends — <a href="/unlock">unlock here</a>.</div>'; return; }
+        if(e==='__locked'){ $('chart-card').innerHTML='<div class="locked">Redeem your access code to load trends — <a href="https://access-codes.r5tools.io/unlock" target="_top">unlock here</a>.</div>'; return; }
         $('msg').textContent='Could not load — try again in a moment.';
       });
   }

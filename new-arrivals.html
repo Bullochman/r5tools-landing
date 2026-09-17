@@ -82,7 +82,6 @@
   function scan(){
     var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
     if(isNaN(wz)){ $('msg').textContent='Enter a warzone number.'; return; }
-    if(!code()){ $('tblcard').style.display='block'; $('tblcard').innerHTML='<div class="locked">Redeem your access code — <a href="/unlock">unlock here</a>.</div>'; return; }
     $('msg').textContent='Scanning…'; $('go').disabled=true; $('tbody').innerHTML='';
     fetch(withCode(API+'/api/warzone/'+wz+'/arrivals?days='+$('days').value+'&min_hq='+$('minhq').value),{credentials:'include'})
       .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__noscan'; return r.json(); })

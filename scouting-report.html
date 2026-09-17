@@ -117,7 +117,6 @@
     var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
     var tag=($('tag').value||'').trim();
     if(isNaN(wz)||!tag){ $('msg').textContent='Enter a warzone and an alliance tag.'; return; }
-    if(!code()){ $('report').style.display='block'; $('report').innerHTML='<div class="locked">Redeem your access code to pull reports — <a href="/unlock">unlock here</a>.</div>'; return; }
     $('msg').textContent='Pulling…'; $('go').disabled=true;
     fetch(withCode(API+'/api/warzone/'+wz+'/alliance/'+encodeURIComponent(tag)+'/dossier'),{credentials:'include'})
       .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__none'; return r.json(); })

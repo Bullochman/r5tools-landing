@@ -104,7 +104,6 @@
   function find(){
     var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
     if(isNaN(wz)){ $('msg').textContent='Enter a warzone number.'; return; }
-    if(!code()){ $('tblcard').style.display='block'; $('tblcard').innerHTML='<div class="locked">Redeem your access code to view targets — <a href="/unlock">unlock here</a>.</div>'; return; }
     var ad=$('active').value?('&active_days='+$('active').value):'';
     ad += $('minoff').value?('&min_days='+$('minoff').value):'';
     $('msg').textContent='Scanning…'; $('go').disabled=true; $('tbody').innerHTML='';
@@ -149,7 +148,7 @@
       })
       .catch(function(e){
         $('go').disabled=false;
-        if(e==='__locked'){ $('tblcard').style.display='block'; $('tblcard').innerHTML='<div class="locked">Redeem your access code to view targets — <a href="/unlock">unlock here</a>.</div>'; return; }
+        if(e==='__locked'){ $('tblcard').style.display='block'; $('tblcard').innerHTML='<div class="locked">Redeem your access code to view targets — <a href="https://access-codes.r5tools.io/unlock" target="_top">unlock here</a>.</div>'; return; }
         $('msg').textContent = e==='__noscan' ? ('No live scan for warzone '+wz+' yet.') : 'Could not load — try again.';
       });
   }
