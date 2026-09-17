@@ -13,6 +13,7 @@
 
   var CHANGES = [
     // Most recent at the top. Group by date, one line per shipment.
+    { date: '2026-09-17', tag: 'FEAT',  label: 'Bounty Board upgraded into a real hit-list: ✓ checkboxes to tick off each target as you kill them (saved across sessions), and a 🗺️ "Efficient attack route" mode — enter your base X,Y and it orders every target by nearest-next-hop (greedy shortest path) so you burn the fewest teleports, with per-hop + total travel distance.' },
     { date: '2026-09-17', tag: 'FEAT',  label: 'NEW: New-Arrival Radar (dashboard 📡 tab) — spot every player who just showed up on a warzone (fresh transfers-in / new accounts, by when their base was first scanned). Recruit the strong newcomers before another alliance grabs them. Filter by how recently they arrived + min HQ. Fresh/pre-season servers light up with hundreds.' },
     { date: '2026-09-17', tag: 'FEAT',  label: 'Bounty Board: finer HQ steps (25/26/27/28/29/30+) + an "offline at least" filter and a "how to max VS & Enemy-Buster Day points" guide — dial in level-25+ unallied players who are active-but-offline (troops parked, no shield, no counterattack). Exact coords, no map-scrolling.' },
     { date: '2026-09-16', tag: 'FEAT',  label: 'Warzone Map: "👑 Leaders only" toggle — hide everyone except the R4/R5 leadership of every alliance, drawn bigger with R5s ringed in gold. In a war, knowing exactly where the enemy command sits is half the plan; for diplomacy, it\'s who to actually message.' },

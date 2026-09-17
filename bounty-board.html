@@ -33,6 +33,9 @@
   .coord{font-family:var(--mono);color:var(--gold2);cursor:pointer;border:1px solid var(--border2);border-radius:6px;padding:2px 8px;font-size:12.5px}
   .coord:hover{border-color:var(--gold)}
   .fresh{color:var(--ok)}.mid{color:var(--warn)}.stale{color:var(--mute)}
+  tr.hit td{opacity:.4;text-decoration:line-through}
+  tr.hit td input[type=checkbox]{opacity:1}
+  .hop{font-family:var(--mono);font-size:10px;color:var(--mute);display:block}
   .maplink{color:var(--blue);font-size:12px;text-decoration:none}
   .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5}
   .pill{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;background:rgba(230,207,122,.15);color:var(--gold2);border:1px solid rgba(230,207,122,.35)}
@@ -62,10 +65,15 @@
   </div>
 
   <div id="meta"></div>
-  <div id="tools" style="display:none;margin:0 2px 10px"><button class="btn" id="copyall" style="background:var(--panel2);color:var(--text);border-color:var(--border2);font-weight:600;font-size:13px;padding:7px 13px">📋 Copy all as list</button> <span style="font-size:12px;color:var(--mute)">— name · HQ · X:Y, for chat or notes</span></div>
+  <div id="tools" style="display:none;margin:0 2px 12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <button class="btn" id="copyall" style="background:var(--panel2);color:var(--text);border-color:var(--border2);font-weight:600;font-size:13px;padding:7px 13px">📋 Copy all as list</button>
+    <label id="routeWrap" style="display:none;align-items:center;gap:6px;font-size:13px;color:var(--dim);cursor:pointer"><input type="checkbox" id="routeMode"> 🗺️ Efficient attack route</label>
+    <button class="btn" id="clearHits" style="background:transparent;color:var(--mute);border-color:var(--border2);font-weight:600;font-size:12px;padding:6px 11px">Clear ✓ checks</button>
+    <span id="hitCount" style="font-size:12px;color:var(--mute)"></span>
+  </div>
   <div class="card" id="tblcard" style="display:none;overflow-x:auto">
     <table id="tbl">
-      <thead><tr><th>#</th><th>Player</th><th class="n">HQ</th><th>Coordinates</th><th class="n" id="thDist" style="display:none">Distance</th><th class="n">Last seen</th><th>Map</th></tr></thead>
+      <thead><tr><th style="width:28px">✓</th><th>#</th><th>Player</th><th class="n">HQ</th><th>Coordinates</th><th class="n" id="thDist" style="display:none">Distance</th><th class="n">Last seen</th><th>Map</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
@@ -100,6 +108,25 @@
   function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
   function ageCls(d){ if(d==null)return 'stale'; if(d<=2)return 'fresh'; if(d<=7)return 'mid'; return 'stale'; }
   function ageTxt(d){ if(d==null)return 'unknown'; if(d<1)return 'today'; return Math.round(d)+'d ago'; }
+  // greedy nearest-neighbour route from a start point — each hop goes to the
+  // closest remaining target, minimising total teleport distance.
+  function routeOrder(list, start){
+    var rem=list.filter(function(m){return m.x!=null&&m.y!=null;});
+    var noco=list.filter(function(m){return m.x==null||m.y==null;});
+    var out=[], cur=[start[0],start[1]];
+    while(rem.length){
+      var bi=0,bd=Infinity;
+      for(var i=0;i<rem.length;i++){ var d=Math.hypot(rem[i].x-cur[0],rem[i].y-cur[1]); if(d<bd){bd=d;bi=i;} }
+      var nx=rem.splice(bi,1)[0]; nx._hop=Math.round(bd); out.push(nx); cur=[nx.x,nx.y];
+    }
+    return out.concat(noco);
+  }
+  // "already hit" persistence, per warzone+player+coord
+  function hitKey(wz,m){ return wz+'|'+(m.name||'')+'|'+m.x+':'+m.y; }
+  function decodeHk(s){ return s||''; }
+  function hitSet(){ try{ return new Set(JSON.parse(localStorage.getItem('lws_bounty_hit')||'[]')); }catch(e){ return new Set(); } }
+  function saveHits(s){ try{ localStorage.setItem('lws_bounty_hit', JSON.stringify(Array.from(s))); }catch(e){} }
+  function updHitCount(){ var s=hitSet(); var n=(window.__lastTargets||[]).filter(function(m){return s.has(hitKey(window.__lastWz,m));}).length; $('hitCount').textContent = n?('✓ '+n+' checked off'):''; }
 
   function find(){
     var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
@@ -113,25 +140,34 @@
         $('go').disabled=false;
         var t=(d.targets||[]).slice();
         $('msg').textContent='';
-        // optional "your base" → distance sort (nearest first, cheapest teleport)
+        // optional "your base" → distance sort or efficient route
         var mxy=($('myxy').value||'').split(/[,\s:]+/).map(function(n){return parseInt(n,10);});
         var haveXY = mxy.length>=2 && !isNaN(mxy[0]) && !isNaN(mxy[1]);
         $('thDist').style.display = haveXY ? '' : 'none';
+        $('routeWrap').style.display = haveXY ? 'inline-flex' : 'none';
+        var routeOn = haveXY && $('routeMode').checked;
+        var sortLabel = 'most recently active';
         if(haveXY){
-          t.forEach(function(m){ m._dist = (m.x!=null&&m.y!=null) ? Math.round(Math.hypot(m.x-mxy[0], m.y-mxy[1])) : null; });
-          t.sort(function(a,b){ return (a._dist==null?1e9:a._dist)-(b._dist==null?1e9:b._dist); });
+          t.forEach(function(m){ m._dist = (m.x!=null&&m.y!=null) ? Math.round(Math.hypot(m.x-mxy[0], m.y-mxy[1])) : null; m._hop=null; });
+          if(routeOn){ t = routeOrder(t, mxy); sortLabel = 'efficient attack route from your base'; }
+          else { t.sort(function(a,b){ return (a._dist==null?1e9:a._dist)-(b._dist==null?1e9:b._dist); }); sortLabel='nearest to your base'; }
         }
         window.__lastTargets=t; window.__lastWz=wz;
-        $('meta').innerHTML='<strong>'+d.count+'</strong> unallied HQ'+d.min_hq+'+ target'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong>'+(d.count>t.length?(' (showing top '+t.length+')'):'')+' · sorted by '+(haveXY?'nearest to your base':'most recently active');
+        var totalHop = routeOn ? t.reduce(function(s,m){return s+(m._hop||0);},0) : null;
+        $('meta').innerHTML='<strong>'+d.count+'</strong> unallied HQ'+d.min_hq+'+ target'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong>'+(d.count>t.length?(' (showing top '+t.length+')'):'')+' · sorted by '+sortLabel+(totalHop!=null?(' · <strong>~'+totalHop+'</strong> total travel'):'');
         $('tblcard').style.display='block';
-        $('tools').style.display = t.length ? 'block' : 'none';
-        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="7" style="color:var(--mute);padding:22px;text-align:center">No unallied targets at that level/recency. Try lowering Min HQ or widening the time window.</td></tr>'; return; }
+        $('tools').style.display = t.length ? 'flex' : 'none';
+        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="8" style="color:var(--mute);padding:22px;text-align:center">No unallied targets at that level/recency. Try lowering Min HQ or widening the time window.</td></tr>'; return; }
         try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
+        var hits=hitSet();
         $('tbody').innerHTML=t.map(function(m,i){
           var coord=(m.x!=null&&m.y!=null)?(m.x+':'+m.y):'—';
           var mapurl='/map.html?warzone='+wz+'&player='+encodeURIComponent(m.name||'');
-          var distCell = haveXY ? ('<td class="n">'+(m._dist==null?'—':m._dist)+'</td>') : '';
-          return '<tr>'+
+          var distInner = (m._dist==null?'—':m._dist) + (routeOn&&m._hop!=null?('<span class="hop">+'+m._hop+' hop</span>'):'');
+          var distCell = haveXY ? ('<td class="n">'+distInner+'</td>') : '';
+          var hk=hitKey(wz,m), on=hits.has(hk);
+          return '<tr'+(on?' class="hit"':'')+' data-hk="'+esc(hk)+'">'+
+            '<td><input type="checkbox" class="hitbox"'+(on?' checked':'')+'></td>'+
             '<td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
             '<td><b>'+esc(m.name||'?')+'</b>'+(m.king?' <span class="pill">👑 King</span>':'')+'</td>'+
             '<td class="n">'+ (m.hq||'—') +'</td>'+
@@ -145,6 +181,11 @@
         Array.prototype.forEach.call(document.querySelectorAll('.coord'),function(el){
           el.onclick=function(){ var c=el.getAttribute('data-c'); try{navigator.clipboard.writeText(c);}catch(e){} var o=el.textContent; el.textContent='✓ copied'; setTimeout(function(){el.textContent=o;},900); };
         });
+        // check-off handlers (persist which targets you've already hit)
+        Array.prototype.forEach.call(document.querySelectorAll('.hitbox'),function(cb){
+          cb.onchange=function(){ var tr=cb.closest('tr'); var hk=decodeHk(tr.getAttribute('data-hk')); var s=hitSet(); if(cb.checked){s.add(hk);tr.classList.add('hit');}else{s.delete(hk);tr.classList.remove('hit');} saveHits(s); updHitCount(); };
+        });
+        updHitCount();
       })
       .catch(function(e){
         $('go').disabled=false;
@@ -154,6 +195,8 @@
   }
   $('go').onclick=find;
   $('wz').addEventListener('keydown',function(e){ if(e.key==='Enter')find(); });
+  $('routeMode').addEventListener('change',function(){ if(window.__lastTargets&&window.__lastTargets.length) find(); });
+  $('clearHits').onclick=function(){ saveHits(new Set()); Array.prototype.forEach.call(document.querySelectorAll('#tbody tr'),function(tr){tr.classList.remove('hit');var cb=tr.querySelector('.hitbox');if(cb)cb.checked=false;}); updHitCount(); };
   $('copyall').onclick=function(){
     var t=window.__lastTargets||[]; if(!t.length)return;
     var lines=t.map(function(m){ var c=(m.x!=null&&m.y!=null)?(m.x+':'+m.y):'?'; return (m.name||'?')+' · HQ'+(m.hq||'?')+' · '+c+(m._dist!=null?(' · '+m._dist+' away'):''); });
