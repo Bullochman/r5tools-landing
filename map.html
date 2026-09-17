@@ -155,6 +155,9 @@
           <button class="btn ghost" id="hit-copy" style="width:100%;margin-top:8px">Copy coordinates</button>
         </div>
         <div class="card">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:10px;color:var(--text)">
+            <input type="checkbox" id="leadersOnly"> 👑 Leaders only (R4 / R5)
+          </label>
           <h3>Alliances <span style="text-transform:none;color:var(--text-mute)">(click to toggle)</span></h3>
           <div class="legend" id="legend"></div>
           <div class="zoomrow">
@@ -206,10 +209,16 @@
       for (var i=0;i<state.members.length;i++){
         var m=state.members[i]; if(m.x==null) continue;
         if(state.off[aid(m)]) continue;
+        if(state.leadersOnly && !((m.rank||0)>=4)) continue;   // 👑 leaders-only view
         if(state.hit && m===state.hit) continue;
         ctx.beginPath();
         ctx.fillStyle = state.colors[aid(m)] || GRAY;
-        ctx.arc(wx(m.x), wy(m.y), r, 0, 6.2832); ctx.fill();
+        var rr = state.leadersOnly ? Math.max(3, r*2.2) : r;   // leaders drawn bigger
+        ctx.arc(wx(m.x), wy(m.y), rr, 0, 6.2832); ctx.fill();
+        if(state.leadersOnly && (m.rank||0)>=5){                // ring the R5 leaders
+          ctx.beginPath(); ctx.strokeStyle='#e6cf7a'; ctx.lineWidth=1.5;
+          ctx.arc(wx(m.x), wy(m.y), rr+2.5, 0, 6.2832); ctx.stroke();
+        }
       }
       // highlighted player on top with a pulsing ring
       if (state.hit && state.hit.x!=null){
@@ -347,6 +356,7 @@
       state.view.x=drag.vx+(e.clientX-drag.x)*sx; state.view.y=drag.vy+(e.clientY-drag.y)*sx; redraw(); });
     window.addEventListener('mouseup', function(){ drag=null; });
     $('zoom-in').onclick=function(){ state.view.scale=Math.min(8,state.view.scale*1.3); redraw(); };
+    var _lo=$('leadersOnly'); if(_lo){ _lo.addEventListener('change',function(){ state.leadersOnly=_lo.checked; redraw(); }); }
     $('zoom-out').onclick=function(){ state.view.scale=Math.max(1,state.view.scale/1.3); redraw(); };
     $('zoom-reset').onclick=function(){ fitView(); redraw(); };
 
