@@ -308,6 +308,8 @@
         else qs.push('warzone=' + encodeURIComponent(state.wz));
       }
       if (!tool.native && state.alli) qs.push('alliance=' + encodeURIComponent(state.alli));
+      // cache-bust native tool pages so new versions load without a hard refresh
+      if (tool.native) qs.push('_v=20260917d');
       return tool.src + (qs.length ? ('?' + qs.join('&')) : '');
     }
 
