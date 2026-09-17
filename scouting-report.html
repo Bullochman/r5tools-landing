@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Scouting Report — r5tools</title>
+<meta name="description" content="A full intel dossier on any Last War alliance: power trend, member activity, leadership roster with coordinates, whales, age, and activity scores." />
+<link rel="canonical" href="https://r5tools.io/scouting-report.html" />
+<style>
+  :root{--bg:#080b14;--panel:#0d1424;--panel2:#111a2e;--border:#1e2740;--border2:#2a3654;
+    --text:#e7ecf5;--dim:#aab4c8;--mute:#68748e;--gold:#c9a961;--gold2:#e6cf7a;--ok:#8ae0a3;--warn:#e0a15f;--bad:#e0685f;--blue:#7fb0e6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--text-mute:#68748e}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1100px 560px at 12% -8%,rgba(201,169,97,.06),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:clamp(14px,3.5vw,34px)}
+  .wrap{max-width:1080px;margin:0 auto}
+  a{color:var(--gold)}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 10px}
+  h1{font-size:clamp(24px,4vw,36px);margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{color:var(--gold2)}
+  .lede{color:var(--dim);font-size:15px;max-width:72ch;margin:0 0 20px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:clamp(14px,2.4vw,20px);margin-bottom:14px}
+  label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;display:block;margin-bottom:5px}
+  input[type=text],input[type=number]{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;font-family:var(--mono)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--gold);color:#1a1205;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:700;font-family:var(--sans)}
+  .hint{color:var(--mute);font-size:12.5px;margin-top:8px}
+  .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5}
+  /* report */
+  #report{display:none}
+  .hdr{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:baseline;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:4px}
+  .hdr .tag{font-family:var(--mono);font-size:26px;font-weight:800;color:var(--gold2)}
+  .hdr .nm{color:var(--dim);font-size:15px}
+  .hdr .pw{margin-left:auto;font-family:var(--mono);font-size:20px;font-weight:700;color:var(--text)}
+  .hdr .pw small{color:var(--mute);font-size:12px;font-weight:400}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
+  .stat{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+  .stat .k{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);font-weight:600}
+  .stat .v{font-family:var(--mono);font-size:19px;font-weight:700;margin-top:3px}
+  .stat .v small{font-size:12px;color:var(--mute);font-weight:400}
+  .section-t{font-size:12px;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:20px 0 10px}
+  .actbar{display:flex;height:26px;border-radius:7px;overflow:hidden;border:1px solid var(--border2);font-family:var(--mono);font-size:11px;font-weight:700}
+  .actbar span{display:flex;align-items:center;justify-content:center;color:#0a0e1a;min-width:0;white-space:nowrap}
+  .actlegend{display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--dim);flex-wrap:wrap}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  th{text-align:left;padding:9px 11px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--border2);white-space:nowrap}
+  th.n,td.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  td{padding:9px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  .rk{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+  .rk5{color:#0a0e1a;background:var(--gold2)} .rk4{color:var(--gold2);background:rgba(201,169,97,.15);border:1px solid rgba(201,169,97,.35)}
+  .coord{font-family:var(--mono);color:var(--gold2);cursor:pointer;font-size:12.5px;border:1px solid var(--border2);border-radius:6px;padding:1px 7px}
+  .fresh{color:var(--ok)}.mid{color:var(--warn)}.stale{color:var(--mute)}
+  .newpill{display:inline-block;font-size:10px;font-weight:700;color:var(--blue);background:rgba(127,176,230,.12);border:1px solid rgba(127,176,230,.35);border-radius:5px;padding:1px 7px}
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Last War: Survival · Alliance Intel</p>
+  <h1>Scouting <span class="g">Report</span></h1>
+  <p class="lede">A full intel file on any alliance — like a scouting report you'd keep on a rival. Are they growing or dying, how many members are actually <b>active vs. dead accounts</b>, who their <b>R5/R4 leaders</b> are and exactly where they sit, how strong, how old, how engaged. Know your enemy — or vet a merge — in one screen.</p>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="wz">Warzone</label><input id="wz" type="number" inputmode="numeric" placeholder="2007" style="width:110px"></div>
+      <div><label for="tag">Alliance tag</label><input id="tag" type="text" placeholder="RONY" style="width:140px"></div>
+      <button class="btn" id="go">Pull report →</button>
+      <span id="msg" style="align-self:center;font-size:13px;color:var(--dim)"></span>
+    </div>
+    <div class="hint">Enter the exact in-game alliance tag. Tip: find tags in Live Roster or the Warzone Map.</div>
+  </div>
+
+  <div class="card" id="report">
+    <div class="hdr">
+      <span class="tag" id="rTag">—</span>
+      <span class="nm" id="rName"></span>
+      <span class="pw" id="rPower"></span>
+    </div>
+    <div class="stats" id="rStats"></div>
+
+    <div class="section-t">Member activity <span id="rScanned" style="color:var(--mute)"></span></div>
+    <div class="actbar" id="rActbar"></div>
+    <div class="actlegend" id="rActlegend"></div>
+
+    <div class="section-t">Power trend</div>
+    <div id="rChart" style="min-height:60px"></div>
+
+    <div class="section-t">Leadership <span style="color:var(--mute)">(R5 / R4 — names &amp; coordinates)</span></div>
+    <div style="overflow-x:auto"><table id="rLeaders"><tbody></tbody></table></div>
+
+    <div class="section-t" id="rNewT" style="display:none">Recent arrivals <span style="color:var(--mute)">(first seen ≤10 days — fresh transfers-in)</span></div>
+    <div style="overflow-x:auto"><table id="rNew" style="display:none"><tbody></tbody></table></div>
+  </div>
+
+  <footer>
+    Data: live LW Atlas map scans via r5tools.io. Activity = members seen in the last few days vs. the freshest scan.
+    <div style="margin-top:8px">Built on the free public data from <a href="https://lwatlas.com" target="_blank" rel="noopener">LW Atlas</a> — the foundation this whole suite stands on. · <a href="/dashboard.html">← Dashboard</a></div>
+  </footer>
+</div>
+
+<script src="/line-chart.js?v=2026-08-26c"></script>
+<script>
+(function(){
+  var API='https://access-codes.r5tools.io';
+  function $(id){return document.getElementById(id);}
+  function qp(k){return new URLSearchParams(location.search).get(k);}
+  function code(){ try{ var u=qp('code'); if(u)return u; if(window.LWSAccessCodes&&LWSAccessCodes.code&&LWSAccessCodes.code())return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; }catch(e){return '';} }
+  function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+  function fmtP(n){ if(n==null)return '—'; if(n>=1e9)return (n/1e9).toFixed(2)+'B'; if(n>=1e6)return (n/1e6).toFixed(1)+'M'; if(n>=1e3)return (n/1e3).toFixed(0)+'K'; return String(Math.round(n)); }
+  var LANGID={390752:'🇬🇧 EN',390758:'🇰🇷 KO',390753:'🇯🇵 JA',390754:'🇨🇳 ZH',390755:'🇧🇷 PT',390756:'🇪🇸 ES',390757:'🇩🇪 DE',390759:'🇷🇺 RU'};
+  function ageDays(iso){ if(!iso)return null; var t=new Date(iso); if(isNaN(t))return null; return (Date.now()-t.getTime())/86400000; }
+
+  function pull(){
+    var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
+    var tag=($('tag').value||'').trim();
+    if(isNaN(wz)||!tag){ $('msg').textContent='Enter a warzone and an alliance tag.'; return; }
+    if(!code()){ $('report').style.display='block'; $('report').innerHTML='<div class="locked">Redeem your access code to pull reports — <a href="/unlock">unlock here</a>.</div>'; return; }
+    $('msg').textContent='Pulling…'; $('go').disabled=true;
+    fetch(withCode(API+'/api/warzone/'+wz+'/alliance/'+encodeURIComponent(tag)+'/dossier'),{credentials:'include'})
+      .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__none'; return r.json(); })
+      .then(function(d){ $('go').disabled=false; $('msg').textContent=''; render(d); })
+      .catch(function(e){
+        $('go').disabled=false;
+        $('msg').textContent = e==='__locked' ? 'Redeem an access code to view this.' : e==='__none' ? ('No alliance "'+tag+'" on warzone '+wz+'.') : 'Could not load — try again.';
+      });
+  }
+
+  function render(d){
+    var p=d.profile||{}, a=d.activity||{};
+    $('report').style.display='block';
+    $('rTag').textContent='['+d.tag+']';
+    $('rName').textContent=p.name||'';
+    $('rPower').innerHTML=fmtP(p.power)+' <small>power'+(p.power_rank?(' · #'+p.power_rank+'/'+p.power_rank_total):'')+'</small>';
+    try{localStorage.setItem('lws_my_warzone',String(d.warzone));}catch(e){}
+    // stat tiles
+    var ageTxt='—'; if(p.created_time){ var days=Math.round(ageDays(p.created_time)); ageTxt=days>=0?(days+'d old'):'—'; }
+    var scoreTxt = (p.score_comprehensive!=null)?(p.score_comprehensive+'★'):'—';
+    var tiles=[
+      ['Members', (p.member_count!=null?p.member_count:a.scanned_members)+'<small>/'+(p.max_member||100)+'</small>'],
+      ['Active now', a.active+'<small>/'+a.scanned_members+' ('+a.active_pct+'%)</small>'],
+      ['Avg HQ', a.avg_hq],
+      ['HQ 28+', a.high_hq_28plus],
+      ['Overall score', scoreTxt],
+      ['Engagement', fmtP(p.engagement_point)],
+      ['Language', (p.language&&LANGID[p.language])?LANGID[p.language]:(p.country||'—')],
+      ['Age', ageTxt]
+    ];
+    $('rStats').innerHTML=tiles.map(function(t){return '<div class="stat"><div class="k">'+t[0]+'</div><div class="v">'+t[1]+'</div></div>';}).join('');
+    // activity bar
+    var tot=a.scanned_members||1;
+    function seg(n,col,lbl){ var pct=100*n/tot; return pct>0?'<span style="width:'+pct+'%;background:'+col+'" title="'+lbl+': '+n+'">'+(pct>8?n:'')+'</span>':''; }
+    $('rActbar').innerHTML=seg(a.active,'var(--ok)','Active')+seg(a.idle,'var(--warn)','Idle')+seg(a.ghost,'var(--bad)','Ghost');
+    $('rScanned').textContent='· '+a.scanned_members+' scanned';
+    $('rActlegend').innerHTML='<span><span class="dot" style="background:var(--ok)"></span>Active ('+a.active+') — seen ≤3d</span>'
+      +'<span><span class="dot" style="background:var(--warn)"></span>Idle ('+a.idle+') — 3–7d</span>'
+      +'<span><span class="dot" style="background:var(--bad)"></span>Ghost ('+a.ghost+') — 7d+</span>';
+    // chart
+    var pts=(d.power_history||[]).map(function(x){return {x:x.date.slice(5),y:x.power};});
+    if(pts.length>1 && window.LWSLineChart){
+      LWSLineChart.renderMulti($('rChart'), {title:'', labelX:'', labelY:'Power', height:150, series:[{label:d.tag,color:'#e6cf7a',points:pts}]});
+    } else { $('rChart').innerHTML='<div style="color:var(--mute);font-size:13px;padding:8px">Not enough history yet — a trend line builds as scans accumulate.</div>'; }
+    // leaders
+    var lb=$('rLeaders').querySelector('tbody');
+    lb.innerHTML='<tr><th>Rank</th><th>Name</th><th>Coordinates</th><th class="n">Last seen</th></tr>'+
+      (d.leaders||[]).map(function(l){
+        var da=l.last_seen_days, cls=da==null?'stale':(da<=2?'fresh':da<=7?'mid':'stale');
+        var coord=(l.x!=null)?(l.x+':'+l.y):'—';
+        return '<tr><td><span class="rk rk'+l.rank+'">R'+l.rank+'</span></td>'+
+          '<td><b>'+esc(l.name||'?')+'</b>'+(l.king?' 👑':'')+'</td>'+
+          '<td>'+(coord==='—'?'—':'<span class="coord" data-c="'+coord+'">'+coord+' 📋</span>')+'</td>'+
+          '<td class="n '+cls+'">'+(da==null?'—':(da<1?'today':Math.round(da)+'d'))+'</td></tr>';
+      }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('.coord'),function(el){
+      el.onclick=function(){ try{navigator.clipboard.writeText(el.getAttribute('data-c'));}catch(e){} var o=el.textContent;el.textContent='✓';setTimeout(function(){el.textContent=o;},800); };
+    });
+    // new arrivals
+    var na=d.new_arrivals||[];
+    if(na.length){
+      $('rNewT').style.display=''; $('rNew').style.display='';
+      $('rNew').querySelector('tbody').innerHTML='<tr><th>Name</th><th class="n">HQ</th><th>Coordinates</th><th class="n">Arrived</th></tr>'+
+        na.map(function(m){var c=(m.x!=null)?(m.x+':'+m.y):'—';return '<tr><td><b>'+esc(m.name||'?')+'</b> <span class="newpill">NEW</span></td><td class="n">'+(m.hq||'—')+'</td><td>'+c+'</td><td class="n">'+(m.days_ago<1?'today':Math.round(m.days_ago)+'d ago')+'</td></tr>';}).join('');
+    } else { $('rNewT').style.display='none'; $('rNew').style.display='none'; }
+    $('report').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  $('go').onclick=pull;
+  $('tag').addEventListener('keydown',function(e){ if(e.key==='Enter')pull(); });
+  $('wz').addEventListener('keydown',function(e){ if(e.key==='Enter')pull(); });
+  (function(){
+    var wz=qp('warzone')||''; var al=qp('alliance')||'';
+    try{ wz=wz||localStorage.getItem('lws_my_warzone')||''; }catch(e){}
+    if(wz)$('wz').value=wz; if(al)$('tag').value=al;
+    if(wz&&al) pull();
+    try{ if(window.self!==window.top){ var e=document.querySelector('.eyebrow'); if(e)e.style.display='none'; } }catch(e){}
+  })();
+})();
+</script>
+<script src="https://access-codes.r5tools.io/lib.js" defer></script>
+</body>
+</html>
