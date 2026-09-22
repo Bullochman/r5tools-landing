@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Coalition Planner — r5tools</title>
+<meta name="description" content="Model how alliances could combine power to challenge the #1 on any warzone — pick alliances, see their combined power vs the top, and find the smallest coalition that takes first." />
+<link rel="canonical" href="https://r5tools.io/coalition-planner.html" />
+<style>
+  :root{--bg:#080b14;--panel:#0d1424;--panel2:#111a2e;--border:#1e2740;--border2:#2a3654;
+    --text:#e7ecf5;--dim:#aab4c8;--mute:#68748e;--gold:#c9a961;--gold2:#e6cf7a;--ok:#8ae0a3;--warn:#e0a15f;--bad:#e0685f;--blue:#7fb0e6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1100px 560px at 12% -8%,rgba(201,169,97,.06),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:clamp(14px,3.5vw,34px)}
+  .wrap{max-width:1000px;margin:0 auto}
+  a{color:var(--gold)}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 10px}
+  h1{font-size:clamp(24px,4vw,36px);margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{color:var(--gold2)}
+  .lede{color:var(--dim);font-size:15px;max-width:74ch;margin:0 0 20px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:clamp(14px,2.4vw,20px);margin-bottom:14px}
+  label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;display:block;margin-bottom:5px}
+  input[type=number]{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;font-family:var(--mono)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--gold);color:#1a1205;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:700;font-family:var(--sans)}
+  .btn.ghost{background:var(--panel2);color:var(--text);font-weight:600;font-size:13px;padding:7px 12px}
+  .hint{color:var(--mute);font-size:12.5px;margin-top:8px;line-height:1.5}
+  /* coalition readout (sticky summary) */
+  #readout{position:sticky;top:8px;z-index:5;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--border2);border-radius:12px;padding:14px 16px;margin-bottom:14px;display:none}
+  .ro-line{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline}
+  .ro-big{font-family:var(--mono);font-size:22px;font-weight:800}
+  .ro-k{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+  .verdict{font-weight:700;font-size:15px;margin-top:8px}
+  .v-win{color:var(--ok)} .v-lose{color:var(--warn)}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th{text-align:left;padding:9px 11px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--border2);white-space:nowrap}
+  th.n,td.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  td{padding:9px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr.sel td{background:rgba(201,169,97,.10)}
+  tr.top1 td{box-shadow:inset 3px 0 0 var(--gold2)}
+  tr.mine td{box-shadow:inset 3px 0 0 var(--blue)}
+  .tag{font-family:var(--mono);font-weight:700;color:var(--gold2)}
+  .minepill{font-size:9.5px;font-weight:700;color:var(--blue);background:rgba(127,176,230,.12);border:1px solid rgba(127,176,230,.35);border-radius:4px;padding:1px 6px;margin-left:5px}
+  .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5}
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Last War: Survival · Alliance Strategy</p>
+  <h1>Coalition <span class="g">Planner</span></h1>
+  <p class="lede">On a <b>landlocked</b> server where one alliance owns the map, no single alliance can catch them alone. This tool models the answer everyone whispers about: <b>if we teamed up, could we take #1?</b> Tick the alliances in your coalition and watch their combined power stack up against the top — and let it find the <b>smallest group that passes first place</b>. (Alliances cap at 100, so this is coalition/coordination strength, not a literal merge.)</p>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="wz">Warzone</label><input id="wz" type="number" inputmode="numeric" placeholder="2007" style="width:120px"></div>
+      <button class="btn" id="go">Load alliances →</button>
+      <button class="btn ghost" id="suggest" style="display:none">💡 Smallest coalition to pass #1</button>
+      <span id="msg" style="align-self:center;font-size:13px;color:var(--dim)"></span>
+    </div>
+    <div class="hint">Tip: check your own alliance first, then add potential partners. Your alliance is flagged in blue, the current #1 in gold.</div>
+  </div>
+
+  <div id="readout">
+    <div class="ro-line">
+      <div><div class="ro-k">Coalition power</div><div class="ro-big" id="roPower">—</div></div>
+      <div><div class="ro-k">vs #1 (<span id="roTopTag">—</span>)</div><div class="ro-big" id="roTop">—</div></div>
+      <div><div class="ro-k">Alliances picked</div><div class="ro-big" id="roCount">0</div></div>
+      <div><div class="ro-k">Combined members</div><div class="ro-big" id="roMembers">—</div></div>
+    </div>
+    <div class="verdict" id="roVerdict"></div>
+  </div>
+
+  <div class="card" id="tblcard" style="display:none;overflow-x:auto">
+    <table id="tbl"><thead><tr><th style="width:30px">✓</th><th class="n">#</th><th>Alliance</th><th class="n">Power</th><th class="n">Members</th><th>Leader (R5)</th></tr></thead><tbody id="tbody"></tbody></table>
+  </div>
+
+  <footer>
+    Data: authoritative per-alliance power via <a href="https://lwatlas.com" target="_blank" rel="noopener">LW Atlas</a> (every alliance, not just the top few). Coalition = combined power if these alliances coordinated / allied; the in-game 100-member cap means it models coordinated strength, not a single merged roster.
+    <div style="margin-top:8px"><a href="/dashboard.html">← Dashboard</a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var API='https://access-codes.r5tools.io';
+  function $(id){return document.getElementById(id);}
+  function qp(k){return new URLSearchParams(location.search).get(k);}
+  function code(){ try{ var u=qp('code'); if(u)return u; if(window.LWSAccessCodes&&LWSAccessCodes.code&&LWSAccessCodes.code())return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; }catch(e){return '';} }
+  function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+  function fmtP(n){ if(n==null)return '—'; if(n>=1e9)return (n/1e9).toFixed(2)+'B'; if(n>=1e6)return (n/1e6).toFixed(1)+'M'; if(n>=1e3)return (n/1e3).toFixed(0)+'K'; return String(Math.round(n)); }
+  var S={ alliances:[], top:null, mine:'', sel:{} };
+
+  function load(){
+    var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
+    if(isNaN(wz)){ $('msg').textContent='Enter a warzone number.'; return; }
+    $('msg').textContent='Loading alliances…'; $('go').disabled=true;
+    fetch(withCode(API+'/api/warzone/'+wz+'/alliances?top=40'),{credentials:'include'})
+      .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__noscan'; return r.json(); })
+      .then(function(d){
+        $('go').disabled=false; $('msg').textContent='';
+        S.alliances=(d.alliances||[]).filter(function(a){return a.power!=null;});
+        S.top=S.alliances[0]||null; S.sel={};
+        try{S.mine=(localStorage.getItem('lws_my_alliance')||'').toUpperCase();}catch(e){S.mine='';}
+        try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
+        $('tblcard').style.display='block'; $('suggest').style.display='inline-block';
+        renderTable(); renderReadout();
+      })
+      .catch(function(e){
+        $('go').disabled=false;
+        if(e==='__locked'){ $('tblcard').style.display='block'; $('tblcard').innerHTML='<div class="locked">Redeem your access code — <a href="https://access-codes.r5tools.io/unlock" target="_top">unlock here</a>.</div>'; return; }
+        $('msg').textContent = e==='__noscan' ? ('No live scan for warzone yet.') : 'Could not load — try again.';
+      });
+  }
+
+  function renderTable(){
+    $('tbody').innerHTML=S.alliances.map(function(a,i){
+      var mine=S.mine && (a.tag||'').toUpperCase()===S.mine;
+      var cls=(S.sel[a.alliance_id]?'sel ':'')+(i===0?'top1 ':'')+(mine?'mine':'');
+      return '<tr class="'+cls.trim()+'" data-id="'+esc(a.alliance_id)+'">'+
+        '<td><input type="checkbox" class="pick"'+(S.sel[a.alliance_id]?' checked':'')+'></td>'+
+        '<td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
+        '<td><span class="tag">['+esc(a.tag||'?')+']</span>'+(i===0?' 👑':'')+(mine?' <span class="minepill">YOU</span>':'')+'</td>'+
+        '<td class="n" style="font-weight:700">'+fmtP(a.power)+'</td>'+
+        '<td class="n">'+(a.member_count!=null?a.member_count:'—')+'</td>'+
+        '<td style="color:var(--dim)">'+esc(a.leader_name||'—')+'</td>'+
+      '</tr>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('#tbody .pick'),function(cb){
+      cb.onchange=function(){ var id=cb.closest('tr').getAttribute('data-id'); if(cb.checked)S.sel[id]=true; else delete S.sel[id]; cb.closest('tr').classList.toggle('sel',cb.checked); renderReadout(); };
+    });
+  }
+
+  function selected(){ return S.alliances.filter(function(a){return S.sel[a.alliance_id];}); }
+  function renderReadout(){
+    var sel=selected();
+    $('readout').style.display='block';
+    var pw=sel.reduce(function(s,a){return s+(a.power||0);},0);
+    var mem=sel.reduce(function(s,a){return s+(a.member_count||0);},0);
+    var topPw=S.top?S.top.power:0;
+    $('roPower').textContent=sel.length?fmtP(pw):'—';
+    $('roTopTag').textContent=S.top?('['+S.top.tag+']'):'—';
+    $('roTop').textContent=fmtP(topPw);
+    $('roCount').textContent=sel.length;
+    $('roMembers').textContent=sel.length?mem:'—';
+    var v=$('roVerdict');
+    if(!sel.length){ v.textContent='Pick alliances to build a coalition.'; v.className='verdict'; return; }
+    // if the coalition INCLUDES #1, compare to #2 instead
+    var includesTop = S.top && sel.some(function(a){return a.alliance_id===S.top.alliance_id;});
+    if(includesTop){ v.innerHTML='This coalition already contains the #1 alliance — it leads by default.'; v.className='verdict v-win'; return; }
+    var diff=pw-topPw;
+    if(diff>=0){ v.innerHTML='✅ This coalition BEATS #1 ['+esc(S.top.tag)+'] by <b>'+fmtP(diff)+'</b> — you'+"'"+'d take first place.'; v.className='verdict v-win'; }
+    else{ v.innerHTML='⚠️ Still <b>'+fmtP(-diff)+'</b> short of #1 ['+esc(S.top.tag)+']. Add more power.'; v.className='verdict v-lose'; }
+  }
+
+  // smallest set of (non-#1) alliances whose combined power passes #1
+  function suggest(){
+    if(!S.top){ return; }
+    var pool=S.alliances.filter(function(a){return a.alliance_id!==S.top.alliance_id && a.power;})
+                        .sort(function(a,b){return b.power-a.power;});
+    var need=S.top.power, sum=0; S.sel={};
+    for(var i=0;i<pool.length;i++){ S.sel[pool[i].alliance_id]=true; sum+=pool[i].power; if(sum>need) break; }
+    renderTable(); renderReadout();
+    if(sum<=need){ $('msg').textContent='Even every alliance combined can'+"'"+'t pass #1 (they'+"'"+'re that dominant).'; }
+    else { $('msg').textContent=''; }
+    $('readout').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  $('go').onclick=load;
+  $('suggest').onclick=suggest;
+  $('wz').addEventListener('keydown',function(e){ if(e.key==='Enter')load(); });
+  (function(){ var wz=qp('warzone')||''; try{wz=wz||localStorage.getItem('lws_my_warzone')||'';}catch(e){} if(wz){ $('wz').value=wz; load(); } try{ if(window.self!==window.top){ var e=document.querySelector('.eyebrow'); if(e)e.style.display='none'; } }catch(e){} })();
+})();
+</script>
+<script src="https://access-codes.r5tools.io/lib.js" defer></script>
+</body>
+</html>
