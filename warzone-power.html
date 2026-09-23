@@ -104,7 +104,7 @@
         $('tblcard').style.display='block';
         $('tbody').innerHTML=s.map(function(a,i){
           var pts=a.points, latest=pts[pts.length-1], first=pts[0];
-          var delta=(latest&&first)?latest.y-first.y:0;
+          var delta=(latest&&first)?(latest.power-first.power):0;
           var col=PALETTE[i%PALETTE.length];
           return '<tr>'+
             '<td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
