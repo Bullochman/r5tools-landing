@@ -59,7 +59,7 @@
 
   <div class="card" id="tblcard" style="display:none">
     <div style="overflow-x:auto"><table id="tbl">
-      <thead><tr><th>#</th><th>Alliance</th><th class="n">Power now</th><th class="n">Δ (window)</th><th class="n">Members</th><th>R5</th></tr></thead>
+      <thead><tr><th>#</th><th>Alliance</th><th class="n">Power now</th><th class="n">Δ (window)</th><th class="n">Members</th><th class="n">Avg / member</th><th>R5</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table></div>
   </div>
@@ -106,12 +106,16 @@
           var pts=a.points, latest=pts[pts.length-1], first=pts[0];
           var delta=(latest&&first)?(latest.power-first.power):0;
           var col=PALETTE[i%PALETTE.length];
+          var avg=(a.current_power&&a.member_count)?(a.current_power/a.member_count):null;
+          // colour the avg: gold if notably above the field (selective/elite)
+          var avgCol = avg==null?'var(--mute)':(avg>=1.3e8?'var(--gold2)':(avg>=1e8?'var(--ok)':'var(--dim)'));
           return '<tr>'+
             '<td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
             '<td><span class="dot" style="background:'+(i<14?col:'var(--border2)')+'"></span><span style="font-family:var(--mono);color:var(--gold2)">['+esc(a.tag||'?')+']</span></td>'+
             '<td class="n" style="font-weight:700">'+fmtP(a.current_power)+'</td>'+
             '<td class="n '+(delta>0?'up':(delta<0?'down':''))+'">'+(delta>0?'+':'')+fmtP(delta)+'</td>'+
             '<td class="n">'+(a.member_count!=null?a.member_count:'—')+'</td>'+
+            '<td class="n" style="color:'+avgCol+';font-weight:700" title="Total power ÷ members — higher = a more selective / stronger-per-head roster">'+fmtP(avg)+'</td>'+
             '<td style="color:var(--dim)">'+esc(a.leader_name||'—')+'</td>'+
           '</tr>';
         }).join('');
