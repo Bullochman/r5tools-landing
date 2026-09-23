@@ -311,7 +311,7 @@
       }
       if (!tool.native && state.alli) qs.push('alliance=' + encodeURIComponent(state.alli));
       // cache-bust native tool pages so new versions load without a hard refresh
-      if (tool.native) qs.push('_v=20260917d');
+      if (tool.native) qs.push('_v=20260923a');
       return tool.src + (qs.length ? ('?' + qs.join('&')) : '');
     }
 
