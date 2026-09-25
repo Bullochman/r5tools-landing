@@ -156,6 +156,7 @@
       { id:'map',       em:'🗺️', label:'Map',       src:'/map.html', native:true, needsWz:true },
       { id:'power',     em:'📈', label:'Power Trends', src:'/power-trends.html', native:true, needsWz:true },
       { id:'wzpower',   em:'📊', label:'Power Race', src:'/warzone-power.html', native:true, needsWz:true },
+      { id:'audit',     em:'⚖️', label:'Power Audit', src:'/power-audit.html', native:true, needsWz:true },
       { id:'scout',     em:'🔎', label:'Scouting Report', src:'/scouting-report.html', native:true, needsWz:true },
       { id:'bounty',    em:'🎯', label:'Bounty Board', src:'/bounty-board.html', native:true, needsWz:true },
       { id:'arrivals',  em:'📡', label:'New Arrivals', src:'/new-arrivals.html', native:true, needsWz:true },
@@ -311,7 +312,7 @@
       }
       if (!tool.native && state.alli) qs.push('alliance=' + encodeURIComponent(state.alli));
       // cache-bust native tool pages so new versions load without a hard refresh
-      if (tool.native) qs.push('_v=20260923b');
+      if (tool.native) qs.push('_v=20260924a');
       return tool.src + (qs.length ? ('?' + qs.join('&')) : '');
     }
 
