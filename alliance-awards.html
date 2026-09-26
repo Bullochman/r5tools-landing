@@ -106,8 +106,10 @@
   function render(wz,rows){
     var awards=build(rows);
     var rel=rows.filter(function(r){return r.reliable;}).length;
+    var smN=0; rows.forEach(function(r){ if(r.smoothed && r.samples>smN) smN=r.samples; });
     $('bwz').textContent=wz;
-    $('bsub').textContent='Measured live from LW Atlas · '+rows.length+' alliances ('+rel+' fully scanned)';
+    $('bsub').textContent='Measured live from LW Atlas · '+rows.length+' alliances ('+rel+' fully scanned)'+
+      (smN>=2?(' · activity averaged over '+smN+' daily scans 📊'):'');
     $('boardhdr').style.display='block';
     $('board').innerHTML=awards.map(function(a,i){
       return '<div class="award">'+
