@@ -66,7 +66,7 @@
   </div>
 
   <footer>
-    Data: live LW Atlas map scans via r5tools.io · "arrived" = first time LW Atlas saw this base. Built on the free public data from <a href="https://lwatlas.com" target="_blank" rel="noopener">LW Atlas</a>.
+    Data: live LW Atlas map scans via r5tools.io · <b>🧭 transferred-in</b> = an established player whose base just appeared on this warzone (caught by comparing daily scans — this is how a veteran server-hopper like a new R5 shows up). <b>🆕 new / farm</b> = an account new to LW Atlas, usually a brand-new or migrated-in farm account (you can't <i>start</i> on an old server, so these are almost always alts relocated in by existing players). Built on the free public data from <a href="https://lwatlas.com" target="_blank" rel="noopener">LW Atlas</a>.
     <div style="margin-top:8px"><a href="/dashboard.html">← Dashboard</a></div>
   </footer>
 </div>
@@ -88,20 +88,32 @@
       .then(function(d){
         $('go').disabled=false; $('msg').textContent='';
         var t=d.arrivals||[];
-        $('meta').innerHTML='<strong>'+d.count+'</strong> arrival'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong> in the last '+d.window_days+' days'+(d.count>t.length?(' (showing top '+t.length+')'):'');
+        var nT=(d.transferred_in_count!=null)?d.transferred_in_count:t.filter(function(m){return m.kind==='transferred_in';}).length;
+        var nN=(d.new_account_count!=null)?d.new_account_count:(t.length-nT);
+        var breakdown='<span style="color:var(--ok)">🧭 '+nT+' transferred-in</span> · <span style="color:var(--dim)">🆕 '+nN+' new / farm account'+(nN===1?'':'s')+'</span>';
+        $('meta').innerHTML='<strong>'+d.count+'</strong> arrival'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong> (last '+d.window_days+'d) — '+breakdown+
+          (d.movement_history?'':'  <span style="color:var(--warn)">· veteran-transfer detection warming up (needs 2 daily scans)</span>')+
+          (d.count>t.length?(' · showing top '+t.length):'');
         $('tblcard').style.display='block';
         try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
-        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="7" style="color:var(--mute);padding:22px;text-align:center">No new arrivals in that window. Established servers rarely get transfers mid-season — try a fresh/pre-season warzone, or widen the window.</td></tr>'; return; }
+        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="7" style="color:var(--mute);padding:22px;text-align:center">No arrivals in that window. Established servers rarely get transfers mid-season — try a fresh/pre-season warzone, or widen the window.</td></tr>'; return; }
         $('tbody').innerHTML=t.map(function(m,i){
           var coord=(m.x!=null)?(m.x+':'+m.y):'—';
           var mapurl='/map.html?warzone='+wz+'&player='+encodeURIComponent(m.name||'');
           var alli=(m.tag||'').trim()?('<span class="tagpill">['+esc(m.tag)+']</span>'):'<span class="unallied">unallied</span>';
+          var isT=(m.kind==='transferred_in');
+          var pill=isT
+            ? '<span class="newpill" style="background:rgba(138,224,163,.16);color:#8ae0a3;border-color:rgba(138,224,163,.4)" title="An established player who just moved onto this warzone">🧭 TRANSFER</span>'
+            : '<span class="newpill" title="An account new to LW Atlas — usually a brand-new / farm account migrated in">🆕 NEW</span>';
+          var when = (m.first_seen_days==null)
+            ? (isT?'just moved in':'—')
+            : (m.first_seen_days<1?'today':Math.round(m.first_seen_days)+'d ago');
           return '<tr><td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
-            '<td><b>'+esc(m.name||'?')+'</b> <span class="newpill">NEW</span>'+(m.king?' 👑':'')+'</td>'+
+            '<td><b>'+esc(m.name||'?')+'</b> '+pill+(m.king?' 👑':'')+'</td>'+
             '<td class="n">'+(m.hq||'—')+'</td>'+
             '<td>'+alli+'</td>'+
             '<td>'+(coord==='—'?'—':'<span class="coord" data-c="'+coord+'">'+coord+' 📋</span>')+'</td>'+
-            '<td class="n">'+(m.first_seen_days<1?'today':Math.round(m.first_seen_days)+'d ago')+'</td>'+
+            '<td class="n">'+when+'</td>'+
             '<td><a class="maplink" href="'+mapurl+'" target="_blank">locate →</a></td></tr>';
         }).join('');
         Array.prototype.forEach.call(document.querySelectorAll('.coord'),function(el){
