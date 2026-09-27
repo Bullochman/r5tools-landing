@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>War-Buildup Detector — r5tools</title>
+<meta name="description" content="See who just moved onto your warzone, who left, who's relocating toward your hive, and who switched alliances — by comparing daily map scans. Spot an incoming attack before it lands." />
+<link rel="canonical" href="https://r5tools.io/war-buildup.html" />
+<style>
+  :root{--bg:#080b14;--panel:#0d1424;--panel2:#111a2e;--border:#1e2740;--border2:#2a3654;
+    --text:#e7ecf5;--dim:#aab4c8;--mute:#68748e;--gold:#c9a961;--gold2:#e6cf7a;--ok:#8ae0a3;--warn:#e0a15f;--bad:#e0685f;--blue:#7fb0e6;--purp:#b39ddb;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1100px 560px at 12% -10%,rgba(224,104,95,.08),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:clamp(14px,3.5vw,32px)}
+  .wrap{max-width:1080px;margin:0 auto}
+  a{color:var(--gold)}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 8px}
+  h1{font-size:clamp(24px,4vw,36px);margin:0 0 8px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{color:var(--gold2)}
+  .lede{color:var(--dim);font-size:14.5px;max-width:80ch;margin:0 0 18px}
+  .lede b{color:var(--text)}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+  label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;display:block;margin-bottom:5px}
+  input[type=number]{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;font-family:var(--mono)}
+  select{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--gold);color:#1a1205;border-radius:8px;padding:9px 15px;font-size:14px;font-weight:700;font-family:var(--sans)}
+  .hivebox{background:rgba(224,104,95,.06);border:1px solid rgba(224,104,95,.3);border-radius:10px;padding:11px 13px;margin-top:12px}
+  .hivebox .h{font-size:12px;font-weight:700;color:var(--bad);letter-spacing:.03em;margin-bottom:8px}
+  .hint{color:var(--mute);font-size:12.5px;margin-top:8px}
+  #msg{align-self:center;font-size:13px;color:var(--dim)}
+  #meta{font-size:13px;color:var(--dim);margin:4px 2px 14px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}}
+  .sec{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:0;overflow:hidden}
+  .sechd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700}
+  .sechd .n{font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;font-family:var(--mono)}
+  .seclist{max-height:430px;overflow-y:auto}
+  .item{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);font-size:13.5px}
+  .item:last-child{border-bottom:0}
+  .item .nm{font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .hq{font-family:var(--mono);color:var(--mute);font-size:12px}
+  .item .tg{font-family:var(--mono);color:var(--gold2);font-size:12px}
+  .item .co{font-family:var(--mono);color:var(--dim);font-size:12px;cursor:pointer}
+  .arr .sechd{color:var(--ok)} .dep .sechd{color:var(--bad)} .mov .sechd{color:var(--blue)} .alc .sechd{color:var(--purp)}
+  .arr .n{background:rgba(138,224,163,.15);color:var(--ok)} .dep .n{background:rgba(224,104,95,.15);color:var(--bad)}
+  .mov .n{background:rgba(127,176,230,.15);color:var(--blue)} .alc .n{background:rgba(179,157,219,.15);color:var(--purp)}
+  .empty{padding:22px 16px;text-align:center;color:var(--mute);font-size:13px}
+  .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5;text-align:center}
+  .warmup{background:rgba(224,161,95,.08);border:1px solid rgba(224,161,95,.4);border-radius:10px;padding:16px;color:#f0dcc5;text-align:center}
+  footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Last War: Survival · Alliance Intel</p>
+  <h1>War-Buildup <span class="g">Detector</span></h1>
+  <p class="lede">By comparing today's map scan to an earlier one, this catches everything that <b>moved</b> — who just <b>transferred in</b>, who <b>left</b>, who <b>relocated</b> (troops repositioning), and who <b>switched alliances</b>. Point it at your hive coordinates and it becomes an <b>early-warning system</b>: enemies teleporting toward you before a VS-Day or KvK hit show up here first.</p>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="wz">Warzone</label><input id="wz" type="number" inputmode="numeric" placeholder="2013" style="width:110px"></div>
+      <div><label for="since">Compare vs</label>
+        <select id="since"><option value="1">1 day ago</option><option value="2">2 days ago</option><option value="3" selected>3 days ago</option><option value="5">5 days ago</option><option value="7">7 days ago</option></select></div>
+      <div><label for="minhq">Min HQ</label>
+        <select id="minhq"><option value="1">all</option><option value="15">15+</option><option value="20" selected>20+ (real bases)</option><option value="25">25+</option></select></div>
+      <button class="btn" id="go">🛰️ Scan movement</button>
+      <span id="msg"></span>
+    </div>
+    <div class="hivebox">
+      <div class="h">🎯 EARLY-WARNING MODE — focus on movement near your hive</div>
+      <div class="row">
+        <div><label>Your X</label><input id="hx" type="number" inputmode="numeric" placeholder="513" style="width:90px"></div>
+        <div><label>Your Y</label><input id="hy" type="number" inputmode="numeric" placeholder="566" style="width:90px"></div>
+        <div><label>Radius (tiles)</label>
+          <select id="rad"><option value="30">30</option><option value="50" selected>50</option><option value="80">80</option><option value="150">150</option></select></div>
+        <div class="hint" style="margin:0;align-self:center;max-width:34ch">Leave X/Y blank to scan the whole map. Fill them in to see only what's moving in on <b>you</b>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="meta"></div>
+  <div id="board"></div>
+
+  <footer>
+    Data: daily LW Atlas map scans diffed by r5tools. Needs at least two scans of a warzone to compare (fresh warzones warm up over ~2 days). Built on the free public data from <a href="https://lwatlas.com" target="_blank" rel="noopener">LW Atlas</a>.
+    <div style="margin-top:8px"><a href="/dashboard.html">← Dashboard</a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var API='https://access-codes.r5tools.io';
+  function $(id){return document.getElementById(id);}
+  function qp(k){return new URLSearchParams(location.search).get(k);}
+  function code(){ try{ var u=qp('code'); if(u)return u; if(window.LWSAccessCodes&&LWSAccessCodes.code&&LWSAccessCodes.code())return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; }catch(e){return '';} }
+  function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+  function coEl(x,y){ if(x==null)return '—'; return '<span class="co" data-c="'+x+':'+y+'">'+x+':'+y+' 📋</span>'; }
+
+  function itemRow(m,kind){
+    var hq=(m.hq!=null)?('<span class="hq">HQ'+m.hq+'</span>'):'';
+    var tg=(m.tag||'').trim()?('<span class="tg">['+esc(m.tag)+']</span>'):'';
+    if(kind==='move'){
+      var d=m.dist!=null?Math.round(m.dist):null;
+      return '<div class="item"><span class="nm">'+esc(m.name||'?')+'</span>'+tg+
+        '<span class="co">'+(m.from?m.from[0]+':'+m.from[1]:'?')+' → '+(m.to?m.to[0]+':'+m.to[1]:'?')+'</span>'+
+        (d!=null?'<span class="hq">'+d+'t</span>':'')+'</div>';
+    }
+    if(kind==='alc'){
+      var fr=(m.from||'').trim()?('['+esc(m.from)+']'):'none', to=(m.to||'').trim()?('['+esc(m.to)+']'):'none';
+      return '<div class="item"><span class="nm">'+esc(m.name||'?')+'</span>'+
+        '<span class="tg" style="color:var(--purp)">'+fr+' → '+to+'</span>'+coEl(m.x,m.y)+'</div>';
+    }
+    return '<div class="item"><span class="nm">'+esc(m.name||'?')+'</span>'+hq+tg+coEl(m.x,m.y)+'</div>';
+  }
+
+  function section(cls,emoji,title,total,items,kind,emptyTxt){
+    var list = items.length ? items.map(function(m){return itemRow(m,kind);}).join('')
+             : '<div class="empty">'+emptyTxt+'</div>';
+    var more = (total>items.length)?('<div class="empty">+ '+(total-items.length)+' more</div>'):'';
+    return '<div class="sec '+cls+'"><div class="sechd"><span>'+emoji+' '+title+'</span><span class="n">'+total+'</span></div>'+
+      '<div class="seclist">'+list+more+'</div></div>';
+  }
+
+  function run(){
+    var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
+    if(isNaN(wz)){ $('msg').textContent='Enter a warzone number.'; return; }
+    var q='since='+$('since').value+'&min_hq='+$('minhq').value;
+    var hx=($('hx').value||'').replace(/\D/g,''), hy=($('hy').value||'').replace(/\D/g,'');
+    var near = (hx!==''&&hy!=='');
+    if(near) q+='&x='+hx+'&y='+hy+'&radius='+$('rad').value;
+    $('msg').textContent='Diffing scans…'; $('go').disabled=true; $('board').innerHTML=''; $('meta').innerHTML='';
+    fetch(withCode(API+'/api/warzone/'+wz+'/movements?'+q),{credentials:'include'})
+      .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__noscan'; return r.json(); })
+      .then(function(d){
+        $('go').disabled=false; $('msg').textContent='';
+        try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
+        if(d.insufficient){
+          $('board').innerHTML='<div class="warmup">🛰️ <b>Warming up.</b> The detector needs at least two daily scans of Warzone '+wz+' to compare — it has '+(d.snapshots||1)+' so far. Check back tomorrow and movement will appear here.</div>';
+          return;
+        }
+        var A=d.arrivals||[],D=d.departures||[],Mv=d.moves||[],Ac=d.alliance_changes||[];
+        var scope = near ? ('within '+d.radius+' tiles of '+(d.near?d.near.join(':'):'your hive')) : 'across the whole map';
+        $('meta').innerHTML='Comparing <b>now</b> vs <b>~'+d.span_days+'d ago</b> ('+d.snapshots+' scans) · '+scope+' — '+
+          '<span style="color:var(--ok)">'+d.arrivals_total+' in</span> · '+
+          '<span style="color:var(--bad)">'+d.departures_total+' out</span> · '+
+          '<span style="color:var(--blue)">'+d.moves_total+' relocated</span> · '+
+          '<span style="color:var(--purp)">'+d.alliance_changes_total+' switched alliance</span>';
+        $('board').innerHTML='<div class="cols">'+
+          section('arr','🟢','Moved In'+(near?' (near you)':''),d.arrivals_total,A,'arr', near?'Nobody new near your hive. Quiet.':'No arrivals in this window.')+
+          section('mov','🔵','Relocated'+(near?' (toward you)':''),d.moves_total,Mv,'move', near?'No troops repositioning near you.':'No relocations.')+
+          section('dep','🔴','Left'+(near?' (near you)':''),d.departures_total,D,'dep','No departures.')+
+          section('alc','🟣','Switched Alliance',d.alliance_changes_total,Ac,'alc','No alliance changes.')+
+        '</div>';
+        Array.prototype.forEach.call(document.querySelectorAll('.co[data-c]'),function(el){
+          el.onclick=function(){ try{navigator.clipboard.writeText(el.getAttribute('data-c'));}catch(e){} var o=el.textContent;el.textContent='✓';setTimeout(function(){el.textContent=o;},700); };
+        });
+      })
+      .catch(function(e){
+        $('go').disabled=false;
+        if(e==='__locked'){ $('board').innerHTML='<div class="locked">Redeem your access code — <a href="https://access-codes.r5tools.io/unlock" target="_top">unlock here</a>.</div>'; return; }
+        $('msg').textContent = e==='__noscan' ? 'No scan for that warzone yet.' : 'Could not load — try again.';
+      });
+  }
+  $('go').onclick=run;
+  ['wz','hx','hy'].forEach(function(id){ $(id).addEventListener('keydown',function(e){ if(e.key==='Enter')run(); }); });
+  (function(){ var wz=qp('warzone')||''; try{wz=wz||localStorage.getItem('lws_my_warzone')||'';}catch(e){} if(wz){ $('wz').value=wz; run(); } try{ if(window.self!==window.top){ var el=document.querySelector('.eyebrow'); if(el)el.style.display='none'; } }catch(e){} })();
+})();
+</script>
+<script src="https://access-codes.r5tools.io/lib.js" defer></script>
+</body>
+</html>
