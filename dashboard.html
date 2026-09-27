@@ -60,9 +60,15 @@
     .frame-wrap { flex:1; position:relative; background:var(--bg); }
     iframe#tool { width:100%; height:100%; border:0; display:block; background:var(--bg); }
     .locked { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center;
-      text-align:center; padding:30px; color:var(--text-dim); gap:12px; }
+      text-align:center; padding:30px; color:var(--text-dim); gap:12px; overflow-y:auto; }
     .locked.show { display:flex; }
     .locked h2 { color:var(--accent); margin:0; }
+    #lockPreview { display:flex; flex-direction:column; align-items:center; gap:5px; }
+    #lockPreview .lpEm { font-size:42px; line-height:1; }
+    #lockPreview .lpName { font-size:21px; font-weight:800; color:var(--text); }
+    #lockPreview .lpDesc { font-size:14px; color:var(--text-dim); max-width:46ch; margin-top:2px; }
+    #lockPreview .lpShot { max-width:min(560px,88vw); width:100%; border-radius:12px; border:1px solid var(--border);
+      margin-top:12px; box-shadow:0 10px 34px rgba(0,0,0,.45); }
     .needwz { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
       text-align:center; padding:30px; color:var(--text-dim); gap:10px; }
     .needwz.hide { display:none; }
@@ -131,14 +137,15 @@
       </div>
       <iframe id="tool" title="tool" referrerpolicy="no-referrer" style="display:none"></iframe>
       <div class="locked" id="locked">
-        <div style="font-size:34px">🔒</div>
-        <h2>Redeem your access code</h2>
-        <p>Enter your alliance's code once — every tool remembers it on this device.</p>
+        <div id="lockPreview"></div>
+        <h2 id="lockTitle">Unlock the full suite</h2>
+        <p id="lockSub" style="max-width:46ch">Enter an alliance code once and every tool remembers it on this device. Many warzones are <b>free</b> — try <b style="color:var(--accent)">RONY-FREE</b>.</p>
         <div class="field" style="justify-content:center">
           <input id="code2" class="alli" type="text" placeholder="RONY-FREE" autocomplete="off" spellcheck="false" style="width:180px;text-transform:uppercase;text-align:center" />
           <button class="btn" id="redeem2">Unlock →</button>
         </div>
         <p id="redeem-msg" style="min-height:18px;color:var(--text-mute);font-size:12px;margin:2px 0 0"></p>
+        <p style="font-size:11.5px;margin:2px 0 0"><a href="https://access-codes.r5tools.io/unlock" target="_top" style="color:var(--text-mute)">Don’t have a code? See free &amp; paid options →</a></p>
       </div>
     </div>
   </div>
@@ -178,6 +185,45 @@
       { id:'directory', em:'🗺️', label:'Warzones',  src:'/warzones.html', native:true, needsWz:false },
       { id:'devnote',   em:'👋', label:'From Evan',  src:'/from-the-developer.html', native:true, needsWz:false },
     ];
+
+    // One-line descriptions (shown as hover tooltips on every tab + in the
+    // preview a not-yet-unlocked visitor sees, so Google traffic understands
+    // each tool before hitting the unlock step).
+    var TOOLDESC = {
+      landing:'Plan exactly where every member lands on Season-2 launch day.',
+      hive:'Design your alliance hive formation and share teleport coordinates.',
+      heat:'Map furnace heat coverage so no member is left out in the cold.',
+      freeze:'Per-member freeze-risk alerts before the blizzard hits.',
+      coal:'Budget your coal burn so you never run dry mid-season.',
+      city:'Plan city captures and rally squads for VS Days.',
+      train:'Coordinate the Train Conductor event across your whole alliance.',
+      timeline:'Full season event calendar — what’s happening today and what to prep.',
+      profile:'Build a shareable player profile card.',
+      vsdays:'VS Days scoring planner — squeeze out the most points each day.',
+      wave:'Coordinate wave/attack timing across the alliance.',
+      roster:'Your alliance roster, auto-loaded live from LW Atlas — no upload needed.',
+      map:'Plot every player in a warzone at exact coordinates; find anyone by name.',
+      power:'Chart your alliance’s power growth over time.',
+      wzpower:'Race chart of the top-20 alliances’ power on any warzone.',
+      audit:'True Power Ranking — re-rank alliances by who actually logs in.',
+      awards:'Auto-generated, data-earned awards for every alliance on a warzone.',
+      buildup:'Early-warning radar — who’s massing troops or moving in near your hive.',
+      scout:'Full intel dossier on any alliance — activity, leaders, whales, trend.',
+      bounty:'Find undefended max-level VS-Day targets with an efficient attack route.',
+      arrivals:'Spot transfers-in and new accounts arriving on any warzone.',
+      cohort:'Compare the #1 alliance of every warzone in your transfer cohort.',
+      coalition:'Combine alliance powers to see who can challenge the #1.',
+      intel:'Warzone intel & migration board — size up any server.',
+      transfer:'Compare warzones to transfer to, and find who’s recruiting.',
+      directory:'Browse all 2,300+ warzones with seasons and KvK brackets.',
+      devnote:'A personal note from Evan, the R5 who builds these tools.'
+    };
+    // Screenshot preview (base/game tools have real captures in /screenshots).
+    var TOOLSHOT = {
+      landing:'landing-planner', hive:'hive', heat:'heat-simulator', freeze:'freeze-risk',
+      coal:'coal-burn', city:'city-capture', train:'train-conductor', timeline:'season-timeline',
+      profile:'profile-studio', vsdays:'vs-days', wave:'wave-coordinator'
+    };
 
     function $(id){ return document.getElementById(id); }
     function code() {
@@ -338,6 +384,7 @@
           var el = document.createElement('button');
           el.className = 'tab' + (id === state.active ? ' active' : '');
           el.innerHTML = '<span class="em">' + tool.em + '</span>' + tool.label;
+          if (TOOLDESC[id]) el.title = TOOLDESC[id];   // hover description
           el.addEventListener('click', function () { selectTool(id); });
           row.appendChild(el);
         });
@@ -370,7 +417,19 @@
       // Client-side gate keyed on this-origin localStorage (Safari-proof).
       // If no code is stored here, show the inline redeem overlay rather than
       // loading a tool that will just 403 on its roster fetch.
-      if (!state.unlocked && !hasCode()) { locked.classList.add('show'); frame.style.display='none'; needWz.classList.add('hide'); return; }
+      if (!state.unlocked && !hasCode()) {
+        // Not a wall — a PREVIEW: show what this tool is (name + description +
+        // screenshot) so search-engine visitors see the value before unlocking.
+        var lp = $('lockPreview'), shot = TOOLSHOT[id];
+        if (lp) {
+          lp.innerHTML = '<div class="lpEm">' + tool.em + '</div>' +
+            '<div class="lpName">' + escapeHtml(tool.label) + '</div>' +
+            '<div class="lpDesc">' + escapeHtml(TOOLDESC[id] || '') + '</div>' +
+            (shot ? '<img class="lpShot" src="/screenshots/' + shot + '.png" alt="' + escapeHtml(tool.label) + ' preview" loading="lazy">' : '');
+        }
+        var lt = $('lockTitle'); if (lt) lt.textContent = '🔓 Unlock to use ' + tool.label;
+        locked.classList.add('show'); frame.style.display='none'; needWz.classList.add('hide'); return;
+      }
       locked.classList.remove('show');
       if (tool.needsWz && !state.wz) { needWz.classList.remove('hide'); frame.style.display='none'; return; }
       needWz.classList.add('hide');
