@@ -38,8 +38,17 @@
     .btn.ghost { background:var(--panel-2); color:var(--text-dim); border:1px solid var(--border); font-weight:500; }
     .spacer { flex:1; }
 
-    /* Tab rail */
-    .tabs { display:flex; flex-wrap:wrap; gap:5px; padding:8px 10px; background:var(--panel); border-bottom:1px solid var(--border); }
+    /* Tab rail — grouped accordion */
+    .tabs { display:flex; flex-direction:column; gap:1px; padding:6px 10px; background:var(--panel); border-bottom:1px solid var(--border); }
+    .tabgroup { display:flex; flex-direction:column; }
+    .grouphd { display:inline-flex; align-items:center; gap:8px; align-self:flex-start; padding:5px 9px; border-radius:7px;
+      cursor:pointer; background:transparent; border:none; color:var(--accent); font-size:11px; font-weight:700;
+      letter-spacing:.08em; text-transform:uppercase; font-family:inherit; }
+    .grouphd:hover { background:rgba(201,169,97,0.06); }
+    .grouphd .chev { color:var(--text-mute); font-size:9px; transition:transform .15s; }
+    .grouphd .cnt { color:var(--text-mute); font-weight:600; letter-spacing:0; }
+    .grouprow { display:flex; flex-wrap:wrap; gap:5px; padding:3px 0 8px 3px; }
+    .grouprow.collapsed { display:none; }
     .tab { display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:8px; cursor:pointer;
       color:var(--text-dim); font-size:13px; border:1px solid var(--border); background:var(--panel-2); user-select:none;
       white-space:nowrap; }
@@ -291,15 +300,49 @@
     }
     function escapeHtml(s){ var d=document.createElement('div'); d.textContent=(s==null?'':s); return d.innerHTML; }
 
+    // Tools grouped into collapsible sections so 27 tabs don't wall the screen.
+    // Accordion: only the section holding the active tool is expanded.
+    var GROUPS = [
+      { key:'base',  em:'⚔️', label:'Base & Battle',
+        ids:['landing','hive','heat','freeze','coal','city','train','timeline','profile','vsdays','wave'] },
+      { key:'intel', em:'🛰️', label:'Intel & Recon',
+        ids:['roster','map','power','wzpower','audit','awards','buildup','scout','bounty','arrivals','cohort','coalition','intel','transfer','directory'] },
+      { key:'more',  em:'👋', label:'More', ids:['devnote'] },
+    ];
+    function groupOf(id){ for (var i=0;i<GROUPS.length;i++) if (GROUPS[i].ids.indexOf(id)>=0) return GROUPS[i].key; return GROUPS[0].key; }
+
     function buildTabs() {
       var t = $('tabs');
       t.innerHTML = '';
-      TOOLS.forEach(function (tool) {
-        var el = document.createElement('button');
-        el.className = 'tab' + (tool.id === state.active ? ' active' : '');
-        el.innerHTML = '<span class="em">' + tool.em + '</span>' + tool.label;
-        el.addEventListener('click', function () { selectTool(tool.id); });
-        t.appendChild(el);
+      // which section is open: an explicit toggle wins, else the active tool's section
+      var openKey = state.openGroup || groupOf(state.active);
+      GROUPS.forEach(function (g) {
+        var wrap = document.createElement('div');
+        wrap.className = 'tabgroup';
+        var open = (openKey === g.key);
+        var hd = document.createElement('button');
+        hd.className = 'grouphd';
+        var hasActive = g.ids.indexOf(state.active) >= 0;
+        hd.innerHTML = '<span class="chev">' + (open ? '▾' : '▸') + '</span>' +
+                       '<span class="em" style="font-size:13px">' + g.em + '</span>' + g.label +
+                       '<span class="cnt">' + g.ids.length + (hasActive && !open ? ' •' : '') + '</span>';
+        hd.addEventListener('click', function () {
+          state.openGroup = open ? '__none__' : g.key;   // toggle this section
+          buildTabs();
+        });
+        wrap.appendChild(hd);
+        var row = document.createElement('div');
+        row.className = 'grouprow' + (open ? '' : ' collapsed');
+        g.ids.forEach(function (id) {
+          var tool = toolById(id);
+          var el = document.createElement('button');
+          el.className = 'tab' + (id === state.active ? ' active' : '');
+          el.innerHTML = '<span class="em">' + tool.em + '</span>' + tool.label;
+          el.addEventListener('click', function () { selectTool(id); });
+          row.appendChild(el);
+        });
+        wrap.appendChild(row);
+        t.appendChild(wrap);
       });
     }
 
@@ -320,6 +363,7 @@
 
     function selectTool(id) {
       state.active = id;
+      state.openGroup = null;   // keep the selected tool's section expanded
       buildTabs();
       var tool = toolById(id);
       var needWz = $('needwz'), frame = $('tool'), locked = $('locked');
