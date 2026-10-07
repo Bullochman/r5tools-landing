@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Free-Agent Finder — r5tools</title>
+<meta name="description" content="Find strong, active, unallied players on any Last War warzone — plus the ones who JUST left an alliance — the best recruits for growing yours." />
+<link rel="canonical" href="https://r5tools.io/free-agents.html" />
+<style>
+  :root{--bg:#080b14;--panel:#0d1424;--panel2:#111a2e;--border:#1e2740;--border2:#2a3654;
+    --text:#e7ecf5;--dim:#aab4c8;--mute:#68748e;--gold:#c9a961;--gold2:#e6cf7a;--ok:#8ae0a3;--warn:#e0a15f;--bad:#e0685f;--blue:#7fb0e6;--hot:#e0685f;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1100px 560px at 12% -10%,rgba(138,224,163,.07),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:clamp(14px,3.5vw,32px)}
+  .wrap{max-width:1020px;margin:0 auto}
+  a{color:var(--gold)}
+  .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 8px}
+  h1{font-size:clamp(24px,4vw,36px);margin:0 0 8px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{color:var(--gold2)}
+  .lede{color:var(--dim);font-size:14.5px;max-width:80ch;margin:0 0 18px}
+  .lede b{color:var(--text)}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+  label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);font-weight:600;display:block;margin-bottom:5px}
+  input[type=number],select{background:var(--panel2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 11px;font-size:14px;font-family:var(--mono)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .btn{cursor:pointer;border:1px solid var(--border2);background:var(--gold);color:#1a1205;border-radius:8px;padding:9px 15px;font-size:14px;font-weight:700;font-family:var(--sans)}
+  .hint{color:var(--mute);font-size:12.5px;margin-top:8px}
+  #msg{align-self:center;font-size:13px;color:var(--dim)}
+  #meta{font-size:13px;color:var(--dim);margin:4px 2px 12px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:6px}
+  th{text-align:left;padding:9px 10px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--border2);white-space:nowrap}
+  th.n,td.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  td{padding:9px 10px;border-bottom:1px solid var(--border)}
+  tr:hover td{background:rgba(138,224,163,.03)}
+  tr.hot td{background:rgba(224,104,95,.06)}
+  .hotpill{font-size:10.5px;font-weight:700;color:#1a1205;background:var(--hot);border-radius:999px;padding:1px 7px;margin-left:6px}
+  .former{color:var(--bad);font-family:var(--mono);font-size:12px}
+  .coord{font-family:var(--mono);color:var(--dim);cursor:pointer}
+  .fresh{color:var(--ok)} .stale{color:var(--warn)}
+  .maplink{color:var(--gold);white-space:nowrap}
+  .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5}
+  footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Last War: Survival · Alliance Intel</p>
+  <h1>Free-Agent <span class="g">Finder</span></h1>
+  <p class="lede">Every strong, <b>active, unallied</b> player on a warzone — the best recruits to grow your alliance. And the gold: players who <b>🔥 just left an alliance</b> (caught by comparing daily scans) show up tagged with their former tag — grab them while they're between homes, before anyone else does.</p>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="wz">Warzone</label><input id="wz" type="number" inputmode="numeric" placeholder="2013" style="width:110px"></div>
+      <div><label for="minhq">Min HQ</label>
+        <select id="minhq"><option value="15">15+</option><option value="20" selected>20+</option><option value="25">25+</option><option value="28">28+</option><option value="30">30 (max)</option></select></div>
+      <div><label for="active">Active within</label>
+        <select id="active"><option value="3">3 days</option><option value="7">7 days</option><option value="10" selected>10 days</option><option value="14">14 days</option></select></div>
+      <button class="btn" id="go">🔎 Find recruits</button>
+      <span id="msg"></span>
+    </div>
+    <div class="hint">💡 "Active within" filters out dead solo bases — a recruit has to actually be playing. Lower Min HQ to widen the pool; raise it for whales only.</div>
+  </div>
+
+  <div id="meta"></div>
+  <div class="card" id="tblcard" style="display:none;overflow-x:auto">
+    <table id="tbl"><thead><tr><th>#</th><th>Player</th><th class="n">HQ</th><th>Status</th><th>Coordinates</th><th class="n">Last on</th><th>Map</th></tr></thead><tbody id="tbody"></tbody></table>
+  </div>
+
+  <footer>
+    Data: live LW Atlas map scans via r5tools.io. <b>🔥 just left</b> = detected by diffing daily scans (needs 2+ scans of a warzone; otherwise you still get all active unallied players). Built on the free public data from <a href="https://lwatlas.com" target="_blank" rel="noopener">LW Atlas</a>.
+    <div style="margin-top:8px"><a href="/dashboard.html">← Dashboard</a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var API='https://access-codes.r5tools.io';
+  function $(id){return document.getElementById(id);}
+  function qp(k){return new URLSearchParams(location.search).get(k);}
+  function code(){ try{ var u=qp('code'); if(u)return u; if(window.LWSAccessCodes&&LWSAccessCodes.code&&LWSAccessCodes.code())return LWSAccessCodes.code(); return localStorage.getItem('lws_unlock_code')||''; }catch(e){return '';} }
+  function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
+  function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+
+  function run(){
+    var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
+    if(isNaN(wz)){ $('msg').textContent='Enter a warzone number.'; return; }
+    $('msg').textContent='Scanning for free agents…'; $('go').disabled=true; $('tbody').innerHTML='';
+    fetch(withCode(API+'/api/warzone/'+wz+'/free-agents?min_hq='+$('minhq').value+'&active_days='+$('active').value),{credentials:'include'})
+      .then(function(r){ if(r.status===403)throw'__locked'; if(r.status===404)throw'__noscan'; return r.json(); })
+      .then(function(d){
+        $('go').disabled=false; $('msg').textContent='';
+        try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
+        var t=d.agents||[];
+        var hot=d.just_left_count||0;
+        $('meta').innerHTML='<strong>'+d.count+'</strong> free agent'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong> (unallied · active ≤'+$('active').value+'d · HQ '+$('minhq').value+'+)'+
+          (hot?' — <span style="color:var(--bad)">🔥 '+hot+' just left an alliance</span>':'')+
+          (d.movement_history?'':' <span style="color:var(--warn)">· defector detection warms up after 2 daily scans</span>')+
+          (d.count>t.length?(' · showing top '+t.length):'');
+        $('tblcard').style.display='block';
+        if(!t.length){ $('tbody').innerHTML='<tr><td colspan="7" style="color:var(--mute);padding:22px;text-align:center">No active unallied players at that HQ/recency. Lower the Min HQ or widen the window.</td></tr>'; return; }
+        $('tbody').innerHTML=t.map(function(m,i){
+          var coord=(m.x!=null)?(m.x+':'+m.y):'—';
+          var mapurl='/map.html?warzone='+wz+'&player='+encodeURIComponent(m.name||'');
+          var status = m.just_left
+            ? '<span class="former">left ['+esc(m.former_alliance||'?')+']</span><span class="hotpill">🔥 FREE AGENT</span>'
+            : '<span style="color:var(--mute)">unallied</span>';
+          var la = (m.days_ago==null)?'—':(m.days_ago<1?'<span class="fresh">today</span>':((m.days_ago<=3?'<span class="fresh">':'<span class="stale">')+Math.round(m.days_ago)+'d</span>'));
+          return '<tr class="'+(m.just_left?'hot':'')+'"><td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
+            '<td><b>'+esc(m.name||'?')+'</b>'+(m.king?' 👑':'')+'</td>'+
+            '<td class="n">'+(m.hq||'—')+'</td>'+
+            '<td>'+status+'</td>'+
+            '<td>'+(coord==='—'?'—':'<span class="coord" data-c="'+coord+'">'+coord+' 📋</span>')+'</td>'+
+            '<td class="n">'+la+'</td>'+
+            '<td><a class="maplink" href="'+mapurl+'" target="_blank">locate →</a></td></tr>';
+        }).join('');
+        Array.prototype.forEach.call(document.querySelectorAll('.coord'),function(el){
+          el.onclick=function(){ try{navigator.clipboard.writeText(el.getAttribute('data-c'));}catch(e){} var o=el.textContent;el.textContent='✓';setTimeout(function(){el.textContent=o;},800); };
+        });
+      })
+      .catch(function(e){
+        $('go').disabled=false;
+        if(e==='__locked'){ $('tblcard').style.display='block'; $('tbody').innerHTML='<tr><td colspan="7"><div class="locked">Redeem your access code — <a href="https://access-codes.r5tools.io/unlock" target="_top">unlock here</a>.</div></td></tr>'; return; }
+        $('msg').textContent = e==='__noscan' ? ('No live scan for warzone '+wz+' yet.') : 'Could not load — try again.';
+      });
+  }
+  $('go').onclick=run;
+  $('wz').addEventListener('keydown',function(e){ if(e.key==='Enter')run(); });
+  (function(){ var wz=qp('warzone')||''; try{wz=wz||localStorage.getItem('lws_my_warzone')||'';}catch(e){} if(wz){ $('wz').value=wz; run(); } try{ if(window.self!==window.top){ var el=document.querySelector('.eyebrow'); if(el)el.style.display='none'; } }catch(e){} })();
+})();
+</script>
+<script src="https://access-codes.r5tools.io/lib.js" defer></script>
+</body>
+</html>

@@ -177,6 +177,7 @@
       { id:'buildup',   em:'🛰️', label:'War-Buildup', src:'/war-buildup.html', native:true, needsWz:true },
       { id:'scout',     em:'🔎', label:'Scouting Report', src:'/scouting-report.html', native:true, needsWz:true },
       { id:'bounty',    em:'🎯', label:'Bounty Board', src:'/bounty-board.html', native:true, needsWz:true },
+      { id:'freeagents',em:'🧲', label:'Free-Agent Finder', src:'/free-agents.html', native:true, needsWz:true },
       { id:'arrivals',  em:'📡', label:'New Arrivals', src:'/new-arrivals.html', native:true, needsWz:true },
       { id:'cohort',    em:'🏁', label:'Cohort Power', src:'/cohort-power.html', native:true, needsWz:false },
       { id:'coalition', em:'🤝', label:'Coalition Planner', src:'/coalition-planner.html', native:true, needsWz:true },
@@ -210,6 +211,7 @@
       buildup:'Early-warning radar — who’s massing troops or moving in near your hive.',
       scout:'Full intel dossier on any alliance — activity, leaders, whales, trend.',
       bounty:'Find undefended max-level VS-Day targets with an efficient attack route.',
+      freeagents:'Find strong, active, unallied players to recruit — plus whoever just left an alliance.',
       arrivals:'Spot transfers-in and new accounts arriving on any warzone.',
       cohort:'Compare the #1 alliance of every warzone in your transfer cohort.',
       coalition:'Combine alliance powers to see who can challenge the #1.',
@@ -352,7 +354,7 @@
       { key:'base',  em:'⚔️', label:'Base & Battle',
         ids:['landing','hive','heat','freeze','coal','city','train','timeline','profile','vsdays','wave'] },
       { key:'intel', em:'🛰️', label:'Intel & Recon',
-        ids:['roster','map','power','wzpower','audit','awards','buildup','scout','bounty','arrivals','cohort','coalition','intel','transfer','directory'] },
+        ids:['roster','map','power','wzpower','audit','awards','buildup','scout','bounty','freeagents','arrivals','cohort','coalition','intel','transfer','directory'] },
       { key:'more',  em:'👋', label:'More', ids:['devnote'] },
     ];
     function groupOf(id){ for (var i=0;i<GROUPS.length;i++) if (GROUPS[i].ids.indexOf(id)>=0) return GROUPS[i].key; return GROUPS[0].key; }
