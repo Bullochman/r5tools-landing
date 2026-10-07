@@ -167,6 +167,7 @@
       { id:'timeline',  em:'📅', label:'Timeline',  src:'/tools/season-timeline/',   needsRoster:false, needsWz:true },
       { id:'profile',   em:'👤', label:'Profile',   src:'/tools/profile-studio/',    needsRoster:false, needsWz:false },
       { id:'vsdays',    em:'🆚', label:'VS Days',   src:'/tools/vs-days/',           needsRoster:false, needsWz:false },
+      { id:'warplan',   em:'📋', label:'VS War Plan', src:'/vs-war-plan.html', native:true, needsWz:false },
       { id:'wave',      em:'🌊', label:'Wave',      src:'/tools/wave-coordinator/',  needsRoster:false, needsWz:false },
       { id:'roster',    em:'📇', label:'Live Roster', src:'/live-roster.html', native:true, needsWz:true },
       { id:'map',       em:'🗺️', label:'Map',       src:'/map.html', native:true, needsWz:true },
@@ -201,6 +202,7 @@
       timeline:'Full season event calendar — what’s happening today and what to prep.',
       profile:'Build a shareable player profile card.',
       vsdays:'VS Days scoring planner — squeeze out the most points each day.',
+      warplan:'The full VS Days hoard-then-dump calendar + exact Arms Race values — out-score alliances with 2-3x your power.',
       wave:'Coordinate wave/attack timing across the alliance.',
       roster:'Your alliance roster, auto-loaded live from LW Atlas — no upload needed.',
       map:'Plot every player in a warzone at exact coordinates; find anyone by name.',
@@ -352,7 +354,7 @@
     // Accordion: only the section holding the active tool is expanded.
     var GROUPS = [
       { key:'base',  em:'⚔️', label:'Base & Battle',
-        ids:['landing','hive','heat','freeze','coal','city','train','timeline','profile','vsdays','wave'] },
+        ids:['landing','hive','heat','freeze','coal','city','train','timeline','profile','vsdays','warplan','wave'] },
       { key:'intel', em:'🛰️', label:'Intel & Recon',
         ids:['roster','map','power','wzpower','audit','awards','buildup','scout','bounty','freeagents','arrivals','cohort','coalition','intel','transfer','directory'] },
       { key:'more',  em:'👋', label:'More', ids:['devnote'] },
