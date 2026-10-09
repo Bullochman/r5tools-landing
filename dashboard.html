@@ -38,23 +38,35 @@
     .btn.ghost { background:var(--panel-2); color:var(--text-dim); border:1px solid var(--border); font-weight:500; }
     .spacer { flex:1; }
 
-    /* Tab rail — grouped accordion */
-    .tabs { display:flex; flex-direction:column; gap:1px; padding:6px 10px; background:var(--panel); border-bottom:1px solid var(--border); }
-    .tabgroup { display:flex; flex-direction:column; }
-    .grouphd { display:inline-flex; align-items:center; gap:8px; align-self:flex-start; padding:5px 9px; border-radius:7px;
-      cursor:pointer; background:transparent; border:none; color:var(--accent); font-size:11px; font-weight:700;
-      letter-spacing:.08em; text-transform:uppercase; font-family:inherit; }
-    .grouphd:hover { background:rgba(201,169,97,0.06); }
-    .grouphd .chev { color:var(--text-mute); font-size:9px; transition:transform .15s; }
-    .grouphd .cnt { color:var(--text-mute); font-weight:600; letter-spacing:0; }
-    .grouprow { display:flex; flex-wrap:wrap; gap:5px; padding:3px 0 8px 3px; }
-    .grouprow.collapsed { display:none; }
-    .tab { display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:8px; cursor:pointer;
-      color:var(--text-dim); font-size:13px; border:1px solid var(--border); background:var(--panel-2); user-select:none;
-      white-space:nowrap; }
-    .tab:hover { color:var(--accent); background:rgba(201,169,97,0.05); }
-    .tab.active { color:var(--accent); background:rgba(201,169,97,0.12); border-color:var(--border-accent); font-weight:600; }
-    .tab .em { font-size:15px; }
+    /* App-launcher grid */
+    .activebar { display:flex; align-items:center; gap:12px; padding:7px 14px; background:var(--panel); border-bottom:1px solid var(--border); }
+    .homebtn { display:inline-flex; align-items:center; gap:7px; background:var(--panel-2); color:var(--accent);
+      border:1px solid var(--border-accent); border-radius:8px; padding:6px 13px; font-size:13px; font-weight:700;
+      cursor:pointer; font-family:inherit; }
+    .homebtn:hover { background:rgba(201,169,97,0.12); }
+    .activetool { font-size:14px; font-weight:700; color:var(--text); display:inline-flex; align-items:center; gap:8px; }
+    .activetool .em { font-size:18px; }
+    .activetool .sub { color:var(--text-mute); font-weight:500; font-size:12px; }
+    .launcher { position:absolute; inset:0; overflow-y:auto; padding:22px clamp(16px,4vw,42px) 40px; background:var(--bg); }
+    .lhello { color:var(--text-mute); font-size:13px; margin:0 0 20px; }
+    .lhello b { color:var(--text-dim); }
+    .lgroup { margin-bottom:26px; }
+    .lgroup h3 { display:flex; align-items:center; gap:9px; font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--accent); font-weight:700; margin:0 0 14px; }
+    .lgroup h3 .gem { font-size:16px; }
+    .lgroup h3 .cnt { color:var(--text-mute); font-weight:600; letter-spacing:0; font-size:11px; }
+    .ltiles { display:grid; grid-template-columns:repeat(auto-fill, minmax(116px,1fr)); gap:12px; }
+    .ltile { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; aspect-ratio:1 / 0.9;
+      background:linear-gradient(180deg,var(--panel),var(--panel-2)); border:1px solid var(--border); border-radius:15px;
+      cursor:pointer; padding:14px 8px; text-align:center; font-family:inherit;
+      transition:transform .12s ease, border-color .12s, box-shadow .12s; }
+    .ltile:hover { transform:translateY(-3px); border-color:var(--border-accent); box-shadow:0 8px 22px rgba(0,0,0,.42); }
+    .ltile:active { transform:translateY(-1px); }
+    .ltile.active { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset; }
+    .ltile .tem { font-size:34px; line-height:1; }
+    .ltile .tlabel { font-size:12.5px; font-weight:600; color:var(--text-dim); line-height:1.2; }
+    .ltile:hover .tlabel { color:var(--accent); }
+    @media (max-width:540px){ .ltiles { grid-template-columns:repeat(auto-fill, minmax(96px,1fr)); } .ltile .tem{font-size:28px} }
 
     /* Frame */
     .frame-wrap { flex:1; position:relative; background:var(--bg); }
@@ -127,10 +139,14 @@
       <a class="btn ghost" href="https://access-codes.r5tools.io/" id="acct">Account</a>
     </div>
 
-    <div class="tabs" id="tabs"></div>
+    <div class="activebar" id="activebar" style="display:none">
+      <button class="homebtn" id="homebtn">⊞ All Tools</button>
+      <span class="activetool" id="activetool"></span>
+    </div>
 
     <div class="frame-wrap">
-      <div class="needwz" id="needwz">
+      <div class="launcher" id="launcher"></div>
+      <div class="needwz" id="needwz" style="display:none">
         <div style="font-size:34px">🛰️</div>
         <h2 style="color:var(--accent);margin:0">Enter your warzone &amp; alliance above</h2>
         <p style="max-width:420px">Your roster auto-loads from LW Atlas — no upload needed. Smaller alliances upload once and get the same thing. Season is detected automatically from your warzone.</p>
@@ -236,7 +252,7 @@
         return localStorage.getItem('lws_unlock_code') || '';
       } catch (e) { return ''; }
     }
-    var state = { wz:null, alli:null, active:'roster', season:null, unlocked:false };
+    var state = { wz:null, alli:null, active:null, season:null, unlocked:false };
 
     // ---- unlock code, stored in THIS origin's localStorage ----------------
     // Safari's tracking prevention blocks the cross-subdomain .r5tools.io
@@ -255,7 +271,7 @@
       if (window.LWSAccessCodes && LWSAccessCodes.check) {
         LWSAccessCodes.check().then(function (ok) {
           state.unlocked = !!ok; reflectUnlock();
-          if (ok) selectTool(state.active);
+          if (ok && state.active) selectTool(state.active);
           if (cb) cb();
         }).catch(function () { if (cb) cb(); });
       } else if (cb) cb();
@@ -274,7 +290,7 @@
         if (ok) state.unlocked = true;
         if (msgEl) { msgEl.style.color = ok ? 'var(--confirm)' : '#e08a8a'; msgEl.textContent = message; }
         reflectUnlock();
-        if (ok) { $('locked').classList.remove('show'); selectTool(state.active); }
+        if (ok) { $('locked').classList.remove('show'); if (state.active) selectTool(state.active); else showLauncher(); }
         if (done) done(ok);
       }
       function viaLib() {
@@ -361,40 +377,39 @@
     ];
     function groupOf(id){ for (var i=0;i<GROUPS.length;i++) if (GROUPS[i].ids.indexOf(id)>=0) return GROUPS[i].key; return GROUPS[0].key; }
 
-    function buildTabs() {
-      var t = $('tabs');
-      t.innerHTML = '';
-      // which section is open: an explicit toggle wins, else the active tool's section
-      var openKey = state.openGroup || groupOf(state.active);
+    // App-launcher home screen: section headers + a grid of icon tiles.
+    function renderLauncher() {
+      var L = $('launcher');
+      var hello = state.alli
+        ? ('Pick a tool — loaded for <b>' + escapeHtml(state.alli) + '</b> on Warzone <b>' + escapeHtml(state.wz||'?') + '</b>.')
+        : 'Pick a tool to get started. Set your warzone &amp; alliance up top and every tool loads your roster automatically.';
+      var html = '<p class="lhello">' + hello + '</p>';
       GROUPS.forEach(function (g) {
-        var wrap = document.createElement('div');
-        wrap.className = 'tabgroup';
-        var open = (openKey === g.key);
-        var hd = document.createElement('button');
-        hd.className = 'grouphd';
-        var hasActive = g.ids.indexOf(state.active) >= 0;
-        hd.innerHTML = '<span class="chev">' + (open ? '▾' : '▸') + '</span>' +
-                       '<span class="em" style="font-size:13px">' + g.em + '</span>' + g.label +
-                       '<span class="cnt">' + g.ids.length + (hasActive && !open ? ' •' : '') + '</span>';
-        hd.addEventListener('click', function () {
-          state.openGroup = open ? '__none__' : g.key;   // toggle this section
-          buildTabs();
-        });
-        wrap.appendChild(hd);
-        var row = document.createElement('div');
-        row.className = 'grouprow' + (open ? '' : ' collapsed');
+        html += '<div class="lgroup"><h3><span class="gem">' + g.em + '</span>' + g.label +
+                ' <span class="cnt">' + g.ids.length + '</span></h3><div class="ltiles">';
         g.ids.forEach(function (id) {
           var tool = toolById(id);
-          var el = document.createElement('button');
-          el.className = 'tab' + (id === state.active ? ' active' : '');
-          el.innerHTML = '<span class="em">' + tool.em + '</span>' + tool.label;
-          if (TOOLDESC[id]) el.title = TOOLDESC[id];   // hover description
-          el.addEventListener('click', function () { selectTool(id); });
-          row.appendChild(el);
+          html += '<button class="ltile' + (id === state.active ? ' active' : '') + '" data-tool="' + id + '"' +
+                  (TOOLDESC[id] ? ' title="' + escapeHtml(TOOLDESC[id]) + '"' : '') + '>' +
+                  '<span class="tem">' + tool.em + '</span><span class="tlabel">' + escapeHtml(tool.label) + '</span></button>';
         });
-        wrap.appendChild(row);
-        t.appendChild(wrap);
+        html += '</div></div>';
       });
+      L.innerHTML = html;
+      L.querySelectorAll('.ltile').forEach(function (el) {
+        el.addEventListener('click', function () { selectTool(el.getAttribute('data-tool')); });
+      });
+    }
+
+    // Return to the launcher (home). active=null means "on the grid".
+    function showLauncher() {
+      state.active = null;
+      renderLauncher();
+      $('launcher').style.display = 'block';
+      $('activebar').style.display = 'none';
+      var f = $('tool'); if (f) f.style.display = 'none';
+      var l = $('locked'); if (l) l.classList.remove('show');
+      var n = $('needwz'); if (n) n.classList.add('hide');
     }
 
     function toolById(id){ for (var i=0;i<TOOLS.length;i++) if (TOOLS[i].id===id) return TOOLS[i]; return TOOLS[0]; }
@@ -414,9 +429,12 @@
 
     function selectTool(id) {
       state.active = id;
-      state.openGroup = null;   // keep the selected tool's section expanded
-      buildTabs();
       var tool = toolById(id);
+      // leave the launcher, show the slim active-tool bar with a Home button
+      $('launcher').style.display = 'none';
+      $('activebar').style.display = 'flex';
+      $('activetool').innerHTML = '<span class="em">' + tool.em + '</span>' + escapeHtml(tool.label) +
+        (tool.needsWz && state.alli ? '<span class="sub">· ' + escapeHtml(state.alli) + ' / ' + escapeHtml(state.wz||'') + '</span>' : '');
       var needWz = $('needwz'), frame = $('tool'), locked = $('locked');
       // Client-side gate keyed on this-origin localStorage (Safari-proof).
       // If no code is stored here, show the inline redeem overlay rather than
@@ -475,10 +493,11 @@
       persist();
       renderCtx();
       deriveSeason(wz, function (s) { state.season = s; renderCtx(); });
-      selectTool(state.active);
+      if (state.active) selectTool(state.active); else showLauncher();
     }
 
     $('apply').addEventListener('click', apply);
+    $('homebtn').addEventListener('click', showLauncher);
     $('wz').addEventListener('keydown', function (e){ if (e.key==='Enter') apply(); });
     $('alli').addEventListener('keydown', function (e){ if (e.key==='Enter') apply(); });
 
@@ -490,7 +509,7 @@
 
     // Restore identity from URL (?warzone=&alliance=) or saved localStorage.
     (function init() {
-      buildTabs();
+      renderLauncher();
       state.unlocked = hasCode();
       reflectUnlock();
       var params = new URLSearchParams(location.search);
@@ -507,7 +526,7 @@
         // so existing Chrome users aren't shown the redeem overlay.
         setTimeout(function () { refreshUnlockStatus(); }, 300);
         if (wz) { setTimeout(apply, 350); }
-        else { selectTool(state.active); }
+        else { if (state.active) selectTool(state.active); else showLauncher(); }
       }
       if (urlCode && !hasCode()) {
         redeemCode(urlCode, null, function(){
