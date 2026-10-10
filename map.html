@@ -315,7 +315,7 @@
           if(q) locate(q);
         })
         .catch(function(e){
-          if(e==='__locked'){ $('err').textContent='Redeem an access code to load the map.'; $('err').style.display='block'; return; }
+          if(e==='__locked'){ try{localStorage.setItem('lws_my_warzone',String(wz));}catch(_){} $('err').innerHTML='<div class="locked"></div>'; $('err').style.display='block'; return; }
           $('err').textContent=(typeof e==='string')?e:'Could not load map.'; $('err').style.display='block';
         });
     }
@@ -381,5 +381,6 @@
   if(document.readyState!=='loading') check(8); else document.addEventListener('DOMContentLoaded',function(){check(8);});
 })();
 </script>
+<script src="/upsell.js" defer></script>
 </body>
 </html>

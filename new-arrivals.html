@@ -121,8 +121,9 @@
         });
       })
       .catch(function(e){
-        $('go').disabled=false;
-        $('msg').textContent = e==='__locked'?'Redeem an access code to view this.':e==='__noscan'?('No live scan for warzone '+wz+' yet.'):'Could not load — try again.';
+        $('go').disabled=false; $('msg').textContent='';
+        if(e==='__locked'){ try{localStorage.setItem('lws_my_warzone',String(wz));}catch(_){} $('tblcard').style.display='block'; $('tbody').innerHTML='<tr><td colspan="7"><div class="locked"></div></td></tr>'; return; }
+        $('msg').textContent = e==='__noscan'?('No live scan for warzone '+wz+' yet.'):'Could not load — try again.';
       });
   }
   $('go').onclick=scan;
@@ -131,5 +132,6 @@
 })();
 </script>
 <script src="https://access-codes.r5tools.io/lib.js" defer></script>
+<script src="/upsell.js" defer></script>
 </body>
 </html>

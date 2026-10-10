@@ -123,7 +123,8 @@
       .then(function(d){ $('go').disabled=false; $('msg').textContent=''; render(d); })
       .catch(function(e){
         $('go').disabled=false;
-        $('msg').textContent = e==='__locked' ? 'Redeem an access code to view this.' : e==='__none' ? ('No alliance "'+tag+'" on warzone '+wz+'.') : 'Could not load — try again.';
+        if(e==='__locked'){ $('msg').textContent=''; try{localStorage.setItem('lws_my_warzone',String(wz));}catch(_){} var r=$('report'); r.style.display='block'; r.innerHTML='<div class="locked"></div>'; return; }
+        $('msg').textContent = e==='__none' ? ('No alliance "'+tag+'" on warzone '+wz+'.') : 'Could not load — try again.';
       });
   }
 
@@ -197,5 +198,6 @@
 })();
 </script>
 <script src="https://access-codes.r5tools.io/lib.js" defer></script>
+<script src="/upsell.js" defer></script>
 </body>
 </html>

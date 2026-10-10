@@ -320,7 +320,7 @@
         : '/api/warzone/' + wz + '/roster';
       fetch(API_BASE + withCode(path), { credentials:'include' })
         .then(function (r) {
-          if (r.status === 403) { $('lock-box').style.display='block'; $('results').style.display='none'; throw '__locked'; }
+          if (r.status === 403) { try{localStorage.setItem('lws_my_warzone',String(wz));}catch(_){} $('lock-box').innerHTML='<div class="locked"></div>'; $('lock-box').style.display='block'; $('results').style.display='none'; throw '__locked'; }
           if (r.status === 404) { throw 'lwatlas has no scan for warzone ' + wz + ' yet — upload a member-list video for this one instead.'; }
           if (!r.ok) throw 'Server error (' + r.status + ').';
           return r.json();
@@ -403,5 +403,6 @@
   if (document.readyState!=='loading') check(8); else document.addEventListener('DOMContentLoaded', function(){check(8);});
 })();
 </script>
+<script src="/upsell.js" defer></script>
 </body>
 </html>
