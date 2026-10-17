@@ -39,6 +39,9 @@
   .fresh{color:var(--ok)} .stale{color:var(--warn)}
   .maplink{color:var(--gold);white-space:nowrap}
   .locked{background:rgba(224,104,95,.08);border:1px solid rgba(224,104,95,.4);border-radius:10px;padding:14px;color:#f0c9c5}
+  th.srt{cursor:pointer;user-select:none;-webkit-user-select:none;white-space:nowrap}
+  th.srt:hover{color:var(--dim)}
+  th .ar{font-size:10px;margin-left:3px;opacity:.35}
   footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--border);color:var(--mute);font-size:12.5px}
   footer a{color:var(--gold)}
 </style>
@@ -64,7 +67,7 @@
 
   <div id="meta"></div>
   <div class="card" id="tblcard" style="display:none;overflow-x:auto">
-    <table id="tbl"><thead><tr><th>#</th><th>Player</th><th class="n">HQ</th><th>Status</th><th>Coordinates</th><th class="n">Last on</th><th>Map</th></tr></thead><tbody id="tbody"></tbody></table>
+    <table id="tbl"><thead><tr><th>#</th><th class="srt" data-k="name">Player <span class="ar"></span></th><th class="n srt" data-k="hq">HQ <span class="ar"></span></th><th class="srt" data-k="status">Status <span class="ar"></span></th><th>Coordinates</th><th class="n srt" data-k="days">Last on <span class="ar"></span></th><th>Map</th></tr></thead><tbody id="tbody"></tbody></table>
   </div>
 
   <footer>
@@ -82,6 +85,44 @@
   function withCode(u){var c=code();return c?u+(u.indexOf('?')<0?'?':'&')+'code='+encodeURIComponent(c):u;}
   function esc(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
 
+  var agents=[], sort={k:null,dir:1}, curWz=null;
+  function rowHtml(m,i){
+    var coord=(m.x!=null)?(m.x+':'+m.y):'—';
+    var mapurl='/map.html?warzone='+curWz+'&player='+encodeURIComponent(m.name||'');
+    var status = m.just_left
+      ? '<span class="former">left ['+esc(m.former_alliance||'?')+']</span><span class="hotpill">🔥 FREE AGENT</span>'
+      : '<span style="color:var(--mute)">unallied</span>';
+    var la = (m.days_ago==null)?'—':(m.days_ago<1?'<span class="fresh">today</span>':((m.days_ago<=3?'<span class="fresh">':'<span class="stale">')+Math.round(m.days_ago)+'d</span>'));
+    return '<tr class="'+(m.just_left?'hot':'')+'"><td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
+      '<td><b>'+esc(m.name||'?')+'</b>'+(m.king?' 👑':'')+'</td>'+
+      '<td class="n">'+(m.hq||'—')+'</td>'+
+      '<td>'+status+'</td>'+
+      '<td>'+(coord==='—'?'—':'<span class="coord" data-c="'+coord+'">'+coord+' 📋</span>')+'</td>'+
+      '<td class="n">'+la+'</td>'+
+      '<td><a class="maplink" href="'+mapurl+'" target="_blank">locate →</a></td></tr>';
+  }
+  function cmp(k){ return function(a,b){
+    if(k==='name'){var x=(a.name||'').toLowerCase(),y=(b.name||'').toLowerCase();return x<y?-1:x>y?1:0;}
+    if(k==='hq'){return (a.hq||0)-(b.hq||0);}
+    if(k==='days'){return (a.days_ago==null?1e9:a.days_ago)-(b.days_ago==null?1e9:b.days_ago);}
+    if(k==='status'){var av=a.just_left?0:1,bv=b.just_left?0:1; if(av!==bv)return av-bv; return (a.days_ago==null?1e9:a.days_ago)-(b.days_ago==null?1e9:b.days_ago);}
+    return 0;
+  };}
+  function paint(){
+    var list=agents.slice();
+    if(sort.k){ list.sort(cmp(sort.k)); if(sort.dir<0) list.reverse(); }
+    $('tbody').innerHTML=list.map(rowHtml).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('.coord'),function(el){
+      el.onclick=function(){ try{navigator.clipboard.writeText(el.getAttribute('data-c'));}catch(e){} var o=el.textContent;el.textContent='✓';setTimeout(function(){el.textContent=o;},800); };
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('th.srt'),function(th){
+      var k=th.getAttribute('data-k'), ar=th.querySelector('.ar'); if(!ar)return;
+      ar.textContent=(sort.k===k)?(sort.dir>0?'▲':'▼'):'↕';
+      ar.style.opacity=(sort.k===k)?'1':'.35';
+    });
+  }
+  function onSort(k){ var def=(k==='hq')?-1:1; if(sort.k===k){sort.dir=-sort.dir;} else {sort.k=k;sort.dir=def;} paint(); }
+
   function run(){
     var wz=parseInt(($('wz').value||'').replace(/\D/g,''),10);
     if(isNaN(wz)){ $('msg').textContent='Enter a warzone number.'; return; }
@@ -91,32 +132,16 @@
       .then(function(d){
         $('go').disabled=false; $('msg').textContent='';
         try{localStorage.setItem('lws_my_warzone',String(wz));}catch(e){}
-        var t=d.agents||[];
+        var t=d.agents||[]; agents=t; curWz=wz; sort={k:null,dir:1};
         var hot=d.just_left_count||0;
         $('meta').innerHTML='<strong>'+d.count+'</strong> free agent'+(d.count===1?'':'s')+' on <strong>#'+wz+'</strong> (unallied · active ≤'+$('active').value+'d · HQ '+$('minhq').value+'+)'+
           (hot?' — <span style="color:var(--bad)">🔥 '+hot+' just left an alliance</span>':'')+
           (d.movement_history?'':' <span style="color:var(--warn)">· defector detection warms up after 2 daily scans</span>')+
-          (d.count>t.length?(' · showing top '+t.length):'');
+          (d.count>t.length?(' · showing top '+t.length):'')+
+          ' <span style="color:var(--mute)">· tap a column to sort</span>';
         $('tblcard').style.display='block';
         if(!t.length){ $('tbody').innerHTML='<tr><td colspan="7" style="color:var(--mute);padding:22px;text-align:center">No active unallied players at that HQ/recency. Lower the Min HQ or widen the window.</td></tr>'; return; }
-        $('tbody').innerHTML=t.map(function(m,i){
-          var coord=(m.x!=null)?(m.x+':'+m.y):'—';
-          var mapurl='/map.html?warzone='+wz+'&player='+encodeURIComponent(m.name||'');
-          var status = m.just_left
-            ? '<span class="former">left ['+esc(m.former_alliance||'?')+']</span><span class="hotpill">🔥 FREE AGENT</span>'
-            : '<span style="color:var(--mute)">unallied</span>';
-          var la = (m.days_ago==null)?'—':(m.days_ago<1?'<span class="fresh">today</span>':((m.days_ago<=3?'<span class="fresh">':'<span class="stale">')+Math.round(m.days_ago)+'d</span>'));
-          return '<tr class="'+(m.just_left?'hot':'')+'"><td class="n" style="color:var(--mute)">'+(i+1)+'</td>'+
-            '<td><b>'+esc(m.name||'?')+'</b>'+(m.king?' 👑':'')+'</td>'+
-            '<td class="n">'+(m.hq||'—')+'</td>'+
-            '<td>'+status+'</td>'+
-            '<td>'+(coord==='—'?'—':'<span class="coord" data-c="'+coord+'">'+coord+' 📋</span>')+'</td>'+
-            '<td class="n">'+la+'</td>'+
-            '<td><a class="maplink" href="'+mapurl+'" target="_blank">locate →</a></td></tr>';
-        }).join('');
-        Array.prototype.forEach.call(document.querySelectorAll('.coord'),function(el){
-          el.onclick=function(){ try{navigator.clipboard.writeText(el.getAttribute('data-c'));}catch(e){} var o=el.textContent;el.textContent='✓';setTimeout(function(){el.textContent=o;},800); };
-        });
+        paint();
       })
       .catch(function(e){
         $('go').disabled=false;
@@ -126,6 +151,9 @@
   }
   $('go').onclick=run;
   $('wz').addEventListener('keydown',function(e){ if(e.key==='Enter')run(); });
+  Array.prototype.forEach.call(document.querySelectorAll('th.srt'),function(th){
+    th.addEventListener('click',function(){ onSort(th.getAttribute('data-k')); });
+  });
   (function(){ var wz=qp('warzone')||''; try{wz=wz||localStorage.getItem('lws_my_warzone')||'';}catch(e){} if(wz){ $('wz').value=wz; run(); } try{ if(window.self!==window.top){ var el=document.querySelector('.eyebrow'); if(el)el.style.display='none'; } }catch(e){} })();
 })();
 </script>
