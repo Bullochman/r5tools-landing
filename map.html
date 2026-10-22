@@ -197,7 +197,11 @@
 
     // world (0..MAPMAX) -> canvas px, honoring pan/zoom
     function wx(x){ return (x/MAPMAX)*cv.width*state.view.scale + state.view.x; }
-    function wy(y){ return (y/MAPMAX)*cv.height*state.view.scale + state.view.y; }
+    // Y is flipped: the game's Y axis runs bottom-up (the capital/center sits
+    // toward higher Y near the top), but canvas Y grows downward. Without this
+    // the whole map renders vertically mirrored (e.g. a hive at y~560 drew near
+    // the bottom instead of up near the capital). Mirror via (MAPMAX - y).
+    function wy(y){ return ((MAPMAX - y)/MAPMAX)*cv.height*state.view.scale + state.view.y; }
 
     // Group by alliance_id, not raw tag — two different alliances can share a
     // tag (e.g. two "RONY" alliances), and grouping by tag wrongly merges them.
@@ -271,7 +275,7 @@
       state.view.scale=s;
       var cxw=(minx+maxx)/2, cyw=(miny+maxy)/2;
       state.view.x=cv.width/2 - (cxw/MAPMAX)*cv.width*s;
-      state.view.y=cv.height/2 - (cyw/MAPMAX)*cv.height*s;
+      state.view.y=cv.height/2 - ((MAPMAX-cyw)/MAPMAX)*cv.height*s;
     }
     function nearest(px,py){
       var best=null, bd=14*14;
@@ -329,7 +333,7 @@
       // center + zoom on the player
       state.view.scale=2.4;
       state.view.x = cv.width/2 - (m.x/MAPMAX)*cv.width*state.view.scale;
-      state.view.y = cv.height/2 - (m.y/MAPMAX)*cv.height*state.view.scale;
+      state.view.y = cv.height/2 - ((MAPMAX-m.y)/MAPMAX)*cv.height*state.view.scale;
       showHit(m);
     }
 
